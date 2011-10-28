@@ -1,0 +1,64 @@
+﻿.image_button
+{    
+    position: relative; 
+    width: 77px;
+    height: 28px;    
+}
+
+.image_button .image
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.image_button .text_search
+{
+    position:absolute;
+    top:7px;
+    cursor:pointer;
+    left:40px;
+}
+
+.image_button .text_add
+{
+    position:absolute;
+    top:7px;
+    cursor:pointer;
+    left:35px;
+    font-size:13px;
+}
+
+.okButton
+{    
+    float: left;
+}
+
+.okButton .text_Ok
+{
+    position: absolute;
+    left: 30px;
+    top: 7px;    
+    cursor: pointer;
+}
+
+.cancelButton
+{    
+    float: right;
+}
+
+.cancelButton .text_Cancel
+{
+    position: absolute;
+    left: 20px;
+    top: 7px;
+    cursor: pointer;
+}
+
+.cancelButton .textCancel
+{
+    position: absolute;
+    left: 30px;
+    top: 7px;
+    cursor: pointer;
+}

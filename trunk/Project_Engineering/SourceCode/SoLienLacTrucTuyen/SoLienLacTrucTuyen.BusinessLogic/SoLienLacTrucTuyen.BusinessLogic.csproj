@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{136FB4E4-9479-4416-A5C4-A8361AEC26C7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SoLienLacTrucTuyen.BusinessLogic</RootNamespace>
+    <AssemblyName>SoLienLacTrucTuyen.BusinessLogic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BuoiBL.cs" />
+    <Compile Include="CauHinhHeThongBL.cs" />
+    <Compile Include="DanhHieuBL.cs" />
+    <Compile Include="FunctionsBL.cs" />
+    <Compile Include="FunctionTypeBL.cs" />
+    <Compile Include="GiaoVienBL.cs" />
+    <Compile Include="GiaoVienChuNhiemBL.cs" />
+    <Compile Include="HanhKiemBL.cs" />
+    <Compile Include="HoatDongBL.cs" />
+    <Compile Include="HocKyBL.cs" />
+    <Compile Include="HocLucBL.cs" />
+    <Compile Include="HocSinhBL.cs" />
+    <Compile Include="KetQuaHocTapBL.cs" />
+    <Compile Include="KhoiLopBL.cs" />
+    <Compile Include="LoaiDiemBL.cs" />
+    <Compile Include="LoiNhanKhanBL.cs" />
+    <Compile Include="LopHocBL.cs" />
+    <Compile Include="MenuBL.cs" />
+    <Compile Include="MonHocBL.cs" />
+    <Compile Include="ThoiKhoaBieuBL.cs" />
+    <Compile Include="NamHocBL.cs" />
+    <Compile Include="NgayNghiHocBL.cs" />
+    <Compile Include="FacultyBL.cs" />
+    <Compile Include="RoleBL.cs" />
+    <Compile Include="PagePathBL.cs" />
+    <Compile Include="PhanQuyenBL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThaiDoThamGiaBL.cs" />
+    <Compile Include="ThongBaoLopBL.cs" />
+    <Compile Include="ThuBL.cs" />
+    <Compile Include="TietBL.cs" />
+    <Compile Include="UserBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessEntity\SoLienLacTrucTuyen.BusinessEntity.csproj">
+      <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
+      <Name>SoLienLacTrucTuyen.BusinessEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\SoLienLacTrucTuyen.DataAccess.csproj">
+      <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
+      <Name>SoLienLacTrucTuyen.DataAccess</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

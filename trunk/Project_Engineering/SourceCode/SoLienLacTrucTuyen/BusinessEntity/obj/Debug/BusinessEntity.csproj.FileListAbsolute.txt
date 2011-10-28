@@ -1,0 +1,5 @@
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\BusinessEntity\bin\Debug\BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\BusinessEntity\bin\Debug\BusinessEntity.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\BusinessEntity.pdb

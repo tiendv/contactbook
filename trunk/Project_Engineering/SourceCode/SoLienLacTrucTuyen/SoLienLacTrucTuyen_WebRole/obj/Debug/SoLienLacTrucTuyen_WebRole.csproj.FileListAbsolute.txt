@@ -1,0 +1,77 @@
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataAccess.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataAccess.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\ResolveAssemblyReference.cache
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\obj\Debug\SoLienLacTrucTuyen_WebRole.pdb

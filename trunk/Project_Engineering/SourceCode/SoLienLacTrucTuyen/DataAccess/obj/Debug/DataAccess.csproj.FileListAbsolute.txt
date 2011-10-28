@@ -1,0 +1,10 @@
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.mdf
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen_log.ldf
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll.config
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\BusinessEntity.pdb

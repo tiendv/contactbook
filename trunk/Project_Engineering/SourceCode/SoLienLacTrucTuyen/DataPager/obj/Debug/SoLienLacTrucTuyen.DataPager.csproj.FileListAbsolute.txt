@@ -1,0 +1,20 @@
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataPager\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataPager\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataPager\obj\Debug\ResolveAssemblyReference.cache
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.pdb

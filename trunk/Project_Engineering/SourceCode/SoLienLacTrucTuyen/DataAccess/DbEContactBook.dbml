@@ -1,0 +1,625 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=&quot;D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\App_Data\DbEContactBook.mdf&quot;;Integrated Security=True;Connect Timeout=30;User Instance=True" SettingsObjectName="SoLienLacTrucTuyen.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.aspnet_Applications" Member="aspnet_Applications">
+    <Type Name="aspnet_Application">
+      <Column Name="ApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="LoweredApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Memberships" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Membership" />
+      <Association Name="aspnet_Application_aspnet_Path" Member="aspnet_Paths" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Path" />
+      <Association Name="aspnet_Application_aspnet_Role" Member="aspnet_Roles" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Role" />
+      <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Users" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_RoleDetails" Member="UserManagement_RoleDetails">
+    <Type Name="UserManagement_RoleDetail">
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Expired" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanBeDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Actived" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ParentRoleId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Membership" Member="aspnet_Memberships">
+    <Type Name="aspnet_Membership">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordFormat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordSalt" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="MobilePIN" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="LoweredEmail" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordQuestion" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordAnswer" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsLockedOut" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLoginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ThoiHanBatDau" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ThoiHanKetThuc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="KichHoat" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanBeDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
+      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Paths" Member="aspnet_Paths">
+    <Type Name="aspnet_Path">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="PathId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Path" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="LoweredPath" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_Path_aspnet_PersonalizationAllUser" Member="aspnet_PersonalizationAllUser" ThisKey="PathId" OtherKey="PathId" Type="aspnet_PersonalizationAllUser" Cardinality="One" />
+      <Association Name="aspnet_Path_aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers" ThisKey="PathId" OtherKey="PathId" Type="aspnet_PersonalizationPerUser" />
+      <Association Name="aspnet_Application_aspnet_Path" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_PersonalizationAllUsers" Member="aspnet_PersonalizationAllUsers">
+    <Type Name="aspnet_PersonalizationAllUser">
+      <Column Name="PathId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PageSettings" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_Path_aspnet_PersonalizationAllUser" Member="aspnet_Path" ThisKey="PathId" OtherKey="PathId" Type="aspnet_Path" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers">
+    <Type Name="aspnet_PersonalizationPerUser">
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PathId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="PageSettings" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_Path_aspnet_PersonalizationPerUser" Member="aspnet_Path" ThisKey="PathId" OtherKey="PathId" Type="aspnet_Path" IsForeignKey="true" />
+      <Association Name="aspnet_User_aspnet_PersonalizationPerUser" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Profile" Member="aspnet_Profiles">
+    <Type Name="aspnet_Profile">
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PropertyNames" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="PropertyValuesString" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="PropertyValuesBinary" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Roles" Member="aspnet_Roles">
+    <Type Name="aspnet_Role">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="LoweredRoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="UserManagement_RoleDetail" ThisKey="RoleId" OtherKey="RoleId" Type="UserManagement_RoleDetail" Cardinality="One" />
+      <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_UsersInRole" />
+      <Association Name="aspnet_Role_UserManagement_Authorization" Member="UserManagement_Authorizations" ThisKey="RoleId" OtherKey="RoleId" Type="UserManagement_Authorization" />
+      <Association Name="aspnet_Application_aspnet_Role" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_SchemaVersions" Member="aspnet_SchemaVersions">
+    <Type Name="aspnet_SchemaVersion">
+      <Column Name="Feature" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CompatibleSchemaVersion" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsCurrentVersion" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
+    <Type Name="aspnet_User">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="LoweredUserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="MobileAlias" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_Membership" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Membership" Cardinality="One" />
+      <Association Name="aspnet_User_aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers" ThisKey="UserId" OtherKey="UserId" Type="aspnet_PersonalizationPerUser" />
+      <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_Profile" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Profile" Cardinality="One" />
+      <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
+      <Association Name="aspnet_User_UserManagement_GVCNUser" Member="UserManagement_GVCNUsers" ThisKey="UserId" OtherKey="UserId" Type="UserManagement_GVCNUser" />
+      <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_UsersInRoles" Member="aspnet_UsersInRoles">
+    <Type Name="aspnet_UsersInRole">
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+      <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_WebEvent_Events" Member="aspnet_WebEvent_Events">
+    <Type Name="aspnet_WebEvent_Event">
+      <Column Name="EventId" Type="System.String" DbType="Char(32) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EventTimeUtc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EventTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EventType" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="EventSequence" Type="System.Decimal" DbType="Decimal(19,0) NOT NULL" CanBeNull="false" />
+      <Column Name="EventOccurrence" Type="System.Decimal" DbType="Decimal(19,0) NOT NULL" CanBeNull="false" />
+      <Column Name="EventCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EventDetailCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="ApplicationPath" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="ApplicationVirtualPath" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="MachineName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="RequestUrl" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
+      <Column Name="ExceptionType" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Details" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinh_Buoi" Member="CauHinh_Buois">
+    <Type Name="CauHinh_Buoi">
+      <Column Name="MaBuoi" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenBuoi" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_Buoi_DanhMuc_Tiet" Member="DanhMuc_Tiets" ThisKey="MaBuoi" OtherKey="MaBuoi" Type="DanhMuc_Tiet" />
+      <Association Name="CauHinh_Buoi_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaBuoi" OtherKey="MaBuoi" Type="LopHoc_MonHocTKB" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinh_HeThong" Member="CauHinh_HeThongs">
+    <Type Name="CauHinh_HeThong">
+      <Column Name="MaNamHocHienHanh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocKyHienHanh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinh_HocKy" Member="CauHinh_HocKies">
+    <Type Name="CauHinh_HocKy">
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenHocKy" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_HocKy_HocSinh_DanhHieuHocKy" Member="HocSinh_DanhHieuHocKies" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="HocSinh_DanhHieuHocKy" />
+      <Association Name="CauHinh_HocKy_HocSinh_DiemMonHocHocKy" Member="HocSinh_DiemMonHocHocKies" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="HocSinh_DiemMonHocHocKy" />
+      <Association Name="CauHinh_HocKy_HocSinh_HoatDong" Member="HocSinh_HoatDongs" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="HocSinh_HoatDong" />
+      <Association Name="CauHinh_HocKy_HocSinh_Khen" Member="HocSinh_Khens" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="HocSinh_Khen" />
+      <Association Name="CauHinh_HocKy_HocSinh_NgayNghiHoc" Member="HocSinh_NgayNghiHocs" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="HocSinh_NgayNghiHoc" />
+      <Association Name="CauHinh_HocKy_HocSinh_Phat" Member="HocSinh_Phats" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="HocSinh_Phat" />
+      <Association Name="CauHinh_HocKy_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="LopHoc_MonHocTKB" />
+      <Association Name="CauHinh_HocKy_LopHoc_ThongBao" Member="LopHoc_ThongBaos" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="LopHoc_ThongBao" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinh_NamHoc" Member="CauHinh_NamHocs">
+    <Type Name="CauHinh_NamHoc">
+      <Column Name="MaNamHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenNamHoc" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NamBatDau" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_NamHoc_LopHoc_Lop" Member="LopHoc_Lops" ThisKey="MaNamHoc" OtherKey="MaNamHoc" Type="LopHoc_Lop" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinh_Thu" Member="CauHinh_Thus">
+    <Type Name="CauHinh_Thu">
+      <Column Name="MaThu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenThu" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_Thu_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaThu" OtherKey="MaThu" Type="LopHoc_MonHocTKB" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinh_TinhTrangYKien" Member="CauHinh_TinhTrangYKiens">
+    <Type Name="CauHinh_TinhTrangYKien">
+      <Column Name="MaTinhTrangYKien" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenTinhTrangYKien" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_TinhTrangYKien_GopY_YKien" Member="GopY_YKiens" ThisKey="MaTinhTrangYKien" OtherKey="MaTinhTrangYKien" Type="GopY_YKien" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus">
+    <Type Name="DanhMuc_ChiTietDanhHieu">
+      <Column Name="MaDanhHieu" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaHocLuc" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaHanhKiem" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="DanhMuc_DanhHieu_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_DanhHieu" ThisKey="MaDanhHieu" OtherKey="MaDanhHieu" Type="DanhMuc_DanhHieu" IsForeignKey="true" />
+      <Association Name="DanhMuc_HanhKiem_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_HanhKiem" ThisKey="MaHanhKiem" OtherKey="MaHanhKiem" Type="DanhMuc_HanhKiem" IsForeignKey="true" />
+      <Association Name="DanhMuc_HocLuc_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_HocLuc" ThisKey="MaHocLuc" OtherKey="MaHocLuc" Type="DanhMuc_HocLuc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_DanhHieu" Member="DanhMuc_DanhHieus">
+    <Type Name="DanhMuc_DanhHieu">
+      <Column Name="MaDanhHieu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenDanhHieu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_DanhHieu_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaDanhHieu" OtherKey="MaDanhHieu" Type="DanhMuc_ChiTietDanhHieu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_HanhKiem" Member="DanhMuc_HanhKiems">
+    <Type Name="DanhMuc_HanhKiem">
+      <Column Name="MaHanhKiem" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenHanhKiem" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_HanhKiem_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaHanhKiem" OtherKey="MaHanhKiem" Type="DanhMuc_ChiTietDanhHieu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_HocLuc" Member="DanhMuc_HocLucs">
+    <Type Name="DanhMuc_HocLuc">
+      <Column Name="MaHocLuc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenHocLuc" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DTBDau" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="DTBCuoi" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_HocLuc_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaHocLuc" OtherKey="MaHocLuc" Type="DanhMuc_ChiTietDanhHieu" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_KhoiLop" Member="DanhMuc_KhoiLops">
+    <Type Name="DanhMuc_KhoiLop">
+      <Column Name="MaKhoiLop" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenKhoiLop" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ThuTuHienThi" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_KhoiLop_DanhMuc_MonHoc" Member="DanhMuc_MonHocs" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="DanhMuc_MonHoc" />
+      <Association Name="DanhMuc_KhoiLop_LopHoc_Lop" Member="LopHoc_Lops" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="LopHoc_Lop" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_LoaiDiem" Member="DanhMuc_LoaiDiems">
+    <Type Name="DanhMuc_LoaiDiem">
+      <Column Name="MaLoaiDiem" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenLoaiDiem" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="HeSoDiem" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="SoCotToiDa" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="TinhDTB" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_LoaiDiem_HocSinh_ChiTietDiem" Member="HocSinh_ChiTietDiems" ThisKey="MaLoaiDiem" OtherKey="MaLoaiDiem" Type="HocSinh_ChiTietDiem" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_MonHoc" Member="DanhMuc_MonHocs">
+    <Type Name="DanhMuc_MonHoc">
+      <Column Name="MaMonHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenMonHoc" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaNganhHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaKhoiLop" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HeSoDiem" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_MonHoc_HocSinh_DiemMonHocHocKy" Member="HocSinh_DiemMonHocHocKies" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="HocSinh_DiemMonHocHocKy" />
+      <Association Name="DanhMuc_MonHoc_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="LopHoc_MonHocTKB" />
+      <Association Name="DanhMuc_KhoiLop_DanhMuc_MonHoc" Member="DanhMuc_KhoiLop" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="DanhMuc_KhoiLop" IsForeignKey="true" />
+      <Association Name="DanhMuc_NganhHoc_DanhMuc_MonHoc" Member="DanhMuc_NganhHoc" ThisKey="MaNganhHoc" OtherKey="MaNganhHoc" Type="DanhMuc_NganhHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_NganhHoc" Member="DanhMuc_NganhHocs">
+    <Type Name="DanhMuc_NganhHoc">
+      <Column Name="MaNganhHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenNganhHoc" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="DanhMuc_NganhHoc_DanhMuc_MonHoc" Member="DanhMuc_MonHocs" ThisKey="MaNganhHoc" OtherKey="MaNganhHoc" Type="DanhMuc_MonHoc" />
+      <Association Name="DanhMuc_NganhHoc_LopHoc_Lop" Member="LopHoc_Lops" ThisKey="MaNganhHoc" OtherKey="MaNganhHoc" Type="LopHoc_Lop" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_ThaiDoThamGia" Member="DanhMuc_ThaiDoThamGias">
+    <Type Name="DanhMuc_ThaiDoThamGia">
+      <Column Name="MaThaiDoThamGia" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenThaiDoThamGia" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DanhMuc_Tiet" Member="DanhMuc_Tiets">
+    <Type Name="DanhMuc_Tiet">
+      <Column Name="MaTiet" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenTiet" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MaBuoi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThuTu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianBatDau" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiDiemKetThu" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_Tiet_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaTiet" OtherKey="MaTiet" Type="LopHoc_MonHocTKB" />
+      <Association Name="CauHinh_Buoi_DanhMuc_Tiet" Member="CauHinh_Buoi" ThisKey="MaBuoi" OtherKey="MaBuoi" Type="CauHinh_Buoi" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GopY_YKien" Member="GopY_YKiens">
+    <Type Name="GopY_YKien">
+      <Column Name="MaYKien" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TieuDe" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NVarChar(300) NOT NULL" CanBeNull="false" />
+      <Column Name="PhanHoi" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="MaTinhTrangYKien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_TinhTrangYKien_GopY_YKien" Member="CauHinh_TinhTrangYKien" ThisKey="MaTinhTrangYKien" OtherKey="MaTinhTrangYKien" Type="CauHinh_TinhTrangYKien" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_GopY_YKien" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_ChiTietDiem" Member="HocSinh_ChiTietDiems">
+    <Type Name="HocSinh_ChiTietDiem">
+      <Column Name="MaChiTietDiem" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaDiemMonHK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaLoaiDiem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Diem" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="DanhMuc_LoaiDiem_HocSinh_ChiTietDiem" Member="DanhMuc_LoaiDiem" ThisKey="MaLoaiDiem" OtherKey="MaLoaiDiem" Type="DanhMuc_LoaiDiem" IsForeignKey="true" />
+      <Association Name="HocSinh_DiemMonHocHocKy_HocSinh_ChiTietDiem" Member="HocSinh_DiemMonHocHocKy" ThisKey="MaDiemMonHK" OtherKey="MaDiemMonHK" Type="HocSinh_DiemMonHocHocKy" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_DanhHieuHocKy" Member="HocSinh_DanhHieuHocKies">
+    <Type Name="HocSinh_DanhHieuHocKy">
+      <Column Name="MaDanhHieuHSHK" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DiemTBHK" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="MaHocLucHK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaHanhKiemHK" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CauHinh_HocKy_HocSinh_DanhHieuHocKy" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_DanhHieuHocKy" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_DiemMonHocHocKy" Member="HocSinh_DiemMonHocHocKies">
+    <Type Name="HocSinh_DiemMonHocHocKy">
+      <Column Name="MaDiemMonHK" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaMonHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DiemTB" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="HocSinh_DiemMonHocHocKy_HocSinh_ChiTietDiem" Member="HocSinh_ChiTietDiems" ThisKey="MaDiemMonHK" OtherKey="MaDiemMonHK" Type="HocSinh_ChiTietDiem" />
+      <Association Name="CauHinh_HocKy_HocSinh_DiemMonHocHocKy" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="DanhMuc_MonHoc_HocSinh_DiemMonHocHocKy" Member="DanhMuc_MonHoc" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="DanhMuc_MonHoc" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_DiemMonHocHocKy" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_HoatDong" Member="HocSinh_HoatDongs">
+    <Type Name="HocSinh_HoatDong">
+      <Column Name="MaHoatDong" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TieuDe" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NChar(300)" CanBeNull="true" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaThaiDoThamGia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaThongBaoLop" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_HocKy_HocSinh_HoatDong" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_HoatDong" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_HocSinhLopHoc" Member="HocSinh_HocSinhLopHocs">
+    <Type Name="HocSinh_HocSinhLopHoc">
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocSinh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="HocSinh_HocSinhLopHoc_GopY_YKien" Member="GopY_YKiens" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="GopY_YKien" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_DanhHieuHocKy" Member="HocSinh_DanhHieuHocKies" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_DanhHieuHocKy" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_DiemMonHocHocKy" Member="HocSinh_DiemMonHocHocKies" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_DiemMonHocHocKy" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_HoatDong" Member="HocSinh_HoatDongs" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HoatDong" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_Khen" Member="HocSinh_Khens" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_Khen" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_NgayNghiHoc" Member="HocSinh_NgayNghiHocs" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_NgayNghiHoc" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_Phat" Member="HocSinh_Phats" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_Phat" />
+      <Association Name="HocSinh_HocSinhLopHoc_LoiNhanKhan_LoiNhanKhan" Member="LoiNhanKhan_LoiNhanKhans" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="LoiNhanKhan_LoiNhanKhan" />
+      <Association Name="HocSinh_ThongTinCaNhan_HocSinh_HocSinhLopHoc" Member="HocSinh_ThongTinCaNhan" ThisKey="MaHocSinh" OtherKey="MaHocSinh" Type="HocSinh_ThongTinCaNhan" IsForeignKey="true" />
+      <Association Name="LopHoc_Lop_HocSinh_HocSinhLopHoc" Member="LopHoc_Lop" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_Lop" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_Khen" Member="HocSinh_Khens">
+    <Type Name="HocSinh_Khen">
+      <Column Name="MaKhen" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TieuDe" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NhanXetGVCN" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_HocKy_HocSinh_Khen" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_Khen" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_NgayNghiHoc" Member="HocSinh_NgayNghiHocs">
+    <Type Name="HocSinh_NgayNghiHoc">
+      <Column Name="MaNgayNghiHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="MaBuoi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="XinPhep" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LyDo" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="XacNhan" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_HocKy_HocSinh_NgayNghiHoc" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_NgayNghiHoc" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_Phat" Member="HocSinh_Phats">
+    <Type Name="HocSinh_Phat">
+      <Column Name="MaPhat" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TieuDe" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NhanXetGVCN" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_HocKy_HocSinh_Phat" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_HocSinh_Phat" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HocSinh_ThongTinCaNhan" Member="HocSinh_ThongTinCaNhans">
+    <Type Name="HocSinh_ThongTinCaNhan">
+      <Column Name="MaHocSinh" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocSinhHienThi" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NoiSinh" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="DienThoai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="HinhAnh" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="HoTenBo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgaySinhBo" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NgheNghiepBo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="HoTenMe" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgaySinhMe" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NgheNghiepMe" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="HoTenNguoiDoDau" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgaySinhNguoiDoDau" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NgheNghiepNguoiDoDau" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="HocSinh_ThongTinCaNhan_HocSinh_HocSinhLopHoc" Member="HocSinh_HocSinhLopHocs" ThisKey="MaHocSinh" OtherKey="MaHocSinh" Type="HocSinh_HocSinhLopHoc" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LoiNhanKhan_LoiNhanKhan" Member="LoiNhanKhan_LoiNhanKhans">
+    <Type Name="LoiNhanKhan_LoiNhanKhan">
+      <Column Name="MaLoiNhanKhan" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TieuDe" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="XacNhan" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="MaThongBaoLop" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="HocSinh_HocSinhLopHoc_LoiNhanKhan_LoiNhanKhan" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LopHoc_GiaoVien" Member="LopHoc_GiaoViens">
+    <Type Name="LopHoc_GiaoVien">
+      <Column Name="MaGiaoVien" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHienThiGiaoVien" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="DienThoai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="HinhAnh" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="LopHoc_GiaoVien_LopHoc_GVCN" Member="LopHoc_GVCNs" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_GVCN" />
+      <Association Name="LopHoc_GiaoVien_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_MonHocTKB" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LopHoc_GVCN" Member="LopHoc_GVCNs">
+    <Type Name="LopHoc_GVCN">
+      <Column Name="MaGVCN" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaGiaoVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="LopHoc_GVCN_UserManagement_GVCNUser" Member="UserManagement_GVCNUsers" ThisKey="MaGVCN" OtherKey="MaGVCN" Type="UserManagement_GVCNUser" />
+      <Association Name="LopHoc_GiaoVien_LopHoc_GVCN" Member="LopHoc_GiaoVien" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_GiaoVien" IsForeignKey="true" />
+      <Association Name="LopHoc_Lop_LopHoc_GVCN" Member="LopHoc_Lop" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_Lop" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LopHoc_Lop" Member="LopHoc_Lops">
+    <Type Name="LopHoc_Lop">
+      <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenLopHoc" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="MaNganhHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaKhoiLop" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SiSo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaNamHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="LopHoc_Lop_HocSinh_HocSinhLopHoc" Member="HocSinh_HocSinhLopHocs" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="HocSinh_HocSinhLopHoc" />
+      <Association Name="LopHoc_Lop_LopHoc_GVCN" Member="LopHoc_GVCNs" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_GVCN" />
+      <Association Name="LopHoc_Lop_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_MonHocTKB" />
+      <Association Name="LopHoc_Lop_LopHoc_ThongBao" Member="LopHoc_ThongBaos" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_ThongBao" />
+      <Association Name="CauHinh_NamHoc_LopHoc_Lop" Member="CauHinh_NamHoc" ThisKey="MaNamHoc" OtherKey="MaNamHoc" Type="CauHinh_NamHoc" IsForeignKey="true" />
+      <Association Name="DanhMuc_KhoiLop_LopHoc_Lop" Member="DanhMuc_KhoiLop" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="DanhMuc_KhoiLop" IsForeignKey="true" />
+      <Association Name="DanhMuc_NganhHoc_LopHoc_Lop" Member="DanhMuc_NganhHoc" ThisKey="MaNganhHoc" OtherKey="MaNganhHoc" Type="DanhMuc_NganhHoc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs">
+    <Type Name="LopHoc_MonHocTKB">
+      <Column Name="MaMonHocTKB" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaThu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaBuoi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaTiet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaMonHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaGiaoVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_Buoi_LopHoc_MonHocTKB" Member="CauHinh_Buoi" ThisKey="MaBuoi" OtherKey="MaBuoi" Type="CauHinh_Buoi" IsForeignKey="true" />
+      <Association Name="CauHinh_HocKy_LopHoc_MonHocTKB" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="CauHinh_Thu_LopHoc_MonHocTKB" Member="CauHinh_Thu" ThisKey="MaThu" OtherKey="MaThu" Type="CauHinh_Thu" IsForeignKey="true" />
+      <Association Name="DanhMuc_MonHoc_LopHoc_MonHocTKB" Member="DanhMuc_MonHoc" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="DanhMuc_MonHoc" IsForeignKey="true" />
+      <Association Name="DanhMuc_Tiet_LopHoc_MonHocTKB" Member="DanhMuc_Tiet" ThisKey="MaTiet" OtherKey="MaTiet" Type="DanhMuc_Tiet" IsForeignKey="true" />
+      <Association Name="LopHoc_GiaoVien_LopHoc_MonHocTKB" Member="LopHoc_GiaoVien" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_GiaoVien" IsForeignKey="true" />
+      <Association Name="LopHoc_Lop_LopHoc_MonHocTKB" Member="LopHoc_Lop" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_Lop" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LopHoc_ThongBao" Member="LopHoc_ThongBaos">
+    <Type Name="LopHoc_ThongBao">
+      <Column Name="MaThongBaoLop" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TieuDe" Type="System.String" DbType="NChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NoiDung" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaHocKy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="CauHinh_HocKy_LopHoc_ThongBao" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
+      <Association Name="LopHoc_Lop_LopHoc_ThongBao" Member="LopHoc_Lop" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_Lop" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Schools" Member="Schools">
+    <Type Name="School">
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SchoolName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.System_Parameters" Member="System_Parameters">
+    <Type Name="System_Parameter">
+      <Column Name="AdminRoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ParentsRoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="RoleGVCNId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="RoleGVBMId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="HomePageFunctionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FuncFlagAdminRoleOnly" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FuncFlagParentsRoleOnly" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FuncFlagOtherRoles" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_Accessibility" Member="UserManagement_Accessibilities">
+    <Type Name="UserManagement_Accessibility">
+      <Column Name="AccessibilityId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AccessibilityName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="UserManagement_Accessibility_UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages" ThisKey="AccessibilityId" OtherKey="AccessibilityId" Type="UserManagement_AuthorizedPage" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_Authorizations" Member="UserManagement_Authorizations">
+    <Type Name="UserManagement_Authorization">
+      <Column Name="AuthorizationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="AuthorizedPagePathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_Role_UserManagement_Authorization" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+      <Association Name="UserManagement_AuthorizedPage_UserManagement_Authorization" Member="UserManagement_AuthorizedPage" ThisKey="AuthorizedPagePathId" OtherKey="AuthorizedPageId" Type="UserManagement_AuthorizedPage" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_AuthorizedPages" Member="UserManagement_AuthorizedPages">
+    <Type Name="UserManagement_AuthorizedPage">
+      <Column Name="AuthorizedPageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FunctionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AccessibilityId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PagePathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="UserManagement_AuthorizedPage_UserManagement_Authorization" Member="UserManagement_Authorizations" ThisKey="AuthorizedPageId" OtherKey="AuthorizedPagePathId" Type="UserManagement_Authorization" />
+      <Association Name="UserManagement_Accessibility_UserManagement_AuthorizedPage" Member="UserManagement_Accessibility" ThisKey="AccessibilityId" OtherKey="AccessibilityId" Type="UserManagement_Accessibility" IsForeignKey="true" />
+      <Association Name="UserManagement_Function_UserManagement_AuthorizedPage" Member="UserManagement_Function" ThisKey="FunctionId" OtherKey="FunctionId" Type="UserManagement_Function" IsForeignKey="true" />
+      <Association Name="UserManagement_PagePath_UserManagement_AuthorizedPage" Member="UserManagement_PagePath" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_PagePath" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_Functions" Member="UserManagement_Functions">
+    <Type Name="UserManagement_Function">
+      <Column Name="FunctionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FunctionName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="FunctionCategory" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FunctionFlag" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ParentFunctionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="UserManagement_Function_UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages" ThisKey="FunctionId" OtherKey="FunctionId" Type="UserManagement_AuthorizedPage" />
+      <Association Name="UserManagement_Function_UserManagement_Menus" Member="UserManagement_Menus" ThisKey="FunctionId" OtherKey="FunctionId" Type="UserManagement_Menus" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_GVCNUsers" Member="UserManagement_GVCNUsers">
+    <Type Name="UserManagement_GVCNUser">
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaGVCN" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="aspnet_User_UserManagement_GVCNUser" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="LopHoc_GVCN_UserManagement_GVCNUser" Member="LopHoc_GVCN" ThisKey="MaGVCN" OtherKey="MaGVCN" Type="LopHoc_GVCN" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_Menus" Member="UserManagement_Menus">
+    <Type Name="UserManagement_Menus">
+      <Column Name="MenuId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FunctionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="PagePathId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParentMenuId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MenuLevel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DisplayOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Displayed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="UserManagement_Function_UserManagement_Menus" Member="UserManagement_Function" ThisKey="FunctionId" OtherKey="FunctionId" Type="UserManagement_Function" IsForeignKey="true" />
+      <Association Name="UserManagement_PagePath_UserManagement_Menus" Member="UserManagement_PagePath" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_PagePath" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_PagePaths" Member="UserManagement_PagePaths">
+    <Type Name="UserManagement_PagePath">
+      <Column Name="PagePathId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PageTitle" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="PhysicalPath" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Association Name="UserManagement_PagePath_UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_AuthorizedPage" />
+      <Association Name="UserManagement_PagePath_UserManagement_Menus" Member="UserManagement_Menus" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_Menus" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserManagement_RoleBasedFunctionFlags" Member="UserManagement_RoleBasedFunctionFlags">
+    <Type Name="UserManagement_RoleBasedFunctionFlag">
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="FunctionFlag" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace SoLienLacTrucTuyen.BusinessEntity
+{
+    public class GVCNInfo
+    {
+        public int MaGVCN { get; set; }
+        public string MaGVCNHienThi { get; set; }
+        public string TenGVCN { get; set; }
+        public DateTime NgaySinh { get; set; }
+        public bool GioiTinh { get; set; }
+        public string DiaChi { get; set; }
+        public string DienThoai { get; set; }
+        public int MaLopHoc { get; set; }
+        public string TenLopHoc { get; set; }
+        //public byte[] HinhAnh { get; set; 
+    }
+}

@@ -1,0 +1,458 @@
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\ServiceConfiguration.cscfg
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RuntimeSetup.Manifest
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\IISConfigurator.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\msshrtmi.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasr.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasri.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaHostBootstrapper.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaRuntimeProxy.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWebHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWorkerHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\EtwListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\FileListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgent.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgentHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonDiagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonEvents.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonNetTransport.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonQuery.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonTables.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\secutil.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SysCounterListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SystemEventsListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\ma.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\maStatic.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\query.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\shared.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\__entrypoint.txt
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe.config
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Diagnostics.csplugin
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\mswapd.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RoleModel.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rdsc
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.csdef
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\AjaxControlToolkit.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\AjaxControlToolkit.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\ServiceConfiguration.cscfg
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\AjaxControlToolkit.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RuntimeSetup.Manifest
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\IISConfigurator.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\msshrtmi.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasr.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasri.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaHostBootstrapper.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaRuntimeProxy.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWebHost.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWorkerHost.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\EtwListener.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\FileListener.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgent.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgentHost.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonDiagnostics.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonEvents.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonNetTransport.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonQuery.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonTables.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\secutil.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SysCounterListener.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SystemEventsListener.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\ma.xsd
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\maStatic.xsd
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\query.xsd
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\shared.xsd
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\__entrypoint.txt
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe.config
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Diagnostics.csplugin
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\mswapd.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RoleModel.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rd
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rdsc
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.csdef
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\AjaxControlToolkit.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\ServiceConfiguration.cscfg
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\AjaxControlToolkit.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataAccess.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataAccess.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RuntimeSetup.Manifest
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\Diagnostics.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\IISConfigurator.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\msshrtmi.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasr.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasri.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaHostBootstrapper.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaRuntimeProxy.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWebHost.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWorkerHost.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\EtwListener.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\FileListener.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgent.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgentHost.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonDiagnostics.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonEvents.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonNetTransport.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonQuery.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonTables.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\secutil.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SysCounterListener.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SystemEventsListener.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\ma.xsd
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\maStatic.xsd
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\query.xsd
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\shared.xsd
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\__entrypoint.txt
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe.config
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Diagnostics.csplugin
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\mswapd.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RoleModel.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rd
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rdsc
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.csdef
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\AjaxControlToolkit.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataAccess.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataAccess.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\ServiceConfiguration.cscfg
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\AjaxControlToolkit.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\AjaxControlToolkit.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\DataPager.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\DataPager.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\Microsoft.WindowsAzure.Diagnostics.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\Microsoft.WindowsAzure.StorageClient.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessEntity.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessEntity.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessLogic.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessLogic.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen.DataAccess.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen.DataAccess.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen_WebRole.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\prop-base\SoLienLacTrucTuyen_WebRole.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\AjaxControlToolkit.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\DataPager.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\DataPager.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\Microsoft.WindowsAzure.Diagnostics.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\Microsoft.WindowsAzure.Diagnostics.xml.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\Microsoft.WindowsAzure.StorageClient.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\Microsoft.WindowsAzure.StorageClient.xml.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessEntity.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessEntity.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessLogic.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessLogic.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen.DataAccess.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen.DataAccess.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen_WebRole.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\.svn\text-base\SoLienLacTrucTuyen_WebRole.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ar\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ar\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\cs\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\cs\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\de\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\de\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\es\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\es\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\fr\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\fr\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\he\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\he\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\hi\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\hi\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\it\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\it\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ja\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ja\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ko\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ko\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\nl\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\nl\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\pt\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\pt\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ru\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\ru\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\tr-TR\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\tr-TR\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\zh-CHS\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\zh-CHS\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\zh-CHT\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\zh-CHT\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RuntimeSetup.Manifest
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\IISConfigurator.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\msshrtmi.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasr.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasri.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaHostBootstrapper.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaRuntimeProxy.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWebHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWorkerHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\EtwListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\FileListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgent.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgentHost.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonDiagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonEvents.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonNetTransport.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonQuery.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonTables.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\secutil.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SysCounterListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SystemEventsListener.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\ma.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\maStatic.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\query.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\shared.xsd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\__entrypoint.txt
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe.config
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Diagnostics.csplugin
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\mswapd.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RoleModel.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rd
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rdsc
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.csdef
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\AjaxControlToolkit.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\DataPager.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\DataPager.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\Microsoft.WindowsAzure.Diagnostics.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\Microsoft.WindowsAzure.StorageClient.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessEntity.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessEntity.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessLogic.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen.BusinessLogic.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen.DataAccess.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen.DataAccess.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen_WebRole.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\prop-base\SoLienLacTrucTuyen_WebRole.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\AjaxControlToolkit.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\DataPager.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\DataPager.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\Microsoft.WindowsAzure.Diagnostics.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\Microsoft.WindowsAzure.Diagnostics.xml.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\Microsoft.WindowsAzure.StorageClient.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\Microsoft.WindowsAzure.StorageClient.xml.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessEntity.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessEntity.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessLogic.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen.BusinessLogic.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen.DataAccess.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen.DataAccess.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen_WebRole.dll.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\.svn\text-base\SoLienLacTrucTuyen_WebRole.pdb.svn-base
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\AjaxControlToolkit.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ar\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ar\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\cs\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\cs\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\de\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\de\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\es\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\es\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\fr\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\fr\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\he\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\he\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\hi\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\hi\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\it\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\it\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ja\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ja\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ko\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ko\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\nl\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\nl\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\pt\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\pt\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ru\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\ru\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\tr-TR\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\tr-TR\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\zh-CHS\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\zh-CHS\.svn\entries
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\zh-CHT\.svn\all-wcprops
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\zh-CHT\.svn\entries
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\ServiceConfiguration.cscfg
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\ResolveAssemblyReference.cache
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\AjaxControlToolkit.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\DataPager.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.DataAccess.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\approot\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RuntimeSetup.Manifest
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\Diagnostics.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\IISConfigurator.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\msshrtmi.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasr.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\mswasri.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaHostBootstrapper.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaRuntimeProxy.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWebHost.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaWorkerHost.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\EtwListener.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\FileListener.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgent.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonAgentHost.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonDiagnostics.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonEvents.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonNetTransport.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonQuery.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\MonTables.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\secutil.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SysCounterListener.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\SystemEventsListener.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\ma.xsd
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\maStatic.xsd
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\query.xsd
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\diagnostics\x86\monitor\schema\1.0\shared.xsd
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\__entrypoint.txt
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\base\x86\WaIISHost.exe.config
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Diagnostics.csplugin
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\DiagnosticsAgent.exe
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.Diagnostics.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\Microsoft.WindowsAzure.StorageClient.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\plugins\Diagnostics\mswapd.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\roles\SoLienLacTrucTuyen_WebRole\RoleModel.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rd
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.rdsc
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\SoLienLacTrucTuyen.csx\ServiceDefinition.build.csdef
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\AjaxControlToolkit.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\DataPager.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.Diagnostics.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\Microsoft.WindowsAzure.StorageClient.xml
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb

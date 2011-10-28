@@ -1,0 +1,34 @@
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll.config
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll.config
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll.config
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\DataAccess.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\DataAccess\obj\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll.config
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\obj\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\DataAccess\obj\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll.config
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\ResolveAssemblyReference.cache
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\DataAccess\obj\Debug\SoLienLacTrucTuyen.DataAccess.pdb

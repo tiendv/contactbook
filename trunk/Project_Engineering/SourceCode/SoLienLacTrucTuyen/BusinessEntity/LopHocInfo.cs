@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace SoLienLacTrucTuyen.BusinessEntity
+{
+    public class LopHocInfo
+    {
+        public int MaLopHoc { get; set; }
+        public string TenLopHoc { get; set; }
+
+        public int MaNganhHoc { get; set; }
+        public string TenNganhHoc { get; set; }
+
+        public int MaKhoiLop { get; set; }
+        public string TenKhoiLop { get; set; }
+
+        public int HomeroomTeacherCode { get; set; }
+        public string TenGVCN { get; set; }
+        public int SiSo { get; set; }
+
+        public int MaNamHoc { get; set; }
+        public string TenNamHoc { get; set; }
+    }
+}
