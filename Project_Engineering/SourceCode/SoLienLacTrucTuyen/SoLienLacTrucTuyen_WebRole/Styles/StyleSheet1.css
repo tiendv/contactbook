@@ -1,0 +1,332 @@
+﻿* {
+    margin:0px;
+    padding:0px;
+}
+
+.background
+{
+    background-image: url('Images/background.png');
+    background-repeat: repeat;
+    margin: 0px;
+    padding: 0px;
+}
+
+.page
+{
+    width: 980px;
+    margin: 0px auto 0px auto;
+    background-color: #FFFFFF;
+}
+
+.page_header
+{
+    background-position: center;
+    height: 155px;
+    background-image: url('Images/header_background.png');
+    background-repeat: repeat-x;
+    margin-bottom: -10px;
+}
+
+.footer
+{
+    background-position: center;
+    height: 155px;
+    background-image: url('Images/header_background.png');
+    background-repeat: repeat-x;
+}
+
+/*      MENU        */
+.menu_panel
+{
+    position:relative; 
+    height:100px;
+}
+
+.menu_panel_level0
+{
+    background-image: url('Images/menu_parent_pane.png');
+    height: 37px;
+    width: 980px;
+    position:absolute; 
+    top:0px;
+    padding-top:9px;
+}
+
+.menu_panel_level0_footer
+{
+    background-image: url('Images/menu_parent_pane.png');
+    height: 37px;
+    width: 980px;
+}
+
+.menu_title_level0
+{    
+    text-align:center;
+    text-transform: capitalize;    
+    text-decoration:none;  
+    font-family: 'uvn mang Tre';
+    font-size: 15px;    
+    color: #FFFFFF;
+}
+
+.menu_title_level0_footer
+{    
+    text-align:center;
+    text-transform: capitalize;    
+    text-decoration:none;  
+    font-family: 'uvn mang Tre';
+    font-size: 15px;    
+    color: #FFFFFF;
+}
+
+.menu_title_hover_parent
+{
+    background-image: url('Images/menu_parent_highlight.png');
+    background-repeat: no-repeat;
+    margin-top: -10px;
+    padding-top:10px;
+    
+    text-align:center;
+    text-transform: capitalize;
+    text-decoration:none;  
+    font-family: 'uvn mang Tre';
+    font-size: 15px;    
+    color: #FFFFFF;
+}
+
+.menu_title_hover_footer
+{
+    background-image: url('Images/menu_parent_highlight.png');
+    background-repeat: no-repeat;
+    margin-top: -10px;
+    padding-top:10px;
+    
+    text-align:center;
+    text-transform: capitalize;
+    text-decoration:none;  
+    font-family: 'uvn mang Tre';
+    font-size: 15px;    
+    color: #FFFFFF;
+}
+
+.menu_panel_child
+{
+    background-image: url('Images/menu_child_pane.png');
+    background-repeat: repeat-x;
+    width: 960px;
+    height: 70px;
+    position: absolute;
+    top: 27px;
+    padding-left: 10px;
+}
+
+.menu_title_level1
+{
+    font-family: arial;
+    font-size: 13px;
+    font-weight: bold;
+    color: #F22BDD;
+    text-decoration:none;
+}
+
+.menu_title_active_child
+{
+    font-family: arial;
+    font-size: 13px;
+    font-weight: bold;
+    color: #9B168D;
+    text-decoration: none;
+}
+
+.PnlFixedLevel1MenuTitles
+{
+    padding-top: 20px;
+}
+
+.title_panel
+{
+    background-image: url('Images/title_pane.png');
+    background-repeat: no-repeat;
+    width: 459px;
+    height: 35px;
+    top: 70px;
+}
+
+.title
+{
+    font-family: 'UVN Thang Vu';
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #A617C0;
+    float: left;
+    margin-left: 15px;
+    margin-top: 8px;
+}
+
+.subTitle
+{
+    font-family: 'UVN Thang Vu';
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000FF;
+    float: left;
+    margin-left: 15px;
+    margin-top: 8px;
+}
+
+.user_info
+{
+    width: 125px;
+    height: 50px;
+    position: absolute;
+    top: 35px;
+    right: 20px;
+    font-family: arial, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+.seach_panel
+{
+    height: 200px;
+    border: 1px solid red;
+    font-family: arial, Helvetica, sans-serif;
+    padding: 5px 20px 5px 20px;
+}
+
+div#DivContentPages
+{
+    padding: 10px 20px 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+table.search
+{
+    padding: 5px 0px 10px 0px;
+    font-size: 13px;
+}
+
+.progress
+{
+    background-image: url('Images/inprogress.gif');
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.error
+{
+    font-family: arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #FF0000;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.hide_error
+{
+    display: none;
+}
+
+.show_error
+{
+    display: block;
+}
+
+.loginBox
+{
+    width: 400px;
+    margin: 30px auto 30px auto;
+    border: 2px solid #0000C8;
+    background-color: #F8FDFD;
+}
+
+.readOnlyTextBox
+{
+    border: 1px solid #C0C0C0;
+    padding: 0px 3px 0px 3px;
+    background-color: #FCFCFC;
+}
+
+.textBoxWaterMask
+{
+    color: #C0C0C0;    
+}
+
+.tabHeader
+{
+    font-family: 'UVN Thang Vu';
+    font-size: 10pt;
+    text-transform: uppercase;
+    color: #0000FF;
+}
+
+.hidden
+{
+    display:none;
+}
+
+.visible
+{
+}
+
+#divSearch 
+{
+    padding: 10px 0px 30px 0px;
+}
+
+#divSearch #divSearchCriteria
+{
+    float: left;
+}
+
+#divSearch #divButtonSearch
+{
+    float: left;
+    width: 80px;
+    margin-top: -5px;
+}
+
+.CustomValidatorCalloutStyle div, .CustomValidatorCalloutStyle td
+{
+    border: solid 1px blue;
+    background-color: #FFFFCC;
+    font-size: 12px;
+    color: #FF0000;
+}
+
+.highlight
+{
+    border-style: solid;
+    border-width: 1px;
+    background-color: #FFFFCC;
+}
+
+/* --------------- SideBar ------------------- */
+.sideBarStep
+{
+    width: 250px;
+    padding: 5px;
+    background-color: #FFFFFF;
+}
+
+.sideBarActivedStep
+{
+    font-weight: bold;
+    color: #0000FF;
+}
+
+.sideBarUnativedStep
+{
+    font-weight:normal;
+}
+
+.SideBarStyle
+{
+    background-color: #FFFFFF;
+    border-right-style: solid;
+    border-width: 1px;
+    padding: 5px;
+}
+/* --------------- SideBar ------------------- */

@@ -1,0 +1,5 @@
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\bin\Debug\DataPager.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\DataPager\obj\Debug\DataPager.pdb

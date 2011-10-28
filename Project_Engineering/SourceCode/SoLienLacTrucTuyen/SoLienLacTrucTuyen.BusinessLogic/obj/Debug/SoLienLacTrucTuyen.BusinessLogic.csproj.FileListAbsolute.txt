@@ -1,0 +1,39 @@
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\DataAccess.pdb
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\DataAccess.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\DataAccess.pdb
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+C:\Users\Nguyen Anh Duy\Desktop\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb

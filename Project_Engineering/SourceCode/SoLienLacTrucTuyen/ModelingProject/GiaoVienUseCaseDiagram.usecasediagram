@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="c7169aaa-3ba2-4fc1-bef2-08fe8a1367c2" name="GiaoVienUseCaseDiagram" linkedPackageId="69d87819-40dd-4635-8ba1-e2ee7cb7a714" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="dfb5f296-ea46-438f-945a-c099236aab57">
+      <profileInstance Id="2fc9d6d2-8d5c-4d26-accc-84a64e19570a" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="bf12f65c-9a6a-4825-94ab-991d2245f5c3">
+      <profileInstance Id="0c142fc4-4947-4791-97ae-dd56db58b50a" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="dda56160-7fc7-4b71-a4f8-5141012c8efa" name="Giáo viên chủ nhiệm" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9fe58311-26a8-4639-844b-9ff35a6e0aae" />
+        <targetEnds>
+          <association Id="8fbc2a21-dbc5-42a2-a6c9-7d68bb7082b2" isDerived="false" sourceEndRoleName="Giáo viên chủ nhiệm" targetEndRoleName="Quản lí thông tin cá nhân HS" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="da414b6c-ef02-4647-95dc-21f659b79c28" LastKnownName="Quản lí thông tin cá nhân HS" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e882972b-6799-461c-ad6b-9ef28f598bf0" name="Giáo viên chủ nhiệm" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="dc285e00-f115-469b-90ba-8140fd20fdd2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9a775c12-38ad-42b9-a627-cb768ccf7af5" name="Quản lí thông tin cá nhân HS" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8e3976bd-1dc6-42d9-a6de-801692e3d522" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="b4a75a6f-99c9-406a-904e-bf089f06c534" />
+          </association>
+          <association Id="4317dd53-8f15-4bac-b94a-0a724bee3537" isDerived="false" sourceEndRoleName="Giáo viên chủ nhiệm" targetEndRoleName="Quản lí hạnh kiểm HS" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="34f17c03-3105-4c47-95a0-275c8629ef66" LastKnownName="Xếp loại hạnh kiểm HS" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="74b61334-80a8-45d2-bae7-e0b1a6f99f2f" name="Giáo viên chủ nhiệm" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c03029b3-9fcd-4185-9d12-1febd8d018ef" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2119f323-e7ff-49db-8492-f4ce4845fd23" name="Quản lí hạnh kiểm HS" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="48c68800-2fc2-4dd8-a755-846553b3c149" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="4e34d385-296f-48ed-b35d-3fc6d047b595" />
+          </association>
+          <association Id="13ba7ac3-cde9-4e31-baeb-8abbe4ab7cd6" isDerived="false" sourceEndRoleName="Giáo viên chủ nhiệm" targetEndRoleName="Quản lí ngày nghỉ học HS" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="d5ce394a-4911-4eba-a269-ff1c93feda67" LastKnownName="Quản lí ngày nghỉ học HS" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="35a3d205-a7cb-47bd-b291-644fa5df05fa" name="Giáo viên chủ nhiệm" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e9350949-f8aa-45a2-abed-3d14ec694341" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="f32a863f-e87b-4cef-959e-f28180d0c712" name="Quản lí ngày nghỉ học HS" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="c46198fd-b3e5-4cdf-8e72-cf1f90752ff5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="faccca1c-1318-420b-8591-a41465d36188" />
+          </association>
+          <association Id="4730352f-46ce-49af-8258-0aec7e40ecca" isDerived="false" sourceEndRoleName="Giáo viên chủ nhiệm" targetEndRoleName="Đổi mật khẩu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="1abae84b-9d58-44b5-9096-b2abf1ca23a6" LastKnownName="Đổi mật khẩu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1533c14c-03e7-40ed-83f3-29ae4167b1ad" name="Giáo viên chủ nhiệm" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c929cda6-befe-4ad2-a0b4-d85f57f884a2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="00b31ec0-7b93-4ef5-a916-724bc61922cb" name="Đổi mật khẩu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="ae7e187e-d072-4837-90ff-84cb1bb306d1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="5dda2782-9ca6-4b44-a0d7-5a18c7907e81" />
+          </association>
+          <association Id="f7204c47-a9b2-4467-b86f-957098bde52a" isDerived="false" sourceEndRoleName="Giáo viên chủ nhiệm" targetEndRoleName="Quản lí thông tin thông báo" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="ad2be2d8-4c0e-4ab0-b6bb-2a60aa0aa5ff" LastKnownName="Quản lí thông tin thông báo" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0350daac-afb8-4912-801f-44a385647cde" name="Giáo viên chủ nhiệm" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="b98c000d-4dc0-4bd2-80d8-a45531461dd3" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a4626e59-bbf0-4834-a3c5-a2acb82e3da2" name="Quản lí thông tin thông báo" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="0a09dc6d-5883-4316-b2fd-39d1ab4ca6a5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="b0b66eb0-3e48-4115-9895-4850aaa4853e" />
+          </association>
+          <association Id="d0a2b403-a21f-476b-82cf-13acaf8abeb1" isDerived="false" sourceEndRoleName="Giáo viên chủ nhiệm" targetEndRoleName="Quản lí lời nhắn khẩn" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="91eca729-3bc8-4940-b255-0af65b1a4be9" LastKnownName="Quản lí lời nhắn khẩn" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="13be1926-0cb4-401f-b6dc-f670e8e52bc7" name="Giáo viên chủ nhiệm" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="7b6ba220-e416-44c0-bea4-d818c83fa4d1" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="2bac7c09-418d-403d-bdbe-a1eeee29030c" name="Quản lí lời nhắn khẩn" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a8e5c21d-8b32-4bf9-97ab-c019062d08fa" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="670a053a-6268-4310-adb1-c1693762a76c" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="da414b6c-ef02-4647-95dc-21f659b79c28" name="Quản lí thông tin cá nhân HS" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="37b8c850-8437-403d-b2f2-bfaef9fbe0a9" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="34f17c03-3105-4c47-95a0-275c8629ef66" name="Xếp loại hạnh kiểm HS" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="35241c06-9a6f-432c-9f2a-1fa22083a7a9" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="d5ce394a-4911-4eba-a269-ff1c93feda67" name="Quản lí ngày nghỉ học HS" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="0c076df5-acad-4657-aea9-716502c7aa0d" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="52665582-b1dc-42bf-a575-4ab94def2d8a" name="Giáo viên bộ môn" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2c8cee8a-9c2c-4941-87e3-0ff349966de8" />
+        <targetEnds>
+          <association Id="5a5a76f0-4390-49b9-b015-d5ae05d77600" isDerived="false" sourceEndRoleName="Giáo viên bộ môn" targetEndRoleName="Quản lí điểm HS" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="37f2e5df-0e1b-4ba4-9118-9b00927bb37c" LastKnownName="Quản lí điểm HS" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="87631983-62ad-4802-bd5b-d1c9efd1f41b" name="Giáo viên bộ môn" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d3dcdd02-0604-4113-bf7c-26546939cd39" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="88232430-f01f-4bc2-8e42-842d9b6c4201" name="Quản lí điểm HS" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="0c9df830-37ad-4ea9-a5af-3e6924162cfc" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="8b596bc1-74ea-498d-abed-0b885d7769bf" />
+          </association>
+          <association Id="087c8e88-43a0-4014-8c46-ec4f87e081c6" isDerived="false" sourceEndRoleName="Giáo viên bộ môn" targetEndRoleName="Đổi mật khẩu" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="1abae84b-9d58-44b5-9096-b2abf1ca23a6" LastKnownName="Đổi mật khẩu" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b8b6c4e3-be3f-464b-9772-c0b7fbd4bccb" name="Giáo viên bộ môn" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="d6ffedf3-504c-41c4-9c5d-6127aeaf30f7" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3eeeef35-bd68-44a5-a745-82fd51f73b7f" name="Đổi mật khẩu" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a2d757d6-5d4a-44e3-a3a1-6ec8071ca349" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6b128394-96d6-4a89-9a98-8ae861379b61" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="37f2e5df-0e1b-4ba4-9118-9b00927bb37c" name="Quản lí điểm HS" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1b418a3c-c145-4ae8-a0b4-c86dac786eb0" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="1abae84b-9d58-44b5-9096-b2abf1ca23a6" name="Đổi mật khẩu" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8aa33308-990c-4349-871e-33d8a8a80e10" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="ad2be2d8-4c0e-4ab0-b6bb-2a60aa0aa5ff" name="Quản lí thông tin thông báo" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3e1e32d1-59d9-4653-872e-5b7925d50208" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="91eca729-3bc8-4940-b255-0af65b1a4be9" name="Quản lí lời nhắn khẩn" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3646195f-c803-4f29-9de8-ba794085b071" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="69d87819-40dd-4635-8ba1-e2ee7cb7a714" name="ModelingProject">
+    <elementDefinition Id="2047fb8a-18ca-4d09-9661-46c6626b7257" />
+  </package>
+</useCaseModelRoot>
