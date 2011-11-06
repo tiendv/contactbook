@@ -243,22 +243,22 @@ namespace SoLienLacTrucTuyen.DataAccess
             if (monHocTKBs.Count() != 0)
             {
                 List<LopHoc_MonHocTKB> lstMonHocTKB = monHocTKBs.OrderBy(b => b.MaTiet).ToList();
-                MonHocDA monHocDA = new MonHocDA();
+                SubjectDA monHocDA = new SubjectDA();
                 TietDA tietDA = new TietDA();
-                GiaoVienDA giaoVienDA = new GiaoVienDA();
+                TeacherDA giaoVienDA = new TeacherDA();
                 foreach (LopHoc_MonHocTKB monHocTKB in lstMonHocTKB)
                 {
                     ThoiKhoaBieuTheoTiet tkbTheoTiet = new ThoiKhoaBieuTheoTiet();
                     tkbTheoTiet.Tiet = monHocTKB.MaTiet;
                     tkbTheoTiet.MaMonHoc = monHocTKB.MaMonHoc;
-                    tkbTheoTiet.TenMonHoc = monHocDA.GetMonHoc(monHocTKB.MaMonHoc).TenMonHoc;
+                    tkbTheoTiet.TenMonHoc = monHocTKB.DanhMuc_MonHoc.TenMonHoc;
                     DanhMuc_Tiet tiet = tietDA.GetTiet(tkbTheoTiet.Tiet);
                     tkbTheoTiet.ChiTietTiet = string.Format("<b>{0}</b><br/>({1}-{2})",
                         tiet.TenTiet,
                         tiet.ThoiDiemKetThu.ToShortTimeString(),
                         tiet.ThoiDiemKetThu.ToShortTimeString());
                     tkbTheoTiet.MaGiaoVien = monHocTKB.MaGiaoVien;
-                    tkbTheoTiet.TenGiaoVien = giaoVienDA.GetGiaoVien(tkbTheoTiet.MaGiaoVien).HoTen;
+                    tkbTheoTiet.TenGiaoVien = giaoVienDA.GetTeacher(tkbTheoTiet.MaGiaoVien).HoTen;
                     lstThoiKhoaBieuTheoTiet.Add(tkbTheoTiet);
                 }
             }
@@ -331,8 +331,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<ThoiKhoaBieuTheoTiet> GetThoiKhoaBieuTheoBuoi(int maLopHoc,
             int maHocKy, int maThu)
         {
-            MonHocDA monHocDA = new MonHocDA();
-            GiaoVienDA giaoVienDA = new GiaoVienDA();
+            SubjectDA monHocDA = new SubjectDA();
+            TeacherDA giaoVienDA = new TeacherDA();
             List<ThoiKhoaBieuTheoTiet> lstThoiKhoaBieuTheoTiet = new List<ThoiKhoaBieuTheoTiet>();
             List<DanhMuc_Tiet> listTiets = (new TietDA()).GetListTiets();
             foreach (DanhMuc_Tiet tiet in listTiets)
@@ -357,9 +357,9 @@ namespace SoLienLacTrucTuyen.DataAccess
                     LopHoc_MonHocTKB monHocTKB = monHocTKBs.First();
                     tkbTheoTiet.MaMonHocTKB = monHocTKB.MaMonHocTKB;
                     tkbTheoTiet.MaMonHoc = monHocTKB.MaMonHoc;
-                    tkbTheoTiet.TenMonHoc = monHocDA.GetMonHoc(monHocTKB.MaMonHoc).TenMonHoc;
+                    tkbTheoTiet.TenMonHoc = monHocTKB.DanhMuc_MonHoc.TenMonHoc;
                     tkbTheoTiet.MaGiaoVien = monHocTKB.MaGiaoVien;
-                    tkbTheoTiet.TenGiaoVien = giaoVienDA.GetGiaoVien(tkbTheoTiet.MaGiaoVien).HoTen;
+                    tkbTheoTiet.TenGiaoVien = giaoVienDA.GetTeacher(tkbTheoTiet.MaGiaoVien).HoTen;
                 }
                 else
                 {
@@ -376,7 +376,15 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public ThoiKhoaBieuTheoTiet GetThoiKhoaBieuTheoTiet(int maMonHocTKB)
         {
-            ThoiKhoaBieuTheoTiet thoiKhoaBieuTheoTiet = (from MonTKB in db.LopHoc_MonHocTKBs
+            ThoiKhoaBieuTheoTiet thoiKhoaBieuTheoTiet = null;
+            LopHoc_MonHocTKB monHocTKB = null;
+            IQueryable<LopHoc_MonHocTKB> iqMonHocTKB;
+
+            iqMonHocTKB = from monTKB in db.LopHoc_MonHocTKBs
+                          where monTKB.MaMonHocTKB == maMonHocTKB
+                          select monTKB;
+
+            thoiKhoaBieuTheoTiet = (from MonTKB in db.LopHoc_MonHocTKBs
                                                          where MonTKB.MaMonHocTKB == maMonHocTKB
                                                          select new ThoiKhoaBieuTheoTiet
                                                          {
@@ -389,8 +397,21 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                              MaHocKy = MonTKB.MaHocKy
                                                          }).First();
 
-            thoiKhoaBieuTheoTiet.TenMonHoc = (new MonHocDA()).GetMonHoc(thoiKhoaBieuTheoTiet.MaMonHoc).TenMonHoc;
-            thoiKhoaBieuTheoTiet.TenGiaoVien = (new GiaoVienDA()).GetGiaoVien(thoiKhoaBieuTheoTiet.MaGiaoVien).HoTen;
+            if(iqMonHocTKB.Count() != 0)
+            {
+                monHocTKB = iqMonHocTKB.First();
+
+                thoiKhoaBieuTheoTiet = new ThoiKhoaBieuTheoTiet();
+                thoiKhoaBieuTheoTiet.MaMonHocTKB = monHocTKB.MaMonHocTKB;
+                thoiKhoaBieuTheoTiet.MaLopHoc = monHocTKB.MaLopHoc;
+                thoiKhoaBieuTheoTiet.MaMonHoc = monHocTKB.MaMonHoc;
+                thoiKhoaBieuTheoTiet.TenMonHoc = monHocTKB.DanhMuc_MonHoc.TenMonHoc;
+                thoiKhoaBieuTheoTiet.MaGiaoVien = monHocTKB.MaGiaoVien;
+                thoiKhoaBieuTheoTiet.TenGiaoVien = monHocTKB.LopHoc_GiaoVien.HoTen;
+                thoiKhoaBieuTheoTiet.Tiet = monHocTKB.DanhMuc_Tiet.MaTiet;
+                thoiKhoaBieuTheoTiet.MaThu = monHocTKB.CauHinh_Thu.MaThu;
+            }
+
             return thoiKhoaBieuTheoTiet;
         }
 

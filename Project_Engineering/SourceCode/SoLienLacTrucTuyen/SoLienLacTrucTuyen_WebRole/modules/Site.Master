@@ -104,11 +104,14 @@
                 </asp:Panel>
             </div>
             <div id="DivUserInfo" runat="server" class="user_info">
+                <asp:Label ID="LblLogedName" runat="server" Text='<%# UserName %>'></asp:Label>
                 <asp:LoginView ID="LoginView1" runat="server">
                     <LoggedInTemplate>
                         <asp:LoginName ID="LoginNameCtrl" runat="server" Style="font-size: 12px; font-weight: bold;"
-                            FormatString="Xin chào, {0}" />
+                             />
                         <br />
+                        
+                        
                         <asp:LoginStatus ID="LoginStatusCtrl" runat="server" LoginText="Đăng nhập" LogoutText="Đăng xuất"
                             LogoutPageUrl="~/Modules/Trang_Chu/TrangChu.aspx" LogoutAction="Redirect" />
                         &nbsp;

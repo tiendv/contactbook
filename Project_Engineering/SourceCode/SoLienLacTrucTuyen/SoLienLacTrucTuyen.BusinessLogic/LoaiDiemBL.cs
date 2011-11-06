@@ -6,115 +6,107 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class LoaiDiemBL
+    public class MarkTypeBL
     {
-        LoaiDiemDA loaiDiemDA;
+        MarkTypeDA markTypeDA;
 
-        public LoaiDiemBL()
+        public MarkTypeBL()
         {
-            loaiDiemDA = new LoaiDiemDA();
+            markTypeDA = new MarkTypeDA();
         }
 
-        public void InsertLoaiDiem(string tenLoaiDiem, double heSoDiem, 
+        public void InsertLoaiDiem(string markTypeName, double markRatio,
             short maxMarksPerTerm, bool calAverageMark)
         {
-            DanhMuc_LoaiDiem loaiDiem = new DanhMuc_LoaiDiem
+            DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem
             {
-                TenLoaiDiem = tenLoaiDiem,
-                HeSoDiem = heSoDiem,
+                TenLoaiDiem = markTypeName,
+                HeSoDiem = markRatio,
                 SoCotToiDa = maxMarksPerTerm,
                 TinhDTB = calAverageMark
             };
 
-            loaiDiemDA.InsertLoaiDiem(loaiDiem);
+            markTypeDA.InsertMarkType(markType);
         }
 
-        public void UpdateLoaiDiem(int maLoaiDiem, 
-            string tenLoaiDiem, double heSoDiem,
+        public void DeleteMarkType(DanhMuc_LoaiDiem markType)
+        {
+            markTypeDA.DeleteMarkType(markType);
+        }
+
+        public void UpdateMarkType(string editedMarkTypeName,
+            string newMarkTypeName, double newMarkRatio,
             short maxMarksPerTerm, bool calAverageMark)
         {
-            loaiDiemDA.UpdateLoaiDiem(maLoaiDiem, tenLoaiDiem, heSoDiem, maxMarksPerTerm, calAverageMark);
+            DanhMuc_LoaiDiem markType = GetMarkType(editedMarkTypeName);
+
+            markType.TenLoaiDiem = newMarkTypeName;
+            markType.HeSoDiem = newMarkRatio;
+            markType.SoCotToiDa = maxMarksPerTerm;
+            markType.TinhDTB = calAverageMark;
+
+            markTypeDA.UpdateMarkType(markType);
         }
 
-        public void DeleteLoaiDiem(int maLoaiDiem)
+        public DanhMuc_LoaiDiem GetMarkType(string markTypeName)
         {
-            loaiDiemDA.DeleteLoaiDiem(maLoaiDiem);
+            return markTypeDA.GetMarkType(markTypeName);
         }
 
-        public DanhMuc_LoaiDiem GetLoaiDiem(int maLoaiDiem)
+        public List<DanhMuc_LoaiDiem> GetListMarkTypes()
         {
-            return loaiDiemDA.GetLoaiDiem(maLoaiDiem);
+            return markTypeDA.GetListMarkTypes();
         }
 
-        // Get list of LoaiDiem
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem()
-        {
-            return loaiDiemDA.GetListLoaiDiem();
-        }
-
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem(int maLoaiDiem)
-        {
-            List<DanhMuc_LoaiDiem> lLoaiDiems = new List<DanhMuc_LoaiDiem>();
-            if (maLoaiDiem == 0)
-            {
-                lLoaiDiems = loaiDiemDA.GetListLoaiDiem();
-            }
-            else
-            {
-                DanhMuc_LoaiDiem loaiDiem = GetLoaiDiem(maLoaiDiem);
-                lLoaiDiems.Add(loaiDiem);
-            }            
-            return lLoaiDiems;
-        }
-
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem(string tenLoaiDiem, 
+        public List<DanhMuc_LoaiDiem> GetListMarkTypes(string markTypeName,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            if (String.Compare(tenLoaiDiem, "tất cả", true) == 0 || tenLoaiDiem == "")
+            List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
+
+            if (String.Compare(markTypeName, "tất cả", true) == 0 || markTypeName == "")
             {
-                return loaiDiemDA.GetListLoaiDiem(pageCurrentIndex, pageSize, out totalRecords);
+                lMarkTypes = markTypeDA.GetListMarkTypes(pageCurrentIndex, pageSize, out totalRecords);
             }
             else
             {
-                return loaiDiemDA.GetListLoaiDiem(tenLoaiDiem, pageCurrentIndex, pageSize, out totalRecords);
+                DanhMuc_LoaiDiem markType = GetMarkType(markTypeName);
+                lMarkTypes.Add(markType);
+                totalRecords = 1;
             }
-        }
-        // ----------------------
 
-        public bool LoaiDiemExists(int maLoaiDiem, string tenLoaiDiem)
-        {
-            return loaiDiemDA.LoaiDiemExists(maLoaiDiem, tenLoaiDiem);
+            return lMarkTypes;
         }
 
-        public bool CanDeleteLoaiDiem(int maLoaiDiem)
+        public bool MarkTypeNameExists(string markTypeName)
         {
-            return loaiDiemDA.CanDeleteLoaiDiem(maLoaiDiem);
+            return markTypeDA.MarkTypeExists(markTypeName);
         }
 
-        public bool CalAvgLoaiDiemExists()
+        public bool MarkTypeNameExists(string oldMarkTypeName, string newMarkTypeName)
         {
-            List<DanhMuc_LoaiDiem> lLoaiDiems = GetListLoaiDiem();
-            foreach (DanhMuc_LoaiDiem loaiDiem in lLoaiDiems)
+            bool bExist = false;
+
+            if (oldMarkTypeName == newMarkTypeName)
             {
-                if (loaiDiem.TinhDTB)
-                {
-                    return true;
-                }
+                bExist = false;
             }
-            return false;
+            else
+            {
+                bExist = markTypeDA.MarkTypeExists(newMarkTypeName);
+            }
+
+            return bExist;
         }
 
-        public bool CalAvgLoaiDiemExists(int maLoaiDiem)
+        public bool IsDeletable(string markTypeName)
         {
-            List<DanhMuc_LoaiDiem> lLoaiDiems = GetListLoaiDiem();
-            foreach (DanhMuc_LoaiDiem loaiDiem in lLoaiDiems)
-            {
-                if (loaiDiem.MaLoaiDiem != maLoaiDiem && loaiDiem.TinhDTB)
-                {
-                    return true;
-                }
-            }
-            return false;
+            DanhMuc_LoaiDiem markType = GetMarkType(markTypeName);
+            return markTypeDA.IsDeletable(markType);
+        }
+
+        public DanhMuc_LoaiDiem GetAppliedCalAvgMarkType()
+        {
+            return markTypeDA.GetAppliedCalAvgMarkType();
         }
     }
 }

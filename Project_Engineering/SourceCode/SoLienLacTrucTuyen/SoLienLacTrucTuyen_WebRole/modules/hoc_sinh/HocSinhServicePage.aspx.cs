@@ -93,10 +93,10 @@ namespace SoLienLacTrucTuyen_WebRole
         }
 
         [WebMethod]
-        public static bool ValidateMark(string marks, int markTypeCode)
+        public static bool ValidateMark(string marks, string markTypeName)
         {
             KetQuaHocTapBL kqhtBL = new KetQuaHocTapBL();
-            return kqhtBL.ValidateMark(marks, markTypeCode);
+            return kqhtBL.ValidateMark(marks, markTypeName);
         }
     }
 }

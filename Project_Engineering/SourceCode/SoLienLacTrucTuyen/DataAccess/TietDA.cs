@@ -275,8 +275,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 return false;
             }
-        }
-
-        
+        }        
     }
 }

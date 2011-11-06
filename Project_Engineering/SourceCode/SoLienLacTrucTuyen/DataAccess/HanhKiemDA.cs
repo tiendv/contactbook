@@ -5,119 +5,133 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class HanhKiemDA : BaseDA
+    public class ConductDA : BaseDA
     {
-        public HanhKiemDA()
+        public ConductDA()
             : base()
         {
 
         }
 
-        public void InsertHanhKiem(DanhMuc_HanhKiem hanhkiemEn)
+        public void InsertConduct(DanhMuc_HanhKiem conduct)
         {
-            db.DanhMuc_HanhKiems.InsertOnSubmit(hanhkiemEn);
+            db.DanhMuc_HanhKiems.InsertOnSubmit(conduct);
             db.SubmitChanges();
         }
 
-        public void UpdateHanhKiem(DanhMuc_HanhKiem hanhkiemEn)
+        public void UpdateConduct(DanhMuc_HanhKiem editedConduct)
         {
-            DanhMuc_HanhKiem hanhkiem = (from hk in db.DanhMuc_HanhKiems
-                                        where hk.MaHanhKiem == hanhkiemEn.MaHanhKiem
-                                        select hk).First();
-            hanhkiem.TenHanhKiem = hanhkiemEn.TenHanhKiem;
-            db.SubmitChanges();
-        }
+            DanhMuc_HanhKiem conduct = null;
 
-        public void DeleteHanhKiem(int maHanhKiem)
-        {
-            DanhMuc_HanhKiem hanhkiem = db.DanhMuc_HanhKiems.Where(hk => hk.MaHanhKiem == maHanhKiem).FirstOrDefault();
-            db.DanhMuc_HanhKiems.DeleteOnSubmit(hanhkiem);
-            db.SubmitChanges();
-        }
+            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     where cdt.MaHanhKiem == editedConduct.MaHanhKiem
+                                                     select cdt;
 
-        public DanhMuc_HanhKiem GetHanhKiem(int maHanhKiem)
-        {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     where hk.MaHanhKiem == maHanhKiem
-                                                     select hk;
-            if (hanhKiems.Count() != 0)
+            if (iqConduct.Count() != 0)
             {
-                return hanhKiems.First();
+                conduct = iqConduct.First();
+                conduct.TenHanhKiem = editedConduct.TenHanhKiem;
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteConduct(DanhMuc_HanhKiem deletedConduct)
+        {
+            DanhMuc_HanhKiem conduct = null;
+
+            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     where cdt.MaHanhKiem == deletedConduct.MaHanhKiem
+                                                     select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                conduct = iqConduct.First();
+                db.DanhMuc_HanhKiems.DeleteOnSubmit(conduct);
+                db.SubmitChanges();
+            }
+        }
+
+        public DanhMuc_HanhKiem GetConduct(string conductName)
+        {
+            DanhMuc_HanhKiem conduct = null;
+
+            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     where cdt.TenHanhKiem == conductName
+                                                     select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                conduct = iqConduct.First();
+            }
+
+            return conduct;
+        }
+
+        public List<DanhMuc_HanhKiem> GetListConducts()
+        {
+            List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
+
+            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                lConducts = iqConduct.OrderBy(cdt => cdt.TenHanhKiem).ToList();
+            }
+
+            return lConducts;
+        }
+
+        public List<DanhMuc_HanhKiem> GetListConducts(int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
+
+            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     select cdt;
+
+            return GetListHanhKiem(ref iqConduct, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        private List<DanhMuc_HanhKiem> GetListHanhKiem(ref IQueryable<DanhMuc_HanhKiem> iqHanhKiem, int pageCurrentIndex, int pageSize,
+            out double totalRecords)
+        {
+            totalRecords = iqHanhKiem.Count();
+            if (totalRecords != 0)
+            {
+                return iqHanhKiem.OrderBy(hanhkiem => hanhkiem.TenHanhKiem)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
             else
             {
-                return null;
+                return new List<DanhMuc_HanhKiem>();
             }
         }
 
-        public List<DanhMuc_HanhKiem> GetListHanhKiem()
+        public bool IsDeletable(string conductName)
         {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     select hk;
-            return hanhKiems.ToList();
+            bool bResult = true;
+            IQueryable<HocSinh_DanhHieuHocKy> iqTermStudentResult;
+
+            // Kiểm tra có tồn tại Học sinh nào đạt hạnh kiểm chỉ định hay không
+            iqTermStudentResult = from termStudentResult in db.HocSinh_DanhHieuHocKies
+                                  join conduct in db.DanhMuc_HanhKiems on termStudentResult.MaHanhKiemHK equals conduct.MaHanhKiem
+                                  where conduct.TenHanhKiem == conductName
+                                  select termStudentResult;
+
+            if (iqTermStudentResult.Count() != 0)
+            {
+                bResult = false;
+            }
+
+            return bResult;
         }
 
-        public List<DanhMuc_HanhKiem> GetListHanhKiem(int pageCurrentIndex, int pageSize)
+        public bool ConductNameExists(string conductName)
         {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     select hk;
-            hanhKiems = hanhKiems.OrderBy(n => n.TenHanhKiem).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            return hanhKiems.ToList();
-        }
-
-        public List<DanhMuc_HanhKiem> GetListHanhKiem(string tenHanhKiem, int pageCurrentIndex, int pageSize)
-        {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     where hk.TenHanhKiem.Contains(tenHanhKiem)
-                                                     select hk;
-            hanhKiems = hanhKiems.OrderBy(n => n.TenHanhKiem).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            return hanhKiems.ToList();
-        }
-
-        public int GetHanhKiemCount()
-        {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     select hk;
-            return hanhKiems.Count();
-        }
-
-        public double GetHanhKiemCount(string tenHanhKiem)
-        {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     where hk.TenHanhKiem.Contains(tenHanhKiem)
-                                                     select hk;
-            return hanhKiems.Count();
-        }
-
-        public bool CheckCanDeleteHanhKiem(int maHanhKiem)
-        {
-            //var lop = from l in db.LopHoc_Lops
-            //          where l.MaHanhKiem == maHanhKiem
-            //          select l;
-            //bool bConstraintToLop = (lop.Count() != 0) ? true : false;
-
-            //var mon = from m in db.DanhMuc_MonHocs
-            //          where m.MaHanhKiem == maHanhKiem
-            //          select m;
-            //bool bConstraintToMon = (mon.Count() != 0) ? true : false;
-
-            //if (bConstraintToLop || bConstraintToMon)
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
-            return true;
-        }
-
-        public bool CheckExistTenHanhKiem(int maHanhKiem, string tenHanhKiem)
-        {
-            IQueryable<DanhMuc_HanhKiem> hanhKiems = from hk in db.DanhMuc_HanhKiems
-                                                     where hk.TenHanhKiem == tenHanhKiem && hk.MaHanhKiem != maHanhKiem
-                                                     select hk;
-            if (hanhKiems.Count() != 0)
+            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     where cdt.TenHanhKiem == conductName
+                                                     select cdt;
+            if (iqConduct.Count() != 0)
             {
                 return true;
             }

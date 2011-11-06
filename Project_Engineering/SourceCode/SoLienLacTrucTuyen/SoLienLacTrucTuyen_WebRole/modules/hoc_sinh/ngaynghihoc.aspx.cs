@@ -114,19 +114,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
 
             DdlHocKyThem.DataSource = lstHocKy;
             DdlHocKyThem.DataValueField = "MaHocKy";
             DdlHocKyThem.DataTextField = "TenHocKy";
             DdlHocKyThem.DataBind();
-            DdlHocKyThem.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
 
             DdlHocKySua.DataSource = lstHocKy;
             DdlHocKySua.DataValueField = "MaHocKy";
             DdlHocKySua.DataTextField = "TenHocKy";
             DdlHocKySua.DataBind();
-            DdlHocKySua.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKySua.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
         }
 
         private void BindDropDownListBuoi()
@@ -169,7 +169,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime DenNgay = DateTime.Parse(TxtDenNgay.Text);
 
             double totalRecords;
-            List<TabularNgayNghiHoc> lstTabularNgayNghiHoc = ngayNghiHocBL.GetListTabularNgayNghiHoc(
+            List<TabularDayOff> lstTabularNgayNghiHoc = ngayNghiHocBL.GetListTabularNgayNghiHoc(
                 maHocSinh, maNamHoc, maHocKy,
                 tuNgay, DenNgay,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize,
@@ -384,7 +384,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             BindRepeater();
 
-            this.DdlHocKyThem.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            this.DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
             this.TxtNgayThem.Text = DateTime.Now.ToShortDateString();
             this.DdlBuoiThem.SelectedIndex = 0;
             this.RbtnCo.Checked = true;

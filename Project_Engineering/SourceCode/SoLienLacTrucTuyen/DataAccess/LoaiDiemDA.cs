@@ -5,140 +5,105 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class LoaiDiemDA : BaseDA
+    public class MarkTypeDA : BaseDA
     {
-        public LoaiDiemDA()
+        public MarkTypeDA()
             : base()
         {
         }
 
-        #region Insert, Update, Delete
-        public void InsertLoaiDiem(DanhMuc_LoaiDiem loaiDiem)
+        public void InsertMarkType(DanhMuc_LoaiDiem markType)
         {
-            db.DanhMuc_LoaiDiems.InsertOnSubmit(loaiDiem);
+            db.DanhMuc_LoaiDiems.InsertOnSubmit(markType);
             db.SubmitChanges();
         }
 
-        public void UpdateLoaiDiem(int maLoaiDiem, 
-            string tenLoaiDiem, double heSoDiem,
-            short maxMarksPerTerm, bool calAverageMark)
+        public void DeleteMarkType(DanhMuc_LoaiDiem markType)
         {
-            DanhMuc_LoaiDiem loaidiem = (from loai in db.DanhMuc_LoaiDiems
-                                        where loai.MaLoaiDiem == maLoaiDiem
-                                        select loai).First();
-            loaidiem.TenLoaiDiem = tenLoaiDiem;
-            loaidiem.HeSoDiem = heSoDiem;
-            loaidiem.SoCotToiDa = maxMarksPerTerm;
-            loaidiem.TinhDTB = calAverageMark;
-
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.MaLoaiDiem == markType.MaLoaiDiem
+                                                      select markTp;
+            if (iqMarkType.Count() != 0)
+            {
+                db.DanhMuc_LoaiDiems.DeleteOnSubmit(iqMarkType.First());
+            }
             db.SubmitChanges();
         }
 
-        public void DeleteLoaiDiem(int maLoaiDiem)
+        public void UpdateMarkType(DanhMuc_LoaiDiem newMarkType)
         {
-            DanhMuc_LoaiDiem loaidiem = GetLoaiDiem(maLoaiDiem);
-            if (loaidiem != null)
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.MaLoaiDiem == newMarkType.MaLoaiDiem
+                                                      select markTp;
+            if (iqMarkType.Count() != 0)
             {
-                db.DanhMuc_LoaiDiems.DeleteOnSubmit(loaidiem);
-                db.SubmitChanges();
-            }
-        }
-        #endregion
+                DanhMuc_LoaiDiem markType = iqMarkType.First();
 
-        #region Get Entity, List
-        public DanhMuc_LoaiDiem GetLoaiDiem(int maLoaiDiem)
+                markType.TenLoaiDiem = newMarkType.TenLoaiDiem;
+                markType.HeSoDiem = newMarkType.HeSoDiem;
+                markType.SoCotToiDa = newMarkType.SoCotToiDa;
+                markType.TinhDTB = newMarkType.TinhDTB;
+            }
+
+            db.SubmitChanges();
+        }
+        
+        public DanhMuc_LoaiDiem GetMarkType(string markTypeName)
         {
-            IQueryable<DanhMuc_LoaiDiem> LoaiDiems = from ld in db.DanhMuc_LoaiDiems
-                                                     where ld.MaLoaiDiem == maLoaiDiem
-                                                     select ld;
-            if (LoaiDiems.Count() != 0)
+            DanhMuc_LoaiDiem markType = null;
+
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.TenLoaiDiem == markTypeName
+                                                      select markTp;
+            if (iqMarkType.Count() != 0)
             {
-                return LoaiDiems.First();
+                markType = iqMarkType.First();
             }
-            else
-            {
-                return null;
-            }
+            
+            return markType;
         }
 
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem()
+        public List<DanhMuc_LoaiDiem> GetListMarkTypes()
         {
-            IQueryable<DanhMuc_LoaiDiem> iqLoaiDiem = from loaiDiem in db.DanhMuc_LoaiDiems
-                                                      select loaiDiem;
-            if (iqLoaiDiem.Count() != 0)
+            List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
+
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      select markTp;
+
+            if (iqMarkType.Count() != 0)
             {
-                return iqLoaiDiem.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
+                lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
                     .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem).ToList();
             }
-            else
-            {
-                return new List<DanhMuc_LoaiDiem>();
-            }            
+            
+            return lMarkTypes;
         }
 
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem(string tenLoaiDiem)
-        {
-            IQueryable<DanhMuc_LoaiDiem> iqLoaiDiem = from loaiDiem in db.DanhMuc_LoaiDiems
-                                                      where loaiDiem.TenLoaiDiem == tenLoaiDiem
-                                                      select loaiDiem;
-            if (iqLoaiDiem.Count() != 0)
-            {
-                return iqLoaiDiem.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
-                    .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem).ToList();
-            }
-            else
-            {
-                return new List<DanhMuc_LoaiDiem>();
-            }      
-        }
-
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem(int pageCurrentIndex, int pageSize, 
+        public List<DanhMuc_LoaiDiem> GetListMarkTypes(int pageCurrentIndex, int pageSize, 
             out double totalRecords)
         {
-            IQueryable<DanhMuc_LoaiDiem> iqLoaiDiem = from loaiDiem in db.DanhMuc_LoaiDiems
-                                                      select loaiDiem;
+            List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
 
-            totalRecords = iqLoaiDiem.Count();            
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      select markTp;
+
+            totalRecords = iqMarkType.Count();            
             if(totalRecords != 0)
             {
-                return iqLoaiDiem.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
+                lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
                     .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
-            else
-            {
-                return new List<DanhMuc_LoaiDiem>();
-            }
-        }
-
-        public List<DanhMuc_LoaiDiem> GetListLoaiDiem(string tenLoaiDiem, int pageCurrentIndex, int pageSize, 
-            out double totalRecords)
-        {
-            IQueryable<DanhMuc_LoaiDiem> iqLoaiDiem = from loaiDiem in db.DanhMuc_LoaiDiems
-                                                      where loaiDiem.TenLoaiDiem == tenLoaiDiem
-                                                      select loaiDiem;
-
-            totalRecords = iqLoaiDiem.Count();
-            if (totalRecords != 0)
-            {
-                return iqLoaiDiem.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
-                    .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem)
-                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
-            }
-            else
-            {
-                return new List<DanhMuc_LoaiDiem>();
-            }
-        }
-        #endregion
-
-        public bool LoaiDiemExists(int maLoaiDiem, string tenLoaiDiem)
-        {
-            IQueryable<DanhMuc_LoaiDiem> loaiDiems = from ld in db.DanhMuc_LoaiDiems
-                                                     where ld.TenLoaiDiem == tenLoaiDiem && ld.MaLoaiDiem != maLoaiDiem
-                                                     select ld;           
             
-            if (loaiDiems.Count() != 0)
+            return lMarkTypes;
+        }
+
+        public bool MarkTypeExists(string markTypeName)
+        {
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.TenLoaiDiem == markTypeName
+                                                      select markTp;
+            if (iqMarkType.Count() != 0)
             {
                 return true;
             }
@@ -148,12 +113,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool CanDeleteLoaiDiem(int maLoaiDiem)
+        public bool IsDeletable(DanhMuc_LoaiDiem markType)
         {
-            IQueryable<HocSinh_ChiTietDiem> chiTietDiem = from ctd in db.HocSinh_ChiTietDiems
-                                                          where ctd.MaLoaiDiem == maLoaiDiem
-                                                          select ctd;
-            if (chiTietDiem.Count() != 0)
+            IQueryable<HocSinh_ChiTietDiem> iqHocSinhChiTietDiem;
+            iqHocSinhChiTietDiem = from hsChiTietDiem in db.HocSinh_ChiTietDiems
+                                   where hsChiTietDiem.MaLoaiDiem == markType.MaLoaiDiem
+                                   select hsChiTietDiem;
+
+            if (iqHocSinhChiTietDiem.Count() != 0)
             {
                 return false;
             }
@@ -161,6 +128,21 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 return true;
             }
+        }
+
+        public DanhMuc_LoaiDiem GetAppliedCalAvgMarkType()
+        {
+            DanhMuc_LoaiDiem markType = null;
+
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.TinhDTB == true
+                                                      select markTp;
+            if (iqMarkType.Count() != 0)
+            {
+                markType = iqMarkType.First();
+            }
+
+            return markType;
         }
     }
 }

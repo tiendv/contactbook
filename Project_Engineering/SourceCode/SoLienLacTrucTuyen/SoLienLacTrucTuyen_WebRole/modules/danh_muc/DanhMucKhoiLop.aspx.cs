@@ -15,7 +15,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhMucKhoiLop : BaseContentPage
     {
         #region Fields
-        private KhoiLopBL khoiLopBL;
+        private GradeBL khoiLopBL;
         private bool isSearch;
         #endregion
 
@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            khoiLopBL = new KhoiLopBL();
+            khoiLopBL = new GradeBL();
 
             if (!Page.IsPostBack)
             {
@@ -59,7 +59,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (bValidInput)
             {
                 // insert new KhoiLop to DB
-                khoiLopBL.InsertKhoiLop(tenKhoiLop, short.Parse(thuTuHienThi));
+                khoiLopBL.InsertGrade(tenKhoiLop, short.Parse(thuTuHienThi));
 
                 // Re-bind Repeater
                 MainDataPager.CurrentIndex = 1;
@@ -79,8 +79,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maKhoiLop = Int32.Parse(this.HdfMaKhoiLop.Value);
-            khoiLopBL.DeleteKhoiLop(maKhoiLop);
+            string strGradeName = this.HdfSeletedGradeName.Value;
+            khoiLopBL.DeleteGrade(strGradeName);
             isSearch = false;
             BindRptKhoiLop();
         }
@@ -90,23 +90,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsValid)
             {
                 return;
-            }            
+            }
 
-            int maKhoiLop = Int32.Parse(this.HdfMaKhoiLop.Value);
-            string tenKhoiLop = TxtSuaTenKhoiLop.Text.Trim();
-            string thuTuHienThi = TxtOrderEdit.Text.Trim();
+            string editedGradeName = this.HdfSeletedGradeName.Value;
+            string newGradeName = TxtSuaTenKhoiLop.Text.Trim();
+            string newDisplayOrder = TxtOrderEdit.Text.Trim();
 
-            bool bValidInput = ValidateForEdit(maKhoiLop, tenKhoiLop, thuTuHienThi);
+            bool bValidInput = ValidateForEdit(editedGradeName, newGradeName, newDisplayOrder);
             if (bValidInput)
             {
-                DanhMuc_KhoiLop khoiLop = new DanhMuc_KhoiLop
-                {
-                    MaKhoiLop = maKhoiLop,
-                    TenKhoiLop = TxtSuaTenKhoiLop.Text,
-                    ThuTuHienThi = short.Parse(thuTuHienThi)
-                };
-
-                khoiLopBL.UpdateKhoiLop(khoiLop);
+                short sNewDisplayOrder = short.Parse(newDisplayOrder);
+                khoiLopBL.UpdateGrade(editedGradeName, newGradeName, sNewDisplayOrder);
 
                 BindRptKhoiLop();
             }
@@ -141,8 +135,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    DanhMuc_KhoiLop KhoiLop = (DanhMuc_KhoiLop)e.Item.DataItem;
-                    if (!khoiLopBL.CanDeleteKhoiLop(KhoiLop.MaKhoiLop))
+                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)e.Item.DataItem;
+                    if (!khoiLopBL.IsDeletable(grade.TenKhoiLop))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -179,24 +173,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                         HiddenField hdfRptMaKhoiLop = (HiddenField)e.Item.FindControl("HdfRptMaKhoiLop");
                         this.HdfMaKhoiLop.Value = hdfRptMaKhoiLop.Value;
-
+                        this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
                         this.HdfRptKhoiLopMPEDelete.Value = mPEDelete.ClientID;
 
                         break;
                     }
                 case "CmdEditItem":
                     {
-                        int maKhoiLop = Int32.Parse(e.CommandArgument.ToString());
-                        DanhMuc_KhoiLop khoiLop = khoiLopBL.GetKhoiLop(maKhoiLop);
+                        this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
+                        string gradeName = (string)e.CommandArgument;
 
-                        TxtSuaTenKhoiLop.Text = khoiLop.TenKhoiLop;
-                        TxtOrderEdit.Text = khoiLop.ThuTuHienThi.ToString();
+                        DanhMuc_KhoiLop grade = khoiLopBL.GetGrade(gradeName);
+
+                        TxtSuaTenKhoiLop.Text = grade.TenKhoiLop;
+                        TxtOrderEdit.Text = grade.ThuTuHienThi.ToString();
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptKhoiLopMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaKhoiLop.Value = maKhoiLop.ToString();
 
                         break;
                     }
@@ -238,7 +233,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string tenKhoiLop = TxtSearchKhoiLop.Text.Trim();
 
             double totalRecords;
-            List<DanhMuc_KhoiLop> lstKhoiLop = khoiLopBL.GetListKhoiLop(tenKhoiLop, 
+            List<DanhMuc_KhoiLop> lstKhoiLop = khoiLopBL.GetListGrades(tenKhoiLop, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
             MainDataPager.ItemCount = totalRecords;
 
@@ -295,7 +290,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (khoiLopBL.KhoiLopExists(tenKhoiLop))
+                if (khoiLopBL.GradeNameExists(tenKhoiLop))
                 {
                     TenKhoiLopValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -319,7 +314,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             return true;
         }
 
-        private bool ValidateForEdit(int maKhoiLop, string tenKhoiLop, string thuTuHienThi)
+        private bool ValidateForEdit(string editedGradeName, string newGradeName, string newDisplayOrder)
         {
             if (!Page.IsValid)
             {
@@ -340,7 +335,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
 
-            if (tenKhoiLop == "")
+            if (newGradeName == "")
             {
                 TenKhoiLopRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
@@ -348,7 +343,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (khoiLopBL.KhoiLopExists(maKhoiLop, tenKhoiLop))
+                if (khoiLopBL.GradeNameExists(editedGradeName, newGradeName))
                 {
                     TenKhoiLopValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
@@ -358,7 +353,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     try
                     {
-                        short.Parse(thuTuHienThi);
+                        short.Parse(newDisplayOrder);
                     }
                     catch (Exception)
                     {

@@ -6,82 +6,102 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class HanhKiemBL
+    public class ConductBL
     {
-        private HanhKiemDA hanhKiemDA;
+        private ConductDA conductDA;
 
-        public HanhKiemBL()
+        public ConductBL()
         {
-            hanhKiemDA = new HanhKiemDA();
+            conductDA = new ConductDA();
         }
 
-        public void InsertHanhKiem(DanhMuc_HanhKiem HanhKiem)
+        public void InsertConduct(DanhMuc_HanhKiem conduct)
         {
-            hanhKiemDA.InsertHanhKiem(HanhKiem);
+            conductDA.InsertConduct(conduct);
         }
 
-        public void UpdateHanhKiem(DanhMuc_HanhKiem HanhKiem)
+        public void UpdateConduct(string editedConductName, string newConductName)
         {
-            hanhKiemDA.UpdateHanhKiem(HanhKiem);
+            DanhMuc_HanhKiem conduct = GetConduct(editedConductName);
+            
+            conduct.TenHanhKiem = newConductName;
+
+            conductDA.UpdateConduct(conduct);
         }
 
-        public void DeleteHanhKiem(int maHanhKiem)
+        public void DeleteConduct(DanhMuc_HanhKiem conduct)
         {
-            hanhKiemDA.DeleteHanhKiem(maHanhKiem);
+            conductDA.DeleteConduct(conduct);
         }
 
-        public DanhMuc_HanhKiem GetHanhKiem(int maHanhKiem)
+        public DanhMuc_HanhKiem GetConduct(string conductName)
         {
-            return hanhKiemDA.GetHanhKiem(maHanhKiem);
+            return conductDA.GetConduct(conductName);
         }
-
-        public List<DanhMuc_HanhKiem> GetListHanhKiem()
+        
+        public List<DanhMuc_HanhKiem> GetListConducts(bool hasUndefinedOption)
         {
-            return hanhKiemDA.GetListHanhKiem();
-        }
+            List<DanhMuc_HanhKiem> lConducts = conductDA.GetListConducts();
 
-        public List<DanhMuc_HanhKiem> GetListHanhKiem(bool hasUndefinedOption)
-        {
-            List<DanhMuc_HanhKiem> lstHanhKiem = hanhKiemDA.GetListHanhKiem();
             if (hasUndefinedOption)
             {
-                lstHanhKiem.Add(new DanhMuc_HanhKiem
+                lConducts.Add(new DanhMuc_HanhKiem
                 {
                     TenHanhKiem = "Chưa xác định",
                     MaHanhKiem = -1
                 });
             }
-            return lstHanhKiem;
+
+            return lConducts;
         }
 
-        public List<DanhMuc_HanhKiem> GetListHanhKiem(int currentIndex, int pageSize)
+        public List<DanhMuc_HanhKiem> GetListConducts(int currentIndex, int pageSize, out double totalRecords)
         {
-            return hanhKiemDA.GetListHanhKiem(currentIndex, pageSize);
+            return conductDA.GetListConducts(currentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_HanhKiem> GetListHanhKiem(string tenHanhKiem, int pageIndex, int pageSize)
+        public List<DanhMuc_HanhKiem> GetListConducts(string conductName, int pageIndex, int pageSize, out double totalRecords)
         {
-            return hanhKiemDA.GetListHanhKiem(tenHanhKiem, pageIndex, pageSize);
+            List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
+
+            if ((conductName == "") || (string.Compare(conductName, "tất cả", true) == 0))
+            {
+                lConducts = conductDA.GetListConducts(pageIndex, pageSize, out totalRecords);
+            }
+            else
+            {
+                DanhMuc_HanhKiem conduct = GetConduct(conductName);
+                lConducts.Add(conduct);
+                totalRecords = 1;
+            }
+
+            return lConducts;
         }
 
-        public int GetHanhKiemCount()
+        public bool IsDeletable(string conductName)
         {
-            return hanhKiemDA.GetHanhKiemCount();
+            return conductDA.IsDeletable(conductName);
         }
 
-        public double GetHanhKiemCount(string tenHanhKiem)
+        public bool ConductNameExists(string conductName)
         {
-            return hanhKiemDA.GetHanhKiemCount(tenHanhKiem);
-        }
-        
-        public bool CheckCanDeleteHanhKiem(int maHanhKiem)
-        {
-            return hanhKiemDA.CheckCanDeleteHanhKiem(maHanhKiem);
+            return conductDA.ConductNameExists(conductName);
         }
 
-        public bool CheckExistTenHanhKiem(int maHanhKiem, string tenHanhKiem)
+        public bool ConductNameExists(string oldConductName, string newConductName)
         {
-            return hanhKiemDA.CheckExistTenHanhKiem(maHanhKiem, tenHanhKiem);
+            bool bResult = false;
+
+            if (oldConductName == newConductName)
+            {
+                bResult = false;
+            }
+            else
+            {
+                bResult = conductDA.ConductNameExists(newConductName);
+            }
+
+            return bResult;
         }
     }
 }

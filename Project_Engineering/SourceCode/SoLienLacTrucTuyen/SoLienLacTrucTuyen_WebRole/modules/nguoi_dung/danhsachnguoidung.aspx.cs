@@ -11,50 +11,39 @@ using SoLienLacTrucTuyen.DataAccess;
 using AjaxControlToolkit;
 using System.Web.Security;
 
-namespace SoLienLacTrucTuyen_WebRole
+namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhSachNguoiDung : System.Web.UI.Page
+    public partial class DanhSachNguoiDung : BaseContentPage
     {
         #region Fields
         private UserBL userBL;
         private RoleBL roleBL;
         private bool isSearch;
-        private List<AccessibilityEnum> lstAccessibilities;
-        #endregion        
+        #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            userBL = new UserBL();
-            roleBL = new RoleBL();
-            
-            string pageUrl = Page.Request.Path;            
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));                
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(
-                userBL.GetRoleId(User.Identity.Name), Page.Request.Path);
+            userBL = new UserBL();
+            roleBL = new RoleBL();
 
             if (!Page.IsPostBack)
-            {   
+            {
                 BindDropDownList();
-                ProcPermissions();
-
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
 
                 BindDataRepeater();
             }
-        }        
+
+            ProcPermissions();
+        }
         #endregion
 
         #region Methods
@@ -74,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
         public void BindDataRepeater()
         {
-            string searchedUserName = TxtSearchUserName.Text.Trim();
+            string userName = TxtSearchUserName.Text.Trim();
             Guid searchedRole;
             if (DdlRoles.Items.Count != 0)
             {
@@ -87,7 +76,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
             double totalRecords;
             List<TabularUser> lstTbUsers = userBL.GetListTabularUsers(
-                searchedRole, searchedUserName,
+                searchedRole, userName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete
@@ -121,7 +110,7 @@ namespace SoLienLacTrucTuyen_WebRole
             else
             {
                 MainDataPager.Visible = true;
-            }          
+            }
 
             RptUser.DataSource = lstTbUsers;
             RptUser.DataBind();
@@ -171,12 +160,12 @@ namespace SoLienLacTrucTuyen_WebRole
             if (!userBL.UserInRoleParents(userName))
             {
                 Membership.DeleteUser(userName, true);
-            }            
-            
+            }
+
             isSearch = false;
             BindDataRepeater();
-            
-        }        
+
+        }
         #endregion
 
         #region Repeater event handlers
@@ -189,7 +178,7 @@ namespace SoLienLacTrucTuyen_WebRole
                     e.Item.FindControl("thEditUser").Visible = false;
                 }
 
-                if (e.Item.ItemType == ListItemType.Item || 
+                if (e.Item.ItemType == ListItemType.Item ||
                     e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     e.Item.FindControl("tdEditUser").Visible = false;
@@ -240,7 +229,7 @@ namespace SoLienLacTrucTuyen_WebRole
             {
                 case "CmdDeleteItem":
                     {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa người dùng <b>\"" 
+                        this.LblConfirmDelete.Text = "Bạn có chắc xóa người dùng <b>\""
                             + e.CommandArgument + "\"</b> này không?";
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
@@ -262,7 +251,7 @@ namespace SoLienLacTrucTuyen_WebRole
                     }
             }
         }
-        #endregion        
+        #endregion
 
         #region Pager event handlers
         public void DataPager_Command(object sender, CommandEventArgs e)

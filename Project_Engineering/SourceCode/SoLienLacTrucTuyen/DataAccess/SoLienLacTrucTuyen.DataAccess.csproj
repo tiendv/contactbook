@@ -70,22 +70,23 @@
     </Compile>
     <Compile Include="FunctionsDA.cs" />
     <Compile Include="GiaoVienChuNhiemDA.cs" />
-    <Compile Include="GiaoVienDA.cs" />
+    <Compile Include="TeacherDA.cs" />
     <Compile Include="HanhKiemDA.cs" />
     <Compile Include="HoatDongDA.cs" />
     <Compile Include="HocKyDA.cs" />
     <Compile Include="HocLucDA.cs" />
     <Compile Include="HocSinhDA.cs" />
     <Compile Include="KetQuaHocTapDA.cs" />
-    <Compile Include="KhoiLopDA.cs" />
+    <Compile Include="GradeDA.cs" />
     <Compile Include="LoaiDiemDA.cs" />
     <Compile Include="LoiNhanKhanDA.cs" />
     <Compile Include="LopHocDA.cs" />
     <Compile Include="MenuDA.cs" />
     <Compile Include="MonHocDA.cs" />
+    <Compile Include="SchoolDA.cs" />
     <Compile Include="ThoiKhoaBieuDA.cs" />
     <Compile Include="NamHocDA.cs" />
-    <Compile Include="NganhHocDA.cs" />
+    <Compile Include="FacultyDA.cs" />
     <Compile Include="NgayNghiHocDA.cs" />
     <Compile Include="PagePathDA.cs" />
     <Compile Include="PhanQuyenDA.cs" />
@@ -104,7 +105,9 @@
     <Compile Include="UserDA.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DbEContactBook.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DbEContactBook.designer.cs</LastGenOutput>

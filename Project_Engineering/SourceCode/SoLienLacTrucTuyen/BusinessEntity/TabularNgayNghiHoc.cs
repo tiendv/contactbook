@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularNgayNghiHoc
+    public class TabularDayOff
     {
         public int MaNgayNghiHoc { get; set; }
         public int MaHocSinhLopHoc { get; set; }

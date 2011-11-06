@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<CauHinh_Buoi> GetListBuoi()
         {
-            return buoiDA.GetListBuoi();
+            return buoiDA.GetListSessions();
         }
     }
 }

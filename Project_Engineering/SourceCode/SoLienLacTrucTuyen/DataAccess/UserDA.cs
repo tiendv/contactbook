@@ -13,6 +13,22 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
         }
 
+        public aspnet_User GetUser(string userName)
+        {
+            IQueryable<aspnet_User> iqUser;
+            iqUser = from user in db.aspnet_Users
+                     where user.UserName == userName
+                     select user;
+            if (iqUser.Count() != 0)
+            {
+                return iqUser.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public Guid GetRoleId(string userName)
         {
             IQueryable<Guid> roleIds = from usersInRole in db.aspnet_UsersInRoles
@@ -21,7 +37,17 @@ namespace SoLienLacTrucTuyen.DataAccess
                                        select usersInRole.RoleId;
             return roleIds.First();
         }
-        
+
+        public List<aspnet_Role> GetRoles(string userName)
+        {
+            IQueryable<aspnet_Role> iqRole = from usersInRole in db.aspnet_UsersInRoles
+                                             join user in db.aspnet_Users on usersInRole.UserId equals user.UserId
+                                             join role in db.aspnet_Roles on usersInRole.RoleId equals role.RoleId
+                                             where user.UserName == userName
+                                             select role;
+            return iqRole.ToList();
+        }
+
         public Guid GetApplicationId(string userName)
         {
             IQueryable<Guid> appIds = from user in db.aspnet_Users
@@ -35,7 +61,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return true;
         }
 
-        public List<TabularUser> GetListUsers(Guid roleId, string userName, 
+        public List<TabularUser> GetListUsers(Guid roleId, string userName,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<Guid> relatedRoleIds = new List<Guid>();
@@ -97,7 +123,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lstTbUsers;
         }
 
-        public List<TabularUser> GetListTbUsers(Guid roleId, 
+        public List<TabularUser> GetListTbUsers(Guid roleId,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<Guid> relatedRoleIds = new List<Guid>();
@@ -108,7 +134,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                 on role.RoleId equals roleDetail.RoleId
                                             where roleDetail.ParentRoleId == roleId
                                             select role.RoleId;
-            
+
             if (childRoleIds.Count() != 0)
             {
                 relatedRoleIds.AddRange(childRoleIds.ToList());
@@ -156,7 +182,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return lstTbUsers;
-        }        
+        }
 
         public List<TabularUser> GetListTbUsers(
             int pageCurrentIndex, int pageSize, out double totalRecords)
@@ -187,7 +213,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 foreach (TabularUser tbUser in lstTbUsers)
                 {
                     IQueryable<Guid> parentRoleIds = from role in db.aspnet_Roles
-                                                     join roleDetail in db.UserManagement_RoleDetails 
+                                                     join roleDetail in db.UserManagement_RoleDetails
                                                         on role.RoleId equals roleDetail.RoleId
                                                      where role.RoleName == tbUser.RoleName
                                                         && roleDetail.ParentRoleId != null
@@ -205,7 +231,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lstTbUsers;
         }
 
-        public List<TabularUser> GetListTbUsers(string userName, 
+        public List<TabularUser> GetListTbUsers(string userName,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularUser> lstTbUsers = new List<TabularUser>();
@@ -217,7 +243,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                 on usersInRole.RoleId equals role.RoleId
                                               join membership in db.aspnet_Memberships
                                                 on user.UserId equals membership.UserId
-                                              where user.UserName == userName 
+                                              where user.UserName == userName
                                                 && membership.CanBeDeleted == true
                                               select new TabularUser
                                               {
@@ -266,13 +292,13 @@ namespace SoLienLacTrucTuyen.DataAccess
         public bool UserInRoleParents(string userName)
         {
             Guid roleParentsId = (from param in db.System_Parameters
-                                 select param.ParentsRoleId).First();
+                                  select param.ParentsRoleId).First();
 
             IQueryable<Guid> childRoleParentsIds;
             childRoleParentsIds = from role in db.aspnet_Roles
-                                 join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
-                                 where roleDetail.ParentRoleId == roleParentsId
-                                 select role.RoleId;
+                                  join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
+                                  where roleDetail.ParentRoleId == roleParentsId
+                                  select role.RoleId;
             foreach (Guid childRoleParentsId in childRoleParentsIds)
             {
                 IQueryable<aspnet_UsersInRole> usersInRoles;

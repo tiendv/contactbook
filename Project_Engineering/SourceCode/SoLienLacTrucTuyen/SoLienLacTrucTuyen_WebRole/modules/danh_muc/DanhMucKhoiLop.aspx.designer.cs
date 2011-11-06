@@ -76,6 +76,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfMaKhoiLop;
         
         /// <summary>
+        /// HdfSeletedGradeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfSeletedGradeName;
+        
+        /// <summary>
         /// HdfRptKhoiLopMPEDelete control.
         /// </summary>
         /// <remarks>

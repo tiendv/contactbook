@@ -109,44 +109,46 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 return null;
             }
-        }        
+        }
 
-        public List<TabularNgayNghiHoc> GetListTabularNgayNghiHoc(int maHocSinh,
+        public List<TabularDayOff> GetListTabularDayOffs(int maHocSinh,
             int maNamHoc, int maHocKy,
             DateTime tuNgay, DateTime denNgay,
             int pageCurrentIndex, int pageSize,
             out double totalRecords)
         {
             BuoiDA buoiDA = new BuoiDA();
-            IQueryable<TabularNgayNghiHoc> tbNgayNghiHocs;
-            tbNgayNghiHocs = from ngayNghi in db.HocSinh_NgayNghiHocs
-                             join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs 
-                                on ngayNghi.MaHocSinhLopHoc equals hocSinhLopHoc.MaHocSinhLopHoc
-                             join lop in db.LopHoc_Lops 
-                                on hocSinhLopHoc.MaLopHoc equals lop.MaLopHoc
-                             where hocSinhLopHoc.MaHocSinh == maHocSinh 
-                                && lop.MaNamHoc == maNamHoc && ngayNghi.MaHocKy == maHocKy 
-                                && ngayNghi.Ngay >= tuNgay && ngayNghi.Ngay <= denNgay
-                             select new TabularNgayNghiHoc
-                             {
-                                 MaNgayNghiHoc = ngayNghi.MaNgayNghiHoc,
-                                 MaHocSinhLopHoc = hocSinhLopHoc.MaHocSinhLopHoc,
-                                 Ngay = ngayNghi.Ngay.Day + "/" + ngayNghi.Ngay.Month + "/" + ngayNghi.Ngay.Year,
-                                 Buoi = buoiDA.GetTenBuoi(ngayNghi.MaBuoi),
-                                 XinPhep = (ngayNghi.XinPhep) ? "Có" : "Không",
-                                 LyDo = ngayNghi.LyDo,
-                                 XacNhan = (ngayNghi.XacNhan) ? "Có" : "Không"
-                             };
+            IQueryable<TabularDayOff> iqTbNgayNghiHoc;
 
-            totalRecords = tbNgayNghiHocs.Count();
+            iqTbNgayNghiHoc = from ngayNghi in db.HocSinh_NgayNghiHocs
+                              join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs
+                                 on ngayNghi.MaHocSinhLopHoc equals hocSinhLopHoc.MaHocSinhLopHoc
+                              join lop in db.LopHoc_Lops
+                                 on hocSinhLopHoc.MaLopHoc equals lop.MaLopHoc
+                              where hocSinhLopHoc.MaHocSinh == maHocSinh
+                                 && lop.MaNamHoc == maNamHoc && ngayNghi.MaHocKy == maHocKy
+                                 && ngayNghi.Ngay >= tuNgay && ngayNghi.Ngay <= denNgay
+                              select new TabularDayOff
+                              {
+                                  MaNgayNghiHoc = ngayNghi.MaNgayNghiHoc,
+                                  MaHocSinhLopHoc = hocSinhLopHoc.MaHocSinhLopHoc,
+                                  Ngay = ngayNghi.Ngay.Day + "/" + ngayNghi.Ngay.Month + "/" + ngayNghi.Ngay.Year,
+                                  Buoi = buoiDA.GetSessionName(ngayNghi.MaBuoi),
+                                  XinPhep = (ngayNghi.XinPhep) ? "Có" : "Không",
+                                  LyDo = ngayNghi.LyDo,
+                                  XacNhan = (ngayNghi.XacNhan) ? "Có" : "Không"
+                              };
+
+            
+            totalRecords = iqTbNgayNghiHoc.Count();
             if (totalRecords != 0)
             {
-                return tbNgayNghiHocs.Skip((pageCurrentIndex - 1) * pageSize)
+                return iqTbNgayNghiHoc.Skip((pageCurrentIndex - 1) * pageSize)
                     .Take(pageSize).OrderBy(n => n.Ngay).ToList();
             }
             else
             {
-                return new List<TabularNgayNghiHoc>();
+                return new List<TabularDayOff>();
             }
         }
         #endregion
@@ -174,7 +176,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 return null;
             }
-        }        
+        }
 
         public bool Confirmed(int maNgayNghiHoc)
         {
@@ -206,7 +208,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool NgayNghiHocExists(int maHocSinh, int maLopHoc, 
+        public bool NgayNghiHocExists(int maHocSinh, int maLopHoc,
             int maHocKy, DateTime ngay, int maBuoi)
         {
             IQueryable<HocSinh_NgayNghiHoc> ngayNghiHocs;
@@ -229,15 +231,15 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool NgayNghiHocExists(int maNgayNghiHoc, 
-            int maHocSinh, int maLopHoc, 
+        public bool NgayNghiHocExists(int maNgayNghiHoc,
+            int maHocSinh, int maLopHoc,
             int maHocKy, DateTime ngay, int maBuoi)
         {
             IQueryable<HocSinh_NgayNghiHoc> ngayNghiHocs;
             ngayNghiHocs = from ngayNghi in db.HocSinh_NgayNghiHocs
                            join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs
                                 on ngayNghi.MaHocSinhLopHoc equals hocSinhLopHoc.MaHocSinhLopHoc
-                           where ngayNghi.MaNgayNghiHoc != maNgayNghiHoc 
+                           where ngayNghi.MaNgayNghiHoc != maNgayNghiHoc
                                 && hocSinhLopHoc.MaHocSinh == maHocSinh
                                 && hocSinhLopHoc.MaLopHoc == maLopHoc
                                 && ngayNghi.MaHocKy == maHocKy

@@ -229,8 +229,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHanhKiem()
         {
-            HanhKiemBL HanhKiemBL = new HanhKiemBL();
-            List<DanhMuc_HanhKiem> HanhKiems = HanhKiemBL.GetListHanhKiem(false);
+            ConductBL HanhKiemBL = new ConductBL();
+            List<DanhMuc_HanhKiem> HanhKiems = HanhKiemBL.GetListConducts(false);
             DdlHanhKiemAdd.DataSource = HanhKiems;
             DdlHanhKiemAdd.DataValueField = "MaHanhKiem";
             DdlHanhKiemAdd.DataTextField = "TenHanhKiem";

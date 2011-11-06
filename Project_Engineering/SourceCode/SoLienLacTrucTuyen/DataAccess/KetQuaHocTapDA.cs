@@ -136,8 +136,50 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
+        //public void DeleteChiTietDiem(int maHocSinh, int maLopHoc,
+        //    int hocKy, int maMonHoc, List<int> lMaLoaiDiems)
+        //{
+        //    IQueryable<HocSinh_DiemMonHocHocKy> iqDiemMonHK;
+        //    iqDiemMonHK = from diemMonHK in db.HocSinh_DiemMonHocHocKies
+        //                  join hocSinhLop in db.HocSinh_HocSinhLopHocs
+        //                    on diemMonHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
+        //                  where hocSinhLop.MaHocSinh == maHocSinh
+        //                        && hocSinhLop.MaLopHoc == maLopHoc
+        //                        && diemMonHK.MaHocKy == hocKy
+        //                        && diemMonHK.MaMonHoc == maMonHoc
+        //                  select diemMonHK;
+        //    if (iqDiemMonHK.Count() != 0)
+        //    {
+        //        HocSinh_DiemMonHocHocKy diemMonHK = iqDiemMonHK.First();
+        //        int maDiemMonHK = diemMonHK.MaDiemMonHK;
+        //        LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
+        //        foreach (int maLoaiDiem in lMaLoaiDiems)
+        //        {
+        //            IQueryable<HocSinh_ChiTietDiem> iqChiTietDiem;
+        //            iqChiTietDiem = from diem in db.HocSinh_ChiTietDiems
+        //                            where diem.MaDiemMonHK == maDiemMonHK
+        //                                && diem.MaLoaiDiem == maLoaiDiem
+        //                            select diem;
+        //            if (iqChiTietDiem.Count() != 0)
+        //            {
+        //                foreach (HocSinh_ChiTietDiem chiTietDiem in iqChiTietDiem)
+        //                {
+        //                    db.HocSinh_ChiTietDiems.DeleteOnSubmit(chiTietDiem);
+        //                }
+        //                db.SubmitChanges();
+        //            }
+
+        //            DanhMuc_LoaiDiem loaiDiem = loaiDiemDA.GetMarkType(maLoaiDiem);
+        //            if (loaiDiem.TinhDTB)
+        //            {
+        //                diemMonHK.DiemTB = -1;
+        //            }
+        //        }
+        //    }
+        //}
+
         public void DeleteChiTietDiem(int maHocSinh, int maLopHoc,
-            int hocKy, int maMonHoc, List<int> lMaLoaiDiems)
+            int hocKy, int maMonHoc, List<DanhMuc_LoaiDiem> lMarkTypes)
         {
             IQueryable<HocSinh_DiemMonHocHocKy> iqDiemMonHK;
             iqDiemMonHK = from diemMonHK in db.HocSinh_DiemMonHocHocKies
@@ -152,13 +194,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 HocSinh_DiemMonHocHocKy diemMonHK = iqDiemMonHK.First();
                 int maDiemMonHK = diemMonHK.MaDiemMonHK;
-                LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
-                foreach (int maLoaiDiem in lMaLoaiDiems)
+                MarkTypeDA loaiDiemDA = new MarkTypeDA();
+                foreach (DanhMuc_LoaiDiem markType in lMarkTypes)
                 {
                     IQueryable<HocSinh_ChiTietDiem> iqChiTietDiem;
                     iqChiTietDiem = from diem in db.HocSinh_ChiTietDiems
                                     where diem.MaDiemMonHK == maDiemMonHK
-                                        && diem.MaLoaiDiem == maLoaiDiem
+                                        && diem.MaLoaiDiem == markType.MaLoaiDiem
                                     select diem;
                     if (iqChiTietDiem.Count() != 0)
                     {
@@ -169,8 +211,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                         db.SubmitChanges();
                     }
 
-                    DanhMuc_LoaiDiem loaiDiem = loaiDiemDA.GetLoaiDiem(maLoaiDiem);
-                    if (loaiDiem.TinhDTB)
+                    if (markType.TinhDTB)
                     {
                         diemMonHK.DiemTB = -1;
                     }
@@ -178,121 +219,121 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void InsertChiTietDiem(int maHocSinh, int maLopHoc,
-            int hocKy, int maMonHoc, List<Diem> chiTietDiems)
-        {
-            IQueryable<HocSinh_DiemMonHocHocKy> iqDiemMonHK;
-            iqDiemMonHK = from diemMonHK in db.HocSinh_DiemMonHocHocKies
-                          join hocSinhLop in db.HocSinh_HocSinhLopHocs
-                            on diemMonHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
-                          where hocSinhLop.MaHocSinh == maHocSinh
-                            && hocSinhLop.MaLopHoc == maLopHoc
-                            && diemMonHK.MaHocKy == hocKy
-                            && diemMonHK.MaMonHoc == maMonHoc
-                          select diemMonHK;
-            if (iqDiemMonHK.Count() == 0)
-            {
-                return;
-            }
+        //public void InsertChiTietDiem(int maHocSinh, int maLopHoc,
+        //    int hocKy, int maMonHoc, List<Diem> chiTietDiems)
+        //{
+        //    IQueryable<HocSinh_DiemMonHocHocKy> iqDiemMonHK;
+        //    iqDiemMonHK = from diemMonHK in db.HocSinh_DiemMonHocHocKies
+        //                  join hocSinhLop in db.HocSinh_HocSinhLopHocs
+        //                    on diemMonHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
+        //                  where hocSinhLop.MaHocSinh == maHocSinh
+        //                    && hocSinhLop.MaLopHoc == maLopHoc
+        //                    && diemMonHK.MaHocKy == hocKy
+        //                    && diemMonHK.MaMonHoc == maMonHoc
+        //                  select diemMonHK;
+        //    if (iqDiemMonHK.Count() == 0)
+        //    {
+        //        return;
+        //    }
 
-            HocSinh_DiemMonHocHocKy diemMonHocHK = iqDiemMonHK.First();
-            int maDiemMonHK = diemMonHocHK.MaDiemMonHK;
-            LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
-            bool bCalAvgMarkSubject = false;
-            foreach (Diem diem in chiTietDiems)
-            {
-                HocSinh_ChiTietDiem newChiTietDiem = new HocSinh_ChiTietDiem
-                {
-                    MaDiemMonHK = maDiemMonHK,
-                    MaLoaiDiem = diem.MaLoaiDiem,
-                    Diem = diem.GiaTri
-                };
-                db.HocSinh_ChiTietDiems.InsertOnSubmit(newChiTietDiem);
+        //    HocSinh_DiemMonHocHocKy diemMonHocHK = iqDiemMonHK.First();
+        //    int maDiemMonHK = diemMonHocHK.MaDiemMonHK;
+        //    LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
+        //    bool bCalAvgMarkSubject = false;
+        //    foreach (Diem diem in chiTietDiems)
+        //    {
+        //        HocSinh_ChiTietDiem newChiTietDiem = new HocSinh_ChiTietDiem
+        //        {
+        //            MaDiemMonHK = maDiemMonHK,
+        //            MaLoaiDiem = diem.MaLoaiDiem,
+        //            Diem = diem.GiaTri
+        //        };
+        //        db.HocSinh_ChiTietDiems.InsertOnSubmit(newChiTietDiem);
 
-                DanhMuc_LoaiDiem loaiDiem = loaiDiemDA.GetLoaiDiem(diem.MaLoaiDiem);
-                if (loaiDiem.TinhDTB)
-                {
-                    bCalAvgMarkSubject = true;
-                }
-            }
-            db.SubmitChanges();
+        //        DanhMuc_LoaiDiem loaiDiem = loaiDiemDA.GetMarkType(diem.MaLoaiDiem);
+        //        if (loaiDiem.TinhDTB)
+        //        {
+        //            bCalAvgMarkSubject = true;
+        //        }
+        //    }
+        //    db.SubmitChanges();
 
-            if (bCalAvgMarkSubject || (diemMonHocHK.DiemTB != -1))
-            {
-                diemMonHocHK.DiemTB = CalAvgMark(maHocSinh, maLopHoc, hocKy, maMonHoc);
-            }
+        //    if (bCalAvgMarkSubject || (diemMonHocHK.DiemTB != -1))
+        //    {
+        //        diemMonHocHK.DiemTB = CalAvgMark(maHocSinh, maLopHoc, hocKy, maMonHoc);
+        //    }
 
-            db.SubmitChanges();
-        }
+        //    db.SubmitChanges();
+        //}
 
-        public void UpdateChiTietDiem(int maHocSinh, int maLopHoc,
-            int hocKy, int maMonHoc, List<Diem> chiTietDiems)
-        {
-            IQueryable<HocSinh_DiemMonHocHocKy> iqDiemMonHK;
-            iqDiemMonHK = from diemMonHK in db.HocSinh_DiemMonHocHocKies
-                          join hocSinhLop in db.HocSinh_HocSinhLopHocs
-                            on diemMonHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
-                          where hocSinhLop.MaHocSinh == maHocSinh
-                            && hocSinhLop.MaLopHoc == maLopHoc
-                            && diemMonHK.MaHocKy == hocKy
-                            && diemMonHK.MaMonHoc == maMonHoc
-                          select diemMonHK;
+        //public void UpdateChiTietDiem(int maHocSinh, int maLopHoc,
+        //    int hocKy, int maMonHoc, List<Diem> chiTietDiems)
+        //{
+        //    IQueryable<HocSinh_DiemMonHocHocKy> iqDiemMonHK;
+        //    iqDiemMonHK = from diemMonHK in db.HocSinh_DiemMonHocHocKies
+        //                  join hocSinhLop in db.HocSinh_HocSinhLopHocs
+        //                    on diemMonHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
+        //                  where hocSinhLop.MaHocSinh == maHocSinh
+        //                    && hocSinhLop.MaLopHoc == maLopHoc
+        //                    && diemMonHK.MaHocKy == hocKy
+        //                    && diemMonHK.MaMonHoc == maMonHoc
+        //                  select diemMonHK;
 
-            if (iqDiemMonHK.Count() != 0)
-            {
-                HocSinh_DiemMonHocHocKy diemMonHocHK = iqDiemMonHK.First();
-                int maDiemMonHK = diemMonHocHK.MaDiemMonHK;
+        //    if (iqDiemMonHK.Count() != 0)
+        //    {
+        //        HocSinh_DiemMonHocHocKy diemMonHocHK = iqDiemMonHK.First();
+        //        int maDiemMonHK = diemMonHocHK.MaDiemMonHK;
 
-                // Delete existed ChiTietDiems
-                IQueryable<HocSinh_ChiTietDiem> iqExistedChiTietDiem;
-                iqExistedChiTietDiem = from chiTietDiem in db.HocSinh_ChiTietDiems
-                                       where chiTietDiem.MaDiemMonHK == maDiemMonHK
-                                       select chiTietDiem;
-                if (iqExistedChiTietDiem.Count() != 0)
-                {
-                    foreach (HocSinh_ChiTietDiem existedChiTietDiem in iqExistedChiTietDiem)
-                    {
-                        db.HocSinh_ChiTietDiems.DeleteOnSubmit(existedChiTietDiem);
-                    }
-                    db.SubmitChanges();
-                }
-                //-----------------------------
+        //        // Delete existed ChiTietDiems
+        //        IQueryable<HocSinh_ChiTietDiem> iqExistedChiTietDiem;
+        //        iqExistedChiTietDiem = from chiTietDiem in db.HocSinh_ChiTietDiems
+        //                               where chiTietDiem.MaDiemMonHK == maDiemMonHK
+        //                               select chiTietDiem;
+        //        if (iqExistedChiTietDiem.Count() != 0)
+        //        {
+        //            foreach (HocSinh_ChiTietDiem existedChiTietDiem in iqExistedChiTietDiem)
+        //            {
+        //                db.HocSinh_ChiTietDiems.DeleteOnSubmit(existedChiTietDiem);
+        //            }
+        //            db.SubmitChanges();
+        //        }
+        //        //-----------------------------
 
-                if (chiTietDiems.Count != 0)
-                {
-                    LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
-                    bool bCalAvgMarkSubject = false;
-                    foreach (Diem diem in chiTietDiems)
-                    {
-                        HocSinh_ChiTietDiem newChiTietDiem = new HocSinh_ChiTietDiem
-                        {
-                            MaDiemMonHK = maDiemMonHK,
-                            MaLoaiDiem = diem.MaLoaiDiem,
-                            Diem = diem.GiaTri
-                        };
-                        db.HocSinh_ChiTietDiems.InsertOnSubmit(newChiTietDiem);
+        //        if (chiTietDiems.Count != 0)
+        //        {
+        //            LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
+        //            bool bCalAvgMarkSubject = false;
+        //            foreach (Diem diem in chiTietDiems)
+        //            {
+        //                HocSinh_ChiTietDiem newChiTietDiem = new HocSinh_ChiTietDiem
+        //                {
+        //                    MaDiemMonHK = maDiemMonHK,
+        //                    MaLoaiDiem = diem.MaLoaiDiem,
+        //                    Diem = diem.GiaTri
+        //                };
+        //                db.HocSinh_ChiTietDiems.InsertOnSubmit(newChiTietDiem);
 
-                        DanhMuc_LoaiDiem loaiDiem = loaiDiemDA.GetLoaiDiem(diem.MaLoaiDiem);
-                        if (loaiDiem.TinhDTB)
-                        {
-                            bCalAvgMarkSubject = true;
-                        }
-                    }
-                    db.SubmitChanges();
+        //                DanhMuc_LoaiDiem loaiDiem = loaiDiemDA.GetMarkType(diem.MaLoaiDiem);
+        //                if (loaiDiem.TinhDTB)
+        //                {
+        //                    bCalAvgMarkSubject = true;
+        //                }
+        //            }
+        //            db.SubmitChanges();
 
-                    if (bCalAvgMarkSubject)
-                    {
-                        diemMonHocHK.DiemTB = CalAvgMark(maHocSinh, maLopHoc, hocKy, maMonHoc);
-                    }
-                    else
-                    {
-                        diemMonHocHK.DiemTB = -1;
-                    }
+        //            if (bCalAvgMarkSubject)
+        //            {
+        //                diemMonHocHK.DiemTB = CalAvgMark(maHocSinh, maLopHoc, hocKy, maMonHoc);
+        //            }
+        //            else
+        //            {
+        //                diemMonHocHK.DiemTB = -1;
+        //            }
 
-                    db.SubmitChanges();
-                }
-            }
-        }
+        //            db.SubmitChanges();
+        //        }
+        //    }
+        //}
 
         public HocSinh_ChiTietDiem GetChiTietDiem(int maChiTietDiem)
         {
@@ -527,8 +568,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<List<double>> lstDiemMonHoc = new List<List<double>>();
 
-            LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemDA.GetListLoaiDiem();
+            MarkTypeDA loaiDiemDA = new MarkTypeDA();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemDA.GetListMarkTypes();
             foreach (DanhMuc_LoaiDiem loaiDiem in lstLoaiDiem)
             {
                 List<double> lstChiTietDiemMonHoc = GetListDiemMonHocByLoaiDiem(maDiemMonHK, loaiDiem.MaLoaiDiem);
@@ -700,10 +741,10 @@ namespace SoLienLacTrucTuyen.DataAccess
             db.SubmitChanges();
         }
 
-        public List<TabularDanhHieuHocSinh> GetListTabularDanhHieuHocSinh(int maHocSinh, int maNamHoc,
+        public List<TabularTermStudentResult> GetListTabularTermStudentResult(int maHocSinh, int maNamHoc,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<TabularDanhHieuHocSinh> lstTabularDanhHieuHocSinh = new List<TabularDanhHieuHocSinh>();
+            List<TabularTermStudentResult> lstTabularDanhHieuHocSinh = new List<TabularTermStudentResult>();
 
             IQueryable<HocSinh_DanhHieuHocKy> danhHieuHocKies = from hocSinhLop in db.HocSinh_HocSinhLopHocs
                                                                 join lop in db.LopHoc_Lops on hocSinhLop.MaLopHoc equals lop.MaLopHoc
@@ -718,29 +759,30 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             HocLucDA hocLucDA = new HocLucDA();
-            HanhKiemDA hanhKiemDA = new HanhKiemDA();
+            ConductDA hanhKiemDA = new ConductDA();
             DanhHieuDA danhHieuDA = new DanhHieuDA();
             HocKyDA hocKyDA = new HocKyDA();
             foreach (HocSinh_DanhHieuHocKy danhHieu in danhHieuHocKies)
             {
-                TabularDanhHieuHocSinh tabularDanhHieuHocSinh = new TabularDanhHieuHocSinh();
-                tabularDanhHieuHocSinh.MaDanhHieuHSHK = danhHieu.MaDanhHieuHSHK;
-                tabularDanhHieuHocSinh.DiemTB = (int)danhHieu.DiemTBHK;
-                tabularDanhHieuHocSinh.StrDiemTB = (danhHieu.DiemTBHK != -1) ? (danhHieu.DiemTBHK.ToString()) : "";
-                tabularDanhHieuHocSinh.TenHocKy = hocKyDA.GetHocKy(danhHieu.MaHocKy).TenHocKy;
-                tabularDanhHieuHocSinh.MaHanhKiem = danhHieu.MaHanhKiemHK;
-                int maHanhKiem = (int)tabularDanhHieuHocSinh.MaHanhKiem;
-                tabularDanhHieuHocSinh.TenHanhKiem = (maHanhKiem != -1) ? hanhKiemDA.GetHanhKiem(maHanhKiem).TenHanhKiem : "";
+                TabularTermStudentResult tbTermStudentResult = new TabularTermStudentResult();
+
+                tbTermStudentResult.MaDanhHieuHSHK = danhHieu.MaDanhHieuHSHK;
+                tbTermStudentResult.DiemTB = (int)danhHieu.DiemTBHK;
+                tbTermStudentResult.StrDiemTB = (danhHieu.DiemTBHK != -1) ? (danhHieu.DiemTBHK.ToString()) : "";
+                tbTermStudentResult.TenHocKy = hocKyDA.GetHocKy(danhHieu.MaHocKy).TenHocKy;
+                tbTermStudentResult.MaHanhKiem = danhHieu.MaHanhKiemHK;
+                int maHanhKiem = (int)tbTermStudentResult.MaHanhKiem;
+                //tbTermStudentResult.TenHanhKiem = (maHanhKiem != -1) ? hanhKiemDA.GetConduct(maHanhKiem).TenHanhKiem : "";
 
                 int maHocLuc = (int)danhHieu.MaHocLucHK;
-                tabularDanhHieuHocSinh.TenHocLuc = (maHocLuc != -1) ? hocLucDA.GetHocLuc(maHocLuc).TenHocLuc : "";
+                tbTermStudentResult.TenHocLuc = (maHocLuc != -1) ? hocLucDA.GetHocLuc(maHocLuc).TenHocLuc : "";
 
-                tabularDanhHieuHocSinh.TenDanhHieu = danhHieuDA.GetTenDanhHieu(maHocLuc, maHanhKiem);
+                tbTermStudentResult.TenDanhHieu = danhHieuDA.GetTenDanhHieu(maHocLuc, maHanhKiem);
 
-                lstTabularDanhHieuHocSinh.Add(tabularDanhHieuHocSinh);
+                lstTabularDanhHieuHocSinh.Add(tbTermStudentResult);
             }
 
-            TabularDanhHieuHocSinh danhHieuHocSinhCuoiNam = new TabularDanhHieuHocSinh();
+            TabularTermStudentResult danhHieuHocSinhCuoiNam = new TabularTermStudentResult();
             danhHieuHocSinhCuoiNam.MaDanhHieuHSHK = -1;
             danhHieuHocSinhCuoiNam.TenHocKy = "Cả năm";
             if ((lstTabularDanhHieuHocSinh[0].DiemTB != -1) && (lstTabularDanhHieuHocSinh[1].DiemTB != -1))
@@ -763,7 +805,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 danhHieuHocSinhCuoiNam.MaHanhKiem = -1;
             }
             int maHanhKiemCuoiNam = (int)danhHieuHocSinhCuoiNam.MaHanhKiem;
-            danhHieuHocSinhCuoiNam.TenHanhKiem = (maHanhKiemCuoiNam != -1) ? hanhKiemDA.GetHanhKiem(maHanhKiemCuoiNam).TenHanhKiem : "";
+            //danhHieuHocSinhCuoiNam.TenHanhKiem = (maHanhKiemCuoiNam != -1) ? hanhKiemDA.GetConduct(maHanhKiemCuoiNam).TenHanhKiem : "";
 
             int maHocLucCuoiNam;
             if (danhHieuHocSinhCuoiNam.DiemTB != -1)
@@ -814,7 +856,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 lstTbDiemHS = iQDiemHocSinhs.OrderBy(diemHS => diemHS.TenHocSinh)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
 
-                LoaiDiemDA loaiDiemDA = new LoaiDiemDA();
+                MarkTypeDA loaiDiemDA = new MarkTypeDA();
                 foreach (TabularDiemHocSinh tbDiemHS in lstTbDiemHS)
                 {
                     tbDiemHS.DiemTheoLoaiDiems = new List<DiemTheoLoaiDiem>();

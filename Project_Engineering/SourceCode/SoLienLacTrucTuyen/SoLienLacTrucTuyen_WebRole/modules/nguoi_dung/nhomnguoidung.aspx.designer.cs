@@ -22,15 +22,6 @@ namespace SoLienLacTrucTuyen_WebRole {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divScript;
         
         /// <summary>
-        /// Label100 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label100;
-        
-        /// <summary>
         /// TxtSearchNhomNguoiDung control.
         /// </summary>
         /// <remarks>
@@ -38,6 +29,15 @@ namespace SoLienLacTrucTuyen_WebRole {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtSearchNhomNguoiDung;
+        
+        /// <summary>
+        /// RoleNameWatermark control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender RoleNameWatermark;
         
         /// <summary>
         /// BtnSearch control.

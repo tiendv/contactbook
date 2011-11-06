@@ -12,34 +12,23 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhMucHanhKiem : System.Web.UI.Page
+    public partial class DanhMucHanhKiem : BaseContentPage
     {
+        private const string EDITED_MAHANHKIEM = "EditedMaHanhKiem";
+
         #region Fields
-        private List<AccessibilityEnum> lstAccessibilities;
-        private HanhKiemBL hanhKiemBL = new HanhKiemBL();
+        private ConductBL hanhKiemBL = new ConductBL();
         private bool isSearch;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            UserBL userBL = new UserBL();
-            RoleBL roleBL = new RoleBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
 
             if (!Page.IsPostBack)
             {
@@ -73,7 +62,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (hanhKiemBL.CheckExistTenHanhKiem(0, tenHanhKiem))
+                if (hanhKiemBL.ConductNameExists(tenHanhKiem))
                 {
                     TenHanhKiemValidatorAdd.IsValid = false;
                     TxtTenHanhKiem.Focus();
@@ -82,7 +71,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            hanhKiemBL.InsertHanhKiem(new DanhMuc_HanhKiem
+            hanhKiemBL.InsertConduct(new DanhMuc_HanhKiem
             {
                 TenHanhKiem = tenHanhKiem
             });
@@ -101,7 +90,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             int maHanhKiem = Int32.Parse(this.HdfMaHanhKiem.Value);
-            hanhKiemBL.DeleteHanhKiem(maHanhKiem);
+
+            DanhMuc_HanhKiem conduct = new DanhMuc_HanhKiem();
+            conduct.MaHanhKiem = maHanhKiem;
+
+            hanhKiemBL.DeleteConduct(conduct);
             isSearch = false;
             BindData();
         }
@@ -125,11 +118,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+            
+            string editedTenHanhKiem = (string)HdfEditedTenHanhKiem.Value;
+            string newTenHanhKiem = TxtSuaTenHanhKiem.Text.Trim();
 
-            int maHanhKiem = Int32.Parse(this.HdfMaHanhKiem.Value);
-            string tenHanhKiem = TxtSuaTenHanhKiem.Text.Trim();
-
-            if (tenHanhKiem == "")
+            if (newTenHanhKiem == "")
             {
                 TenHanhKiemRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
@@ -137,7 +130,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (hanhKiemBL.CheckExistTenHanhKiem(maHanhKiem, tenHanhKiem))
+                if (hanhKiemBL.ConductNameExists(editedTenHanhKiem, newTenHanhKiem))
                 {
                     TenHanhKiemValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
@@ -145,12 +138,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            DanhMuc_HanhKiem HanhKiem = new DanhMuc_HanhKiem
-            {
-                MaHanhKiem = maHanhKiem,
-                TenHanhKiem = tenHanhKiem,
-            };
-            hanhKiemBL.UpdateHanhKiem(HanhKiem);
+            int editedMaHanhKiem = Int32.Parse(this.HdfMaHanhKiem.Value);
+            hanhKiemBL.UpdateConduct(editedTenHanhKiem, newTenHanhKiem);
             BindData();
         }
         #endregion
@@ -185,8 +174,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        DanhMuc_HanhKiem HanhKiem = (DanhMuc_HanhKiem)e.Item.DataItem;
-                        if (!hanhKiemBL.CheckCanDeleteHanhKiem(HanhKiem.MaHanhKiem))
+                        DanhMuc_HanhKiem conduct = (DanhMuc_HanhKiem)e.Item.DataItem;
+
+                        if (!hanhKiemBL.IsDeletable(conduct.TenHanhKiem))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -231,15 +221,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        int maHanhKiem = Int32.Parse(e.CommandArgument.ToString());
-                        DanhMuc_HanhKiem HanhKiem = hanhKiemBL.GetHanhKiem(maHanhKiem);
+                        string conductName = (string)e.CommandArgument;
 
-                        TxtSuaTenHanhKiem.Text = HanhKiem.TenHanhKiem;
+                        DanhMuc_HanhKiem hanhKiem = hanhKiemBL.GetConduct(conductName);
+                        ViewState[EDITED_MAHANHKIEM] = hanhKiem.MaHanhKiem;
+
+                        TxtSuaTenHanhKiem.Text = hanhKiem.TenHanhKiem;
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptHanhKiemMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaHanhKiem.Value = maHanhKiem.ToString();
+                        this.HdfMaHanhKiem.Value = conductName.ToString();
+                        this.HdfEditedTenHanhKiem.Value = hanhKiem.TenHanhKiem;
 
                         break;
                     }
@@ -280,17 +273,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string tenHanhKiem = TxtSearchHanhKiem.Text.Trim();
 
+            double totalRecords;
             List<DanhMuc_HanhKiem> lstHanhKiem;
-            if (String.Compare(tenHanhKiem, "tất cả", true) == 0 || tenHanhKiem == "")
-            {
-                lstHanhKiem = hanhKiemBL.GetListHanhKiem(MainDataPager.CurrentIndex, MainDataPager.PageSize);
-                MainDataPager.ItemCount = hanhKiemBL.GetHanhKiemCount();
-            }
-            else
-            {
-                lstHanhKiem = hanhKiemBL.GetListHanhKiem(tenHanhKiem, MainDataPager.CurrentIndex, MainDataPager.PageSize);
-                MainDataPager.ItemCount = hanhKiemBL.GetHanhKiemCount(tenHanhKiem);
-            }
+            lstHanhKiem = hanhKiemBL.GetListConducts(tenHanhKiem, MainDataPager.CurrentIndex, MainDataPager.PageSize, 
+                out totalRecords);
+            MainDataPager.ItemCount = totalRecords;
 
             // Decrease page current index when delete
             if (lstHanhKiem.Count == 0 && MainDataPager.ItemCount != 0)

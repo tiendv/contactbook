@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=&quot;D:\DOCUMENTS\Cloud Computing\solienlactructuyen-cloudcomputing\8_Source\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\App_Data\DbEContactBook.mdf&quot;;Integrated Security=True;Connect Timeout=30;User Instance=True" SettingsObjectName="SoLienLacTrucTuyen.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=&quot;D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\App_Data\DbEContactBook.mdf&quot;;Integrated Security=True;Connect Timeout=30;User Instance=True" SettingsObjectName="SoLienLacTrucTuyen.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString3" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Applications" Member="aspnet_Applications">
     <Type Name="aspnet_Application">
       <Column Name="ApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
@@ -20,6 +20,7 @@
       <Column Name="CanBeDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="Actived" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ParentRoleId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
     </Type>
   </Table>
@@ -170,6 +171,7 @@
     <Type Name="CauHinh_HeThong">
       <Column Name="MaNamHocHienHanh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaHocKyHienHanh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.CauHinh_HocKy" Member="CauHinh_HocKies">
@@ -213,6 +215,7 @@
       <Column Name="MaDanhHieu" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="MaHocLuc" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="MaHanhKiem" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_DanhHieu_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_DanhHieu" ThisKey="MaDanhHieu" OtherKey="MaDanhHieu" Type="DanhMuc_DanhHieu" IsForeignKey="true" />
       <Association Name="DanhMuc_HanhKiem_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_HanhKiem" ThisKey="MaHanhKiem" OtherKey="MaHanhKiem" Type="DanhMuc_HanhKiem" IsForeignKey="true" />
       <Association Name="DanhMuc_HocLuc_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_HocLuc" ThisKey="MaHocLuc" OtherKey="MaHocLuc" Type="DanhMuc_HocLuc" IsForeignKey="true" />
@@ -222,6 +225,7 @@
     <Type Name="DanhMuc_DanhHieu">
       <Column Name="MaDanhHieu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenDanhHieu" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_DanhHieu_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaDanhHieu" OtherKey="MaDanhHieu" Type="DanhMuc_ChiTietDanhHieu" />
     </Type>
   </Table>
@@ -229,6 +233,7 @@
     <Type Name="DanhMuc_HanhKiem">
       <Column Name="MaHanhKiem" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenHanhKiem" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_HanhKiem_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaHanhKiem" OtherKey="MaHanhKiem" Type="DanhMuc_ChiTietDanhHieu" />
     </Type>
   </Table>
@@ -238,6 +243,7 @@
       <Column Name="TenHocLuc" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="DTBDau" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="DTBCuoi" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_HocLuc_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaHocLuc" OtherKey="MaHocLuc" Type="DanhMuc_ChiTietDanhHieu" />
     </Type>
   </Table>
@@ -246,6 +252,7 @@
       <Column Name="MaKhoiLop" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenKhoiLop" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ThuTuHienThi" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_KhoiLop_DanhMuc_MonHoc" Member="DanhMuc_MonHocs" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="DanhMuc_MonHoc" />
       <Association Name="DanhMuc_KhoiLop_LopHoc_Lop" Member="LopHoc_Lops" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="LopHoc_Lop" />
     </Type>
@@ -257,6 +264,7 @@
       <Column Name="HeSoDiem" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="SoCotToiDa" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
       <Column Name="TinhDTB" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_LoaiDiem_HocSinh_ChiTietDiem" Member="HocSinh_ChiTietDiems" ThisKey="MaLoaiDiem" OtherKey="MaLoaiDiem" Type="HocSinh_ChiTietDiem" />
     </Type>
   </Table>
@@ -267,6 +275,7 @@
       <Column Name="MaNganhHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaKhoiLop" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="HeSoDiem" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_MonHoc_HocSinh_DiemMonHocHocKy" Member="HocSinh_DiemMonHocHocKies" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="HocSinh_DiemMonHocHocKy" />
       <Association Name="DanhMuc_MonHoc_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="LopHoc_MonHocTKB" />
       <Association Name="DanhMuc_KhoiLop_DanhMuc_MonHoc" Member="DanhMuc_KhoiLop" ThisKey="MaKhoiLop" OtherKey="MaKhoiLop" Type="DanhMuc_KhoiLop" IsForeignKey="true" />
@@ -278,6 +287,7 @@
       <Column Name="MaNganhHoc" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenNganhHoc" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="MoTa" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_NganhHoc_DanhMuc_MonHoc" Member="DanhMuc_MonHocs" ThisKey="MaNganhHoc" OtherKey="MaNganhHoc" Type="DanhMuc_MonHoc" />
       <Association Name="DanhMuc_NganhHoc_LopHoc_Lop" Member="LopHoc_Lops" ThisKey="MaNganhHoc" OtherKey="MaNganhHoc" Type="LopHoc_Lop" />
     </Type>
@@ -286,6 +296,7 @@
     <Type Name="DanhMuc_ThaiDoThamGia">
       <Column Name="MaThaiDoThamGia" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenThaiDoThamGia" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.DanhMuc_Tiet" Member="DanhMuc_Tiets">
@@ -296,6 +307,7 @@
       <Column Name="ThuTu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ThoiGianBatDau" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ThoiDiemKetThu" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_Tiet_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaTiet" OtherKey="MaTiet" Type="LopHoc_MonHocTKB" />
       <Association Name="CauHinh_Buoi_DanhMuc_Tiet" Member="CauHinh_Buoi" ThisKey="MaBuoi" OtherKey="MaBuoi" Type="CauHinh_Buoi" IsForeignKey="true" />
     </Type>
@@ -308,6 +320,7 @@
       <Column Name="PhanHoi" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
       <Column Name="MaTinhTrangYKien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="CauHinh_TinhTrangYKien_GopY_YKien" Member="CauHinh_TinhTrangYKien" ThisKey="MaTinhTrangYKien" OtherKey="MaTinhTrangYKien" Type="CauHinh_TinhTrangYKien" IsForeignKey="true" />
       <Association Name="HocSinh_HocSinhLopHoc_GopY_YKien" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
     </Type>
@@ -318,6 +331,7 @@
       <Column Name="MaDiemMonHK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaLoaiDiem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Diem" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="DanhMuc_LoaiDiem_HocSinh_ChiTietDiem" Member="DanhMuc_LoaiDiem" ThisKey="MaLoaiDiem" OtherKey="MaLoaiDiem" Type="DanhMuc_LoaiDiem" IsForeignKey="true" />
       <Association Name="HocSinh_DiemMonHocHocKy_HocSinh_ChiTietDiem" Member="HocSinh_DiemMonHocHocKy" ThisKey="MaDiemMonHK" OtherKey="MaDiemMonHK" Type="HocSinh_DiemMonHocHocKy" IsForeignKey="true" />
     </Type>
@@ -438,6 +452,7 @@
       <Column Name="HoTenNguoiDoDau" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="NgaySinhNguoiDoDau" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="NgheNghiepNguoiDoDau" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="HocSinh_ThongTinCaNhan_HocSinh_HocSinhLopHoc" Member="HocSinh_HocSinhLopHocs" ThisKey="MaHocSinh" OtherKey="MaHocSinh" Type="HocSinh_HocSinhLopHoc" />
     </Type>
   </Table>
@@ -463,6 +478,7 @@
       <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="DienThoai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="HinhAnh" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="LopHoc_GiaoVien_LopHoc_GVCN" Member="LopHoc_GVCNs" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_GVCN" />
       <Association Name="LopHoc_GiaoVien_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_MonHocTKB" />
     </Type>
@@ -485,6 +501,7 @@
       <Column Name="MaKhoiLop" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SiSo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaNamHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="LopHoc_Lop_HocSinh_HocSinhLopHoc" Member="HocSinh_HocSinhLopHocs" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="HocSinh_HocSinhLopHoc" />
       <Association Name="LopHoc_Lop_LopHoc_GVCN" Member="LopHoc_GVCNs" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_GVCN" />
       <Association Name="LopHoc_Lop_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_MonHocTKB" />

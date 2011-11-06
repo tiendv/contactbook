@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
     CodeBehind="nhomnguoidung.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.NhomNguoiDung" %>
 
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript" runat="server">
@@ -21,22 +21,15 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
-                            hdfOutput.value = 'false';
+                            args.IsValid = false;
                         } else {
-                            hdfOutput.value = 'true';
+                            args.IsValid = true;
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        alert('Error');
-                        hdfOutput.value = 'false';
+                        args.IsValid = false;
                     }
                 });
-
-                if ($get('<%=hdfOutputAdd.ClientID%>').value == "true") {
-                    args.IsValid = true;
-                } else {
-                    args.IsValid = false;
-                }
             }
 
             function popopEdit_Cancel_Click() {
@@ -104,8 +97,11 @@
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            <asp:Label ID="Label100" runat="server" Text="Tên nhóm người dùng:"></asp:Label>&nbsp;
+            Tên nhóm người dùng:&nbsp;
             <asp:TextBox ID="TxtSearchNhomNguoiDung" runat="server" Width="150px"></asp:TextBox>&nbsp;&nbsp;
+            <ajaxToolkit:TextBoxWatermarkExtender ID="RoleNameWatermark" runat="server" TargetControlID="TxtSearchNhomNguoiDung"
+                WatermarkText="Tất cả">
+            </ajaxToolkit:TextBoxWatermarkExtender>
         </div>
         <div id="divButtonSearch">
             <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
@@ -117,9 +113,10 @@
         <div class="add">
             <asp:ImageButton ID="BtnAddRole" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm nhóm người dùng mới" />
-            <asp:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAddRole" PopupControlID="PnlPopupAdd"
-                BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupAdd" PopupDragHandleControlID="PnlDragPopupAdd">
-            </asp:ModalPopupExtender>
+            <ajaxToolkit:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAddRole"
+                PopupControlID="PnlPopupAdd" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupAdd"
+                PopupDragHandleControlID="PnlDragPopupAdd">
+            </ajaxToolkit:ModalPopupExtender>
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
@@ -139,9 +136,6 @@
                         </td>
                         <td class="middle">
                             Mô tả
-                        </td>
-                        <td class="middle" style="width: 100px">
-                            Có thời hạn
                         </td>
                         <td id="thSuaNhomNguoiDung" runat="server" class="icon">
                             Sửa
@@ -164,17 +158,14 @@
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Description")%>
                         </td>
-                        <td style="height: 40px;">
-                            <%#((bool)DataBinder.Eval(Container.DataItem, "Expired") == true) ? "Có" : "Không"%>
-                        </td>
                         <td id="tdSuaNhomNguoiDung" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
                                 CssClass="EditItemButton" CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "RoleId")%>' />
-                            <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
+                            <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
-                            </asp:ModalPopupExtender>
+                            </ajaxToolkit:ModalPopupExtender>
                         </td>
                         <td id="tdXoaNhomNguoiDung" runat="server" class="icon" style="height: 40px;">
                             <span class="roleName" style="display: none">
@@ -182,10 +173,10 @@
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
                                 CssClass="DeleteItemButton" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "RoleName")%>' />
-                            <asp:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
+                            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
-                            </asp:ModalPopupExtender>
+                            </ajaxToolkit:ModalPopupExtender>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -198,12 +189,7 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG" OnCommand="pager_Command"
-                PageSize="10" ViewStateMode="Enabled" LastClause=">>" GenerateHiddenHyperlinks="False"
-                CompactModePageCount="3" GenerateFirstLastSection="True" GenerateGoToSection="False"
-                FirstClause="<<" BackToFirstClause="Trở về trang đầu" BackToPageClause="Trở về trang"
-                GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="pager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
@@ -217,7 +203,7 @@
             <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa nhóm người dùng này không?"></asp:Label>
+                <asp:Label ID="LblConfirmDelete" runat="server"></asp:Label>
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; clear: both">

@@ -5,18 +5,20 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class CauHinhHeThongDA : BaseDA
+    public class SystemConfigDA : BaseDA
     {
-        public CauHinhHeThongDA()
+        public SystemConfigDA()
             : base()
         {
         }
 
-        public int GetMaNamHocHienHanh()
+        public CauHinh_NamHoc GetCurrentYear()
         {
-            int maNamHocHienHanh = (from cauhinh_Hethong in db.CauHinh_HeThongs
-                                   select cauhinh_Hethong.MaNamHocHienHanh).First();
-            return maNamHocHienHanh;
+            IQueryable<CauHinh_NamHoc> iqYear = from sysConfig in db.CauHinh_HeThongs
+                                                join year in db.CauHinh_NamHocs 
+                                                    on sysConfig.MaNamHocHienHanh equals year.MaNamHoc
+                                                select year;
+            return iqYear.First();
         }
 
         public void UpdateMaNamHocHienHanh(int maNamHocHienHanh)

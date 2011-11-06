@@ -6,39 +6,67 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class GiaoVienDA : BaseDA
+    public class TeacherDA : BaseDA
     {
-        public GiaoVienDA()
+        public TeacherDA()
             : base()
         { }
 
-        public void InsertGiaoVien(LopHoc_GiaoVien giaoVien)
+        public void InsertTeacher(LopHoc_GiaoVien teacher)
         {
-            db.LopHoc_GiaoViens.InsertOnSubmit(giaoVien);
+            db.LopHoc_GiaoViens.InsertOnSubmit(teacher);
             db.SubmitChanges();
         }
 
-        public void UpdateGiaoVien(string maGiaoVien,
-            string tenGiaoVien, bool gioiTinh, DateTime ngaySinh, string diaChi, string dienThoai)
+        public void UpdateTeacher(LopHoc_GiaoVien editedTeacher)
         {
-            LopHoc_GiaoVien giaoVien = (from gv in db.LopHoc_GiaoViens
-                                        where gv.MaHienThiGiaoVien == maGiaoVien
-                                        select gv).First();
-            giaoVien.HoTen = tenGiaoVien;
-            giaoVien.GioiTinh = gioiTinh;
-            giaoVien.NgaySinh = ngaySinh;
-            giaoVien.DiaChi = diaChi;
-            giaoVien.DienThoai = dienThoai;
-            db.SubmitChanges();
+            IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
+                                                    where tchr.MaGiaoVien == editedTeacher.MaGiaoVien
+                                                    select tchr;
+
+            if (iqTeacher.Count() != 0)
+            {
+                LopHoc_GiaoVien teacher = iqTeacher.First();
+                teacher.MaHienThiGiaoVien = editedTeacher.MaHienThiGiaoVien;
+                teacher.HoTen = editedTeacher.HoTen;
+                teacher.GioiTinh = editedTeacher.GioiTinh;
+                teacher.NgaySinh = editedTeacher.NgaySinh;
+                teacher.HinhAnh = editedTeacher.HinhAnh;
+                teacher.DiaChi = editedTeacher.DiaChi;
+                teacher.DienThoai = editedTeacher.DienThoai;
+
+                db.SubmitChanges();
+            }
         }
 
-        public void DeleteGiaoVien(int maGiaoVien)
+        public void DeleteTeacher(LopHoc_GiaoVien deletedTeacher)
         {
-            LopHoc_GiaoVien giaoVien = (from gv in db.LopHoc_GiaoViens
-                                        where gv.MaGiaoVien == maGiaoVien
-                                        select gv).First();
-            db.LopHoc_GiaoViens.DeleteOnSubmit(giaoVien);
-            db.SubmitChanges();
+            IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
+                                                    where tchr.MaGiaoVien == deletedTeacher.MaGiaoVien
+                                                    select tchr;
+
+            if (iqTeacher.Count() != 0)
+            {
+                LopHoc_GiaoVien teacher = iqTeacher.First();
+                db.LopHoc_GiaoViens.DeleteOnSubmit(teacher);
+                db.SubmitChanges();
+            }
+        }
+
+        public LopHoc_GiaoVien GetTeacher(string teacherCode)
+        {
+            LopHoc_GiaoVien teacher = null;
+
+            IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
+                                                    where tchr.MaHienThiGiaoVien == teacherCode
+                                                    select tchr;
+
+            if (iqTeacher.Count() != 0)
+            {
+                teacher = iqTeacher.First();
+            }
+
+            return teacher;
         }
 
         public List<TabularGiaoVien> GetListTabularGiaoViens(string maHienThiGiaoVien, string hoTen,
@@ -141,37 +169,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool MaGiaoVienExists(string maGiaoVien)
-        {
-            IQueryable<LopHoc_GiaoVien> giaoViens;
-            giaoViens = from giaoVien in db.LopHoc_GiaoViens
-                        where giaoVien.MaHienThiGiaoVien == maGiaoVien
-                        select giaoVien;
-
-            if(giaoViens.Count() != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool CanDeleteGiaoVien(int maGiaoVien)
-        {
-            return true;
-        }
-
-        public LopHoc_GiaoVien GetGiaoVien(int maGiaoVien)
-        {
-            LopHoc_GiaoVien giaoVien = (from gv in db.LopHoc_GiaoViens
-                                        where gv.MaGiaoVien == maGiaoVien
-                                        select gv).First();
-            return giaoVien;
-        }        
-
-        public List<TabularGiaoVien> GetListTabularGiaoVienKhongChuNhiems(int maNamHoc, 
+        public List<TabularGiaoVien> GetListTabularGiaoVienKhongChuNhiems(int maNamHoc,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularGiaoVien> tbGiaoViens = from giaoVien in db.LopHoc_GiaoViens
@@ -219,7 +217,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<TabularGiaoVien> GetListTabularGiaoVienKhongChuNhiemsByHoTen(int maNamHoc, 
+        public List<TabularGiaoVien> GetListTabularGiaoVienKhongChuNhiemsByHoTen(int maNamHoc,
             string hoTen, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularGiaoVien> tbGiaoViens = from giaoVien in db.LopHoc_GiaoViens
@@ -268,7 +266,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<TabularGiaoVien> GetListTabularGiaoVienKhongChuNhiemsByMaHienThi(int maNamHoc, 
+        public List<TabularGiaoVien> GetListTabularGiaoVienKhongChuNhiemsByMaHienThi(int maNamHoc,
             string maHienThiGiaoVien, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularGiaoVien> tbGiaoViens = from giaoVien in db.LopHoc_GiaoViens
@@ -317,8 +315,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<TabularGiaoVien> GetListTabularGiaoViens(int maNamHoc, 
-            string maHienThiGiaoVien, string hoTen, 
+        public List<TabularGiaoVien> GetListTabularGiaoViens(int maNamHoc,
+            string maHienThiGiaoVien, string hoTen,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularGiaoVien> tbGiaoViens = from giaoVien in db.LopHoc_GiaoViens
@@ -332,7 +330,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                           NgaySinh = giaoVien.NgaySinh,
                                                           GioiTinh = giaoVien.GioiTinh
                                                       };
-            
+
             if (tbGiaoViens.Count() != 0)
             {
                 List<TabularGiaoVien> lstTbGiaoViens = tbGiaoViens.ToList();
@@ -343,9 +341,9 @@ namespace SoLienLacTrucTuyen.DataAccess
                     giaoVienChuNhiems = from gvcn in db.LopHoc_GVCNs
                                         join giaoVien in db.LopHoc_GiaoViens
                                             on gvcn.MaGiaoVien equals giaoVien.MaGiaoVien
-                                        join lop in db.LopHoc_Lops 
+                                        join lop in db.LopHoc_Lops
                                             on gvcn.MaLopHoc equals lop.MaLopHoc
-                                        where gvcn.MaGiaoVien == lstTbGiaoViens[i].MaGiaoVien                                                                                        
+                                        where gvcn.MaGiaoVien == lstTbGiaoViens[i].MaGiaoVien
                                             && lop.MaNamHoc == maNamHoc
                                         select gvcn;
                     if (giaoVienChuNhiems.Count() != 0)
@@ -368,17 +366,48 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<TabularHoatDongChuNhiem> GetListTbHoatDongChuNhiem(int maGiaoVien, 
+        public bool TeacherCodeExists(string teacherCode)
+        {
+            IQueryable<LopHoc_GiaoVien> giaoViens;
+            giaoViens = from giaoVien in db.LopHoc_GiaoViens
+                        where giaoVien.MaHienThiGiaoVien == teacherCode
+                        select giaoVien;
+
+            if (giaoViens.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsDeletable(LopHoc_GiaoVien teacher)
+        {
+            return true;
+        }
+
+        public LopHoc_GiaoVien GetTeacher(int maGiaoVien)
+        {
+            LopHoc_GiaoVien giaoVien = (from gv in db.LopHoc_GiaoViens
+                                        where gv.MaGiaoVien == maGiaoVien
+                                        select gv).First();
+            return giaoVien;
+        }
+
+        public List<TabularHoatDongChuNhiem> GetListTbHoatDongChuNhiem(int maGiaoVien,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularHoatDongChuNhiem> tbHdongChNhiems;
             tbHdongChNhiems = from chuNhiem in db.LopHoc_GVCNs
-                              join lop in db.LopHoc_Lops 
+                              join lop in db.LopHoc_Lops
                                 on chuNhiem.MaLopHoc equals lop.MaLopHoc
-                              join namHoc in db.CauHinh_NamHocs 
+                              join namHoc in db.CauHinh_NamHocs
                                 on lop.MaNamHoc equals namHoc.MaNamHoc
                               where chuNhiem.MaGiaoVien == maGiaoVien
-                              select new TabularHoatDongChuNhiem {
+                              select new TabularHoatDongChuNhiem
+                              {
                                   MaNamHoc = namHoc.MaNamHoc,
                                   TenNamHoc = namHoc.TenNamHoc,
                                   MaLopHoc = lop.MaLopHoc,
@@ -398,7 +427,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<TabularHoatDongGiangDay> GetListTbHoatDongGiangDay(int maGiaoVien, 
+        public List<TabularHoatDongGiangDay> GetListTbHoatDongGiangDay(int maGiaoVien,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularHoatDongGiangDay> tbHdongGiangDays;
@@ -407,9 +436,9 @@ namespace SoLienLacTrucTuyen.DataAccess
                                     on monHocTKB.MaLopHoc equals lop.MaLopHoc
                                join namHoc in db.CauHinh_NamHocs
                                     on lop.MaNamHoc equals namHoc.MaNamHoc
-                               join monHoc in db.DanhMuc_MonHocs 
+                               join monHoc in db.DanhMuc_MonHocs
                                     on monHocTKB.MaMonHoc equals monHoc.MaMonHoc
-                               join hocKy in db.CauHinh_HocKies 
+                               join hocKy in db.CauHinh_HocKies
                                     on monHocTKB.MaHocKy equals hocKy.MaHocKy
                                where monHocTKB.MaGiaoVien == maGiaoVien
                                select new TabularHoatDongGiangDay
@@ -421,7 +450,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                    MaLopHoc = lop.MaLopHoc,
                                    TenLopHoc = lop.TenLopHoc,
                                    MaMonHoc = monHocTKB.MaMonHoc,
-                                   TenMonHoc = monHoc.TenMonHoc                                   
+                                   TenMonHoc = monHoc.TenMonHoc
                                };
 
             totalRecords = tbHdongGiangDays.Count();
@@ -441,9 +470,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<LopHoc_MonHocTKB> iqThoiKhoaBieu;
             iqThoiKhoaBieu = from tkb in db.LopHoc_MonHocTKBs
-                             where tkb.MaGiaoVien == maGiaoVien 
-                                && tkb.MaHocKy == maHocKy 
-                                && tkb.MaThu == maThu 
+                             where tkb.MaGiaoVien == maGiaoVien
+                                && tkb.MaHocKy == maHocKy
+                                && tkb.MaThu == maThu
                                 && tkb.MaTiet == maTiet
                              select tkb;
             if (iqThoiKhoaBieu.Count() != 0)

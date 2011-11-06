@@ -456,3 +456,5 @@ D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\S
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen.DataAccess.pdb
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.dll
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\SoLienLacTrucTuyen_WebRole\bin\SoLienLacTrucTuyen_WebRole.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\bin\Debug\ServiceConfiguration.cscfg
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen\obj\Debug\ResolveAssemblyReference.cache

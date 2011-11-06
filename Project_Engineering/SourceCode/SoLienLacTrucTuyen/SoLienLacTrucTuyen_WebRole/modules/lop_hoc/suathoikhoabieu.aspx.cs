@@ -138,7 +138,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void FillDDLThu()
         {
-            CauHinhHeThongBL cauHinhBL = new CauHinhHeThongBL();
+            SystemConfigBL cauHinhBL = new SystemConfigBL();
             List<CauHinh_Thu> listThu = cauHinhBL.GetListThu();
             DdlThu.DataSource = listThu;
             DdlThu.DataValueField = "MaThu";

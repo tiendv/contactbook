@@ -40,7 +40,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             if (!Page.IsPostBack)
-            {                
+            {
                 if (dicQueryStrings != null)
                 {
                     LopHocInfo lopHoc = (new LopHocBL()).GetLopHocInfo(maLopHoc);
@@ -242,11 +242,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillDDLKhoi()
         {
-            KhoiLopBL KhoiLopBL = new KhoiLopBL();
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListKhoiLop();
+            GradeBL KhoiLopBL = new GradeBL();
+            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
 
             DdlKhoi.DataSource = lstKhoiLop;
-            DdlKhoi.DataValueField = "MaKhoiLop";
+            DdlKhoi.DataValueField = "TenKhoiLop";
             DdlKhoi.DataTextField = "TenKhoiLop";
             DdlKhoi.DataBind();
         }
@@ -254,59 +254,59 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void FillDDLNganh()
         {
             FacultyBL nganhHocBL = new FacultyBL();
-            List<DanhMuc_NganhHoc> lstNganhs = nganhHocBL.GetListNganhHoc();
+            List<DanhMuc_NganhHoc> lstNganhs = nganhHocBL.GetFaculties();
 
             DdlNganh.DataSource = lstNganhs;
-            DdlNganh.DataValueField = "MaNganhHoc";
+            DdlNganh.DataValueField = "TenNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
             DdlNganh.DataBind();
         }
 
         private void BindRepeaterMonHoc()
         {
-            int maNganhHoc = -1;
-            try
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+            string subjectName = TxtMonHoc.Text.Trim();
+
+            if (DdlNganh.SelectedIndex != 0)
             {
-                maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                faculty = (new FacultyBL()).GetFaculty(DdlNganh.SelectedValue);
             }
-            catch (Exception)
+            else
             {
                 LblSearchResultMonHoc.Visible = true;
                 DataPageMonHoc.Visible = false;
                 return;
             }
 
-            int maKhoiLop = -1;
-            try
+            if (DdlKhoi.SelectedIndex != 0)
             {
-                maKhoiLop = Int32.Parse(DdlKhoi.SelectedValue);
+                grade = (new GradeBL()).GetGrade(DdlKhoi.SelectedValue);
             }
-            catch (Exception)
+            else
             {
                 LblSearchResultMonHoc.Visible = true;
                 DataPageMonHoc.Visible = false;
                 return;
             }
-
-            string tenMonHoc = TxtMonHoc.Text.Trim();
 
             double totalRecords;
-            List<MonHocInfo> lstMonHocInfo = (new MonHocBL()).GetListMonHocInfo(maNganhHoc, maKhoiLop,
-                    tenMonHoc,
+            List<TabularSubject> lTabularSubjects = (new SubjectBL()).GetListTabularSubjects(faculty, grade,
+                    subjectName,
                     DataPageMonHoc.CurrentIndex, DataPageMonHoc.PageSize, out totalRecords);
             DataPageMonHoc.ItemCount = totalRecords;
 
-            bool bDisplayData = (lstMonHocInfo.Count != 0) ? true : false;
+            bool bDisplayData = (lTabularSubjects.Count != 0) ? true : false;
             LblSearchResultMonHoc.Visible = !bDisplayData;
             DataPageMonHoc.Visible = bDisplayData;
 
             BtnSaveMonHoc.Enabled = bDisplayData;
             BtnSaveMonHoc.ImageUrl = (bDisplayData) ? "~/Styles/Images/button_save.png" : "~/Styles/Images/button_save_disable.png";
             RptMonHoc.Visible = bDisplayData;
-            RptMonHoc.DataSource = lstMonHocInfo;
+            RptMonHoc.DataSource = lTabularSubjects;
             RptMonHoc.DataBind();
 
-            if (lstMonHocInfo.Count != 0)
+            if (lTabularSubjects.Count != 0)
             {
                 RepeaterItemCollection items = RptMonHoc.Items;
                 if (items[0].ItemType == ListItemType.Item
@@ -371,7 +371,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                bValid = true;                
+                bValid = true;
             }
 
             if (HdfMaMonHoc.Value == "0")
@@ -402,7 +402,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         LblGiaoVienError.Text = "Giáo viên đang được phân công dạy tại cùng thời gian này";
                         LblGiaoVienError.Visible = true;
                     }
-                }                
+                }
             }
 
             return bValid;

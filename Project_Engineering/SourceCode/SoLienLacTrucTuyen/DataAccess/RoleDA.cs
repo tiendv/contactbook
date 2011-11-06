@@ -25,27 +25,64 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         }
 
-        #region Insert, Delete, Update
-        public void DeleteRole(Guid roleId)
+        public void DeleteRole(string roleName)
         {
-            // Xoa UserManagement_Authorization lien quan
-            IQueryable<UserManagement_Authorization> authorizations;
-            authorizations = from authorization in db.UserManagement_Authorizations
-                             where authorization.RoleId == roleId
-                             select authorization;
-            foreach (UserManagement_Authorization authorization in authorizations)
+            aspnet_Role deletingRole = (from role in db.aspnet_Roles
+                                        where role.RoleName == roleName
+                                        select role).First();
+
+            // delete RoleDetail of deleting role
+            UserManagement_RoleDetail roleDetail;
+            roleDetail = (from roleDetails in db.UserManagement_RoleDetails
+                          where roleDetails.RoleId == deletingRole.RoleId
+                          select roleDetails).First();
+            db.UserManagement_RoleDetails.DeleteOnSubmit(roleDetail);
+            db.SubmitChanges();
+
+            // delete all Authorizations of deleting role
+            IQueryable<UserManagement_Authorization> iqAuthorization;
+            iqAuthorization = from authorization in db.UserManagement_Authorizations
+                              where authorization.RoleId == deletingRole.RoleId
+                              select authorization;
+            foreach (UserManagement_Authorization authorization in iqAuthorization)
             {
                 db.UserManagement_Authorizations.DeleteOnSubmit(authorization);
             }
             db.SubmitChanges();
-            // --Xoa UserManagement_Authorization lien quan
 
-            aspnet_Role deleteRole = (from role in db.aspnet_Roles
-                                      where role.RoleId == roleId
-                                      select role).First();
-            db.aspnet_Roles.DeleteOnSubmit(deleteRole);
+            // delete all Users of deleting role
+            IQueryable<aspnet_User> iqUser;
+            iqUser = from usersInRole in db.aspnet_UsersInRoles
+                     join user in db.aspnet_Users on usersInRole.UserId equals user.UserId
+                     where usersInRole.RoleId == deletingRole.RoleId
+                     select user;
+            foreach (aspnet_User user in iqUser)
+            {
+                Membership.DeleteUser(user.UserName, true);
+            }
+
+            // delete role
+            db.aspnet_Roles.DeleteOnSubmit(deletingRole);
             db.SubmitChanges();
-        }      
+        }
+
+        public void UpdateRole(string oldRoleName, string newRoleName, string description)
+        {
+            aspnet_Role role = (from rl in db.aspnet_Roles
+                                where rl.RoleName == oldRoleName
+                                select rl).First();
+            role.RoleName = newRoleName;
+            Guid roleId = role.RoleId;
+            db.SubmitChanges();
+
+            role.UserManagement_RoleDetail.Description = description;
+            //UserManagement_RoleDetail roleDetail;
+            //roleDetail = (from roleDt in db.UserManagement_RoleDetails
+            //              where roleDt.RoleId == roleId
+            //              select roleDt).First();
+            //roleDetail.Description = description;
+            db.SubmitChanges();
+        }
 
         public void CreateRoleDetail(string roleName, string description)
         {
@@ -53,6 +90,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                            where role.RoleName == roleName
                            select role.RoleId).First();
 
+            // create new RoleDetail of Role
             UserManagement_RoleDetail roleDetail = new UserManagement_RoleDetail
             {
                 RoleId = roleId,
@@ -61,28 +99,29 @@ namespace SoLienLacTrucTuyen.DataAccess
                 CanBeDeleted = true,
                 Actived = true
             };
-
             db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
             db.SubmitChanges();
 
-            db.UserManagement_Authorizations.InsertOnSubmit(
-                new UserManagement_Authorization()
-                {
-                    RoleId = roleId,
-                    AuthorizedPagePathId = 1
-                });
+            // create default Authorization of Role
+            UserManagement_Authorization authorization = new UserManagement_Authorization
+            {
+                RoleId = roleId,
+                AuthorizedPagePathId = 1 // Home page
+            };
+            db.UserManagement_Authorizations.InsertOnSubmit(authorization);
             db.SubmitChanges();
         }
 
-        public void UpdateRoleDetail(string roleName, 
-            string description, bool expired, bool canBeDeleted, bool actived)
+        public void UpdateRoleDetail(string roleName, string description, bool expired, bool canBeDeleted, bool actived)
         {
+            // get RoleDetail
             UserManagement_RoleDetail roleDetail;
             roleDetail = (from roleDetails in db.UserManagement_RoleDetails
-                         join role in db.aspnet_Roles on roleDetails.RoleId equals role.RoleId
-                         where role.RoleName == roleName
-                         select roleDetails).First();
+                          join role in db.aspnet_Roles on roleDetails.RoleId equals role.RoleId
+                          where role.RoleName == roleName
+                          select roleDetails).First();
 
+            // change RoleDetail of properties
             roleDetail.Expired = expired;
             roleDetail.CanBeDeleted = canBeDeleted;
             roleDetail.Actived = actived;
@@ -90,38 +129,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             db.SubmitChanges();
         }
 
-        #endregion
-        
-        #region Checking methods
-        public bool CanDeleteRole(string roleName)
+        public bool RoleExists(string roleName)
         {
-            bool bCanBeDel = (from role in db.aspnet_Roles
-                              join roleDetail in db.UserManagement_RoleDetails
-                                on role.RoleId equals roleDetail.RoleId
-                              where role.RoleName == roleName
-                              select roleDetail.CanBeDeleted).First();
-            if (bCanBeDel)
-            {
-                IQueryable<aspnet_UsersInRole> usersInRoles;
-                usersInRoles = from usersInRole in db.aspnet_UsersInRoles
-                               join role in db.aspnet_Roles on usersInRole.RoleId equals role.RoleId
-                               where role.RoleName == roleName
-                               select usersInRole;
-                if (usersInRoles.Count() != 0)
-                {
-                    bCanBeDel = false;
-                }
-            }
-
-            return bCanBeDel;
-        }
-
-        public bool ExistNhomNguoiDung(Guid maNhomNguoiDung, string tenNhomNguoiDung)
-        {
-            IQueryable<aspnet_Role> roles = from role in db.aspnet_Roles
-                                            where role.RoleId == maNhomNguoiDung && role.RoleName == tenNhomNguoiDung
-                                            select role;
-            if (roles.Count() != 0)
+            IQueryable<aspnet_Role> iqRole = from role in db.aspnet_Roles
+                                             where role.RoleName == roleName
+                                             select role;
+            if (iqRole.Count() != 0)
             {
                 return true;
             }
@@ -131,19 +144,58 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool CanBeExpired(Guid roleId)
+        public bool RoleExists(string exceptedRoleName, string roleName)
+        {
+            IQueryable<aspnet_Role> iqRole = from role in db.aspnet_Roles
+                                             where role.RoleName != exceptedRoleName
+                                                 && role.RoleName == roleName
+                                             select role;
+            if (iqRole.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool IsDeletableRole(string roleName)
+        {
+            aspnet_Role role = (from rl in db.aspnet_Roles
+                                where rl.RoleName == roleName
+                                select rl).First();
+
+            if (role.UserManagement_RoleDetail.CanBeDeleted)
+            {
+                if (role.aspnet_UsersInRoles.Count != 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsExpirable(Guid roleId)
         {
             bool bExpired = (from role in db.aspnet_Roles
                              join roleDetail in db.UserManagement_RoleDetails
                                 on role.RoleId equals roleDetail.RoleId
-                            where role.RoleId == roleId
-                            select roleDetail.Expired).First();
-            return bExpired;                 
+                             where role.RoleId == roleId
+                             select roleDetail.Expired).First();
+            return bExpired;
         }
-        #endregion
 
-        #region Get (List)NhomNguoiDung
-        public TabularRole GetTbRole(Guid roleId)
+        public aspnet_Role GetRole(string roleName)
+        {
+            aspnet_Role role = (from rl in db.aspnet_Roles
+                                where rl.RoleName == roleName
+                                select rl).First();
+            return role;
+        }
+
+        public TabularRole GetTabRole(Guid roleId)
         {
             IQueryable<TabularRole> tbRoles = from role in db.aspnet_Roles
                                               join roleDetail in db.UserManagement_RoleDetails
@@ -225,14 +277,12 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             return lstTbRoles;
         }
-        
-        #endregion
 
         public List<AccessibilityEnum> GetAccessibilities(Guid roleId, string pageUrl)
         {
             IQueryable<int> pageUrlBasedFunctionIds;
             pageUrlBasedFunctionIds = from pagePath in db.UserManagement_PagePaths
-                                      join authorizedPage in db.UserManagement_AuthorizedPages 
+                                      join authorizedPage in db.UserManagement_AuthorizedPages
                                         on pagePath.PagePathId equals authorizedPage.PagePathId
                                       where pagePath.PhysicalPath == pageUrl
                                       select authorizedPage.FunctionId;
@@ -290,23 +340,40 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lstRoles;
         }
 
-        public Guid GetRoleAdmin()
+        public List<aspnet_Role> GetRolesForAddingUser()
         {
-            Guid adminRoleId = (from param in db.System_Parameters
-                                select param.AdminRoleId).First();
-            return adminRoleId;
+            List<aspnet_Role> roles = new List<aspnet_Role>();
+
+            Guid formerTeacherRoleId = (from param in db.System_Parameters select param.RoleGVCNId).First();
+            Guid subjectTeacherRoleId = (from param in db.System_Parameters select param.RoleGVBMId).First();
+
+            IQueryable<aspnet_Role> iqRole;
+            iqRole = from role in db.aspnet_Roles
+                     join roleDetail in db.UserManagement_RoleDetails
+                         on role.RoleId equals roleDetail.RoleId
+                     where roleDetail.ParentRoleId == null
+                        && role.RoleId != formerTeacherRoleId
+                        && role.RoleId != subjectTeacherRoleId
+                     select role;
+
+            if (iqRole.Count() != 0)
+            {
+                roles = iqRole.OrderBy(role => role.RoleName).ToList();
+            }
+
+            return roles;
         }
 
         public bool ValidateAuthorization(Guid role, string pageUrl)
-        {            
-            IQueryable<int> authorizationIds =  from authorizedPage in db.UserManagement_AuthorizedPages
-                                                join pagePath in db.UserManagement_PagePaths 
-                                                    on authorizedPage.PagePathId equals pagePath.PagePathId
-                                                join authorization in db.UserManagement_Authorizations
-                                                    on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
-                                                where pagePath.PhysicalPath == pageUrl
-                                                    && authorization.RoleId == role
-                                                select authorization.AuthorizationId;
+        {
+            IQueryable<int> authorizationIds = from authorizedPage in db.UserManagement_AuthorizedPages
+                                               join pagePath in db.UserManagement_PagePaths
+                                                   on authorizedPage.PagePathId equals pagePath.PagePathId
+                                               join authorization in db.UserManagement_Authorizations
+                                                   on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
+                                               where pagePath.PhysicalPath == pageUrl
+                                                   && authorization.RoleId == role
+                                               select authorization.AuthorizationId;
             if (authorizationIds.Count() != 0)
             {
                 return true;
@@ -317,152 +384,92 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void DeleteRole(string roleName)
+        public bool ValidateAuthorization(List<aspnet_Role> roles, string pageUrl)
         {
-            aspnet_Role deletingRole = (from role in db.aspnet_Roles
-                                       where role.RoleName == roleName
-                                       select role).First();
-
-            UserManagement_RoleDetail roleDetail;
-            roleDetail = (from roleDetails in db.UserManagement_RoleDetails                          
-                          where roleDetails.RoleId == deletingRole.RoleId
-                          select roleDetails).First();
-            db.UserManagement_RoleDetails.DeleteOnSubmit(roleDetail);
-            db.SubmitChanges();
-
-            IQueryable<UserManagement_Authorization> authorizations;
-            authorizations = from authorization in db.UserManagement_Authorizations
-                             where authorization.RoleId == deletingRole.RoleId
-                             select authorization;
-            foreach (UserManagement_Authorization authorization in authorizations)
+            foreach (aspnet_Role role in roles)
             {
-                db.UserManagement_Authorizations.DeleteOnSubmit(authorization);
-            }
-            db.SubmitChanges();
-
-            List<Guid> deleteUserIds = new List<Guid>();
-            IQueryable<aspnet_User> users;
-            users = from usersInRole in db.aspnet_UsersInRoles
-                    join user in db.aspnet_Users 
-                        on usersInRole.UserId equals user.UserId
-                    where usersInRole.RoleId == deletingRole.RoleId
-                    select user;
-            foreach (aspnet_User user in users)
-            {
-                Membership.DeleteUser(user.UserName, true);
+                IQueryable<int> authorizationIds;
+                authorizationIds = from authorizedPage in db.UserManagement_AuthorizedPages
+                                   join pagePath in db.UserManagement_PagePaths
+                                       on authorizedPage.PagePathId equals pagePath.PagePathId
+                                   join authorization in db.UserManagement_Authorizations
+                                       on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
+                                   where pagePath.PhysicalPath == pageUrl
+                                       && authorization.RoleId == role.RoleId
+                                   select authorization.AuthorizationId;
+                if (authorizationIds.First() != null)
+                {
+                    return true;
+                }
             }
 
-            db.aspnet_Roles.DeleteOnSubmit(deletingRole);
-            db.SubmitChanges();
-
-        }
-
-        public bool RoleExists(string roleName)
-        {
-            IQueryable<aspnet_Role> roles = from role in db.aspnet_Roles
-                                            where role.RoleName == roleName
-                                            select role;
-            if (roles.Count() != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void UpdateRole(string roleName, string newRoleName, string description)
-        {
-            aspnet_Role updateRole = (from role in db.aspnet_Roles
-                                      where role.RoleName == roleName
-                                      select role).First();
-            updateRole.RoleName = newRoleName;
-            Guid roleId = updateRole.RoleId;
-            db.SubmitChanges();
-
-            UserManagement_RoleDetail roleDetail;
-            roleDetail = (from roleDt in db.UserManagement_RoleDetails
-                          where roleDt.RoleId == roleId
-                          select roleDt).First();
-            roleDetail.Description = description;
-            db.SubmitChanges(); 
+            return false;
         }
 
         public void AddUserToRole(string userName, string roleName)
         {
-            Guid userId = (from user in db.aspnet_Users
-                          where user.UserName == userName
-                          select user.UserId).First();
-            
-            Guid roleId = (from role in db.aspnet_Roles
-                           where role.RoleName == roleName
-                           select role.RoleId).First();
+            aspnet_Role role = GetRole(roleName);
+            aspnet_User user = (new UserDA()).GetUser(userName);
 
             aspnet_UsersInRole usersInRole = new aspnet_UsersInRole
             {
-                RoleId = roleId,
-                UserId = userId
+                RoleId = role.RoleId,
+                UserId = user.UserId
             };
-
             db.aspnet_UsersInRoles.InsertOnSubmit(usersInRole);
             db.SubmitChanges();
         }
 
-        public bool IsRoleParents(string roleName)
+        public void AddUserToRoleTeacher(string teacherCode)
         {
-            Guid roleParentsId = (from param in db.System_Parameters
-                                 select param.ParentsRoleId).First();
+            Guid userId = (from user in db.aspnet_Users
+                           where user.UserName == teacherCode
+                           select user.UserId).First();
 
-            string roleParentsName = (from role in db.aspnet_Roles
-                                     where role.RoleId == roleParentsId
-                                     select role.RoleName).First();
-            if (roleParentsName == roleName)
+            // Xác định xem giáo viên này có chủ nhiệm lớp nào không?
+            IQueryable<LopHoc_GiaoVien> iqGiaoVien;
+            iqGiaoVien = from giaoVien in db.LopHoc_GiaoViens
+                         join GVNCN in db.LopHoc_GVCNs on giaoVien.MaGiaoVien equals GVNCN.MaGiaoVien
+                         where giaoVien.MaHienThiGiaoVien == teacherCode
+                         select giaoVien;
+            if (iqGiaoVien.Count() != 0)
             {
-                return true;
+                Guid formerTeacherRoleId = (from param in db.System_Parameters select param.RoleGVCNId).First();
+                db.aspnet_UsersInRoles.InsertOnSubmit(new aspnet_UsersInRole
+                {
+                    RoleId = formerTeacherRoleId,
+                    UserId = userId
+                });
             }
-            else
-            {
-                return false;
-            }
-        }
 
-        public bool IsRelatedRoleParents(Guid roleId)
-        {
-            Guid roleParentsId = (from param in db.System_Parameters
-                                  select param.ParentsRoleId).First();
-            if (roleId == roleParentsId)
+            // Xác định xem giáo viên này có day lớp nào không?
+            iqGiaoVien = from giaoVien in db.LopHoc_GiaoViens
+                         join tkb in db.LopHoc_MonHocTKBs on giaoVien.MaGiaoVien equals tkb.MaGiaoVien
+                         where giaoVien.MaHienThiGiaoVien == teacherCode
+                         select giaoVien;
+            
+            if (iqGiaoVien.Count() != 0)
             {
-                return true;
-            }
-            else
-            {
-                IQueryable<aspnet_Role> relatedsRoleParents = from role in db.aspnet_Roles
-                                                              join roleDetail in db.UserManagement_RoleDetails
-                                                                on role.RoleId equals roleDetail.RoleId
-                                                              where (role.RoleId == roleId)
-                                                                && (roleDetail.ParentRoleId == roleParentsId)
-                                                              select role;
-                if (relatedsRoleParents.Count() != 0)
+                Guid subjectTeacherRoleId = (from param in db.System_Parameters select param.RoleGVBMId).First();
+                db.aspnet_UsersInRoles.InsertOnSubmit(new aspnet_UsersInRole
                 {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                    RoleId = subjectTeacherRoleId,
+                    UserId = userId
+                });
             }
+
+            db.SubmitChanges();
         }
 
         public List<UserManagement_Function> GetListRoleParentsBasedFunctions()
         {
-            List<UserManagement_Function> lstRoleBasedFunctions = new List<UserManagement_Function>();            
-            
+            List<UserManagement_Function> lstRoleBasedFunctions = new List<UserManagement_Function>();
+
             IQueryable<UserManagement_Function> functions;
             functions = from function in db.UserManagement_Functions
                         where function.FunctionFlag == FunctionFlag.GetName(typeof(FunctionFlag), FunctionFlag.PARENTSONLY)
                         select function;
-            if(functions.Count() != 0)
+            if (functions.Count() != 0)
             {
                 lstRoleBasedFunctions = functions.ToList();
             }
@@ -474,7 +481,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             lstFunctions.Sort();
             Guid roleParentsId = (from param in db.System_Parameters
-                                 select param.ParentsRoleId).First();
+                                  select param.ParentsRoleId).First();
 
             IQueryable<aspnet_Role> childRoleParents = from role in db.aspnet_Roles
                                                        join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
@@ -484,10 +491,10 @@ namespace SoLienLacTrucTuyen.DataAccess
             foreach (aspnet_Role child in childRoleParents)
             {
                 IQueryable<int> roleBasedFunctions = from authorizedPage in db.UserManagement_AuthorizedPages
-                                                                join authorization in db.UserManagement_Authorizations 
-                                                                    on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
-                                                                where authorization.RoleId == child.RoleId
-                                                                select authorizedPage.FunctionId;
+                                                     join authorization in db.UserManagement_Authorizations
+                                                         on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
+                                                     where authorization.RoleId == child.RoleId
+                                                     select authorizedPage.FunctionId;
                 if (roleBasedFunctions.Count() != 0)
                 {
                     List<int> lstRoleBasedFunctions = roleBasedFunctions.Distinct().ToList();
@@ -498,7 +505,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                         int i;
                         for (i = 0; i < lstRoleBasedFunctions.Count; i++)
                         {
-                            if(!lstFunctions.Contains(lstRoleBasedFunctions[i]))
+                            if (!lstFunctions.Contains(lstRoleBasedFunctions[i]))
                             {
                                 break;
                             }
@@ -511,18 +518,25 @@ namespace SoLienLacTrucTuyen.DataAccess
                 }
             }
 
-            return "";                         
+            return "";
         }
 
-        public bool IsRoleGiaoVienChuNhiem(string roleName)
+        public Guid GetRoleAdminId()
         {
-            Guid roleGVCNId = (from param in db.System_Parameters
-                              select param.RoleGVCNId).First();
-            string roleGVCNName = (from role in db.aspnet_Roles
-                                   where role.RoleId == roleGVCNId
-                                   select role.RoleName).First();
+            Guid adminRoleId = (from param in db.System_Parameters
+                                select param.AdminRoleId).First();
+            return adminRoleId;
+        }
 
-            if (roleName == roleGVCNName)
+        public bool IsRoleParents(string roleName)
+        {
+            IQueryable<aspnet_Role> iqRoleParents;
+            iqRoleParents = from role in db.aspnet_Roles
+                            join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
+                            where role.RoleName == roleName
+                            select role;
+
+            if (iqRoleParents.Count() != 0)
             {
                 return true;
             }
@@ -532,16 +546,43 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsRoleGiaoVienBoMon(string roleName)
+        public bool IsRoleParentsChildRole(Guid roleId)
         {
-            Guid roleGVBMId = (from param in db.System_Parameters
-                               select param.RoleGVBMId).First();
+            aspnet_Role roleParents = (from role in db.aspnet_Roles
+                                       join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
+                                       select role).First();
 
-            string roleGVBMName = (from role in db.aspnet_Roles
-                                   where role.RoleId == roleGVBMId
-                                   select role.RoleName).First();
+            if (roleParents.RoleId == roleId)
+            {
+                return true;
+            }
+            else
+            {
+                IQueryable<aspnet_Role> iqRole;
+                iqRole = from role in db.aspnet_Roles
+                         join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
+                         where (role.RoleId == roleId) && (roleDetail.ParentRoleId == roleParents.RoleId)
+                         select role;
+                if (iqRole.Count() != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
-            if (roleName == roleGVBMName)
+        public bool IsRoleFormerTeacher(string roleName)
+        {
+            IQueryable<aspnet_Role> iqFormerTeacherRole;
+            iqFormerTeacherRole = from role in db.aspnet_Roles
+                                  join param in db.System_Parameters on role.RoleId equals param.RoleGVCNId
+                                  where role.RoleName == roleName
+                                  select role;
+
+            if (iqFormerTeacherRole.Count() != 0)
             {
                 return true;
             }
@@ -551,13 +592,15 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool RoleExists(string roleName, string newRoleName)
+        public bool IsRoleSubjectTeacher(string roleName)
         {
-            IQueryable<aspnet_Role> roles = from role in db.aspnet_Roles
-                                            where role.RoleName != roleName
-                                                && role.RoleName == newRoleName
-                                            select role;
-            if (roles.Count() != 0)
+            IQueryable<aspnet_Role> iqSbjTeacherRole;
+            iqSbjTeacherRole = from role in db.aspnet_Roles
+                               join param in db.System_Parameters on role.RoleId equals param.RoleGVBMId
+                               where role.RoleName == roleName
+                               select role;
+
+            if (iqSbjTeacherRole.Count() != 0)
             {
                 return true;
             }

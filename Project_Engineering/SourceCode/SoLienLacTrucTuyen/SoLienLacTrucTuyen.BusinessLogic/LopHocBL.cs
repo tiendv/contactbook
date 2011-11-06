@@ -56,6 +56,32 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lophocDA.GetLopHocInfo(maLopHoc);
         }
 
+        public List<LopHoc_Lop> GetListClasses(int maNganhHoc, DanhMuc_KhoiLop grade, int maNamHoc)
+        {
+            if (maNganhHoc == 0)
+            {
+                if (grade == null)
+                {
+                    return lophocDA.GetListLopHoc(maNamHoc);
+                }
+                else
+                {
+                    return lophocDA.GetListLopHocByKhoiLop(grade.MaKhoiLop, maNamHoc);
+                }
+            }
+            else
+            {
+                if (grade == null)
+                {
+                    return lophocDA.GetListLopHocByNganhHoc(maNganhHoc, maNamHoc);
+                }
+                else
+                {
+                    return lophocDA.GetListLopHoc(maNganhHoc, grade.MaKhoiLop, maNamHoc);
+                }
+            }
+        }
+
         public List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
         {
             if (maNganhHoc == 0)

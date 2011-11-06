@@ -53,12 +53,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return ngayNghiHocDA.GetNgayNghiHoc(maHocSinh, maNamHoc, maHocKy, ngay);
         }
 
-        public List<TabularNgayNghiHoc> GetListTabularNgayNghiHoc(int maHocSinh,
+        public List<TabularDayOff> GetListTabularNgayNghiHoc(int maHocSinh,
             int maNamHoc, int maHocKy,
             DateTime tuNgay, DateTime denNgay,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            return ngayNghiHocDA.GetListTabularNgayNghiHoc(maHocSinh, maNamHoc, maHocKy,
+            return ngayNghiHocDA.GetListTabularDayOffs(maHocSinh, maNamHoc, maHocKy,
                 tuNgay, denNgay,
                 pageCurrentIndex, pageSize, out totalRecords);
         }

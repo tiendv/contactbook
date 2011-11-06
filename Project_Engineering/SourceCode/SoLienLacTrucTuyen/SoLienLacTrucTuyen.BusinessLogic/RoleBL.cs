@@ -61,7 +61,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public TabularRole GetTbRole(Guid roleId)
         {
-            return roleDA.GetTbRole(roleId);
+            return roleDA.GetTabRole(roleId);
         }        
 
         public List<aspnet_Role> GetListRoles()
@@ -70,9 +70,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return roleDA.GetListRoles(parentRoleOnly);
         }
 
+        public List<aspnet_Role> GetRolesForAddingUser()
+        {
+            return roleDA.GetRolesForAddingUser();
+        }
+
         public Guid GetRoleAdmin()
         {
-            return roleDA.GetRoleAdmin();
+            return roleDA.GetRoleAdminId();
         }
 
         public bool IsRoleParents(string roleName)
@@ -83,7 +88,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool ValidateAuthorization(Guid role, string pageUrl)
         {
             return roleDA.ValidateAuthorization(role, pageUrl);
-        }        
+        }
+
+        public bool ValidateAuthorization(List<aspnet_Role> roles, string pageUrl)
+        {
+            return roleDA.ValidateAuthorization(roles, pageUrl);
+        }
 
         public bool RoleExists(string roleName)
         {
@@ -97,7 +107,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void AddUserToRole(string userName, string roleName)
         {
-            roleDA.AddUserToRole(userName, roleName);
+            if (roleName == "Giáo viên")
+            {
+                roleDA.AddUserToRoleTeacher(userName);
+            }
+            else
+            {
+                roleDA.AddUserToRole(userName, roleName);
+            }
         }        
 
         public List<UserManagement_Function> GetListRoleParentsBasedFunctions()
@@ -112,17 +129,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool CanDeleteRole(string roleName)
         {
-            return roleDA.CanDeleteRole(roleName);
+            return roleDA.IsDeletableRole(roleName);
         }
 
         public bool IsRoleGiaoVienChuNhiem(string roleName)
         {
-            return roleDA.IsRoleGiaoVienChuNhiem(roleName);
+            return roleDA.IsRoleFormerTeacher(roleName);
         }
 
         public bool IsRoleGiaoVienBoMon(string roleName)
         {
-            return roleDA.IsRoleGiaoVienBoMon(roleName);
+            return roleDA.IsRoleSubjectTeacher(roleName);
         }
 
     }

@@ -5,11 +5,15 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class DDLFormatHocSinh
+    public class StudentDropdownListItem
     {
-        public int MaHocSinh { get; set; }
-        public int MaHocSinhLopHoc { get; set; }
-        public string MaHocSinhHienThi { get; set; }
-        public string HoTen { get; set; }
+        public int StudentId { get; set; }        
+        public string StudentCode { get; set; }
+        public string StudentName { get; set; }
+
+        public int StudentInClassId { get; set; }
+
+        public const string STUDENT_CODE = "StudentCode";
+        public const string STUDENT_IN_CLASS_ID = "StudentInClassId";
     }
 }

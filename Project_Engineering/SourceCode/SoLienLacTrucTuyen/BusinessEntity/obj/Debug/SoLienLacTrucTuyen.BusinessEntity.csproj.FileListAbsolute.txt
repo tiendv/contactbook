@@ -17,3 +17,10 @@ D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\B
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\ResolveAssemblyReference.cache
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll.CodeAnalysisLog.xml
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll.lastcodeanalysissucceeded
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\ResolveAssemblyReference.cache
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\BusinessEntity\obj\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb

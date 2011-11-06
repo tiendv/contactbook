@@ -6,38 +6,38 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class CauHinhHeThongBL
+    public class SystemConfigBL
     {
-        private CauHinhHeThongDA cauHinhHeThongDA;
+        private SystemConfigDA sysConfigDA;
 
-        public CauHinhHeThongBL()
+        public SystemConfigBL()
         {
-            cauHinhHeThongDA = new CauHinhHeThongDA();
+            sysConfigDA = new SystemConfigDA();
         }
 
-        public int GetMaNamHocHienHanh()
+        public CauHinh_NamHoc GetCurrentYear()
         {
-            return cauHinhHeThongDA.GetMaNamHocHienHanh();
+            return sysConfigDA.GetCurrentYear();
         }
 
         public void UpdateMaNamHocHienHanh(int maNamHocHienHanh)
         {
-            cauHinhHeThongDA.UpdateMaNamHocHienHanh(maNamHocHienHanh);
+            sysConfigDA.UpdateMaNamHocHienHanh(maNamHocHienHanh);
         }
 
         public int GetMaHocKyHienHanh()
         {
-            return cauHinhHeThongDA.GetMaHocKyHienHanh();
+            return sysConfigDA.GetMaHocKyHienHanh();
         }
 
         public void UpdateMaHocKyHienHanh(int maHocKyHienHanh)
         {
-            cauHinhHeThongDA.UpdateMaHocKyHienHanh(maHocKyHienHanh);
+            sysConfigDA.UpdateMaHocKyHienHanh(maHocKyHienHanh);
         }
 
         public List<CauHinh_Thu> GetListThu()
         {
-            return cauHinhHeThongDA.GetListThu();
+            return sysConfigDA.GetListThu();
         }
     }
 }
