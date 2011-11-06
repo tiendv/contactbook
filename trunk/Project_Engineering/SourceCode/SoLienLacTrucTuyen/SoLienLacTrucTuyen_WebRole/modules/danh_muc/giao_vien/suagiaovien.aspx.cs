@@ -76,7 +76,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             ngaySinh = DateTime.Parse(strNgaySinh);
-            giaoVienBL.UpdateGiaoVien(maGiaoVien, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
+
+            LopHoc_GiaoVien editedTeacher = giaoVienBL.GetTeacher(maGiaoVien);
+            giaoVienBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
 
             if ((string)ViewState["prevpageid"] == "1")
             {

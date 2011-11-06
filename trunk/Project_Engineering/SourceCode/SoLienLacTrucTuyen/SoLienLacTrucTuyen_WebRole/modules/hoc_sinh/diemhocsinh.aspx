@@ -172,6 +172,7 @@
                             <ItemTemplate>
                                 <td style="height: 40px">
                                     <asp:HiddenField ID="HdfMaLoaiDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLoaiDiem")%>' />
+                                    <asp:HiddenField ID="HdfTenLoaiDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>' />
                                     <asp:HiddenField ID="HdfDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>' />
                                     <asp:TextBox ID="TxtDiems" runat="server" CssClass="MarkTextBox" Style="width: 98%;
                                         height: 25px" Text='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>'></asp:TextBox>

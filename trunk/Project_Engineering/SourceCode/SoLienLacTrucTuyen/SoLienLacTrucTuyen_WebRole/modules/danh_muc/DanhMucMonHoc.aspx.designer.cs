@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class DanhMucMonHoc {
         
         /// <summary>
-        /// UpdatePanel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
         /// DdlNganh control.
         /// </summary>
         /// <remarks>
@@ -40,13 +31,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
         
         /// <summary>
-        /// DdlMonHoc control.
+        /// TxtSearchedSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlMonHoc;
+        protected global::System.Web.UI.WebControls.TextBox TxtSearchedSubject;
+        
+        /// <summary>
+        /// TextBoxWatermarkExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender TextBoxWatermarkExtender1;
         
         /// <summary>
         /// BtnSearch control.
@@ -83,6 +83,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
+        
+        /// <summary>
+        /// HfdSelectedSubjectName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HfdSelectedSubjectName;
+        
+        /// <summary>
+        /// HdfFacultyName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfFacultyName;
+        
+        /// <summary>
+        /// HdfGradeName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfGradeName;
         
         /// <summary>
         /// HdfMaMonHoc control.

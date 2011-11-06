@@ -115,13 +115,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
 
             DdlHocKyThem.DataSource = lstHocKy;
             DdlHocKyThem.DataValueField = "MaHocKy";
             DdlHocKyThem.DataTextField = "TenHocKy";
             DdlHocKyThem.DataBind();
-            DdlHocKyThem.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
         }
 
         private void BindDropDownListThaiDoThamGia()

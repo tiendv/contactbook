@@ -42,7 +42,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 lMaLoaiDiems.Add(diem.MaLoaiDiem);
             }
             lMaLoaiDiems = lMaLoaiDiems.Distinct().ToList();
-            kqhtDA.DeleteChiTietDiem(maHocSinh, maLopHoc, hocKy, maMonHoc, lMaLoaiDiems);
+            //kqhtDA.DeleteChiTietDiem(maHocSinh, maLopHoc, hocKy, maMonHoc, lMaLoaiDiems);
 
             int i = 0;
             while(i < chiTietDiems.Count)
@@ -57,8 +57,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            kqhtDA.InsertChiTietDiem(maHocSinh, maLopHoc, hocKy, maMonHoc,
-                chiTietDiems);
+            //kqhtDA.InsertChiTietDiem(maHocSinh, maLopHoc, hocKy, maMonHoc,
+            //    chiTietDiems);
         }
 
         public void InsertChiTietDiem(int maDiemMonHK, int maLoaiDiem, double diem)
@@ -134,60 +134,118 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             kqhtDA.UpDateDanhHieuHocSinhByHanhKiem(maDanhHieuHSHK, maHanhKiem);
         }
 
-        public List<TabularDanhHieuHocSinh> GetListTabularDanhHieuHocSinh(int maHocSinh, int maNamHoc,
+        public List<TabularTermStudentResult> GetListTabularDanhHieuHocSinh(int maHocSinh, int maNamHoc,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            return kqhtDA.GetListTabularDanhHieuHocSinh(maHocSinh, maNamHoc,
+            return kqhtDA.GetListTabularTermStudentResult(maHocSinh, maNamHoc,
                 pageCurrentIndex, pageSize, out totalRecords);
         }
         #endregion
 
-        public List<TabularDiemHocSinh> GetListDiemHocSinh(int maLopHoc, int maMonHoc, 
-            int maHocKy, int maLoaiDiem,
+        public List<TabularDiemHocSinh> GetListDiemHocSinh(int maLopHoc, int maMonHoc,
+            int maHocKy, List<DanhMuc_LoaiDiem> markTypes,
             int pageCurrentIndex, int pageSize, out double totalRecord)
         {
-            LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
-            List<DanhMuc_LoaiDiem> lLoaiDiems = loaiDiemBL.GetListLoaiDiem(maLoaiDiem);
             return kqhtDA.GetListDiemHocSinh(maLopHoc, maMonHoc, maHocKy,
-                lLoaiDiems,
+                markTypes,
                 pageCurrentIndex, pageSize, out totalRecord);
         }
 
-        public bool ValidateMark(string marks, int markTypeCode)
+        //public List<TabularDiemHocSinh> GetListDiemHocSinh(int maLopHoc, int maMonHoc,
+        //    int maHocKy, int maLoaiDiem,
+        //    int pageCurrentIndex, int pageSize, out double totalRecord)
+        //{
+        //    MarkTypeBL loaiDiemBL = new MarkTypeBL();
+        //    List<DanhMuc_LoaiDiem> lLoaiDiems = loaiDiemBL.GetListLoaiDiem(maLoaiDiem);
+        //    return kqhtDA.GetListDiemHocSinh(maLopHoc, maMonHoc, maHocKy,
+        //        lLoaiDiems,
+        //        pageCurrentIndex, pageSize, out totalRecord);
+        //}
+
+        //public bool ValidateMark(string marks, int markTypeCode)
+        //{
+        //    marks = marks.Trim();
+        //    if (marks != "")
+        //    {
+        //        string[] strMarks = marks.Split(',');
+        //        short totalMarkCount = 0;
+        //        foreach (string strMark in strMarks)
+        //        {
+        //            double dMark = -1;
+        //            if (double.TryParse(strMark.Trim(), out dMark))
+        //            {
+        //                if (dMark > 10)
+        //                {
+        //                    return false;
+        //                }
+        //                else
+        //                {
+        //                    totalMarkCount++;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                return false;
+        //            }
+        //        }
+
+        //        MarkTypeBL loaiDiemBL = new MarkTypeBL();
+        //        DanhMuc_LoaiDiem loaiDiem = loaiDiemBL.GetLoaiDiem(markTypeCode);
+        //        if (totalMarkCount > loaiDiem.SoCotToiDa)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
+
+        public bool ValidateMark(string marks, string markTypeName)
         {
+            bool bValid = true;
+
             marks = marks.Trim();
-            if (marks != "")
+
+            if (marks != "") // Only validate when marks has value
             {
                 string[] strMarks = marks.Split(',');
-                short totalMarkCount = 0;
+                short markCount = 0;
+
+                // loop in each mark
                 foreach (string strMark in strMarks)
                 {
-                    double dMark = -1;
+                    double dMark = 0;
                     if (double.TryParse(strMark.Trim(), out dMark))
                     {
-                        if (dMark > 10)
+                        if (dMark > 10) // mark over 10
                         {
-                            return false;
+                            bValid = false;
+                            break;
                         }
                         else
                         {
-                            totalMarkCount++;
+                            markCount++;
                         }
                     }
                     else
                     {
-                        return false;
+                        // mark is not a double
+                        bValid = false;
+                        break;
                     }
                 }
 
-                LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
-                DanhMuc_LoaiDiem loaiDiem = loaiDiemBL.GetLoaiDiem(markTypeCode);
-                if (totalMarkCount > loaiDiem.SoCotToiDa)
+                if (bValid)
                 {
-                    return false;
+                    MarkTypeBL markTypeBL = new MarkTypeBL();
+                    DanhMuc_LoaiDiem markType = markTypeBL.GetMarkType(markTypeName);
+                    if (markCount > markType.SoCotToiDa)
+                    {
+                        bValid = false;
+                    }
                 }
             }
-            return true;
+
+            return bValid;
         }
     }
 }

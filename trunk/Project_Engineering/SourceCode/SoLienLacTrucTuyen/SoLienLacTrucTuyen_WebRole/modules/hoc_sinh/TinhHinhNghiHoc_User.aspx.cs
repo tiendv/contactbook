@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
         }
 
         private void InitDates()
@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime DenNgay = DateTime.Parse(TxtDenNgay.Text);
 
             double totalRecords;
-            List<TabularNgayNghiHoc> lstTabularNgayNghiHoc = ngayNghiHocBL.GetListTabularNgayNghiHoc(
+            List<TabularDayOff> lstTabularNgayNghiHoc = ngayNghiHocBL.GetListTabularNgayNghiHoc(
                 maHocSinh, maNamHoc, maHocKy,
                 tuNgay, DenNgay,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize,

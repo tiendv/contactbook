@@ -134,8 +134,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maGiaoVien = Int32.Parse(this.HdfMaGiaoVien.Value);            
-            giaoVienBL.DeleteGiaoVien(maGiaoVien);
+            string teacherCode = this.HdfTeacherCode.Value;
+
+            giaoVienBL.DeleteGiaoVien(teacherCode);
 
             isSearch = false;
             BindDataRepeater();
@@ -178,7 +179,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     TabularGiaoVien giaoVien = (TabularGiaoVien)e.Item.DataItem;
                     int maGiaoVien = giaoVien.MaGiaoVien;
-                    if (!giaoVienBL.CanDeleteGiaoVien(maGiaoVien))
+                    if (!giaoVienBL.IsDeletable(giaoVien.MaHienThiGiaoVien))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -217,11 +218,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             switch (e.CommandName)
             {
                 case "CmdDeleteItem":
-                    {                        
+                    {
+                        string teacherCode = (string)e.CommandArgument;
+                        HdfTeacherCode.Value = teacherCode;
+
                         this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
-                            + giaoVienBL.GetGiaoVien(Int32.Parse(e.CommandArgument.ToString())).HoTen + "\"</b> này không?";
+                            + giaoVienBL.GetTeacher(teacherCode).HoTen + "\"</b> này không?";
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
+
                         this.HdfMaGiaoVien.Value = e.CommandArgument.ToString();
                         this.HdfRptGiaoVienMPEDelete.Value = mPEDelete.ClientID;
 

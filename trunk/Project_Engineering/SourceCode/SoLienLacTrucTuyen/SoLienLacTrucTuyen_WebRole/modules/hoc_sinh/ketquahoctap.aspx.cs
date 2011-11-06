@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private HocSinhBL hocSinhBL;
-        private LoaiDiemBL loaiDiemBL;
+        private MarkTypeBL loaiDiemBL;
         private KetQuaHocTapBL ketQuaHocTapBL;
 
         private List<AccessibilityEnum> lstAccessibilities;
@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RoleBL roleBL = new RoleBL();
             UserBL userBL = new UserBL();
             hocSinhBL = new HocSinhBL();
-            loaiDiemBL = new LoaiDiemBL();
+            loaiDiemBL = new MarkTypeBL();
             ketQuaHocTapBL = new KetQuaHocTapBL();
 
             string pageUrl = Page.Request.Path;
@@ -99,7 +99,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptTenLoaiDiem()
         {
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListLoaiDiem();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
             this.RptLoaiDiem.DataSource = lstLoaiDiem;
             this.RptLoaiDiem.DataBind();
         }
@@ -137,7 +137,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
             double totalRecords;
-            List<TabularDanhHieuHocSinh> lstTbDanhHieu;
+            List<TabularTermStudentResult> lstTbDanhHieu;
             lstTbDanhHieu = ketQuaHocTapBL.GetListTabularDanhHieuHocSinh(
                 maHocSinh, maNamHoc,
                 DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize,
@@ -219,7 +219,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         int maHanhKiem = Int32.Parse(e.CommandArgument.ToString());
 
-                        List<DanhMuc_HanhKiem> lstHanhKiem = (new HanhKiemBL()).GetListHanhKiem(true);
+                        List<DanhMuc_HanhKiem> lstHanhKiem = (new ConductBL()).GetListConducts(true);
 
                         foreach (DanhMuc_HanhKiem hanhKiem in lstHanhKiem)
                         {

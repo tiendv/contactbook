@@ -7,231 +7,214 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class MonHocDA : BaseDA
+    public class SubjectDA : BaseDA
     {
-        public MonHocDA()
+        public SubjectDA()
             : base()
         {
         }
 
-        public void InsertMonHoc(DanhMuc_MonHoc monhoc)
+        public void InsertSubject(DanhMuc_MonHoc subject)
         {
-            db.DanhMuc_MonHocs.InsertOnSubmit(monhoc);
+            db.DanhMuc_MonHocs.InsertOnSubmit(subject);
             db.SubmitChanges();
         }
 
-        public void UpdateMonHoc(int maMonHoc, string tenMonHoc, double heSoDiem)
+        public void UpdateSubject(DanhMuc_MonHoc editedSubject)
         {
-            DanhMuc_MonHoc modifyingMonHoc = GetMonHoc(maMonHoc);
-            modifyingMonHoc.TenMonHoc = tenMonHoc;
-            modifyingMonHoc.HeSoDiem = heSoDiem;
-            db.SubmitChanges();
-        }
-
-        public void DeleteMonHoc(DanhMuc_MonHoc monhoc)
-        {
-            db.DanhMuc_MonHocs.DeleteOnSubmit(monhoc);
-            db.SubmitChanges();
-        }
-
-        public DanhMuc_MonHoc GetMonHoc(int maMonHoc)
-        {
-            IQueryable<DanhMuc_MonHoc> monHocs = from m in db.DanhMuc_MonHocs
-                                                 where m.MaMonHoc == maMonHoc
-                                                 select m;
-            if (monHocs.Count() != 0)
+            DanhMuc_MonHoc subject = null;
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.MaMonHoc == editedSubject.MaMonHoc
+                                                   select subj;
+            if (iqSubject.Count() != 0)
             {
-                return monHocs.First();
-            }
-            else
-            {
-                return null;
+                subject = iqSubject.First();
+                subject.TenMonHoc = editedSubject.TenMonHoc;
+                subject.HeSoDiem = editedSubject.HeSoDiem;
+                db.SubmitChanges();
             }
         }
 
-        public List<DanhMuc_MonHoc> GetListMonHoc()
+        public void DeleteSubject(DanhMuc_MonHoc deletedSubject)
         {
-            var monHocs = from m in db.DanhMuc_MonHocs
-                          select m;
-            return monHocs.ToList();
-        }
-
-        public List<DanhMuc_MonHoc> GetListMonHoc(int maNganhHoc, int maKhoiLop)
-        {
-            IQueryable<DanhMuc_MonHoc> monHocs = from m in db.DanhMuc_MonHocs
-                                                 where m.MaNganhHoc == maNganhHoc && m.MaKhoiLop == maKhoiLop
-                                                 select m;
-            monHocs = monHocs.OrderBy(m => m.TenMonHoc);
-            return monHocs.ToList();
-        }
-
-        public List<DanhMuc_MonHoc> GetListMonHocByNganhHoc(int maNganhHoc)
-        {
-            IQueryable<DanhMuc_MonHoc> monHocs = from m in db.DanhMuc_MonHocs
-                                                 where m.MaNganhHoc == maNganhHoc
-                                                 select m;
-            monHocs = monHocs.OrderBy(m => m.TenMonHoc);
-            return monHocs.ToList();
-        }
-
-        public List<DanhMuc_MonHoc> GetListMonHocByKhoiLop(int maKhoiLop)
-        {
-            IQueryable<DanhMuc_MonHoc> monHocs = from m in db.DanhMuc_MonHocs
-                                                 where m.MaKhoiLop == maKhoiLop
-                                                 select m;
-            monHocs = monHocs.OrderBy(m => m.TenMonHoc);
-            return monHocs.ToList();
-        }
-
-        public MonHocInfo GetMonHocInfo(int maMonHoc)
-        {
-            var monHocInfo = from mon in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs on mon.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops on mon.MaKhoiLop equals khoi.MaKhoiLop
-                             where mon.MaMonHoc == maMonHoc
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = mon.MaMonHoc,
-                                 TenMonHoc = mon.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = mon.HeSoDiem
-                             };
-
-            if (monHocInfo.Count() != 0)
+            DanhMuc_MonHoc subject = null;
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.MaMonHoc == deletedSubject.MaMonHoc
+                                                   select subj;
+            if (iqSubject.Count() != 0)
             {
-                return monHocInfo.First();
-            }
-            else
-            {
-                return null;
+                subject = iqSubject.First();
+                db.DanhMuc_MonHocs.DeleteOnSubmit(subject);
+                db.SubmitChanges();
             }
         }
 
-        public List<MonHocInfo> GetListMonHocInfo(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public DanhMuc_MonHoc GetSubject(string subjectName, string facultyName, string gradeName)
         {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = monhoc.HeSoDiem
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
+            DanhMuc_MonHoc subject = null;
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.TenMonHoc == subjectName
+                                                        && subj.DanhMuc_NganhHoc.TenNganhHoc == facultyName
+                                                        && subj.DanhMuc_KhoiLop.TenKhoiLop == gradeName
+                                                   select subj;
+
+            if (iqSubject.Count() != 0)
             {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
+                subject = iqSubject.First();
             }
-            return monHocInfo.ToList();
+
+            return subject;
         }
 
-        public List<MonHocInfo> GetListMonHocInfo(int maNganhHoc, int maKhoiLop, 
+        public List<DanhMuc_MonHoc> GetListSubjects()
+        {
+            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   select subj;
+            if (iqSubject.Count() != 0)
+            {
+                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
+                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
+                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+            }
+
+            return lSubjects;
+        }
+
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        {
+            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.MaNganhHoc == faculty.MaNganhHoc && subj.MaKhoiLop == grade.MaKhoiLop
+                                                   select subj;
+            if (iqSubject.Count() != 0)
+            {
+                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
+                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
+                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+            }
+
+            return lSubjects;
+        }
+
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty)
+        {
+            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.MaNganhHoc == faculty.MaNganhHoc
+                                                   select subj;
+            if (iqSubject.Count() != 0)
+            {
+                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
+                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
+                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+            }
+
+            return lSubjects;
+        }
+
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_KhoiLop grade)
+        {
+            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.MaKhoiLop == grade.MaKhoiLop
+                                                   select subj;
+            if (iqSubject.Count() != 0)
+            {
+                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
+                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
+                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+            }
+
+            return lSubjects;
+        }
+
+        public List<DanhMuc_MonHoc> GetListSubjects(int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             where monhoc.MaNganhHoc == maNganhHoc && monhoc.MaKhoiLop == maKhoiLop
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = monhoc.HeSoDiem
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
-            {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            }
-            return monHocInfo.ToList();
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
+                                                   && subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<MonHocInfo> GetListMonHocInfo(int maNganhHoc, int maKhoiLop,
-            int? exceptedMaMonHoc,
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade,
+            DanhMuc_MonHoc exceptedSubject,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs 
-                                on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops 
-                                on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             where monhoc.MaNganhHoc == maNganhHoc 
-                                && monhoc.MaKhoiLop == maKhoiLop
-                                && monhoc.MaMonHoc != (int)exceptedMaMonHoc
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = monhoc.HeSoDiem
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
-            {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            }
-            return monHocInfo.ToList();
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
+                                                   && subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
+                                                   && subj.MaMonHoc != exceptedSubject.MaMonHoc
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<MonHocInfo> GetListMonHocInfoByNganhHoc(int maNganhHoc, 
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             where monhoc.MaNganhHoc == maNganhHoc
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
-            {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            }
-            return monHocInfo.ToList();
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<MonHocInfo> GetListMonHocInfoByKhoiLop(int maKhoiLop, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_KhoiLop grade,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             where monhoc.MaKhoiLop == maKhoiLop
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = monhoc.HeSoDiem
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
-            {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            }
-            return monHocInfo.ToList();
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public bool MonHocExists(string tenMonHoc, int maNganhHoc, int maKhoiLop)
+        public List<DanhMuc_MonHoc> GetListSubjects(string subjectName,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> monHocs;
-            monHocs = from monHoc in db.DanhMuc_MonHocs
-                      where monHoc.TenMonHoc == tenMonHoc
-                        && monHoc.MaNganhHoc == maNganhHoc && monHoc.MaKhoiLop == maKhoiLop
-                      select monHoc;
-            if (monHocs.Count() != 0)
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.TenMonHoc == subjectName
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<DanhMuc_MonHoc> GetListSubjects(string subjectName,
+            DanhMuc_MonHoc exceptedSubject,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.TenMonHoc == subjectName && subj.MaMonHoc != exceptedSubject.MaMonHoc
+                                                   select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public bool SubjectNameExists(string subjectName, string facultyName, string gradeName)
+        {
+            IQueryable<DanhMuc_MonHoc> iqSubject;
+            iqSubject = from subject in db.DanhMuc_MonHocs
+                        where subject.TenMonHoc == subjectName
+                          && subject.DanhMuc_NganhHoc.TenNganhHoc == facultyName
+                          && subject.DanhMuc_KhoiLop.TenKhoiLop == gradeName
+                        select subject;
+            if (iqSubject.Count() != 0)
             {
                 return true;
             }
@@ -241,30 +224,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool MonHocExists(int maMonHoc, string tenMonHoc, int maNganhHoc, int maKhoiLop)
+        public bool IsDeletable(DanhMuc_MonHoc subject)
         {
-            IQueryable<DanhMuc_MonHoc> monHocs;
-            monHocs = from monHoc in db.DanhMuc_MonHocs
-                      where monHoc.TenMonHoc == tenMonHoc && monHoc.MaMonHoc != maMonHoc
-                         && monHoc.MaNganhHoc == maNganhHoc && monHoc.MaKhoiLop == maKhoiLop
-                      select monHoc;
-            if (monHocs.Count() != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+            IQueryable<LopHoc_MonHocTKB> iqScheduledSubjects = from scheduledSubject in db.LopHoc_MonHocTKBs
+                                                               where scheduledSubject.MaMonHoc == subject.MaMonHoc
+                                                               select scheduledSubject;
 
-        public bool CheckCanDeleteMonHoc(int maMonHoc)
-        {
-            IQueryable<LopHoc_MonHocTKB> monHocTKBs = from monTKB in db.LopHoc_MonHocTKBs
-                                                      where monTKB.MaMonHoc == maMonHoc
-                                                      select monTKB;
-
-            if (monHocTKBs.Count() != 0)
+            if (iqScheduledSubjects.Count() != 0)
             {
                 return false;
             }
@@ -274,78 +240,20 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool MonHocExists(int maMonHoc, string tenMonHocMoi)
+        private List<DanhMuc_MonHoc> GetListSubjects(ref IQueryable<DanhMuc_MonHoc> iqSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            DanhMuc_MonHoc monHoc;
-            monHoc = (from mon in db.DanhMuc_MonHocs
-                      where mon.MaMonHoc == maMonHoc
-                      select mon).First();
-            IQueryable<DanhMuc_MonHoc> monHocs = from mon in db.DanhMuc_MonHocs
-                                                 where mon.MaNganhHoc == monHoc.MaNganhHoc
-                                                    && mon.MaKhoiLop == monHoc.MaKhoiLop
-                                                    && mon.TenMonHoc == tenMonHocMoi
-                                                    && mon.MaMonHoc != maMonHoc
-                                                 select mon;
-            if (monHocs.Count() != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }        
+            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
 
-        public List<MonHocInfo> GetListMonHocInfo(string tenMonHoc, 
-            int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs
-                                on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops
-                                on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             where monhoc.TenMonHoc == tenMonHoc
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = monhoc.HeSoDiem
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
+            totalRecords = iqSubject.Count();
+            if (iqSubject.Count() != 0)
             {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
+                lSubjects = iqSubject.OrderBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
+                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop)
+                    .ThenBy(subj => subj.TenMonHoc)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
-            return monHocInfo.ToList();
-        }
 
-        public List<MonHocInfo> GetListMonHocInfo(string tenMonHoc,
-            int? exceptedMaMonHoc,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            var monHocInfo = from monhoc in db.DanhMuc_MonHocs
-                             join nganh in db.DanhMuc_NganhHocs
-                                on monhoc.MaNganhHoc equals nganh.MaNganhHoc
-                             join khoi in db.DanhMuc_KhoiLops
-                                on monhoc.MaKhoiLop equals khoi.MaKhoiLop
-                             where monhoc.TenMonHoc == tenMonHoc 
-                                && monhoc.MaMonHoc != (int)exceptedMaMonHoc
-                             select new MonHocInfo
-                             {
-                                 MaMonHoc = monhoc.MaMonHoc,
-                                 TenMonHoc = monhoc.TenMonHoc,
-                                 TenNganhHoc = nganh.TenNganhHoc,
-                                 TenKhoiLop = khoi.TenKhoiLop,
-                                 HeSoDiem = monhoc.HeSoDiem
-                             };
-            totalRecords = monHocInfo.Count();
-            if (monHocInfo.Count() != 0)
-            {
-                monHocInfo = monHocInfo.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
-            }
-            return monHocInfo.ToList();
+            return lSubjects;
         }
     }
 }

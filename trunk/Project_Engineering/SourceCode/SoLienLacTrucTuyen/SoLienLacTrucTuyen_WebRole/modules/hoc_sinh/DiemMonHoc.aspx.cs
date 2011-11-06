@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownList()
         {
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = (new LoaiDiemBL()).GetListLoaiDiem();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = (new MarkTypeBL()).GetListMarkTypes();
             this.DdlLoaiDiemThem.DataSource = lstLoaiDiem;
             this.DdlLoaiDiemThem.DataTextField = "TenLoaiDiem";
             this.DdlLoaiDiemThem.DataValueField = "MaLoaiDiem";
@@ -163,8 +163,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         int maChiTietDiem = Int32.Parse(e.CommandArgument.ToString());
                         HocSinh_ChiTietDiem chiTietDiem = ketQuaHocTapBL.GetChiTietDiem(maChiTietDiem);
 
-                        LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
-                        this.LblLoaiDiemSua.Text = loaiDiemBL.GetLoaiDiem(chiTietDiem.MaLoaiDiem).TenLoaiDiem;
+                        MarkTypeBL loaiDiemBL = new MarkTypeBL();
+                        this.LblLoaiDiemSua.Text = chiTietDiem.DanhMuc_LoaiDiem.TenLoaiDiem;
                         this.TxtDiemSua.Text = chiTietDiem.Diem.ToString();
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");

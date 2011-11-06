@@ -244,8 +244,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListKhoiLop()
         {
-            KhoiLopBL KhoiLopBL = new KhoiLopBL();
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListKhoiLop();
+            GradeBL KhoiLopBL = new GradeBL();
+            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";
@@ -255,7 +255,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownListNganhHoc()
         {
             FacultyBL nganhHocBL = new FacultyBL();
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetListNganhHoc();
+            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";

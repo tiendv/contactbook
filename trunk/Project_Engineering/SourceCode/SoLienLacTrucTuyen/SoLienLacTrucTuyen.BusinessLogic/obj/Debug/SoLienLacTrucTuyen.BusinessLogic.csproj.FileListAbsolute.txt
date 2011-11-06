@@ -37,3 +37,12 @@ D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\S
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
 D:\LuanVan\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\ResolveAssemblyReference.cache
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen.BusinessLogic\obj\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb

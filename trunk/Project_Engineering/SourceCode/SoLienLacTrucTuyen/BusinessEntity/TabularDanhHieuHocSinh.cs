@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularDanhHieuHocSinh
+    public class TabularTermStudentResult
     {
         public int MaDanhHieuHSHK { get; set; }
         public int? MaHanhKiem { get; set; }

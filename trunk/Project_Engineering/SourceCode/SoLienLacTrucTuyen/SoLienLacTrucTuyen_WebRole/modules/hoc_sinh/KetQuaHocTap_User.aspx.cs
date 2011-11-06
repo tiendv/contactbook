@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private HocSinhBL hocSinhBL;
-        private LoaiDiemBL loaiDiemBL;
+        private MarkTypeBL loaiDiemBL;
         private KetQuaHocTapBL ketQuaHocTapBL;
         private int maHocSinh;
         #endregion
@@ -30,7 +30,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             masterPage.PageTitle = "Kết Quả Học Tập";
 
             hocSinhBL = new HocSinhBL();
-            loaiDiemBL = new LoaiDiemBL();
+            loaiDiemBL = new MarkTypeBL();
             ketQuaHocTapBL = new KetQuaHocTapBL();
             maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
 
@@ -64,7 +64,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
 
-            DdlHocKy.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
         }
 
         private void BindRepeaterKetQuaHocTap()
@@ -72,7 +72,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
             int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
 
-            MonHocBL monHocBL = new MonHocBL();
+            SubjectBL monHocBL = new SubjectBL();
             ThoiKhoaBieuBL monHocTKBBL = new ThoiKhoaBieuBL();
 
             double totalRecords;
@@ -99,7 +99,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterTenLoaiDiem()
         {
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListLoaiDiem();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
             this.RptTenLoaiDiem.DataSource = lstLoaiDiem;
             this.RptTenLoaiDiem.DataBind();
         }
@@ -145,7 +145,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
             double totalRecords;
-            List<TabularDanhHieuHocSinh> lstTabularDanhHieuHocSinh = ketQuaHocTapBL.GetListTabularDanhHieuHocSinh(
+            List<TabularTermStudentResult> lstTabularDanhHieuHocSinh = ketQuaHocTapBL.GetListTabularDanhHieuHocSinh(
                 maHocSinh, maNamHoc,
                 DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize,
                 out totalRecords);

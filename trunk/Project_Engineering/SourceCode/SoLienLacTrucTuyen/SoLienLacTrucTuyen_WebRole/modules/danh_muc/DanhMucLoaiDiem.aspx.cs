@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhMucLoaiDiem : BaseContentPage
     {
         #region Fields
-        private LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
+        private MarkTypeBL loaiDiemBL = new MarkTypeBL();
         private bool isSearch;
         #endregion
 
@@ -61,7 +61,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string tenLoaiDiem = TxtSearchLoaiDiem.Text.Trim();
             double totalRecords = 0;
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListLoaiDiem(
+            
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes(
                 tenLoaiDiem,
                 PagerMain.CurrentIndex, PagerMain.PageSize, out totalRecords);
             PagerMain.ItemCount = totalRecords;
@@ -123,7 +124,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    if (loaiDiemBL.LoaiDiemExists(0, tenLoaiDiem))
+                    if (loaiDiemBL.MarkTypeNameExists(tenLoaiDiem))
                     {
                         TenLoaiDiemValidatorAdd.IsValid = false;
                         TxtTenLoaiDiem.Focus();
@@ -144,11 +145,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
 
-            if (RbtnYesAdd.Checked && loaiDiemBL.CalAvgLoaiDiemExists())
+
+            if (RbtnYesAdd.Checked)
             {
-                LblAppCalAvgMarkAdd.Visible = true;
-                MPEAdd.Show();
-                return false;
+                DanhMuc_LoaiDiem appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType();
+                if (appliedCalAvgMarkType != null)
+                {
+                    LblAppCalAvgMarkAdd.Visible = true;
+                    MPEAdd.Show();
+                    return false;
+                }
             }
             else
             {
@@ -157,13 +163,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             return true;
         }
 
-        private bool ValidateForEdit(int maLoaiDiem, string tenLoaiDiem, string maxMarksPerTerm)
+        private bool ValidateForEdit(string editedMarkTypeName, string tenLoaiDiem, string maxMarksPerTerm)
         {
+            // validate page
             if (!Page.IsValid)
             {
                 return false;
             }
 
+            // get modalPopupEdit
             ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
             foreach (RepeaterItem rptItem in RptLoaiDiem.Items)
             {
@@ -177,6 +185,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
+            // validate blank
             if (tenLoaiDiem == "")
             {
                 TenLoaiDiemRequiredEdit.IsValid = false;
@@ -193,7 +202,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    if (loaiDiemBL.LoaiDiemExists(maLoaiDiem, tenLoaiDiem))
+                    if (loaiDiemBL.MarkTypeNameExists(editedMarkTypeName, tenLoaiDiem))
                     {
                         TenLoaiDiemValidatorEdit.IsValid = false;
                         modalPopupEdit.Show();
@@ -213,11 +222,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
 
-            if (RbtnYesEdit.Checked && loaiDiemBL.CalAvgLoaiDiemExists(maLoaiDiem))
+            if (RbtnYesEdit.Checked)
             {
-                LblAppCalAvgMarkEdit.Visible = true;
-                modalPopupEdit.Show();
-                return false;
+                DanhMuc_LoaiDiem appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType();
+                if (appliedCalAvgMarkType != null)
+                {
+                    if (appliedCalAvgMarkType.TenLoaiDiem != tenLoaiDiem)
+                    {
+                        LblAppCalAvgMarkEdit.Visible = true;
+                        modalPopupEdit.Show();
+                        return false;
+                    }
+                }                
             }
             else
             {
@@ -268,9 +284,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }        
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {
+        {            
             int maLoaiDiem = Int32.Parse(this.HdfMaLoaiDiem.Value);
-            loaiDiemBL.DeleteLoaiDiem(maLoaiDiem);
+
+            DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem();
+            markType.MaLoaiDiem = maLoaiDiem;
+
+            loaiDiemBL.DeleteMarkType(markType);
             isSearch = false;
             BindRptLoaiDiem();
         }
@@ -278,15 +298,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             int maLoaiDiem = Int32.Parse(this.HdfMaLoaiDiem.Value);
-            string tenLoaiDiem = TxtSuaTenLoaiDiem.Text.Trim();
+
+            string editedMarkTypeName = this.HdfEditedMarkTypeName.Value;
+            string newMarkTypeName = TxtSuaTenLoaiDiem.Text.Trim();
             double heSoDiem = Double.Parse(TxtHeSoDiemLoaiDiemSua.Text.Trim());
             string maxMarksPerTerm = this.TxtMaxMarksPerTermEdit.Text.Trim();
             bool calAverageMark = this.RbtnYesEdit.Checked;
 
-            bool bValidInput = ValidateForEdit(maLoaiDiem, tenLoaiDiem, maxMarksPerTerm);
+            bool bValidInput = ValidateForEdit(editedMarkTypeName, newMarkTypeName, maxMarksPerTerm);
             if (bValidInput)
             {
-                loaiDiemBL.UpdateLoaiDiem(maLoaiDiem, tenLoaiDiem, heSoDiem,
+                loaiDiemBL.UpdateMarkType(editedMarkTypeName, newMarkTypeName, heSoDiem,
                     short.Parse(maxMarksPerTerm), calAverageMark);
                 BindRptLoaiDiem();
             }
@@ -318,13 +340,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
+                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     if (e.Item.DataItem != null)
                     {
-                        DanhMuc_LoaiDiem LoaiDiem = (DanhMuc_LoaiDiem)e.Item.DataItem;
-                        if (!loaiDiemBL.CanDeleteLoaiDiem(LoaiDiem.MaLoaiDiem))
+                        DanhMuc_LoaiDiem markType = (DanhMuc_LoaiDiem)e.Item.DataItem;
+                        if (!loaiDiemBL.IsDeletable(markType.TenLoaiDiem))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -369,8 +390,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        int maLoaiDiem = Int32.Parse(e.CommandArgument.ToString());
-                        DanhMuc_LoaiDiem loaiDiem = loaiDiemBL.GetLoaiDiem(maLoaiDiem);
+                        //int maLoaiDiem = Int32.Parse(e.CommandArgument.ToString());
+                        string markTypeName = (string)e.CommandArgument;
+                        DanhMuc_LoaiDiem loaiDiem = loaiDiemBL.GetMarkType(markTypeName);
 
                         TxtSuaTenLoaiDiem.Text = loaiDiem.TenLoaiDiem;
                         TxtHeSoDiemLoaiDiemSua.Text = loaiDiem.HeSoDiem.ToString();
@@ -378,11 +400,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RbtnYesEdit.Checked = loaiDiem.TinhDTB;
                         RbtnCancelEdit.Checked = !loaiDiem.TinhDTB;
                         LblAppCalAvgMarkEdit.Visible = false;
+
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptLoaiDiemMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaLoaiDiem.Value = maLoaiDiem.ToString();
+                        this.HdfEditedMarkTypeName.Value = markTypeName;
 
                         break;
                     }

@@ -230,36 +230,36 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return hocSinhDA.GetMaLopHoc(maNamHoc, maHocSinh);
         }
 
-        public List<DDLFormatHocSinh> GetListHocSinh(int maNganh, int maKhoi, int maLopHoc)
+        public List<StudentDropdownListItem> GetStudents(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop pClass)
         {
-            if (maLopHoc == 0)
+            if (pClass == null)
             {
-                if (maNganh == 0)
+                if (faculty == null)
                 {
-                    if (maKhoi == 0)
+                    if (grade == null)
                     {
-                        return hocSinhDA.GetListHocSinh();
+                        return hocSinhDA.GetStudents();
                     }
                     else
                     {
-                        return hocSinhDA.GetListHocSinhByKhoi(maKhoi);
+                        return hocSinhDA.GetStudents(grade);
                     }
                 }
                 else
                 {
-                    if (maKhoi == 0)
+                    if (grade == null)
                     {
-                        return hocSinhDA.GetListHocSinhByNganh(maNganh);
+                        return hocSinhDA.GetStudents(faculty);
                     }
                     else
                     {
-                        return hocSinhDA.GetListHocSinhByNganh(maNganh, maKhoi);
+                        return hocSinhDA.GetStudents(grade, faculty);
                     }
                 }
             }
             else
             {
-                return hocSinhDA.GetListHocSinh(maLopHoc);
+                return hocSinhDA.GetStudents(pClass);
             }
         }
 

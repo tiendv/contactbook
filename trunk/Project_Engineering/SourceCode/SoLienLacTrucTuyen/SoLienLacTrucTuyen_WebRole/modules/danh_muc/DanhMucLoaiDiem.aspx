@@ -36,12 +36,12 @@
 
             function validateTenLoaiDiemAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var maLoaiDiem = 0;
-                var tenLoaiDiem = $.trim(args.Value);
+                var markTypeName = $.trim(args.Value);
+                alert("{'markTypeName':'" + markTypeName + "'}");
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenLoaiDiem",
-                    data: "{'maLoaiDiem':'" + maLoaiDiem + "', 'tenLoaiDiem':'" + tenLoaiDiem + "'}",
+                    url: "/modules/danh_muc/DanhMucServicePage.aspx/MarkTypeNameExists",
+                    data: "{'markTypeName':'" + markTypeName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -65,12 +65,12 @@
 
             function validateTenLoaiDiemEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maLoaiDiem = $('#<%=HdfMaLoaiDiem.ClientID%>').val();
-                var tenLoaiDiem = $.trim(args.Value);
+                var oldMarkTypeName = $('#<%=HdfEditedMarkTypeName.ClientID%>');
+                var newMarkTypeName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenLoaiDiem",
-                    data: "{'maLoaiDiem':'" + maLoaiDiem + "', 'tenLoaiDiem':'" + tenLoaiDiem + "'}",
+                    url: "/modules/danh_muc/DanhMucServicePage.aspx/MarkTypeNameExists",
+                    data: "{'oldMarkTypeName':'" + oldMarkTypeName + "', 'newMarkTypeName':'" + newMarkTypeName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -152,6 +152,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaLoaiDiem" runat="server" />
+            <asp:HiddenField ID="HdfEditedMarkTypeName" runat="server" />
             <asp:HiddenField ID="HdfRptLoaiDiemMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptLoaiDiemMPEEdit" runat="server" />
             <asp:Repeater ID="RptLoaiDiem" runat="server" OnItemCommand="RptLoaiDiem_ItemCommand"
@@ -203,7 +204,7 @@
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLoaiDiem")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -279,7 +280,7 @@
                             ValidationGroup="AddLoaiDiem" ErrorMessage="Tên loại điểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenLoaiDiemValidatorAdd" runat="server" ControlToValidate="TxtTenLoaiDiem"
-                            ValidationGroup="AddLoaiDiem" ClientValidationFunction="validateTenLoaiDiemAdd"
+                            ValidationGroup="AddLoaiDiem"
                             ErrorMessage="Loại điểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                     <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
@@ -361,7 +362,7 @@
                             ValidationGroup="EditLoaiDiem" ErrorMessage="Tên loại điểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenLoaiDiemValidatorEdit" runat="server" ControlToValidate="TxtSuaTenLoaiDiem"
-                            ValidationGroup="EditLoaiDiem" ClientValidationFunction="validateTenLoaiDiemEdit"
+                            ValidationGroup="EditLoaiDiem"
                             ErrorMessage="Loại điểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>

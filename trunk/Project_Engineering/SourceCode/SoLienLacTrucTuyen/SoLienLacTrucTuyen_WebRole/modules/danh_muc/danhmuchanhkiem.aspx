@@ -33,61 +33,46 @@
             }
 
             function validateTenHanhKiemAdd(ctrl, args) {
-                var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var maHanhKiem = 0;
                 var tenHanhKiem = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
                     url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenHanhKiem",
-                    data: "{'maHanhKiem':'" + maHanhKiem + "', 'tenHanhKiem':'" + tenHanhKiem + "'}",
+                    data: "{'oldTenHanhKiem':'" + '' + "', 'newTenHanhKiem':'" + tenHanhKiem + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
-                            $get('<%=hfOutputAdd.ClientID%>').value = 'false';
+                            args.IsValid = false;
                         } else {
-                            $get('<%=hfOutputAdd.ClientID%>').value = 'true';
+                            args.IsValid = true;
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Error');
-                        hfOutput.value = 'false';
+                        args.IsValid = false;
                     }
                 });
-
-                if ($get('<%=hfOutputAdd.ClientID%>').value == 'true') {
-                    args.IsValid = true;
-                } else {
-                    args.IsValid = false;
-                }
             }
 
             function validateTenHanhKiemEdit(ctrl, args) {
-                var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maHanhKiem = $('#<%=HdfMaHanhKiem.ClientID%>').val();
-                var tenHanhKiem = $.trim(args.Value);
+                var oldTenHanhKiem = $('#<%=HdfEditedTenHanhKiem.ClientID%>').val();
+                var newTenHanhKiem = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
                     url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenHanhKiem",
-                    data: "{'maHanhKiem':'" + maHanhKiem + "', 'tenHanhKiem':'" + tenHanhKiem + "'}",
+                    data: "{'oldTenHanhKiem':'" + oldTenHanhKiem + "', 'newTenHanhKiem':'" + newTenHanhKiem + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
-                            $get('<%=hfOutputEdit.ClientID%>').value = 'false';
+                            args.IsValid = false;
                         } else {
-                            $get('<%=hfOutputEdit.ClientID%>').value = 'true';
+                            args.IsValid = true;
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         alert('Error');
-                        hfOutput.value = 'false';
+                        args.IsValid = false;
                     }
                 });
-
-                if ($get('<%=hfOutputEdit.ClientID%>').value == 'true') {
-                    args.IsValid = true;
-                } else {
-                    args.IsValid = false;
-                }
             }
         </script>
     </div>
@@ -118,6 +103,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
+            <asp:HiddenField ID="HdfEditedTenHanhKiem" runat="server" />
             <asp:HiddenField ID="HdfMaHanhKiem" runat="server" />
             <asp:HiddenField ID="HdfRptHanhKiemMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptHanhKiemMPEEdit" runat="server" />
@@ -152,7 +138,7 @@
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -178,12 +164,7 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG" OnCommand="pager_Command"
-                PageSize="10" ViewStateMode="Enabled" LastClause=">>" GenerateHiddenHyperlinks="False"
-                CompactModePageCount="3" GenerateFirstLastSection="True" GenerateGoToSection="False"
-                FirstClause="<<" BackToFirstClause="Trở về trang đầu" BackToPageClause="Trở về trang"
-                GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="pager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
@@ -219,17 +200,16 @@
             <table class="inputBorder" style="width: 100%;">
                 <tr>
                     <td style="width: 15%; vertical-align: top; padding-top: 3px;">
-                        <asp:Label ID="Label6" runat="server" Text="Tên:"></asp:Label>
+                        Tên:
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
                         <asp:TextBox ID="TxtTenHanhKiem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
                         <asp:RequiredFieldValidator ID="TenHanhKiemRequiredAdd" runat="server" ControlToValidate="TxtTenHanhKiem"
                             ValidationGroup="AddHanhKiem" ErrorMessage="Tên hạnh kiểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenHanhKiemValidatorAdd" runat="server" ControlToValidate="TxtTenHanhKiem"
-                            ValidationGroup="AddHanhKiem" ClientValidationFunction="validateTenHanhKiemAdd"
+                            ValidationGroup="AddHanhKiem"
                             ErrorMessage="Hạnh kiểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
@@ -237,9 +217,9 @@
         </div>
         <div style="padding: 5px 7px 5px 7px;">
             <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red"></asp:Label>
-            <asp:Label ID="Label4" runat="server" Text=":Thông tin bắt buộc nhập"></asp:Label><br />
+            :Thông tin bắt buộc nhập<br />
             <asp:CheckBox ID="CkbAddAfterSave" runat="server" />
-            <asp:Label ID="Label1" runat="server" Text="Thêm tiếp sau khi lưu"></asp:Label>
+            Thêm tiếp sau khi lưu
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
             <asp:ImageButton ID="BtnSaveAdd" runat="server" ImageUrl="~/Styles/Images/button_save.png"
@@ -259,17 +239,16 @@
             <table class="inputBorder" style="width: 100%;">
                 <tr>
                     <td style="width: 15%; vertical-align: top; padding-top: 3px;">
-                        <asp:Label ID="Label2" runat="server" Text="Tên:"></asp:Label>
+                        Tên:
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
                         <asp:TextBox ID="TxtSuaTenHanhKiem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:HiddenField ID="hfOutputEdit" runat="server" Value="true" />
                         <asp:RequiredFieldValidator ID="TenHanhKiemRequiredEdit" runat="server" ControlToValidate="TxtSuaTenHanhKiem"
                             ValidationGroup="EditHanhKiem" ErrorMessage="Tên hạnh kiểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenHanhKiemValidatorEdit" runat="server" ControlToValidate="TxtSuaTenHanhKiem"
-                            ValidationGroup="EditHanhKiem" ClientValidationFunction="validateTenHanhKiemEdit"
+                            ValidationGroup="EditHanhKiem"
                             ErrorMessage="Hạnh kiểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
@@ -277,10 +256,9 @@
         </div>
         <div style="padding: 5px 7px 5px 7px;">
             <asp:Label ID="Label11" runat="server" Text="*" ForeColor="Red"></asp:Label>
-            <asp:Label ID="Label12" runat="server" Text=":Thông tin bắt buộc nhập"></asp:Label>
+            :Thông tin bắt buộc nhập
         </div>
-        <div style="width: 170px; margin: 0px auto
-        0px auto; padding: 5px 0px 5px 0px">
+        <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
             <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/Images/button_save.png"
                 OnClick="BtnSaveEdit_Click" ValidationGroup="EditHanhKiem" CssClass="SaveButton" />&nbsp;
             <asp:ImageButton ID="BtnCancelEdit" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"

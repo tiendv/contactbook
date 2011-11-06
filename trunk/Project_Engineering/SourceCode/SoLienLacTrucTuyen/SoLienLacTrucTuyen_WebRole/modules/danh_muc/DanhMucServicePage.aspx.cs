@@ -18,43 +18,73 @@ namespace SoLienLacTrucTuyen_WebRole
         }
 
         [WebMethod]
-        public static bool CheckExistTenNganhHoc(int maNganhHoc, string tenNganhHoc)
+        public static bool FacultyExists(string facultyName)
         {
-            tenNganhHoc = Uri.UnescapeDataString(tenNganhHoc);
-            FacultyBL nganhhocBL = new FacultyBL();
-            return nganhhocBL.NganhHocExists(maNganhHoc, tenNganhHoc);
+            facultyName = Uri.UnescapeDataString(facultyName);
+
+            FacultyBL facultyBL = new FacultyBL();
+            return facultyBL.FacultyExists(facultyName);
         }
 
         [WebMethod]
-        public static bool CheckExistTenKhoiLop(int maKhoiLop, string tenKhoiLop)
+        public static bool FacultyExists(string oldFacultyName, string newFacultyName)
         {
-            tenKhoiLop = Uri.UnescapeDataString(tenKhoiLop);
-            KhoiLopBL khoiLopBL = new KhoiLopBL();
-            return khoiLopBL.KhoiLopExists(maKhoiLop, tenKhoiLop);
+            oldFacultyName = Uri.UnescapeDataString(oldFacultyName);
+            newFacultyName = Uri.UnescapeDataString(newFacultyName);
+
+            FacultyBL facultyBL = new FacultyBL();
+            return facultyBL.FacultyExists(oldFacultyName, newFacultyName);
+        }
+
+        //[WebMethod]
+        //public static bool CheckExistTenKhoiLop(int maKhoiLop, string tenKhoiLop)
+        //{
+        //    tenKhoiLop = Uri.UnescapeDataString(tenKhoiLop);
+        //    GradeBL khoiLopBL = new GradeBL();
+        //    return khoiLopBL.GradeNameExists(maKhoiLop, tenKhoiLop);
+        //}
+
+        //[WebMethod]
+        //public static bool CheckExistTenMonHoc(string tenMonHoc, int maNganhHoc, int maKhoiLop)
+        //{
+        //    tenMonHoc = Uri.UnescapeDataString(tenMonHoc);
+        //    SubjectBL monHocBL = new SubjectBL();
+        //    return monHocBL.SubjectNameExists(tenMonHoc, maNganhHoc, maKhoiLop);
+        //}
+
+        //[WebMethod]
+        //public static bool CheckExistTenMonHoc(int maMonHoc, string tenMonHoc, int maNganhHoc, int maKhoiLop)
+        //{
+        //    tenMonHoc = Uri.UnescapeDataString(tenMonHoc);
+        //    SubjectBL monHocBL = new SubjectBL();
+        //    return monHocBL.SubjectNameExists(maMonHoc, tenMonHoc, maNganhHoc, maKhoiLop);
+        //}
+
+        [WebMethod]
+        public static bool MarkTypeNameExists(string markTypeName)
+        {
+            MarkTypeBL loaiDiemBL = new MarkTypeBL();
+
+            markTypeName = Uri.UnescapeDataString(markTypeName);            
+            return loaiDiemBL.MarkTypeNameExists(markTypeName);
         }
 
         [WebMethod]
-        public static bool CheckExistTenMonHoc(string tenMonHoc, int maNganhHoc, int maKhoiLop)
+        public static bool MarkTypeNameExists(string oldMarkTypeName, string newMarkTypeName)
         {
-            tenMonHoc = Uri.UnescapeDataString(tenMonHoc);
-            MonHocBL monHocBL = new MonHocBL();
-            return monHocBL.MonHocExists(tenMonHoc, maNganhHoc, maKhoiLop);
-        }
+            MarkTypeBL loaiDiemBL = new MarkTypeBL();
 
-        [WebMethod]
-        public static bool CheckExistTenMonHoc(int maMonHoc, string tenMonHoc, int maNganhHoc, int maKhoiLop)
-        {
-            tenMonHoc = Uri.UnescapeDataString(tenMonHoc);
-            MonHocBL monHocBL = new MonHocBL();
-            return monHocBL.MonHocExists(maMonHoc, tenMonHoc, maNganhHoc, maKhoiLop);
-        }
+            oldMarkTypeName = Uri.UnescapeDataString(oldMarkTypeName);
+            newMarkTypeName = Uri.UnescapeDataString(newMarkTypeName);
 
-        [WebMethod]
-        public static bool CheckExistTenLoaiDiem(int maLoaiDiem, string tenLoaiDiem)
-        {
-            tenLoaiDiem = Uri.UnescapeDataString(tenLoaiDiem);
-            LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
-            return loaiDiemBL.LoaiDiemExists(maLoaiDiem, tenLoaiDiem);
+            if (oldMarkTypeName == "" || oldMarkTypeName == newMarkTypeName)
+            {
+                return false;
+            }
+            else
+            {
+                return loaiDiemBL.MarkTypeNameExists(newMarkTypeName);
+            }
         }
 
         [WebMethod]
@@ -66,12 +96,21 @@ namespace SoLienLacTrucTuyen_WebRole
         }
 
         [WebMethod]
-        public static bool CheckExistTenHanhKiem(int maHanhKiem, string tenHanhKiem)
+        public static bool CheckExistTenHanhKiem(string tenHanhKiem)
         {
             tenHanhKiem = Uri.UnescapeDataString(tenHanhKiem);
-            HanhKiemBL hanhKiemBL = new HanhKiemBL();
-            bool b = hanhKiemBL.CheckExistTenHanhKiem(maHanhKiem, tenHanhKiem);
-            return hanhKiemBL.CheckExistTenHanhKiem(maHanhKiem, tenHanhKiem);
+            ConductBL hanhKiemBL = new ConductBL();
+            return hanhKiemBL.ConductNameExists(tenHanhKiem);
+        }
+
+        [WebMethod]
+        public static bool CheckExistTenHanhKiem(string oldTenHanhKiem, string newTenHanhKiem)
+        {
+            oldTenHanhKiem = Uri.UnescapeDataString(oldTenHanhKiem);
+            newTenHanhKiem = Uri.UnescapeDataString(newTenHanhKiem);
+
+            ConductBL hanhKiemBL = new ConductBL();
+            return hanhKiemBL.ConductNameExists(oldTenHanhKiem, newTenHanhKiem);
         }
 
         [WebMethod]

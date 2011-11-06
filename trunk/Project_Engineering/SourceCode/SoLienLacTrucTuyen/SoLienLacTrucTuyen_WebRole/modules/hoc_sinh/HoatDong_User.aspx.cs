@@ -56,7 +56,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataTextField = "TenNamHoc";
             DdlNamHoc.DataBind();
 
-            DdlNamHoc.SelectedValue = (new CauHinhHeThongBL()).GetMaNamHocHienHanh().ToString();
+            DdlNamHoc.SelectedValue = (new SystemConfigBL()).GetCurrentYear().ToString();
         }
 
         private void BindDropDownListHocKy()
@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new CauHinhHeThongBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
         }        
 
         private void InitDates()

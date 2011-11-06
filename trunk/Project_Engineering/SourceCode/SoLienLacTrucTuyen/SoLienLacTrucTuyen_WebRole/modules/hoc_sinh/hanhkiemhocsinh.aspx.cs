@@ -14,7 +14,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private KetQuaHocTapBL ketQuaHocTapBL;
-        private HanhKiemBL hanhKiemBL;
+        private ConductBL hanhKiemBL;
         private HocSinhBL hocSinhBL;
         #endregion
 
@@ -29,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             hocSinhBL = new HocSinhBL();
             ketQuaHocTapBL = new KetQuaHocTapBL();
-            hanhKiemBL = new HanhKiemBL();
+            hanhKiemBL = new ConductBL();
 
             if (!Page.IsPostBack)
             {
@@ -77,8 +77,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count != 0)
             {
-                CauHinhHeThongBL cauHinhBL = new CauHinhHeThongBL();
-                DdlNamHoc.SelectedValue = cauHinhBL.GetMaNamHocHienHanh().ToString();
+                SystemConfigBL cauHinhBL = new SystemConfigBL();
+                DdlNamHoc.SelectedValue = cauHinhBL.GetCurrentYear().ToString();
             }
         }
 
@@ -95,7 +95,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNganhHoc()
         {
             FacultyBL nganhHocBL = new FacultyBL();
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetListNganhHoc();
+            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
@@ -108,8 +108,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLKhoiLop()
         {
-            KhoiLopBL KhoiLopBL = new KhoiLopBL();
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListKhoiLop();
+            GradeBL KhoiLopBL = new GradeBL();
+            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";
@@ -285,7 +285,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 maHanhKiem = maHanhKiemHocSinh;
 
                 Repeater RptHanhKiem = (Repeater)e.Item.FindControl("RptHanhKiem");
-                List<DanhMuc_HanhKiem> lstHanhKiem = hanhKiemBL.GetListHanhKiem(true);
+                List<DanhMuc_HanhKiem> lstHanhKiem = hanhKiemBL.GetListConducts(true);
                 RptHanhKiem.DataSource = lstHanhKiem;
                 RptHanhKiem.DataBind();
             }

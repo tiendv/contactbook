@@ -70,12 +70,13 @@
     <Compile Include="HocLucBL.cs" />
     <Compile Include="HocSinhBL.cs" />
     <Compile Include="KetQuaHocTapBL.cs" />
-    <Compile Include="KhoiLopBL.cs" />
+    <Compile Include="GradeBL.cs" />
     <Compile Include="LoaiDiemBL.cs" />
     <Compile Include="LoiNhanKhanBL.cs" />
     <Compile Include="LopHocBL.cs" />
     <Compile Include="MenuBL.cs" />
-    <Compile Include="MonHocBL.cs" />
+    <Compile Include="SubjectBL.cs" />
+    <Compile Include="SchoolBL.cs" />
     <Compile Include="ThoiKhoaBieuBL.cs" />
     <Compile Include="NamHocBL.cs" />
     <Compile Include="NgayNghiHocBL.cs" />
@@ -121,6 +122,10 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

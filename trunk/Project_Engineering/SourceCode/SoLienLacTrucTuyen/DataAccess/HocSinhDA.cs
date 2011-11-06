@@ -745,123 +745,159 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<DDLFormatHocSinh> GetListHocSinh(int maLopHoc)
+        #region Get list of StudentDropdownListItems
+        public List<StudentDropdownListItem> GetStudents()
         {
-            IQueryable<DDLFormatHocSinh> hocSinhs = from hs in db.HocSinh_ThongTinCaNhans
-                                                    join hs_lh in db.HocSinh_HocSinhLopHocs on hs.MaHocSinh equals hs_lh.MaHocSinh
-                                                    where hs_lh.MaLopHoc == maLopHoc
-                                                    select new DDLFormatHocSinh
-                                                    {
-                                                        MaHocSinh = hs_lh.MaHocSinh,
-                                                        MaHocSinhLopHoc = hs_lh.MaHocSinhLopHoc,
-                                                        MaHocSinhHienThi = hs.MaHocSinhHienThi,
-                                                        HoTen = hs.HoTen
-                                                    };
-            if (hocSinhs.Count() != 0)
+            // get current year
+            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+
+            // get lis
+            IQueryable<StudentDropdownListItem> iqStudent;
+            iqStudent = from student in db.HocSinh_ThongTinCaNhans
+                        join studentInClass in db.HocSinh_HocSinhLopHocs
+                            on student.MaHocSinh equals studentInClass.MaHocSinh
+                        join cls in db.LopHoc_Lops
+                            on studentInClass.MaLopHoc equals cls.MaLopHoc
+                        where cls.MaNamHoc == currentYear.MaNamHoc
+                        select new StudentDropdownListItem
+                        {
+                            StudentId = studentInClass.MaHocSinh,
+                            StudentInClassId = studentInClass.MaHocSinhLopHoc,
+                            StudentCode = student.MaHocSinhHienThi,
+                            StudentName = student.HoTen
+                        };
+            if (iqStudent.Count() != 0)
             {
-                return hocSinhs.ToList();
+                return iqStudent.OrderBy(std => std.StudentCode)
+                    .ThenBy(std => std.StudentName).ToList();
             }
             else
             {
-                return new List<DDLFormatHocSinh>();
+                return new List<StudentDropdownListItem>();
             }
         }
 
-        public List<DDLFormatHocSinh> GetListHocSinh()
+        public List<StudentDropdownListItem> GetStudents(LopHoc_Lop pClass)
         {
-            int maNamHocHienHanh = (new CauHinhHeThongDA()).GetMaNamHocHienHanh();
-            IQueryable<DDLFormatHocSinh> hocSinhs = from hs in db.HocSinh_ThongTinCaNhans
-                                                    join hs_lh in db.HocSinh_HocSinhLopHocs on hs.MaHocSinh equals hs_lh.MaHocSinh
-                                                    join lop in db.LopHoc_Lops on hs_lh.MaLopHoc equals lop.MaLopHoc
-                                                    where lop.MaNamHoc == maNamHocHienHanh
-                                                    select new DDLFormatHocSinh
-                                                    {
-                                                        MaHocSinh = hs_lh.MaHocSinh,
-                                                        MaHocSinhLopHoc = hs_lh.MaHocSinhLopHoc,
-                                                        MaHocSinhHienThi = hs.MaHocSinhHienThi,
-                                                        HoTen = hs.HoTen
-                                                    };
-            if (hocSinhs.Count() != 0)
+            IQueryable<StudentDropdownListItem> iqStudent;
+            iqStudent = from student in db.HocSinh_ThongTinCaNhans
+                        join studentInClass in db.HocSinh_HocSinhLopHocs
+                            on student.MaHocSinh equals studentInClass.MaHocSinh
+                        where studentInClass.MaLopHoc == pClass.MaLopHoc
+                        select new StudentDropdownListItem
+                        {
+                            StudentId = studentInClass.MaHocSinh,
+                            StudentInClassId = studentInClass.MaHocSinhLopHoc,
+                            StudentCode = student.MaHocSinhHienThi,
+                            StudentName = student.HoTen
+                        };
+            if (iqStudent.Count() != 0)
             {
-                return hocSinhs.ToList();
+                return iqStudent.OrderBy(std => std.StudentCode)
+                    .ThenBy(std => std.StudentName).ToList();
             }
             else
             {
-                return new List<DDLFormatHocSinh>();
+                return new List<StudentDropdownListItem>();
             }
         }
 
-        public List<DDLFormatHocSinh> GetListHocSinhByKhoi(int maKhoi)
+        public List<StudentDropdownListItem> GetStudents(DanhMuc_KhoiLop grade)
         {
-            int maNamHocHienHanh = (new CauHinhHeThongDA()).GetMaNamHocHienHanh();
-            IQueryable<DDLFormatHocSinh> hocSinhs = from hs in db.HocSinh_ThongTinCaNhans
-                                                    join hs_lh in db.HocSinh_HocSinhLopHocs on hs.MaHocSinh equals hs_lh.MaHocSinh
-                                                    join lop in db.LopHoc_Lops on hs_lh.MaLopHoc equals lop.MaLopHoc
-                                                    where lop.MaNamHoc == maNamHocHienHanh && lop.MaKhoiLop == maKhoi
-                                                    select new DDLFormatHocSinh
-                                                    {
-                                                        MaHocSinh = hs_lh.MaHocSinh,
-                                                        MaHocSinhLopHoc = hs_lh.MaHocSinhLopHoc,
-                                                        MaHocSinhHienThi = hs.MaHocSinhHienThi,
-                                                        HoTen = hs.HoTen
-                                                    };
-            if (hocSinhs.Count() != 0)
+            // get current year
+            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+
+            // get lis
+            IQueryable<StudentDropdownListItem> iqStudent;
+            iqStudent = from student in db.HocSinh_ThongTinCaNhans
+                        join studentInClass in db.HocSinh_HocSinhLopHocs
+                            on student.MaHocSinh equals studentInClass.MaHocSinh
+                        join cls in db.LopHoc_Lops
+                            on studentInClass.MaLopHoc equals cls.MaLopHoc
+                        where cls.MaNamHoc == currentYear.MaNamHoc
+                            && cls.MaKhoiLop == grade.MaKhoiLop
+                        select new StudentDropdownListItem
+                        {
+                            StudentId = studentInClass.MaHocSinh,
+                            StudentInClassId = studentInClass.MaHocSinhLopHoc,
+                            StudentCode = student.MaHocSinhHienThi,
+                            StudentName = student.HoTen
+                        };
+            if (iqStudent.Count() != 0)
             {
-                return hocSinhs.ToList();
+                return iqStudent.OrderBy(std => std.StudentCode)
+                    .ThenBy(std => std.StudentName).ToList();
             }
             else
             {
-                return new List<DDLFormatHocSinh>();
+                return new List<StudentDropdownListItem>();
             }
         }
 
-        public List<DDLFormatHocSinh> GetListHocSinhByNganh(int maNganh)
+        public List<StudentDropdownListItem> GetStudents(DanhMuc_NganhHoc faculty)
         {
-            int maNamHocHienHanh = (new CauHinhHeThongDA()).GetMaNamHocHienHanh();
-            IQueryable<DDLFormatHocSinh> hocSinhs = from hs in db.HocSinh_ThongTinCaNhans
-                                                    join hs_lh in db.HocSinh_HocSinhLopHocs on hs.MaHocSinh equals hs_lh.MaHocSinh
-                                                    join lop in db.LopHoc_Lops on hs_lh.MaLopHoc equals lop.MaLopHoc
-                                                    where lop.MaNamHoc == maNamHocHienHanh && lop.MaNganhHoc == maNganh
-                                                    select new DDLFormatHocSinh
-                                                    {
-                                                        MaHocSinh = hs_lh.MaHocSinh,
-                                                        MaHocSinhLopHoc = hs_lh.MaHocSinhLopHoc,
-                                                        MaHocSinhHienThi = hs.MaHocSinhHienThi,
-                                                        HoTen = hs.HoTen
-                                                    };
-            if (hocSinhs.Count() != 0)
+            // get current year
+            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+
+            // get lis
+            IQueryable<StudentDropdownListItem> iqStudent;
+            iqStudent = from student in db.HocSinh_ThongTinCaNhans
+                        join studentInClass in db.HocSinh_HocSinhLopHocs
+                            on student.MaHocSinh equals studentInClass.MaHocSinh
+                        join cls in db.LopHoc_Lops
+                            on studentInClass.MaLopHoc equals cls.MaLopHoc
+                        where cls.MaNamHoc == currentYear.MaNamHoc && cls.MaNganhHoc == faculty.MaNganhHoc
+                        select new StudentDropdownListItem
+                        {
+                            StudentId = studentInClass.MaHocSinh,
+                            StudentInClassId = studentInClass.MaHocSinhLopHoc,
+                            StudentCode = student.MaHocSinhHienThi,
+                            StudentName = student.HoTen
+                        };
+            if (iqStudent.Count() != 0)
             {
-                return hocSinhs.ToList();
+                return iqStudent.OrderBy(std => std.StudentCode)
+                    .ThenBy(std => std.StudentName).ToList();
             }
             else
             {
-                return new List<DDLFormatHocSinh>();
+                return new List<StudentDropdownListItem>();
             }
         }
 
-        public List<DDLFormatHocSinh> GetListHocSinhByNganh(int maNganh, int maKhoi)
+        public List<StudentDropdownListItem> GetStudents(DanhMuc_KhoiLop grade, DanhMuc_NganhHoc faculty)
         {
-            int maNamHocHienHanh = (new CauHinhHeThongDA()).GetMaNamHocHienHanh();
-            IQueryable<DDLFormatHocSinh> hocSinhs = from hs in db.HocSinh_ThongTinCaNhans
-                                                    join hs_lh in db.HocSinh_HocSinhLopHocs on hs.MaHocSinh equals hs_lh.MaHocSinh
-                                                    join lop in db.LopHoc_Lops on hs_lh.MaLopHoc equals lop.MaLopHoc
-                                                    where lop.MaNamHoc == maNamHocHienHanh && lop.MaNganhHoc == maNganh && lop.MaKhoiLop == maKhoi
-                                                    select new DDLFormatHocSinh
-                                                    {
-                                                        MaHocSinh = hs_lh.MaHocSinh,
-                                                        MaHocSinhLopHoc = hs_lh.MaHocSinhLopHoc,
-                                                        MaHocSinhHienThi = hs.MaHocSinhHienThi,
-                                                        HoTen = hs.HoTen
-                                                    };
-            if (hocSinhs.Count() != 0)
+            // get current year
+            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+
+            // get lis
+            IQueryable<StudentDropdownListItem> iqStudent;
+            iqStudent = from student in db.HocSinh_ThongTinCaNhans
+                        join studentInClass in db.HocSinh_HocSinhLopHocs
+                            on student.MaHocSinh equals studentInClass.MaHocSinh
+                        join cls in db.LopHoc_Lops
+                            on studentInClass.MaLopHoc equals cls.MaLopHoc
+                        where cls.MaNamHoc == currentYear.MaNamHoc
+                            && cls.MaNganhHoc == faculty.MaNganhHoc
+                            && cls.MaKhoiLop == grade.MaKhoiLop
+                        select new StudentDropdownListItem
+                        {
+                            StudentId = studentInClass.MaHocSinh,
+                            StudentInClassId = studentInClass.MaHocSinhLopHoc,
+                            StudentCode = student.MaHocSinhHienThi,
+                            StudentName = student.HoTen
+                        };
+            if (iqStudent.Count() != 0)
             {
-                return hocSinhs.ToList();
+                return iqStudent.OrderBy(std => std.StudentCode)
+                    .ThenBy(std => std.StudentName).ToList();
             }
             else
             {
-                return new List<DDLFormatHocSinh>();
+                return new List<StudentDropdownListItem>();
             }
         }
+        #endregion
 
         public HocSinh_HocSinhLopHoc GetHocSinhLopHoc(int maHocSinhLopHoc)
         {
@@ -897,9 +933,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<CauHinh_NamHoc> GetListNamHoc(int maHocSinh)
         {
             IQueryable<CauHinh_NamHoc> namHocs = from nam in db.CauHinh_NamHocs
-                                                 join lop in db.LopHoc_Lops 
+                                                 join lop in db.LopHoc_Lops
                                                     on nam.MaNamHoc equals lop.MaNamHoc
-                                                 join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs 
+                                                 join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs
                                                     on lop.MaLopHoc equals hocSinhLopHoc.MaLopHoc
                                                  where hocSinhLopHoc.MaHocSinh == maHocSinh
                                                  select nam;
@@ -955,8 +991,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public int GetCurrentMaLopHoc(int maHocSinh)
         {
             HocSinh_HocSinhLopHoc hocSinhLop = (from hsLop in db.HocSinh_HocSinhLopHocs
-                                               where hsLop.MaHocSinh == maHocSinh
-                                               select hsLop).OrderByDescending(hsLop => hsLop.MaHocSinhLopHoc).First();
+                                                where hsLop.MaHocSinh == maHocSinh
+                                                select hsLop).OrderByDescending(hsLop => hsLop.MaHocSinhLopHoc).First();
             return hocSinhLop.MaLopHoc;
         }
 
@@ -965,17 +1001,17 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<TabularHanhKiemHocSinh> iqDanhHieuHK;
             iqDanhHieuHK = from danhHieuHK in db.HocSinh_DanhHieuHocKies
-                           join hocSinhLop in db.HocSinh_HocSinhLopHocs 
+                           join hocSinhLop in db.HocSinh_HocSinhLopHocs
                                 on danhHieuHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
-                           join hocSinh in db.HocSinh_ThongTinCaNhans 
+                           join hocSinh in db.HocSinh_ThongTinCaNhans
                                 on hocSinhLop.MaHocSinh equals hocSinh.MaHocSinh
                            where hocSinhLop.MaLopHoc == maLopHoc && danhHieuHK.MaHocKy == maHocKy
                            select new TabularHanhKiemHocSinh
                            {
-                                MaHocSinh = hocSinhLop.MaHocSinh,
-                                MaHocSinhHienThi = hocSinh.MaHocSinhHienThi,
-                                HoTenHocSinh = hocSinh.HoTen,
-                                MaHanhKiem = danhHieuHK.MaHanhKiemHK
+                               MaHocSinh = hocSinhLop.MaHocSinh,
+                               MaHocSinhHienThi = hocSinh.MaHocSinhHienThi,
+                               HoTenHocSinh = hocSinh.HoTen,
+                               MaHanhKiem = danhHieuHK.MaHanhKiemHK
                            };
 
             totalRecords = iqDanhHieuHK.Count();
@@ -995,7 +1031,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<HocSinh_DanhHieuHocKy> iqDanhHieuHocKy;
             iqDanhHieuHocKy = from danhHieuHK in db.HocSinh_DanhHieuHocKies
-                              join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs 
+                              join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs
                                 on danhHieuHK.MaHocSinhLopHoc equals hocSinhLopHoc.MaHocSinhLopHoc
                               where hocSinhLopHoc.MaLopHoc == maLopHoc
                                 && danhHieuHK.MaHocKy == maHocKy

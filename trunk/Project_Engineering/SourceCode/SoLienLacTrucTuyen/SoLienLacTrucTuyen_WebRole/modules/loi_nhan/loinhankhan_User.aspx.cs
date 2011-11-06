@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
             DdlNamHoc.DataBind();
-            DdlNamHoc.SelectedValue = (new CauHinhHeThongBL()).GetMaNamHocHienHanh().ToString();
+            DdlNamHoc.SelectedValue = (new SystemConfigBL()).GetCurrentYear().ToString();
         }
 
         private void BindDropDownListXacNhan()

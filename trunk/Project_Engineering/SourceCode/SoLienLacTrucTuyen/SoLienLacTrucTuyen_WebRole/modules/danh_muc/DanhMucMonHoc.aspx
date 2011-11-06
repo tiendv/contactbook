@@ -111,22 +111,18 @@
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
-                    Ngành:
-                    <asp:DropDownList ID="DdlNganh" runat="server" Width="150px" AutoPostBack="true"
-                        OnSelectedIndexChanged="DdlNganh_SelectedIndexChanged">
-                    </asp:DropDownList>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Khối:
-                    <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px" AutoPostBack="true"
-                        OnSelectedIndexChanged="DdlKhoiLop_SelectedIndexChanged">
-                    </asp:DropDownList>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Môn học:
-                    <asp:DropDownList ID="DdlMonHoc" runat="server" Width="150px">
-                    </asp:DropDownList>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </ContentTemplate>
-            </asp:UpdatePanel>
+            Ngành:
+            <asp:DropDownList ID="DdlNganh" runat="server" Width="150px">
+            </asp:DropDownList>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Khối:
+            <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px">
+            </asp:DropDownList>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Môn học:
+            <asp:TextBox ID="TxtSearchedSubject" runat="server"></asp:TextBox>
+            <ajaxToolkit:TextBoxWatermarkExtender ID="TextBoxWatermarkExtender1" runat="server"
+                TargetControlID="TxtSearchedSubject" WatermarkText="Tất cả">
+            </ajaxToolkit:TextBoxWatermarkExtender>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div id="divButtonSearch" style="margin: -15px 0px 0px 0px">
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
@@ -147,6 +143,9 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater ui-corner-all">
+            <asp:HiddenField ID="HfdSelectedSubjectName" runat="server" />
+            <asp:HiddenField ID="HdfFacultyName" runat="server" />
+            <asp:HiddenField ID="HdfGradeName" runat="server" />
             <asp:HiddenField ID="HdfMaMonHoc" runat="server" />
             <asp:HiddenField ID="HdfRptMonHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptMonHocMPEEdit" runat="server" />
@@ -189,10 +188,12 @@
                             <asp:Label ID="LblTenMonHoc" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>
+                            <asp:Label ID="LblFacultyName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>'></asp:Label>
+                            <asp:HiddenField ID="HdfFacultyName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>
+                            <asp:Label ID="LblGradeName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>'></asp:Label>
+                            <asp:HiddenField ID="HdfGradeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>' />
                         </td>
                         <td style="height: 40px; text-align: right">
                             <asp:Label ID="Label15" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "HeSoDiem")%>'>
@@ -201,7 +202,7 @@
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaMonHoc")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -272,8 +273,8 @@
                             ValidationGroup="AddMonHoc" ErrorMessage="Tên môn học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenMonHocValidatorAdd" runat="server" ControlToValidate="TxtTenMonHocThem"
-                            ValidationGroup="AddMonHoc" ClientValidationFunction="validateTenMonHocAdd" ErrorMessage="Môn học đã tồn tại"
-                            Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="AddMonHoc" ErrorMessage="Môn học đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -281,7 +282,7 @@
                         Ngành:
                     </td>
                     <td style="width: auto;">
-                        <asp:DropDownList ID="DdlNganhHocThem" runat="server" style="width:99%">
+                        <asp:DropDownList ID="DdlNganhHocThem" runat="server" Style="width: 99%">
                         </asp:DropDownList>
                     </td>
                 </tr>
@@ -290,12 +291,12 @@
                         <asp:Label ID="Label14" runat="server" Text="Khối:"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:DropDownList ID="DdlKhoiLopThem" runat="server" style="width:99%">
+                        <asp:DropDownList ID="DdlKhoiLopThem" runat="server" Style="width: 99%">
                         </asp:DropDownList>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:80px;">
+                    <td style="width: 80px;">
                         Hệ số điểm:
                     </td>
                     <td style="width: auto;">
@@ -345,8 +346,8 @@
                             ValidationGroup="EditMonHoc" ErrorMessage="Tên môn học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenMonHocValidatorEdit" runat="server" ControlToValidate="TxtTenMonHocSua"
-                            ValidationGroup="EditMonHoc" ClientValidationFunction="validateTenMonHocEdit"
-                            ErrorMessage="Môn học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="EditMonHoc" ErrorMessage="Môn học đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>

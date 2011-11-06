@@ -9,16 +9,18 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using System.Web.Security;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThemNguoiDung : System.Web.UI.Page
+    public partial class ThemNguoiDung : BaseContentPage
     {
         #region Fields
         private RoleBL roleBL = new RoleBL();
         private UserBL userBL;
         private HocSinhBL hocSinhBL;
         protected string btnSaveClickEvent = string.Empty;
+
         public string SeletedRole 
         {
             get
@@ -41,96 +43,43 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
             userBL = new UserBL();
             hocSinhBL = new HocSinhBL();
 
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect("/Modules/ErrorPage/AccessDenied.aspx");
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = userBL.GetRoleId(User.Identity.Name);
-            masterPage.PageUrl = Page.Request.Path;
-
             if (!Page.IsPostBack)
             {
-                BindDropDownListNhomNguoiDung();
+                BindDDLNhomNguoiDung();
 
                 DropDownList DdlRoles = (DropDownList)SeleteRoleStep.FindControl("DdlRoles");
                 if (DdlRoles.Items.Count != 0)
                 {
                     SeletedRole = DdlRoles.Items[0].Value;
                     ProcessUI();
-
-                    BindDropDownListNamHoc();
-                    BindDropDownListNganhHoc();
-                    BindDropDownListKhoiLop();
                 }                
             }
         }
         #endregion
 
         #region Methods
-        private void BindDropDownListNhomNguoiDung()
+        private void BindDDLNhomNguoiDung()
         {   
             DropDownList DdlRoles = (DropDownList)SeleteRoleStep.FindControl("DdlRoles");
-            List<aspnet_Role> lstNhomNguoiDung = roleBL.GetListRoles();
+
+            List<aspnet_Role> lstNhomNguoiDung = roleBL.GetRolesForAddingUser();
             DdlRoles.DataSource = lstNhomNguoiDung;
             DdlRoles.DataValueField = "RoleName";
             DdlRoles.DataTextField = "RoleName";
             DdlRoles.DataBind();
-        }
 
-        private void BindDropDownListNamHoc()
-        {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHocs = namHocBL.GetListNamHoc();
-
-            MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl("MultiViewCtrl");
-            View viewGVCN = multiViewCtrl.Views[1];
-            
-            DropDownList DdlNamHocGVCN = (DropDownList)viewGVCN.FindControl("DdlNamHocGVCN");
-            DdlNamHocGVCN.DataSource = lstNamHocs;
-            DdlNamHocGVCN.DataValueField = "MaNamHoc";
-            DdlNamHocGVCN.DataTextField = "TenNamHoc";
-            DdlNamHocGVCN.DataBind();
-        }
-
-        private void BindDropDownListNganhHoc()
-        {
-            FacultyBL nganhHocBL = new FacultyBL();
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetListNganhHoc();
-
-            MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl("MultiViewCtrl");
-            View viewGVCN = multiViewCtrl.Views[1];
-
-            DropDownList DdlNganhHocGVCN = (DropDownList)viewGVCN.FindControl("DdlNganhGVCN");
-            DdlNganhHocGVCN.DataSource = lstNganhHoc;
-            DdlNganhHocGVCN.DataValueField = "MaNganhHoc";
-            DdlNganhHocGVCN.DataTextField = "TenNganhHoc";
-            DdlNganhHocGVCN.DataBind();
-        }
-
-        private void BindDropDownListKhoiLop()
-        {
-            KhoiLopBL KhoiLopBL = new KhoiLopBL();
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListKhoiLop();
-
-            MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl("MultiViewCtrl");
-            View viewGVCN = multiViewCtrl.Views[1];
-
-            DropDownList DdlKhoiLopGVCN = (DropDownList)viewGVCN.FindControl("DdlKhoiGVCN");
-
-            DdlKhoiLopGVCN.DataSource = lstKhoiLop;
-            DdlKhoiLopGVCN.DataValueField = "MaKhoiLop";
-            DdlKhoiLopGVCN.DataTextField = "TenKhoiLop";
-            DdlKhoiLopGVCN.DataBind();
+            DdlRoles.Items.Add(new ListItem( "Giáo viên", "Giáo viên"));
         }
 
         private void BackPrevPage()
@@ -179,128 +128,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 ((HtmlTableRow)container.FindControl("HtmlTrThoiHan")).Style.Add(HtmlTextWriterStyle.Display, "block");
                 ((HtmlTableRow)container.FindControl("HtmlTrTenThat")).Style.Add(HtmlTextWriterStyle.Display, "none");                
                 ViewState["SeletedRoleParents"] = true;                
-            }
-            else
-            {
-                if (roleBL.IsRoleGiaoVienChuNhiem(selectedRoleName))
-                {
-                    multiViewCtrl.ActiveViewIndex = 2;
-
-                    View activeView = multiViewCtrl.Views[multiViewCtrl.ActiveViewIndex];
-                    DropDownList DdlLopHocGVCN = (DropDownList)activeView.FindControl("DdlLopHocGVCN");
-                    if (DdlLopHocGVCN.Items.Count == 0)
-                    {
-                        NextButton.Visible = false;
-                        lblStepError.Text = "Chưa có thông tin lớp học.<br/>Vui lòng bổ sung thông tin lớp học!";
-                    }
-                }
-                else
-                {
-                    if (roleBL.IsRoleGiaoVienBoMon(selectedRoleName))
-                    {
-                        multiViewCtrl.ActiveViewIndex = 3;
-                    }
-                    else
-                    {
-
-                    }
-                }
-            }
-
-
-            
-        }
-
-        protected void DdlNamHocGVCN_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDropDownListLopHocGVCN();
-        }
-
-        protected void DdlKhoiGVCN_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDropDownListLopHocGVCN();
-        }
-
-        protected void DdlNganhGVCN_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDropDownListLopHocGVCN();
-        }
-
-        protected void DdlLopHocGVCN_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Label lblStepError = (Label)SeleteRoleStep.FindControl("LblStepError");
-            ImageButton NextButton = (ImageButton)RegisterUserWizard.FindControl(
-                "StartNavigationTemplateContainerID").FindControl("StartNextButton");
-
-            DropDownList ddlLopHocGVCN = sender as DropDownList;
-            int maLopHoc = Int32.Parse(ddlLopHocGVCN.SelectedValue);
-            bool hasGVCN = (new LopHocBL()).HasGiaoVienChuNhiem(maLopHoc);
-            if (!hasGVCN)
-            {                
-                lblStepError.Text = "Lớp học này chưa có giáo viên chủ nhiệm.<br/>"
-                    + "Vui lòng bổ sung thông tin giáo viên chủ nhiệm!";            
-                NextButton.Visible = false;
-            }
-            else
-            {
-                lblStepError.Text = "";
-                NextButton.Visible = true;
-            }
-        }
-
-        private void BindDropDownListLopHocGVCN()
-        {
-            Label lblStepError = (Label)SeleteRoleStep.FindControl("LblStepError");
-            ImageButton NextButton = (ImageButton)RegisterUserWizard.FindControl(
-                "StartNavigationTemplateContainerID").FindControl("StartNextButton"); 
-            
-            MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl("MultiViewCtrl");
-            View viewGVCN = multiViewCtrl.Views[1];            
-            DropDownList ddlNamHocGVCN = (DropDownList)viewGVCN.FindControl("DdlNamHocGVCN");
-            DropDownList ddlNganhHocGVCN = (DropDownList)viewGVCN.FindControl("DdlNganhGVCN");
-            DropDownList ddlKhoiLopGVCN = (DropDownList)viewGVCN.FindControl("DdlKhoiGVCN");
-
-            if (ddlNamHocGVCN.Items.Count == 0 || ddlNganhHocGVCN.Items.Count == 0 
-                || ddlKhoiLopGVCN.Items.Count == 0)
-            {
-                lblStepError.Text = "Chưa có thông tin lớp học.<br/>Vui lòng bổ sung thông tin lớp học!";
-                NextButton.Visible = false;
-                return;
-            }
-
-            int maNamHoc = Int32.Parse(ddlNamHocGVCN.SelectedValue);
-            int maNganhHoc = Int32.Parse(ddlNganhHocGVCN.SelectedValue);
-            int maKhoiLop = Int32.Parse(ddlKhoiLopGVCN.SelectedValue);
-
-            List<LopHoc_Lop> lstLopHocGVCN = (new LopHocBL()).GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
-            DropDownList ddlLopHocGVCN = (DropDownList)viewGVCN.FindControl("DdlLopHocGVCN");
-            ddlLopHocGVCN.DataSource = lstLopHocGVCN;
-            ddlLopHocGVCN.DataValueField = "MaLopHoc";
-            ddlLopHocGVCN.DataTextField = "TenLopHoc";
-            ddlLopHocGVCN.DataBind();
-            if (ddlLopHocGVCN.Items.Count == 0)
-            {
-                lblStepError.Text = "Chưa có thông tin lớp học.<br/>"
-                    + "Vui lòng bổ sung thông tin lớp học!";
-                NextButton.Visible = false;
-                return;
-            }
-            else
-            {
-                int maLopHoc = Int32.Parse(ddlLopHocGVCN.Items[0].Value);
-                bool hasGVCN = (new LopHocBL()).HasGiaoVienChuNhiem(maLopHoc);
-                if (!hasGVCN)
-                {
-                    lblStepError.Text = "Lớp học này chưa có giáo viên chủ nhiệm.<br/>" 
-                        + "Vui lòng bổ sung thông tin giáo viên chủ nhiệm!";
-                    NextButton.Visible = false;
-                    return;
-                }
-
-                lblStepError.Text = "";
-                NextButton.Visible = true;
-            }
-        }
+            }            
+        }        
         #endregion
 
         #region Button event handlers
@@ -338,19 +167,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region CreateUserWizard event handlers
         protected void RegisterUserWizard_CreatingUser(object sender, LoginCancelEventArgs e)
         {
+            StringBuilder strB = new StringBuilder();
+            strB.Append(User.Identity.Name.Split('-')[0]);
+            strB.Append("-");
+            strB.Append(RegisterUserWizard.UserName);
 
+            RegisterUserWizard.UserName = strB.ToString();
         }
 
         protected void RegisterUserWizard_CreatedUser(object sender, EventArgs e)
         {
-            // UserName
             string userName = RegisterUserWizard.UserName;
-
-            // RoleName            
-            //Control control = CreateUserStep.ContentTemplateContainer;
-            //DropDownList ddlRoles = (DropDownList)SeleteRoleStep.FindControl("DdlRoles");
-            //string roleName = ddlRoles.SelectedItem.Text;
-
             string roleName = SeletedRole;
             
             roleBL.AddUserToRole(userName, roleName);

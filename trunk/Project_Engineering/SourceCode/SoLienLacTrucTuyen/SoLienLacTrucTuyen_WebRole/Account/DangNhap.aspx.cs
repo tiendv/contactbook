@@ -8,6 +8,7 @@ using System.Web.Security;
 using SoLienLacTrucTuyen.BusinessLogic;
 using System.Text;
 using System.Security.Cryptography;
+using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -20,18 +21,46 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             masterPage.PageTitle = "Đăng nhập";
 
             masterPage.SetPageTitleVisibility(false);
+
+            if (!Page.IsPostBack)
+            {
+                BindDDLSchools();
+            }
+        }
+
+        private void BindDDLSchools()
+        {
+            SchoolBL schoolBL = new SchoolBL();
+            List<School> schools = schoolBL.GetSchools();
+
+            DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
+            ddlSchools.DataSource = schools;
+            ddlSchools.DataTextField = "SchoolName";
+            ddlSchools.DataValueField = "SchoolID";
+            ddlSchools.DataBind();
         }
         #endregion
 
         #region Login event handlers
         protected void LoginCtrl_Authenticate(object sender, AuthenticateEventArgs e)
         {
+            // Get real UserName
+            DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
+            int iSltSchool = Int32.Parse(ddlSchools.SelectedValue);
+            LoginCtrl.UserName = iSltSchool + "-" + LoginCtrl.UserName;
+
             if (ValidateUser(LoginCtrl.UserName, LoginCtrl.Password))
             {
                 e.Authenticated = true;
+                School school = new School();
+                school.SchoolId = iSltSchool;
+                school.SchoolName = ddlSchools.SelectedItem.Text;
+
+                Session[User.Identity.Name + "_SESSION_SCHOOL"] = school;
             }
             else
             {
+                LoginCtrl.UserName = LoginCtrl.UserName.Split('-')[1];
                 e.Authenticated = false;
             }
         }

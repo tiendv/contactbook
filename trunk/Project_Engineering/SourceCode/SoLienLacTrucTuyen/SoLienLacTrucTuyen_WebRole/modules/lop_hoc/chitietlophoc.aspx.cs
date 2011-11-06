@@ -9,29 +9,23 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ChiTietLopHoc : System.Web.UI.Page
+    public partial class ChiTietLopHoc : BaseContentPage
     {
         #region Fields
         private LopHocBL lopHocBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            lopHocBL = new LopHocBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-
-            if (!(new RoleBL()).ValidateAuthorization(role, pageUrl))
+            // Check user's accessibility
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            lopHocBL = new LopHocBL();           
 
             if (!Page.IsPostBack)
             {
@@ -40,10 +34,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     LopHoc_Lop lophoc = lopHocBL.GetLopHoc((int)maLopHoc);
                     if (lophoc != null)
-                    {
+                    {                        
                         LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;
-                        LblTenNganhHocChiTiet.Text = (new FacultyBL()).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
-                        LblTenKhoiLopChiTiet.Text = (new KhoiLopBL()).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
+                        LblTenNganhHocChiTiet.Text = lophoc.DanhMuc_NganhHoc.TenNganhHoc;
+                        LblTenKhoiLopChiTiet.Text = lophoc.DanhMuc_KhoiLop.TenKhoiLop;
                         LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
                     }
                 }

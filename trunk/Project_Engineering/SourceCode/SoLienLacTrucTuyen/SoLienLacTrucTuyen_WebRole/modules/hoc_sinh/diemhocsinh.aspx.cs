@@ -105,8 +105,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count != 0)
             {
-                CauHinhHeThongBL cauHinhBL = new CauHinhHeThongBL();
-                DdlNamHoc.SelectedValue = cauHinhBL.GetMaNamHocHienHanh().ToString();
+                SystemConfigBL cauHinhBL = new SystemConfigBL();
+                DdlNamHoc.SelectedValue = cauHinhBL.GetCurrentYear().ToString();
             }
         }
 
@@ -123,7 +123,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNganhHoc()
         {
             FacultyBL nganhHocBL = new FacultyBL();
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetListNganhHoc();
+            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
@@ -136,8 +136,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLKhoiLop()
         {
-            KhoiLopBL KhoiLopBL = new KhoiLopBL();
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListKhoiLop();
+            GradeBL KhoiLopBL = new GradeBL();
+            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";
@@ -150,15 +150,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLoaiDiem()
         {
-            LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListLoaiDiem();
+            MarkTypeBL loaiDiemBL = new MarkTypeBL();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
             DdlLoaiDiem.DataSource = lstLoaiDiem;
-            DdlLoaiDiem.DataValueField = "MaLoaiDiem";
+            DdlLoaiDiem.DataValueField = "TenLoaiDiem";
             DdlLoaiDiem.DataTextField = "TenLoaiDiem";
             DdlLoaiDiem.DataBind();
             if (lstLoaiDiem.Count > 1)
             {
-                DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", "0"));
+                DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
                 ChooseAllMarkType = true;
             }
 
@@ -230,25 +230,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptTenLoaiDiem()
         {
+            MarkTypeBL loaiDiemBL = new MarkTypeBL();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = new List<DanhMuc_LoaiDiem>();
+
             if (DdlLoaiDiem.Items.Count != 0)
             {
-                LoaiDiemBL loaiDiemBL = new LoaiDiemBL();
-                int maLoaiDiem = Int32.Parse(DdlLoaiDiem.SelectedValue);
-                List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListLoaiDiem(maLoaiDiem);
-                this.RptLoaiDiem.DataSource = lstLoaiDiem;
+                if (DdlLoaiDiem.SelectedIndex == 0)
+                {
+                    lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
+                }
+                else
+                {
+                    string markTypeName = DdlLoaiDiem.SelectedValue;
+                    lstLoaiDiem.Add(loaiDiemBL.GetMarkType(markTypeName));
+                }
 
                 ChooseAllMarkType = false;
             }
             else
             {
-                this.RptLoaiDiem.DataSource = null;
                 ChooseAllMarkType = true;
             }
+
+            this.RptLoaiDiem.DataSource = lstLoaiDiem;
             this.RptLoaiDiem.DataBind();
         }
 
         private void BindRptDiemHocSinh()
         {
+            MarkTypeBL markTypeBL = new MarkTypeBL();
+            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
+
             if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0
                 || DdlLoaiDiem.Items.Count == 0)
             {
@@ -259,12 +271,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
             int maMonHoc = Int32.Parse(DdlMonHoc.SelectedValue);
             int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            int maLoaiDiem = Int32.Parse(DdlLoaiDiem.SelectedValue);
+            //int maLoaiDiem = Int32.Parse(DdlLoaiDiem.SelectedValue);
+
+            if(DdlLoaiDiem.SelectedIndex == 0)
+            {
+                markTypes = markTypeBL.GetListMarkTypes();
+            }
+            else
+            {
+                string markTypeName = DdlLoaiDiem.SelectedValue;
+                markTypes.Add(markTypeBL.GetMarkType(markTypeName));
+            }            
 
             double totalRecords;
             List<TabularDiemHocSinh> lstTbDiemHocSinh;
             lstTbDiemHocSinh = ketQuaHocTapBL.GetListDiemHocSinh(maLopHoc, maMonHoc, maHocKy,
-                maLoaiDiem,
+                markTypes,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             this.RptDiemMonHoc.DataSource = lstTbDiemHocSinh;
@@ -338,9 +360,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             HiddenField hdfMaLoaiDiem = (HiddenField)rptItemDiem.FindControl("HdfMaLoaiDiem");
                             int maLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value);
 
+                            HiddenField hdfTenLoaiDiem = (HiddenField)rptItemDiem.FindControl("HdfTenLoaiDiem");
+                            string markTypeName = hdfTenLoaiDiem.Value;
+
                             TextBox txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
                             string marks = txtDiems.Text.Trim();
-                            if (ketQuaHocTapBL.ValidateMark(marks, maLoaiDiem))
+                            if (ketQuaHocTapBL.ValidateMark(marks, markTypeName))
                             {
                                 if (txtDiems.Text != "")
                                 {

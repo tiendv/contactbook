@@ -21,6 +21,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.GetRoleId(userName);
         }
 
+        public List<aspnet_Role> GetRoles(string userName)
+        {
+            return userDA.GetRoles(userName);
+        }
+
         public Guid GetApplicationId(string userName)
         {
             return userDA.GetApplicationId(userName);
@@ -34,16 +39,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularUser> GetListTabularUsers(Guid roleId, string userName, 
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
+            List<TabularUser> lTabularUsers = new List<TabularUser>();
+
             if (roleId == new Guid())
             {
                 if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
                 {
-                    return userDA.GetListTbUsers(
+                    lTabularUsers = userDA.GetListTbUsers(
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    return userDA.GetListTbUsers(userName,
+                    lTabularUsers = userDA.GetListTbUsers(userName,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
@@ -51,15 +58,24 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
                 {
-                    return userDA.GetListTbUsers(roleId,
+                    lTabularUsers = userDA.GetListTbUsers(roleId,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    return userDA.GetListUsers(roleId, userName,
+                    lTabularUsers = userDA.GetListUsers(roleId, userName,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
-            }            
+            }
+
+            string strActualUserName;
+            foreach (TabularUser tbUser in lTabularUsers)
+            {
+                strActualUserName = tbUser.UserName;
+                tbUser.UserName = strActualUserName.Substring(strActualUserName.IndexOf('-') + 1);
+            }
+
+            return lTabularUsers;
         }
 
         public bool CanDeleteNguoiDung(Guid maNguoiDung)

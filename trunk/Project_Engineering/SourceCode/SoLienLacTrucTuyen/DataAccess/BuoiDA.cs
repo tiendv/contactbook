@@ -12,33 +12,33 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
         }
 
-        public string GetTenBuoi(int maBuoi)
+        public string GetSessionName(int sessionName)
         {
-            if (maBuoi == 0)
+            if (sessionName == 0)
             {
                 return "Cả ngày";
             }
             else
             {
                 CauHinh_Buoi buoi = (from b in db.CauHinh_Buois
-                                     where b.MaBuoi == maBuoi
+                                     where b.MaBuoi == sessionName
                                      select b).First();
                 return buoi.TenBuoi;
             }
         }
 
-        public List<CauHinh_Buoi> GetListBuoi()
+        public List<CauHinh_Buoi> GetListSessions()
         {
-            IQueryable<CauHinh_Buoi> buois = from b in db.CauHinh_Buois
-                                             select b;
-            if (buois.Count() != 0)
+            List<CauHinh_Buoi> lSesssions = new List<CauHinh_Buoi>();
+
+            IQueryable<CauHinh_Buoi> iqSessions = from session in db.CauHinh_Buois
+                                                  select session;
+            if (iqSessions.Count() != 0)
             {
-                return buois.ToList();
+                lSesssions = iqSessions.ToList();
             }
-            else
-            {
-                return new List<CauHinh_Buoi>();
-            }
+
+            return lSesssions;
         }
     }
 }

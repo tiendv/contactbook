@@ -150,6 +150,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaKhoiLop" runat="server" />
+            <asp:HiddenField ID="HdfSeletedGradeName" runat="server" />
             <asp:HiddenField ID="HdfRptKhoiLopMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptKhoiLopMPEEdit" runat="server" />
             <asp:Repeater ID="RptKhoiLop" runat="server" OnItemCommand="RptKhoiLop_ItemCommand"
@@ -183,7 +184,7 @@
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaKhoiLop")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -258,8 +259,8 @@
                             ValidationGroup="AddKhoiLop" ErrorMessage="Tên khối lớp không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenKhoiLopValidatorAdd" runat="server" ControlToValidate="TxtTenKhoiLop"
-                            ValidationGroup="AddKhoiLop" ClientValidationFunction="validateTenKhoiLopAdd"
-                            ErrorMessage="Khối lớp đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="AddKhoiLop" ErrorMessage="Khối lớp đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -310,8 +311,8 @@
                             ValidationGroup="EditKhoiLop" ErrorMessage="Tên khối lớp không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenKhoiLopValidatorEdit" runat="server" ControlToValidate="TxtSuaTenKhoiLop"
-                            ValidationGroup="EditKhoiLop" ClientValidationFunction="validateTenKhoiLopEdit"
-                            ErrorMessage="Khối lớp đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="EditKhoiLop" ErrorMessage="Khối lớp đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>

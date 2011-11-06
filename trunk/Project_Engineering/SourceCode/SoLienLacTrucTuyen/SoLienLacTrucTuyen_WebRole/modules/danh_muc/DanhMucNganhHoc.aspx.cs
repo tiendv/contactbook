@@ -13,34 +13,21 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole
 {
-    public partial class DanhMucNganhHoc : System.Web.UI.Page
+    public partial class DanhMucNganhHoc : BaseContentPage
     {
         #region Fields
-        private List<AccessibilityEnum> lstAccessibilities;
-        private FacultyBL nganhhocBL = new FacultyBL();
+        private FacultyBL facultyBL = new FacultyBL();
         private bool isSearch;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
 
             if (!Page.IsPostBack)
             {
@@ -76,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             string tenNganhHoc = TxtSearchNganhHoc.Text.Trim();
             double totalRecords;
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhhocBL.GetListNganhHoc(tenNganhHoc, 
+            List<DanhMuc_NganhHoc> lstNganhHoc = facultyBL.GetFaculties(tenNganhHoc,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
             MainDataPager.ItemCount = totalRecords;
 
@@ -135,9 +122,9 @@ namespace SoLienLacTrucTuyen_WebRole
                 return;
             }
 
-            string tenNganhHoc = this.TxtTenNganhHoc.Text.Trim();
+            string facultyName = this.TxtTenNganhHoc.Text.Trim();
 
-            if (tenNganhHoc == "")
+            if (facultyName == "")
             {
                 TenNganhHocRequiredAdd.IsValid = false;
                 MPEAdd.Show();
@@ -145,7 +132,7 @@ namespace SoLienLacTrucTuyen_WebRole
             }
             else
             {
-                if (nganhhocBL.NganhHocExists(tenNganhHoc))
+                if (facultyBL.FacultyExists(facultyName))
                 {
                     TenNganhHocValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -153,9 +140,13 @@ namespace SoLienLacTrucTuyen_WebRole
                 }
             }
 
-            string motaNganhHoc = this.TxtMoTaNganhHoc.Text.Trim();
-            Faculty faculty = new Faculty(tenNganhHoc, motaNganhHoc);
-            nganhhocBL.InsertFaculty(faculty);
+            string description = this.TxtMoTaNganhHoc.Text.Trim();
+            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc
+            {
+                TenNganhHoc = facultyName,
+                MoTa = description
+            };
+            facultyBL.InsertFaculty(faculty);
 
             MainDataPager.CurrentIndex = 1;
             BindData();
@@ -171,15 +162,16 @@ namespace SoLienLacTrucTuyen_WebRole
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maNganhHoc = Int32.Parse(this.HdfMaNganhHoc.Value);
-            nganhhocBL.DeleteNganhHoc(maNganhHoc);
+            string deletedFacultyName = this.HdfDeletedFacultyName.Value;
+            DanhMuc_NganhHoc faculty = facultyBL.GetFaculty(deletedFacultyName);
+            facultyBL.DeleteFaculty(faculty);
             isSearch = false;
             BindData();
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            ModalPopupExtender modalPopupEdit;
+            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
             foreach (RepeaterItem rptItem in RptNganhHoc.Items)
             {
                 if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
@@ -197,34 +189,27 @@ namespace SoLienLacTrucTuyen_WebRole
                 return;
             }
 
-            int maNganhHoc = Int32.Parse(this.HdfMaNganhHoc.Value);
-            string tenNganhHoc = this.TxtTenNganhHocEdit.Text.Trim();
+            string editedFacultyName = (string)this.HdfEditedFacultyName.Value;
+            string newFacultyName = this.TxtTenNganhHocEdit.Text.Trim();
+            string newDescription = this.TxtSuaMoTaNganhHoc.Text.Trim();
 
-            if (tenNganhHoc == "")
+            if (newFacultyName == "")
             {
                 TenNganhHocRequiredEdit.IsValid = false;
-                modalPopupEdit = (ModalPopupExtender)Page.FindControl(HdfRptNganhHocMPEEdit.Value);
                 modalPopupEdit.Show();
                 return;
             }
             else
             {
-                if (nganhhocBL.NganhHocExists(maNganhHoc, tenNganhHoc))
+                if (facultyBL.FacultyExists(editedFacultyName, newFacultyName))
                 {
                     TenNganhHocValidatorEdit.IsValid = false;
-                    modalPopupEdit = (ModalPopupExtender)Page.FindControl(HdfRptNganhHocMPEEdit.Value);
                     modalPopupEdit.Show();
                     return;
                 }
             }
 
-            nganhhocBL.UpdateNganhHoc(new DanhMuc_NganhHoc()
-            {
-                MaNganhHoc = maNganhHoc,
-                TenNganhHoc = TxtTenNganhHocEdit.Text,
-                MoTa = TxtSuaMoTaNganhHoc.Text
-            });
-
+            facultyBL.UpdateFaculty(editedFacultyName, newFacultyName, newDescription);
             BindData();
         }
         #endregion
@@ -254,11 +239,11 @@ namespace SoLienLacTrucTuyen_WebRole
 
             if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
             {
-                if (e.Item.ItemType == ListItemType.Item 
+                if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    DanhMuc_NganhHoc nganhhoc = (DanhMuc_NganhHoc)e.Item.DataItem;
-                    if (!nganhhocBL.CheckCanDeleteNganhHoc(nganhhoc.MaNganhHoc))
+                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)e.Item.DataItem;
+                    if (!facultyBL.IsDeletable(faculty))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -295,23 +280,24 @@ namespace SoLienLacTrucTuyen_WebRole
 
                         HiddenField hdfRptMaNganhHoc = (HiddenField)e.Item.FindControl("HdfRptMaNganhHoc");
                         this.HdfMaNganhHoc.Value = hdfRptMaNganhHoc.Value;
-
+                        this.HdfDeletedFacultyName.Value = (string)e.CommandArgument;
                         this.HdfRptNganhHocMPEDelete.Value = mPEDelete.ClientID;
 
                         break;
                     }
                 case "CmdEditItem":
                     {
-                        int maNganhHoc = Int32.Parse(e.CommandArgument.ToString());
-                        DanhMuc_NganhHoc nganhhoc = nganhhocBL.GetNganhHoc(maNganhHoc);
+                        string facultyName = (string)e.CommandArgument;
 
-                        TxtTenNganhHocEdit.Text = nganhhoc.TenNganhHoc;
-                        TxtSuaMoTaNganhHoc.Text = nganhhoc.MoTa;
+                        DanhMuc_NganhHoc faculty = facultyBL.GetFaculty(facultyName);
+                        TxtTenNganhHocEdit.Text = faculty.TenNganhHoc;
+                        TxtSuaMoTaNganhHoc.Text = faculty.MoTa;
+
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptNganhHocMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaNganhHoc.Value = maNganhHoc.ToString();
+                        this.HdfEditedFacultyName.Value = facultyName;
 
                         break;
                     }
@@ -324,7 +310,7 @@ namespace SoLienLacTrucTuyen_WebRole
         #endregion
 
         #region Pager event handlers
-        public void pager_Command(object sender, CommandEventArgs e)
+        public void MainDataPager_Command(object sender, CommandEventArgs e)
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;

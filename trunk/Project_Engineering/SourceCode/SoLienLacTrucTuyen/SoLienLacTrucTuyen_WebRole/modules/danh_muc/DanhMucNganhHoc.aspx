@@ -119,6 +119,8 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
+            <asp:HiddenField ID="HdfEditedFacultyName" runat="server" />
+            <asp:HiddenField ID="HdfDeletedFacultyName" runat="server" />
             <asp:HiddenField ID="HdfMaNganhHoc" runat="server" />
             <asp:HiddenField ID="HdfRptNganhHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptNganhHocMPEEdit" runat="server" />
@@ -159,7 +161,7 @@
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaNganhHoc")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>' />
                             <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -185,18 +187,14 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG"
-                OnCommand="pager_Command" PageSize="10" ViewStateMode="Enabled" LastClause=">>"
-                GenerateHiddenHyperlinks="False" CompactModePageCount="3" GenerateFirstLastSection="True"
-                GenerateGoToSection="False" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-                BackToPageClause="Trở về trang" GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang"
-                ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
+                ViewStateMode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
-            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa Ngành Học" CssClass="popup_header_title"></asp:Label>
+            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa ngành Học" CssClass="popup_header_title"></asp:Label>
             <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
@@ -226,7 +224,7 @@
             <table class="inputBorder" style="width: 100%;">
                 <tr>
                     <td style="width: 15%; vertical-align: top; padding-top: 3px;">
-                        <asp:Label ID="Label6" runat="server" Text="Tên:"></asp:Label>&nbsp;
+                        Tên:
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
@@ -235,13 +233,13 @@
                             ValidationGroup="AddNganhHoc" ErrorMessage="Tên ngành học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenNganhHocValidatorAdd" runat="server" ControlToValidate="TxtTenNganhHoc"
-                            ValidationGroup="AddNganhHoc" ClientValidationFunction="validateTenNganhHocThem"
-                            ErrorMessage="Ngành học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="AddNganhHoc" ErrorMessage="Ngành học đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
                     <td style="vertical-align: text-top; padding-top: 3px;">
-                        <asp:Label ID="Label8" runat="server" Text="Mô tả:"></asp:Label>
+                        Mô tả:
                     </td>
                     <td style="width: auto;">
                         <asp:TextBox ID="TxtMoTaNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
@@ -252,9 +250,9 @@
         </div>
         <div style="padding: 5px 7px 5px 7px;">
             <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red"></asp:Label>
-            <asp:Label ID="Label4" runat="server" Text=":Thông tin bắt buộc nhập"></asp:Label><br />
+            :Thông tin bắt buộc nhập<br />
             <asp:CheckBox ID="CkbAddAfterSave" runat="server" />
-            <asp:Label ID="Label1" runat="server" Text="Thêm tiếp sau khi lưu"></asp:Label>
+            Thêm tiếp sau khi lưu
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
             <asp:ImageButton ID="BtnSaveAdd" runat="server" ImageUrl="~/Styles/Images/button_save.png"
@@ -275,7 +273,7 @@
             <table style="width: 100%;" class="inputBorder">
                 <tr>
                     <td style="width: 15%; vertical-align: top; padding-top: 3px;">
-                        <asp:Label ID="Label2" runat="server" Text="Tên:"></asp:Label>&nbsp;
+                        Tên:
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
@@ -284,13 +282,13 @@
                             ValidationGroup="EditNganhHoc" ErrorMessage="Tên ngành học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenNganhHocValidatorEdit" runat="server" ControlToValidate="TxtTenNganhHocEdit"
-                            ValidationGroup="EditNganhHoc" ClientValidationFunction="validateTenNganhHocSua"
-                            ErrorMessage="Ngành học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="EditNganhHoc" ErrorMessage="Ngành học đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
                     <td style="vertical-align: text-top; padding-top: 3px;">
-                        <asp:Label ID="Label10" runat="server" Text="Mô tả:"></asp:Label>
+                        Mô tả:
                     </td>
                     <td style="width: auto;">
                         <asp:TextBox ID="TxtSuaMoTaNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
@@ -300,7 +298,7 @@
             </table>
             <div style="padding: 5px 0px 5px 0px;">
                 <asp:Label ID="Label11" runat="server" Text="*" ForeColor="Red"></asp:Label>
-                <asp:Label ID="Label12" runat="server" Text=":Thông tin bắt buộc nhập"></asp:Label>
+                :Thông tin bắt buộc nhập
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
