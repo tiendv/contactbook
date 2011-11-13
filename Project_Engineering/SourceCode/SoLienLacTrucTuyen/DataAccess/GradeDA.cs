@@ -63,7 +63,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return grade;
         }
 
-        public List<DanhMuc_KhoiLop> GetListGrades()
+        public List<DanhMuc_KhoiLop> GetGrades()
         {
             List<DanhMuc_KhoiLop> lGrades = new List<DanhMuc_KhoiLop>();
 
@@ -77,7 +77,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lGrades;
         }
 
-        public List<DanhMuc_KhoiLop> GetListGrades(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<DanhMuc_KhoiLop> GetGrades(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<DanhMuc_KhoiLop> lGrades = new List<DanhMuc_KhoiLop>();
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops

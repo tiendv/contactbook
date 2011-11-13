@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class SuaHocSinh : System.Web.UI.Page
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         #endregion
 
         #region Page event handlers
@@ -21,7 +21,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             RoleBL roleBL = new RoleBL();
             UserBL userBL = new UserBL();
-            hocSinhBL = new HocSinhBL();
+            hocSinhBL = new StudentBL();
 
             string pageUrl = Page.Request.Path;
             Guid role = userBL.GetRoleId(User.Identity.Name);
@@ -48,7 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillHocSinh(int maHocSinh, int maLopHoc)
         {
-            HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetThongTinCaNhan(maHocSinh);
+            HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetStudent(maHocSinh);
             TxtMaHocSinhHienThi.Text = thongTinCaNhan.MaHocSinhHienThi;
             TxtTenHocSinh.Text = thongTinCaNhan.HoTen;
             TxtNgaySinhHocSinh.Text = thongTinCaNhan.NgaySinh.ToShortDateString();
@@ -76,8 +76,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             TxtNgheNghiepNguoiDoDau.Text = thongTinCaNhan.NgheNghiepNguoiDoDau;
 
-            LopHocBL lopHocBL = new LopHocBL();
-            LopHoc_Lop lopHoc = lopHocBL.GetLopHoc(maLopHoc);
+            ClassBL lopHocBL = new ClassBL();
+            LopHoc_Lop lopHoc = lopHocBL.GetClass(maLopHoc);
             DdlNamHoc.SelectedValue = lopHoc.MaNamHoc.ToString();
             DdlNganh.SelectedValue = lopHoc.MaNganhHoc.ToString();
             DdlKhoiLop.SelectedValue = lopHoc.MaKhoiLop.ToString();
@@ -116,7 +116,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (hocSinhBL.MaHocSinhExists(maHocSinhHienThi))
+                if (hocSinhBL.StudentCodeExists(maHocSinhHienThi))
                 {
                     MaHocSinhValidator.IsValid = false;
                     return;
@@ -234,8 +234,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -294,8 +294,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
         {
-            LopHocBL lopHocBL = new LopHocBL();
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+            ClassBL lopHocBL = new ClassBL();
+
+            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
+            faculty.MaNganhHoc = maNganhHoc;
+
+            DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
+            grade.MaKhoiLop = maKhoiLop;
+
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            year.MaNamHoc = maNamHoc;
+
+            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             return lstLop;
         }
 

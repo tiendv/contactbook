@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularTiet
+    public class TabularTeachingPeriod
     {
         private int maTiet;
         public int MaTiet 

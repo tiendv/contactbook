@@ -14,14 +14,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DiemMonHoc : System.Web.UI.Page
     {
         #region Fields
-        private KetQuaHocTapBL ketQuaHocTapBL;
+        private StudyingResultBL ketQuaHocTapBL;
         private int maDiemMonHK;
         #endregion
 
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
-            ketQuaHocTapBL = new KetQuaHocTapBL();
+            ketQuaHocTapBL = new StudyingResultBL();
 
             Site masterPage = (Site)Page.Master;
             masterPage.UserRole = (new UserBL()).GetRoleId(User.Identity.Name);
@@ -52,7 +52,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void GetDiemTrungBinh(int maDiemMonHK)
         {
-            double diemTB = ketQuaHocTapBL.GetDiemTrungBinh(maDiemMonHK);
+            HocSinh_DiemMonHocHocKy termSubjectedMark = new HocSinh_DiemMonHocHocKy();
+            termSubjectedMark.MaDiemMonHK = maDiemMonHK;
+            double diemTB = ketQuaHocTapBL.GetAVGMark(termSubjectedMark);
             if (diemTB != -1)
             {
                 this.LblDiemTB.Text = "ĐIỂM TRUNG BÌNH: " + diemTB.ToString();
@@ -111,14 +113,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillThongTinHocSinh(int maDiemMonHK)
         {
-            HocSinh_ThongTinCaNhan hocsinh = ketQuaHocTapBL.GetHocSinh(maDiemMonHK);
+            HocSinh_DiemMonHocHocKy termSubjectedMark = new HocSinh_DiemMonHocHocKy();
+            termSubjectedMark.MaDiemMonHK = maDiemMonHK;
+            HocSinh_ThongTinCaNhan hocsinh = ketQuaHocTapBL.GetStudent(termSubjectedMark);
             this.LblHoVaTen.Text = "Họ và tên: " + hocsinh.HoTen;
             this.LblMaHocSinh.Text = "Mã học sinh: " + hocsinh.MaHocSinhHienThi;
 
-            this.LblNamHoc.Text = "Năm học: " + ketQuaHocTapBL.GetNamHoc(maDiemMonHK).TenNamHoc;
-            this.LblHocKy.Text = "Học kỳ: " + ketQuaHocTapBL.GetHocKy(maDiemMonHK).TenHocKy;
+            this.LblNamHoc.Text = "Năm học: " + ketQuaHocTapBL.GetYear(termSubjectedMark).TenNamHoc;
+            this.LblHocKy.Text = "Học kỳ: " + ketQuaHocTapBL.GetTerm(termSubjectedMark).TenHocKy;
 
-            this.LblBangDiemMon.Text = "BẢNG ĐIỂM MÔN " + ketQuaHocTapBL.GetMonHoc(maDiemMonHK).TenMonHoc;
+            this.LblBangDiemMon.Text = "BẢNG ĐIỂM MÔN " + ketQuaHocTapBL.GetSubject(termSubjectedMark).TenMonHoc;
         }
         #endregion
 
@@ -161,7 +165,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maChiTietDiem = Int32.Parse(e.CommandArgument.ToString());
-                        HocSinh_ChiTietDiem chiTietDiem = ketQuaHocTapBL.GetChiTietDiem(maChiTietDiem);
+                        HocSinh_ChiTietDiem chiTietDiem = ketQuaHocTapBL.GetDetailedMark(maChiTietDiem);
 
                         MarkTypeBL loaiDiemBL = new MarkTypeBL();
                         this.LblLoaiDiemSua.Text = chiTietDiem.DanhMuc_LoaiDiem.TenLoaiDiem;
@@ -195,12 +199,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
+            HocSinh_DiemMonHocHocKy termSubjectedMark = new HocSinh_DiemMonHocHocKy();
+            termSubjectedMark.MaDiemMonHK = maDiemMonHK;
+            DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem();
+            markType.MaLoaiDiem = Int32.Parse(DdlLoaiDiemThem.SelectedValue);
+            double mark = double.Parse(TxtDiemThem.Text);
+
+            ketQuaHocTapBL.InsertDetailedMark(termSubjectedMark, markType, mark);
+
             this.MainDataPager.CurrentIndex = 1;
-
-            int maLoaiDiem = Int32.Parse(DdlLoaiDiemThem.SelectedValue);
-            double diem = double.Parse(TxtDiemThem.Text);
-
-            ketQuaHocTapBL.InsertChiTietDiem(maDiemMonHK, maLoaiDiem, diem);
             BindRepeater();
 
             TxtDiemThem.Text = "";
@@ -214,22 +221,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            int maChiTietDiem = Int32.Parse(this.HdfMaChiTietDiem.Value);
-            double diem = double.Parse(this.TxtDiemSua.Text);
-            ketQuaHocTapBL.UpdateChiTietDiem(maChiTietDiem, diem);
+            HocSinh_ChiTietDiem editedDetailedMark = new HocSinh_ChiTietDiem();
+            editedDetailedMark.MaChiTietDiem = Int32.Parse(this.HdfMaChiTietDiem.Value);
+            double mark = double.Parse(this.TxtDiemSua.Text);
+
+            ketQuaHocTapBL.UpdateDetailedMark(editedDetailedMark, mark);
             BindRepeater();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maChiTietDiem = Int32.Parse(this.HdfMaChiTietDiem.Value);
-            ketQuaHocTapBL.DeleteChiTietDiem(maChiTietDiem);
+            HocSinh_ChiTietDiem deletedDetailedMark = new HocSinh_ChiTietDiem();
+            deletedDetailedMark.MaChiTietDiem = Int32.Parse(this.HdfMaChiTietDiem.Value);
+            ketQuaHocTapBL.DeleteDetailedMark(deletedDetailedMark);
             BindRepeater();
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
-            string query = "HocSinh=" + (ketQuaHocTapBL.GetHocSinh(maDiemMonHK).MaHocSinh).ToString();
+            HocSinh_DiemMonHocHocKy termSubjectedMark = new HocSinh_DiemMonHocHocKy();
+            termSubjectedMark.MaDiemMonHK = maDiemMonHK;
+            string query = "HocSinh=" + (ketQuaHocTapBL.GetStudent(termSubjectedMark).MaHocSinh).ToString();
             query += "&Tab=" + this.HdfSTab.Value;
             //string saveSearchQuery = "&SNam=" + HdfSearchNamHoc.Value + "&SNganh=" + HdfSearchNganhHoc.Value
             //    + "&SKhoi=" + HdfSearchKhoiLop.Value + "&SLop=" + HdfSearchLopHoc.Value

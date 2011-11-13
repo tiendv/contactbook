@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularDayOff
+    public class TabularAbsent
     {
         public int MaNgayNghiHoc { get; set; }
         public int MaHocSinhLopHoc { get; set; }

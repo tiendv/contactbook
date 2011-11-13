@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class themgiaovien : System.Web.UI.Page
     {
         #region Fields
-        GiaoVienBL giaoVienBL = new GiaoVienBL();
+        TeacherBL giaoVienBL = new TeacherBL();
         #endregion
 
         #region Page event handlers
@@ -50,7 +50,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if(giaoVienBL.MaGiaoVienExists(maGiaoVien))
+                if(giaoVienBL.TeacherCodeExists(maGiaoVien))
                 {
                     MaGiaoVienValidator.IsValid = false;
                     return;
@@ -83,7 +83,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             ngaySinh = DateTime.Parse(strNgaySinh);
-            giaoVienBL.InsertGiaoVien(maGiaoVien, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
+            giaoVienBL.InsertTeacher(maGiaoVien, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
 
             if (CkbAddAfterSave.Checked)
             {

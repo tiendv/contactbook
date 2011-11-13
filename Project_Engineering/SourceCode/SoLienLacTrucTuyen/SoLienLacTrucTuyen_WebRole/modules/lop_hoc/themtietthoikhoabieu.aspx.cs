@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class ThemTietThoiKhoaBieuPage : BaseContentPage
     {
         #region Fields
-        private ThoiKhoaBieuBL thoiKhoaBieuBL;
+        private ScheduleBL thoiKhoaBieuBL;
         private int maLopHoc;
         private int maHocKy;
         private int maThu;
@@ -23,13 +23,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
+
             base.Page_Load(sender, e);
             if (isAccessDenied)
             {
                 return;
             }
 
-            thoiKhoaBieuBL = new ThoiKhoaBieuBL();
+            LopHoc_Lop Class = null;
+            thoiKhoaBieuBL = new ScheduleBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+
             Dictionary<string, int> dicQueryStrings = GetQueryStrings();
             if (dicQueryStrings != null)
             {
@@ -43,14 +47,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (dicQueryStrings != null)
                 {
-                    LopHocInfo lopHoc = (new LopHocBL()).GetLopHocInfo(maLopHoc);
-                    CauHinh_HocKy hocKy = (new HocKyBL()).GetHocKy(maHocKy);
-                    CauHinh_Thu thu = (new ThuBL()).GetThu(maThu);
-                    DanhMuc_Tiet tiet = (new TietBL()).GetTiet(maTiet);
+                    Class = new LopHoc_Lop();
+                    Class.MaLopHoc = maLopHoc;
+                    TabularClass lopHoc = (new ClassBL()).GetTabularClass(Class);
+                    CauHinh_HocKy hocKy = systemConfigBL.GetTerm(maHocKy);
+                    CauHinh_Thu dayInWeek = systemConfigBL.GetDayInWeek(maThu);
+                    DanhMuc_Tiet tiet = (new TeachingPeriodBL()).GetTeachingPeriod(maTiet);
                     LblTenLop.Text = lopHoc.TenLopHoc;
                     LblNamHoc.Text = lopHoc.TenNamHoc;
                     LblHocKy.Text = hocKy.TenHocKy;
-                    LblThu.Text = thu.TenThu;
+                    LblThu.Text = dayInWeek.TenThu;
                     LblTiet.Text = string.Format("{0} ({1} - {2})",
                         tiet.TenTiet,
                         tiet.ThoiGianBatDau.ToShortTimeString(),
@@ -140,23 +146,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
+            DanhMuc_MonHoc subject = null;
+            LopHoc_GiaoVien teacher = null;
+            DanhMuc_Tiet teachingPeriod = null;
+            LopHoc_Lop Class = null;
+            CauHinh_HocKy term = null;
+            CauHinh_Thu dayInWeek = null;
+
             if (!ValidateInput())
             {
                 return;
             }
 
-            ThoiKhoaBieuBL thoiKhoaBieuBL = new ThoiKhoaBieuBL();
+            ScheduleBL thoiKhoaBieuBL = new ScheduleBL();
             Dictionary<string, int> dicQueryStrings = GetQueryStrings();
             if (dicQueryStrings != null)
             {
-                int maLopHoc = dicQueryStrings["MaLop"];
-                int maHocKy = dicQueryStrings["MaHocKy"];
-                int maThu = dicQueryStrings["MaThu"];
-                int maTiet = dicQueryStrings["MaTiet"];
-                int maMonHoc = Int32.Parse(HdfMaMonHoc.Value);
-                int maGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
+                Class = new LopHoc_Lop();
+                Class.MaLopHoc = dicQueryStrings["MaLop"];
+                term = new CauHinh_HocKy();
+                term.MaHocKy = dicQueryStrings["MaHocKy"];
+                dayInWeek = new CauHinh_Thu();
+                dayInWeek.MaThu = dicQueryStrings["MaThu"];
+                teachingPeriod = (new TeachingPeriodBL()).GetTeachingPeriod(dicQueryStrings["MaTiet"]);
+                subject = new DanhMuc_MonHoc();
+                subject.MaMonHoc = Int32.Parse(HdfMaMonHoc.Value);
+                teacher = new LopHoc_GiaoVien();
+                teacher.MaGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
 
-                thoiKhoaBieuBL.Insert(maLopHoc, maMonHoc, maGiaoVien, maHocKy, maThu, maTiet);
+                thoiKhoaBieuBL.InsertSchedule(Class, subject, teacher, term, dayInWeek, teachingPeriod);
 
                 Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",
                     Request.QueryString["lop"], Request.QueryString["hocky"], Request.QueryString["thu"]));
@@ -268,7 +286,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DanhMuc_KhoiLop grade = null;
             string subjectName = TxtMonHoc.Text.Trim();
 
-            if (DdlNganh.SelectedIndex != 0)
+            if (DdlNganh.SelectedIndex >= 0)
             {
                 faculty = (new FacultyBL()).GetFaculty(DdlNganh.SelectedValue);
             }
@@ -279,7 +297,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            if (DdlKhoi.SelectedIndex != 0)
+            if (DdlKhoi.SelectedIndex >= 0)
             {
                 grade = (new GradeBL()).GetGrade(DdlKhoi.SelectedValue);
             }
@@ -324,13 +342,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterGiaoVien()
         {
-            GiaoVienBL giaoVienBL = new GiaoVienBL();
+            TeacherBL giaoVienBL = new TeacherBL();
 
             string maHienThiGiaoVien = TxtSearchMaGiaoVien.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularGiaoVien> lstTbGiaoViens = giaoVienBL.GetListTabularGiaoViens(
+            List<TabularTeacher> lstTbGiaoViens = giaoVienBL.GetListTabularTeachers(
                 maHienThiGiaoVien, hoTen,
                 DataPageGiaoVien.CurrentIndex, DataPageGiaoVien.PageSize, out totalRecords);
             DataPageGiaoVien.ItemCount = totalRecords;
@@ -395,8 +413,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (HdfMaGiaoVien.Value != "0")
                 {
                     int maGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
-                    GiaoVienBL giaoVienBL = new GiaoVienBL();
-                    if (giaoVienBL.IsTeaching(maGiaoVien, maHocKy, maThu, maTiet))
+                    TeacherBL giaoVienBL = new TeacherBL();
+                    LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+                    teacher.MaGiaoVien = maGiaoVien;
+                    CauHinh_HocKy term = new CauHinh_HocKy();
+                    term.MaHocKy = maHocKy;
+                    CauHinh_Thu dayInWeek = new CauHinh_Thu();
+                    dayInWeek.MaThu = maThu;
+                    DanhMuc_Tiet teachingPeriod = new DanhMuc_Tiet();
+                    teachingPeriod.MaTiet = maTiet;
+                    if (giaoVienBL.IsTeaching(teacher, term, dayInWeek, teachingPeriod))
                     {
                         bValid = false;
                         LblGiaoVienError.Text = "Giáo viên đang được phân công dạy tại cùng thời gian này";

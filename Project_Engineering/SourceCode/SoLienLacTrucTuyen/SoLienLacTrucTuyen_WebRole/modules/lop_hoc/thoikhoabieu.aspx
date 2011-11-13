@@ -107,7 +107,8 @@
                                                 <%#DataBinder.Eval(Container.DataItem, "ChiTietTiet")%>
                                             </td>
                                             <td style="height: 40px; border-style: none; border-bottom-style: solid; padding: 0px 5px 0px 5px">
-                                                <b><%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></b>
+                                                <b>
+                                                    <%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></b>
                                                 <br />
                                                 (<%#DataBinder.Eval(Container.DataItem, "TenGiaoVien")%>)
                                             </td>
@@ -128,7 +129,8 @@
                                                 <%#DataBinder.Eval(Container.DataItem, "ChiTietTiet")%>
                                             </td>
                                             <td style="height: 40px; border-style: none; border-bottom-style: solid; padding: 0px 5px 0px 5px">
-                                                <b><%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></b>
+                                                <b>
+                                                    <%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></b>
                                                 <br />
                                                 (<%#DataBinder.Eval(Container.DataItem, "TenGiaoVien")%>)
                                             </td>

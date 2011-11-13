@@ -19,12 +19,12 @@ namespace SoLienLacTrucTuyen_WebRole
             
         }       
 
-        [WebMethod]
-        public static List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
-        {
-            LopHocBL lophocBL = new LopHocBL();
-            return lophocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
-        }
+        //[WebMethod]
+        //public static List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
+        //{
+        //    ClassBL lophocBL = new ClassBL();
+        //    return lophocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+        //}
 
         [System.Web.Services.WebMethod]
         [System.Web.Script.Services.ScriptMethod]
@@ -51,21 +51,25 @@ namespace SoLienLacTrucTuyen_WebRole
             return values.ToArray();
         }
 
-        [WebMethod]
-        public static bool LopHocExists(string tenLopHoc, int maNamHoc)
-        {
-            tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
-            LopHocBL lopHocBL = new LopHocBL();
-            return lopHocBL.LopHocExists(tenLopHoc, maNamHoc);
-        }
+        //[WebMethod]
+        //public static bool LopHocExists(string tenLopHoc, int maNamHoc)
+        //{
+        //    tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
+        //    ClassBL lopHocBL = new ClassBL();
+        //    CauHinh_NamHoc year = new CauHinh_NamHoc();
+        //    year.MaNamHoc = maNamHoc;
+        //    return lopHocBL.ClassNameExists(tenLopHoc, year);
+        //}
 
-        [WebMethod]
-        public static bool LopHocExists(int maLopHoc, string tenLopHoc)
-        {
-            tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
-            LopHocBL lopHocBL = new LopHocBL();
-            return lopHocBL.LopHocExists(maLopHoc, tenLopHoc);
-        }
+        //[WebMethod]
+        //public static bool LopHocExists(int maLopHoc, string tenLopHoc)
+        //{
+        //    tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
+        //    ClassBL lopHocBL = new ClassBL();
+        //    LopHoc_Lop Class = new LopHoc_Lop();
+        //    Class.MaLopHoc = maLopHoc;
+        //    return lopHocBL.ClassNameExists(
+        //}
 
         [WebMethod(EnableSession=true)]
         public static void AddCheckedMonHocTKBSang(string maMonHoc)

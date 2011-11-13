@@ -13,8 +13,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class SuaGiaoVienChuNhiemPage : System.Web.UI.Page
     {
         #region Fields
-        private GiaoVienChuNhiemBL giaoVienChuNhiemBL;
-        private GiaoVienBL giaoVienBL;
+        private FormerTeacherBL giaoVienChuNhiemBL;
+        private TeacherBL teacherBL;
         private int maGVCN;
         private int maNamHoc;
         private int maGiaoVienHienHanh;
@@ -24,8 +24,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
-            giaoVienChuNhiemBL = new GiaoVienChuNhiemBL();
-            giaoVienBL = new GiaoVienBL();
+            giaoVienChuNhiemBL = new FormerTeacherBL();
+            teacherBL = new TeacherBL();
 
             string pageUrl = Page.Request.Path;
             Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
@@ -50,8 +50,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 maGVCN = (int)ViewState["maGVCN"];
             }
 
-            LopHoc_GVCN giaoVienChuNhiem = giaoVienChuNhiemBL.GetGiaoVienChuNhiem(maGVCN);
-            LopHocInfo lopHoc = (new LopHocBL()).GetLopHocInfo(giaoVienChuNhiem.MaLopHoc);
+            LopHoc_GVCN giaoVienChuNhiem = giaoVienChuNhiemBL.GetFormerTeacher(maGVCN);
+            TabularClass lopHoc = (new ClassBL()).GetTabularClass(giaoVienChuNhiem.LopHoc_Lop);
             maNamHoc = lopHoc.MaNamHoc;
 
             if (!Page.IsPostBack)
@@ -107,7 +107,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
                             int maGiaoVien = Int32.Parse(hdfRptMaGiaoVien.Value);
-                            giaoVienChuNhiemBL.Update(maGVCN, maGiaoVien);
+                            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+                            teacher.MaGiaoVien = maGiaoVien;
+                            giaoVienChuNhiemBL.Update(maGVCN, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }
                     }
@@ -133,27 +135,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRepeater()
         {
-            string maHienThiGiaoVien = TxtSearchMaHienThiGiaoVien.Text.Trim();
-            string hoTen = TxtSearchTenGiaoVien.Text.Trim();
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            year.MaNamHoc = maNamHoc;
+
+            string teacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
+            string teacherName = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularGiaoVien> lstTbGiaoViens = giaoVienBL.GetListTabularGiaoVienKhongChuNhiems(
-                maNamHoc,
-                maHienThiGiaoVien, hoTen,
+            List<TabularTeacher> lTbTeachers = teacherBL.GetListTabularUnformeredTeachers(
+                year,
+                teacherCode, teacherName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete
-            if (lstTbGiaoViens.Count == 0 && totalRecords != 0)
+            if (lTbTeachers.Count == 0 && totalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
                 return;
             }
 
-            bool bDisplayData = (lstTbGiaoViens.Count != 0) ? true : false;
+            bool bDisplayData = (lTbTeachers.Count != 0) ? true : false;
             ProcDisplayInfo(bDisplayData);
 
-            RptGiaoVien.DataSource = lstTbGiaoViens;
+            RptGiaoVien.DataSource = lTbTeachers;
             RptGiaoVien.DataBind();
             MainDataPager.ItemCount = totalRecords;
 

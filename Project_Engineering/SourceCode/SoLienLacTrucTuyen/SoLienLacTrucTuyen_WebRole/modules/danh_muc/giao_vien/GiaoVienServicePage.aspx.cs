@@ -20,8 +20,8 @@ namespace SoLienLacTrucTuyen_WebRole
         public static bool MaGiaoVienExists(string maGiaoVienHienThi)
         {
             maGiaoVienHienThi = Uri.UnescapeDataString(maGiaoVienHienThi);
-            GiaoVienBL giaoVienBL = new GiaoVienBL();
-            return giaoVienBL.MaGiaoVienExists(maGiaoVienHienThi);
+            TeacherBL giaoVienBL = new TeacherBL();
+            return giaoVienBL.TeacherCodeExists(maGiaoVienHienThi);
         }
 
         //[WebMethod]

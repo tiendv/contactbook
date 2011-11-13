@@ -15,9 +15,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class KetQuaHocTapPage : System.Web.UI.Page
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         private MarkTypeBL loaiDiemBL;
-        private KetQuaHocTapBL ketQuaHocTapBL;
+        private StudyingResultBL ketQuaHocTapBL;
 
         private List<AccessibilityEnum> lstAccessibilities;
         #endregion
@@ -27,9 +27,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             RoleBL roleBL = new RoleBL();
             UserBL userBL = new UserBL();
-            hocSinhBL = new HocSinhBL();
+            hocSinhBL = new StudentBL();
             loaiDiemBL = new MarkTypeBL();
-            ketQuaHocTapBL = new KetQuaHocTapBL();
+            ketQuaHocTapBL = new StudyingResultBL();
 
             string pageUrl = Page.Request.Path;
             Guid role = userBL.GetRoleId(User.Identity.Name);
@@ -78,8 +78,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (ViewState["MaHocSinh"] != null)
             {
-                NamHocBL namHocBL = new NamHocBL();
-                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetListNamHoc((int)ViewState["MaHocSinh"]);
+                HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+                student.MaHocSinh = (int)ViewState["MaHocSinh"];
+                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
                 DdlNamHoc.DataSource = lstNamHoc;
                 DdlNamHoc.DataValueField = "MaNamHoc";
                 DdlNamHoc.DataTextField = "TenNamHoc";
@@ -89,8 +90,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHocKy()
         {
-            HocKyBL hocKyBL = new HocKyBL();
-            List<CauHinh_HocKy> lstHocKy = hocKyBL.GetListHocKy();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
@@ -162,15 +163,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptKetQuaDiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
             if (e.Item.ItemType == ListItemType.Item
                 || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 Control control = e.Item.FindControl("HdfMaDiemMonHK");
                 if (control != null)
                 {
-                    int maDiemMonHK = Int32.Parse(((HiddenField)control).Value);
+                    termSubjectedMark = new HocSinh_DiemMonHocHocKy();
+                    termSubjectedMark.MaDiemMonHK = Int32.Parse(((HiddenField)control).Value);
                     List<StrDiemMonHocLoaiDiem> lstStrDiemMonHocLoaiDiem;
-                    lstStrDiemMonHocLoaiDiem = ketQuaHocTapBL.GetListStringDiemMonHoc(maDiemMonHK);
+                    lstStrDiemMonHocLoaiDiem = ketQuaHocTapBL.GetSubjectMarks(termSubjectedMark);
                     Repeater rptDiemMonHoc = (Repeater)e.Item.FindControl("RptDiemTheoMonHoc");
                     rptDiemMonHoc.DataSource = lstStrDiemMonHocLoaiDiem;
                     rptDiemMonHoc.DataBind();
@@ -268,12 +271,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void popopHanhKiem_Save_Click(object sender, ImageClickEventArgs e)
         {
+            HocSinh_DanhHieuHocKy termResult = null;
+            DanhMuc_HanhKiem conduct = null;
             if (Session[Session["username"].ToString() + "CheckHanhKiem"] != null)
             {
-                int maDanhHieuHSHK = Int32.Parse(HdfMaDanhHieuHSHK.Value);
-                int maHanhKiem = Int32.Parse(Session[Session["username"].ToString() + "CheckHanhKiem"].ToString());
+                termResult.MaDanhHieuHSHK = Int32.Parse(HdfMaDanhHieuHSHK.Value);
+                conduct.MaHanhKiem = Int32.Parse(Session[Session["username"].ToString() + "CheckHanhKiem"].ToString());
 
-                ketQuaHocTapBL.UpDateDanhHieuHocSinhByHanhKiem(maDanhHieuHSHK, maHanhKiem);
+                ketQuaHocTapBL.UpdateStudentTermResult(termResult, conduct);
                 Session.Remove(Session["username"].ToString() + "CheckHanhKiem");
             }
 

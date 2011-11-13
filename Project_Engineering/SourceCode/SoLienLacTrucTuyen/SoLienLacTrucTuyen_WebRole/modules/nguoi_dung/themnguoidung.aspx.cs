@@ -18,7 +18,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private RoleBL roleBL = new RoleBL();
         private UserBL userBL;
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         protected string btnSaveClickEvent = string.Empty;
 
         public string SeletedRole 
@@ -46,7 +46,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             userBL = new UserBL();
-            hocSinhBL = new HocSinhBL();
+            hocSinhBL = new StudentBL();
 
             base.Page_Load(sender, e);
             if (isAccessDenied)

@@ -11,7 +11,7 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SuaThoiKhoaBieuPage : Page
+    public partial class SuaThoiKhoaBieuPage : BaseContentPage
     {
         #region Fields, Properties
         public int MaLopHoc
@@ -31,9 +31,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         maLopHoc = (int)ViewState["MaLopHoc"];
                     }
                     else
-                    {                        
+                    {
                         maLopHoc = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaLop"];
-                        Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaLop");                        
+                        Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaLop");
                     }
                 }
                 return maLopHoc;
@@ -76,8 +76,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    if(ViewState["MaThu"] != null)
-                    {                        
+                    if (ViewState["MaThu"] != null)
+                    {
                         return (int)ViewState["MaThu"];
                     }
                     else
@@ -85,36 +85,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         int maThu = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaThu"];
                         Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaThu");
                         return maThu;
-                        
+
                     }
                 }
             }
         }
-        private ThoiKhoaBieuBL thoiKhoaBieuBL;
+        private ScheduleBL scheduleBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            // Init variables
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-            thoiKhoaBieuBL = new ThoiKhoaBieuBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            // Check role's accesibility
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            // Set Master page's properties
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            // Init variables            
+            scheduleBL = new ScheduleBL();
 
             if (!Page.IsPostBack)
             {
@@ -129,8 +118,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void FillTitlePage()
         {
-            LopHocInfo lopHoc = (new LopHocBL()).GetLopHocInfo(MaLopHoc);
-            CauHinh_HocKy hocKy = (new HocKyBL()).GetHocKy(MaHocKy);
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            ClassBL classBL = new ClassBL();
+            LopHoc_Lop Class = new LopHoc_Lop();
+
+            Class.MaLopHoc = MaLopHoc;
+
+            TabularClass lopHoc = classBL.GetTabularClass(Class);
+            CauHinh_HocKy hocKy = systemConfigBL.GetTerm(MaHocKy);
 
             LblTitle.Text = string.Format("THỜI KHÓA BIỂU LỚP {0} ({1} - {2} - NĂM HỌC {3})",
                 lopHoc.TenLopHoc, DdlThu.SelectedItem.Text, hocKy.TenHocKy, lopHoc.TenNamHoc);
@@ -139,7 +134,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public void FillDDLThu()
         {
             SystemConfigBL cauHinhBL = new SystemConfigBL();
-            List<CauHinh_Thu> listThu = cauHinhBL.GetListThu();
+            List<CauHinh_Thu> listThu = cauHinhBL.GetDayInWeeks();
             DdlThu.DataSource = listThu;
             DdlThu.DataValueField = "MaThu";
             DdlThu.DataTextField = "TenThu";
@@ -150,10 +145,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptThoiKhoaBieu()
         {
-            int maThu = Int32.Parse(DdlThu.SelectedValue);
+            LopHoc_Lop Class = new LopHoc_Lop();
+            Class.MaLopHoc = MaLopHoc;
+            CauHinh_HocKy term = new CauHinh_HocKy();
+            term.MaHocKy = MaHocKy;
+            CauHinh_Thu dayInWeek = new CauHinh_Thu();
+            dayInWeek.MaThu = Int32.Parse(DdlThu.SelectedValue);
 
-            List<ThoiKhoaBieuTheoTiet> lTKBTheoTiets;
-            lTKBTheoTiets = thoiKhoaBieuBL.GetThoiKhoaBieuTheoThu(MaLopHoc, MaHocKy, maThu);
+            List<TeachingPeriodSchedule> lTKBTheoTiets = scheduleBL.GetTeachingPeriodSchedules(Class, term, dayInWeek);
             MainDataPager.ItemCount = lTKBTheoTiets.Count;
 
             RptThoiKhoaBieu.DataSource = lTKBTheoTiets;
@@ -176,8 +175,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maMonHocTKB = Int32.Parse(this.HdfMaMonHocTKB.Value);
-            thoiKhoaBieuBL.Delete(maMonHocTKB);
+            LopHoc_MonHocTKB schedule = new LopHoc_MonHocTKB();
+            schedule.MaMonHocTKB = Int32.Parse(this.HdfMaMonHocTKB.Value);
+            scheduleBL.DeleteSchedule(schedule);
             BindRptThoiKhoaBieu();
         }
         #endregion
@@ -190,7 +190,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (e.Item.DataItem != null)
                 {
-                    ThoiKhoaBieuTheoTiet tkbTheoTiet = (ThoiKhoaBieuTheoTiet)e.Item.DataItem;
+                    TeachingPeriodSchedule tkbTheoTiet = (TeachingPeriodSchedule)e.Item.DataItem;
                     if (tkbTheoTiet.MaMonHoc == 0)
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
@@ -217,11 +217,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdAddItem":
                     {
+                        SystemConfigBL systemConfigBL = new SystemConfigBL();
+                        TeachingPeriodBL tietBL = new TeachingPeriodBL();
+                        ClassBL classBL = new ClassBL();
+                        LopHoc_Lop Class = new LopHoc_Lop();
+                        Class.MaLopHoc = MaLopHoc;
+
                         int maTiet = Int32.Parse(e.CommandArgument.ToString());
                         ViewState["MaTiet_Add"] = maTiet;
-                        TietBL tietBL = new TietBL();
-                        LopHocInfo lopHoc = (new LopHocBL()).GetLopHocInfo(MaLopHoc);
-                        CauHinh_HocKy hocKy = (new HocKyBL()).GetHocKy(MaHocKy);
+
+                        TabularClass lopHoc = classBL.GetTabularClass(Class);
+                        CauHinh_HocKy hocKy = systemConfigBL.GetTerm(MaHocKy);
 
                         Response.Redirect(string.Format("themtietthoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}&tiet={3}",
                             MaLopHoc, MaHocKy, DdlThu.SelectedValue, maTiet));
@@ -248,12 +254,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maMonHocTKB = Int32.Parse(e.CommandArgument.ToString());
-                        ThoiKhoaBieuTheoTiet tKBTheoTiet = thoiKhoaBieuBL.GetThoiKhoaBieuTheoTiet(
-                            maMonHocTKB);
+                        LopHoc_MonHocTKB schedule = scheduleBL.GetSchedule(maMonHocTKB);
+                        TeachingPeriodSchedule tKBTheoTiet = scheduleBL.GetTeachingPeriodSchedule(schedule);
                         int maTiet = tKBTheoTiet.Tiet;
                         int maMonHoc = tKBTheoTiet.MaMonHoc;
                         ViewState["MaMonHocTKB_Edit"] = maMonHocTKB;
-                        ViewState["MaMonHoc_Edit"] = maMonHoc;                     
+                        ViewState["MaMonHoc_Edit"] = maMonHoc;
 
                         Response.Redirect(string.Format("suatietthoikhoabieu.aspx?id={0}&lop={1}&hocky={2}&thu={3}&tiet={4}",
                             maMonHocTKB, MaLopHoc, MaHocKy, DdlThu.SelectedValue, maTiet));
@@ -265,6 +271,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
             }
         }
-        #endregion        
+        #endregion
     }
 }

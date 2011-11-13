@@ -35,9 +35,9 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ExistMaHocSinhHienThi(string maHocSinh, string maHocSinhHienThi)
         {
-            HocSinhBL hocSinhBL = new HocSinhBL();
-
-            int iMaHocSinh = hocSinhBL.GetMaHocSinh(maHocSinhHienThi);
+            StudentBL hocSinhBL = new StudentBL();
+            HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(maHocSinhHienThi);
+            int iMaHocSinh = student.MaHocSinh;
             if (iMaHocSinh.ToString() != maHocSinh)
             {
                 return true;
@@ -48,22 +48,22 @@ namespace SoLienLacTrucTuyen_WebRole
             }
         }
 
-        [WebMethod]
-        public static bool NgayNghiHocExists(int maNgayNghiHoc, int maHocSinh,
-            int maHocKy, DateTime ngay, int maBuoi)
-        {
-            bool bResult = false;
-            NgayNghiHocBL ngayNghiHocBL = new NgayNghiHocBL();
-            if (maNgayNghiHoc == 0)
-            {
-                bResult = ngayNghiHocBL.NgayNghiHocExists(null, maHocSinh, maHocKy, ngay, maBuoi);
-            }
-            else
-            {
-                bResult = ngayNghiHocBL.NgayNghiHocExists(maNgayNghiHoc, maHocSinh, maHocKy, ngay, maBuoi);
-            }
-            return bResult;
-        }
+        //[WebMethod]
+        //public static bool NgayNghiHocExists(int maNgayNghiHoc, int maHocSinh,
+        //    int maHocKy, DateTime ngay, int maBuoi)
+        //{
+        //    bool bResult = false;
+        //    AbsentBL ngayNghiHocBL = new AbsentBL();
+        //    if (maNgayNghiHoc == 0)
+        //    {
+        //        bResult = ngayNghiHocBL.AbsentExists(null, maHocSinh, maHocKy, ngay, maBuoi);
+        //    }
+        //    else
+        //    {
+        //        bResult = ngayNghiHocBL.AbsentExists(maNgayNghiHoc, maHocSinh, maHocKy, ngay, maBuoi);
+        //    }
+        //    return bResult;
+        //}
 
         [WebMethod(EnableSession = true)]
         public static void CheckedHanhKiem(string radioButtonName)
@@ -75,27 +75,27 @@ namespace SoLienLacTrucTuyen_WebRole
             HttpContext.Current.Session[userName + "CheckHanhKiem"] = maHanhKiem;
         }
 
-        [WebMethod]
-        public static bool HoatDongExists(int maHoatDong, string tieuDe, int maHocSinh,
-            int maHocKy, DateTime ngay)
-        {
-            HoatDongBL hoatDongBL = new HoatDongBL();
-            if (maHoatDong == 0)
-            {
-                return hoatDongBL.HoatDongExists(null, tieuDe,
-                maHocSinh, maHocKy, ngay);
-            }
-            else
-            {
-                return hoatDongBL.HoatDongExists(maHoatDong, tieuDe,
-                    maHocSinh, maHocKy, ngay);
-            }
-        }
+        //[WebMethod]
+        //public static bool HoatDongExists(int maHoatDong, string tieuDe, int maHocSinh,
+        //    int maHocKy, DateTime ngay)
+        //{
+        //    StudentActivityBL hoatDongBL = new StudentActivityBL();
+        //    if (maHoatDong == 0)
+        //    {
+        //        return hoatDongBL.HoatDongExists(null, tieuDe,
+        //        maHocSinh, maHocKy, ngay);
+        //    }
+        //    else
+        //    {
+        //        return hoatDongBL.HoatDongExists(maHoatDong, tieuDe,
+        //            maHocSinh, maHocKy, ngay);
+        //    }
+        //}
 
         [WebMethod]
         public static bool ValidateMark(string marks, string markTypeName)
         {
-            KetQuaHocTapBL kqhtBL = new KetQuaHocTapBL();
+            StudyingResultBL kqhtBL = new StudyingResultBL();
             return kqhtBL.ValidateMark(marks, markTypeName);
         }
     }

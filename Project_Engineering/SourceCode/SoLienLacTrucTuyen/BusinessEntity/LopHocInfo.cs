@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class LopHocInfo
+    public class TabularClass
     {
         public int MaLopHoc { get; set; }
         public string TenLopHoc { get; set; }

@@ -12,7 +12,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class ChiTietLopHoc : BaseContentPage
     {
         #region Fields
-        private LopHocBL lopHocBL;
+        private ClassBL lopHocBL;
         #endregion
 
         #region Page event handlers
@@ -25,14 +25,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            lopHocBL = new LopHocBL();           
+            lopHocBL = new ClassBL();           
 
             if (!Page.IsPostBack)
             {
                 int? maLopHoc = GetQueryString();
                 if (maLopHoc != null)
                 {
-                    LopHoc_Lop lophoc = lopHocBL.GetLopHoc((int)maLopHoc);
+                    LopHoc_Lop lophoc = lopHocBL.GetClass((int)maLopHoc);
                     if (lophoc != null)
                     {                        
                         LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;

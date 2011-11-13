@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhMucTietPage : BaseContentPage
     {
         #region Fields
-        private TietBL tietBL;
+        private TeachingPeriodBL tietBL;
         private bool isSearch;
         #endregion
 
@@ -29,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            tietBL = new TietBL();          
+            tietBL = new TeachingPeriodBL();
 
             if (!Page.IsPostBack)
             {
@@ -72,8 +72,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        TabularTiet tiet = (TabularTiet)e.Item.DataItem;
-                        if (!tietBL.TietCanBeDeleted(tiet.MaTiet))
+                        TabularTeachingPeriod tiet = (TabularTeachingPeriod)e.Item.DataItem;
+                        DanhMuc_Tiet teachingPeriodTime = new DanhMuc_Tiet();
+                        teachingPeriodTime.MaTiet = tiet.MaTiet;
+                        if (!tietBL.IsDeletable(teachingPeriodTime))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -123,7 +125,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         int maTiet = Int32.Parse(e.CommandArgument.ToString());
 
-                        DanhMuc_Tiet tiet = tietBL.GetTiet(maTiet);
+                        DanhMuc_Tiet tiet = tietBL.GetTeachingPeriod(maTiet);
+                        this.HdfSltTeachingPeriodName.Value = tiet.TenTiet;
+
                         TxtTenTietHocEdit.Text = tiet.TenTiet;
                         TxtThuTuEdit.Text = tiet.ThuTu.ToString();
                         DdlBuoiEdit.SelectedValue = tiet.MaBuoi.ToString();
@@ -159,6 +163,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
+            CauHinh_Buoi session = new CauHinh_Buoi();
+
             if (!ValidateForAdd())
             {
                 return;
@@ -167,10 +173,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string tenTietHoc = this.TxtTenTietHocThem.Text.Trim();
             string thuTu = this.TxtThuTuAdd.Text.Trim();
             int buoi = Int32.Parse(DdlBuoiAdd.SelectedValue);
+            session.MaBuoi = buoi;
             string strThoiGianBatDau = TxtThoiGianBatDauAdd.Text.Trim();
             string strThoiGianKetThuc = TxtThoiGianKetThucAdd.Text.Trim();
 
-            tietBL.InsertTiet(tenTietHoc, buoi, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
+            tietBL.InsertTeachingPeriod(tenTietHoc, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
 
             MainDataPager.CurrentIndex = 1;
             BindRepeater();
@@ -188,10 +195,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 this.DdlBuoiAdd.SelectedIndex = 0;
             }
-        }        
+        }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
+            DanhMuc_Tiet teachingPeriod = new DanhMuc_Tiet();
+            CauHinh_Buoi session = new CauHinh_Buoi();
             if (!ValidateForEdit())
             {
                 return;
@@ -200,18 +209,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maTiet = Int32.Parse(this.HdfMaTietHoc.Value);
             string tenTietMoi = this.TxtTenTietHocEdit.Text.Trim();
             int buoi = Int32.Parse(DdlBuoiEdit.SelectedValue);
+            session.MaBuoi = buoi;
             string thuTu = TxtThuTuEdit.Text.Trim();
             string strThoiGianBatDau = TxtThoiGianBatDauEdit.Text.Trim();
             string strThoiGianKetThuc = TxtThoiGianKetThucEdit.Text.Trim();
-
-            tietBL.UpdateTiet(maTiet, tenTietMoi, buoi, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
+            teachingPeriod.MaTiet = maTiet;
+            tietBL.UpdateTiet(teachingPeriod, tenTietMoi, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
             BindRepeater();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             int maTietHoc = Int32.Parse(this.HdfMaTietHoc.Value);
-            tietBL.Delete(maTietHoc);
+            DanhMuc_Tiet teachingPeriod = new DanhMuc_Tiet();
+            teachingPeriod.MaTiet = maTietHoc;
+            tietBL.DeleteTeachingPeriod(teachingPeriod);
             isSearch = false;
             BindRepeater();
         }
@@ -247,8 +259,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             double totalRecords;
             string tenTiet = TxtSearchTiet.Text.Trim();
             int maBuoi = Int32.Parse(DdlBuoi.SelectedValue);
-
-            List<TabularTiet> listTbTiets = tietBL.GetTabularTiet(tenTiet, maBuoi, 
+            CauHinh_Buoi session = new CauHinh_Buoi();
+            session.MaBuoi = maBuoi;
+            List<TabularTeachingPeriod> listTbTiets = tietBL.GetTabularTeachingPeriods(tenTiet, session,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete
@@ -294,8 +307,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLBuoi()
         {
-            BuoiBL buoiBL = new BuoiBL();
-            List<CauHinh_Buoi> listBuois = buoiBL.GetListBuoi();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_Buoi> listBuois = systemConfigBL.GetSessions();
             DdlBuoi.DataSource = listBuois;
             DdlBuoi.DataValueField = "MaBuoi";
             DdlBuoi.DataTextField = "TenBuoi";
@@ -331,7 +344,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (tietBL.TietHocExists(tenTietHoc))
+                if (tietBL.TeachingPeriodNameExists(tenTietHoc))
                 {
                     TenTietHocValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -367,9 +380,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         break;
                     }
                 }
-            }                      
+            }
 
             int maTiet = Int32.Parse(this.HdfMaTietHoc.Value);
+            string oldTeachingPeriodName = this.HdfSltTeachingPeriodName.Value;
             string tenTietMoi = this.TxtTenTietHocEdit.Text.Trim();
             string thuTu = TxtThuTuEdit.Text.Trim();
 
@@ -381,7 +395,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (tietBL.TietHocExists(tenTietMoi, maTiet))
+                if (tietBL.TeachingPeriodNameExists(oldTeachingPeriodName, tenTietMoi))
                 {
                     TenTietHocValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();

@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class ThemHocSinh : Page
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         #endregion
 
         #region Page event handlers
@@ -21,7 +21,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             RoleBL roleBL = new RoleBL();
             UserBL userBL = new UserBL();
-            hocSinhBL = new HocSinhBL();
+            hocSinhBL = new StudentBL();
 
             string pageUrl = Page.Request.Path;
             Guid role = userBL.GetRoleId(User.Identity.Name);
@@ -63,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            int maLopHoc = Int32.Parse(this.DdlLopHoc.SelectedValue);
+            LopHoc_Lop Class = null;            
 
             string maHocSinhHienThi = this.TxtMaHocSinhHienThi.Text.Trim();
             if (maHocSinhHienThi == "")
@@ -73,7 +73,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (hocSinhBL.MaHocSinhExists(maHocSinhHienThi))
+                if (hocSinhBL.StudentCodeExists(maHocSinhHienThi))
                 {
                     MaHocSinhValidator.IsValid = false;
                     return;
@@ -129,7 +129,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string noiSinh = this.TxtNoiSinh.Text.Trim();
             string dienThoai = this.TxtDienThoai.Text.Trim();
 
-            hocSinhBL.InsertHocSinh(maLopHoc, maHocSinhHienThi, tenHocSinh,
+            Class = new LopHoc_Lop();
+            Class.MaLopHoc = Int32.Parse(this.DdlLopHoc.SelectedValue);
+
+            hocSinhBL.InsertStudent(Class, maHocSinhHienThi, tenHocSinh,
                 gioiTinh, ngaySinh, noiSinh, diaChi, dienThoai,
                 tenBo, ngheNghiepBo, ngaySinhBo,
                 tenMe, ngheNghiepMe, ngaySinhMe,
@@ -191,8 +194,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -258,8 +261,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
         {
-            LopHocBL lopHocBL = new LopHocBL();
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+            ClassBL lopHocBL = new ClassBL();
+            
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+
+            try
+            {
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
+            }
+            catch (Exception) { }
+
+            try
+            {
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }
+            }
+            catch (Exception) { }
+
+            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             return lstLop;
         }
 

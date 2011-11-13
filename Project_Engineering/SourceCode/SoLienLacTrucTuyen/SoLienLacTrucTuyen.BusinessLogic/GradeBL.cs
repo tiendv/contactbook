@@ -47,7 +47,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<DanhMuc_KhoiLop> GetListGrades()
         {
-            return gradeDA.GetListGrades();
+            return gradeDA.GetGrades();
         }
 
         public List<DanhMuc_KhoiLop> GetListGrades(string gradeName, int pageIndex, int pageSize, out double totalRecords)
@@ -56,7 +56,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             if (String.Compare(gradeName, "tất cả", true) == 0 || gradeName == "")
             {
-                lGrades = gradeDA.GetListGrades(pageIndex, pageSize, out totalRecords);    
+                lGrades = gradeDA.GetGrades(pageIndex, pageSize, out totalRecords);    
             }
             else
             {

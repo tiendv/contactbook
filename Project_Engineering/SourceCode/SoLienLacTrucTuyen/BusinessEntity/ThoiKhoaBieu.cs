@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class ThoiKhoaBieuTheoThu
+    public class DailySchedule
     {
         public int MaLopHoc { get; set; }
 
@@ -14,16 +14,16 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public int MaThu { get; set; }
         public string TenThu { get; set; }
 
-        public List<ThoiKhoaBieuTheoBuoi> ListThoiKhoaBieuTheoBuoi { get; set; }
+        public List<SessionedSchedule> SessionedSchedules { get; set; }
     }
 
-    public class ThoiKhoaBieuTheoBuoi
+    public class SessionedSchedule
     {
         public int MaBuoi { get; set; }
-        public List<ThoiKhoaBieuTheoTiet> ListThoiKhoaBieuTheoTiet { get; set; }
+        public List<TeachingPeriodSchedule> ListThoiKhoaBieuTheoTiet { get; set; }
     }
 
-    public class ThoiKhoaBieuTheoTiet
+    public class TeachingPeriodSchedule
     {
         public int MaMonHocTKB { get; set; }
         public int MaMonHoc { get; set; }        

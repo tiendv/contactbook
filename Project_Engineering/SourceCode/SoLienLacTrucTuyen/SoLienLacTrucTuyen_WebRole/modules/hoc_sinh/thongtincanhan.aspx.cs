@@ -12,34 +12,22 @@ using System.Web.UI.HtmlControls;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class thongtincanhan : System.Web.UI.Page
+    public partial class thongtincanhan : BaseContentPage
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
-        private List<AccessibilityEnum> lstAccessibilities;
+        private StudentBL hocSinhBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            UserBL userBL = new UserBL();
-            RoleBL roleBL = new RoleBL();
-            hocSinhBL = new HocSinhBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
+            hocSinhBL = new StudentBL();
 
             if (!Page.IsPostBack)
             {
@@ -61,8 +49,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownListNamHoc(int maHocSinh)
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetListNamHoc(maHocSinh);
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = maHocSinh;
+            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -71,14 +60,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillLopHoc()
         {
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            LopHocInfo lopHoc = hocSinhBL.GetLopHocInfo(maNamHoc, (int)ViewState["MaHocSinh"]);
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = (int)ViewState["MaHocSinh"];
+
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);            
+
+            TabularClass lopHoc = hocSinhBL.GetTabularClass(year, student);
             LblLopHoc.Text = lopHoc.TenLopHoc;
         }
 
         private void FillThongTinCaNhan(int maHocSinh)
         {
-            HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetThongTinCaNhan(maHocSinh);
+            HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetStudent(maHocSinh);
 
             this.LblMaHocSinhHienThi.Text = thongTinCaNhan.MaHocSinhHienThi;
             this.LblHoTenHocSinh.Text = thongTinCaNhan.HoTen;

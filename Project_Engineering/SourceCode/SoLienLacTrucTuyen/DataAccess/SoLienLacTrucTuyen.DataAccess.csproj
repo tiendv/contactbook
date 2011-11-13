@@ -60,8 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDA.cs" />
-    <Compile Include="BuoiDA.cs" />
-    <Compile Include="CauHinhHeThongDA.cs" />
+    <Compile Include="SessionDA.cs" />
+    <Compile Include="SystemConfigDA.cs" />
     <Compile Include="DanhHieuDA.cs" />
     <Compile Include="DbEContactBook.designer.cs">
       <AutoGen>True</AutoGen>
@@ -69,25 +69,23 @@
       <DependentUpon>DbEContactBook.dbml</DependentUpon>
     </Compile>
     <Compile Include="FunctionsDA.cs" />
-    <Compile Include="GiaoVienChuNhiemDA.cs" />
+    <Compile Include="FormerTeacherDA.cs" />
     <Compile Include="TeacherDA.cs" />
-    <Compile Include="HanhKiemDA.cs" />
-    <Compile Include="HoatDongDA.cs" />
-    <Compile Include="HocKyDA.cs" />
+    <Compile Include="ConductDA.cs" />
+    <Compile Include="StudentActivityDA.cs" />
     <Compile Include="HocLucDA.cs" />
-    <Compile Include="HocSinhDA.cs" />
-    <Compile Include="KetQuaHocTapDA.cs" />
+    <Compile Include="StudentDA.cs" />
+    <Compile Include="StudyingResultDA.cs" />
     <Compile Include="GradeDA.cs" />
-    <Compile Include="LoaiDiemDA.cs" />
+    <Compile Include="MarkTypeDA.cs" />
     <Compile Include="LoiNhanKhanDA.cs" />
-    <Compile Include="LopHocDA.cs" />
+    <Compile Include="ClassDA.cs" />
     <Compile Include="MenuDA.cs" />
-    <Compile Include="MonHocDA.cs" />
+    <Compile Include="SubjectDA.cs" />
     <Compile Include="SchoolDA.cs" />
-    <Compile Include="ThoiKhoaBieuDA.cs" />
-    <Compile Include="NamHocDA.cs" />
+    <Compile Include="ScheduleDA.cs" />
     <Compile Include="FacultyDA.cs" />
-    <Compile Include="NgayNghiHocDA.cs" />
+    <Compile Include="AbsentDA.cs" />
     <Compile Include="PagePathDA.cs" />
     <Compile Include="PhanQuyenDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,10 +96,8 @@
     </Compile>
     <Compile Include="RoleDA.cs" />
     <Compile Include="StrDiemMonHocLoaiDiem.cs" />
-    <Compile Include="ThaiDoThamGiaDA.cs" />
-    <Compile Include="ThongBaoLopDA.cs" />
-    <Compile Include="ThuDA.cs" />
-    <Compile Include="TietDA.cs" />
+    <Compile Include="AttitudeDA.cs" />
+    <Compile Include="TeachingPeriodDA.cs" />
     <Compile Include="UserDA.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhSachLop : BaseContentPage
     {
         #region Fields
-        LopHocBL lopHocBL;
+        ClassBL lopHocBL;
         private bool isSearch;
         #endregion
 
@@ -27,7 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            lopHocBL = new LopHocBL();
+            lopHocBL = new ClassBL();
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
@@ -94,11 +94,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        LopHocInfo lopHoc = (LopHocInfo)e.Item.DataItem;
+                        TabularClass lopHoc = (TabularClass)e.Item.DataItem;
                         if (lopHoc != null)
                         {
-                            int maLopHoc = lopHoc.MaLopHoc;
-                            if (!lopHocBL.CanDeleteLopHoc(maLopHoc))
+                            LopHoc_Lop Class = new LopHoc_Lop();
+                            Class.MaLopHoc = lopHoc.MaLopHoc;
+                            if (!lopHocBL.IsDeletable(Class))
                             {
                                 ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                                 btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -132,7 +133,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    LopHocInfo classInfo = (LopHocInfo)e.Item.DataItem;
+                    TabularClass classInfo = (TabularClass)e.Item.DataItem;
                     if (classInfo != null)
                     {
                         int homeroomTecherCode = classInfo.HomeroomTeacherCode;
@@ -167,11 +168,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maLopHoc = Int32.Parse(e.CommandArgument.ToString());
-                        LopHoc_Lop lophoc = lopHocBL.GetLopHoc(maLopHoc);
+                        LopHoc_Lop lophoc = lopHocBL.GetClass(maLopHoc);
+                        this.HdfSltClassName.Value = lophoc.TenLopHoc;
                         TxtTenLopHocSua.Text = lophoc.TenLopHoc;
                         LblNganhHocSua.Text = lophoc.DanhMuc_NganhHoc.TenNganhHoc;
                         LblKhoiLopSua.Text = lophoc.DanhMuc_KhoiLop.TenKhoiLop;
-                        LblNamHocSua.Text = (new NamHocBL()).GetNamHoc(lophoc.MaNamHoc).TenNamHoc;
+                        LblNamHocSua.Text = lophoc.CauHinh_NamHoc.TenNamHoc;
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
@@ -204,6 +206,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
+            LopHoc_Lop Class = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+            CauHinh_NamHoc year = null;
+
             if (!Page.IsValid)
             {
                 return;
@@ -211,6 +218,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             int maNamHoc = Int32.Parse(DdlNamHocThem.SelectedValue);
             string tenLopHoc = this.TxtTenLopHocThem.Text.Trim();
+            year.MaNamHoc = maNamHoc;
 
             if (tenLopHoc == "")
             {
@@ -220,7 +228,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (lopHocBL.LopHocExists(tenLopHoc, maNamHoc))
+                if (lopHocBL.ClassNameExists(tenLopHoc, year))
                 {
                     TenLopHocValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -229,9 +237,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             int maNganhHoc = Int32.Parse(DdlNganhHocThem.SelectedValue);
+            faculty.MaNganhHoc = maNganhHoc;
             int maKhoiLop = Int32.Parse(DdlKhoiLopThem.SelectedValue);
+            grade.MaKhoiLop = maKhoiLop;
 
-            lopHocBL.InsertLopHoc(tenLopHoc, maNganhHoc, maKhoiLop, maNamHoc);
+            lopHocBL.InsertClass(tenLopHoc, year, faculty, grade);
 
             BindDropDownListLopHoc();
             MainDataPager.CurrentIndex = 1;
@@ -249,12 +259,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
+            LopHoc_Lop editedClass = null;
+            CauHinh_NamHoc year = null;
+
             if (!Page.IsValid)
             {
                 return;
             }
 
             int maLopHoc = Int32.Parse(this.HdfMaLopHoc.Value);
+            string oldClassName = this.HdfSltClassName.Value;
             string tenLopHoc = this.TxtTenLopHocSua.Text.Trim();
 
             ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
@@ -279,7 +293,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (lopHocBL.LopHocExists(maLopHoc, tenLopHoc))
+                year = (new SystemConfigBL()).GetCurrentYear();
+                if (lopHocBL.ClassNameExists(oldClassName, tenLopHoc, year))
                 {
                     TenLopHocValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
@@ -287,14 +302,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            lopHocBL.UpdateLopHoc(maLopHoc, tenLopHoc);
+            editedClass = new LopHoc_Lop();
+            editedClass.MaLopHoc = maLopHoc;
+            lopHocBL.UpdateClass(editedClass, tenLopHoc);
             BindRepeaterLopHoc();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maLopHoc = Int32.Parse(this.HdfMaLopHoc.Value);
-            lopHocBL.DeleteLopHoc(maLopHoc);
+            LopHoc_Lop Class = new LopHoc_Lop();
+            Class.MaLopHoc = Int32.Parse(this.HdfMaLopHoc.Value);
+            lopHocBL.DeleteClass(Class);
             isSearch = false;
             BindDropDownListLopHoc();
             BindRepeaterLopHoc();
@@ -330,54 +348,71 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterLopHoc()
         {
-            int maLopHoc = 0;
+            List<TabularClass> tabularClasses;
+            double totalRecords;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+            CauHinh_NamHoc year = null;
+            LopHoc_Lop Class = null;
+            
             try
             {
-                maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                if (DdlLopHoc.SelectedIndex > 0)
+                {
+                    Class = new LopHoc_Lop();
+                    Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);                         
+                }
             }
             catch (Exception) { }
-
-            List<LopHocInfo> lstLopHocInfo;
-            if (maLopHoc == 0) // "Tất cả"
+            
+            if (Class == null) // "Tất cả"
             {
-                int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                year = new CauHinh_NamHoc();
+                year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
-                int maNganhHoc = 0;
                 try
                 {
-                    maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    if (DdlNganh.SelectedIndex > 0)
+                    {
+                        faculty = new DanhMuc_NganhHoc();
+                        faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    }
                 }
                 catch (Exception) { }
-
-                int maKhoiLop = 0;
+                
                 try
                 {
-                    maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    if (DdlKhoiLop.SelectedIndex > 0)
+                    {
+                        grade = new DanhMuc_KhoiLop();
+                        grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    }
                 }
                 catch (Exception) { }
-                double totalRecords;
-                lstLopHocInfo = lopHocBL.GetListLopHocInfo(maNganhHoc, maKhoiLop, maNamHoc,
+                
+                tabularClasses = lopHocBL.GetTabularClasses(year, faculty, grade,
                     MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
                 MainDataPager.ItemCount = totalRecords;
             }
             else
             {
-                lstLopHocInfo = new List<LopHocInfo> { lopHocBL.GetLopHocInfo(maLopHoc) };
-                MainDataPager.ItemCount = 1;
+                tabularClasses = new List<TabularClass> { lopHocBL.GetTabularClass(Class) };
+                totalRecords = 1;
             }
 
             // Decrease page current index when delete
-            if (lstLopHocInfo.Count == 0 && MainDataPager.ItemCount != 0)
+            if (tabularClasses.Count == 0 && MainDataPager.ItemCount != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeaterLopHoc();
                 return;
             }
 
-            bool bDisplayData = (lstLopHocInfo.Count != 0) ? true : false;
+            bool bDisplayData = (tabularClasses.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
-            RptLopHoc.DataSource = lstLopHocInfo;
+            RptLopHoc.DataSource = tabularClasses;
             RptLopHoc.DataBind();
+            MainDataPager.ItemCount = totalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -457,8 +492,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -480,6 +515,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListLopHoc()
         {
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
@@ -500,23 +539,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
-            int maNganhHoc = 0;
             try
             {
-                maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
+            }
+            catch (Exception) { }
+            
+            try
+            {
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }
             }
             catch (Exception) { }
 
-            int maKhoiLop = 0;
-            try
-            {
-                maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
-            }
-            catch (Exception) { }
-
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";

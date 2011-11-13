@@ -327,13 +327,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string subjectName = this.TxtSearchedSubject.Text.Trim();
             double totalRecords;
 
-            if (DdlNganh.SelectedIndex != 0)
+            if (DdlNganh.SelectedIndex > 0)
             {
                 string facultyName = DdlNganh.SelectedValue;
                 faculty = facultyBL.GetFaculty(facultyName);
             }
 
-            if (DdlKhoiLop.SelectedIndex != 0)
+            if (DdlKhoiLop.SelectedIndex > 0)
             {
                 string gradeName = DdlKhoiLop.SelectedValue;
                 grade = gradeBL.GetGrade(gradeName);

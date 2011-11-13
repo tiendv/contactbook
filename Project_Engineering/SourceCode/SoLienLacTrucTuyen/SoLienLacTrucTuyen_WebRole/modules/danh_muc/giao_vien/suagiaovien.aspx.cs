@@ -12,7 +12,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class suagiaovien : System.Web.UI.Page
     {
         #region Fields
-        GiaoVienBL giaoVienBL = new GiaoVienBL();
+        TeacherBL giaoVienBL = new TeacherBL();
         #endregion
 
         #region Page event handlers
@@ -106,16 +106,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void FillGiaoVien(int maGiaoVien)
+        private void FillGiaoVien(int teacherId)
         {
-            LopHoc_GiaoVien giaoVien = giaoVienBL.GetGiaoVien(maGiaoVien);
-            LblMaGiaoVienHienThi.Text = giaoVien.MaHienThiGiaoVien;
-            TxtTenGiaoVien.Text = giaoVien.HoTen;
-            TxtNgaySinh.Text = giaoVien.NgaySinh.ToShortDateString();
-            RbtnNam.Checked = giaoVien.GioiTinh;
-            RbtnNu.Checked = !giaoVien.GioiTinh;
-            TxtDiaChi.Text = giaoVien.DiaChi;
-            TxtDienThoai.Text = giaoVien.DienThoai;
+            LopHoc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
+            LblMaGiaoVienHienThi.Text = teacher.MaHienThiGiaoVien;
+            TxtTenGiaoVien.Text = teacher.HoTen;
+            TxtNgaySinh.Text = teacher.NgaySinh.ToShortDateString();
+            RbtnNam.Checked = teacher.GioiTinh;
+            RbtnNu.Checked = !teacher.GioiTinh;
+            TxtDiaChi.Text = teacher.DiaChi;
+            TxtDienThoai.Text = teacher.DienThoai;
         }
         #endregion
     }

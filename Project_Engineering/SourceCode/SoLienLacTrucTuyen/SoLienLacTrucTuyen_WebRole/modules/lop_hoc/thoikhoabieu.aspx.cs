@@ -11,37 +11,25 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThoiKhoaBieu : System.Web.UI.Page
+    public partial class ThoiKhoaBieu : BaseContentPage
     {
         #region Fields
-        private LopHocBL lopHocBL;
-        private ThoiKhoaBieuBL thoiKhoaBieuBL;
-        private List<AccessibilityEnum> lstAccessibilities;
+        private ClassBL classBL;
+        private ScheduleBL scheduleBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-            lopHocBL = new LopHocBL();
-            thoiKhoaBieuBL = new ThoiKhoaBieuBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
-
+            classBL = new ClassBL();
+            scheduleBL = new ScheduleBL();
+         
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
@@ -56,7 +44,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         this.DdlLopHoc.SelectedValue = (Request.QueryString["LopHoc"].ToString());
                     }
 
-                    BindRptThoiKhoaBieu();
+                    BindRptSchedule();
                 }
                 else
                 {
@@ -69,17 +57,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region DropDownList event hanlders
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
      
         #endregion
@@ -92,10 +80,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (e.Item.DataItem != null)
                 {
-                    ThoiKhoaBieuTheoThu thoiKhoaBieuTheoThu = (ThoiKhoaBieuTheoThu)e.Item.DataItem;
+                    DailySchedule dailySchedule = (DailySchedule)e.Item.DataItem;
                     int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
                     int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-                    int maThu = thoiKhoaBieuTheoThu.MaThu;
+                    int maThu = dailySchedule.MaThu;
                     int maLopHoc = 0;
                     try
                     {
@@ -104,7 +92,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     catch (Exception) { return; }
                     
                     Label lblNghiSang = (Label)e.Item.FindControl("LblNghiSang");
-                    ThoiKhoaBieuTheoBuoi thoiKhoaBieuBuoiSang = thoiKhoaBieuTheoThu.ListThoiKhoaBieuTheoBuoi[0];
+                    SessionedSchedule thoiKhoaBieuBuoiSang = dailySchedule.SessionedSchedules[0];
                     if (thoiKhoaBieuBuoiSang.ListThoiKhoaBieuTheoTiet.Count == 0)
                     {
                         lblNghiSang.Visible = true;
@@ -112,14 +100,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     else
                     {                        
                         lblNghiSang.Visible = false;
-                        List<ThoiKhoaBieuTheoTiet> lstThoiKhoaBieuTheoTiet = thoiKhoaBieuBuoiSang.ListThoiKhoaBieuTheoTiet;
+                        List<TeachingPeriodSchedule> lstThoiKhoaBieuTheoTiet = thoiKhoaBieuBuoiSang.ListThoiKhoaBieuTheoTiet;
                         Repeater RptMonHocBuoiSang = (Repeater)e.Item.FindControl("RptMonHocBuoiSang");
                         RptMonHocBuoiSang.DataSource = lstThoiKhoaBieuTheoTiet;
                         RptMonHocBuoiSang.DataBind();
                     }
 
                     Label lblNghiChieu = (Label)e.Item.FindControl("LblNghiChieu");
-                    ThoiKhoaBieuTheoBuoi thoiKhoaBieuBuoiChieu = thoiKhoaBieuTheoThu.ListThoiKhoaBieuTheoBuoi[1];
+                    SessionedSchedule thoiKhoaBieuBuoiChieu = dailySchedule.SessionedSchedules[1];
                     if (thoiKhoaBieuBuoiChieu.ListThoiKhoaBieuTheoTiet.Count == 0)
                     {
                         lblNghiChieu.Visible = true;
@@ -127,7 +115,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     else
                     {
                         lblNghiChieu.Visible = false;
-                        List<ThoiKhoaBieuTheoTiet> lstThoiKhoaBieuTheoTiet = thoiKhoaBieuBuoiChieu.ListThoiKhoaBieuTheoTiet;
+                        List<TeachingPeriodSchedule> lstThoiKhoaBieuTheoTiet = thoiKhoaBieuBuoiChieu.ListThoiKhoaBieuTheoTiet;
                         Repeater RptMonHocBuoiChieu = (Repeater)e.Item.FindControl("RptMonHocBuoiChieu");
                         RptMonHocBuoiChieu.DataSource = lstThoiKhoaBieuTheoTiet;
                         RptMonHocBuoiChieu.DataBind();
@@ -161,20 +149,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
-            BindRptThoiKhoaBieu();
+            BindRptSchedule();
         }
         #endregion
 
         #region Methods
-        private void BindRptThoiKhoaBieu()
+        private void BindRptSchedule()
         {
+            CauHinh_HocKy term = null;
+            LopHoc_Lop Class = null;
+            List<DailySchedule> dailySchedules;
+
             // Get search criterias
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            int maLopHoc = 0;
+            term = new CauHinh_HocKy();
+            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            
             if (DdlLopHoc.Items.Count != 0)
             {
-                maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                Class = new LopHoc_Lop();
+                Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                dailySchedules = scheduleBL.GetDailySchedules(Class, term);
                 this.LblSearchResult.Visible = false;
                 this.RptMonHocTKB.Visible = true;
             }
@@ -182,13 +176,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {                
                 this.LblSearchResult.Visible = true;
                 this.RptMonHocTKB.Visible = false;
+                return;
             }
 
-            // Get list of ThoiKhoaBieuTheoThu from DB
-            // and bind to Repeater
-            List<ThoiKhoaBieuTheoThu> lstTKBTheoThu;
-            lstTKBTheoThu = thoiKhoaBieuBL.GetThoiKhoaBieu(maNamHoc, maHocKy, maLopHoc);
-            RptMonHocTKB.DataSource = lstTKBTheoThu;
+            RptMonHocTKB.DataSource = dailySchedules;
             RptMonHocTKB.DataBind();
 
             //Session["ThoiKhoaBieu_MaNamHoc"] = maNamHoc;
@@ -203,17 +194,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
-            BindDropDownListHocKy();
-            BindDropDownListNganhHoc();
-            BindDropDownListKhoiLop();
-            BindDropDownListLopHoc();
+            BindDDlYears();
+            BindDDLTerms();
+            BindDDlFaculties();
+            BindDDlGrades();
+            BindDDLClasses();
         }
 
-        private void BindDropDownListNamHoc()
+        private void BindDDlYears()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -230,7 +221,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListNganhHoc()
+        private void BindDDlFaculties()
         {
             FacultyBL nganhHocBL = new FacultyBL();
             List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
@@ -244,7 +235,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListKhoiLop()
+        private void BindDDlGrades()
         {
             GradeBL KhoiLopBL = new GradeBL();
             List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
@@ -258,10 +249,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }        
 
-        private void BindDropDownListHocKy()
+        private void BindDDLTerms()
         {
-            HocKyBL hocKyBL = new HocKyBL();
-            List<CauHinh_HocKy> lstHocKy = hocKyBL.GetListHocKy();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
@@ -274,13 +265,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                SystemConfigBL cauHinhHeThongBL = new SystemConfigBL();
-                DdlHocKy.SelectedValue = cauHinhHeThongBL.GetMaHocKyHienHanh().ToString();
+                DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().ToString();
             }
         }
 
-        private void BindDropDownListLopHoc()
+        private void BindDDLClasses()
         {
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
@@ -288,23 +282,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
-            int maNganhHoc = 0;
             try
             {
-                maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
             }
             catch (Exception) { }
 
-            int maKhoiLop = 0;
             try
             {
-                maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }
             }
             catch (Exception) { }
-            
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+
+            List<LopHoc_Lop> lstLop = classBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";

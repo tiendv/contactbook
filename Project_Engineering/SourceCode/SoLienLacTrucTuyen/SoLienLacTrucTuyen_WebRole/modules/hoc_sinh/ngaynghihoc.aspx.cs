@@ -13,39 +13,27 @@ using System.Text.RegularExpressions;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class NgayNghiHocPage : System.Web.UI.Page
+    public partial class NgayNghiHocPage : BaseContentPage
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
-        private NgayNghiHocBL ngayNghiHocBL;
-        private BuoiBL buoiBL;
+        private StudentBL hocSinhBL;
+        private AbsentBL ngayNghiHocBL;
+        private SystemConfigBL systemConfigBL;
         private bool isSearch;
-        private List<AccessibilityEnum> lstAccessibilities;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            UserBL userBL = new UserBL();
-            RoleBL roleBL = new RoleBL();
-            hocSinhBL = new HocSinhBL();
-            ngayNghiHocBL = new NgayNghiHocBL();
-            buoiBL = new BuoiBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
+            hocSinhBL = new StudentBL();
+            ngayNghiHocBL = new AbsentBL();
+            systemConfigBL = new SystemConfigBL();            
 
             if (!Page.IsPostBack)
             {
@@ -96,9 +84,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (HdfMaHocSinh.Value != "")
             {
-                int maHocSinh = Int32.Parse(HdfMaHocSinh.Value.ToString());
-                NamHocBL namHocBL = new NamHocBL();
-                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetListNamHoc(maHocSinh);
+                HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+                student.MaHocSinh = Int32.Parse(HdfMaHocSinh.Value.ToString());
+                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
                 DdlNamHoc.DataSource = lstNamHoc;
                 DdlNamHoc.DataValueField = "MaNamHoc";
                 DdlNamHoc.DataTextField = "TenNamHoc";
@@ -108,30 +96,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListHocKy()
         {
-            HocKyBL hocKyBL = new HocKyBL();
-            List<CauHinh_HocKy> lstHocKy = hocKyBL.GetListHocKy();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
 
             DdlHocKyThem.DataSource = lstHocKy;
             DdlHocKyThem.DataValueField = "MaHocKy";
             DdlHocKyThem.DataTextField = "TenHocKy";
             DdlHocKyThem.DataBind();
-            DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
 
             DdlHocKySua.DataSource = lstHocKy;
             DdlHocKySua.DataValueField = "MaHocKy";
             DdlHocKySua.DataTextField = "TenHocKy";
             DdlHocKySua.DataBind();
-            DdlHocKySua.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKySua.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
         }
 
         private void BindDropDownListBuoi()
         {
-            List<CauHinh_Buoi> lstBuoi = buoiBL.GetListBuoi();
+            List<CauHinh_Buoi> lstBuoi = systemConfigBL.GetSessions();
             DdlBuoiThem.DataSource = lstBuoi;
             DdlBuoiThem.DataValueField = "MaBuoi";
             DdlBuoiThem.DataTextField = "TenBuoi";
@@ -162,29 +150,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
-            int maHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
-            DateTime DenNgay = DateTime.Parse(TxtDenNgay.Text);
-
+            HocSinh_ThongTinCaNhan student = null;
+            CauHinh_NamHoc year = null;
+            CauHinh_HocKy term = null;
             double totalRecords;
-            List<TabularDayOff> lstTabularNgayNghiHoc = ngayNghiHocBL.GetListTabularNgayNghiHoc(
-                maHocSinh, maNamHoc, maHocKy,
-                tuNgay, DenNgay,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize,
-                out totalRecords);
+            List<TabularAbsent> tabularAbsents;
 
-            if (totalRecords != 0 && lstTabularNgayNghiHoc.Count == 0)
+            student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            term = new CauHinh_HocKy();
+            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
+            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+
+            tabularAbsents = ngayNghiHocBL.GetTabularAbsents(student, year, term, dtBeginDate, dtEndDate,
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+
+            if (totalRecords != 0 && tabularAbsents.Count == 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
                 return;
             }
 
-            bool bDisplayData = (lstTabularNgayNghiHoc.Count != 0) ? true : false;
+            bool bDisplayData = (tabularAbsents.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
-            RptNgayNghi.DataSource = lstTabularNgayNghiHoc;
+            RptNgayNghi.DataSource = tabularAbsents;
             RptNgayNghi.DataBind();
             MainDataPager.ItemCount = totalRecords;
         }
@@ -219,6 +212,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptNgayNghi_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            HocSinh_NgayNghiHoc absent = null;
+
             if (lstAccessibilities.Contains(AccessibilityEnum.Modify))
             {
                 // Do something
@@ -249,8 +244,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         Control control = e.Item.FindControl("HdfRptMaNgayNghiHoc");
                         if (control != null)
                         {
-                            int maNgayNghiHoc = Int32.Parse(((HiddenField)control).Value);
-                            if (ngayNghiHocBL.Confirmed(maNgayNghiHoc))
+                            absent = new HocSinh_NgayNghiHoc();
+                            absent.MaNgayNghiHoc = Int32.Parse(((HiddenField)control).Value);
+                            if (ngayNghiHocBL.Confirmed(absent))
                             {
                                 ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                                 btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -300,7 +296,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maNgayNghiHoc = Int32.Parse(e.CommandArgument.ToString());
-                        HocSinh_NgayNghiHoc ngayNghi = ngayNghiHocBL.GetNgayNghiHoc(maNgayNghiHoc);
+                        HocSinh_NgayNghiHoc ngayNghi = ngayNghiHocBL.GetAbsent(maNgayNghiHoc);
 
                         this.DdlHocKySua.SelectedValue = ngayNghi.MaHocKy.ToString();
                         this.TxtNgaySua.Text = ngayNghi.Ngay.ToShortDateString();
@@ -335,14 +331,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string strNgay = TxtNgayThem.Text.Trim();
-            int maHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
-            int maHocKy = Int32.Parse(this.DdlHocKyThem.SelectedValue);
-            int maBuoi = Int32.Parse(this.DdlBuoiThem.SelectedValue);
+            HocSinh_ThongTinCaNhan student = null;
+            CauHinh_HocKy term = null;
+            CauHinh_Buoi session = null;
+
+            string strDate = TxtNgayThem.Text.Trim();
+            student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
+            term = new CauHinh_HocKy();
+            term.MaHocKy = Int32.Parse(this.DdlHocKyThem.SelectedValue);            
+            if (this.DdlBuoiThem.SelectedIndex > 0)
+            {
+                session = new CauHinh_Buoi();
+                session.MaBuoi = Int32.Parse(this.DdlBuoiThem.SelectedValue);
+            }
             bool xinPhep = this.RbtnCo.Checked;
             string lyDo = this.TxtLyDoThem.Text.Trim();
 
-            if (strNgay == "")
+            if (strDate == "")
             {
                 NgayRequiredAdd.IsValid = false;
                 MPEAdd.Show();
@@ -350,7 +356,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (!Regex.IsMatch(strNgay, NgayExpression.ValidationExpression))
+                if (!Regex.IsMatch(strDate, NgayExpression.ValidationExpression))
                 {
                     NgayExpression.IsValid = false;
                     MPEAdd.Show();
@@ -368,8 +374,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     return;
                 }
 
-                if (ngayNghiHocBL.NgayNghiHocExists(null, maHocSinh,
-                    maHocKy, DateTime.Parse(this.TxtNgayThem.Text.Trim()), maBuoi))
+                if (ngayNghiHocBL.AbsentExists(null, student, term, DateTime.Parse(this.TxtNgayThem.Text.Trim()), session))
                 {
                     NgayValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -379,12 +384,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             DateTime ngay = DateTime.Parse(this.TxtNgayThem.Text.Trim());
 
-            ngayNghiHocBL.InsertNgayNghiHoc(maHocSinh, maHocKy, ngay, maBuoi, xinPhep, lyDo);
+            ngayNghiHocBL.InsertAbsent(student, term, ngay, session, xinPhep, lyDo);
 
             MainDataPager.CurrentIndex = 1;
             BindRepeater();
 
-            this.DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
+            this.DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().MaHocKy.ToString();
             this.TxtNgayThem.Text = DateTime.Now.ToShortDateString();
             this.DdlBuoiThem.SelectedIndex = 0;
             this.RbtnCo.Checked = true;
@@ -401,6 +406,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
+            HocSinh_ThongTinCaNhan student = null; 
+            HocSinh_NgayNghiHoc absent = null;
+            CauHinh_HocKy term = null;
+            CauHinh_Buoi session = null;
+            DateTime date;
             ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
             foreach (RepeaterItem rptItem in RptNgayNghi.Items)
             {
@@ -414,13 +424,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            string strNgay = TxtNgaySua.Text.Trim();
-            int maNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
-            int maHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
-            int maHocKy = Int32.Parse(this.DdlHocKySua.SelectedValue);
-            int maBuoi = Int32.Parse(this.DdlBuoiSua.SelectedValue);
+            string strDate = TxtNgaySua.Text.Trim();
+            absent = new HocSinh_NgayNghiHoc();
+            absent.MaNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
+            student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
+            term = new CauHinh_HocKy();
+            term.MaHocKy = Int32.Parse(this.DdlHocKySua.SelectedValue);
+            if (DdlBuoiSua.SelectedIndex > 0)
+            {
+                session = new CauHinh_Buoi();
+                session.MaBuoi = Int32.Parse(this.DdlBuoiSua.SelectedValue);
+            }
 
-            if (strNgay == "")
+            if (strDate == "")
             {
                 NgayRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
@@ -428,7 +445,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (!Regex.IsMatch(strNgay, NgayExpressionEdit.ValidationExpression))
+                if (!Regex.IsMatch(strDate, NgayExpressionEdit.ValidationExpression))
                 {
                     NgayExpressionEdit.IsValid = false;
                     modalPopupEdit.Show();
@@ -437,7 +454,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 try
                 {
-                    DateTime.Parse(strNgay);
+                    DateTime.Parse(strDate);
                 }
                 catch (Exception ex)
                 {
@@ -446,8 +463,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     return;
                 }
 
-                if (ngayNghiHocBL.NgayNghiHocExists(maNgayNghiHoc, maHocSinh,
-                    maHocKy, DateTime.Parse(this.TxtNgaySua.Text.Trim()), maBuoi))
+                if (ngayNghiHocBL.AbsentExists(absent, student, term, DateTime.Parse(this.TxtNgaySua.Text.Trim()), session))
                 {
                     NgayValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
@@ -455,12 +471,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            DateTime ngay = DateTime.Parse(this.TxtNgaySua.Text);
-
+            date = DateTime.Parse(this.TxtNgaySua.Text);
             bool xinPhep = this.RbtnCoSua.Checked;
             string lyDo = this.TxtLyDoSua.Text;
 
-            ngayNghiHocBL.UpdateNgayNghiHoc(maNgayNghiHoc, maHocKy, ngay, maBuoi, xinPhep, lyDo);
+            ngayNghiHocBL.UpdateAbsent(absent, term, date, session, xinPhep, lyDo);
 
             MainDataPager.CurrentIndex = 1;
             BindRepeater();
@@ -475,7 +490,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             int maNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
-            ngayNghiHocBL.DeleteNgayNghiHoc(maNgayNghiHoc);
+            ngayNghiHocBL.DeleteAbsent(maNgayNghiHoc);
             isSearch = false;
             BindRepeater();
         }

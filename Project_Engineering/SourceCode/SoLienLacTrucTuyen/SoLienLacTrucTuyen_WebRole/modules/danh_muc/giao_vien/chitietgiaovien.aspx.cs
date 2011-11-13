@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class ChiTietGiaoVienPage : BaseContentPage
     {
         #region Fields
-        GiaoVienBL giaoVienBL = new GiaoVienBL();
+        TeacherBL giaoVienBL = new TeacherBL();
         #endregion
 
         #region Page event handlers
@@ -53,15 +53,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void FillGiaoVien(int maGiaoVien)
+        private void FillGiaoVien(int teacherId)
         {
-            LopHoc_GiaoVien giaoVien = giaoVienBL.GetGiaoVien(maGiaoVien);
-            LblMaGiaoVienHienThi.Text = giaoVien.MaHienThiGiaoVien;
-            LblTenGiaoVien.Text = giaoVien.HoTen;
-            LblNgaySinh.Text = giaoVien.NgaySinh.ToShortDateString();
-            LblGioiTinh.Text = giaoVien.GioiTinh ? "Nam" : "Nữ";
-            LblDiaChi.Text = giaoVien.DiaChi;
-            LblDienThoai.Text = (giaoVien.DienThoai != "") ? giaoVien.DienThoai : "(không có)";
+            LopHoc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
+            LblMaGiaoVienHienThi.Text = teacher.MaHienThiGiaoVien;
+            LblTenGiaoVien.Text = teacher.HoTen;
+            LblNgaySinh.Text = teacher.NgaySinh.ToShortDateString();
+            LblGioiTinh.Text = teacher.GioiTinh ? "Nam" : "Nữ";
+            LblDiaChi.Text = teacher.DiaChi;
+            LblDienThoai.Text = (teacher.DienThoai != "") ? teacher.DienThoai : "(không có)";
         }
 
         private void ProcPermissions()
@@ -94,10 +94,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDataGiangDay()
         {
-            int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());
+            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+            int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());            
+            teacher.MaGiaoVien = maGiaoVien;
             double totalRecords;
-            List<TabularHoatDongGiangDay> lstTbGiangDays = giaoVienBL.GetListTbHoatDongGiangDay(
-                maGiaoVien, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out totalRecords);
+            List<TabularTeaching> lstTbGiangDays = giaoVienBL.GetListTeachings(
+                teacher, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out totalRecords);
 
             bool bDisplayData = (lstTbGiangDays.Count != 0) ? true : false;
             RptGiangDay.Visible = bDisplayData;
@@ -111,10 +113,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDataChuNhiem()
         {
+            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
             int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());
+            teacher.MaGiaoVien = maGiaoVien;
             double totalRecords;
-            List<TabularHoatDongChuNhiem> lstTbChuNhiems = giaoVienBL.GetListTbHoatDongChuNhiem(
-                maGiaoVien, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out totalRecords);
+            List<TabularFormering> lstTbChuNhiems = giaoVienBL.GetListFormerings(
+                teacher, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out totalRecords);
 
             bool bDisplayData = (lstTbChuNhiems.Count != 0) ? true : false;
             RptChuNhiem.Visible = bDisplayData;

@@ -10,31 +10,24 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThemGiaoVienChuNhiemPage : System.Web.UI.Page
+    public partial class ThemGiaoVienChuNhiemPage : BaseContentPage
     {
         #region Fields
-        private GiaoVienBL giaoVienBL;
+        private TeacherBL teacherBL;
         private bool isSearch;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            giaoVienBL = new GiaoVienBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-
-            if (!(new RoleBL()).ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
+            teacherBL = new TeacherBL();
+            
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
@@ -82,11 +75,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RadioButton rBtnSelect = (RadioButton)control;
                         if (rBtnSelect.Checked)
                         {
+                            LopHoc_Lop Class = new LopHoc_Lop();
+                            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+                            FormerTeacherBL gvcnBL = new FormerTeacherBL();
+
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
                             int maGiaoVien = Int32.Parse(hdfRptMaGiaoVien.Value);
                             int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
-                            GiaoVienChuNhiemBL gvcnBL = new GiaoVienChuNhiemBL();
-                            gvcnBL.Insert(maLopHoc, maGiaoVien);
+                            
+                            Class.MaLopHoc = maLopHoc;                            
+                            teacher.MaGiaoVien = maGiaoVien;                            
+                            gvcnBL.Insert(Class, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }
                     }
@@ -168,8 +167,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -188,6 +187,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListLopHoc()
         {
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+
             bool bEnabled;
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
@@ -196,10 +199,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             else
             {
                 int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                year.MaNamHoc = maNamHoc;
                 int maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                faculty.MaNganhHoc = maNganhHoc;
                 int maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                grade.MaKhoiLop = maKhoiLop;
 
-                List<LopHoc_Lop> lstLop = (new LopHocBL()).GetListLopHocChuaCoGVCN(maNamHoc, maNganhHoc, maKhoiLop);
+                List<LopHoc_Lop> lstLop = (new ClassBL()).GetUnformeredClasses(year, faculty, grade);
                 DdlLopHoc.DataSource = lstLop;
                 DdlLopHoc.DataValueField = "MaLopHoc";
                 DdlLopHoc.DataTextField = "TenLopHoc";
@@ -221,13 +227,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            int yearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            year.MaNamHoc = yearId;
             string maHienThiGiaoVien = TxtSearchMaHienThiGiaoVien.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 
+
             double totalRecords;
-            List<TabularGiaoVien> lstTbGiaoViens = giaoVienBL.GetListTabularGiaoVienKhongChuNhiems(
-                maNamHoc,
+            List<TabularTeacher> lstTbGiaoViens = teacherBL.GetListTabularUnformeredTeachers(
+                year,
                 maHienThiGiaoVien, hoTen,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
+using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessLogic;
 
 namespace SoLienLacTrucTuyen_WebRole
@@ -22,17 +23,24 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ExistMaHocSinhHienThi(string maHocSinh, string maHocSinhHienThi)
         {
-            HocSinhBL hocSinhBL = new HocSinhBL();
-
-            int iMaHocSinh = hocSinhBL.GetMaHocSinh(maHocSinhHienThi);
-            if (iMaHocSinh.ToString() != maHocSinh)
+            StudentBL hocSinhBL = new StudentBL();
+            HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(maHocSinhHienThi);
+            if (student != null)
             {
-                return true;
+                if (student.MaHocSinh.ToString() != maHocSinh)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
                 return false;
             }
+            
         }
     }
 }

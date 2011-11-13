@@ -88,11 +88,21 @@ namespace SoLienLacTrucTuyen_WebRole
         }
 
         [WebMethod]
-        public static bool CheckExistTenThaiDoThamGia(int maThaiDoThamGia, string tenThaiDoThamGia)
+        public static bool AttitudeNameExists(string oldAttitudeName, string newAttitudeName)
         {
-            tenThaiDoThamGia = Uri.UnescapeDataString(tenThaiDoThamGia);
-            ThaiDoThamGiaBL thaiDoThamGiaBL = new ThaiDoThamGiaBL();
-            return thaiDoThamGiaBL.CheckExistTenThaiDoThamGia(maThaiDoThamGia, tenThaiDoThamGia);
+            AttitudeBL thaiDoThamGiaBL = new AttitudeBL();
+
+            oldAttitudeName = Uri.UnescapeDataString(oldAttitudeName);
+            newAttitudeName = Uri.UnescapeDataString(newAttitudeName);
+
+            if (oldAttitudeName == "")
+            {
+                return thaiDoThamGiaBL.AttitudeNameExists(newAttitudeName);
+            }
+            else
+            {
+                return thaiDoThamGiaBL.AttitudeNameExists(oldAttitudeName, newAttitudeName);
+            }            
         }
 
         [WebMethod]
