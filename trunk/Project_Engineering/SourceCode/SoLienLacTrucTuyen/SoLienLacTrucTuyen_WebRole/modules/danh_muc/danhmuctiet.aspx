@@ -63,6 +63,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater ui-corner-all">
+            <asp:HiddenField ID="HdfSltTeachingPeriodName" runat="server" />
             <asp:HiddenField ID="HdfMaTietHoc" runat="server" />
             <asp:HiddenField ID="HdfRptTietHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptTietHocMPEEdit" runat="server" />
@@ -123,7 +124,7 @@
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
                                 CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaTiet")%>' />
-                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
+                            <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
                             </ajaxToolkit:ModalPopupExtender>
@@ -148,7 +149,8 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command" ViewStateMode="Enabled" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
+                ViewStateMode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
@@ -193,8 +195,8 @@
                             ValidationGroup="AddTietHoc" ErrorMessage="Tên tiết học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenTietHocValidatorAdd" runat="server" ControlToValidate="TxtTenTietHocThem"
-                            ValidationGroup="AddTietHoc" ClientValidationFunction="validateTenTietHocAdd"
-                            ErrorMessage="Tiết học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="AddTietHoc" ErrorMessage="Tiết học đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -293,8 +295,8 @@
                             ValidationGroup="EditTietHoc" ErrorMessage="Tên tiết học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenTietHocValidatorEdit" runat="server" ControlToValidate="TxtTenTietHocEdit"
-                            ValidationGroup="EditTietHoc" ClientValidationFunction="validateTenTietHocEdit"
-                            ErrorMessage="Tiết học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                            ValidationGroup="EditTietHoc" ErrorMessage="Tiết học đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -321,8 +323,8 @@
                             ValidationGroup="EditTietHoc" ErrorMessage="Hệ số điểm không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TxtThuTuEdit"
-                            ValidationGroup="EditTietHoc" ValidationExpression="\d{1}" Display="Dynamic" ForeColor="Red"
-                            ErrorMessage="Thứ tự phải là số tự nhiên trong khoảng 1 đến 9"></asp:RegularExpressionValidator>
+                            ValidationGroup="EditTietHoc" ValidationExpression="\d{1}" Display="Dynamic"
+                            ForeColor="Red" ErrorMessage="Thứ tự phải là số tự nhiên trong khoảng 1 đến 9"></asp:RegularExpressionValidator>
                     </td>
                 </tr>
                 <tr>

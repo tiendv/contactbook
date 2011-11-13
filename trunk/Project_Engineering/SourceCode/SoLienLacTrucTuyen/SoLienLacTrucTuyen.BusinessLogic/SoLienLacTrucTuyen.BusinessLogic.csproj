@@ -57,38 +57,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuoiBL.cs" />
-    <Compile Include="CauHinhHeThongBL.cs" />
+    <Compile Include="SystemConfigBL.cs" />
     <Compile Include="DanhHieuBL.cs" />
     <Compile Include="FunctionsBL.cs" />
     <Compile Include="FunctionTypeBL.cs" />
-    <Compile Include="GiaoVienBL.cs" />
-    <Compile Include="GiaoVienChuNhiemBL.cs" />
-    <Compile Include="HanhKiemBL.cs" />
-    <Compile Include="HoatDongBL.cs" />
-    <Compile Include="HocKyBL.cs" />
+    <Compile Include="TeacherBL.cs" />
+    <Compile Include="FormerTeacherBL.cs" />
+    <Compile Include="ConductBL.cs" />
+    <Compile Include="StudentActivityBL.cs" />
     <Compile Include="HocLucBL.cs" />
-    <Compile Include="HocSinhBL.cs" />
-    <Compile Include="KetQuaHocTapBL.cs" />
+    <Compile Include="StudentBL.cs" />
+    <Compile Include="StudyingResultBL.cs" />
     <Compile Include="GradeBL.cs" />
-    <Compile Include="LoaiDiemBL.cs" />
+    <Compile Include="MarkTypeBL.cs" />
     <Compile Include="LoiNhanKhanBL.cs" />
-    <Compile Include="LopHocBL.cs" />
+    <Compile Include="ClassBL.cs" />
     <Compile Include="MenuBL.cs" />
     <Compile Include="SubjectBL.cs" />
     <Compile Include="SchoolBL.cs" />
-    <Compile Include="ThoiKhoaBieuBL.cs" />
-    <Compile Include="NamHocBL.cs" />
-    <Compile Include="NgayNghiHocBL.cs" />
+    <Compile Include="ScheduleBL.cs" />
+    <Compile Include="AbsentBL.cs" />
     <Compile Include="FacultyBL.cs" />
     <Compile Include="RoleBL.cs" />
     <Compile Include="PagePathBL.cs" />
     <Compile Include="PhanQuyenBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThaiDoThamGiaBL.cs" />
-    <Compile Include="ThongBaoLopBL.cs" />
-    <Compile Include="ThuBL.cs" />
-    <Compile Include="TietBL.cs" />
+    <Compile Include="AttitudeBL.cs" />
+    <Compile Include="TeachingPeriodBL.cs" />
     <Compile Include="UserBL.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,10 +117,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

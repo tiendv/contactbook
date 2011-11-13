@@ -10,34 +10,25 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SuaTietThoiKhoaBieuPage : System.Web.UI.Page
+    public partial class SuaTietThoiKhoaBieuPage : BaseContentPage
     {
         #region Fields
-        ThoiKhoaBieuBL thoiKhoaBieuBL;
+        ScheduleBL scheduleBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            // Init variables
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-            thoiKhoaBieuBL = new ThoiKhoaBieuBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            // Check role's accesibility
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            // Set Master page's properties
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            // Init variables
+            scheduleBL = new ScheduleBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            LopHoc_Lop Class = null;
 
             if (!Page.IsPostBack)
             {
@@ -45,7 +36,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (dicQueryStrings != null)
                 {
                     int maMonHocTKB = dicQueryStrings["MaMonHocTKB"];
-                    ThoiKhoaBieuTheoTiet tkbTheoTiet = thoiKhoaBieuBL.GetThoiKhoaBieuTheoTiet(maMonHocTKB);
+                    LopHoc_MonHocTKB schedule = scheduleBL.GetSchedule(maMonHocTKB);
+                    TeachingPeriodSchedule tkbTheoTiet = scheduleBL.GetTeachingPeriodSchedule(schedule);
                     HdfMaMonHoc.Value = tkbTheoTiet.MaMonHoc.ToString();
                     LblMonHoc.Text = tkbTheoTiet.TenMonHoc;
                     HdfMaGiaoVien.Value = tkbTheoTiet.MaGiaoVien.ToString();
@@ -57,15 +49,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     int maTiet = dicQueryStrings["MaTiet"];
 
 
-
-                    LopHocInfo lopHoc = (new LopHocBL()).GetLopHocInfo(maLopHoc);
-                    CauHinh_HocKy hocKy = (new HocKyBL()).GetHocKy(maHocKy);
-                    CauHinh_Thu thu = (new ThuBL()).GetThu(maThu);
-                    DanhMuc_Tiet tiet = (new TietBL()).GetTiet(maTiet);
+                    Class = new LopHoc_Lop();
+                    Class.MaLopHoc = maLopHoc;
+                    TabularClass lopHoc = (new ClassBL()).GetTabularClass(Class);
+                    CauHinh_HocKy hocKy = systemConfigBL.GetTerm(maHocKy);
+                    CauHinh_Thu dayInWeek = systemConfigBL.GetDayInWeek(maThu);
+                    DanhMuc_Tiet tiet = (new TeachingPeriodBL()).GetTeachingPeriod(maTiet);
                     LblTenLop.Text = lopHoc.TenLopHoc;
                     LblNamHoc.Text = lopHoc.TenNamHoc;
                     LblHocKy.Text = hocKy.TenHocKy;
-                    LblThu.Text = thu.TenThu;
+                    LblThu.Text = dayInWeek.TenThu;
                     LblTiet.Text = string.Format("{0} ({1} - {2})",
                         tiet.TenTiet,
                         tiet.ThoiGianBatDau.ToShortTimeString(),
@@ -153,12 +146,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
+            ScheduleBL thoiKhoaBieuBL = new ScheduleBL();
+            LopHoc_MonHocTKB schedule = null;
+            DanhMuc_MonHoc subject = null;
+            LopHoc_GiaoVien teacher = null;
+
             if (!validateInput())
             {
                 return;
             }
-
-            ThoiKhoaBieuBL thoiKhoaBieuBL = new ThoiKhoaBieuBL();
+            
             Dictionary<string, int> dicQueryStrings = GetQueryStrings();
             if (dicQueryStrings != null)
             {
@@ -170,7 +167,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 int maMonHoc = Int32.Parse(HdfMaMonHoc.Value);
                 int maGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
 
-                thoiKhoaBieuBL.Update(maTKBTiet, maMonHoc, maGiaoVien);
+                schedule = new LopHoc_MonHocTKB();
+                schedule.MaMonHocTKB = maTKBTiet;
+                subject = new DanhMuc_MonHoc();
+                subject.MaMonHoc = maMonHoc;
+                teacher = new LopHoc_GiaoVien();
+                teacher.MaGiaoVien = maGiaoVien;
+                thoiKhoaBieuBL.UpdateSchedule(schedule, subject, teacher);
 
                 Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",
                     Request.QueryString["lop"], Request.QueryString["hocky"], Request.QueryString["thu"]));
@@ -293,7 +296,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DanhMuc_KhoiLop grade = null;
             string subjectName = TxtMonHoc.Text.Trim();
 
-            if (DdlNganh.SelectedIndex != 0)
+            if (DdlNganh.SelectedIndex > 0)
             {
                 faculty = (new FacultyBL()).GetFaculty(DdlNganh.SelectedValue);
             }
@@ -304,7 +307,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            if (DdlKhoi.SelectedIndex != 0)
+            if (DdlKhoi.SelectedIndex > 0)
             {
                 grade = (new GradeBL()).GetGrade(DdlKhoi.SelectedValue);
             }
@@ -349,13 +352,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterGiaoVien()
         {
-            GiaoVienBL giaoVienBL = new GiaoVienBL();
+            TeacherBL giaoVienBL = new TeacherBL();
 
             string maHienThiGiaoVien = TxtSearchMaGiaoVien.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularGiaoVien> lstTbGiaoViens = giaoVienBL.GetListTabularGiaoViens(
+            List<TabularTeacher> lstTbGiaoViens = giaoVienBL.GetListTabularTeachers(
                 maHienThiGiaoVien, hoTen,
                 DataPageGiaoVien.CurrentIndex, DataPageGiaoVien.PageSize, out totalRecords);
             DataPageGiaoVien.ItemCount = totalRecords;

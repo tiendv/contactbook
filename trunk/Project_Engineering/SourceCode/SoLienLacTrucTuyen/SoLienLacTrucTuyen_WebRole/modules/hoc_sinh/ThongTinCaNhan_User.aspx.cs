@@ -11,23 +11,24 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThongTinCaNhan_User : System.Web.UI.Page
+    public partial class ThongTinCaNhan_User : BaseContentPage
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         private int maHocSinh;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = (new UserBL()).GetRoleId(User.Identity.Name);
-            masterPage.PageUrl = Page.Request.Path;
-            masterPage.PageTitle = "Thông Tin Cá Nhân";
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
+            {
+                return;
+            }
 
-            hocSinhBL = new HocSinhBL();
-            maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
+            hocSinhBL = new StudentBL();
+            //maHocSinh = hocSinhBL.GetStudent(masterPage.UserNameSession);
 
             if (!Page.IsPostBack)
             {
@@ -40,7 +41,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownListNamHoc()
         {
-            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetListNamHoc(maHocSinh);
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = maHocSinh;
+            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -49,16 +52,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillThongTinCaNhan(int maHocSinh)
         {
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            HocSinh_HocSinhLopHoc hocSinhLopHoc = hocSinhBL.GetHocSinhLopHoc(maNamHoc, maHocSinh);
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);            
+            student.MaHocSinh = maHocSinh;
+
+            HocSinh_HocSinhLopHoc hocSinhLopHoc = hocSinhBL.GetStudentInClass(student, year);
             if(hocSinhLopHoc != null)
             {
-                LopHocInfo lopHoc = hocSinhBL.GetLopHocInfo(maNamHoc, maHocSinh);
+                TabularClass lopHoc = hocSinhBL.GetTabularClass(year, student);
                 this.LblLopHoc.Text = lopHoc.TenLopHoc;
                 this.LblNganhHoc.Text = lopHoc.TenNganhHoc;
                 this.LblKhoiLop.Text = lopHoc.TenKhoiLop;
 
-                HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetThongTinCaNhan(maHocSinh);
+                HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetStudent(maHocSinh);
                 this.LblMaHocSinhHienThi.Text = thongTinCaNhan.MaHocSinhHienThi;
                 this.LblHoTenHocSinh.Text = thongTinCaNhan.HoTen;
                 this.LblGioiTinh.Text = (thongTinCaNhan.GioiTinh == true) ? "Nam" : "Nữ";

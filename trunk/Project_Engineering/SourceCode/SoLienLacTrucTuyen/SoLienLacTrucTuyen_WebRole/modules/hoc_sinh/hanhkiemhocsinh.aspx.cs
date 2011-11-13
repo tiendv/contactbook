@@ -13,9 +13,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class HanhKiemHocSinhPage : BaseContentPage
     {
         #region Fields
-        private KetQuaHocTapBL ketQuaHocTapBL;
+        private StudyingResultBL ketQuaHocTapBL;
         private ConductBL hanhKiemBL;
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         #endregion
 
         #region Page event handlers
@@ -27,8 +27,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new HocSinhBL();
-            ketQuaHocTapBL = new KetQuaHocTapBL();
+            hocSinhBL = new StudentBL();
+            ketQuaHocTapBL = new StudyingResultBL();
             hanhKiemBL = new ConductBL();
 
             if (!Page.IsPostBack)
@@ -68,8 +68,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -84,8 +84,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHocKy()
         {
-            HocKyBL hocKyBL = new HocKyBL();
-            List<CauHinh_HocKy> lstHocKy = hocKyBL.GetListHocKy();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
@@ -122,6 +122,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLLopHoc()
         {
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 //BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
@@ -141,24 +145,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
-            int maNganhHoc = 0;
             try
             {
-                maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
             }
             catch (Exception) { }
 
-            int maKhoiLop = 0;
             try
             {
-                maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }
             }
             catch (Exception) { }
 
-            LopHocBL lopHocBL = new LopHocBL();
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+            ClassBL lopHocBL = new ClassBL();
+            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";
@@ -216,6 +227,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            LopHoc_Lop Class = null;
+            HocSinh_ThongTinCaNhan student = null;
+            CauHinh_HocKy term = null;
+            DanhMuc_HanhKiem conduct = null;
+
             Dictionary<int, int?> dicHocSinhHanhKiem = new Dictionary<int, int?>();
             foreach (RepeaterItem rptItem in RptHanhKiemHocSinh.Items)
             {
@@ -250,13 +266,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+            term = new CauHinh_HocKy();
+            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+
+            Class = new LopHoc_Lop();
+            Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+
             foreach (KeyValuePair<int, int?> pair in dicHocSinhHanhKiem)
             {
-                int maHocSinh = pair.Key;
-                int? maHanhKiem = pair.Value;
-                hocSinhBL.UpdateHanhKiemHocSinh(maLopHoc, maHocKy, maHocSinh, maHanhKiem);
+                student = new HocSinh_ThongTinCaNhan();
+                student.MaHocSinh = pair.Key;
+
+                if (pair.Value != null)
+                {
+                    conduct = new DanhMuc_HanhKiem();
+                    conduct.MaHanhKiem = (int)pair.Value;
+                }
+                else
+                {
+                    conduct = null;
+                }
+
+                hocSinhBL.UpdateStudenTermConduct(Class, term, student, conduct);
             }
 
             BindRptHanhKiemHocSinh();

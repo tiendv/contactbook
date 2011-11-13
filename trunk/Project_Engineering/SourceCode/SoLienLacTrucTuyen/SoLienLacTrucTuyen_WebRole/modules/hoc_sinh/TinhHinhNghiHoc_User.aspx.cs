@@ -11,30 +11,31 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class TinhHinhNghiHoc_User : System.Web.UI.Page
+    public partial class TinhHinhNghiHoc_User : BaseContentPage
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
-        private NgayNghiHocBL ngayNghiHocBL;
-        private BuoiBL buoiBL;
+        private StudentBL studentBL;
+        private AbsentBL absentBL;
+        private SystemConfigBL systemConfigBL;
 
-        private int maHocSinh;
+        private int studentId;
         private bool isSearch;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = (new UserBL()).GetRoleId(User.Identity.Name);
-            masterPage.PageUrl = Page.Request.Path;
-            masterPage.PageTitle = "Tình Hình Nghỉ Học";
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
+            {
+                return;
+            }
 
-            hocSinhBL = new HocSinhBL();
-            ngayNghiHocBL = new NgayNghiHocBL();
-            buoiBL = new BuoiBL();
+            studentBL = new StudentBL();
+            absentBL = new AbsentBL();
+            systemConfigBL = new SystemConfigBL();
 
-            maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
+            //maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
 
             if (!Page.IsPostBack)
             {
@@ -50,7 +51,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownListNamHoc()
         {
-            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetListNamHoc(maHocSinh);
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = studentId;
+            List<CauHinh_NamHoc> lstNamHoc = studentBL.GetYears(student);
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -59,13 +62,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListHocKy()
         {
-            HocKyBL hocKyBL = new HocKyBL();
-            List<CauHinh_HocKy> lstHocKy = hocKyBL.GetListHocKy();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
         }
 
         private void InitDates()
@@ -81,28 +84,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
-            DateTime DenNgay = DateTime.Parse(TxtDenNgay.Text);
-
+            HocSinh_ThongTinCaNhan student = null;
+            CauHinh_NamHoc year = null;
+            CauHinh_HocKy term = null;
             double totalRecords;
-            List<TabularDayOff> lstTabularNgayNghiHoc = ngayNghiHocBL.GetListTabularNgayNghiHoc(
-                maHocSinh, maNamHoc, maHocKy,
-                tuNgay, DenNgay,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize,
-                out totalRecords);
+            List<TabularAbsent> tabularAbsents;
 
-            if(totalRecords != 0 && lstTabularNgayNghiHoc.Count == 0)
+            student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = studentId;
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            term = new CauHinh_HocKy();
+            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
+            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            
+            tabularAbsents = absentBL.GetTabularAbsents(student, year, term, dtBeginDate, dtEndDate,
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+
+            if(totalRecords != 0 && tabularAbsents.Count == 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
                 return;
             }
 
-            bool bDisplayData = (lstTabularNgayNghiHoc.Count != 0) ? true : false;
+            bool bDisplayData = (tabularAbsents.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
-            RptNgayNghi.DataSource = lstTabularNgayNghiHoc;
+            RptNgayNghi.DataSource = tabularAbsents;
             RptNgayNghi.DataBind();
             MainDataPager.ItemCount = totalRecords;
         }
@@ -136,13 +145,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptNgayNghi_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            HocSinh_NgayNghiHoc absent = null;
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 Control control = e.Item.FindControl("HdfRptMaNgayNghiHoc");
                 if (control != null)
                 {
-                    int maNgayNghiHoc = Int32.Parse(((HiddenField)control).Value);
-                    if (ngayNghiHocBL.Confirmed(maNgayNghiHoc))
+                    absent = new HocSinh_NgayNghiHoc();
+                    absent.MaNgayNghiHoc = Int32.Parse(((HiddenField)control).Value);
+                    if (absentBL.Confirmed(absent))
                     {
                         ImageButton btnConfirmItem = (ImageButton)e.Item.FindControl("BtnConfirmItem");
                         btnConfirmItem.ImageUrl = "~/Styles/Images/button_confirm_disable.png";
@@ -159,7 +170,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdConfirmItem":
                     {
                         int maNgayNghiHoc = Int32.Parse(e.CommandArgument.ToString());
-                        HocSinh_NgayNghiHoc ngayNghi = ngayNghiHocBL.GetNgayNghiHoc(maNgayNghiHoc);
+                        HocSinh_NgayNghiHoc ngayNghi = absentBL.GetAbsent(maNgayNghiHoc);
                         LblConfirm.Text = "Bạn có chắc xác nhận ngày nghỉ <b>" + ngayNghi.Ngay.ToShortDateString() + "</b> này không?";
 
                         ModalPopupExtender mPEConfirm = (ModalPopupExtender)e.Item.FindControl("MPEConfirm");
@@ -188,9 +199,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnConfirm_Click(object sender, ImageClickEventArgs e)
         {
-            int maNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
+            HocSinh_NgayNghiHoc absent = new HocSinh_NgayNghiHoc();
+            absent.MaNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
 
-            ngayNghiHocBL.ConfirmNgayNghiHoc(maNgayNghiHoc);
+            absentBL.ConfirmAbsent(absent);
 
             MainDataPager.CurrentIndex = 1;
             BindRepeater();

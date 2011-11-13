@@ -15,9 +15,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class KetQuaHocTap_User : System.Web.UI.Page
     {
         #region Fields
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         private MarkTypeBL loaiDiemBL;
-        private KetQuaHocTapBL ketQuaHocTapBL;
+        private StudyingResultBL ketQuaHocTapBL;
         private int maHocSinh;
         #endregion
 
@@ -29,10 +29,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             masterPage.PageUrl = Page.Request.Path;
             masterPage.PageTitle = "Kết Quả Học Tập";
 
-            hocSinhBL = new HocSinhBL();
+            hocSinhBL = new StudentBL();
             loaiDiemBL = new MarkTypeBL();
-            ketQuaHocTapBL = new KetQuaHocTapBL();
-            maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
+            ketQuaHocTapBL = new StudyingResultBL();
+
+            HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(User.Identity.Name);
+            maHocSinh = student.MaHocSinh;
 
             if (!Page.IsPostBack)
             {
@@ -48,7 +50,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         
         private void BindDropDownListNamHoc()
         {
-            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetListNamHoc(maHocSinh);
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = maHocSinh;
+            List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -57,14 +61,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListHocKy()
         {
-            HocKyBL hocKyBL = new HocKyBL();
-            List<CauHinh_HocKy> lstHocKy = hocKyBL.GetListHocKy();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
 
-            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetMaHocKyHienHanh().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
         }
 
         private void BindRepeaterKetQuaHocTap()
@@ -73,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
 
             SubjectBL monHocBL = new SubjectBL();
-            ThoiKhoaBieuBL monHocTKBBL = new ThoiKhoaBieuBL();
+            ScheduleBL monHocTKBBL = new ScheduleBL();
 
             double totalRecords;
             List<TabularKetQuaMonHoc> lstTabularKetQuaMonHoc = ketQuaHocTapBL.GetListTabularKetQuaMonHoc(maNamHoc, maHocKy, maHocSinh,
@@ -106,13 +110,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void RptKetQuaDiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 Control control = e.Item.FindControl("RptKetQuaDiem_HdfMaDiemMonHK");
                 if (control != null)
                 {
-                    int maDiemMonHK = Int32.Parse(((HiddenField)control).Value);
-                    List<StrDiemMonHocLoaiDiem> lstStrDiemMonHocLoaiDiem = ketQuaHocTapBL.GetListStringDiemMonHoc(maDiemMonHK);
+                    termSubjectedMark = new HocSinh_DiemMonHocHocKy();
+                    termSubjectedMark.MaDiemMonHK = Int32.Parse(((HiddenField)control).Value);
+                    List<StrDiemMonHocLoaiDiem> lstStrDiemMonHocLoaiDiem = ketQuaHocTapBL.GetSubjectMarks(termSubjectedMark);
                     Repeater rptDiemMonHoc = (Repeater)e.Item.FindControl("RptKetQuaDiem_RptDiemMonHoc");
                     rptDiemMonHoc.DataSource = lstStrDiemMonHocLoaiDiem;
                     rptDiemMonHoc.DataBind();

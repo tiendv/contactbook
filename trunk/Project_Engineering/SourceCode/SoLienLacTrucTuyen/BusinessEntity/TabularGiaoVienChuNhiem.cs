@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularGiaoVienChuNhiem
+    public class TabularFormerTeacher
     {
         public int MaGVCN { get; set; }
 

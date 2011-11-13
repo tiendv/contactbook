@@ -118,6 +118,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
+            <asp:HiddenField ID="HdfSltAttitudeName" runat="server" />
             <asp:HiddenField ID="HdfMaThaiDoThamGia" runat="server" />
             <asp:HiddenField ID="HdfRptThaiDoThamGiaMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptThaiDoThamGiaMPEEdit" runat="server" />
@@ -178,12 +179,12 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG" OnCommand="pager_Command"
-                PageSize="10" ViewStateMode="Enabled" LastClause=">>" GenerateHiddenHyperlinks="False"
-                CompactModePageCount="3" GenerateFirstLastSection="True" GenerateGoToSection="False"
-                FirstClause="<<" BackToFirstClause="Trở về trang đầu" BackToPageClause="Trở về trang"
-                GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG"
+                OnCommand="pager_Command" PageSize="10" ViewStateMode="Enabled" LastClause=">>"
+                GenerateHiddenHyperlinks="False" CompactModePageCount="3" GenerateFirstLastSection="True"
+                GenerateGoToSection="False" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
+                BackToPageClause="Trở về trang" GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang"
+                ShowResultClause="Hiển thị kết quả" ToClause="đến" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
@@ -230,7 +231,7 @@
                             ValidationGroup="AddThaiDoThamGia" ErrorMessage="Tên thái độ tham gia không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenThaiDoThamGiaValidatorAdd" runat="server" ControlToValidate="TxtTenThaiDoThamGia"
-                            ValidationGroup="AddThaiDoThamGia" ClientValidationFunction="validateTenThaiDoThamGiaAdd"
+                            ValidationGroup="AddThaiDoThamGia"
                             ErrorMessage="Thái độ tham gia đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
@@ -271,7 +272,7 @@
                             ValidationGroup="EditThaiDoThamGia" ErrorMessage="Tên thái độ tham gia không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenThaiDoThamGiaValidatorEdit" runat="server" ControlToValidate="TxtTenThaiDoThamGia"
-                            ValidationGroup="EditThaiDoThamGia" ClientValidationFunction="validateTenThaiDoThamGiaEdit"
+                            ValidationGroup="EditThaiDoThamGia"
                             ErrorMessage="Thái độ tham gia đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>

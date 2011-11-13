@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public partial class LoiNhanKhan_User : System.Web.UI.Page
     {
-        private HocSinhBL hocSinhBL;
+        private StudentBL hocSinhBL;
         private LoiNhanKhanBL loiNhanKhanBL;
         private int maHocSinh;
         private string maHocSinhHienThi;
@@ -26,10 +26,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             masterPage.PageUrl = Page.Request.Path;
             masterPage.PageTitle = "Lời Nhắn Khẩn";
 
-            hocSinhBL = new HocSinhBL();
+            hocSinhBL = new StudentBL();
             loiNhanKhanBL = new LoiNhanKhanBL();
-            isSearch = false;
-            maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
+            HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(User.Identity.Name);
+            maHocSinh = student.MaHocSinh;
+            isSearch = false;            
             maHocSinhHienThi = masterPage.UserNameSession;
 
             if (!Page.IsPostBack)
@@ -97,8 +98,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";

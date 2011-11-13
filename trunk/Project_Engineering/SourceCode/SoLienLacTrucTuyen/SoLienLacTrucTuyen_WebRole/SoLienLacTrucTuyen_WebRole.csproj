@@ -75,7 +75,6 @@
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
-    <Content Include="modules\hoc_sinh\HoatDong_User.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhServicePage.aspx" />
     <Content Include="modules\hoc_sinh\ketquahoctap.aspx" />
     <Content Include="modules\hoc_sinh\KetQuaHocTap_User.aspx" />
@@ -325,13 +324,6 @@
     <Compile Include="modules\hoc_sinh\HocSinhWebService.asmx.cs">
       <DependentUpon>HocSinhWebService.asmx</DependentUpon>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\HoatDong_User.aspx.cs">
-      <DependentUpon>HoatDong_User.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\HoatDong_User.aspx.designer.cs">
-      <DependentUpon>HoatDong_User.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\HocSinhServicePage.aspx.cs">
       <DependentUpon>HocSinhServicePage.aspx</DependentUpon>

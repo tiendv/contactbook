@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularGiaoVien
+    public class TabularTeacher
     {
         public int MaGiaoVien { get; set; }
 
@@ -44,7 +44,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public string StringNgaySinh { get; set; }
     }
 
-    public class TabularHoatDongChuNhiem
+    public class TabularFormering
     {
         public int MaNamHoc { get; set; }
         public string TenNamHoc { get; set; }
@@ -53,7 +53,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public string TenLopHoc { get; set; }
     }
 
-    public class TabularHoatDongGiangDay
+    public class TabularTeaching
     {
         public int MaNamHoc { get; set; }
         public string TenNamHoc { get; set; }

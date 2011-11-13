@@ -14,8 +14,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class GVCN : System.Web.UI.Page
     {
         #region Fields
-        private GiaoVienChuNhiemBL giaoVienChuNhiemBL;
-        private LopHocBL lopHocBL;
+        private FormerTeacherBL giaoVienChuNhiemBL;
+        private ClassBL lopHocBL;
         private bool isSearch;
         private List<AccessibilityEnum> lstAccessibilities;
         #endregion
@@ -25,8 +25,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             RoleBL roleBL = new RoleBL();
             UserBL userBL = new UserBL();
-            giaoVienChuNhiemBL = new GiaoVienChuNhiemBL();
-            lopHocBL = new LopHocBL();
+            giaoVienChuNhiemBL = new FormerTeacherBL();
+            lopHocBL = new ClassBL();
 
             string pageUrl = Page.Request.Path;
             Guid role = userBL.GetRoleId(User.Identity.Name);
@@ -107,7 +107,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        TabularGiaoVienChuNhiem giaoVienChuNhiem = (TabularGiaoVienChuNhiem)e.Item.DataItem;
+                        TabularFormerTeacher giaoVienChuNhiem = (TabularFormerTeacher)e.Item.DataItem;
                         if (giaoVienChuNhiem != null)
                         {
                             int maGiaoVien = giaoVienChuNhiem.MaGiaoVien;
@@ -201,7 +201,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             int maGVCN = Int32.Parse(this.HdfMaGVCN.Value);
-            giaoVienChuNhiemBL.Delete(maGVCN);
+            LopHoc_GVCN formerTeacher = new LopHoc_GVCN();
+            formerTeacher.MaGVCN = maGVCN;
+            giaoVienChuNhiemBL.Delete(formerTeacher);
             isSearch = false;
             BindDropDownListLopHoc();
             BindRepeater();
@@ -233,16 +235,45 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+            LopHoc_Lop Class = null;
+
             int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            if (maNamHoc != 0)
+            {
+                year = new CauHinh_NamHoc();
+                year.MaNamHoc = maNamHoc;
+            }
+            
             int maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+            if (maNganhHoc != 0)
+            {
+                faculty = new DanhMuc_NganhHoc();
+                faculty.MaNganhHoc = maNamHoc;
+            }
+            
             int maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+            if (maKhoiLop != 0)
+            {
+                grade = new DanhMuc_KhoiLop();
+                grade.MaKhoiLop = maKhoiLop;
+            }
+            
             int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+            if (maLopHoc != 0)
+            {
+                Class = new LopHoc_Lop();
+                Class.MaLopHoc = maLopHoc;
+            }
+            
             string tenGVCN = TxtTenGVCN.Text.Trim();
             string maGVCN = TxtMaGVCN.Text.Trim();
             double totalRecords = 0;
 
-            List<TabularGiaoVienChuNhiem> lstTbGVCN = giaoVienChuNhiemBL.GetListTbGiaoVienChuNhiems(
-                maNamHoc, maNganhHoc, maKhoiLop, maLopHoc, maGVCN, tenGVCN,
+            List<TabularFormerTeacher> lstTbGVCN = giaoVienChuNhiemBL.GetListFormerTeachers(
+                year, faculty, grade, Class, maGVCN, tenGVCN,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete
@@ -323,8 +354,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            NamHocBL namHocBL = new NamHocBL();
-            List<CauHinh_NamHoc> lstNamHoc = namHocBL.GetListNamHoc();
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
             DdlNamHoc.DataTextField = "TenNamHoc";
@@ -333,6 +364,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListLopHoc()
         {
+            CauHinh_NamHoc year = null;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
@@ -352,11 +387,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            int maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
-            int maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+            try
+            {
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
+            }
+            catch (Exception) { }
+
+            try
+            {
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }
+            }
+            catch (Exception) { }
+
+            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";

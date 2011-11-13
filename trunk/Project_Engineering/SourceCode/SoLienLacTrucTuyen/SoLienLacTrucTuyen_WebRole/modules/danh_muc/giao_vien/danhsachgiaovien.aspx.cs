@@ -10,71 +10,56 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhSachGiaoVien : System.Web.UI.Page
+    public partial class DanhSachGiaoVien : BaseContentPage
     {
         #region Fields
-        private UserBL userBL;
-        private RoleBL roleBL;
-        private GiaoVienBL giaoVienBL;
+        private TeacherBL teacherBL;
         private bool isSearch;
-        private List<AccessibilityEnum> lstAccessibilities;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            userBL = new UserBL();
-            roleBL = new RoleBL();
-            giaoVienBL = new GiaoVienBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(
-               userBL.GetRoleId(User.Identity.Name), Page.Request.Path);
+            teacherBL = new TeacherBL();
 
             if (!Page.IsPostBack)
             {
-                ProcPermissions();
-
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
 
-                BindDataRepeater();
+                BindRptTeachers();
             }
+
+            ProcPermissions();
         }
         #endregion
 
         #region Methods
-        public void BindDataRepeater()
+        public void BindRptTeachers()
         {
-            string maHienThiGiaoVien = TxtSearchMaHienThiGiaoVien.Text.Trim();
-            string hoTen = TxtSearchTenGiaoVien.Text.Trim();
+            string strTeacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
+            string strTeacherName = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularGiaoVien> lstTbGiaoViens = giaoVienBL.GetListTabularGiaoViens(
-                maHienThiGiaoVien, hoTen,
+            List<TabularTeacher> lTbTeachers = teacherBL.GetListTabularTeachers(
+                strTeacherCode, strTeacherName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete
-            if (lstTbGiaoViens.Count == 0 && totalRecords != 0)
+            if (lTbTeachers.Count == 0 && totalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindDataRepeater();
+                BindRptTeachers();
                 return;
             }
 
-            bool bDisplayData = (lstTbGiaoViens.Count != 0) ? true : false;
+            bool bDisplayData = (lTbTeachers.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             RptGiaoVien.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
@@ -99,7 +84,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }
 
-            RptGiaoVien.DataSource = lstTbGiaoViens;
+            RptGiaoVien.DataSource = lTbTeachers;
             RptGiaoVien.DataBind();
             MainDataPager.ItemCount = totalRecords;
         }
@@ -124,7 +109,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             MainDataPager.ItemCount = 0;
             isSearch = true;
-            BindDataRepeater();
+            BindRptTeachers();
         }
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
@@ -136,10 +121,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string teacherCode = this.HdfTeacherCode.Value;
 
-            giaoVienBL.DeleteGiaoVien(teacherCode);
+            teacherBL.DeleteTeacher(teacherCode);
 
             isSearch = false;
-            BindDataRepeater();
+            BindRptTeachers();
         }
         #endregion
 
@@ -151,7 +136,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    TabularGiaoVien giaoVien = (TabularGiaoVien)e.Item.DataItem;
+                    TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
                     int maGiaoVien = giaoVien.MaGiaoVien;
                     ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
                     btnEditItem.Attributes.Add("OnClientClick",
@@ -177,9 +162,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    TabularGiaoVien giaoVien = (TabularGiaoVien)e.Item.DataItem;
+                    TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
                     int maGiaoVien = giaoVien.MaGiaoVien;
-                    if (!giaoVienBL.IsDeletable(giaoVien.MaHienThiGiaoVien))
+                    if (!teacherBL.IsDeletable(giaoVien.MaHienThiGiaoVien))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -206,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                TabularGiaoVien giaoVien = (TabularGiaoVien)e.Item.DataItem;
+                TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
                 HyperLink hlkMaGiaoVien = (HyperLink)e.Item.FindControl("HlkMaGiaoVien");
                 hlkMaGiaoVien.NavigateUrl = "chitietgiaovien.aspx?giaovien=" + giaoVien.MaGiaoVien
                     + "&prevpageid=1";
@@ -223,7 +208,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         HdfTeacherCode.Value = teacherCode;
 
                         this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
-                            + giaoVienBL.GetTeacher(teacherCode).HoTen + "\"</b> này không?";
+                            + teacherBL.GetTeacher(teacherCode).HoTen + "\"</b> này không?";
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
@@ -250,7 +235,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindDataRepeater();
+            BindRptTeachers();
         }
         #endregion
     }

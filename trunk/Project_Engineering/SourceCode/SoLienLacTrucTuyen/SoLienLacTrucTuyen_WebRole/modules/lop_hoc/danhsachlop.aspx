@@ -163,6 +163,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
+            <asp:HiddenField ID="HdfSltClassName" runat="server" />
             <asp:HiddenField ID="HdfMaLopHoc" runat="server" />
             <asp:HiddenField ID="HdfRptLopHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptLopHocMPEEdit" runat="server" />
@@ -218,7 +219,7 @@
                         <td style="height: 40px;">
                             <asp:Label ID="LblTenGVCN" runat="server" Style="display: none"></asp:Label>
                             <asp:HyperLink ID="HlkHomeRoomTeacher" runat="server" Target="_blank"
-                                HomeroomTeacherCode ><%#DataBinder.Eval(Container.DataItem, "TenGVCN")%></asp:HyperLink>
+                                ><%#DataBinder.Eval(Container.DataItem, "TenGVCN")%></asp:HyperLink>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
