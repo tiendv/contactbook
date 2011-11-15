@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole {
     
     
-    public partial class DanhMucNganhHoc {
+    public partial class FacultyCategoryPage {
         
         /// <summary>
         /// TxtSearchNganhHoc control.

@@ -15,8 +15,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             markTypeDA = new MarkTypeDA();
         }
 
-        public void InsertLoaiDiem(string markTypeName, double markRatio,
-            short maxMarksPerTerm, bool calAverageMark)
+        public void InsertLoaiDiem(string markTypeName, double markRatio, short maxMarksPerTerm, bool calAverageMark)
         {
             DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem
             {
@@ -34,9 +33,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             markTypeDA.DeleteMarkType(markType);
         }
 
-        public void UpdateMarkType(string editedMarkTypeName,
-            string newMarkTypeName, double newMarkRatio,
-            short maxMarksPerTerm, bool calAverageMark)
+        public void UpdateMarkType(string editedMarkTypeName, string newMarkTypeName, double newMarkRatio, short maxMarksPerTerm, bool calAverageMark)
         {
             DanhMuc_LoaiDiem markType = GetMarkType(editedMarkTypeName);
 
@@ -53,13 +50,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return markTypeDA.GetMarkType(markTypeName);
         }
 
+        public DanhMuc_LoaiDiem GetMarkType(int markTypeId)
+        {
+            return markTypeDA.GetMarkType(markTypeId);
+        }
+
         public List<DanhMuc_LoaiDiem> GetListMarkTypes()
         {
             return markTypeDA.GetListMarkTypes();
         }
 
-        public List<DanhMuc_LoaiDiem> GetListMarkTypes(string markTypeName,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<DanhMuc_LoaiDiem> GetListMarkTypes(string markTypeName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
 

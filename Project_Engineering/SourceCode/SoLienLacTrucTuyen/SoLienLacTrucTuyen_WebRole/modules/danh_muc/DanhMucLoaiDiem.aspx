@@ -151,7 +151,8 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:HiddenField ID="HdfMaLoaiDiem" runat="server" />
+            <asp:HiddenField ID="HdfSltMarkTypeName" runat="server" />
+            <asp:HiddenField ID="HdfSltMarkTypeId" runat="server" />
             <asp:HiddenField ID="HdfEditedMarkTypeName" runat="server" />
             <asp:HiddenField ID="HdfRptLoaiDiemMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptLoaiDiemMPEEdit" runat="server" />

@@ -268,5 +268,21 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             return formerTeacher;
         }
+
+
+        public bool FormerTeacherExists(LopHoc_GiaoVien teacher)
+        {
+            IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
+                                                      where fTchr.MaGiaoVien == teacher.MaGiaoVien
+                                                      select fTchr;
+            if (iqFormerTeacher.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

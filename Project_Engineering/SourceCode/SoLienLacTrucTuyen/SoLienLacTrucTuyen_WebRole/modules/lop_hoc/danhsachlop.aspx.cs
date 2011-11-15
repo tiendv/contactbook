@@ -206,7 +206,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            LopHoc_Lop Class = null;
             DanhMuc_NganhHoc faculty = null;
             DanhMuc_KhoiLop grade = null;
             CauHinh_NamHoc year = null;
@@ -216,9 +215,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maNamHoc = Int32.Parse(DdlNamHocThem.SelectedValue);
-            string tenLopHoc = this.TxtTenLopHocThem.Text.Trim();
-            year.MaNamHoc = maNamHoc;
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHocThem.SelectedValue);
+            string tenLopHoc = this.TxtTenLopHocThem.Text.Trim();            
 
             if (tenLopHoc == "")
             {
@@ -236,10 +235,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            int maNganhHoc = Int32.Parse(DdlNganhHocThem.SelectedValue);
-            faculty.MaNganhHoc = maNganhHoc;
-            int maKhoiLop = Int32.Parse(DdlKhoiLopThem.SelectedValue);
-            grade.MaKhoiLop = maKhoiLop;
+            faculty = new DanhMuc_NganhHoc();
+            faculty.MaNganhHoc = Int32.Parse(DdlNganhHocThem.SelectedValue);
+            grade = new DanhMuc_KhoiLop();
+            grade.MaKhoiLop = Int32.Parse(DdlKhoiLopThem.SelectedValue);
 
             lopHocBL.InsertClass(tenLopHoc, year, faculty, grade);
 

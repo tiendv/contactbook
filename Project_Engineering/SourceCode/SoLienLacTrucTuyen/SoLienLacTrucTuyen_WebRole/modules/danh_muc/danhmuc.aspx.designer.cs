@@ -10,6 +10,6 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class QuanLiDanhMuc {
+    public partial class CategoryManagerPage {
     }
 }

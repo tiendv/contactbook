@@ -16,26 +16,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             teacherDA = new TeacherDA();
         }
 
-        public void InsertTeacher(string maHienThi, string hoTen, bool gioiTinh,
-            DateTime ngaySinh, string diaChi, string dienThoai)
+        public void InsertTeacher(string teacherCode, string teacherName, bool gender, DateTime birthday, string address, string phone)
         {
-            LopHoc_GiaoVien giaoVien = new LopHoc_GiaoVien
+            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien
             {
-                MaHienThiGiaoVien = maHienThi,
-                HoTen = hoTen,
-                GioiTinh = gioiTinh,
-                NgaySinh = ngaySinh,
-                DiaChi = diaChi,
-                DienThoai = dienThoai
+                MaHienThiGiaoVien = teacherCode,
+                HoTen = teacherName,
+                GioiTinh = gender,
+                NgaySinh = birthday,
+                DiaChi = address,
+                DienThoai = phone
             };
 
-            teacherDA.InsertTeacher(giaoVien);
-        }
-
-        public void DeleteTeacher(string teacherCode)
-        {
-            LopHoc_GiaoVien teacher = GetTeacher(teacherCode);
-            teacherDA.DeleteTeacher(teacher);
+            teacherDA.InsertTeacher(teacher);
         }
 
         public void DeleteTeacher(LopHoc_GiaoVien teacher)
@@ -64,7 +57,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return teacherDA.GetTeacher(teacherId);
         }
 
-        public List<TabularTeacher> GetListTabularTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTeacher> GetTabularTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
             List<TabularTeacher> lTabularTeachers = new List<TabularTeacher>();
@@ -110,7 +103,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTabularTeachers;
         }
 
-        public List<TabularTeacher> GetListTabularUnformeredTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTeacher> GetTabularUnformeredTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
             List<TabularTeacher> lTabularTeachers = new List<TabularTeacher>();
@@ -159,8 +152,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool IsDeletable(string teacherCode)
         {
+            ScheduleBL scheduleBL = new ScheduleBL();
+            FormerTeacherBL formerTeacherBL = new FormerTeacherBL();
+            bool bDeletable = false;
+                
             LopHoc_GiaoVien teacher = GetTeacher(teacherCode);
-            return teacherDA.IsDeletable(teacher);
+
+            if (!scheduleBL.ScheduleExists(teacher))
+            {
+                if (!formerTeacherBL.FormerTeacherExists(teacher))
+                {
+                    bDeletable = true;
+                }
+            }
+
+            return bDeletable;
         }
 
         public bool IsTeaching(LopHoc_GiaoVien teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)

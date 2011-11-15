@@ -34,6 +34,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             conductDA.DeleteConduct(conduct);
         }
 
+        public DanhMuc_HanhKiem GetConduct(int conductId)
+        {
+            return conductDA.GetConduct(conductId);
+        }
+
         public DanhMuc_HanhKiem GetConduct(string conductName)
         {
             return conductDA.GetConduct(conductName);

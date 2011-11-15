@@ -47,6 +47,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return scheduleDA.ScheduleExists(Class, subject, term, dayInweek, session);
         }
 
+        public bool ScheduleExists(LopHoc_GiaoVien teacher)
+        {
+            return scheduleDA.ScheduleExists(teacher);
+        }
+         
         public List<LopHoc_MonHocTKB> GetSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
         {
             return scheduleDA.GetSchedules(Class, term, dayInweek, session);

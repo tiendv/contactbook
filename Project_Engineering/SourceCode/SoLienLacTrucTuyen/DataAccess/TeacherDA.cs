@@ -302,11 +302,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(LopHoc_GiaoVien teacher)
-        {
-            return true;
-        }
-        
         public bool IsTeaching(LopHoc_GiaoVien teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
         {
             IQueryable<LopHoc_MonHocTKB> iqThoiKhoaBieu;

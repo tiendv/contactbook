@@ -178,7 +178,7 @@
                                         height: 25px" Text='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>'></asp:TextBox>
                                     <asp:HiddenField ID="HdfIsChange" runat="server" Value="false" />
                                     <asp:CustomValidator ID="DiemsValidator" runat="server" ControlToValidate="TxtDiems"
-                                        ClientValidationFunction="validateMarks" ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ"
+                                        ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ"
                                         Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                                     <span class="SpanMaLoaiDiem" style="display: none">
                                         <%#DataBinder.Eval(Container.DataItem, "MaLoaiDiem")%></span>

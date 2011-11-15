@@ -107,13 +107,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptKetQuaDiem()
         {
-            int maHocSinh = (int)ViewState["MaHocSinh"];
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            CauHinh_HocKy term = new CauHinh_HocKy();
+            
+            student.MaHocSinh = (int)ViewState["MaHocSinh"];;
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
 
             double totalRecords;
-            List<TabularKetQuaMonHoc> lstTbKetQuaMonHoc;
-            lstTbKetQuaMonHoc = ketQuaHocTapBL.GetListTabularKetQuaMonHoc(maNamHoc, maHocKy, maHocSinh,
+            List<TabularSubjectTermResult> lstTbKetQuaMonHoc;
+            lstTbKetQuaMonHoc = ketQuaHocTapBL.GetTabularSubjectTermResults(student, year, term,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             bool bDisplayData = (lstTbKetQuaMonHoc.Count != 0) ? true : false;
@@ -134,19 +138,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterDanhHieu()
         {
-            int maHocSinh = (int)ViewState["MaHocSinh"];
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+
+            student.MaHocSinh = (int)ViewState["MaHocSinh"];
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
             double totalRecords;
             List<TabularTermStudentResult> lstTbDanhHieu;
-            lstTbDanhHieu = ketQuaHocTapBL.GetListTabularDanhHieuHocSinh(
-                maHocSinh, maNamHoc,
-                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize,
-                out totalRecords);
+            lstTbDanhHieu = ketQuaHocTapBL.GetTabularTermStudentResults(student, year,
+                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out totalRecords);
 
             RptDanhHieu.DataSource = lstTbDanhHieu;
             RptDanhHieu.DataBind();
-
             DataPagerDanhHieu.ItemCount = totalRecords;
 
             bool bDisplayed = (lstTbDanhHieu.Count != 0) ? true : false;

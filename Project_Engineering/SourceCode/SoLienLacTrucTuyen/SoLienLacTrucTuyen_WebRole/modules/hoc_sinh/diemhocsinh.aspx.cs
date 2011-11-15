@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DiemHocSinhPage : BaseContentPage
     {
         #region Fields
-        private StudyingResultBL ketQuaHocTapBL;
+        private StudyingResultBL studyingResultBL;
 
         public bool ChooseAllMarkType
         {
@@ -44,7 +44,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            ketQuaHocTapBL = new StudyingResultBL();
+            studyingResultBL = new StudyingResultBL();
 
             if (!Page.IsPostBack)
             {
@@ -224,7 +224,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             LopHoc_Lop Class = null;
             CauHinh_HocKy term = null;
-            ScheduleBL thoiKhoaBieuBL = new ScheduleBL();
+            ScheduleBL scheduleBL = new ScheduleBL();
 
             if (DdlLopHoc.Items.Count == 0)
             {
@@ -237,8 +237,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 term = new CauHinh_HocKy();
                 term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
 
-                List<DanhMuc_MonHoc> lstMonHoc = thoiKhoaBieuBL.GetScheduledSubjects(Class, term);
-                DdlMonHoc.DataSource = lstMonHoc;
+                List<DanhMuc_MonHoc> scheduledSubjects = scheduleBL.GetScheduledSubjects(Class, term);
+                DdlMonHoc.DataSource = scheduledSubjects;
                 DdlMonHoc.DataValueField = "MaMonHoc";
                 DdlMonHoc.DataTextField = "TenMonHoc";
                 DdlMonHoc.DataBind();
@@ -247,29 +247,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptTenLoaiDiem()
         {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL();
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = new List<DanhMuc_LoaiDiem>();
+            MarkTypeBL markTypeBL = new MarkTypeBL();
+            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
 
             if (DdlLoaiDiem.Items.Count != 0)
             {
                 if (DdlLoaiDiem.SelectedIndex == 0)
                 {
-                    lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
+                    markTypes = markTypeBL.GetListMarkTypes();
                 }
                 else
                 {
                     string markTypeName = DdlLoaiDiem.SelectedValue;
-                    lstLoaiDiem.Add(loaiDiemBL.GetMarkType(markTypeName));
+                    markTypes.Add(markTypeBL.GetMarkType(markTypeName));
                 }
-
-                ChooseAllMarkType = false;
-            }
-            else
-            {
-                ChooseAllMarkType = true;
             }
 
-            this.RptLoaiDiem.DataSource = lstLoaiDiem;
+            this.RptLoaiDiem.DataSource = markTypes;
             this.RptLoaiDiem.DataBind();
         }
 
@@ -281,8 +275,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MarkTypeBL markTypeBL = new MarkTypeBL();
             List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
 
-            if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0
-                || DdlLoaiDiem.Items.Count == 0)
+            if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0 || DdlLoaiDiem.Items.Count == 0)
             {
                 ProcDisplayGUI(false);
                 return;
@@ -294,7 +287,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             subject.MaMonHoc = Int32.Parse(DdlMonHoc.SelectedValue);
             term = new CauHinh_HocKy();
             term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            //int maLoaiDiem = Int32.Parse(DdlLoaiDiem.SelectedValue);
 
             if (DdlLoaiDiem.SelectedIndex == 0)
             {
@@ -307,15 +299,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             double totalRecords;
-            List<TabularStudentMark> lstTbDiemHocSinh;
-            lstTbDiemHocSinh = ketQuaHocTapBL.GetListDiemHocSinh(Class, subject, term, markTypes,
+            List<TabularStudentMark> tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
-            this.RptDiemMonHoc.DataSource = lstTbDiemHocSinh;
+            this.RptDiemMonHoc.DataSource = tabularStudentMarks;
             this.RptDiemMonHoc.DataBind();
             MainDataPager.ItemCount = totalRecords;
 
-            bool bDisplayData = (lstTbDiemHocSinh.Count != 0) ? true : false;
+            bool bDisplayData = (tabularStudentMarks.Count != 0) ? true : false;
             ProcDisplayGUI(bDisplayData);
         }
 
@@ -359,56 +350,56 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            Dictionary<HocSinh_ThongTinCaNhan, List<DetailMark>> dicEnteredStudentMarks = new Dictionary<HocSinh_ThongTinCaNhan, List<DetailMark>>();
             HocSinh_ThongTinCaNhan student = null;
-            LopHoc_Lop Class = null;
-            CauHinh_HocKy term = null;
+            LopHoc_Lop Class = new LopHoc_Lop();
+            CauHinh_HocKy term = new CauHinh_HocKy();
             DanhMuc_MonHoc subject = null;
+            DanhMuc_LoaiDiem markType = null;
 
-            term = new CauHinh_HocKy();
             term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            Class = new LopHoc_Lop();
             Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
             subject = new DanhMuc_MonHoc();
             subject.MaMonHoc = Int32.Parse(DdlMonHoc.SelectedValue);
-            Dictionary<int, List<Diem>> dicSavingDiemHocSinh = new Dictionary<int, List<Diem>>();
-
-            foreach (RepeaterItem rptItemDiemMonHoc in RptDiemMonHoc.Items)
+            foreach (RepeaterItem rptItemStudentMark in RptDiemMonHoc.Items)
             {
-                if (rptItemDiemMonHoc.ItemType == ListItemType.Item
-                    || rptItemDiemMonHoc.ItemType == ListItemType.AlternatingItem)
+                if (rptItemStudentMark.ItemType == ListItemType.Item || rptItemStudentMark.ItemType == ListItemType.AlternatingItem)
                 {
-                    HiddenField hdfMaHocSinh = (HiddenField)rptItemDiemMonHoc.FindControl("HdfMaHocSinh");
-                    int maHocSinh = Int32.Parse(hdfMaHocSinh.Value);
-
-                    List<Diem> lDiems = new List<Diem>();
-                    Repeater rptDiemTheoLoaiDiem = (Repeater)rptItemDiemMonHoc.FindControl("RptDiemTheoLoaiDiem");
-                    foreach (RepeaterItem rptItemDiem in rptDiemTheoLoaiDiem.Items)
+                    List<DetailMark> detailMarks = new List<DetailMark>();
+                    Repeater rptDetailMark = (Repeater)rptItemStudentMark.FindControl("RptDiemTheoLoaiDiem");
+                    foreach (RepeaterItem rptItemDiem in rptDetailMark.Items)
                     {
-                        if (rptItemDiem.ItemType == ListItemType.Item
-                            || rptItemDiem.ItemType == ListItemType.AlternatingItem)
+                        if (rptItemDiem.ItemType == ListItemType.Item || rptItemDiem.ItemType == ListItemType.AlternatingItem)
                         {
                             HiddenField hdfMaLoaiDiem = (HiddenField)rptItemDiem.FindControl("HdfMaLoaiDiem");
-                            int maLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value);
-
-                            HiddenField hdfTenLoaiDiem = (HiddenField)rptItemDiem.FindControl("HdfTenLoaiDiem");
-                            string markTypeName = hdfTenLoaiDiem.Value;
+                            markType = new DanhMuc_LoaiDiem();
+                            markType.MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value);
 
                             TextBox txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
                             string marks = txtDiems.Text.Trim();
-                            if (ketQuaHocTapBL.ValidateMark(marks, markTypeName))
+
+                            if (studyingResultBL.ValidateMark(marks, markType))
                             {
                                 if (txtDiems.Text != "")
                                 {
-                                    string[] strDiems = txtDiems.Text.Trim().Split(new char[] { ',' });
-                                    foreach (string strDiem in strDiems)
+                                    string[] strMarks = txtDiems.Text.Trim().Split(new char[] { ',' });
+                                    foreach (string strMark in strMarks)
                                     {
-                                        double diem = double.Parse(strDiem.Trim());
-                                        lDiems.Add(new Diem { MaLoaiDiem = maLoaiDiem, GiaTri = diem });
+                                        double dMark = double.Parse(strMark.Trim());
+                                        detailMarks.Add(new DetailMark
+                                        { 
+                                            MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value), 
+                                            GiaTri = dMark 
+                                        });
                                     }
                                 }
                                 else
                                 {
-                                    lDiems.Add(new Diem { MaLoaiDiem = maLoaiDiem, GiaTri = -1 });
+                                    detailMarks.Add(new DetailMark
+                                    {
+                                        MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value),
+                                        GiaTri = -1
+                                    });
                                 }
                             }
                             else
@@ -420,15 +411,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         }
                     }
 
-                    dicSavingDiemHocSinh.Add(maHocSinh, lDiems);
+                    student = new HocSinh_ThongTinCaNhan();
+                    HiddenField hdfStudentId = (HiddenField)rptItemStudentMark.FindControl("HdfMaHocSinh");
+                    student.MaHocSinh = Int32.Parse(hdfStudentId.Value);
+
+                    dicEnteredStudentMarks.Add(student, detailMarks);
                 }
             }
 
-            foreach (KeyValuePair<int, List<Diem>> pair in dicSavingDiemHocSinh)
+            foreach (KeyValuePair<HocSinh_ThongTinCaNhan, List<DetailMark>> pair in dicEnteredStudentMarks)
             {
-                int maHocSinh = pair.Key;
-                List<Diem> lDiems = pair.Value;
-                ketQuaHocTapBL.UpdateDetailedMark(student, Class, term, subject, lDiems);
+                studyingResultBL.UpdateDetailedMark(pair.Key, Class, term, subject, pair.Value);
             }
 
             BindRptDiemHocSinh();

@@ -198,12 +198,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-                year.MaNamHoc = maNamHoc;
-                int maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
-                faculty.MaNganhHoc = maNganhHoc;
-                int maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
-                grade.MaKhoiLop = maKhoiLop;
+                year = new CauHinh_NamHoc();
+                year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
+
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }                
 
                 List<LopHoc_Lop> lstLop = (new ClassBL()).GetUnformeredClasses(year, faculty, grade);
                 DdlLopHoc.DataSource = lstLop;
@@ -235,7 +243,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
 
             double totalRecords;
-            List<TabularTeacher> lstTbGiaoViens = teacherBL.GetListTabularUnformeredTeachers(
+            List<TabularTeacher> lstTbGiaoViens = teacherBL.GetTabularUnformeredTeachers(
                 year,
                 maHienThiGiaoVien, hoTen,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);

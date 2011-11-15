@@ -73,14 +73,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterKetQuaHocTap()
         {
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-
             SubjectBL monHocBL = new SubjectBL();
             ScheduleBL monHocTKBBL = new ScheduleBL();
-
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+            CauHinh_HocKy term = new CauHinh_HocKy();
             double totalRecords;
-            List<TabularKetQuaMonHoc> lstTabularKetQuaMonHoc = ketQuaHocTapBL.GetListTabularKetQuaMonHoc(maNamHoc, maHocKy, maHocSinh,
+
+            student.MaHocSinh = maHocSinh;
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            
+            List<TabularSubjectTermResult> lstTabularKetQuaMonHoc = ketQuaHocTapBL.GetTabularSubjectTermResults(student, year, term,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete
@@ -147,19 +151,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterDanhHieu()
         {
-            
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-
+            List<TabularTermStudentResult> tabularTermStudentResults;
+            HocSinh_ThongTinCaNhan student = null;
+            CauHinh_NamHoc year = null;
             double totalRecords;
-            List<TabularTermStudentResult> lstTabularDanhHieuHocSinh = ketQuaHocTapBL.GetListTabularDanhHieuHocSinh(
-                maHocSinh, maNamHoc,
-                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize,
-                out totalRecords);
 
-            RptDanhHieu.DataSource = lstTabularDanhHieuHocSinh;
+            student = new HocSinh_ThongTinCaNhan();
+            student.MaHocSinh = maHocSinh;
+            year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            
+            tabularTermStudentResults = ketQuaHocTapBL.GetTabularTermStudentResults(student, year,
+                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out totalRecords);
+
+            RptDanhHieu.DataSource = tabularTermStudentResults;
             RptDanhHieu.DataBind();
             DataPagerDanhHieu.ItemCount = totalRecords;
-
         }
 
         protected void RptDanhHieu_ItemDataBound(object sender, RepeaterItemEventArgs e)

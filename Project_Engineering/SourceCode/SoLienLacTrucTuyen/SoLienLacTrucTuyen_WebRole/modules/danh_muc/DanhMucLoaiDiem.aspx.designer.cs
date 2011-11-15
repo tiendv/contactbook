@@ -76,13 +76,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// HdfMaLoaiDiem control.
+        /// HdfSltMarkTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaLoaiDiem;
+        protected global::System.Web.UI.WebControls.HiddenField HdfSltMarkTypeName;
+        
+        /// <summary>
+        /// HdfSltMarkTypeId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfSltMarkTypeId;
         
         /// <summary>
         /// HdfEditedMarkTypeName control.

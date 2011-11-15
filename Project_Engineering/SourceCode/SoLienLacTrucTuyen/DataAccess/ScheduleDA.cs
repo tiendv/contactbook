@@ -217,6 +217,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             if (iqScheduledSubject.Count() != 0)
             {
                 scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.TenMonHoc).ToList();
+                //scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.TenMonHoc).GroupBy(c => c.MaMonHoc).Select(g => g.First()).ToList();
+
             }
 
             return scheduledSubjects;
@@ -228,6 +230,22 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                       where schd.MaLopHoc == Class.MaLopHoc && schd.MaMonHoc == subject.MaMonHoc
                                                       && schd.MaHocKy == term.MaHocKy && schd.MaThu == dayInweek.MaThu
                                                       && schd.MaTiet == session.MaBuoi
+                                                      select schd;
+
+            if (iqSchedule.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ScheduleExists(LopHoc_GiaoVien teacher)
+        {
+            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
+                                                      where schd.MaGiaoVien == teacher.MaGiaoVien
                                                       select schd;
 
             if (iqSchedule.Count() != 0)
