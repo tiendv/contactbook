@@ -105,9 +105,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            TabularTeachingPeriod tbTeachingPeriod = new TabularTeachingPeriod();
+            TabularTeachingPeriod tbTeachingPeriod = null;            
             foreach (DanhMuc_Tiet teachingPeriod in lTeachingPeriods)
             {
+                tbTeachingPeriod = new TabularTeachingPeriod();
                 tbTeachingPeriod.MaTiet = teachingPeriod.MaTiet;
                 tbTeachingPeriod.TenTiet = teachingPeriod.TenTiet;
                 tbTeachingPeriod.MaBuoi = teachingPeriod.CauHinh_Buoi.MaBuoi;

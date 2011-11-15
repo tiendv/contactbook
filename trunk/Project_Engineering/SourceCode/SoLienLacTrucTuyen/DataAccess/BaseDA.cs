@@ -8,6 +8,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     public class BaseDA
     {
         protected DbEContactBookDataContext db;
+        protected School school;
 
         public BaseDA()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
@@ -47,7 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strTeacherName = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularTeacher> lTbTeachers = teacherBL.GetListTabularTeachers(
+            List<TabularTeacher> lTbTeachers = teacherBL.GetTabularTeachers(
                 strTeacherCode, strTeacherName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
@@ -119,9 +120,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            string teacherCode = this.HdfTeacherCode.Value;
-
-            teacherBL.DeleteTeacher(teacherCode);
+            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+            teacher.MaGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
+            teacherBL.DeleteTeacher(teacher);
 
             isSearch = false;
             BindRptTeachers();
@@ -204,15 +205,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDeleteItem":
                     {
-                        string teacherCode = (string)e.CommandArgument;
-                        HdfTeacherCode.Value = teacherCode;
+                        LopHoc_GiaoVien teacher = null;
+
+                        string strTeacherCode = (string)e.CommandArgument;
+                        teacher = teacherBL.GetTeacher(strTeacherCode);
+                        HdfTeacherCode.Value = strTeacherCode;
 
                         this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
-                            + teacherBL.GetTeacher(teacherCode).HoTen + "\"</b> này không?";
+                            + teacher.HoTen + "\"</b> này không?";
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        this.HdfMaGiaoVien.Value = e.CommandArgument.ToString();
+                        this.HdfMaGiaoVien.Value = teacher.MaGiaoVien.ToString();
                         this.HdfRptGiaoVienMPEDelete.Value = mPEDelete.ClientID;
 
                         break;

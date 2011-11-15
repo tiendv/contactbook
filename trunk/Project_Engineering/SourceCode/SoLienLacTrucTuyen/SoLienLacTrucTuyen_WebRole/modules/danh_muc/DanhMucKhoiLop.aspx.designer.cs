@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DanhMucKhoiLop {
+    public partial class GradeCategoryPage {
         
         /// <summary>
         /// TxtSearchKhoiLop control.

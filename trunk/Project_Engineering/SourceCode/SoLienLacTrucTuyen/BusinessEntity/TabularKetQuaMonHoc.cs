@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularKetQuaMonHoc
+    public class TabularSubjectTermResult
     {
         public int MaDiemMonHK { get; set; }
         public string TenMonHoc { get; set; }

@@ -223,16 +223,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         string conductName = (string)e.CommandArgument;
 
-                        DanhMuc_HanhKiem hanhKiem = hanhKiemBL.GetConduct(conductName);
-                        ViewState[EDITED_MAHANHKIEM] = hanhKiem.MaHanhKiem;
+                        DanhMuc_HanhKiem conduct = hanhKiemBL.GetConduct(conductName);
+                        ViewState[EDITED_MAHANHKIEM] = conduct.MaHanhKiem;
 
-                        TxtSuaTenHanhKiem.Text = hanhKiem.TenHanhKiem;
+                        TxtSuaTenHanhKiem.Text = conduct.TenHanhKiem;
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptHanhKiemMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaHanhKiem.Value = conductName.ToString();
-                        this.HdfEditedTenHanhKiem.Value = hanhKiem.TenHanhKiem;
+                        this.HdfMaHanhKiem.Value = conduct.MaHanhKiem.ToString();
+                        this.HdfEditedTenHanhKiem.Value = conduct.TenHanhKiem;
 
                         break;
                     }

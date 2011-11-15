@@ -239,5 +239,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return lTbFormerTeachers;
         }
+
+        public bool FormerTeacherExists(LopHoc_GiaoVien teacher)
+        {
+            return formerTeacherDA.FormerTeacherExists(teacher);
+        }
     }
 }

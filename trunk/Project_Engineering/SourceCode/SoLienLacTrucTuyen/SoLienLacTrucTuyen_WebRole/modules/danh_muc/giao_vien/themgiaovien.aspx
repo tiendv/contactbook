@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="themgiaovien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.themgiaovien" %>
+    CodeBehind="themgiaovien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.AddingTeacherPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
@@ -48,13 +48,13 @@
                         ValidationGroup="AddGiaoVien" ErrorMessage="Mã giáo viên không được để trống"
                         Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     <asp:CustomValidator ID="MaGiaoVienValidator" runat="server" ControlToValidate="TxtMaGiaoVienHienThi"
-                        ValidationGroup="AddGiaoVien" ClientValidationFunction="validateMaGiaoVien" ErrorMessage="Mã giáo viên đã tồn tại"
-                        Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                        ValidationGroup="AddGiaoVien" ErrorMessage="Mã giáo viên đã tồn tại" Display="Dynamic"
+                        ForeColor="Red"></asp:CustomValidator>
                 </td>
             </tr>
             <tr>
                 <td style="height: 27px;">
-                    <asp:Label ID="Label12" runat="server" Text="Họ tên:"></asp:Label>
+                    Họ tên:
                     <asp:Label ID="Label13" runat="server" Text="*" ForeColor="Red"></asp:Label>
                 </td>
                 <td>

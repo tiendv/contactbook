@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true" CodeBehind="danhmuc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.QuanLiDanhMuc" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true" CodeBehind="danhmuc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.CategoryManagerPage" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">

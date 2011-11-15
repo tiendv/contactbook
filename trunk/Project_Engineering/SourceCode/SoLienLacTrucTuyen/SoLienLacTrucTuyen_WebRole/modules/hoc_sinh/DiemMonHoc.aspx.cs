@@ -78,10 +78,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
+            List<TabularChiTietDiemMonHocLoaiDiem> lstChiTietDiem = null;
+            HocSinh_DiemMonHocHocKy termSubjectedMark = new HocSinh_DiemMonHocHocKy();
             double totalRecords;
-            maDiemMonHK = Int32.Parse(this.HdfMaDiemMonHK.Value);
 
-            List<TabularChiTietDiemMonHocLoaiDiem> lstChiTietDiem = ketQuaHocTapBL.GetListTabularChiTietDiemMonHocLoaiDiem(maDiemMonHK, 
+            termSubjectedMark.MaDiemMonHK = Int32.Parse(this.HdfMaDiemMonHK.Value);
+
+            lstChiTietDiem = ketQuaHocTapBL.GetListTabularChiTietDiemMonHocLoaiDiem(termSubjectedMark, 
                 this.MainDataPager.CurrentIndex, this.MainDataPager.PageSize, out totalRecords);
 
             // Decrease page current index when delete

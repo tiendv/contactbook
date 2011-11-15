@@ -15,16 +15,16 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 
         public double DiemTrungBinh { get; set; }
 
-        public List<DiemTheoLoaiDiem> DiemTheoLoaiDiems { get; set; }
+        public List<MarkTypedMark> DiemTheoLoaiDiems { get; set; }
     }
 
-    public struct Diem
+    public struct DetailMark
     {
         public int MaLoaiDiem { get; set; }
         public double GiaTri { get; set; }
     }
 
-    public class DiemTheoLoaiDiem
+    public class MarkTypedMark
     {
         public int MaLoaiDiem { get; set; }
         public string StringDiems { get; set; }

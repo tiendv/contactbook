@@ -47,7 +47,22 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             db.SubmitChanges();
         }
-        
+
+        public DanhMuc_LoaiDiem GetMarkType(int markTypeId)
+        {
+            DanhMuc_LoaiDiem markType = null;
+
+            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.MaLoaiDiem == markTypeId
+                                                      select markTp;
+            if (iqMarkType.Count() != 0)
+            {
+                markType = iqMarkType.First();
+            }
+
+            return markType;
+        }
+
         public DanhMuc_LoaiDiem GetMarkType(string markTypeName)
         {
             DanhMuc_LoaiDiem markType = null;

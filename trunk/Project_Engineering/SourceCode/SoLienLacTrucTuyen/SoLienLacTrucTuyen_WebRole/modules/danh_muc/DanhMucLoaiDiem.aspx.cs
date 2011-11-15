@@ -285,10 +285,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {            
-            int maLoaiDiem = Int32.Parse(this.HdfMaLoaiDiem.Value);
-
             DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem();
-            markType.MaLoaiDiem = maLoaiDiem;
+            markType.MaLoaiDiem = Int32.Parse(this.HdfSltMarkTypeId.Value);
 
             loaiDiemBL.DeleteMarkType(markType);
             isSearch = false;
@@ -297,8 +295,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            int maLoaiDiem = Int32.Parse(this.HdfMaLoaiDiem.Value);
-
             string editedMarkTypeName = this.HdfEditedMarkTypeName.Value;
             string newMarkTypeName = TxtSuaTenLoaiDiem.Text.Trim();
             double heSoDiem = Double.Parse(TxtHeSoDiemLoaiDiemSua.Text.Trim());
@@ -382,7 +378,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         mPEDelete.Show();
 
                         HiddenField hdfRptMaLoaiDiem = (HiddenField)e.Item.FindControl("HdfRptMaLoaiDiem");
-                        this.HdfMaLoaiDiem.Value = hdfRptMaLoaiDiem.Value;
+                        this.HdfSltMarkTypeId.Value = hdfRptMaLoaiDiem.Value;
 
                         this.HdfRptLoaiDiemMPEDelete.Value = mPEDelete.ClientID;
 
@@ -390,15 +386,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        //int maLoaiDiem = Int32.Parse(e.CommandArgument.ToString());
                         string markTypeName = (string)e.CommandArgument;
-                        DanhMuc_LoaiDiem loaiDiem = loaiDiemBL.GetMarkType(markTypeName);
-
-                        TxtSuaTenLoaiDiem.Text = loaiDiem.TenLoaiDiem;
-                        TxtHeSoDiemLoaiDiemSua.Text = loaiDiem.HeSoDiem.ToString();
-                        TxtMaxMarksPerTermEdit.Text = loaiDiem.SoCotToiDa.ToString();
-                        RbtnYesEdit.Checked = loaiDiem.TinhDTB;
-                        RbtnCancelEdit.Checked = !loaiDiem.TinhDTB;
+                        DanhMuc_LoaiDiem markType = loaiDiemBL.GetMarkType(markTypeName);
+                        this.HdfSltMarkTypeId.Value = markType.MaLoaiDiem.ToString();
+                        TxtSuaTenLoaiDiem.Text = markType.TenLoaiDiem;
+                        TxtHeSoDiemLoaiDiemSua.Text = markType.HeSoDiem.ToString();
+                        TxtMaxMarksPerTermEdit.Text = markType.SoCotToiDa.ToString();
+                        RbtnYesEdit.Checked = markType.TinhDTB;
+                        RbtnCancelEdit.Checked = !markType.TinhDTB;
                         LblAppCalAvgMarkEdit.Visible = false;
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");

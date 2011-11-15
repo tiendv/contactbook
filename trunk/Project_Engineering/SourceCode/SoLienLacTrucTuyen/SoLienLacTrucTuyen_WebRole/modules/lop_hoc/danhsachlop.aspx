@@ -295,7 +295,7 @@
                             ValidationGroup="AddLopHoc" ErrorMessage="Tên lớp học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenLopHocValidatorAdd" runat="server" ControlToValidate="TxtTenLopHocThem"
-                            ValidationGroup="AddLopHoc" ClientValidationFunction="validateTenLopHocAdd" ErrorMessage="Tên lớp học đã tồn tại"
+                            ValidationGroup="AddLopHoc" ErrorMessage="Tên lớp học đã tồn tại"
                             Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                         <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
                     </td>
@@ -363,7 +363,7 @@
                             ValidationGroup="EditLopHoc" ErrorMessage="Tên lớp học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="TenLopHocValidatorEdit" runat="server" ControlToValidate="TxtTenLopHocSua"
-                            ValidationGroup="EditLopHoc" ClientValidationFunction="validateTenLopHocEdit"
+                            ValidationGroup="EditLopHoc"
                             ErrorMessage="Tên lớp học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                         <asp:HiddenField ID="hfOutputEdit" runat="server" Value="true" />
                     </td>

@@ -142,7 +142,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string teacherName = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularTeacher> lTbTeachers = teacherBL.GetListTabularUnformeredTeachers(
+            List<TabularTeacher> lTbTeachers = teacherBL.GetTabularUnformeredTeachers(
                 year,
                 teacherCode, teacherName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);

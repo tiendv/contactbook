@@ -93,10 +93,12 @@ namespace SoLienLacTrucTuyen_WebRole
         //}
 
         [WebMethod]
-        public static bool ValidateMark(string marks, string markTypeName)
+        public static bool ValidateMark(string marks, int markTypeId)
         {
             StudyingResultBL kqhtBL = new StudyingResultBL();
-            return kqhtBL.ValidateMark(marks, markTypeName);
+            DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem();
+            markType.MaLoaiDiem = markTypeId;
+            return kqhtBL.ValidateMark(marks, markType);
         }
     }
 }

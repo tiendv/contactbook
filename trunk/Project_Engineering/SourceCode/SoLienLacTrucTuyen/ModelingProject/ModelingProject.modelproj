@@ -57,4 +57,23 @@
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Validate Include="LayerDiagram1.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="LayerDiagram1.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>LayerDiagram1.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="LayerDiagram1.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>LayerDiagram1.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SoLienLacTrucTuyen.BusinessLogic\SoLienLacTrucTuyen.BusinessLogic.csproj">
+      <Name>SoLienLacTrucTuyen.BusinessLogic</Name>
+      <Project>{136fb4e4-9479-4416-a5c4-a8361aec26c7}</Project>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

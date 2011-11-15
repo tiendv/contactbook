@@ -8,63 +8,56 @@ using SoLienLacTrucTuyen.BusinessLogic;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class themgiaovien : System.Web.UI.Page
+    public partial class AddingTeacherPage : BaseContentPage
     {
         #region Fields
-        TeacherBL giaoVienBL = new TeacherBL();
+        TeacherBL teacherBL = new TeacherBL();
         #endregion
 
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-
-            if (!(new RoleBL()).ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
         }
         #endregion
 
         #region Button click event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            string maGiaoVien = TxtMaGiaoVienHienThi.Text.Trim();
-            string tenGiaoVien = TxtTenGiaoVien.Text.Trim();
-            string strNgaySinh = TxtNgaySinh.Text.Trim();
-            DateTime ngaySinh = new DateTime(); 
-            bool gioiTinh = RbtnNam.Checked;
-            string diaChi = TxtDiaChi.Text.Trim();
-            string dienThoai = TxtDienThoai.Text.Trim();
+            string strTeacherCode = TxtMaGiaoVienHienThi.Text.Trim();
+            string strTeacherName = TxtTenGiaoVien.Text.Trim();
+            string strBirthday = TxtNgaySinh.Text.Trim();
+            DateTime dtBirthday = new DateTime(); 
+            bool bGender = RbtnNam.Checked;
+            string strAddress = TxtDiaChi.Text.Trim();
+            string strPhone = TxtDienThoai.Text.Trim();
 
-            if (maGiaoVien == "")
+            if (strTeacherCode == "")
             {
                 MaGiaoVienHienThiRequired.IsValid = false;
                 return;
             }
             else
             {
-                if(giaoVienBL.TeacherCodeExists(maGiaoVien))
+                if(teacherBL.TeacherCodeExists(strTeacherCode))
                 {
                     MaGiaoVienValidator.IsValid = false;
                     return;
                 }
                 else
                 {
-                    if (tenGiaoVien == "")
+                    if (strTeacherName == "")
                     {
                         TenGiaoVienRequired.IsValid = false;
                         return;
                     }
                     else
                     {
-                        if (strNgaySinh == "")
+                        if (strBirthday == "")
                         {
                             
                             MaGiaoVienHienThiRequired.IsValid = false;
@@ -72,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         }
                         else
                         {                        
-                            if (diaChi == "")
+                            if (strAddress == "")
                             {
                                 DiaChiRequired.IsValid = false;
                                 return;
@@ -82,8 +75,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            ngaySinh = DateTime.Parse(strNgaySinh);
-            giaoVienBL.InsertTeacher(maGiaoVien, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
+            dtBirthday = DateTime.Parse(strBirthday);
+            teacherBL.InsertTeacher(strTeacherCode, strTeacherName, bGender, dtBirthday, strAddress, strPhone);
 
             if (CkbAddAfterSave.Checked)
             {

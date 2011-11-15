@@ -12,10 +12,10 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhMucKhoiLop : BaseContentPage
+    public partial class GradeCategoryPage : BaseContentPage
     {
         #region Fields
-        private GradeBL khoiLopBL;
+        private GradeBL gradeBL;
         private bool isSearch;
         #endregion
 
@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            khoiLopBL = new GradeBL();
+            gradeBL = new GradeBL();
 
             if (!Page.IsPostBack)
             {
@@ -59,7 +59,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (bValidInput)
             {
                 // insert new KhoiLop to DB
-                khoiLopBL.InsertGrade(tenKhoiLop, short.Parse(thuTuHienThi));
+                gradeBL.InsertGrade(tenKhoiLop, short.Parse(thuTuHienThi));
 
                 // Re-bind Repeater
                 MainDataPager.CurrentIndex = 1;
@@ -80,7 +80,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             string strGradeName = this.HdfSeletedGradeName.Value;
-            khoiLopBL.DeleteGrade(strGradeName);
+            gradeBL.DeleteGrade(strGradeName);
             isSearch = false;
             BindRptKhoiLop();
         }
@@ -100,7 +100,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (bValidInput)
             {
                 short sNewDisplayOrder = short.Parse(newDisplayOrder);
-                khoiLopBL.UpdateGrade(editedGradeName, newGradeName, sNewDisplayOrder);
+                gradeBL.UpdateGrade(editedGradeName, newGradeName, sNewDisplayOrder);
 
                 BindRptKhoiLop();
             }
@@ -136,7 +136,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)e.Item.DataItem;
-                    if (!khoiLopBL.IsDeletable(grade.TenKhoiLop))
+                    if (!gradeBL.IsDeletable(grade.TenKhoiLop))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -183,7 +183,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
                         string gradeName = (string)e.CommandArgument;
 
-                        DanhMuc_KhoiLop grade = khoiLopBL.GetGrade(gradeName);
+                        DanhMuc_KhoiLop grade = gradeBL.GetGrade(gradeName);
 
                         TxtSuaTenKhoiLop.Text = grade.TenKhoiLop;
                         TxtOrderEdit.Text = grade.ThuTuHienThi.ToString();
@@ -233,7 +233,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string tenKhoiLop = TxtSearchKhoiLop.Text.Trim();
 
             double totalRecords;
-            List<DanhMuc_KhoiLop> lstKhoiLop = khoiLopBL.GetListGrades(tenKhoiLop, 
+            List<DanhMuc_KhoiLop> lstKhoiLop = gradeBL.GetListGrades(tenKhoiLop, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
             MainDataPager.ItemCount = totalRecords;
 
@@ -290,7 +290,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (khoiLopBL.GradeNameExists(tenKhoiLop))
+                if (gradeBL.GradeNameExists(tenKhoiLop))
                 {
                     TenKhoiLopValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -343,7 +343,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (khoiLopBL.GradeNameExists(editedGradeName, newGradeName))
+                if (gradeBL.GradeNameExists(editedGradeName, newGradeName))
                 {
                     TenKhoiLopValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();

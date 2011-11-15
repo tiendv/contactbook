@@ -13,7 +13,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole
 {
-    public partial class DanhMucNganhHoc : BaseContentPage
+    public partial class FacultyCategoryPage : BaseContentPage
     {
         #region Fields
         private FacultyBL facultyBL = new FacultyBL();
@@ -61,21 +61,19 @@ namespace SoLienLacTrucTuyen_WebRole
 
         public void BindData()
         {
-            string tenNganhHoc = TxtSearchNganhHoc.Text.Trim();
+            string facultyName = TxtSearchNganhHoc.Text.Trim();
             double totalRecords;
-            List<DanhMuc_NganhHoc> lstNganhHoc = facultyBL.GetFaculties(tenNganhHoc,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
-            MainDataPager.ItemCount = totalRecords;
-
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties(facultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+            
             // Decrease page current index when delete
-            if (lstNganhHoc.Count == 0 && MainDataPager.ItemCount != 0)
+            if (faculties.Count == 0 && totalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindData();
                 return;
             }
 
-            bool bDisplayData = (lstNganhHoc.Count != 0) ? true : false;
+            bool bDisplayData = (faculties.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             PnlPopupEdit.Visible = bDisplayData;
             RptNganhHoc.Visible = bDisplayData;
@@ -101,8 +99,9 @@ namespace SoLienLacTrucTuyen_WebRole
                 MainDataPager.Visible = true;
             }
 
-            RptNganhHoc.DataSource = lstNganhHoc;
+            RptNganhHoc.DataSource = faculties;
             RptNganhHoc.DataBind();
+            MainDataPager.ItemCount = totalRecords;
         }
         #endregion
 
@@ -117,6 +116,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
+
             if (!Page.IsValid)
             {
                 return;

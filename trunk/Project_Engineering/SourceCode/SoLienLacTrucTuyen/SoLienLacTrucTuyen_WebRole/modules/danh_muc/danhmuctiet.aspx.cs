@@ -256,11 +256,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
+            CauHinh_Buoi session = null;
             double totalRecords;
             string tenTiet = TxtSearchTiet.Text.Trim();
-            int maBuoi = Int32.Parse(DdlBuoi.SelectedValue);
-            CauHinh_Buoi session = new CauHinh_Buoi();
-            session.MaBuoi = maBuoi;
+
+            if (DdlBuoi.SelectedIndex != 0)
+            {
+                session = new CauHinh_Buoi();
+                session.MaBuoi = Int32.Parse(DdlBuoi.SelectedValue);
+            }
+
             List<TabularTeachingPeriod> listTbTiets = tietBL.GetTabularTeachingPeriods(tenTiet, session,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
 
@@ -275,7 +280,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.ItemCount = totalRecords;
             bool bDisplayData = (listTbTiets.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
-            //PnlPopupEdit.Visible = bDisplayData;
+            PnlPopupEdit.Visible = bDisplayData;
             RptTietHoc.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 

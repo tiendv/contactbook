@@ -348,7 +348,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 
             double totalRecords;
-            List<TabularTeacher> lstTbGiaoViens = giaoVienBL.GetListTabularTeachers(
+            List<TabularTeacher> lstTbGiaoViens = giaoVienBL.GetTabularTeachers(
                 maHienThiGiaoVien, hoTen,
                 DataPageGiaoVien.CurrentIndex, DataPageGiaoVien.PageSize, out totalRecords);
             DataPageGiaoVien.ItemCount = totalRecords;
