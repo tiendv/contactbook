@@ -7,29 +7,27 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class LoiNhanKhanBL
+    public class LoiNhanKhanBL:BaseBL
     {
         private LoiNhanKhanDA loiNhanKhanDA;
 
-        public LoiNhanKhanBL()
+        public LoiNhanKhanBL(School school)
+            : base(school)
         {
-            loiNhanKhanDA = new LoiNhanKhanDA();
+            loiNhanKhanDA = new LoiNhanKhanDA(school);
         }
 
-        public void InsertLoiNhanKhan(int maHocSinhLopHoc, string tieuDe, string noiDung,
-            DateTime ngay)
+        public void InsertLoiNhanKhan(int maHocSinhLopHoc, string tieuDe, string noiDung, DateTime ngay)
         {
             loiNhanKhanDA.InsertLoiNhanKhan(maHocSinhLopHoc, tieuDe, noiDung, ngay);
         }
 
-        public void UpdateLoiNhanKhan(int maLoiNhanKhan, string tieuDe, string noiDung,
-            DateTime ngay)
+        public void UpdateLoiNhanKhan(int maLoiNhanKhan, string tieuDe, string noiDung, DateTime ngay)
         {
             loiNhanKhanDA.UpdateLoiNhanKhan(maLoiNhanKhan, tieuDe, noiDung, ngay);
         }
 
-        public void UpdateLoiNhanKhan(int maLoiNhanKhan, string noiDung,
-            DateTime ngay)
+        public void UpdateLoiNhanKhan(int maLoiNhanKhan, string noiDung, DateTime ngay)
         {
             loiNhanKhanDA.UpdateLoiNhanKhan(maLoiNhanKhan, noiDung, ngay);
         }
@@ -45,8 +43,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public List<TabularLoiNhanKhan> GetListTabularLoiNhanKhan(int maNamHoc, DateTime tuNgay, DateTime denNgay,
-            string maHocSinhHienThi, int xacNhan,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+            string maHocSinhHienThi, int xacNhan, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             if (string.Compare(maHocSinhHienThi, "tất cả", true) == 0 || maHocSinhHienThi == "")
             {

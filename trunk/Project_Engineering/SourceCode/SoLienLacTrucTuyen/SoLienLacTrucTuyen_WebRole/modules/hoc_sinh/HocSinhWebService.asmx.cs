@@ -6,6 +6,7 @@ using System.Web.Services;
 using System.Web.Script.Services;
 using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessLogic;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
 namespace SoLienLacTrucTuyen_WebRole
 {
@@ -23,7 +24,7 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ExistMaHocSinhHienThi(string maHocSinh, string maHocSinhHienThi)
         {
-            StudentBL hocSinhBL = new StudentBL();
+            StudentBL hocSinhBL = new StudentBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(maHocSinhHienThi);
             if (student != null)
             {

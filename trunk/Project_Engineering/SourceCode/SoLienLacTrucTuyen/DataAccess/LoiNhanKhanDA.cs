@@ -8,8 +8,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class LoiNhanKhanDA : BaseDA
     {
-        public LoiNhanKhanDA()
-            : base()
+        public LoiNhanKhanDA(School school)
+            : base(school)
         {
         }
 

@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            danhHieuBL = new DanhHieuBL();
+            danhHieuBL = new DanhHieuBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -108,7 +108,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int iSltMaHocLuc = Int32.Parse(DdlHocLucAdd.SelectedValue);
             if(iSltMaHocLuc == 0)
             {
-                HocLucBL hocLucBL = new HocLucBL();
+                HocLucBL hocLucBL = new HocLucBL(UserSchool);
                 sltHocLucs = hocLucBL.GetListHocLuc(false);
             }
             else
@@ -219,7 +219,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHocLuc()
         {
-            HocLucBL hocLucBL = new HocLucBL();
+            HocLucBL hocLucBL = new HocLucBL(UserSchool);
             List<DanhMuc_HocLuc> hocLucs = hocLucBL.GetListHocLuc(true);
             DdlHocLucAdd.DataSource = hocLucs;
             DdlHocLucAdd.DataValueField = "MaHocLuc";
@@ -229,7 +229,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHanhKiem()
         {
-            ConductBL HanhKiemBL = new ConductBL();
+            ConductBL HanhKiemBL = new ConductBL(UserSchool);
             List<DanhMuc_HanhKiem> HanhKiems = HanhKiemBL.GetListConducts(false);
             DdlHanhKiemAdd.DataSource = HanhKiems;
             DdlHanhKiemAdd.DataValueField = "MaHanhKiem";

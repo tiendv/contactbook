@@ -9,27 +9,22 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class suagiaovien : System.Web.UI.Page
+    public partial class suagiaovien : BaseContentPage
     {
         #region Fields
-        TeacherBL giaoVienBL = new TeacherBL();
+        TeacherBL giaoVienBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-
-            if (!(new RoleBL()).ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            giaoVienBL = new TeacherBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

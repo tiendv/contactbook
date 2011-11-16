@@ -7,10 +7,12 @@ using System.Web.UI.WebControls;
 using System.Web.Services;
 using System.Web.Script.Services;
 using SoLienLacTrucTuyen.BusinessLogic;
+using SoLienLacTrucTuyen_WebRole.Modules;
+using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole
 {
-    public partial class DanhMucServicePage : System.Web.UI.Page
+    public partial class DanhMucServicePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,7 +24,7 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             facultyName = Uri.UnescapeDataString(facultyName);
 
-            FacultyBL facultyBL = new FacultyBL();
+            FacultyBL facultyBL = new FacultyBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             return facultyBL.FacultyExists(facultyName);
         }
 
@@ -32,7 +34,7 @@ namespace SoLienLacTrucTuyen_WebRole
             oldFacultyName = Uri.UnescapeDataString(oldFacultyName);
             newFacultyName = Uri.UnescapeDataString(newFacultyName);
 
-            FacultyBL facultyBL = new FacultyBL();
+            FacultyBL facultyBL = new FacultyBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             return facultyBL.FacultyExists(oldFacultyName, newFacultyName);
         }
 
@@ -40,7 +42,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool CheckExistTenKhoiLop(int maKhoiLop, string tenKhoiLop)
         //{
         //    tenKhoiLop = Uri.UnescapeDataString(tenKhoiLop);
-        //    GradeBL khoiLopBL = new GradeBL();
+        //    GradeBL khoiLopBL = new GradeBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
         //    return khoiLopBL.GradeNameExists(maKhoiLop, tenKhoiLop);
         //}
 
@@ -48,7 +50,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool CheckExistTenMonHoc(string tenMonHoc, int maNganhHoc, int maKhoiLop)
         //{
         //    tenMonHoc = Uri.UnescapeDataString(tenMonHoc);
-        //    SubjectBL monHocBL = new SubjectBL();
+        //    SubjectBL monHocBL = new SubjectBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
         //    return monHocBL.SubjectNameExists(tenMonHoc, maNganhHoc, maKhoiLop);
         //}
 
@@ -56,14 +58,14 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool CheckExistTenMonHoc(int maMonHoc, string tenMonHoc, int maNganhHoc, int maKhoiLop)
         //{
         //    tenMonHoc = Uri.UnescapeDataString(tenMonHoc);
-        //    SubjectBL monHocBL = new SubjectBL();
+        //    SubjectBL monHocBL = new SubjectBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
         //    return monHocBL.SubjectNameExists(maMonHoc, tenMonHoc, maNganhHoc, maKhoiLop);
         //}
 
         [WebMethod]
         public static bool MarkTypeNameExists(string markTypeName)
         {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL();
+            MarkTypeBL loaiDiemBL = new MarkTypeBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
 
             markTypeName = Uri.UnescapeDataString(markTypeName);            
             return loaiDiemBL.MarkTypeNameExists(markTypeName);
@@ -72,7 +74,7 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool MarkTypeNameExists(string oldMarkTypeName, string newMarkTypeName)
         {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL();
+            MarkTypeBL loaiDiemBL = new MarkTypeBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
 
             oldMarkTypeName = Uri.UnescapeDataString(oldMarkTypeName);
             newMarkTypeName = Uri.UnescapeDataString(newMarkTypeName);
@@ -90,7 +92,7 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool AttitudeNameExists(string oldAttitudeName, string newAttitudeName)
         {
-            AttitudeBL thaiDoThamGiaBL = new AttitudeBL();
+            AttitudeBL thaiDoThamGiaBL = new AttitudeBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
 
             oldAttitudeName = Uri.UnescapeDataString(oldAttitudeName);
             newAttitudeName = Uri.UnescapeDataString(newAttitudeName);
@@ -109,7 +111,7 @@ namespace SoLienLacTrucTuyen_WebRole
         public static bool CheckExistTenHanhKiem(string tenHanhKiem)
         {
             tenHanhKiem = Uri.UnescapeDataString(tenHanhKiem);
-            ConductBL hanhKiemBL = new ConductBL();
+            ConductBL hanhKiemBL = new ConductBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             return hanhKiemBL.ConductNameExists(tenHanhKiem);
         }
 
@@ -119,7 +121,7 @@ namespace SoLienLacTrucTuyen_WebRole
             oldTenHanhKiem = Uri.UnescapeDataString(oldTenHanhKiem);
             newTenHanhKiem = Uri.UnescapeDataString(newTenHanhKiem);
 
-            ConductBL hanhKiemBL = new ConductBL();
+            ConductBL hanhKiemBL = new ConductBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             return hanhKiemBL.ConductNameExists(oldTenHanhKiem, newTenHanhKiem);
         }
 
@@ -127,7 +129,7 @@ namespace SoLienLacTrucTuyen_WebRole
         public static bool CheckExistTenDanhHieu(string tenDanhHieu)
         {
             tenDanhHieu = Uri.UnescapeDataString(tenDanhHieu);
-            DanhHieuBL danhHieuBL = new DanhHieuBL();
+            DanhHieuBL danhHieuBL = new DanhHieuBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             return danhHieuBL.DanhHieuExists(tenDanhHieu);
         }
     }

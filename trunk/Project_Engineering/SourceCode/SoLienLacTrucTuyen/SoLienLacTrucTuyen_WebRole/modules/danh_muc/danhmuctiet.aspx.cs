@@ -29,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            tietBL = new TeachingPeriodBL();
+            tietBL = new TeachingPeriodBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -312,7 +312,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLBuoi()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_Buoi> listBuois = systemConfigBL.GetSessions();
             DdlBuoi.DataSource = listBuois;
             DdlBuoi.DataValueField = "MaBuoi";

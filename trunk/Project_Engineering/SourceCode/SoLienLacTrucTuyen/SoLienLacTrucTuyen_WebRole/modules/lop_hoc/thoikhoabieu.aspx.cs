@@ -27,8 +27,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            classBL = new ClassBL();
-            scheduleBL = new ScheduleBL();
+            classBL = new ClassBL(UserSchool);
+            scheduleBL = new ScheduleBL(UserSchool);
          
             if (!Page.IsPostBack)
             {
@@ -203,7 +203,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDlYears()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
@@ -217,13 +217,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DdlNamHoc.SelectedValue = (new SystemConfigBL()).GetCurrentYear().ToString();
+                DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
             }
         }
 
         private void BindDDlFaculties()
         {
-            FacultyBL nganhHocBL = new FacultyBL();
+            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
             List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
@@ -237,7 +237,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDlGrades()
         {
-            GradeBL KhoiLopBL = new GradeBL();
+            GradeBL KhoiLopBL = new GradeBL(UserSchool);
             List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
@@ -251,7 +251,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLTerms()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";

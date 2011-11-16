@@ -7,8 +7,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class SessionDA : BaseDA
     {
-        public SessionDA()
-            : base()
+        public SessionDA(School school)
+            : base(school)
         {
         }
 

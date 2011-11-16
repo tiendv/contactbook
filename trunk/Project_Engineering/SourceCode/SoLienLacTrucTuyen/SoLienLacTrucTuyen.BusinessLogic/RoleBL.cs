@@ -7,25 +7,26 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class RoleBL
+    public class RoleBL : BaseBL
     {
         private RoleDA roleDA;
 
-        public RoleBL()
+        public RoleBL(School school)
+            : base(school)
         {
-            roleDA = new RoleDA();
+            roleDA = new RoleDA(school);
         }
 
-        public void UpdateRole(string roleName, 
+        public void UpdateRole(string roleName,
             string newRoleName, string description)
         {
             roleDA.UpdateRole(roleName, newRoleName, description);
         }
 
-        public void CreateRoleDetail(string roleName, 
+        public void CreateRoleDetail(string roleName,
             string description)
         {
-            roleDA.CreateRoleDetail(roleName, description);            
+            roleDA.CreateRoleDetail(roleName, description);
         }
 
         public void UpdateRoleDetail(string roleName,
@@ -46,7 +47,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 return roleDA.GetListTbRoles(roleName, pageCurrentIndex, pageSize, out totalRecords);
             }
-            
+
         }
 
         public void DeleteRole(string roleName)
@@ -62,7 +63,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public TabularRole GetTbRole(Guid roleId)
         {
             return roleDA.GetTabRole(roleId);
-        }        
+        }
 
         public List<aspnet_Role> GetListRoles()
         {
@@ -84,7 +85,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return roleDA.IsRoleParents(roleName);
         }
-        
+
         public bool ValidateAuthorization(Guid role, string pageUrl)
         {
             return roleDA.ValidateAuthorization(role, pageUrl);
@@ -103,7 +104,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool RoleExists(string roleName, string newRoleName)
         {
             return roleDA.RoleExists(roleName, newRoleName);
-        }        
+        }
 
         public void AddUserToRole(string userName, string roleName)
         {
@@ -115,7 +116,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 roleDA.AddUserToRole(userName, roleName);
             }
-        }        
+        }
 
         public List<UserManagement_Function> GetListRoleParentsBasedFunctions()
         {

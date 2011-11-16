@@ -27,7 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            teacherBL = new TeacherBL();
+            teacherBL = new TeacherBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

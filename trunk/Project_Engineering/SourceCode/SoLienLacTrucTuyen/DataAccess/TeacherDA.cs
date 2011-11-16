@@ -8,8 +8,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class TeacherDA : BaseDA
     {
-        public TeacherDA()
-            : base()
+        public TeacherDA(School school)
+            : base(school)
         { }
 
         public void InsertTeacher(LopHoc_GiaoVien teacher)
@@ -84,8 +84,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             return teacher;
         }
-        private List<LopHoc_GiaoVien> GetListTeachers(ref IQueryable<LopHoc_GiaoVien> iqTeacher,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<LopHoc_GiaoVien> GetListTeachers(ref IQueryable<LopHoc_GiaoVien> iqTeacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
 
@@ -99,8 +98,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<LopHoc_GiaoVien> GetListTeachers(string teacherCode, string teacherName,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
                                                     where tchr.MaHienThiGiaoVien == teacherCode
@@ -118,8 +116,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GiaoVien> GetListTeachersByCode(string teacherCode,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListTeachersByCode(string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
                                                     where tchr.MaHienThiGiaoVien == teacherCode
@@ -128,8 +125,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GiaoVien> GetListTeachersByName(string teacherName,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListTeachersByName(string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
                                                     where tchr.HoTen == teacherName
@@ -138,8 +134,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GiaoVien> GetListUnformedTeachersByName(CauHinh_NamHoc year,
-            string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListUnformedTeachersByName(CauHinh_NamHoc year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
@@ -175,8 +170,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<LopHoc_GiaoVien> GetListUnformedTeachers(CauHinh_NamHoc year,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListUnformedTeachers(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
@@ -210,8 +204,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<LopHoc_GiaoVien> GetListUnformedTeachersByCode(CauHinh_NamHoc year,
-            string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListUnformedTeachersByCode(CauHinh_NamHoc year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens
@@ -247,8 +240,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<LopHoc_GiaoVien> GetListUnformedTeachers(CauHinh_NamHoc year,
-           string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GiaoVien> GetListUnformedTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GiaoVien> lTeachers = new List<LopHoc_GiaoVien>();
             IQueryable<LopHoc_GiaoVien> iqTeacher = from tchr in db.LopHoc_GiaoViens

@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhMucLoaiDiem : BaseContentPage
     {
         #region Fields
-        private MarkTypeBL loaiDiemBL = new MarkTypeBL();
+        private MarkTypeBL loaiDiemBL;
         private bool isSearch;
         #endregion
 
@@ -29,6 +29,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+
+            loaiDiemBL = new MarkTypeBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

@@ -10,7 +10,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SuaGiaoVienChuNhiemPage : System.Web.UI.Page
+    public partial class SuaGiaoVienChuNhiemPage : BaseContentPage
     {
         #region Fields
         private FormerTeacherBL giaoVienChuNhiemBL;
@@ -22,23 +22,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            giaoVienChuNhiemBL = new FormerTeacherBL();
-            teacherBL = new TeacherBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-
-            if (!(new RoleBL()).ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            giaoVienChuNhiemBL = new FormerTeacherBL(UserSchool);
+            teacherBL = new TeacherBL(UserSchool);
 
             if (Request.QueryString["id"] != null)
             {
@@ -51,7 +44,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             LopHoc_GVCN giaoVienChuNhiem = giaoVienChuNhiemBL.GetFormerTeacher(maGVCN);
-            TabularClass lopHoc = (new ClassBL()).GetTabularClass(giaoVienChuNhiem.LopHoc_Lop);
+            TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(giaoVienChuNhiem.LopHoc_Lop);
             maNamHoc = lopHoc.MaNamHoc;
 
             if (!Page.IsPostBack)

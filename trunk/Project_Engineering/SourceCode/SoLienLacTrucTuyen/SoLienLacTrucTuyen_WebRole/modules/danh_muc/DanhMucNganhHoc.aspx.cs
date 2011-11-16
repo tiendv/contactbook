@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole
     public partial class FacultyCategoryPage : BaseContentPage
     {
         #region Fields
-        private FacultyBL facultyBL = new FacultyBL();
+        private FacultyBL facultyBL;
         private bool isSearch;
         #endregion
 
@@ -28,6 +28,8 @@ namespace SoLienLacTrucTuyen_WebRole
             {
                 return;
             }
+
+            facultyBL = new FacultyBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

@@ -8,6 +8,7 @@ using System.Web.Security;
 using SoLienLacTrucTuyen.BusinessLogic;
 using System.Text;
 using System.Security.Cryptography;
+using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -50,7 +51,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // Validate custom information
                 // ...
                 //
-                UserBL userBL = new UserBL();
+                UserBL userBL = new UserBL((School)Session[AppConstant.SCHOOL]);
                 return userBL.ValidateUser(User.Identity.Name);
             }
             else

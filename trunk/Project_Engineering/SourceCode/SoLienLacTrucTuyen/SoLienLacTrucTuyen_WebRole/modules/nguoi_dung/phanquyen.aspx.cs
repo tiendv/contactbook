@@ -10,7 +10,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class PhanQuyen : System.Web.UI.Page
+    public partial class PhanQuyen : BaseContentPage
     {
         #region Fields
         private RoleBL roleBL;
@@ -18,22 +18,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
-        {   
-            roleBL = new RoleBL();
-            phanQuyenBL = new PhanQuyenBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+        protected override void Page_Load(object sender, EventArgs e)
+        {
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
-            }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            } 
+            
+            roleBL = new RoleBL(UserSchool);
+            phanQuyenBL = new PhanQuyenBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

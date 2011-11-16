@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class MarkTypeBL
+    public class MarkTypeBL: BaseBL
     {
         MarkTypeDA markTypeDA;
 
-        public MarkTypeBL()
+        public MarkTypeBL(School school)
+            : base(school)
         {
-            markTypeDA = new MarkTypeDA();
+            markTypeDA = new MarkTypeDA(school);
         }
 
         public void InsertLoaiDiem(string markTypeName, double markRatio, short maxMarksPerTerm, bool calAverageMark)

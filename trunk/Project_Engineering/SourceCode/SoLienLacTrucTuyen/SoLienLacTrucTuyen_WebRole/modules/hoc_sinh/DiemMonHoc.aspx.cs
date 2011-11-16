@@ -11,7 +11,7 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DiemMonHoc : System.Web.UI.Page
+    public partial class DiemMonHoc : BaseContentPage
     {
         #region Fields
         private StudyingResultBL ketQuaHocTapBL;
@@ -19,14 +19,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            ketQuaHocTapBL = new StudyingResultBL();
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
+            {
+                return;
+            }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = (new UserBL()).GetRoleId(User.Identity.Name);
-            masterPage.PageUrl = Page.Request.Path;
-            masterPage.PageTitle = "Điểm Môn Học";
+            ketQuaHocTapBL = new StudyingResultBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -69,7 +70,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownList()
         {
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = (new MarkTypeBL()).GetListMarkTypes();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = (new MarkTypeBL(UserSchool)).GetListMarkTypes();
             this.DdlLoaiDiemThem.DataSource = lstLoaiDiem;
             this.DdlLoaiDiemThem.DataTextField = "TenLoaiDiem";
             this.DdlLoaiDiemThem.DataValueField = "MaLoaiDiem";
@@ -170,7 +171,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         int maChiTietDiem = Int32.Parse(e.CommandArgument.ToString());
                         HocSinh_ChiTietDiem chiTietDiem = ketQuaHocTapBL.GetDetailedMark(maChiTietDiem);
 
-                        MarkTypeBL loaiDiemBL = new MarkTypeBL();
+                        MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
                         this.LblLoaiDiemSua.Text = chiTietDiem.DanhMuc_LoaiDiem.TenLoaiDiem;
                         this.TxtDiemSua.Text = chiTietDiem.Diem.ToString();
 

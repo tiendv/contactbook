@@ -8,6 +8,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class UserDA : BaseDA
     {
+        public UserDA(School school)
+            : base(school)
+        {
+        }
+
         public UserDA()
             : base()
         {

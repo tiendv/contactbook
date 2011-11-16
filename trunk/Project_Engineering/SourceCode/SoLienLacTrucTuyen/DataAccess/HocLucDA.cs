@@ -7,8 +7,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class HocLucDA : BaseDA
     {
-        public HocLucDA()
-            : base()
+        public HocLucDA(School school)
+            : base(school)
         {
         }
 

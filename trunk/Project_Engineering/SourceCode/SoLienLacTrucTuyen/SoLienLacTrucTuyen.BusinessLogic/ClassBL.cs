@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class ClassBL
+    public class ClassBL: BaseBL
     {
         private ClassDA classDA;
 
-        public ClassBL()
+        public ClassBL(School school)
+            : base(school)
         {
-            classDA = new ClassDA();
+            classDA = new ClassDA(school);
         }
                 
         public void InsertClass(string ClassName, CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
@@ -52,7 +53,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             Class = GetClass(Class.MaLopHoc);
             TabularClass tabularClass = new TabularClass();
-            FormerTeacherBL formerTeacherBL = new FormerTeacherBL();
+            FormerTeacherBL formerTeacherBL = new FormerTeacherBL(school);
             LopHoc_GVCN formerTeacher = null;
 
             tabularClass.MaLopHoc = Class.MaLopHoc;

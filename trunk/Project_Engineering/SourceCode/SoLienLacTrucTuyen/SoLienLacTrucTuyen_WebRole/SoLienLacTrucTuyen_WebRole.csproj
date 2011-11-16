@@ -84,7 +84,6 @@
     <Content Include="modules\hoc_sinh\ThongTinCaNhan_User.aspx" />
     <Content Include="modules\hoc_sinh\TinhHinhNghiHoc_User.aspx" />
     <Content Include="modules\loi_nhan\loinhankhan.aspx" />
-    <Content Include="modules\loi_nhan\loinhankhan_User.aspx" />
     <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
     <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
     <Content Include="modules\danh_muc\DanhMucServicePage.aspx" />
@@ -279,6 +278,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="modules\AppConstant.cs" />
     <Compile Include="modules\danh_muc\danhmucdanhhieu.aspx.cs">
       <DependentUpon>danhmucdanhhieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -302,7 +302,6 @@
     </Compile>
     <Compile Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx.cs">
       <DependentUpon>GiaoVienServicePage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx.designer.cs">
       <DependentUpon>GiaoVienServicePage.aspx</DependentUpon>
@@ -388,13 +387,6 @@
     <Compile Include="modules\loi_nhan\loinhankhan.aspx.designer.cs">
       <DependentUpon>loinhankhan.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\loi_nhan\loinhankhan_User.aspx.cs">
-      <DependentUpon>loinhankhan_User.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\loi_nhan\loinhankhan_User.aspx.designer.cs">
-      <DependentUpon>loinhankhan_User.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\lop_hoc\LopHocServicePage.aspx.cs">
       <DependentUpon>LopHocServicePage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -411,7 +403,6 @@
     </Compile>
     <Compile Include="modules\danh_muc\DanhMucServicePage.aspx.cs">
       <DependentUpon>DanhMucServicePage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="modules\danh_muc\DanhMucServicePage.aspx.designer.cs">
       <DependentUpon>DanhMucServicePage.aspx</DependentUpon>

@@ -8,8 +8,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class StudentActivityDA : BaseDA
     {
-        public StudentActivityDA()
-            : base()
+        public StudentActivityDA(School school)
+            : base(school)
         {
         }
 
@@ -138,7 +138,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<HocSinh_HoatDong> studentActivities = new List<HocSinh_HoatDong>();
-            AttitudeDA attitudeDA = new AttitudeDA();
+            AttitudeDA attitudeDA = new AttitudeDA(school);
 
             IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
                                                              join stdInCls in db.HocSinh_HocSinhLopHocs on stdAct.MaHocSinhLopHoc equals stdInCls.MaHocSinhLopHoc

@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class StudentBL
+    public class StudentBL : BaseBL
     {
         private StudentDA studentDA;
 
-        public StudentBL()
+        public StudentBL(School school)
+            : base(school)
         {
-            studentDA = new StudentDA();
+            studentDA = new StudentDA(school);
         }
 
         public void InsertStudent(LopHoc_Lop Class, string studentCode, string studentName,
@@ -22,9 +23,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             string motherName, string motherJob, DateTime? motherBirthday,
             string patronName, string patronJob, DateTime? patronBirthday)
         {
-            ClassBL classBL = new ClassBL();
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
-            StudyingResultBL studyingResultBL = new StudyingResultBL();
+            ClassBL classBL = new ClassBL(school);
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             DanhMuc_HanhKiem conduct = null;
             DanhMuc_HocLuc studyingAptitude = null;
 
@@ -110,7 +111,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public HocSinh_ThongTinCaNhan GetStudent(string studentCode)
         {
             return studentDA.GetStudent(studentCode);
-        }        
+        }
 
         public HocSinh_ThongTinCaNhan GetStudent(int studentId)
         {
@@ -228,11 +229,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return tabularStudents;
-        }        
+        }
 
         public TabularClass GetTabularClass(CauHinh_NamHoc year, HocSinh_ThongTinCaNhan student)
         {
-            ClassBL classBL = new ClassBL();
+            ClassBL classBL = new ClassBL(school);
             TabularClass tabularClass = null;
             LopHoc_Lop Class = studentDA.GetClass(year, student);
             if (Class != null)
@@ -291,12 +292,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return students;
-        }        
+        }
 
         public List<CauHinh_NamHoc> GetYears(HocSinh_ThongTinCaNhan student)
         {
             return studentDA.GetYears(student);
-        }        
+        }
 
         public LopHoc_Lop GetClass(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year)
         {

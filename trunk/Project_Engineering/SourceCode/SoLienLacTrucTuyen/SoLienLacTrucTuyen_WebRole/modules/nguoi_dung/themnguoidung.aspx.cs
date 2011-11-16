@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class ThemNguoiDung : BaseContentPage
     {
         #region Fields
-        private RoleBL roleBL = new RoleBL();
+        private RoleBL roleBL;
         private UserBL userBL;
         private StudentBL hocSinhBL;
         protected string btnSaveClickEvent = string.Empty;
@@ -45,8 +45,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
-            userBL = new UserBL();
-            hocSinhBL = new StudentBL();
+            userBL = new UserBL(UserSchool);
+            hocSinhBL = new StudentBL(UserSchool);
 
             base.Page_Load(sender, e);
             if (isAccessDenied)
@@ -54,6 +54,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            roleBL = new RoleBL(UserSchool);
             if (!Page.IsPostBack)
             {
                 BindDDLNhomNguoiDung();

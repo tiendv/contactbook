@@ -9,8 +9,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class SubjectDA : BaseDA
     {
-        public SubjectDA()
-            : base()
+        public SubjectDA(School school)
+            : base(school)
         {
         }
 

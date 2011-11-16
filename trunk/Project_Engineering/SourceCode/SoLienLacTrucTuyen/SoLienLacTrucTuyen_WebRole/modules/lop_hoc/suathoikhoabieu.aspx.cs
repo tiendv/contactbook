@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             // Init variables            
-            scheduleBL = new ScheduleBL();
+            scheduleBL = new ScheduleBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -118,8 +118,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void FillTitlePage()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
-            ClassBL classBL = new ClassBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+            ClassBL classBL = new ClassBL(UserSchool);
             LopHoc_Lop Class = new LopHoc_Lop();
 
             Class.MaLopHoc = MaLopHoc;
@@ -133,7 +133,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void FillDDLThu()
         {
-            SystemConfigBL cauHinhBL = new SystemConfigBL();
+            SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
             List<CauHinh_Thu> listThu = cauHinhBL.GetDayInWeeks();
             DdlThu.DataSource = listThu;
             DdlThu.DataValueField = "MaThu";
@@ -217,9 +217,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdAddItem":
                     {
-                        SystemConfigBL systemConfigBL = new SystemConfigBL();
-                        TeachingPeriodBL tietBL = new TeachingPeriodBL();
-                        ClassBL classBL = new ClassBL();
+                        SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+                        TeachingPeriodBL tietBL = new TeachingPeriodBL(UserSchool);
+                        ClassBL classBL = new ClassBL(UserSchool);
                         LopHoc_Lop Class = new LopHoc_Lop();
                         Class.MaLopHoc = MaLopHoc;
 

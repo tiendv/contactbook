@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class FormerTeacherBL
+    public class FormerTeacherBL: BaseBL
     {
         private FormerTeacherDA formerTeacherDA;
 
-        public FormerTeacherBL()
+        public FormerTeacherBL(School school)
+            : base(school)
         {
-            formerTeacherDA = new FormerTeacherDA();
+            formerTeacherDA = new FormerTeacherDA(school);
         }
 
         public void Insert(LopHoc_Lop Class, LopHoc_GiaoVien teacher)
@@ -194,7 +195,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             List<TabularFormerTeacher> lTbFormerTeachers = new List<TabularFormerTeacher>();
             List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
-            TeacherBL teacherBL = new TeacherBL();
+            TeacherBL teacherBL = new TeacherBL(school);
             LopHoc_GiaoVien teacher = null;
 
             if ((teacherCode != "") && (string.Compare(teacherCode, "tất cả", true) != 0))

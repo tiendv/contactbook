@@ -10,31 +10,22 @@ using System.IO;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThemHocSinh : Page
+    public partial class ThemHocSinh : BaseContentPage
     {
         #region Fields
         private StudentBL hocSinhBL;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-            hocSinhBL = new StudentBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            hocSinhBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -194,7 +185,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
@@ -203,14 +194,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count != 0)
             {
-                SystemConfigBL cauHinhBL = new SystemConfigBL();
+                SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
                 DdlNamHoc.SelectedValue = cauHinhBL.GetCurrentYear().ToString();
             }
         }
 
         private void BindDropDownListKhoiLop()
         {
-            GradeBL KhoiLopBL = new GradeBL();
+            GradeBL KhoiLopBL = new GradeBL(UserSchool);
             List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
@@ -220,7 +211,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL();
+            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
             List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
@@ -264,7 +255,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             CauHinh_NamHoc year = null;
             DanhMuc_NganhHoc faculty = null;
             DanhMuc_KhoiLop grade = null;
-            ClassBL lopHocBL = new ClassBL();
+            ClassBL lopHocBL = new ClassBL(UserSchool);
             
             year = new CauHinh_NamHoc();
             year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);

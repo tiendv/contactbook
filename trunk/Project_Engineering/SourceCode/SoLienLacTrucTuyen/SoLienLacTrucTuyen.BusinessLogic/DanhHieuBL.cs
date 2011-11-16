@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class DanhHieuBL
+    public class DanhHieuBL: BaseBL
     {
         private DanhHieuDA danhHieuDA;
 
-        public DanhHieuBL()
+        public DanhHieuBL(School school)
+            : base(school)
         {
-            danhHieuDA = new DanhHieuDA();
+            danhHieuDA = new DanhHieuDA(school);
         }
 
         public void InsertDanhHieu(string tenDanhHieu, Dictionary<int, int> dicHanhKiemNHocLuc)

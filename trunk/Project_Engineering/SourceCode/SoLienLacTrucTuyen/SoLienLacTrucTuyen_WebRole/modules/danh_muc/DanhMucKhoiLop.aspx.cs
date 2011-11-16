@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            gradeBL = new GradeBL();
+            gradeBL = new GradeBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

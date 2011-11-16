@@ -19,8 +19,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 
     public class RoleDA : BaseDA
     {
-        public RoleDA()
-            : base()
+        public RoleDA(School school)
+            : base(school)
         {
 
         }
@@ -409,7 +409,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public void AddUserToRole(string userName, string roleName)
         {
             aspnet_Role role = GetRole(roleName);
-            aspnet_User user = (new UserDA()).GetUser(userName);
+            aspnet_User user = (new UserDA(school)).GetUser(userName);
 
             aspnet_UsersInRole usersInRole = new aspnet_UsersInRole
             {

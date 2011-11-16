@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class AddingTeacherPage : BaseContentPage
     {
         #region Fields
-        TeacherBL teacherBL = new TeacherBL();
+        TeacherBL teacherBL;
         #endregion
 
         #region Page event handlers
@@ -22,6 +22,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+
+            teacherBL = new TeacherBL(UserSchool);
         }
         #endregion
 

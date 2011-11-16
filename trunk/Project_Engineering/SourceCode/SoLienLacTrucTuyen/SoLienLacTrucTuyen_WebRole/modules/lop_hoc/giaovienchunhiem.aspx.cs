@@ -11,37 +11,25 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class GVCN : System.Web.UI.Page
+    public partial class GVCN : BaseContentPage
     {
         #region Fields
         private FormerTeacherBL giaoVienChuNhiemBL;
         private ClassBL lopHocBL;
         private bool isSearch;
-        private List<AccessibilityEnum> lstAccessibilities;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-            giaoVienChuNhiemBL = new FormerTeacherBL();
-            lopHocBL = new ClassBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
-            }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
+            } 
+            
+            giaoVienChuNhiemBL = new FormerTeacherBL(UserSchool);
+            lopHocBL = new ClassBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -326,7 +314,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListKhoiLop()
         {
-            GradeBL KhoiLopBL = new GradeBL();
+            GradeBL KhoiLopBL = new GradeBL(UserSchool);
             List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
@@ -340,7 +328,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL();
+            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
             List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
@@ -354,7 +342,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";

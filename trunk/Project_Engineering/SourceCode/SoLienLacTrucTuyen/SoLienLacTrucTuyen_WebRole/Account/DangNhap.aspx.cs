@@ -56,7 +56,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 school.SchoolId = iSltSchool;
                 school.SchoolName = ddlSchools.SelectedItem.Text;
 
-                Session[User.Identity.Name + "_SESSION_SCHOOL"] = school;
+                Session[AppConstant.SCHOOL] = school;
             }
             else
             {
