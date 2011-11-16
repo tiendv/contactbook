@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private const string EDITED_MAHANHKIEM = "EditedMaHanhKiem";
 
         #region Fields
-        private ConductBL hanhKiemBL = new ConductBL();
+        private ConductBL hanhKiemBL;
         private bool isSearch;
         #endregion
 
@@ -29,6 +29,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+
+            hanhKiemBL = new ConductBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

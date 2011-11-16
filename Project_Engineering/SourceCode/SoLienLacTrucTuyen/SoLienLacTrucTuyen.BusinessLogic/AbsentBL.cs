@@ -7,18 +7,19 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class AbsentBL
+    public class AbsentBL: BaseBL
     {
         private AbsentDA absentDA;
 
-        public AbsentBL()
+        public AbsentBL(School school)
+            : base(school)
         {
-            absentDA = new AbsentDA();
+            absentDA = new AbsentDA(school);
         }
 
         public void InsertAbsent(HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, CauHinh_Buoi session, bool permission, string reason)
         {
-            StudentBL studentBL = new StudentBL();
+            StudentBL studentBL = new StudentBL(school);
             LopHoc_Lop Class = studentBL.GetLastedClass(student);
             HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, Class.CauHinh_NamHoc);
 
@@ -42,7 +43,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public HocSinh_NgayNghiHoc GetAbsent(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
         {
-            StudentBL studentBL = new StudentBL();
+            StudentBL studentBL = new StudentBL(school);
             HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, year);
 
             return absentDA.GetAbsent(studentInClass, term, date);
@@ -50,7 +51,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public HocSinh_NgayNghiHoc GetAbsent(HocSinh_NgayNghiHoc exceptedAbsent, HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
         {
-            StudentBL studentBL = new StudentBL();
+            StudentBL studentBL = new StudentBL(school);
             HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, year);
 
             return absentDA.GetAbsent(exceptedAbsent, studentInClass, term, date);
@@ -58,8 +59,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<TabularAbsent> GetTabularAbsents(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            StudentBL studentBL = new StudentBL();
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            StudentBL studentBL = new StudentBL(school);
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             List<TabularAbsent> tabularAbsents = new List<TabularAbsent>();
             TabularAbsent tabularAbsent = null;
             HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, year);
@@ -80,7 +81,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return tabularAbsents;
         }
-        
+
         public bool Confirmed(HocSinh_NgayNghiHoc absent)
         {
             return absentDA.IsConfirmed(absent);
@@ -94,7 +95,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool AbsentExists(HocSinh_NgayNghiHoc exceptedAbsent, HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, CauHinh_Buoi session)
         {
-            StudentBL studentBL = new StudentBL();
+            StudentBL studentBL = new StudentBL(school);
             LopHoc_Lop Class = studentBL.GetLastedClass(student);
             int maLopHoc = Class.MaLopHoc;
 

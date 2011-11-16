@@ -5,10 +5,9 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class SchoolDA: BaseDA
+    public class SchoolDA : BaseDA
     {
         public SchoolDA()
-            : base()
         {
         }
 

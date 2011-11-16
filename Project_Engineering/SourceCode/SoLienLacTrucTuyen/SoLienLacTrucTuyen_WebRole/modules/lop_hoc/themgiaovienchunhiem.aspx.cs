@@ -26,7 +26,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            teacherBL = new TeacherBL();
+            teacherBL = new TeacherBL(UserSchool);
             
             if (!Page.IsPostBack)
             {
@@ -77,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             LopHoc_Lop Class = new LopHoc_Lop();
                             LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
-                            FormerTeacherBL gvcnBL = new FormerTeacherBL();
+                            FormerTeacherBL gvcnBL = new FormerTeacherBL(UserSchool);
 
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
                             int maGiaoVien = Int32.Parse(hdfRptMaGiaoVien.Value);
@@ -139,7 +139,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListKhoiLop()
         {
-            GradeBL khoiLopBL = new GradeBL();
+            GradeBL khoiLopBL = new GradeBL(UserSchool);
             List<DanhMuc_KhoiLop> lstKhoiLop = khoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
@@ -153,7 +153,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL();
+            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
             List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
@@ -167,7 +167,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNamHoc()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
@@ -213,7 +213,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }                
 
-                List<LopHoc_Lop> lstLop = (new ClassBL()).GetUnformeredClasses(year, faculty, grade);
+                List<LopHoc_Lop> lstLop = (new ClassBL(UserSchool)).GetUnformeredClasses(year, faculty, grade);
                 DdlLopHoc.DataSource = lstLop;
                 DdlLopHoc.DataValueField = "MaLopHoc";
                 DdlLopHoc.DataTextField = "TenLopHoc";

@@ -11,36 +11,26 @@ using SoLienLacTrucTuyen.DataAccess;
 using AjaxControlToolkit;
 using System.Web.Security;
 
-namespace SoLienLacTrucTuyen_WebRole
+namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class NhomNguoiDung : System.Web.UI.Page
+    public partial class NhomNguoiDung : BaseContentPage
     {
         #region Fields
         private RoleBL roleBL;
         private bool isSearch;
-        private List<AccessibilityEnum> lstAccessibilities;    
         #endregion        
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            roleBL = new RoleBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(
-                role, pageUrl);
-
+            roleBL = new RoleBL(UserSchool);
+            
             if (!Page.IsPostBack)
             {
                 ProcPermissions();

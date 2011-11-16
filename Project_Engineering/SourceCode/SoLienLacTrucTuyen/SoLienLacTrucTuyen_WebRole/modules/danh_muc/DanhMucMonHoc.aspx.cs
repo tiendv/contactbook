@@ -29,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            subjectBL = new SubjectBL();            
+            subjectBL = new SubjectBL(UserSchool);            
 
             if (!Page.IsPostBack)
             {
@@ -174,8 +174,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (bValidAdd)
             {
-                DanhMuc_NganhHoc faculty = (new FacultyBL()).GetFaculty(facultyName);
-                DanhMuc_KhoiLop grade = (new GradeBL()).GetGrade(gradeName);
+                DanhMuc_NganhHoc faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
+                DanhMuc_KhoiLop grade = (new GradeBL(UserSchool)).GetGrade(gradeName);
 
                 subjectBL.InsertSubject(subjectName, grade, faculty, Double.Parse(markRatio));
 
@@ -322,8 +322,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             DanhMuc_NganhHoc faculty = null;
             DanhMuc_KhoiLop grade = null;;
-            FacultyBL facultyBL = new FacultyBL();
-            GradeBL gradeBL = new GradeBL();
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            GradeBL gradeBL = new GradeBL(UserSchool);
             string subjectName = this.TxtSearchedSubject.Text.Trim();
             double totalRecords;
 
@@ -386,7 +386,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLGrades()
         {
-            GradeBL gradeBL = new GradeBL();
+            GradeBL gradeBL = new GradeBL(UserSchool);
 
             List<DanhMuc_KhoiLop> lGrades = gradeBL.GetListGrades();
             DdlKhoiLop.DataSource = lGrades;
@@ -406,7 +406,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLFaculties()
         {
-            FacultyBL facultyBL = new FacultyBL();
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
 
             List<DanhMuc_NganhHoc> lstNganhHoc = facultyBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;

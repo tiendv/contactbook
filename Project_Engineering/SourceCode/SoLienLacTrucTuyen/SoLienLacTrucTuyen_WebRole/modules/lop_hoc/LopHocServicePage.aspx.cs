@@ -22,7 +22,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //[WebMethod]
         //public static List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
         //{
-        //    ClassBL lophocBL = new ClassBL();
+        //    ClassBL lophocBL = new ClassBL(UserSchool);
         //    return lophocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
         //}
 
@@ -37,7 +37,7 @@ namespace SoLienLacTrucTuyen_WebRole
             //    return null;
             //}
             
-            //LopHocBL lophocBL = new LopHocBL();
+            //LopHocBL lophocBL = new LopHocBL(UserSchool);
             //List<LopHoc_Lop> lstLopHoc = lophocBL.GetListLopHocByNganhHoc(maNganhHoc);
 
             List<AjaxControlToolkit.CascadingDropDownNameValue> values = new List<AjaxControlToolkit.CascadingDropDownNameValue>();
@@ -55,7 +55,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool LopHocExists(string tenLopHoc, int maNamHoc)
         //{
         //    tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
-        //    ClassBL lopHocBL = new ClassBL();
+        //    ClassBL lopHocBL = new ClassBL(UserSchool);
         //    CauHinh_NamHoc year = new CauHinh_NamHoc();
         //    year.MaNamHoc = maNamHoc;
         //    return lopHocBL.ClassNameExists(tenLopHoc, year);
@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool LopHocExists(int maLopHoc, string tenLopHoc)
         //{
         //    tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
-        //    ClassBL lopHocBL = new ClassBL();
+        //    ClassBL lopHocBL = new ClassBL(UserSchool);
         //    LopHoc_Lop Class = new LopHoc_Lop();
         //    Class.MaLopHoc = maLopHoc;
         //    return lopHocBL.ClassNameExists(

@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseBL.cs" />
     <Compile Include="SystemConfigBL.cs" />
     <Compile Include="DanhHieuBL.cs" />
     <Compile Include="FunctionsBL.cs" />

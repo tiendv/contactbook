@@ -30,8 +30,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            userBL = new UserBL();
-            roleBL = new RoleBL();
+            userBL = new UserBL(UserSchool);
+            roleBL = new RoleBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

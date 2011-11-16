@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen_WebRole {
+namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
     public partial class GiaoVienServicePage {

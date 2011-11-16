@@ -27,7 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            attitudeBL = new AttitudeBL();
+            attitudeBL = new AttitudeBL(UserSchool);
             if (!Page.IsPostBack)
             {
                 isSearch = false;

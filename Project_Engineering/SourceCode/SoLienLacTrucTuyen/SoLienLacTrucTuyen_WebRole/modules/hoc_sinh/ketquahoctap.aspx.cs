@@ -12,39 +12,26 @@ using System.Web.UI.HtmlControls;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class KetQuaHocTapPage : System.Web.UI.Page
+    public partial class KetQuaHocTapPage : BaseContentPage
     {
         #region Fields
         private StudentBL hocSinhBL;
         private MarkTypeBL loaiDiemBL;
         private StudyingResultBL ketQuaHocTapBL;
-
-        private List<AccessibilityEnum> lstAccessibilities;
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            RoleBL roleBL = new RoleBL();
-            UserBL userBL = new UserBL();
-            hocSinhBL = new StudentBL();
-            loaiDiemBL = new MarkTypeBL();
-            ketQuaHocTapBL = new StudyingResultBL();
-
-            string pageUrl = Page.Request.Path;
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!roleBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
             }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
+            hocSinhBL = new StudentBL(UserSchool);
+            loaiDiemBL = new MarkTypeBL(UserSchool);
+            ketQuaHocTapBL = new StudyingResultBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -90,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHocKy()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
@@ -226,7 +213,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         int maHanhKiem = Int32.Parse(e.CommandArgument.ToString());
 
-                        List<DanhMuc_HanhKiem> lstHanhKiem = (new ConductBL()).GetListConducts(true);
+                        List<DanhMuc_HanhKiem> lstHanhKiem = (new ConductBL(UserSchool)).GetListConducts(true);
 
                         foreach (DanhMuc_HanhKiem hanhKiem in lstHanhKiem)
                         {

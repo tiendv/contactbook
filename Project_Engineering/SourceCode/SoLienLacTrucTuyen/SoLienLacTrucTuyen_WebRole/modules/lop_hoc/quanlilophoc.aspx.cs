@@ -8,22 +8,15 @@ using SoLienLacTrucTuyen.BusinessLogic;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class QuanLiLopHoc : System.Web.UI.Page
+    public partial class QuanLiLopHoc : BaseContentPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL()).GetRoleId(User.Identity.Name);
-
-            if (!(new RoleBL()).ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 return;
-            }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
+            }            
         }
     }
 }

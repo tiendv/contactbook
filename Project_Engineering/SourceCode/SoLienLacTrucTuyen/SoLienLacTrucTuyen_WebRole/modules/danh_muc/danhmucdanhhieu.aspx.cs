@@ -15,7 +15,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhMucDanhHieuPage : BaseContentPage
     {
         #region Fields
-        private DanhHieuBL danhHieuBL = new DanhHieuBL();
+        private DanhHieuBL danhHieuBL;
         private bool isSearch;
         #endregion
 
@@ -27,6 +27,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+
+            danhHieuBL = new DanhHieuBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

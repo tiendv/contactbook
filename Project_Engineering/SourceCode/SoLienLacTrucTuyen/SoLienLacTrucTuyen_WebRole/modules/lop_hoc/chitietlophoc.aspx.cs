@@ -25,7 +25,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            lopHocBL = new ClassBL();           
+            lopHocBL = new ClassBL(UserSchool);           
 
             if (!Page.IsPostBack)
             {

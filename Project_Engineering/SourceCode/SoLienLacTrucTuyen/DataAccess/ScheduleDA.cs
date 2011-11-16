@@ -8,8 +8,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class ScheduleDA : BaseDA
     {
-        public ScheduleDA()
-            : base()
+        public ScheduleDA(School school)
+            : base(school)
         {
         }
 
@@ -216,9 +216,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             if (iqScheduledSubject.Count() != 0)
             {
-                scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.TenMonHoc).ToList();
-                //scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.TenMonHoc).GroupBy(c => c.MaMonHoc).Select(g => g.First()).ToList();
-
+                scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.TenMonHoc)
+                    .GroupBy(c => c.MaMonHoc).Select(g => g.First()).ToList();
             }
 
             return scheduledSubjects;

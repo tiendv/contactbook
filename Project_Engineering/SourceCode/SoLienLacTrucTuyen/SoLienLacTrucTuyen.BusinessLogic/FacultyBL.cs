@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class FacultyBL
+    public class FacultyBL: BaseBL
     {
         FacultyDA facultyDA;
 
-        public FacultyBL()
+        public FacultyBL(School school)
+            : base(school)
         {
-            facultyDA = new FacultyDA();
+            facultyDA = new FacultyDA(school);
         }
 
         public void InsertFaculty(DanhMuc_NganhHoc faculty)

@@ -26,8 +26,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             // Init variables
-            scheduleBL = new ScheduleBL();
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            scheduleBL = new ScheduleBL(UserSchool);
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             LopHoc_Lop Class = null;
 
             if (!Page.IsPostBack)
@@ -51,10 +51,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     Class = new LopHoc_Lop();
                     Class.MaLopHoc = maLopHoc;
-                    TabularClass lopHoc = (new ClassBL()).GetTabularClass(Class);
+                    TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(Class);
                     CauHinh_HocKy hocKy = systemConfigBL.GetTerm(maHocKy);
                     CauHinh_Thu dayInWeek = systemConfigBL.GetDayInWeek(maThu);
-                    DanhMuc_Tiet tiet = (new TeachingPeriodBL()).GetTeachingPeriod(maTiet);
+                    DanhMuc_Tiet tiet = (new TeachingPeriodBL(UserSchool)).GetTeachingPeriod(maTiet);
                     LblTenLop.Text = lopHoc.TenLopHoc;
                     LblNamHoc.Text = lopHoc.TenNamHoc;
                     LblHocKy.Text = hocKy.TenHocKy;
@@ -146,7 +146,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            ScheduleBL thoiKhoaBieuBL = new ScheduleBL();
+            ScheduleBL thoiKhoaBieuBL = new ScheduleBL(UserSchool);
             LopHoc_MonHocTKB schedule = null;
             DanhMuc_MonHoc subject = null;
             LopHoc_GiaoVien teacher = null;
@@ -270,7 +270,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillDDLKhoi()
         {
-            GradeBL KhoiLopBL = new GradeBL();
+            GradeBL KhoiLopBL = new GradeBL(UserSchool);
             List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
 
             DdlKhoi.DataSource = lstKhoiLop;
@@ -281,7 +281,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillDDLNganh()
         {
-            FacultyBL nganhHocBL = new FacultyBL();
+            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
             List<DanhMuc_NganhHoc> lstNganhs = nganhHocBL.GetFaculties();
 
             DdlNganh.DataSource = lstNganhs;
@@ -298,7 +298,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNganh.SelectedIndex > 0)
             {
-                faculty = (new FacultyBL()).GetFaculty(DdlNganh.SelectedValue);
+                faculty = (new FacultyBL(UserSchool)).GetFaculty(DdlNganh.SelectedValue);
             }
             else
             {
@@ -309,7 +309,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlKhoi.SelectedIndex > 0)
             {
-                grade = (new GradeBL()).GetGrade(DdlKhoi.SelectedValue);
+                grade = (new GradeBL(UserSchool)).GetGrade(DdlKhoi.SelectedValue);
             }
             else
             {
@@ -319,7 +319,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             double totalRecords;
-            List<TabularSubject> lTabularSubjects = (new SubjectBL()).GetListTabularSubjects(faculty, grade,
+            List<TabularSubject> lTabularSubjects = (new SubjectBL(UserSchool)).GetListTabularSubjects(faculty, grade,
                     subjectName,
                     DataPageMonHoc.CurrentIndex, DataPageMonHoc.PageSize, out totalRecords);
             DataPageMonHoc.ItemCount = totalRecords;
@@ -352,7 +352,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeaterGiaoVien()
         {
-            TeacherBL giaoVienBL = new TeacherBL();
+            TeacherBL giaoVienBL = new TeacherBL(UserSchool);
 
             string maHienThiGiaoVien = TxtSearchMaGiaoVien.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();

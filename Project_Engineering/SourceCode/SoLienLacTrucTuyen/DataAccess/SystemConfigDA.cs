@@ -7,8 +7,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class SystemConfigDA : BaseDA
     {
-        public SystemConfigDA()
-            : base()
+        public SystemConfigDA(School school)
+            : base(school)
         {
         }
 

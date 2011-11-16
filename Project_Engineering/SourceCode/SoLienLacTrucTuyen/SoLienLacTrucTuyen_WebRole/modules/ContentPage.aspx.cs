@@ -11,18 +11,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public abstract class BaseContentPage : System.Web.UI.Page
     {
-        private const string SESSION_SCHOOL = "_SESSION_SCHOOL";
         public School UserSchool
         {
             get
             {
                 School school = null;
-                if (Session[SESSION_SCHOOL] != null)
+                if (Session[AppConstant.SCHOOL] != null)
                 {
-                    school = (School)Session[User.Identity.Name + SESSION_SCHOOL];
+                    school = (School)Session[AppConstant.SCHOOL];
                 }
 
                 return school;
+            }
+
+            set
+            {
+                Session[AppConstant.SCHOOL] = value;
             }
         }
 
@@ -34,8 +38,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected virtual void Page_Load(object sender, EventArgs e)
         {
-            UserBL userBL = new UserBL();
-            RoleBL roleBL = new RoleBL();
+            UserBL userBL = new UserBL(UserSchool);
+            RoleBL roleBL = new RoleBL(UserSchool);
 
             string pageUrl = Page.Request.Path;
             List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
@@ -54,6 +58,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             masterPage.PageUrl = pageUrl;
 
             lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
+
+            if (Session[AppConstant.SCHOOL] != null)
+            {
+                UserSchool = (School)Session[AppConstant.SCHOOL];
+            }
         }
         #endregion
     }

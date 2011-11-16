@@ -7,8 +7,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class MarkTypeDA : BaseDA
     {
-        public MarkTypeDA()
-            : base()
+        public MarkTypeDA(School school)
+            : base(school)
         {
         }
 

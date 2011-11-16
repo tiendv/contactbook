@@ -31,9 +31,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            studentBL = new StudentBL();
-            absentBL = new AbsentBL();
-            systemConfigBL = new SystemConfigBL();
+            studentBL = new StudentBL(UserSchool);
+            if (Session[AppConstant.SCHOOL] != null)
+            {
+                absentBL = new AbsentBL((School)Session[AppConstant.SCHOOL]);    
+            }
+
+            systemConfigBL = new SystemConfigBL(UserSchool);
 
             //maHocSinh = hocSinhBL.GetMaHocSinh(masterPage.UserNameSession);
 
@@ -62,13 +66,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListHocKy()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
         }
 
         private void InitDates()

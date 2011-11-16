@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class GradeBL
+    public class GradeBL : BaseBL
     {
         private GradeDA gradeDA;
 
-        public GradeBL()
+        public GradeBL(School school)
+            : base(school)
         {
-            gradeDA = new GradeDA();
+            gradeDA = new GradeDA(school);
         }
 
         public void InsertGrade(string gradeName, short displayOrder)
@@ -56,7 +57,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             if (String.Compare(gradeName, "tất cả", true) == 0 || gradeName == "")
             {
-                lGrades = gradeDA.GetGrades(pageIndex, pageSize, out totalRecords);    
+                lGrades = gradeDA.GetGrades(pageIndex, pageSize, out totalRecords);
             }
             else
             {

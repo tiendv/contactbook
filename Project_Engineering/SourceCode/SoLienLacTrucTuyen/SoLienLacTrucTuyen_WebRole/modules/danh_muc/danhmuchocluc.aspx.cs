@@ -12,11 +12,11 @@ using SoLienLacTrucTuyen;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhMucHocLuc : System.Web.UI.Page
+    public partial class DanhMucHocLuc : BaseContentPage
     {
         #region Fields
         private UserBL userBL;
-        private HocLucBL hocLucBL = new HocLucBL();
+        private HocLucBL hocLucBL;
         private bool isSearch;
 
         protected string btnSaveAddClickEvent = string.Empty;
@@ -24,14 +24,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            userBL = new UserBL();
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
+            {
+                return;
+            }
 
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = userBL.GetRoleId(User.Identity.Name);
-            masterPage.PageUrl = Page.Request.Path;
-            masterPage.PageTitle = "Danh Sách Học Lực";
+            hocLucBL = new HocLucBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

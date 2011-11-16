@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class ConductBL
+    public class ConductBL:BaseBL
     {
         private ConductDA conductDA;
 
-        public ConductBL()
+        public ConductBL(School school)
+            : base(school)
         {
-            conductDA = new ConductDA();
+            conductDA = new ConductDA(school);
         }
 
         public void InsertConduct(DanhMuc_HanhKiem conduct)

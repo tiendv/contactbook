@@ -7,13 +7,13 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class TeachingPeriodBL
+    public class TeachingPeriodBL: BaseBL
     {
         private TeachingPeriodDA teachingPeriodDA;
 
-        public TeachingPeriodBL()
+        public TeachingPeriodBL(School school): base(school)
         {
-            teachingPeriodDA = new TeachingPeriodDA();
+            teachingPeriodDA = new TeachingPeriodDA(school);
         }
 
         public void DeleteTeachingPeriod(DanhMuc_Tiet teachingPeriod)
@@ -71,7 +71,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return teachingPeriodDA.GetTeachingPeriod(teachingPeriodId);
         }
-        
+
         public List<DanhMuc_Tiet> GetTeachingPeriods()
         {
             return teachingPeriodDA.GetTeachingPeriods();
@@ -105,7 +105,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            TabularTeachingPeriod tbTeachingPeriod = null;            
+            TabularTeachingPeriod tbTeachingPeriod = null;
             foreach (DanhMuc_Tiet teachingPeriod in lTeachingPeriods)
             {
                 tbTeachingPeriod = new TabularTeachingPeriod();
@@ -154,6 +154,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 return teachingPeriodDA.TeachingPeriodNameExists(newTeachingPeriodName);
             }
+        }
+
+        public void SetSession(School school)
+        {
+            this.school = school;
         }
     }
 }

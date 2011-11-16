@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class HocLucBL
+    public class HocLucBL : BaseBL
     {
         HocLucDA hocLucDA;
 
-        public HocLucBL()
+        public HocLucBL(School school)
+            : base(school)
         {
-            hocLucDA = new HocLucDA();
+            hocLucDA = new HocLucDA(school);
         }
 
         public void InsertHocLuc(DanhMuc_HocLuc hocLucEn)

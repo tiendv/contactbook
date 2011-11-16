@@ -8,8 +8,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class StudentDA : BaseDA
     {
-        public StudentDA()
-            : base()
+        public StudentDA(School school)
+            : base(school)
         {
 
         }
@@ -283,7 +283,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
             IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
@@ -304,7 +304,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
             IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
@@ -326,7 +326,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
             IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
@@ -348,7 +348,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA()).GetCurrentYear();
+            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
             IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs

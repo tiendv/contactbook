@@ -27,7 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new StudentBL();
+            hocSinhBL = new StudentBL(UserSchool);
             //maHocSinh = hocSinhBL.GetStudent(masterPage.UserNameSession);
 
             if (!Page.IsPostBack)

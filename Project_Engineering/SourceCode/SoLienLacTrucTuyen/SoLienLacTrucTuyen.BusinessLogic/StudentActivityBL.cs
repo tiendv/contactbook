@@ -7,13 +7,13 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class StudentActivityBL
+    public class StudentActivityBL:BaseBL
     {
         private StudentActivityDA studentActivityDA;
 
-        public StudentActivityBL()
+        public StudentActivityBL(School school) : base(school)
         {
-            studentActivityDA = new StudentActivityDA();
+            studentActivityDA = new StudentActivityDA(school);
         }
 
         public void InsertStudentActivity(HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, string title, string content, DanhMuc_ThaiDoThamGia attitude)
@@ -51,7 +51,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularStudentActivity> GetTabularStudentActivities(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            AttitudeBL attitudeBL = new AttitudeBL();
+            AttitudeBL attitudeBL = new AttitudeBL(school);
             List<TabularStudentActivity> tabularStudentActivities = new List<TabularStudentActivity>();
             List<HocSinh_HoatDong> studentActivities = new List<HocSinh_HoatDong>();
             studentActivities = studentActivityDA.GetListStudentActivities(student, year, term, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
@@ -79,7 +79,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool StudentActivityNamExists(string title, HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
         {
-            StudentBL studentBL = new StudentBL();
+            StudentBL studentBL = new StudentBL(school);
             //int maLopHoc = studentBL.GetCurrentMaLopHoc(student.MaHocSinh);
             //LopHoc_Lop Class = new LopHoc_Lop();
             //Class.MaLopHoc = maLopHoc;
@@ -94,7 +94,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                StudentBL studentBL = new StudentBL();
+                StudentBL studentBL = new StudentBL(school);
                 //int maLopHoc = studentBL.GetCurrentMaLopHoc(student.MaHocSinh);
                 //LopHoc_Lop Class = new LopHoc_Lop();
                 //Class.MaLopHoc = maLopHoc;

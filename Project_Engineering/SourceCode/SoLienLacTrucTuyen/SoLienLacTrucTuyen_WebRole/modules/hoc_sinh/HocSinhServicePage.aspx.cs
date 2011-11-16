@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Services;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
 namespace SoLienLacTrucTuyen_WebRole
 {
@@ -35,7 +36,7 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ExistMaHocSinhHienThi(string maHocSinh, string maHocSinhHienThi)
         {
-            StudentBL hocSinhBL = new StudentBL();
+            StudentBL hocSinhBL = new StudentBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(maHocSinhHienThi);
             int iMaHocSinh = student.MaHocSinh;
             if (iMaHocSinh.ToString() != maHocSinh)
@@ -53,7 +54,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //    int maHocKy, DateTime ngay, int maBuoi)
         //{
         //    bool bResult = false;
-        //    AbsentBL ngayNghiHocBL = new AbsentBL();
+        //    AbsentBL ngayNghiHocBL = new AbsentBL(UserSchool);
         //    if (maNgayNghiHoc == 0)
         //    {
         //        bResult = ngayNghiHocBL.AbsentExists(null, maHocSinh, maHocKy, ngay, maBuoi);
@@ -79,7 +80,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool HoatDongExists(int maHoatDong, string tieuDe, int maHocSinh,
         //    int maHocKy, DateTime ngay)
         //{
-        //    StudentActivityBL hoatDongBL = new StudentActivityBL();
+        //    StudentActivityBL hoatDongBL = new StudentActivityBL(UserSchool);
         //    if (maHoatDong == 0)
         //    {
         //        return hoatDongBL.HoatDongExists(null, tieuDe,
@@ -95,7 +96,7 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ValidateMark(string marks, int markTypeId)
         {
-            StudyingResultBL kqhtBL = new StudyingResultBL();
+            StudyingResultBL kqhtBL = new StudyingResultBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem();
             markType.MaLoaiDiem = markTypeId;
             return kqhtBL.ValidateMark(marks, markType);

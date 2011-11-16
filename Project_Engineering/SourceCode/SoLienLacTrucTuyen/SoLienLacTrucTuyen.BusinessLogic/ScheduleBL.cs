@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class ScheduleBL
+    public class ScheduleBL : BaseBL
     {
         private ScheduleDA scheduleDA;
 
-        public ScheduleBL()
+        public ScheduleBL(School school)
+            : base(school)
         {
-            scheduleDA = new ScheduleDA();
+            scheduleDA = new ScheduleDA(school);
         }
 
         public void InsertSchedule(LopHoc_Lop Class, DanhMuc_MonHoc subject, LopHoc_GiaoVien teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
@@ -51,15 +52,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return scheduleDA.ScheduleExists(teacher);
         }
-         
+
         public List<LopHoc_MonHocTKB> GetSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
         {
             return scheduleDA.GetSchedules(Class, term, dayInweek, session);
         }
 
         public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek)
-        {            
-            TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL();
+        {
+            TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(school);
             List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
             TeachingPeriodSchedule teachingPeriodSchedule = null;
             LopHoc_MonHocTKB schedule = null;
@@ -83,18 +84,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 teachingPeriodSchedule.ChiTietTiet = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
                 teachingPeriodSchedules.Add(teachingPeriodSchedule);
             }
-            
+
             return teachingPeriodSchedules;
-        }      
+        }
 
         public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
         {
-            TeachingPeriodBL tietBL = new TeachingPeriodBL();
+            TeachingPeriodBL tietBL = new TeachingPeriodBL(school);
             List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
             List<LopHoc_MonHocTKB> schedules = scheduleDA.GetSchedules(Class, term, dayInweek, session);
             TeachingPeriodSchedule teachingPeriodSchedule = null;
             DanhMuc_Tiet teachingPeriod = null;
-            
+
             foreach (LopHoc_MonHocTKB schedule in schedules)
             {
                 teachingPeriodSchedule = GetTeachingPeriodSchedule(schedule);
@@ -107,7 +108,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return teachingPeriodSchedules;
-        }      
+        }
 
         public List<SessionedSchedule> GetSessionedSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek)
         {
@@ -116,8 +117,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             List<LopHoc_MonHocTKB> schedules = new List<LopHoc_MonHocTKB>();
             SessionedSchedule sessionedSchedule = null;
             DanhMuc_Tiet teachingPeriod = null;
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
-            TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
+            TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(school);
             List<CauHinh_Buoi> sessions = systemConfigBL.GetSessions();
 
             foreach (CauHinh_Buoi session in sessions)
@@ -152,7 +153,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<DailySchedule> GetDailySchedules(LopHoc_Lop Class, CauHinh_HocKy term)
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             List<DailySchedule> dailySchedules = new List<DailySchedule>();
             List<CauHinh_Thu> dayInWeeks = systemConfigBL.GetDayInWeeks();
             DailySchedule dailySchedule = null;

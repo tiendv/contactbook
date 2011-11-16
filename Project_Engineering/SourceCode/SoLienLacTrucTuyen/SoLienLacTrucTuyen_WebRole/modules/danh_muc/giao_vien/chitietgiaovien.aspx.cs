@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class ChiTietGiaoVienPage : BaseContentPage
     {
         #region Fields
-        TeacherBL giaoVienBL = new TeacherBL();
+        TeacherBL giaoVienBL;
         #endregion
 
         #region Page event handlers
@@ -24,6 +24,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+
+            giaoVienBL = new TeacherBL(UserSchool);
 
             if (!Page.IsPostBack)
             {

@@ -12,6 +12,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         private MenuDA menuDA;
 
         public MenuBL()
+            : base()
         {
             menuDA = new MenuDA();
         }

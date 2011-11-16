@@ -12,7 +12,7 @@ using System.Web.UI.HtmlControls;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class KetQuaHocTap_User : System.Web.UI.Page
+    public partial class KetQuaHocTap_User : BaseContentPage
     {
         #region Fields
         private StudentBL hocSinhBL;
@@ -22,16 +22,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = (new UserBL()).GetRoleId(User.Identity.Name);
-            masterPage.PageUrl = Page.Request.Path;
-            masterPage.PageTitle = "Kết Quả Học Tập";
-
-            hocSinhBL = new StudentBL();
-            loaiDiemBL = new MarkTypeBL();
-            ketQuaHocTapBL = new StudyingResultBL();
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
+            {
+                return;
+            } 
+            
+            hocSinhBL = new StudentBL(UserSchool);
+            loaiDiemBL = new MarkTypeBL(UserSchool);
+            ketQuaHocTapBL = new StudyingResultBL(UserSchool);
 
             HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(User.Identity.Name);
             maHocSinh = student.MaHocSinh;
@@ -61,20 +62,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListHocKy()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
 
-            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
         }
 
         private void BindRepeaterKetQuaHocTap()
         {
-            SubjectBL monHocBL = new SubjectBL();
-            ScheduleBL monHocTKBBL = new ScheduleBL();
+            SubjectBL monHocBL = new SubjectBL(UserSchool);
+            ScheduleBL monHocTKBBL = new ScheduleBL(UserSchool);
             CauHinh_NamHoc year = new CauHinh_NamHoc();
             HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
             CauHinh_HocKy term = new CauHinh_HocKy();

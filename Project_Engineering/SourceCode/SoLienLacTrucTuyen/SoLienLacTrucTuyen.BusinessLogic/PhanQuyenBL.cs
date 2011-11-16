@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class PhanQuyenBL
+    public class PhanQuyenBL : BaseBL
     {
         private PhanQuyenDA phanQuyenDA;
 
-        public PhanQuyenBL()
+        public PhanQuyenBL(School school)
+            : base(school)
         {
-            phanQuyenDA = new PhanQuyenDA();
+            phanQuyenDA = new PhanQuyenDA(school);
         }
 
         public List<TabularPhanQuyen> GetListPhanQuyens(Guid roleId)
@@ -35,7 +36,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 if (tbChiTietPhanQuyen.ViewAccessibility)
                 {
                     lstAuthorizedPages = lstAuthorizedPages.Concat(
-                        phanQuyenDA.GetListAuthorizedPages(functionId, 
+                        phanQuyenDA.GetListAuthorizedPages(functionId,
                             (int)AccessibilityEnum.View)).ToList();
                     bIncludeParentsFunction = true;
                 }
@@ -43,7 +44,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 if (tbChiTietPhanQuyen.AddAccessibility)
                 {
                     lstAuthorizedPages = lstAuthorizedPages.Concat(
-                        phanQuyenDA.GetListAuthorizedPages(functionId, 
+                        phanQuyenDA.GetListAuthorizedPages(functionId,
                             (int)AccessibilityEnum.Add)).ToList();
                     bIncludeParentsFunction = true;
                 }
@@ -51,7 +52,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 if (tbChiTietPhanQuyen.ModifyAccessibility)
                 {
                     lstAuthorizedPages = lstAuthorizedPages.Concat(
-                        phanQuyenDA.GetListAuthorizedPages(functionId, 
+                        phanQuyenDA.GetListAuthorizedPages(functionId,
                             (int)AccessibilityEnum.Modify)).ToList();
                     bIncludeParentsFunction = true;
                 }
@@ -59,7 +60,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 if (tbChiTietPhanQuyen.DeleteAccessibility)
                 {
                     lstAuthorizedPages = lstAuthorizedPages.Concat(
-                        phanQuyenDA.GetListAuthorizedPages(functionId, 
+                        phanQuyenDA.GetListAuthorizedPages(functionId,
                             (int)AccessibilityEnum.Delete)).ToList();
                     bIncludeParentsFunction = true;
                 }

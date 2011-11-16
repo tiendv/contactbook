@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class SystemConfigBL
+    public class SystemConfigBL : BaseBL
     {
         private SystemConfigDA sysConfigDA;
 
-        public SystemConfigBL()
+        public SystemConfigBL(School school)
+            : base(school)
         {
-            sysConfigDA = new SystemConfigDA();
+            sysConfigDA = new SystemConfigDA(school);
         }
 
         public CauHinh_NamHoc GetYear(int yearId)

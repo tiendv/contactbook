@@ -10,9 +10,16 @@ namespace SoLienLacTrucTuyen.DataAccess
         protected DbEContactBookDataContext db;
         protected School school;
 
+        public BaseDA(School school)
+        {
+            this.school = school;
+
+            db = new DbEContactBookDataContext();
+        }
+
         public BaseDA()
         {
             db = new DbEContactBookDataContext();
-        }        
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="GiaoVienServicePage.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.GiaoVienServicePage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="GiaoVienServicePage.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.GiaoVienServicePage" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 

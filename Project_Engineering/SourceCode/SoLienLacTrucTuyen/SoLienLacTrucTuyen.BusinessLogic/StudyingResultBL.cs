@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class StudyingResultBL
+    public class StudyingResultBL : BaseBL
     {
         private StudyingResultDA studyingResultDA;
 
-        public StudyingResultBL()
+        public StudyingResultBL(School school)
+            : base(school)
         {
-            studyingResultDA = new StudyingResultDA();
+            studyingResultDA = new StudyingResultDA(school);
         }
 
         /// <summary>
@@ -71,15 +72,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             // Lấy danh sách phân biệt LoaiDiem
             foreach (DetailMark mark in marks)
             {
-                markTypeIds.Add(mark.MaLoaiDiem);
-            }
-            markTypeIds = markTypeIds.Distinct().ToList();
-            foreach (int markTypeId in markTypeIds)
-            {
                 markType = new DanhMuc_LoaiDiem();
-                markType.MaLoaiDiem = markTypeId;
+                markType.MaLoaiDiem = mark.MaLoaiDiem;
                 markTypes.Add(markType);
             }
+            markTypes = markTypes.GroupBy(c => c.MaLoaiDiem).Select(g => g.First()).ToList();
 
             // Xoa cac diem cua hoc sinh theo MaLoaiDiem
             studyingResultDA.DeleteDetailedMark(student, Class, term, subject, markTypes);
@@ -256,9 +253,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             termResults = studyingResultDA.GetStudentTermResults(student, year, pageCurrentIndex, pageSize, out totalRecords);
             if (totalRecords != 0)
             {
-                hocLucBL = new HocLucBL();
-                conductBL = new ConductBL();
-                danhHieuBL = new DanhHieuBL();
+                hocLucBL = new HocLucBL(school);
+                conductBL = new ConductBL(school);
+                danhHieuBL = new DanhHieuBL(school);
                 foreach (HocSinh_DanhHieuHocKy termResult in termResults)
                 {
                     tbTermStudentResult = new TabularTermStudentResult();
@@ -326,7 +323,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
             TabularStudentMark tabularStudentMark = null;
-            MarkTypeBL markTypeBL = new MarkTypeBL();
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
             List<HocSinh_DiemMonHocHocKy> termSubjectMarks = null;
             List<MarkTypedMark> markMypedMarks = null;
             List<HocSinh_ChiTietDiem> detailedMarks = null;
@@ -364,7 +361,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     markTypedMark.TenLoaiDiem = markType.TenLoaiDiem;
                     markTypedMark.StringDiems = strMarks;
 
-                    markMypedMarks.Add(markTypedMark);                    
+                    markMypedMarks.Add(markTypedMark);
                 }
 
                 tabularStudentMark.DiemTheoLoaiDiems = markMypedMarks;
@@ -458,7 +455,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
                 if (bValid)
                 {
-                    MarkTypeBL markTypeBL = new MarkTypeBL();
+                    MarkTypeBL markTypeBL = new MarkTypeBL(school);
                     markType = markTypeBL.GetMarkType(markType.MaLoaiDiem);
                     if (markCount > markType.SoCotToiDa)
                     {
@@ -472,7 +469,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         private List<List<double>> GetDoubleSubjectMarks(HocSinh_DiemMonHocHocKy termSubjectedMark)
         {
-            MarkTypeBL markTypeBL = new MarkTypeBL();
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
             List<DanhMuc_LoaiDiem> markTypes = markTypeBL.GetListMarkTypes();
 
             List<List<double>> subjectMarks = new List<List<double>>();

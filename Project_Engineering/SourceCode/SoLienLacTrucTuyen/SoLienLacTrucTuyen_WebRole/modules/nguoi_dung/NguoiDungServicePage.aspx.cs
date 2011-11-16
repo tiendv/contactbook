@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Web.Services;
 using SoLienLacTrucTuyen.BusinessLogic;
 using System.Web.Security;
+using SoLienLacTrucTuyen.DataAccess;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
 namespace SoLienLacTrucTuyen_WebRole
 {
@@ -20,7 +22,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //[WebMethod]
         //public static bool ExistMaHocSinh(string maHocSinhHienThi)
         //{
-        //    HocSinhBL hocSinhBL = new HocSinhBL();
+        //    HocSinhBL hocSinhBL = new HocSinhBL(UserSchool);
         //    int maHocSinh = hocSinhBL.GetMaHocSinh(maHocSinhHienThi);
         //    if (maHocSinh == 0)
         //    {
@@ -35,7 +37,7 @@ namespace SoLienLacTrucTuyen_WebRole
         //[WebMethod]
         //public static bool ExistNguoiDung(string maNguoiDung, string tenNguoiDung)
         //{
-        //    NguoiDungBL nguoiDungBL = new NguoiDungBL();
+        //    NguoiDungBL nguoiDungBL = new NguoiDungBL(UserSchool);
         //    int iMaNguoiDung = Int32.Parse(maNguoiDung);
         //    return nguoiDungBL.ExistNguoiDung(iMaNguoiDung, tenNguoiDung);
         //}
@@ -43,13 +45,13 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool RoleExists(string roleName)
         {
-            return (new RoleBL()).RoleExists(roleName);
+            return (new RoleBL((School)HttpContext.Current.Session[AppConstant.SCHOOL])).RoleExists(roleName);
         }
 
         [WebMethod]
         public static bool RoleExists(string roleName, string newRoleName)
         {
-            return (new RoleBL()).RoleExists(roleName, newRoleName);
+            return (new RoleBL((School)HttpContext.Current.Session[AppConstant.SCHOOL])).RoleExists(roleName, newRoleName);
         }
     }
 }

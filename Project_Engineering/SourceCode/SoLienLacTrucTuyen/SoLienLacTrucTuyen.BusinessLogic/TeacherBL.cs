@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class TeacherBL
+    public class TeacherBL : BaseBL
     {
         private TeacherDA teacherDA;
 
-        public TeacherBL()
+        public TeacherBL(School school)
+            : base(school)
         {
-            teacherDA = new TeacherDA();
+            teacherDA = new TeacherDA(school);
         }
 
         public void InsertTeacher(string teacherCode, string teacherName, bool gender, DateTime birthday, string address, string phone)
@@ -152,10 +153,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool IsDeletable(string teacherCode)
         {
-            ScheduleBL scheduleBL = new ScheduleBL();
-            FormerTeacherBL formerTeacherBL = new FormerTeacherBL();
+            ScheduleBL scheduleBL = new ScheduleBL(school);
+            FormerTeacherBL formerTeacherBL = new FormerTeacherBL(school);
             bool bDeletable = false;
-                
+
             LopHoc_GiaoVien teacher = GetTeacher(teacherCode);
 
             if (!scheduleBL.ScheduleExists(teacher))

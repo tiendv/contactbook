@@ -6,13 +6,14 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class AttitudeBL
+    public class AttitudeBL:BaseBL
     {
         private AttitudeDA attitudeDA;
 
-        public AttitudeBL()
+        public AttitudeBL(School school)
+            : base(school)
         {
-            attitudeDA = new AttitudeDA();
+            attitudeDA = new AttitudeDA(school);
         }
 
         public void InsertThaiDoThamGia(DanhMuc_ThaiDoThamGia newAttitude)

@@ -32,10 +32,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new StudentBL();
-            systemConfigBL = new SystemConfigBL();
-            hoatDongBL = new StudentActivityBL();
-            thaiDoThamGiaBL = new AttitudeBL();
+            hocSinhBL = new StudentBL(UserSchool);
+            systemConfigBL = new SystemConfigBL(UserSchool);
+            hoatDongBL = new StudentActivityBL(UserSchool);
+            thaiDoThamGiaBL = new AttitudeBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -98,19 +98,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListHocKy()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
+            DdlHocKy.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
 
             DdlHocKyThem.DataSource = lstHocKy;
             DdlHocKyThem.DataValueField = "MaHocKy";
             DdlHocKyThem.DataTextField = "TenHocKy";
             DdlHocKyThem.DataBind();
-            DdlHocKyThem.SelectedValue = (new SystemConfigBL()).GetCurrentTerm().ToString();
+            DdlHocKyThem.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
         }
 
         private void BindDropDownListThaiDoThamGia()

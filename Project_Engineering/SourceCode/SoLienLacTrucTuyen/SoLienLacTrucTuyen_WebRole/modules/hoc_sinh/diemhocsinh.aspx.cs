@@ -44,7 +44,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            studyingResultBL = new StudyingResultBL();
+            studyingResultBL = new StudyingResultBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -96,7 +96,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLNamHoc()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "MaNamHoc";
@@ -105,14 +105,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count != 0)
             {
-                SystemConfigBL cauHinhBL = new SystemConfigBL();
+                SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
                 DdlNamHoc.SelectedValue = cauHinhBL.GetCurrentYear().ToString();
             }
         }
 
         private void BindDDLHocKy()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
             DdlHocKy.DataValueField = "MaHocKy";
@@ -122,7 +122,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL();
+            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
             List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
             DdlNganh.DataSource = lstNganhHoc;
             DdlNganh.DataValueField = "MaNganhHoc";
@@ -136,7 +136,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLKhoiLop()
         {
-            GradeBL KhoiLopBL = new GradeBL();
+            GradeBL KhoiLopBL = new GradeBL(UserSchool);
             List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
@@ -150,7 +150,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLoaiDiem()
         {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL();
+            MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
             List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
             DdlLoaiDiem.DataSource = lstLoaiDiem;
             DdlLoaiDiem.DataValueField = "TenLoaiDiem";
@@ -212,7 +212,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            ClassBL lopHocBL = new ClassBL();
+            ClassBL lopHocBL = new ClassBL(UserSchool);
             List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "MaLopHoc";
@@ -224,7 +224,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             LopHoc_Lop Class = null;
             CauHinh_HocKy term = null;
-            ScheduleBL scheduleBL = new ScheduleBL();
+            ScheduleBL scheduleBL = new ScheduleBL(UserSchool);
 
             if (DdlLopHoc.Items.Count == 0)
             {
@@ -247,7 +247,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptTenLoaiDiem()
         {
-            MarkTypeBL markTypeBL = new MarkTypeBL();
+            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
             List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
 
             if (DdlLoaiDiem.Items.Count != 0)
@@ -272,7 +272,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             LopHoc_Lop Class = null;
             DanhMuc_MonHoc subject = null;
             CauHinh_HocKy term = null;
-            MarkTypeBL markTypeBL = new MarkTypeBL();
+            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
             List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
 
             if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0 || DdlLoaiDiem.Items.Count == 0)

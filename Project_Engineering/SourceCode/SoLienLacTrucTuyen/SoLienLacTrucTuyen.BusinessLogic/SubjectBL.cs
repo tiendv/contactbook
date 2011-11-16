@@ -7,13 +7,14 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class SubjectBL
+    public class SubjectBL : BaseBL
     {
         private SubjectDA subjectDA;
 
-        public SubjectBL()
+        public SubjectBL(School school)
+            : base(school)
         {
-            subjectDA = new SubjectDA();
+            subjectDA = new SubjectDA(school);
         }
 
         public void InsertSubject(string subjectName, DanhMuc_KhoiLop grade, DanhMuc_NganhHoc faculty, double markRatio)
@@ -95,7 +96,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    lSubjects =  subjectDA.GetListSubjects(grade, pageCurrentIndex, pageSize, out totalRecords);
+                    lSubjects = subjectDA.GetListSubjects(grade, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
             else
@@ -139,7 +140,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         lTabularSubjects.Add(GetTabularSubject(subject));
                     }
                 }
-            }            
+            }
 
             return lTabularSubjects;
         }
@@ -183,8 +184,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                return subjectDA.SubjectNameExists(newSubjectName, 
-                    editedSubject.DanhMuc_NganhHoc.TenNganhHoc, 
+                return subjectDA.SubjectNameExists(newSubjectName,
+                    editedSubject.DanhMuc_NganhHoc.TenNganhHoc,
                     editedSubject.DanhMuc_KhoiLop.TenKhoiLop);
             }
         }
@@ -192,6 +193,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool IsDeletable(DanhMuc_MonHoc subject)
         {
             return subjectDA.IsDeletable(subject);
-        }        
+        }
     }
 }

@@ -11,35 +11,21 @@ using SoLienLacTrucTuyen.DataAccess;
 using AjaxControlToolkit;
 using System.Web.Security;
 
-namespace SoLienLacTrucTuyen_WebRole
+namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class NguoiDung : System.Web.UI.Page
+    public partial class NguoiDung : BaseContentPage
     {
         #region Fields
-        private UserBL userBL;
-        private RoleBL nhomNguoiDungBL;
-        private bool isSearch;
-        private List<AccessibilityEnum> lstFunctionType;
         #endregion        
 
         #region Page event handlers
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void Page_Load(object sender, EventArgs e)
         {
-            userBL = new UserBL();
-            nhomNguoiDungBL = new RoleBL();
-            
-            string pageUrl = Page.Request.Path;            
-            Guid role = userBL.GetRoleId(User.Identity.Name);
-
-            if (!nhomNguoiDungBL.ValidateAuthorization(role, pageUrl))
+            base.Page_Load(sender, e);
+            if (isAccessDenied)
             {
-                Response.Redirect("/Modules/ErrorPage/AccessDenied.aspx");
                 return;
             }
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
         }        
         #endregion      
     }

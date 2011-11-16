@@ -7,11 +7,18 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class UserBL
+    public class UserBL : BaseBL
     {
         private UserDA userDA;
 
+        public UserBL(School school)
+            : base(school)
+        {
+            userDA = new UserDA(school);
+        }
+
         public UserBL()
+            : base()
         {
             userDA = new UserDA();
         }
@@ -36,7 +43,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.ValidateUser(userName);
         }
 
-        public List<TabularUser> GetListTabularUsers(Guid roleId, string userName, 
+        public List<TabularUser> GetListTabularUsers(Guid roleId, string userName,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularUser> lTabularUsers = new List<TabularUser>();

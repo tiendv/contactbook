@@ -8,8 +8,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class AbsentDA : BaseDA
     {
-        public AbsentDA()
-            : base()
+        public AbsentDA(School school)
+            : base(school)
         {
         }
 

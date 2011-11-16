@@ -7,8 +7,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class ConductDA : BaseDA
     {
-        public ConductDA()
-            : base()
+        public ConductDA(School school)
+            : base(school)
         {
 
         }
