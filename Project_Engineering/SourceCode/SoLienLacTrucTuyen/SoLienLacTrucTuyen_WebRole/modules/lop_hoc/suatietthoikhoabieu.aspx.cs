@@ -149,7 +149,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ScheduleBL thoiKhoaBieuBL = new ScheduleBL(UserSchool);
             LopHoc_MonHocTKB schedule = null;
             DanhMuc_MonHoc subject = null;
-            LopHoc_GiaoVien teacher = null;
+            DanhMuc_GiaoVien teacher = null;
 
             if (!validateInput())
             {
@@ -171,7 +171,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 schedule.MaMonHocTKB = maTKBTiet;
                 subject = new DanhMuc_MonHoc();
                 subject.MaMonHoc = maMonHoc;
-                teacher = new LopHoc_GiaoVien();
+                teacher = new DanhMuc_GiaoVien();
                 teacher.MaGiaoVien = maGiaoVien;
                 thoiKhoaBieuBL.UpdateSchedule(schedule, subject, teacher);
 

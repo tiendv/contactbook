@@ -17,12 +17,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             formerTeacherDA = new FormerTeacherDA(school);
         }
 
-        public void Insert(LopHoc_Lop Class, LopHoc_GiaoVien teacher)
+        public void Insert(LopHoc_Lop Class, DanhMuc_GiaoVien teacher)
         {
             formerTeacherDA.InsertFormerTeacher(Class, teacher);
         }
 
-        public void Update(int formerTeacherId, LopHoc_GiaoVien teacher)
+        public void Update(int formerTeacherId, DanhMuc_GiaoVien teacher)
         {
             formerTeacherDA.UpdateFormerTeacher(formerTeacherId, teacher);
         }
@@ -196,7 +196,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             List<TabularFormerTeacher> lTbFormerTeachers = new List<TabularFormerTeacher>();
             List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
             TeacherBL teacherBL = new TeacherBL(school);
-            LopHoc_GiaoVien teacher = null;
+            DanhMuc_GiaoVien teacher = null;
 
             if ((teacherCode != "") && (string.Compare(teacherCode, "tất cả", true) != 0))
             {
@@ -232,7 +232,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     MaGVCN = formerTeacher.MaGVCN,
                     MaGiaoVien = formerTeacher.MaGiaoVien,
-                    TenGiaoVien = formerTeacher.LopHoc_GiaoVien.HoTen,
+                    TenGiaoVien = formerTeacher.DanhMuc_GiaoVien.HoTen,
                     MaLopHoc = formerTeacher.MaLopHoc,
                     TenLopHoc = formerTeacher.LopHoc_Lop.TenLopHoc
                 });
@@ -241,7 +241,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTbFormerTeachers;
         }
 
-        public bool FormerTeacherExists(LopHoc_GiaoVien teacher)
+        public bool FormerTeacherExists(DanhMuc_GiaoVien teacher)
         {
             return formerTeacherDA.FormerTeacherExists(teacher);
         }

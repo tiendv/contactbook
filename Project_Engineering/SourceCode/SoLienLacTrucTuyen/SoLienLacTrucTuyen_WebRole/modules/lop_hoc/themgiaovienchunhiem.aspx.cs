@@ -76,7 +76,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         if (rBtnSelect.Checked)
                         {
                             LopHoc_Lop Class = new LopHoc_Lop();
-                            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+                            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
                             FormerTeacherBL gvcnBL = new FormerTeacherBL(UserSchool);
 
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");

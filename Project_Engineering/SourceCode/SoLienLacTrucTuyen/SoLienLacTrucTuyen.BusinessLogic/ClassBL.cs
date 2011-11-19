@@ -69,7 +69,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             if (formerTeacher != null)
             {
                 tabularClass.HomeroomTeacherCode = formerTeacher.MaGiaoVien;
-                tabularClass.TenGVCN = formerTeacher.LopHoc_GiaoVien.HoTen;
+                tabularClass.TenGVCN = formerTeacher.DanhMuc_GiaoVien.HoTen;
             }
 
             return tabularClass;

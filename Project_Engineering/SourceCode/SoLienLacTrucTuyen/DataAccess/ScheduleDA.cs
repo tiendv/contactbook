@@ -54,7 +54,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, LopHoc_GiaoVien teacher)
+        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, DanhMuc_GiaoVien teacher)
         {
             IQueryable<LopHoc_MonHocTKB> iqNewSubjectedSchedule;
             iqNewSubjectedSchedule = from schdl in db.LopHoc_MonHocTKBs
@@ -241,7 +241,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool ScheduleExists(LopHoc_GiaoVien teacher)
+        public bool ScheduleExists(DanhMuc_GiaoVien teacher)
         {
             IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
                                                       where schd.MaGiaoVien == teacher.MaGiaoVien
