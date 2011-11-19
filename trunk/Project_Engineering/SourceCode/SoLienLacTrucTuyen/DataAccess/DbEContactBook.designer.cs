@@ -87,6 +87,9 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void InsertDanhMuc_DanhHieu(DanhMuc_DanhHieu instance);
     partial void UpdateDanhMuc_DanhHieu(DanhMuc_DanhHieu instance);
     partial void DeleteDanhMuc_DanhHieu(DanhMuc_DanhHieu instance);
+    partial void InsertDanhMuc_GiaoVien(DanhMuc_GiaoVien instance);
+    partial void UpdateDanhMuc_GiaoVien(DanhMuc_GiaoVien instance);
+    partial void DeleteDanhMuc_GiaoVien(DanhMuc_GiaoVien instance);
     partial void InsertDanhMuc_HanhKiem(DanhMuc_HanhKiem instance);
     partial void UpdateDanhMuc_HanhKiem(DanhMuc_HanhKiem instance);
     partial void DeleteDanhMuc_HanhKiem(DanhMuc_HanhKiem instance);
@@ -144,9 +147,6 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void InsertLoiNhanKhan_LoiNhanKhan(LoiNhanKhan_LoiNhanKhan instance);
     partial void UpdateLoiNhanKhan_LoiNhanKhan(LoiNhanKhan_LoiNhanKhan instance);
     partial void DeleteLoiNhanKhan_LoiNhanKhan(LoiNhanKhan_LoiNhanKhan instance);
-    partial void InsertLopHoc_GiaoVien(LopHoc_GiaoVien instance);
-    partial void UpdateLopHoc_GiaoVien(LopHoc_GiaoVien instance);
-    partial void DeleteLopHoc_GiaoVien(LopHoc_GiaoVien instance);
     partial void InsertLopHoc_GVCN(LopHoc_GVCN instance);
     partial void UpdateLopHoc_GVCN(LopHoc_GVCN instance);
     partial void DeleteLopHoc_GVCN(LopHoc_GVCN instance);
@@ -375,6 +375,14 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
+		public System.Data.Linq.Table<DanhMuc_GiaoVien> DanhMuc_GiaoViens
+		{
+			get
+			{
+				return this.GetTable<DanhMuc_GiaoVien>();
+			}
+		}
+		
 		public System.Data.Linq.Table<DanhMuc_HanhKiem> DanhMuc_HanhKiems
 		{
 			get
@@ -524,14 +532,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			get
 			{
 				return this.GetTable<LoiNhanKhan_LoiNhanKhan>();
-			}
-		}
-		
-		public System.Data.Linq.Table<LopHoc_GiaoVien> LopHoc_GiaoViens
-		{
-			get
-			{
-				return this.GetTable<LopHoc_GiaoVien>();
 			}
 		}
 		
@@ -912,9 +912,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.Nullable<System.Guid> _ParentRoleId;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntityRef<aspnet_Role> _aspnet_Role;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -932,13 +934,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnActivedChanged();
     partial void OnParentRoleIdChanging(System.Nullable<System.Guid> value);
     partial void OnParentRoleIdChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public UserManagement_RoleDetail()
 		{
 			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -1066,8 +1069,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -1077,6 +1080,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -1116,6 +1123,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 						this._RoleId = default(System.Guid);
 					}
 					this.SendPropertyChanged("aspnet_Role");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_UserManagement_RoleDetail", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.UserManagement_RoleDetails.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleDetails.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
 				}
 			}
 		}
@@ -1197,9 +1238,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private bool _CanBeDeleted;
 		
+		private int _SchoolId;
+		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
 		private EntityRef<aspnet_User> _aspnet_User;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1255,12 +1300,15 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnKichHoatChanged();
     partial void OnCanBeDeletedChanging(bool value);
     partial void OnCanBeDeletedChanged();
+    partial void OnSchoolIdChanging(int value);
+    partial void OnSchoolIdChanged();
     #endregion
 		
 		public aspnet_Membership()
 		{
 			this._aspnet_Application = default(EntityRef<aspnet_Application>);
 			this._aspnet_User = default(EntityRef<aspnet_User>);
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -1772,6 +1820,30 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
+		{
+			get
+			{
+				return this._SchoolId;
+			}
+			set
+			{
+				if ((this._SchoolId != value))
+				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSchoolIdChanging(value);
+					this.SendPropertyChanging();
+					this._SchoolId = value;
+					this.SendPropertyChanged("SchoolId");
+					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Application_aspnet_Membership", Storage="_aspnet_Application", ThisKey="ApplicationId", OtherKey="ApplicationId", IsForeignKey=true)]
 		public aspnet_Application aspnet_Application
 		{
@@ -1836,6 +1908,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 						this._UserId = default(System.Guid);
 					}
 					this.SendPropertyChanged("aspnet_User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_aspnet_Membership", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.aspnet_Memberships.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.aspnet_Memberships.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
 				}
 			}
 		}
@@ -4937,8 +5043,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _MaHanhKiem;
 		
-		private System.Nullable<int> _SchoolId;
-		
 		private EntityRef<DanhMuc_DanhHieu> _DanhMuc_DanhHieu;
 		
 		private EntityRef<DanhMuc_HanhKiem> _DanhMuc_HanhKiem;
@@ -4955,8 +5059,6 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaHocLucChanged();
     partial void OnMaHanhKiemChanging(int value);
     partial void OnMaHanhKiemChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
-    partial void OnSchoolIdChanged();
     #endregion
 		
 		public DanhMuc_ChiTietDanhHieu()
@@ -5035,26 +5137,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._MaHanhKiem = value;
 					this.SendPropertyChanged("MaHanhKiem");
 					this.OnMaHanhKiemChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
-		{
-			get
-			{
-				return this._SchoolId;
-			}
-			set
-			{
-				if ((this._SchoolId != value))
-				{
-					this.OnSchoolIdChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
 				}
 			}
 		}
@@ -5192,9 +5274,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _TenDanhHieu;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<DanhMuc_ChiTietDanhHieu> _DanhMuc_ChiTietDanhHieus;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5204,13 +5288,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaDanhHieuChanged();
     partial void OnTenDanhHieuChanging(string value);
     partial void OnTenDanhHieuChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public DanhMuc_DanhHieu()
 		{
 			this._DanhMuc_ChiTietDanhHieus = new EntitySet<DanhMuc_ChiTietDanhHieu>(new Action<DanhMuc_ChiTietDanhHieu>(this.attach_DanhMuc_ChiTietDanhHieus), new Action<DanhMuc_ChiTietDanhHieu>(this.detach_DanhMuc_ChiTietDanhHieus));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -5254,8 +5339,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -5265,6 +5350,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -5284,6 +5373,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._DanhMuc_ChiTietDanhHieus.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_DanhHieu", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_DanhHieus.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_DanhHieus.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -5320,6 +5443,357 @@ namespace SoLienLacTrucTuyen.DataAccess
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DanhMuc_GiaoVien")]
+	public partial class DanhMuc_GiaoVien : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MaGiaoVien;
+		
+		private string _MaHienThiGiaoVien;
+		
+		private string _HoTen;
+		
+		private System.DateTime _NgaySinh;
+		
+		private bool _GioiTinh;
+		
+		private string _DiaChi;
+		
+		private string _DienThoai;
+		
+		private System.Data.Linq.Binary _HinhAnh;
+		
+		private int _SchoolId;
+		
+		private EntitySet<LopHoc_GVCN> _LopHoc_GVCNs;
+		
+		private EntitySet<LopHoc_MonHocTKB> _LopHoc_MonHocTKBs;
+		
+		private EntityRef<School> _School;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaGiaoVienChanging(int value);
+    partial void OnMaGiaoVienChanged();
+    partial void OnMaHienThiGiaoVienChanging(string value);
+    partial void OnMaHienThiGiaoVienChanged();
+    partial void OnHoTenChanging(string value);
+    partial void OnHoTenChanged();
+    partial void OnNgaySinhChanging(System.DateTime value);
+    partial void OnNgaySinhChanged();
+    partial void OnGioiTinhChanging(bool value);
+    partial void OnGioiTinhChanged();
+    partial void OnDiaChiChanging(string value);
+    partial void OnDiaChiChanged();
+    partial void OnDienThoaiChanging(string value);
+    partial void OnDienThoaiChanged();
+    partial void OnHinhAnhChanging(System.Data.Linq.Binary value);
+    partial void OnHinhAnhChanged();
+    partial void OnSchoolIdChanging(int value);
+    partial void OnSchoolIdChanged();
+    #endregion
+		
+		public DanhMuc_GiaoVien()
+		{
+			this._LopHoc_GVCNs = new EntitySet<LopHoc_GVCN>(new Action<LopHoc_GVCN>(this.attach_LopHoc_GVCNs), new Action<LopHoc_GVCN>(this.detach_LopHoc_GVCNs));
+			this._LopHoc_MonHocTKBs = new EntitySet<LopHoc_MonHocTKB>(new Action<LopHoc_MonHocTKB>(this.attach_LopHoc_MonHocTKBs), new Action<LopHoc_MonHocTKB>(this.detach_LopHoc_MonHocTKBs));
+			this._School = default(EntityRef<School>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGiaoVien", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MaGiaoVien
+		{
+			get
+			{
+				return this._MaGiaoVien;
+			}
+			set
+			{
+				if ((this._MaGiaoVien != value))
+				{
+					this.OnMaGiaoVienChanging(value);
+					this.SendPropertyChanging();
+					this._MaGiaoVien = value;
+					this.SendPropertyChanged("MaGiaoVien");
+					this.OnMaGiaoVienChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHienThiGiaoVien", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
+		public string MaHienThiGiaoVien
+		{
+			get
+			{
+				return this._MaHienThiGiaoVien;
+			}
+			set
+			{
+				if ((this._MaHienThiGiaoVien != value))
+				{
+					this.OnMaHienThiGiaoVienChanging(value);
+					this.SendPropertyChanging();
+					this._MaHienThiGiaoVien = value;
+					this.SendPropertyChanged("MaHienThiGiaoVien");
+					this.OnMaHienThiGiaoVienChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoTen", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string HoTen
+		{
+			get
+			{
+				return this._HoTen;
+			}
+			set
+			{
+				if ((this._HoTen != value))
+				{
+					this.OnHoTenChanging(value);
+					this.SendPropertyChanging();
+					this._HoTen = value;
+					this.SendPropertyChanged("HoTen");
+					this.OnHoTenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="DateTime NOT NULL")]
+		public System.DateTime NgaySinh
+		{
+			get
+			{
+				return this._NgaySinh;
+			}
+			set
+			{
+				if ((this._NgaySinh != value))
+				{
+					this.OnNgaySinhChanging(value);
+					this.SendPropertyChanging();
+					this._NgaySinh = value;
+					this.SendPropertyChanged("NgaySinh");
+					this.OnNgaySinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioiTinh", DbType="Bit NOT NULL")]
+		public bool GioiTinh
+		{
+			get
+			{
+				return this._GioiTinh;
+			}
+			set
+			{
+				if ((this._GioiTinh != value))
+				{
+					this.OnGioiTinhChanging(value);
+					this.SendPropertyChanging();
+					this._GioiTinh = value;
+					this.SendPropertyChanged("GioiTinh");
+					this.OnGioiTinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaChi", DbType="NVarChar(200)")]
+		public string DiaChi
+		{
+			get
+			{
+				return this._DiaChi;
+			}
+			set
+			{
+				if ((this._DiaChi != value))
+				{
+					this.OnDiaChiChanging(value);
+					this.SendPropertyChanging();
+					this._DiaChi = value;
+					this.SendPropertyChanged("DiaChi");
+					this.OnDiaChiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DienThoai", DbType="NVarChar(20)")]
+		public string DienThoai
+		{
+			get
+			{
+				return this._DienThoai;
+			}
+			set
+			{
+				if ((this._DienThoai != value))
+				{
+					this.OnDienThoaiChanging(value);
+					this.SendPropertyChanging();
+					this._DienThoai = value;
+					this.SendPropertyChanged("DienThoai");
+					this.OnDienThoaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HinhAnh", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary HinhAnh
+		{
+			get
+			{
+				return this._HinhAnh;
+			}
+			set
+			{
+				if ((this._HinhAnh != value))
+				{
+					this.OnHinhAnhChanging(value);
+					this.SendPropertyChanging();
+					this._HinhAnh = value;
+					this.SendPropertyChanged("HinhAnh");
+					this.OnHinhAnhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
+		{
+			get
+			{
+				return this._SchoolId;
+			}
+			set
+			{
+				if ((this._SchoolId != value))
+				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSchoolIdChanging(value);
+					this.SendPropertyChanging();
+					this._SchoolId = value;
+					this.SendPropertyChanged("SchoolId");
+					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_GVCN", Storage="_LopHoc_GVCNs", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien")]
+		public EntitySet<LopHoc_GVCN> LopHoc_GVCNs
+		{
+			get
+			{
+				return this._LopHoc_GVCNs;
+			}
+			set
+			{
+				this._LopHoc_GVCNs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_MonHocTKB", Storage="_LopHoc_MonHocTKBs", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien")]
+		public EntitySet<LopHoc_MonHocTKB> LopHoc_MonHocTKBs
+		{
+			get
+			{
+				return this._LopHoc_MonHocTKBs;
+			}
+			set
+			{
+				this._LopHoc_MonHocTKBs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_GiaoVien", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_GiaoViens.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_GiaoViens.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_LopHoc_GVCNs(LopHoc_GVCN entity)
+		{
+			this.SendPropertyChanging();
+			entity.DanhMuc_GiaoVien = this;
+		}
+		
+		private void detach_LopHoc_GVCNs(LopHoc_GVCN entity)
+		{
+			this.SendPropertyChanging();
+			entity.DanhMuc_GiaoVien = null;
+		}
+		
+		private void attach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
+		{
+			this.SendPropertyChanging();
+			entity.DanhMuc_GiaoVien = this;
+		}
+		
+		private void detach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
+		{
+			this.SendPropertyChanging();
+			entity.DanhMuc_GiaoVien = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DanhMuc_HanhKiem")]
 	public partial class DanhMuc_HanhKiem : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -5330,9 +5804,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _TenHanhKiem;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<DanhMuc_ChiTietDanhHieu> _DanhMuc_ChiTietDanhHieus;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5342,13 +5818,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaHanhKiemChanged();
     partial void OnTenHanhKiemChanging(string value);
     partial void OnTenHanhKiemChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public DanhMuc_HanhKiem()
 		{
 			this._DanhMuc_ChiTietDanhHieus = new EntitySet<DanhMuc_ChiTietDanhHieu>(new Action<DanhMuc_ChiTietDanhHieu>(this.attach_DanhMuc_ChiTietDanhHieus), new Action<DanhMuc_ChiTietDanhHieu>(this.detach_DanhMuc_ChiTietDanhHieus));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -5392,8 +5869,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -5403,6 +5880,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -5422,6 +5903,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._DanhMuc_ChiTietDanhHieus.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_HanhKiem", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_HanhKiems.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_HanhKiems.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -5472,9 +5987,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private double _DTBCuoi;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<DanhMuc_ChiTietDanhHieu> _DanhMuc_ChiTietDanhHieus;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5488,13 +6005,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnDTBDauChanged();
     partial void OnDTBCuoiChanging(double value);
     partial void OnDTBCuoiChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public DanhMuc_HocLuc()
 		{
 			this._DanhMuc_ChiTietDanhHieus = new EntitySet<DanhMuc_ChiTietDanhHieu>(new Action<DanhMuc_ChiTietDanhHieu>(this.attach_DanhMuc_ChiTietDanhHieus), new Action<DanhMuc_ChiTietDanhHieu>(this.detach_DanhMuc_ChiTietDanhHieus));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -5578,8 +6096,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -5589,6 +6107,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -5608,6 +6130,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._DanhMuc_ChiTietDanhHieus.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_HocLuc", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_HocLucs.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_HocLucs.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -5656,11 +6212,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private short _ThuTuHienThi;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<DanhMuc_MonHoc> _DanhMuc_MonHocs;
 		
 		private EntitySet<LopHoc_Lop> _LopHoc_Lops;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5672,7 +6230,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnTenKhoiLopChanged();
     partial void OnThuTuHienThiChanging(short value);
     partial void OnThuTuHienThiChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
@@ -5680,6 +6238,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		{
 			this._DanhMuc_MonHocs = new EntitySet<DanhMuc_MonHoc>(new Action<DanhMuc_MonHoc>(this.attach_DanhMuc_MonHocs), new Action<DanhMuc_MonHoc>(this.detach_DanhMuc_MonHocs));
 			this._LopHoc_Lops = new EntitySet<LopHoc_Lop>(new Action<LopHoc_Lop>(this.attach_LopHoc_Lops), new Action<LopHoc_Lop>(this.detach_LopHoc_Lops));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -5743,8 +6302,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -5754,6 +6313,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -5786,6 +6349,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._LopHoc_Lops.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_KhoiLop", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_KhoiLops.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_KhoiLops.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -5850,9 +6447,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private bool _TinhDTB;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<HocSinh_ChiTietDiem> _HocSinh_ChiTietDiems;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -5868,13 +6467,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnSoCotToiDaChanged();
     partial void OnTinhDTBChanging(bool value);
     partial void OnTinhDTBChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public DanhMuc_LoaiDiem()
 		{
 			this._HocSinh_ChiTietDiems = new EntitySet<HocSinh_ChiTietDiem>(new Action<HocSinh_ChiTietDiem>(this.attach_HocSinh_ChiTietDiems), new Action<HocSinh_ChiTietDiem>(this.detach_HocSinh_ChiTietDiems));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -5978,8 +6578,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -5989,6 +6589,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -6008,6 +6612,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._HocSinh_ChiTietDiems.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_LoaiDiem", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_LoaiDiems.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_LoaiDiems.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -6060,7 +6698,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private double _HeSoDiem;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<HocSinh_DiemMonHocHocKy> _HocSinh_DiemMonHocHocKies;
 		
@@ -6084,7 +6722,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaKhoiLopChanged();
     partial void OnHeSoDiemChanging(double value);
     partial void OnHeSoDiemChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
@@ -6205,8 +6843,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -6376,11 +7014,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _MoTa;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<DanhMuc_MonHoc> _DanhMuc_MonHocs;
 		
 		private EntitySet<LopHoc_Lop> _LopHoc_Lops;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -6392,7 +7032,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnTenNganhHocChanged();
     partial void OnMoTaChanging(string value);
     partial void OnMoTaChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
@@ -6400,6 +7040,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		{
 			this._DanhMuc_MonHocs = new EntitySet<DanhMuc_MonHoc>(new Action<DanhMuc_MonHoc>(this.attach_DanhMuc_MonHocs), new Action<DanhMuc_MonHoc>(this.detach_DanhMuc_MonHocs));
 			this._LopHoc_Lops = new EntitySet<LopHoc_Lop>(new Action<LopHoc_Lop>(this.attach_LopHoc_Lops), new Action<LopHoc_Lop>(this.detach_LopHoc_Lops));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -6463,8 +7104,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -6474,6 +7115,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -6506,6 +7151,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._LopHoc_Lops.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_NganhHoc", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_NganhHocs.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_NganhHocs.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -6564,7 +7243,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _TenThaiDoThamGia;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -6574,12 +7255,13 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaThaiDoThamGiaChanged();
     partial void OnTenThaiDoThamGiaChanging(string value);
     partial void OnTenThaiDoThamGiaChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public DanhMuc_ThaiDoThamGia()
 		{
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -6623,8 +7305,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -6634,11 +7316,49 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
 					this.SendPropertyChanged("SchoolId");
 					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_ThaiDoThamGia", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_ThaiDoThamGias.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_ThaiDoThamGias.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
 				}
 			}
 		}
@@ -6682,11 +7402,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.DateTime _ThoiDiemKetThu;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<LopHoc_MonHocTKB> _LopHoc_MonHocTKBs;
 		
 		private EntityRef<CauHinh_Buoi> _CauHinh_Buoi;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -6704,7 +7426,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnThoiGianBatDauChanged();
     partial void OnThoiDiemKetThuChanging(System.DateTime value);
     partial void OnThoiDiemKetThuChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
@@ -6712,6 +7434,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		{
 			this._LopHoc_MonHocTKBs = new EntitySet<LopHoc_MonHocTKB>(new Action<LopHoc_MonHocTKB>(this.attach_LopHoc_MonHocTKBs), new Action<LopHoc_MonHocTKB>(this.detach_LopHoc_MonHocTKBs));
 			this._CauHinh_Buoi = default(EntityRef<CauHinh_Buoi>);
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -6839,8 +7562,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -6850,6 +7573,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -6902,6 +7629,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 						this._MaBuoi = default(int);
 					}
 					this.SendPropertyChanged("CauHinh_Buoi");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_Tiet", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.DanhMuc_Tiets.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.DanhMuc_Tiets.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
 				}
 			}
 		}
@@ -9698,9 +10459,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _NgheNghiepNguoiDoDau;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<HocSinh_HocSinhLopHoc> _HocSinh_HocSinhLopHocs;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9742,13 +10505,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnNgaySinhNguoiDoDauChanged();
     partial void OnNgheNghiepNguoiDoDauChanging(string value);
     partial void OnNgheNghiepNguoiDoDauChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
 		public HocSinh_ThongTinCaNhan()
 		{
 			this._HocSinh_HocSinhLopHocs = new EntitySet<HocSinh_HocSinhLopHoc>(new Action<HocSinh_HocSinhLopHoc>(this.attach_HocSinh_HocSinhLopHocs), new Action<HocSinh_HocSinhLopHoc>(this.detach_HocSinh_HocSinhLopHocs));
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -10112,8 +10876,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -10123,6 +10887,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -10142,6 +10910,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._HocSinh_HocSinhLopHocs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_HocSinh_ThongTinCaNhan", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.HocSinh_ThongTinCaNhans.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.HocSinh_ThongTinCaNhans.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
 			}
 		}
 		
@@ -10425,316 +11227,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LopHoc_GiaoVien")]
-	public partial class LopHoc_GiaoVien : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _MaGiaoVien;
-		
-		private string _MaHienThiGiaoVien;
-		
-		private string _HoTen;
-		
-		private System.DateTime _NgaySinh;
-		
-		private bool _GioiTinh;
-		
-		private string _DiaChi;
-		
-		private string _DienThoai;
-		
-		private System.Data.Linq.Binary _HinhAnh;
-		
-		private System.Nullable<int> _SchoolId;
-		
-		private EntitySet<LopHoc_GVCN> _LopHoc_GVCNs;
-		
-		private EntitySet<LopHoc_MonHocTKB> _LopHoc_MonHocTKBs;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnMaGiaoVienChanging(int value);
-    partial void OnMaGiaoVienChanged();
-    partial void OnMaHienThiGiaoVienChanging(string value);
-    partial void OnMaHienThiGiaoVienChanged();
-    partial void OnHoTenChanging(string value);
-    partial void OnHoTenChanged();
-    partial void OnNgaySinhChanging(System.DateTime value);
-    partial void OnNgaySinhChanged();
-    partial void OnGioiTinhChanging(bool value);
-    partial void OnGioiTinhChanged();
-    partial void OnDiaChiChanging(string value);
-    partial void OnDiaChiChanged();
-    partial void OnDienThoaiChanging(string value);
-    partial void OnDienThoaiChanged();
-    partial void OnHinhAnhChanging(System.Data.Linq.Binary value);
-    partial void OnHinhAnhChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
-    partial void OnSchoolIdChanged();
-    #endregion
-		
-		public LopHoc_GiaoVien()
-		{
-			this._LopHoc_GVCNs = new EntitySet<LopHoc_GVCN>(new Action<LopHoc_GVCN>(this.attach_LopHoc_GVCNs), new Action<LopHoc_GVCN>(this.detach_LopHoc_GVCNs));
-			this._LopHoc_MonHocTKBs = new EntitySet<LopHoc_MonHocTKB>(new Action<LopHoc_MonHocTKB>(this.attach_LopHoc_MonHocTKBs), new Action<LopHoc_MonHocTKB>(this.detach_LopHoc_MonHocTKBs));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGiaoVien", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MaGiaoVien
-		{
-			get
-			{
-				return this._MaGiaoVien;
-			}
-			set
-			{
-				if ((this._MaGiaoVien != value))
-				{
-					this.OnMaGiaoVienChanging(value);
-					this.SendPropertyChanging();
-					this._MaGiaoVien = value;
-					this.SendPropertyChanged("MaGiaoVien");
-					this.OnMaGiaoVienChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHienThiGiaoVien", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string MaHienThiGiaoVien
-		{
-			get
-			{
-				return this._MaHienThiGiaoVien;
-			}
-			set
-			{
-				if ((this._MaHienThiGiaoVien != value))
-				{
-					this.OnMaHienThiGiaoVienChanging(value);
-					this.SendPropertyChanging();
-					this._MaHienThiGiaoVien = value;
-					this.SendPropertyChanged("MaHienThiGiaoVien");
-					this.OnMaHienThiGiaoVienChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoTen", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string HoTen
-		{
-			get
-			{
-				return this._HoTen;
-			}
-			set
-			{
-				if ((this._HoTen != value))
-				{
-					this.OnHoTenChanging(value);
-					this.SendPropertyChanging();
-					this._HoTen = value;
-					this.SendPropertyChanged("HoTen");
-					this.OnHoTenChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="DateTime NOT NULL")]
-		public System.DateTime NgaySinh
-		{
-			get
-			{
-				return this._NgaySinh;
-			}
-			set
-			{
-				if ((this._NgaySinh != value))
-				{
-					this.OnNgaySinhChanging(value);
-					this.SendPropertyChanging();
-					this._NgaySinh = value;
-					this.SendPropertyChanged("NgaySinh");
-					this.OnNgaySinhChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioiTinh", DbType="Bit NOT NULL")]
-		public bool GioiTinh
-		{
-			get
-			{
-				return this._GioiTinh;
-			}
-			set
-			{
-				if ((this._GioiTinh != value))
-				{
-					this.OnGioiTinhChanging(value);
-					this.SendPropertyChanging();
-					this._GioiTinh = value;
-					this.SendPropertyChanged("GioiTinh");
-					this.OnGioiTinhChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaChi", DbType="NVarChar(200)")]
-		public string DiaChi
-		{
-			get
-			{
-				return this._DiaChi;
-			}
-			set
-			{
-				if ((this._DiaChi != value))
-				{
-					this.OnDiaChiChanging(value);
-					this.SendPropertyChanging();
-					this._DiaChi = value;
-					this.SendPropertyChanged("DiaChi");
-					this.OnDiaChiChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DienThoai", DbType="NVarChar(20)")]
-		public string DienThoai
-		{
-			get
-			{
-				return this._DienThoai;
-			}
-			set
-			{
-				if ((this._DienThoai != value))
-				{
-					this.OnDienThoaiChanging(value);
-					this.SendPropertyChanging();
-					this._DienThoai = value;
-					this.SendPropertyChanged("DienThoai");
-					this.OnDienThoaiChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HinhAnh", DbType="Image", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary HinhAnh
-		{
-			get
-			{
-				return this._HinhAnh;
-			}
-			set
-			{
-				if ((this._HinhAnh != value))
-				{
-					this.OnHinhAnhChanging(value);
-					this.SendPropertyChanging();
-					this._HinhAnh = value;
-					this.SendPropertyChanged("HinhAnh");
-					this.OnHinhAnhChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
-		{
-			get
-			{
-				return this._SchoolId;
-			}
-			set
-			{
-				if ((this._SchoolId != value))
-				{
-					this.OnSchoolIdChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LopHoc_GiaoVien_LopHoc_GVCN", Storage="_LopHoc_GVCNs", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien")]
-		public EntitySet<LopHoc_GVCN> LopHoc_GVCNs
-		{
-			get
-			{
-				return this._LopHoc_GVCNs;
-			}
-			set
-			{
-				this._LopHoc_GVCNs.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LopHoc_GiaoVien_LopHoc_MonHocTKB", Storage="_LopHoc_MonHocTKBs", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien")]
-		public EntitySet<LopHoc_MonHocTKB> LopHoc_MonHocTKBs
-		{
-			get
-			{
-				return this._LopHoc_MonHocTKBs;
-			}
-			set
-			{
-				this._LopHoc_MonHocTKBs.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_LopHoc_GVCNs(LopHoc_GVCN entity)
-		{
-			this.SendPropertyChanging();
-			entity.LopHoc_GiaoVien = this;
-		}
-		
-		private void detach_LopHoc_GVCNs(LopHoc_GVCN entity)
-		{
-			this.SendPropertyChanging();
-			entity.LopHoc_GiaoVien = null;
-		}
-		
-		private void attach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
-		{
-			this.SendPropertyChanging();
-			entity.LopHoc_GiaoVien = this;
-		}
-		
-		private void detach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
-		{
-			this.SendPropertyChanging();
-			entity.LopHoc_GiaoVien = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LopHoc_GVCN")]
 	public partial class LopHoc_GVCN : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -10749,7 +11241,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private EntitySet<UserManagement_GVCNUser> _UserManagement_GVCNUsers;
 		
-		private EntityRef<LopHoc_GiaoVien> _LopHoc_GiaoVien;
+		private EntityRef<DanhMuc_GiaoVien> _DanhMuc_GiaoVien;
 		
 		private EntityRef<LopHoc_Lop> _LopHoc_Lop;
 		
@@ -10768,7 +11260,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		public LopHoc_GVCN()
 		{
 			this._UserManagement_GVCNUsers = new EntitySet<UserManagement_GVCNUser>(new Action<UserManagement_GVCNUser>(this.attach_UserManagement_GVCNUsers), new Action<UserManagement_GVCNUser>(this.detach_UserManagement_GVCNUsers));
-			this._LopHoc_GiaoVien = default(EntityRef<LopHoc_GiaoVien>);
+			this._DanhMuc_GiaoVien = default(EntityRef<DanhMuc_GiaoVien>);
 			this._LopHoc_Lop = default(EntityRef<LopHoc_Lop>);
 			OnCreated();
 		}
@@ -10828,7 +11320,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._MaGiaoVien != value))
 				{
-					if (this._LopHoc_GiaoVien.HasLoadedOrAssignedValue)
+					if (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -10854,26 +11346,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LopHoc_GiaoVien_LopHoc_GVCN", Storage="_LopHoc_GiaoVien", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien", IsForeignKey=true)]
-		public LopHoc_GiaoVien LopHoc_GiaoVien
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_GVCN", Storage="_DanhMuc_GiaoVien", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien", IsForeignKey=true)]
+		public DanhMuc_GiaoVien DanhMuc_GiaoVien
 		{
 			get
 			{
-				return this._LopHoc_GiaoVien.Entity;
+				return this._DanhMuc_GiaoVien.Entity;
 			}
 			set
 			{
-				LopHoc_GiaoVien previousValue = this._LopHoc_GiaoVien.Entity;
+				DanhMuc_GiaoVien previousValue = this._DanhMuc_GiaoVien.Entity;
 				if (((previousValue != value) 
-							|| (this._LopHoc_GiaoVien.HasLoadedOrAssignedValue == false)))
+							|| (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._LopHoc_GiaoVien.Entity = null;
+						this._DanhMuc_GiaoVien.Entity = null;
 						previousValue.LopHoc_GVCNs.Remove(this);
 					}
-					this._LopHoc_GiaoVien.Entity = value;
+					this._DanhMuc_GiaoVien.Entity = value;
 					if ((value != null))
 					{
 						value.LopHoc_GVCNs.Add(this);
@@ -10883,7 +11375,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 					{
 						this._MaGiaoVien = default(int);
 					}
-					this.SendPropertyChanged("LopHoc_GiaoVien");
+					this.SendPropertyChanged("DanhMuc_GiaoVien");
 				}
 			}
 		}
@@ -10973,7 +11465,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _MaNamHoc;
 		
-		private System.Nullable<int> _SchoolId;
+		private int _SchoolId;
 		
 		private EntitySet<HocSinh_HocSinhLopHoc> _HocSinh_HocSinhLopHocs;
 		
@@ -10988,6 +11480,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		private EntityRef<DanhMuc_KhoiLop> _DanhMuc_KhoiLop;
 		
 		private EntityRef<DanhMuc_NganhHoc> _DanhMuc_NganhHoc;
+		
+		private EntityRef<School> _School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -11005,7 +11499,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnSiSoChanged();
     partial void OnMaNamHocChanging(int value);
     partial void OnMaNamHocChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
+    partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
     #endregion
 		
@@ -11018,6 +11512,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 			this._CauHinh_NamHoc = default(EntityRef<CauHinh_NamHoc>);
 			this._DanhMuc_KhoiLop = default(EntityRef<DanhMuc_KhoiLop>);
 			this._DanhMuc_NganhHoc = default(EntityRef<DanhMuc_NganhHoc>);
+			this._School = default(EntityRef<School>);
 			OnCreated();
 		}
 		
@@ -11153,8 +11648,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
 		{
 			get
 			{
@@ -11164,6 +11659,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._SchoolId != value))
 				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnSchoolIdChanging(value);
 					this.SendPropertyChanging();
 					this._SchoolId = value;
@@ -11327,6 +11826,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_LopHoc_Lop", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.LopHoc_Lops.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.LopHoc_Lops.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -11428,7 +11961,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private EntityRef<DanhMuc_Tiet> _DanhMuc_Tiet;
 		
-		private EntityRef<LopHoc_GiaoVien> _LopHoc_GiaoVien;
+		private EntityRef<DanhMuc_GiaoVien> _DanhMuc_GiaoVien;
 		
 		private EntityRef<LopHoc_Lop> _LopHoc_Lop;
 		
@@ -11461,7 +11994,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 			this._CauHinh_Thu = default(EntityRef<CauHinh_Thu>);
 			this._DanhMuc_MonHoc = default(EntityRef<DanhMuc_MonHoc>);
 			this._DanhMuc_Tiet = default(EntityRef<DanhMuc_Tiet>);
-			this._LopHoc_GiaoVien = default(EntityRef<LopHoc_GiaoVien>);
+			this._DanhMuc_GiaoVien = default(EntityRef<DanhMuc_GiaoVien>);
 			this._LopHoc_Lop = default(EntityRef<LopHoc_Lop>);
 			OnCreated();
 		}
@@ -11641,7 +12174,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				if ((this._MaGiaoVien != value))
 				{
-					if (this._LopHoc_GiaoVien.HasLoadedOrAssignedValue)
+					if (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -11824,26 +12357,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LopHoc_GiaoVien_LopHoc_MonHocTKB", Storage="_LopHoc_GiaoVien", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien", IsForeignKey=true)]
-		public LopHoc_GiaoVien LopHoc_GiaoVien
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_MonHocTKB", Storage="_DanhMuc_GiaoVien", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien", IsForeignKey=true)]
+		public DanhMuc_GiaoVien DanhMuc_GiaoVien
 		{
 			get
 			{
-				return this._LopHoc_GiaoVien.Entity;
+				return this._DanhMuc_GiaoVien.Entity;
 			}
 			set
 			{
-				LopHoc_GiaoVien previousValue = this._LopHoc_GiaoVien.Entity;
+				DanhMuc_GiaoVien previousValue = this._DanhMuc_GiaoVien.Entity;
 				if (((previousValue != value) 
-							|| (this._LopHoc_GiaoVien.HasLoadedOrAssignedValue == false)))
+							|| (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._LopHoc_GiaoVien.Entity = null;
+						this._DanhMuc_GiaoVien.Entity = null;
 						previousValue.LopHoc_MonHocTKBs.Remove(this);
 					}
-					this._LopHoc_GiaoVien.Entity = value;
+					this._DanhMuc_GiaoVien.Entity = value;
 					if ((value != null))
 					{
 						value.LopHoc_MonHocTKBs.Add(this);
@@ -11853,7 +12386,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 					{
 						this._MaGiaoVien = default(int);
 					}
-					this.SendPropertyChanged("LopHoc_GiaoVien");
+					this.SendPropertyChanged("DanhMuc_GiaoVien");
 				}
 			}
 		}
@@ -12187,6 +12720,36 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _SchoolName;
 		
+		private bool _Status;
+		
+		private int _TotalOfUsers;
+		
+		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
+		
+		private EntitySet<aspnet_Membership> _aspnet_Memberships;
+		
+		private EntitySet<DanhMuc_DanhHieu> _DanhMuc_DanhHieus;
+		
+		private EntitySet<DanhMuc_GiaoVien> _DanhMuc_GiaoViens;
+		
+		private EntitySet<DanhMuc_HanhKiem> _DanhMuc_HanhKiems;
+		
+		private EntitySet<DanhMuc_HocLuc> _DanhMuc_HocLucs;
+		
+		private EntitySet<DanhMuc_KhoiLop> _DanhMuc_KhoiLops;
+		
+		private EntitySet<DanhMuc_LoaiDiem> _DanhMuc_LoaiDiems;
+		
+		private EntitySet<DanhMuc_NganhHoc> _DanhMuc_NganhHocs;
+		
+		private EntitySet<DanhMuc_ThaiDoThamGia> _DanhMuc_ThaiDoThamGias;
+		
+		private EntitySet<DanhMuc_Tiet> _DanhMuc_Tiets;
+		
+		private EntitySet<HocSinh_ThongTinCaNhan> _HocSinh_ThongTinCaNhans;
+		
+		private EntitySet<LopHoc_Lop> _LopHoc_Lops;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -12195,10 +12758,27 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnSchoolIdChanged();
     partial void OnSchoolNameChanging(string value);
     partial void OnSchoolNameChanged();
+    partial void OnStatusChanging(bool value);
+    partial void OnStatusChanged();
+    partial void OnTotalOfUsersChanging(int value);
+    partial void OnTotalOfUsersChanged();
     #endregion
 		
 		public School()
 		{
+			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
+			this._aspnet_Memberships = new EntitySet<aspnet_Membership>(new Action<aspnet_Membership>(this.attach_aspnet_Memberships), new Action<aspnet_Membership>(this.detach_aspnet_Memberships));
+			this._DanhMuc_DanhHieus = new EntitySet<DanhMuc_DanhHieu>(new Action<DanhMuc_DanhHieu>(this.attach_DanhMuc_DanhHieus), new Action<DanhMuc_DanhHieu>(this.detach_DanhMuc_DanhHieus));
+			this._DanhMuc_GiaoViens = new EntitySet<DanhMuc_GiaoVien>(new Action<DanhMuc_GiaoVien>(this.attach_DanhMuc_GiaoViens), new Action<DanhMuc_GiaoVien>(this.detach_DanhMuc_GiaoViens));
+			this._DanhMuc_HanhKiems = new EntitySet<DanhMuc_HanhKiem>(new Action<DanhMuc_HanhKiem>(this.attach_DanhMuc_HanhKiems), new Action<DanhMuc_HanhKiem>(this.detach_DanhMuc_HanhKiems));
+			this._DanhMuc_HocLucs = new EntitySet<DanhMuc_HocLuc>(new Action<DanhMuc_HocLuc>(this.attach_DanhMuc_HocLucs), new Action<DanhMuc_HocLuc>(this.detach_DanhMuc_HocLucs));
+			this._DanhMuc_KhoiLops = new EntitySet<DanhMuc_KhoiLop>(new Action<DanhMuc_KhoiLop>(this.attach_DanhMuc_KhoiLops), new Action<DanhMuc_KhoiLop>(this.detach_DanhMuc_KhoiLops));
+			this._DanhMuc_LoaiDiems = new EntitySet<DanhMuc_LoaiDiem>(new Action<DanhMuc_LoaiDiem>(this.attach_DanhMuc_LoaiDiems), new Action<DanhMuc_LoaiDiem>(this.detach_DanhMuc_LoaiDiems));
+			this._DanhMuc_NganhHocs = new EntitySet<DanhMuc_NganhHoc>(new Action<DanhMuc_NganhHoc>(this.attach_DanhMuc_NganhHocs), new Action<DanhMuc_NganhHoc>(this.detach_DanhMuc_NganhHocs));
+			this._DanhMuc_ThaiDoThamGias = new EntitySet<DanhMuc_ThaiDoThamGia>(new Action<DanhMuc_ThaiDoThamGia>(this.attach_DanhMuc_ThaiDoThamGias), new Action<DanhMuc_ThaiDoThamGia>(this.detach_DanhMuc_ThaiDoThamGias));
+			this._DanhMuc_Tiets = new EntitySet<DanhMuc_Tiet>(new Action<DanhMuc_Tiet>(this.attach_DanhMuc_Tiets), new Action<DanhMuc_Tiet>(this.detach_DanhMuc_Tiets));
+			this._HocSinh_ThongTinCaNhans = new EntitySet<HocSinh_ThongTinCaNhan>(new Action<HocSinh_ThongTinCaNhan>(this.attach_HocSinh_ThongTinCaNhans), new Action<HocSinh_ThongTinCaNhan>(this.detach_HocSinh_ThongTinCaNhans));
+			this._LopHoc_Lops = new EntitySet<LopHoc_Lop>(new Action<LopHoc_Lop>(this.attach_LopHoc_Lops), new Action<LopHoc_Lop>(this.detach_LopHoc_Lops));
 			OnCreated();
 		}
 		
@@ -12222,7 +12802,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolName", DbType="NVarChar(200)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolName", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
 		public string SchoolName
 		{
 			get
@@ -12239,6 +12819,215 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this.SendPropertyChanged("SchoolName");
 					this.OnSchoolNameChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Bit NOT NULL")]
+		public bool Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalOfUsers", DbType="Int NOT NULL")]
+		public int TotalOfUsers
+		{
+			get
+			{
+				return this._TotalOfUsers;
+			}
+			set
+			{
+				if ((this._TotalOfUsers != value))
+				{
+					this.OnTotalOfUsersChanging(value);
+					this.SendPropertyChanging();
+					this._TotalOfUsers = value;
+					this.SendPropertyChanged("TotalOfUsers");
+					this.OnTotalOfUsersChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetails", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<UserManagement_RoleDetail> UserManagement_RoleDetails
+		{
+			get
+			{
+				return this._UserManagement_RoleDetails;
+			}
+			set
+			{
+				this._UserManagement_RoleDetails.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_aspnet_Membership", Storage="_aspnet_Memberships", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<aspnet_Membership> aspnet_Memberships
+		{
+			get
+			{
+				return this._aspnet_Memberships;
+			}
+			set
+			{
+				this._aspnet_Memberships.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_DanhHieu", Storage="_DanhMuc_DanhHieus", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_DanhHieu> DanhMuc_DanhHieus
+		{
+			get
+			{
+				return this._DanhMuc_DanhHieus;
+			}
+			set
+			{
+				this._DanhMuc_DanhHieus.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_GiaoVien", Storage="_DanhMuc_GiaoViens", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_GiaoVien> DanhMuc_GiaoViens
+		{
+			get
+			{
+				return this._DanhMuc_GiaoViens;
+			}
+			set
+			{
+				this._DanhMuc_GiaoViens.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_HanhKiem", Storage="_DanhMuc_HanhKiems", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_HanhKiem> DanhMuc_HanhKiems
+		{
+			get
+			{
+				return this._DanhMuc_HanhKiems;
+			}
+			set
+			{
+				this._DanhMuc_HanhKiems.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_HocLuc", Storage="_DanhMuc_HocLucs", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_HocLuc> DanhMuc_HocLucs
+		{
+			get
+			{
+				return this._DanhMuc_HocLucs;
+			}
+			set
+			{
+				this._DanhMuc_HocLucs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_KhoiLop", Storage="_DanhMuc_KhoiLops", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_KhoiLop> DanhMuc_KhoiLops
+		{
+			get
+			{
+				return this._DanhMuc_KhoiLops;
+			}
+			set
+			{
+				this._DanhMuc_KhoiLops.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_LoaiDiem", Storage="_DanhMuc_LoaiDiems", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_LoaiDiem> DanhMuc_LoaiDiems
+		{
+			get
+			{
+				return this._DanhMuc_LoaiDiems;
+			}
+			set
+			{
+				this._DanhMuc_LoaiDiems.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_NganhHoc", Storage="_DanhMuc_NganhHocs", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_NganhHoc> DanhMuc_NganhHocs
+		{
+			get
+			{
+				return this._DanhMuc_NganhHocs;
+			}
+			set
+			{
+				this._DanhMuc_NganhHocs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_ThaiDoThamGia", Storage="_DanhMuc_ThaiDoThamGias", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_ThaiDoThamGia> DanhMuc_ThaiDoThamGias
+		{
+			get
+			{
+				return this._DanhMuc_ThaiDoThamGias;
+			}
+			set
+			{
+				this._DanhMuc_ThaiDoThamGias.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_Tiet", Storage="_DanhMuc_Tiets", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<DanhMuc_Tiet> DanhMuc_Tiets
+		{
+			get
+			{
+				return this._DanhMuc_Tiets;
+			}
+			set
+			{
+				this._DanhMuc_Tiets.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_HocSinh_ThongTinCaNhan", Storage="_HocSinh_ThongTinCaNhans", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<HocSinh_ThongTinCaNhan> HocSinh_ThongTinCaNhans
+		{
+			get
+			{
+				return this._HocSinh_ThongTinCaNhans;
+			}
+			set
+			{
+				this._HocSinh_ThongTinCaNhans.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_LopHoc_Lop", Storage="_LopHoc_Lops", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<LopHoc_Lop> LopHoc_Lops
+		{
+			get
+			{
+				return this._LopHoc_Lops;
+			}
+			set
+			{
+				this._LopHoc_Lops.Assign(value);
 			}
 		}
 		
@@ -12261,6 +13050,162 @@ namespace SoLienLacTrucTuyen.DataAccess
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_aspnet_Memberships(aspnet_Membership entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_aspnet_Memberships(aspnet_Membership entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_DanhHieus(DanhMuc_DanhHieu entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_DanhHieus(DanhMuc_DanhHieu entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_GiaoViens(DanhMuc_GiaoVien entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_GiaoViens(DanhMuc_GiaoVien entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_HanhKiems(DanhMuc_HanhKiem entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_HanhKiems(DanhMuc_HanhKiem entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_HocLucs(DanhMuc_HocLuc entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_HocLucs(DanhMuc_HocLuc entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_KhoiLops(DanhMuc_KhoiLop entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_KhoiLops(DanhMuc_KhoiLop entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_LoaiDiems(DanhMuc_LoaiDiem entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_LoaiDiems(DanhMuc_LoaiDiem entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_NganhHocs(DanhMuc_NganhHoc entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_NganhHocs(DanhMuc_NganhHoc entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_ThaiDoThamGias(DanhMuc_ThaiDoThamGia entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_ThaiDoThamGias(DanhMuc_ThaiDoThamGia entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_DanhMuc_Tiets(DanhMuc_Tiet entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_DanhMuc_Tiets(DanhMuc_Tiet entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_HocSinh_ThongTinCaNhans(HocSinh_ThongTinCaNhan entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_HocSinh_ThongTinCaNhans(HocSinh_ThongTinCaNhan entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_LopHoc_Lops(LopHoc_Lop entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_LopHoc_Lops(LopHoc_Lop entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.System_Parameters")]
@@ -12282,6 +13227,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		private string _FuncFlagParentsRoleOnly;
 		
 		private string _FuncFlagOtherRoles;
+		
+		private int _SchoolId;
 		
 		public System_Parameter()
 		{
@@ -12411,6 +13358,22 @@ namespace SoLienLacTrucTuyen.DataAccess
 				if ((this._FuncFlagOtherRoles != value))
 				{
 					this._FuncFlagOtherRoles = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
+		{
+			get
+			{
+				return this._SchoolId;
+			}
+			set
+			{
+				if ((this._SchoolId != value))
+				{
+					this._SchoolId = value;
 				}
 			}
 		}

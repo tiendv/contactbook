@@ -120,7 +120,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
             teacher.MaGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
             teacherBL.DeleteTeacher(teacher);
 
@@ -205,7 +205,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDeleteItem":
                     {
-                        LopHoc_GiaoVien teacher = null;
+                        DanhMuc_GiaoVien teacher = null;
 
                         string strTeacherCode = (string)e.CommandArgument;
                         teacher = teacherBL.GetTeacher(strTeacherCode);

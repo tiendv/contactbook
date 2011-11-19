@@ -100,7 +100,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
                             int maGiaoVien = Int32.Parse(hdfRptMaGiaoVien.Value);
-                            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+                            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
                             teacher.MaGiaoVien = maGiaoVien;
                             giaoVienChuNhiemBL.Update(maGVCN, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");

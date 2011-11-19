@@ -87,7 +87,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
 
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.MaNganhHoc == faculty.MaNganhHoc && subj.MaKhoiLop == grade.MaKhoiLop
+                                                   where subj.MaNganhHoc == faculty.MaNganhHoc
+                                                   && subj.MaKhoiLop == grade.MaKhoiLop
                                                    select subj;
             if (iqSubject.Count() != 0)
             {

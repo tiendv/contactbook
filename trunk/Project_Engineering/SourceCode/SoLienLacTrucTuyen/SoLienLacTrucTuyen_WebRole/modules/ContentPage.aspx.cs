@@ -38,6 +38,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected virtual void Page_Load(object sender, EventArgs e)
         {
+            UserSchool = (School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);
             RoleBL roleBL = new RoleBL(UserSchool);
 

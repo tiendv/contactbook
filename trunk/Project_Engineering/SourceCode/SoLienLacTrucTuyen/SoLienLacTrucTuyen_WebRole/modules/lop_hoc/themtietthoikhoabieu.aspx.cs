@@ -147,7 +147,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
             DanhMuc_MonHoc subject = null;
-            LopHoc_GiaoVien teacher = null;
+            DanhMuc_GiaoVien teacher = null;
             DanhMuc_Tiet teachingPeriod = null;
             LopHoc_Lop Class = null;
             CauHinh_HocKy term = null;
@@ -171,7 +171,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 teachingPeriod = (new TeachingPeriodBL(UserSchool)).GetTeachingPeriod(dicQueryStrings["MaTiet"]);
                 subject = new DanhMuc_MonHoc();
                 subject.MaMonHoc = Int32.Parse(HdfMaMonHoc.Value);
-                teacher = new LopHoc_GiaoVien();
+                teacher = new DanhMuc_GiaoVien();
                 teacher.MaGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
 
                 thoiKhoaBieuBL.InsertSchedule(Class, subject, teacher, term, dayInWeek, teachingPeriod);
@@ -414,7 +414,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     int maGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
                     TeacherBL giaoVienBL = new TeacherBL(UserSchool);
-                    LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+                    DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
                     teacher.MaGiaoVien = maGiaoVien;
                     CauHinh_HocKy term = new CauHinh_HocKy();
                     term.MaHocKy = maHocKy;

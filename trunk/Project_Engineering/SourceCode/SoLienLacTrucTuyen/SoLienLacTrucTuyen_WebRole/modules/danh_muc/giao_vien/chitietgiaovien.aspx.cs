@@ -57,7 +57,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void FillGiaoVien(int teacherId)
         {
-            LopHoc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
+            DanhMuc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
             LblMaGiaoVienHienThi.Text = teacher.MaHienThiGiaoVien;
             LblTenGiaoVien.Text = teacher.HoTen;
             LblNgaySinh.Text = teacher.NgaySinh.ToShortDateString();
@@ -96,7 +96,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDataGiangDay()
         {
-            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
             int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());            
             teacher.MaGiaoVien = maGiaoVien;
             double totalRecords;
@@ -115,7 +115,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDataChuNhiem()
         {
-            LopHoc_GiaoVien teacher = new LopHoc_GiaoVien();
+            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
             int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());
             teacher.MaGiaoVien = maGiaoVien;
             double totalRecords;

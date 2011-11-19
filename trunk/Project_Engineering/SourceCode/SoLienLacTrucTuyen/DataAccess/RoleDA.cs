@@ -427,8 +427,8 @@ namespace SoLienLacTrucTuyen.DataAccess
                            select user.UserId).First();
 
             // Xác định xem giáo viên này có chủ nhiệm lớp nào không?
-            IQueryable<LopHoc_GiaoVien> iqGiaoVien;
-            iqGiaoVien = from giaoVien in db.LopHoc_GiaoViens
+            IQueryable<DanhMuc_GiaoVien> iqGiaoVien;
+            iqGiaoVien = from giaoVien in db.DanhMuc_GiaoViens
                          join GVNCN in db.LopHoc_GVCNs on giaoVien.MaGiaoVien equals GVNCN.MaGiaoVien
                          where giaoVien.MaHienThiGiaoVien == teacherCode
                          select giaoVien;
@@ -443,7 +443,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             // Xác định xem giáo viên này có day lớp nào không?
-            iqGiaoVien = from giaoVien in db.LopHoc_GiaoViens
+            iqGiaoVien = from giaoVien in db.DanhMuc_GiaoViens
                          join tkb in db.LopHoc_MonHocTKBs on giaoVien.MaGiaoVien equals tkb.MaGiaoVien
                          where giaoVien.MaHienThiGiaoVien == teacherCode
                          select giaoVien;

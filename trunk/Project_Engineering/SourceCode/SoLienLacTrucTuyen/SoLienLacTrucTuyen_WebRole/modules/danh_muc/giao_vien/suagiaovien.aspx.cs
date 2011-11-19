@@ -72,7 +72,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             ngaySinh = DateTime.Parse(strNgaySinh);
 
-            LopHoc_GiaoVien editedTeacher = giaoVienBL.GetTeacher(maGiaoVien);
+            DanhMuc_GiaoVien editedTeacher = giaoVienBL.GetTeacher(maGiaoVien);
             giaoVienBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
 
             if ((string)ViewState["prevpageid"] == "1")
@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void FillGiaoVien(int teacherId)
         {
-            LopHoc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
+            DanhMuc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
             LblMaGiaoVienHienThi.Text = teacher.MaHienThiGiaoVien;
             TxtTenGiaoVien.Text = teacher.HoTen;
             TxtNgaySinh.Text = teacher.NgaySinh.ToShortDateString();

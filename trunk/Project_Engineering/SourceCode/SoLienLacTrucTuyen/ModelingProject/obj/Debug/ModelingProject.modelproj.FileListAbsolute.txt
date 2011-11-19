@@ -1,0 +1,7 @@
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\bin\Debug\SoLienLacTrucTuyen.DataAccess.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.dll
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\bin\Debug\SoLienLacTrucTuyen.BusinessLogic.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\bin\Debug\SoLienLacTrucTuyen.DataAccess.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\bin\Debug\SoLienLacTrucTuyen.BusinessEntity.pdb
+D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\ModelingProject\obj\Debug\ResolveAssemblyReference.cache

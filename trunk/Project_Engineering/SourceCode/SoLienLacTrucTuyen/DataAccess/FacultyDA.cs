@@ -24,6 +24,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<DanhMuc_NganhHoc> iqFaculty;
             iqFaculty = from fac in db.DanhMuc_NganhHocs
                         where fac.MaNganhHoc == editedFaculty.MaNganhHoc
+                        && fac.SchoolId == school.SchoolId
                         select fac;
 
             if (iqFaculty.Count() != 0)
@@ -56,7 +57,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_NganhHoc> iqFaculty;
             iqFaculty = from fac in db.DanhMuc_NganhHocs
-                        where fac.TenNganhHoc == facultyName
+                        where fac.TenNganhHoc == facultyName && fac.SchoolId == school.SchoolId
                         select fac;
 
             if (iqFaculty.Count() != 0)
@@ -84,6 +85,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_NganhHoc> GetFaculties(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_NganhHoc> iqFaculty = from faculty in db.DanhMuc_NganhHocs
+                                                     where faculty.SchoolId == school.SchoolId
                                                      select faculty;
             totalRecords = iqFaculty.Count();
             if (totalRecords != 0)
@@ -119,7 +121,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                              join fac in db.DanhMuc_NganhHocs on cls.MaNganhHoc equals fac.MaNganhHoc
                                              where fac.TenNganhHoc == faculty.TenNganhHoc
                                              select cls;
-            
+
             if (iqClass.Count() != 0)
             {
                 return false;
