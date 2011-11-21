@@ -25,6 +25,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
                                                      where cdt.MaHanhKiem == editedConduct.MaHanhKiem
+                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -41,6 +42,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
                                                      where cdt.MaHanhKiem == deletedConduct.MaHanhKiem
+                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -57,6 +59,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
                                                      where cdt.MaHanhKiem == conductId
+                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -73,6 +76,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
                                                      where cdt.TenHanhKiem == conductName
+                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -88,6 +92,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
 
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     where cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -103,6 +108,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
 
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+                                                     where cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             return GetConducts(ref iqConduct, pageCurrentIndex, pageSize, out totalRecords);
@@ -145,6 +151,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
                                                      where cdt.TenHanhKiem == conductName
+                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
             if (iqConduct.Count() != 0)
             {

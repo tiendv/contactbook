@@ -25,6 +25,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_MonHoc subject = null;
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.MaMonHoc == editedSubject.MaMonHoc
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
@@ -40,6 +41,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_MonHoc subject = null;
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.MaMonHoc == deletedSubject.MaMonHoc
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
@@ -56,6 +58,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                    where subj.TenMonHoc == subjectName
                                                         && subj.DanhMuc_NganhHoc.TenNganhHoc == facultyName
                                                         && subj.DanhMuc_KhoiLop.TenKhoiLop == gradeName
+                                                        && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             if (iqSubject.Count() != 0)
@@ -71,6 +74,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
 
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
@@ -89,6 +93,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.MaNganhHoc == faculty.MaNganhHoc
                                                    && subj.MaKhoiLop == grade.MaKhoiLop
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
@@ -106,6 +111,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.MaNganhHoc == faculty.MaNganhHoc
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
@@ -123,6 +129,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.MaKhoiLop == grade.MaKhoiLop
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
@@ -137,6 +144,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_MonHoc> GetListSubjects(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
+                                                   where subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -147,6 +155,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
                                                    && subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -158,6 +167,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                    where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
                                                    && subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
                                                    && subj.MaMonHoc != exceptedSubject.MaMonHoc
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -167,6 +177,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -176,6 +187,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -185,6 +197,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.TenMonHoc == subjectName
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -194,6 +207,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
                                                    where subj.TenMonHoc == subjectName && subj.MaMonHoc != exceptedSubject.MaMonHoc
+                                                   && subj.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -206,6 +220,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                         where subject.TenMonHoc == subjectName
                           && subject.DanhMuc_NganhHoc.TenNganhHoc == facultyName
                           && subject.DanhMuc_KhoiLop.TenKhoiLop == gradeName
+                          && subject.SchoolId == school.SchoolId
                         select subject;
             if (iqSubject.Count() != 0)
             {
@@ -221,6 +236,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<LopHoc_MonHocTKB> iqScheduledSubjects = from scheduledSubject in db.LopHoc_MonHocTKBs
                                                                where scheduledSubject.MaMonHoc == subject.MaMonHoc
+                                                               && scheduledSubject.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                                                select scheduledSubject;
 
             if (iqScheduledSubjects.Count() != 0)

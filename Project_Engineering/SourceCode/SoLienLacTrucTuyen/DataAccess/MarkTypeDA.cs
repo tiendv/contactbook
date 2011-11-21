@@ -22,6 +22,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
                                                       where markTp.MaLoaiDiem == markType.MaLoaiDiem
+                                                      && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
@@ -34,6 +35,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
                                                       where markTp.MaLoaiDiem == newMarkType.MaLoaiDiem
+                                                      && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
@@ -54,6 +56,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
                                                       where markTp.MaLoaiDiem == markTypeId
+                                                      && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
@@ -69,12 +72,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
                                                       where markTp.TenLoaiDiem == markTypeName
+                                                      && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
                 markType = iqMarkType.First();
             }
-            
+
             return markType;
         }
 
@@ -83,6 +87,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
 
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.SchoolId == school.SchoolId
                                                       select markTp;
 
             if (iqMarkType.Count() != 0)
@@ -90,7 +95,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
                     .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem).ToList();
             }
-            
+
             return lMarkTypes;
         }
 
@@ -99,16 +104,17 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
 
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+                                                      where markTp.SchoolId == school.SchoolId
                                                       select markTp;
 
-            totalRecords = iqMarkType.Count();            
-            if(totalRecords != 0)
+            totalRecords = iqMarkType.Count();
+            if (totalRecords != 0)
             {
                 lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
                     .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
-            
+
             return lMarkTypes;
         }
 
@@ -116,6 +122,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
                                                       where markTp.TenLoaiDiem == markTypeName
+                                                      && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
@@ -132,6 +139,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<HocSinh_ChiTietDiem> iqHocSinhChiTietDiem;
             iqHocSinhChiTietDiem = from hsChiTietDiem in db.HocSinh_ChiTietDiems
                                    where hsChiTietDiem.MaLoaiDiem == markType.MaLoaiDiem
+                                   && hsChiTietDiem.DanhMuc_LoaiDiem.SchoolId == school.SchoolId
                                    select hsChiTietDiem;
 
             if (iqHocSinhChiTietDiem.Count() != 0)
@@ -150,6 +158,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
                                                       where markTp.TinhDTB == true
+                                                      && markType.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
