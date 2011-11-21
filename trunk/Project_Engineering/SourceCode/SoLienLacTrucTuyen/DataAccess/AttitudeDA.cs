@@ -24,6 +24,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_ThaiDoThamGia attitude = null;
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
                                                            where att.MaThaiDoThamGia == editedAttitude.MaThaiDoThamGia
+                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != null)
             {
@@ -38,6 +39,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_ThaiDoThamGia attitude = null;
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
                                                            where att.MaThaiDoThamGia == deletedAttitude.MaThaiDoThamGia
+                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != null)
             {
@@ -52,6 +54,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_ThaiDoThamGia attitude = null;
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
                                                            where att.MaThaiDoThamGia == attitudeId
+                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != null)
             {
@@ -59,13 +62,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return attitude;
-        }        
+        }
 
         public List<DanhMuc_ThaiDoThamGia> GetListAttitudes()
         {
             List<DanhMuc_ThaiDoThamGia> lAttitudes = new List<DanhMuc_ThaiDoThamGia>();
 
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
+                                                           where att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != null)
             {
@@ -73,11 +77,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return lAttitudes;
-        }        
+        }
 
         public List<DanhMuc_ThaiDoThamGia> GetListAttitudes(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
+                                                           where att.SchoolId == school.SchoolId
                                                            select att;
             return GetListAttitudes(ref iqAttitude, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -86,6 +91,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
                                                            where att.TenThaiDoThamGia == attitudeName
+                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             return GetListAttitudes(ref iqAttitude, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -109,6 +115,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
                                                            where att.TenThaiDoThamGia == attitudeName
+                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {

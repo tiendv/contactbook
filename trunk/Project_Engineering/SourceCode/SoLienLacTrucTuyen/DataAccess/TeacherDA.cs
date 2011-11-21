@@ -21,8 +21,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public void UpdateTeacher(DanhMuc_GiaoVien editedTeacher)
         {
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaGiaoVien == editedTeacher.MaGiaoVien
-                                                    select tchr;
+                                                     where tchr.MaGiaoVien == editedTeacher.MaGiaoVien
+                                                     & tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -42,8 +43,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public void DeleteTeacher(DanhMuc_GiaoVien deletedTeacher)
         {
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaGiaoVien == deletedTeacher.MaGiaoVien
-                                                    select tchr;
+                                                     where tchr.MaGiaoVien == deletedTeacher.MaGiaoVien
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -58,8 +60,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_GiaoVien teacher = null;
 
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaHienThiGiaoVien == teacherCode
-                                                    select tchr;
+                                                     where tchr.MaHienThiGiaoVien == teacherCode
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -74,8 +77,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_GiaoVien teacher = null;
 
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaGiaoVien == teacherId
-                                                    select tchr;
+                                                     where tchr.MaGiaoVien == teacherId
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -101,9 +105,10 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_GiaoVien> GetListTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaHienThiGiaoVien == teacherCode
-                                                      && tchr.HoTen == teacherName
-                                                    select tchr;
+                                                     where tchr.MaHienThiGiaoVien == teacherCode
+                                                       && tchr.HoTen == teacherName
+                                                       && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -111,7 +116,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_GiaoVien> GetListTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    select tchr;
+                                                     where tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -119,8 +125,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_GiaoVien> GetListTeachersByCode(string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaHienThiGiaoVien == teacherCode
-                                                    select tchr;
+                                                     where tchr.MaHienThiGiaoVien == teacherCode
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -128,8 +135,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_GiaoVien> GetListTeachersByName(string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.HoTen == teacherName
-                                                    select tchr;
+                                                     where tchr.HoTen == teacherName
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -138,8 +146,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.HoTen == teacherName
-                                                    select tchr;
+                                                     where tchr.HoTen == teacherName
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -153,6 +162,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                       where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
                                         && fTchr.DanhMuc_GiaoVien.HoTen == teacherName
                                         && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -174,7 +184,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    select tchr;
+                                                     where tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -187,6 +198,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                     iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
                                       where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
                                           && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                          && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -208,8 +220,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.MaHienThiGiaoVien == teacherCode
-                                                    select tchr;
+                                                     where tchr.MaHienThiGiaoVien == teacherCode
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -223,6 +236,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                       where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
                                         && fTchr.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
                                         && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -244,8 +258,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
             IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                    where tchr.HoTen == teacherName && tchr.MaHienThiGiaoVien == teacherCode
-                                                    select tchr;
+                                                     where tchr.HoTen == teacherName && tchr.MaHienThiGiaoVien == teacherCode
+                                                     && tchr.SchoolId == school.SchoolId
+                                                     select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -260,6 +275,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                         && fTchr.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
                                         && fTchr.DanhMuc_GiaoVien.HoTen == teacherName
                                         && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -282,6 +298,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<DanhMuc_GiaoVien> giaoViens;
             giaoViens = from giaoVien in db.DanhMuc_GiaoViens
                         where giaoVien.MaHienThiGiaoVien == teacherCode
+                        && giaoVien.SchoolId == school.SchoolId
                         select giaoVien;
 
             if (giaoViens.Count() != 0)
@@ -302,6 +319,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                 && tkb.MaHocKy == term.MaHocKy
                                 && tkb.MaThu == dayInWeek.MaThu
                                 && tkb.MaTiet == teachingPeriod.MaTiet
+                                && tkb.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                              select tkb;
             if (iqThoiKhoaBieu.Count() != 0)
             {
@@ -320,6 +338,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_GVCN> iqFormering;
             iqFormering = from formering in db.LopHoc_GVCNs
                           where formering.MaGiaoVien == teacher.MaGiaoVien
+                          && formering.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                           select formering;
 
             totalRecords = iqFormering.Count();
@@ -339,6 +358,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_MonHocTKB> iqSchedule;
             iqSchedule = from schedule in db.LopHoc_MonHocTKBs
                          where schedule.MaGiaoVien == teacher.MaGiaoVien
+                         && schedule.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                          select schedule;
 
             totalRecords = iqSchedule.Count();

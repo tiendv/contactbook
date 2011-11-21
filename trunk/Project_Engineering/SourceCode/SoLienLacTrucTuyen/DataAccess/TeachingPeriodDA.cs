@@ -19,6 +19,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                        where tchPeriod.MaTiet == teachingPeriod.MaTiet
+                                                       && tchPeriod.SchoolId == school.SchoolId
                                                        select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
@@ -40,6 +41,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                        where tchPeriod.MaTiet == editedTeachingPeriod.MaTiet
+                                                       && tchPeriod.SchoolId == school.SchoolId
                                                        select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
@@ -60,6 +62,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                        where tchPeriod.MaTiet == teachingPeriodId
+                                                       && tchPeriod.SchoolId == school.SchoolId
                                                        select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
@@ -74,6 +77,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_Tiet> lTeachingPeriods = new List<DanhMuc_Tiet>();
 
             IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
+                                                       where tchPeriod.SchoolId == school.SchoolId
                                                        select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
@@ -86,6 +90,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<DanhMuc_Tiet> GetTeachingPeriods(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
+                                                        where tchPeriod.SchoolId == school.SchoolId
                                                         select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -94,6 +99,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                         where tchPeriod.TenTiet == teachingPeriodName
+                                                        && tchPeriod.SchoolId == school.SchoolId
                                                         select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -102,6 +108,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                         where tchPeriod.CauHinh_Buoi.MaBuoi == session.MaBuoi
+                                                        && tchPeriod.SchoolId == school.SchoolId
                                                         select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -111,6 +118,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                         where tchPeriod.TenTiet == teachingPeriodName
                                                             && tchPeriod.MaBuoi == session.MaBuoi
+                                                            && tchPeriod.SchoolId == school.SchoolId
+
                                                         select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -119,6 +128,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<LopHoc_MonHocTKB> iqSchedule = from schedule in db.LopHoc_MonHocTKBs
                                                       where schedule.MaTiet == teachingPeriod.MaTiet
+                                                      && schedule.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                                       select schedule;
             if (iqSchedule.Count() != 0)
             {
@@ -134,6 +144,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
                                                         where tchPeriod.TenTiet == teachingPeriodName
+                                                        && tchPeriod.SchoolId == school.SchoolId
                                                         select tchPeriod;
             if (iqTeachingPeriod.Count() != 0)
             {

@@ -41,6 +41,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<DanhMuc_NganhHoc> iqFaculty;
             iqFaculty = from fac in db.DanhMuc_NganhHocs
                         where fac.MaNganhHoc == deletedFaculty.MaNganhHoc
+                        && fac.SchoolId == school.SchoolId
                         select fac;
 
             if (iqFaculty.Count() != 0)
@@ -104,6 +105,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_NganhHoc> iqFaculty = from faculty in db.DanhMuc_NganhHocs
                                                      where faculty.TenNganhHoc == facultyName
+                                                     && faculty.SchoolId == school.SchoolId
                                                      select faculty;
             if (iqFaculty.Count() != 0)
             {
@@ -120,6 +122,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
                                              join fac in db.DanhMuc_NganhHocs on cls.MaNganhHoc equals fac.MaNganhHoc
                                              where fac.TenNganhHoc == faculty.TenNganhHoc
+                                             && fac.SchoolId == school.SchoolId
                                              select cls;
 
             if (iqClass.Count() != 0)
@@ -131,6 +134,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 IQueryable<DanhMuc_MonHoc> iqSubject = from subject in db.DanhMuc_MonHocs
                                                        join fac in db.DanhMuc_NganhHocs on subject.MaNganhHoc equals fac.MaNganhHoc
                                                        where fac.TenNganhHoc == faculty.TenNganhHoc
+                                                       && fac.SchoolId == school.SchoolId
                                                        select subject;
 
                 if (iqSubject.Count() != 0)
