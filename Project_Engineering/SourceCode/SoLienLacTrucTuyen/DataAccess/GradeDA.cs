@@ -24,6 +24,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_KhoiLop grade = null;
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops
                                                   where grad.MaKhoiLop == editedGrade.MaKhoiLop
+                                                  && grad.SchoolId == school.SchoolId
                                                   select grad;
             if (iqGrade.Count() != 0)
             {
@@ -40,6 +41,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_KhoiLop grade = null;
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops
                                                   where grad.MaKhoiLop == deletedGrade.MaKhoiLop
+                                                  && grad.SchoolId == school.SchoolId
                                                   select grad;
             if (iqGrade.Count() != 0)
             {
@@ -54,6 +56,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             DanhMuc_KhoiLop grade = null;
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops
                                                   where grad.TenKhoiLop == gradeName
+                                                  && grad.SchoolId == school.SchoolId
                                                   select grad;
             if (iqGrade.Count() != 0)
             {
@@ -68,6 +71,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<DanhMuc_KhoiLop> lGrades = new List<DanhMuc_KhoiLop>();
 
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops
+                                                  where grad.SchoolId == school.SchoolId
                                                   select grad;
             if (iqGrade.Count() != 0)
             {
@@ -81,6 +85,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<DanhMuc_KhoiLop> lGrades = new List<DanhMuc_KhoiLop>();
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops
+                                                  where grad.SchoolId == school.SchoolId
                                                   select grad;
             totalRecords = iqGrade.Count();
             if (totalRecords != 0)
@@ -96,11 +101,13 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             var lop = from l in db.LopHoc_Lops
                       where l.MaKhoiLop == grade.MaKhoiLop
+                      && l.SchoolId == school.SchoolId
                       select l;
             bool bConstraintToLop = (lop.Count() != 0) ? true : false;
 
             var mon = from m in db.DanhMuc_MonHocs
                       where m.MaKhoiLop == grade.MaKhoiLop
+                      && m.SchoolId == school.SchoolId
                       select m;
             bool bConstraintToMon = (mon.Count() != 0) ? true : false;
 
@@ -118,6 +125,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<DanhMuc_KhoiLop> iqGrade = from grad in db.DanhMuc_KhoiLops
                                                   where grad.TenKhoiLop == gradeName
+                                                  && grad.SchoolId == school.SchoolId
                                                   select grad;
 
             if (iqGrade.Count() != 0)
