@@ -64,6 +64,7 @@
     <Compile Include="GVCNInfo.cs" />
     <Compile Include="LopHocInfo.cs" />
     <Compile Include="MenuItem.cs" />
+    <Compile Include="TabularParentsComment.cs" />
     <Compile Include="TabularSubject.cs" />
     <Compile Include="TabularDiemHocSinh.cs" />
     <Compile Include="TabularHanhKiemHocSinh.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="TabularChiTietDiemMonHocLoaiDiem.cs" />
     <Compile Include="TabularChiTietPhanQuyen.cs" />
     <Compile Include="TabularDanhHieuHocSinh.cs" />
-    <Compile Include="TabularGiaoVien.cs" />
+    <Compile Include="TabularTeacher.cs" />
     <Compile Include="TabularGiaoVienChuNhiem.cs" />
     <Compile Include="TabularHoatDong.cs" />
     <Compile Include="TabularHocSinhInfo.cs" />

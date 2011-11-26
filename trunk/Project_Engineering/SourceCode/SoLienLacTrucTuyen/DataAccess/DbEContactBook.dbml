@@ -52,7 +52,8 @@
       <Column Name="ThoiHanKetThuc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="KichHoat" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CanBeDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsTeacher" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
       <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="School_aspnet_Membership" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
@@ -347,6 +348,7 @@
       <Column Name="MaTinhTrangYKien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaHocSinhLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ngay" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="CauHinh_TinhTrangYKien_GopY_YKien" Member="CauHinh_TinhTrangYKien" ThisKey="MaTinhTrangYKien" OtherKey="MaTinhTrangYKien" Type="CauHinh_TinhTrangYKien" IsForeignKey="true" />
       <Association Name="HocSinh_HocSinhLopHoc_GopY_YKien" Member="HocSinh_HocSinhLopHoc" ThisKey="MaHocSinhLopHoc" OtherKey="MaHocSinhLopHoc" Type="HocSinh_HocSinhLopHoc" IsForeignKey="true" />
     </Type>

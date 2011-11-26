@@ -47,13 +47,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strTeacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
             string strTeacherName = TxtSearchTenGiaoVien.Text.Trim();
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularTeacher> lTbTeachers = teacherBL.GetTabularTeachers(
                 strTeacherCode, strTeacherName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lTbTeachers.Count == 0 && totalRecords != 0)
+            if (lTbTeachers.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptTeachers();
@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptGiaoVien.DataSource = lTbTeachers;
             RptGiaoVien.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcPermissions()

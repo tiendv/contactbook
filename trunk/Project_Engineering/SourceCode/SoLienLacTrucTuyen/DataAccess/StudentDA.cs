@@ -48,33 +48,35 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void DeleteStudent(int maHocSinh)
+        public void DeleteStudent(HocSinh_ThongTinCaNhan deletedStudent)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> hocSinhLops;
-            hocSinhLops = from hsLop in db.HocSinh_HocSinhLopHocs
-                          where hsLop.MaHocSinh == maHocSinh
-                          select hsLop;
-            foreach (HocSinh_HocSinhLopHoc hsLop in hocSinhLops)
+            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
+                               where stdInCls.MaHocSinh == deletedStudent.MaHocSinh
+                               select stdInCls;
+            foreach (HocSinh_HocSinhLopHoc studentInClass in iqStudentInClass)
             {
-                IQueryable<HocSinh_DanhHieuHocKy> danhHieuHKs;
-                danhHieuHKs = from danhHieuHK in db.HocSinh_DanhHieuHocKies
-                              where danhHieuHK.MaHocSinhLopHoc == hsLop.MaHocSinhLopHoc
-                              select danhHieuHK;
-
-                foreach (HocSinh_DanhHieuHocKy danhHieuHK in danhHieuHKs)
+                IQueryable<HocSinh_DanhHieuHocKy> iqStudentTermResult;
+                iqStudentTermResult = from stdTermRst in db.HocSinh_DanhHieuHocKies
+                                      where stdTermRst.MaHocSinhLopHoc == studentInClass.MaHocSinhLopHoc
+                                      select stdTermRst;
+                foreach (HocSinh_DanhHieuHocKy studentTermResult in iqStudentTermResult)
                 {
-                    db.HocSinh_DanhHieuHocKies.DeleteOnSubmit(danhHieuHK);
+                    db.HocSinh_DanhHieuHocKies.DeleteOnSubmit(studentTermResult);
                 }
-                db.HocSinh_HocSinhLopHocs.DeleteOnSubmit(hsLop);
+
+                db.HocSinh_HocSinhLopHocs.DeleteOnSubmit(studentInClass);
             }
 
-            HocSinh_ThongTinCaNhan hocSinh;
-            hocSinh = (from hS in db.HocSinh_ThongTinCaNhans
-                       where hS.MaHocSinh == maHocSinh
-                       select hS).First();
-            db.HocSinh_ThongTinCaNhans.DeleteOnSubmit(hocSinh);
-            db.SubmitChanges();
-
+            IQueryable<HocSinh_ThongTinCaNhan> iqStudent;
+            iqStudent = from std in db.HocSinh_ThongTinCaNhans
+                        where std.MaHocSinh == deletedStudent.MaHocSinh
+                        select std;
+            if (iqStudent.Count() != 0)
+            {
+                db.HocSinh_ThongTinCaNhans.DeleteOnSubmit(iqStudent.First());
+                db.SubmitChanges();
+            }
         }
 
         public HocSinh_ThongTinCaNhan GetStudent(string studentCode)

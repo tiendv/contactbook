@@ -12,12 +12,12 @@ using System.Web.UI.HtmlControls;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class KetQuaHocTapPage : BaseContentPage
+    public partial class StudentStudyingResultPage : BaseContentPage
     {
         #region Fields
-        private StudentBL hocSinhBL;
-        private MarkTypeBL loaiDiemBL;
-        private StudyingResultBL ketQuaHocTapBL;
+        private StudentBL studentBL;
+        private MarkTypeBL markTypeBL;
+        private StudyingResultBL studyingResultBL;
         #endregion
 
         #region Page event handlers
@@ -29,9 +29,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new StudentBL(UserSchool);
-            loaiDiemBL = new MarkTypeBL(UserSchool);
-            ketQuaHocTapBL = new StudyingResultBL(UserSchool);
+            studentBL = new StudentBL(UserSchool);
+            markTypeBL = new MarkTypeBL(UserSchool);
+            studyingResultBL = new StudyingResultBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
                 student.MaHocSinh = (int)ViewState["MaHocSinh"];
-                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
+                List<CauHinh_NamHoc> lstNamHoc = studentBL.GetYears(student);
                 DdlNamHoc.DataSource = lstNamHoc;
                 DdlNamHoc.DataValueField = "MaNamHoc";
                 DdlNamHoc.DataTextField = "TenNamHoc";
@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptTenLoaiDiem()
         {
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
+            List<DanhMuc_LoaiDiem> lstLoaiDiem = markTypeBL.GetListMarkTypes();
             this.RptLoaiDiem.DataSource = lstLoaiDiem;
             this.RptLoaiDiem.DataBind();
         }
@@ -102,10 +102,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
             term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularSubjectTermResult> lstTbKetQuaMonHoc;
-            lstTbKetQuaMonHoc = ketQuaHocTapBL.GetTabularSubjectTermResults(student, year, term,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+            lstTbKetQuaMonHoc = studyingResultBL.GetTabularSubjectTermResults(student, year, term,
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             bool bDisplayData = (lstTbKetQuaMonHoc.Count != 0) ? true : false;
             RptKetQuaDiem.Visible = bDisplayData;
@@ -116,11 +116,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdKQHocTapSTT.Visible = bDisplayData;
             tdKQHocTapMonHoc.Visible = bDisplayData;
             tdKQHocTapDTB.Visible = bDisplayData;
-            tdEdit.Visible = bDisplayData;
 
             this.RptKetQuaDiem.DataSource = lstTbKetQuaMonHoc;
             this.RptKetQuaDiem.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void BindRepeaterDanhHieu()
@@ -131,18 +130,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             student.MaHocSinh = (int)ViewState["MaHocSinh"];
             year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularTermStudentResult> lstTbDanhHieu;
-            lstTbDanhHieu = ketQuaHocTapBL.GetTabularTermStudentResults(student, year,
-                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out totalRecords);
+            lstTbDanhHieu = studyingResultBL.GetTabularTermStudentResults(student, year,
+                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out dTotalRecords);
 
             RptDanhHieu.DataSource = lstTbDanhHieu;
             RptDanhHieu.DataBind();
-            DataPagerDanhHieu.ItemCount = totalRecords;
+            DataPagerDanhHieu.ItemCount = dTotalRecords;
 
             bool bDisplayed = (lstTbDanhHieu.Count != 0) ? true : false;
             RptDanhHieu.Visible = bDisplayed;
-            PnlPopupHanhKiem.Visible = bDisplayed;
         }
 
         private void BindRepeaterHanhKiem()
@@ -164,7 +162,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     termSubjectedMark = new HocSinh_DiemMonHocHocKy();
                     termSubjectedMark.MaDiemMonHK = Int32.Parse(((HiddenField)control).Value);
                     List<StrDiemMonHocLoaiDiem> lstStrDiemMonHocLoaiDiem;
-                    lstStrDiemMonHocLoaiDiem = ketQuaHocTapBL.GetSubjectMarks(termSubjectedMark);
+                    lstStrDiemMonHocLoaiDiem = studyingResultBL.GetSubjectMarks(termSubjectedMark);
                     Repeater rptDiemMonHoc = (Repeater)e.Item.FindControl("RptDiemTheoMonHoc");
                     rptDiemMonHoc.DataSource = lstStrDiemMonHocLoaiDiem;
                     rptDiemMonHoc.DataBind();
@@ -204,52 +202,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 //}
             }
         }
-
-        protected void RptDanhHieu_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "OpenPopupHanhKiem":
-                    {
-                        int maHanhKiem = Int32.Parse(e.CommandArgument.ToString());
-
-                        List<DanhMuc_HanhKiem> lstHanhKiem = (new ConductBL(UserSchool)).GetListConducts(true);
-
-                        foreach (DanhMuc_HanhKiem hanhKiem in lstHanhKiem)
-                        {
-                            RadioButton rbtn = new RadioButton();
-                            rbtn.ID = "PnlPopupHanhKiem_Rbtn" + hanhKiem.MaHanhKiem.ToString();
-                            rbtn.Text = hanhKiem.TenHanhKiem;
-                            rbtn.GroupName = "GpRbtnHanhKiem";
-                            rbtn.Attributes.Add("class", "rbtnHanhKiem");
-                            PnlPopupHanhKiem_DivListHanhKiem.Controls.Add(rbtn);
-                            HtmlControl hcBreak = new HtmlGenericControl("br");
-                            PnlPopupHanhKiem_DivListHanhKiem.Controls.Add(hcBreak);
-                        }
-
-                        RadioButton checkedRbtn = (RadioButton)PnlPopupHanhKiem_DivListHanhKiem.FindControl(
-                            "PnlPopupHanhKiem_Rbtn" + e.CommandArgument.ToString());
-                        checkedRbtn.Checked = true;
-
-                        ModalPopupExtender mPEHanhKiem = (ModalPopupExtender)e.Item.FindControl("MPEHanhKiem");
-                        mPEHanhKiem.Show();
-
-                        RptMPEHanhKiem.Value = mPEHanhKiem.ClientID;
-
-                        HiddenField hdfRptMaDanhHieuHSHK = (HiddenField)e.Item.FindControl("HdfRptMaDanhHieuHSHK");
-                        HdfMaDanhHieuHSHK.Value = hdfRptMaDanhHieuHSHK.Value;
-
-                        string userName = Session["username"].ToString();
-                        Session[userName + "CheckHanhKiem"] = e.CommandArgument.ToString();
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
         #endregion
 
         #region Button event handlers
@@ -260,25 +212,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRepeaterDanhHieu();
         }
 
-        protected void popopHanhKiem_Save_Click(object sender, ImageClickEventArgs e)
-        {
-            HocSinh_DanhHieuHocKy termResult = null;
-            DanhMuc_HanhKiem conduct = null;
-            if (Session[Session["username"].ToString() + "CheckHanhKiem"] != null)
-            {
-                termResult.MaDanhHieuHSHK = Int32.Parse(HdfMaDanhHieuHSHK.Value);
-                conduct.MaHanhKiem = Int32.Parse(Session[Session["username"].ToString() + "CheckHanhKiem"].ToString());
-
-                ketQuaHocTapBL.UpdateStudentTermResult(termResult, conduct);
-                Session.Remove(Session["username"].ToString() + "CheckHanhKiem");
-            }
-
-            BindRepeaterDanhHieu();
-        }
-
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("/modules/hoc_sinh/danhsachhocsinh.aspx");
+            Response.Redirect(AppConstant.PAGEPATH_USERS);
         }
         #endregion
 

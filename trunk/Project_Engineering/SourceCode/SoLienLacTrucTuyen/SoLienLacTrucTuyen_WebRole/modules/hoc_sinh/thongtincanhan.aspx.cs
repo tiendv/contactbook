@@ -114,7 +114,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSua_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(string.Format("suahocsinh.aspx?hocsinh={0}", ViewState["MaHocSinh"]));
+            Response.Redirect(string.Format("suahocsinh.aspx?{0}={1}", AppConstant.QUERY_STUDENT, ViewState["MaHocSinh"]));
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)

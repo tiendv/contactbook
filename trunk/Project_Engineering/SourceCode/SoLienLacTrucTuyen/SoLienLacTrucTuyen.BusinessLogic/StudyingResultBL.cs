@@ -321,14 +321,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<TabularStudentMark> GetTabularStudentMarks(LopHoc_Lop Class, DanhMuc_MonHoc subject, CauHinh_HocKy term, List<DanhMuc_LoaiDiem> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
-            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
-            TabularStudentMark tabularStudentMark = null;
-            MarkTypeBL markTypeBL = new MarkTypeBL(school);
+            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
+            TabularStudentMark tabularStudentMark = null;            
             List<HocSinh_DiemMonHocHocKy> termSubjectMarks = null;
             List<MarkTypedMark> markMypedMarks = null;
             List<HocSinh_ChiTietDiem> detailedMarks = null;
             StringBuilder strB = new StringBuilder();
             string strMarks = "";
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
 
             termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
             foreach (HocSinh_DiemMonHocHocKy termSubjectMark in termSubjectMarks)

@@ -1238,7 +1238,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private bool _CanBeDeleted;
 		
-		private int _SchoolId;
+		private System.Nullable<int> _SchoolId;
+		
+		private System.Nullable<bool> _IsTeacher;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -1300,8 +1302,10 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnKichHoatChanged();
     partial void OnCanBeDeletedChanging(bool value);
     partial void OnCanBeDeletedChanged();
-    partial void OnSchoolIdChanging(int value);
+    partial void OnSchoolIdChanging(System.Nullable<int> value);
     partial void OnSchoolIdChanged();
+    partial void OnIsTeacherChanging(System.Nullable<bool> value);
+    partial void OnIsTeacherChanged();
     #endregion
 		
 		public aspnet_Membership()
@@ -1820,8 +1824,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
-		public int SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
+		public System.Nullable<int> SchoolId
 		{
 			get
 			{
@@ -1840,6 +1844,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._SchoolId = value;
 					this.SendPropertyChanged("SchoolId");
 					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsTeacher", DbType="Bit")]
+		public System.Nullable<bool> IsTeacher
+		{
+			get
+			{
+				return this._IsTeacher;
+			}
+			set
+			{
+				if ((this._IsTeacher != value))
+				{
+					this.OnIsTeacherChanging(value);
+					this.SendPropertyChanging();
+					this._IsTeacher = value;
+					this.SendPropertyChanged("IsTeacher");
+					this.OnIsTeacherChanged();
 				}
 			}
 		}
@@ -1939,7 +1963,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 					}
 					else
 					{
-						this._SchoolId = default(int);
+						this._SchoolId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("School");
 				}
@@ -7720,6 +7744,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.Nullable<int> _SchoolId;
 		
+		private System.DateTime _Ngay;
+		
 		private EntityRef<CauHinh_TinhTrangYKien> _CauHinh_TinhTrangYKien;
 		
 		private EntityRef<HocSinh_HocSinhLopHoc> _HocSinh_HocSinhLopHoc;
@@ -7742,6 +7768,8 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaHocSinhLopHocChanged();
     partial void OnSchoolIdChanging(System.Nullable<int> value);
     partial void OnSchoolIdChanged();
+    partial void OnNgayChanging(System.DateTime value);
+    partial void OnNgayChanged();
     #endregion
 		
 		public GopY_YKien()
@@ -7895,6 +7923,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._SchoolId = value;
 					this.SendPropertyChanged("SchoolId");
 					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ngay", DbType="DateTime NOT NULL")]
+		public System.DateTime Ngay
+		{
+			get
+			{
+				return this._Ngay;
+			}
+			set
+			{
+				if ((this._Ngay != value))
+				{
+					this.OnNgayChanging(value);
+					this.SendPropertyChanging();
+					this._Ngay = value;
+					this.SendPropertyChanged("Ngay");
+					this.OnNgayChanged();
 				}
 			}
 		}

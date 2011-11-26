@@ -52,12 +52,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 studentActivity = iqStudentActivity.First();
                 studentActivity.Ngay = editedStudentActivity.Ngay;
-                studentActivity.TieuDe = editedStudentActivity.TieuDe;
                 studentActivity.NoiDung = editedStudentActivity.NoiDung;
-                if (editedStudentActivity.MaThaiDoThamGia != null)
-                {
-                    studentActivity.MaThaiDoThamGia = editedStudentActivity.MaThaiDoThamGia;
-                }
+                studentActivity.MaThaiDoThamGia = editedStudentActivity.MaThaiDoThamGia;
 
                 db.SubmitChanges();
             }
@@ -134,18 +130,15 @@ namespace SoLienLacTrucTuyen.DataAccess
         //    }
         //}
 
-        public List<HocSinh_HoatDong> GetListStudentActivities(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate,
+        public List<HocSinh_HoatDong> GetStudentActivities(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<HocSinh_HoatDong> studentActivities = new List<HocSinh_HoatDong>();
-            AttitudeDA attitudeDA = new AttitudeDA(school);
 
             IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             join stdInCls in db.HocSinh_HocSinhLopHocs on stdAct.MaHocSinhLopHoc equals stdInCls.MaHocSinhLopHoc
-                                                             where stdInCls.MaHocSinh == student.MaHocSinh
-                                                             && stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                             && stdAct.MaHocKy == term.MaHocKy
-                                                             && stdAct.Ngay >= beginDate && stdAct.Ngay <= endDate
+                                                             where stdAct.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
+                                                                && stdAct.HocSinh_HocSinhLopHoc.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                                                && stdAct.MaHocKy == term.MaHocKy && stdAct.Ngay >= beginDate && stdAct.Ngay <= endDate
                                                              select stdAct;
             totalRecords = iqStudentActivity.Count();
             if (totalRecords != 0)

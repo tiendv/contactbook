@@ -13,7 +13,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class NhomNguoiDung : BaseContentPage
+    public partial class RolesPage : BaseContentPage
     {
         #region Fields
         private RoleBL roleBL;
@@ -56,13 +56,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public void BindRepeater()
         {   
             string roleName = TxtSearchNhomNguoiDung.Text.Trim();
-            double totalRecords;
-            List<TabularRole> lstTbRoles = roleBL.GetListTbRoles(
+            double dTotalRecords;
+            List<TabularRole> lstTbRoles = roleBL.GetTabularRoles(
                 roleName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTbRoles.Count == 0 && totalRecords != 0)
+            if (lstTbRoles.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
@@ -101,7 +101,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptRoles.DataSource = lstTbRoles;
             RptRoles.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
         #endregion
 
@@ -116,12 +116,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string roleName = this.TxtRoleNameAdd.Text.Trim();
-            string description = this.TxtRoleDescriptionAdd.Text.Trim();
+            string strActualRoleName = "";
+            string strRoleName = this.TxtRoleNameAdd.Text.Trim();
+            string strDescription = this.TxtRoleDescriptionAdd.Text.Trim();
 
             if (Page.IsValid)
             {
-                if (roleName == "" || roleName == "*")
+                if (strRoleName == "" || strRoleName == "*")
                 {
                     RoleNameRequiredAdd.IsValid = false;
                     MPEAdd.Show();
@@ -129,7 +130,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    if (roleBL.RoleExists(roleName))
+                    if (roleBL.RoleExists(strRoleName))
                     {
                         RoleNameValidatorAdd.IsValid = false;
                         MPEAdd.Show();
@@ -137,9 +138,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 }
 
-                // Insert
-                Roles.CreateRole(roleName);
-                roleBL.CreateRoleDetail(roleName, description);
+                // Insert                
+                strActualRoleName = UserSchool.SchoolId + "_" + strRoleName;
+                Roles.CreateRole(strRoleName);
+                roleBL.CreateRoleDetail(strRoleName, strDescription);
 
                 // Rebind data
                 MainDataPager.CurrentIndex = 1;
@@ -250,7 +252,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     TabularRole tbRole = (TabularRole)e.Item.DataItem;
-                    if (!roleBL.CanDeleteRole(tbRole.RoleName))
+                    if (!roleBL.IsDeletable(tbRole.RoleName))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -278,7 +280,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         Guid maNhomNguoiDung = new Guid(e.CommandArgument.ToString());
-                        TabularRole tbRole = roleBL.GetTbRole(maNhomNguoiDung);
+                        TabularRole tbRole = roleBL.GetTabularRole(maNhomNguoiDung);
                         if (tbRole != null)
                         {
                             TxtRoleNameEdit.Text = tbRole.RoleName;

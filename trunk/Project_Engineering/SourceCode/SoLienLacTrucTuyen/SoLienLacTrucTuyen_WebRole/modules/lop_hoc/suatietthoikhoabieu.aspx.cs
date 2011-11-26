@@ -318,11 +318,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularSubject> lTabularSubjects = (new SubjectBL(UserSchool)).GetListTabularSubjects(faculty, grade,
                     subjectName,
-                    DataPageMonHoc.CurrentIndex, DataPageMonHoc.PageSize, out totalRecords);
-            DataPageMonHoc.ItemCount = totalRecords;
+                    DataPageMonHoc.CurrentIndex, DataPageMonHoc.PageSize, out dTotalRecords);
+            DataPageMonHoc.ItemCount = dTotalRecords;
 
             bool bDisplayData = (lTabularSubjects.Count != 0) ? true : false;
             LblSearchResultMonHoc.Visible = !bDisplayData;
@@ -357,11 +357,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string maHienThiGiaoVien = TxtSearchMaGiaoVien.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularTeacher> lstTbGiaoViens = giaoVienBL.GetTabularTeachers(
                 maHienThiGiaoVien, hoTen,
-                DataPageGiaoVien.CurrentIndex, DataPageGiaoVien.PageSize, out totalRecords);
-            DataPageGiaoVien.ItemCount = totalRecords;
+                DataPageGiaoVien.CurrentIndex, DataPageGiaoVien.PageSize, out dTotalRecords);
+            DataPageGiaoVien.ItemCount = dTotalRecords;
 
             bool bDisplayData = (lstTbGiaoViens.Count != 0) ? true : false;
             LblSearchResultGiaoVien.Visible = !bDisplayData;

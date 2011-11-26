@@ -325,7 +325,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             FacultyBL facultyBL = new FacultyBL(UserSchool);
             GradeBL gradeBL = new GradeBL(UserSchool);
             string subjectName = this.TxtSearchedSubject.Text.Trim();
-            double totalRecords;
+            double dTotalRecords;
 
             if (DdlNganh.SelectedIndex > 0)
             {
@@ -340,8 +340,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             List<TabularSubject> lTabularSubjects = subjectBL.GetListTabularSubjects(faculty, grade, subjectName, MainDataPager.CurrentIndex,
-                MainDataPager.PageSize, out totalRecords);
-            MainDataPager.ItemCount = totalRecords;
+                MainDataPager.PageSize, out dTotalRecords);
+            MainDataPager.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
             if (lTabularSubjects.Count == 0 && MainDataPager.ItemCount != 0)

@@ -68,7 +68,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
 
                     Guid selectedRole = new Guid(DdlRoles.SelectedValue.ToString());
-                    if (selectedRole == roleBL.GetRoleAdmin())
+                    if (selectedRole == roleBL.GetRoleADMIN())
                     {
                         if (functionBL.GetAdminOnlyFunctionCategories().Contains(tbPhanQuyen.FunctionCategoryName))
                         {
@@ -148,7 +148,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownList()
         {
-            List<aspnet_Role> lstRoles = roleBL.GetListRoles();
+            List<aspnet_Role> lstRoles = roleBL.GetRoles();
             DdlRoles.DataSource = lstRoles;
             DdlRoles.DataValueField = "RoleId";
             DdlRoles.DataTextField = "RoleName";

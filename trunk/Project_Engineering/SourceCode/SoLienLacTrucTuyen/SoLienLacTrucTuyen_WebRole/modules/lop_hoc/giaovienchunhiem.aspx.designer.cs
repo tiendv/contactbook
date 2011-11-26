@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class GVCN {
+    public partial class FormerTeacherPage {
         
         /// <summary>
         /// UdPnlSearchCriteria control.

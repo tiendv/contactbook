@@ -43,8 +43,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.ValidateUser(userName);
         }
 
-        public List<TabularUser> GetListTabularUsers(Guid roleId, string userName,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularUser> GetListTabularUsers(Guid roleId, string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularUser> lTabularUsers = new List<TabularUser>();
 
@@ -52,12 +51,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
                 {
-                    lTabularUsers = userDA.GetListTbUsers(
+                    lTabularUsers = userDA.GetUsers(
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTabularUsers = userDA.GetListTbUsers(userName,
+                    lTabularUsers = userDA.GetUsers(userName,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
@@ -65,12 +64,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
                 {
-                    lTabularUsers = userDA.GetListTbUsers(roleId,
+                    lTabularUsers = userDA.GetUsers(roleId,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTabularUsers = userDA.GetListUsers(roleId, userName,
+                    lTabularUsers = userDA.GetUsers(roleId, userName,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
@@ -85,14 +84,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTabularUsers;
         }
 
-        public bool CanDeleteNguoiDung(Guid maNguoiDung)
+        public bool IsDeletable(aspnet_User user)
         {
-            return userDA.CanDeleteNguoiDung(maNguoiDung);
+            return userDA.IsDeletable(user);
         }
 
         public bool UserInRoleParents(string userName)
         {
-            return userDA.UserInRoleParents(userName);
+            return userDA.UserInRolePARENTS(userName);
+        }
+
+        public void UpdateMembership(aspnet_User user)
+        {
+            userDA.UpdateMembership(user);
         }
     }
 }

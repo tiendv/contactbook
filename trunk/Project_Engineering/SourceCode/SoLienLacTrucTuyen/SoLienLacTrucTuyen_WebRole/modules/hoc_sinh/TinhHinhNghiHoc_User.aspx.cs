@@ -91,7 +91,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             HocSinh_ThongTinCaNhan student = null;
             CauHinh_NamHoc year = null;
             CauHinh_HocKy term = null;
-            double totalRecords;
+            double dTotalRecords;
             List<TabularAbsent> tabularAbsents;
 
             student = new HocSinh_ThongTinCaNhan();
@@ -104,9 +104,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
             
             tabularAbsents = absentBL.GetTabularAbsents(student, year, term, dtBeginDate, dtEndDate,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if(totalRecords != 0 && tabularAbsents.Count == 0)
+            if(dTotalRecords != 0 && tabularAbsents.Count == 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
@@ -117,7 +117,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcessDislayInfo(bDisplayData);
             RptNgayNghi.DataSource = tabularAbsents;
             RptNgayNghi.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)

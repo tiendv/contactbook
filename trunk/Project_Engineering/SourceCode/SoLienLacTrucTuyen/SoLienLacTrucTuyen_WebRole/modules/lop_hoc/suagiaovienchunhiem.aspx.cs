@@ -134,14 +134,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string teacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
             string teacherName = TxtSearchTenGiaoVien.Text.Trim();
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularTeacher> lTbTeachers = teacherBL.GetTabularUnformeredTeachers(
                 year,
                 teacherCode, teacherName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lTbTeachers.Count == 0 && totalRecords != 0)
+            if (lTbTeachers.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
@@ -153,7 +153,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptGiaoVien.DataSource = lTbTeachers;
             RptGiaoVien.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
 
             if (bDisplayData)
             {

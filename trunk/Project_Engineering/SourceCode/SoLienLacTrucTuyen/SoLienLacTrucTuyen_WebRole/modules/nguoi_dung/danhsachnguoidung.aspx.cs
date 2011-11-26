@@ -13,11 +13,10 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhSachNguoiDung : BaseContentPage
+    public partial class UsersPage : BaseContentPage
     {
         #region Fields
         private UserBL userBL;
-        private RoleBL roleBL;
         private bool isSearch;
         #endregion
 
@@ -31,15 +30,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             userBL = new UserBL(UserSchool);
-            roleBL = new RoleBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
-                BindDropDownList();
+                BindDDLRoles();
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
 
-                BindDataRepeater();
+                BindRptUsers();
             }
 
             ProcPermissions();
@@ -47,10 +45,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void BindDropDownList()
+        private void BindDDLRoles()
         {
-            List<aspnet_Role> lstNhomNguoiDung = roleBL.GetListRoles();
-            DdlRoles.DataSource = lstNhomNguoiDung;
+            RoleBL roleBL = new RoleBL(UserSchool);
+            List<aspnet_Role> roles = roleBL.GetRoles();
+            DdlRoles.DataSource = roles;
             DdlRoles.DataValueField = "RoleId";
             DdlRoles.DataTextField = "RoleName";
             DdlRoles.DataBind();
@@ -61,33 +60,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        public void BindDataRepeater()
+        public void BindRptUsers()
         {
-            string userName = TxtSearchUserName.Text.Trim();
-            Guid searchedRole;
+            List<TabularUser> tabularUsers;
+            double dTotalRecords;
+            string strUserName = TxtSearchUserName.Text.Trim();
+            Guid role;
+
             if (DdlRoles.Items.Count != 0)
             {
-                searchedRole = new Guid(DdlRoles.SelectedValue);
+                role = new Guid(DdlRoles.SelectedValue);
             }
             else
             {
-                searchedRole = new Guid();
+                role = new Guid();
             }
-
-            double totalRecords;
-            List<TabularUser> lstTbUsers = userBL.GetListTabularUsers(
-                searchedRole, userName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+            
+            tabularUsers = userBL.GetListTabularUsers(
+                role, strUserName,
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTbUsers.Count == 0 && totalRecords != 0)
+            if (tabularUsers.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindDataRepeater();
+                BindRptUsers();
                 return;
             }
 
-            bool bDisplayData = (lstTbUsers.Count != 0) ? true : false;
+            bool bDisplayData = (tabularUsers.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             RptUser.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
@@ -112,9 +113,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }
 
-            RptUser.DataSource = lstTbUsers;
+            RptUser.DataSource = tabularUsers;
             RptUser.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcPermissions()
@@ -145,12 +146,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             MainDataPager.ItemCount = 0;
             isSearch = true;
-            BindDataRepeater();
+            BindRptUsers();
         }
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("/Modules/Nguoi_Dung/ThemNguoiDung.aspx");
+            Response.Redirect("/modules/nguoi_dung/themnguoidung.aspx");
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
@@ -163,7 +164,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             isSearch = false;
-            BindDataRepeater();
+            BindRptUsers();
 
         }
         #endregion
@@ -204,9 +205,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    TabularUser nguoiDung = (TabularUser)e.Item.DataItem;
-                    Guid maNguoiDung = nguoiDung.UserId;
-                    if (!userBL.CanDeleteNguoiDung(maNguoiDung))
+                    aspnet_User user = new aspnet_User();
+                    user.UserId = ((TabularUser)e.Item.DataItem).UserId;
+                    if (!userBL.IsDeletable(user))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -258,7 +259,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindDataRepeater();
+            BindRptUsers();
         }
         #endregion
     }

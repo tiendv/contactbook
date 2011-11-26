@@ -13,13 +13,13 @@ using System.Text.RegularExpressions;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class hoatdong : BaseContentPage
+    public partial class StudentActivityPage : BaseContentPage
     {
         #region Fields
-        private StudentBL hocSinhBL;
+        private StudentBL studentBL;
         private SystemConfigBL systemConfigBL;
-        private StudentActivityBL hoatDongBL;
-        private AttitudeBL thaiDoThamGiaBL;
+        private StudentActivityBL studentActivityBL;
+        private AttitudeBL attitudeBL;
         private bool isSearch;
         #endregion
 
@@ -32,10 +32,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new StudentBL(UserSchool);
+            studentBL = new StudentBL(UserSchool);
             systemConfigBL = new SystemConfigBL(UserSchool);
-            hoatDongBL = new StudentActivityBL(UserSchool);
-            thaiDoThamGiaBL = new AttitudeBL(UserSchool);
+            studentActivityBL = new StudentActivityBL(UserSchool);
+            attitudeBL = new AttitudeBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -47,7 +47,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     BindDropDownLists();
                     InitDates();
                     isSearch = false;
-                    BindRepeater();
+                    BindRptStudentActivities();
 
                     HlkThongTinCaNhan.NavigateUrl = String.Format("thongtincanhan.aspx?hocsinh={0}", maHocSinh);
                     HlkKetQuaHocTap.NavigateUrl = String.Format("ketquahoctap.aspx?hocsinh={0}", maHocSinh);
@@ -77,52 +77,53 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
-            BindDropDownListHocKy();
-            BindDropDownListThaiDoThamGia();
+            BindDDLYears();
+            BindDDLTerms();
+            BindDDLAttitudes();
         }
 
-        private void BindDropDownListNamHoc()
+        private void BindDDLYears()
         {
             if (ViewState["MaHocSinh"] != null)
             {
                 HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
                 student.MaHocSinh = (int)ViewState["MaHocSinh"];
-                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
-                DdlNamHoc.DataSource = lstNamHoc;
+
+                List<CauHinh_NamHoc> years = studentBL.GetYears(student);
+                DdlNamHoc.DataSource = years;
                 DdlNamHoc.DataValueField = "MaNamHoc";
                 DdlNamHoc.DataTextField = "TenNamHoc";
                 DdlNamHoc.DataBind();
             }
         }
 
-        private void BindDropDownListHocKy()
+        private void BindDDLTerms()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
-            DdlHocKy.DataSource = lstHocKy;
+            List<CauHinh_HocKy> terms = systemConfigBL.GetListTerms();
+            DdlHocKy.DataSource = terms;
             DdlHocKy.DataValueField = "MaHocKy";
             DdlHocKy.DataTextField = "TenHocKy";
             DdlHocKy.DataBind();
             DdlHocKy.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
 
-            DdlHocKyThem.DataSource = lstHocKy;
+            DdlHocKyThem.DataSource = terms;
             DdlHocKyThem.DataValueField = "MaHocKy";
             DdlHocKyThem.DataTextField = "TenHocKy";
             DdlHocKyThem.DataBind();
             DdlHocKyThem.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
         }
 
-        private void BindDropDownListThaiDoThamGia()
+        private void BindDDLAttitudes()
         {
-            List<DanhMuc_ThaiDoThamGia> lstThaiDoThamGia = thaiDoThamGiaBL.GetListAttitudes();
-            DdlThaiDoThamGiaThem.DataSource = lstThaiDoThamGia;
+            List<DanhMuc_ThaiDoThamGia> attitudes = attitudeBL.GetListAttitudes();
+            DdlThaiDoThamGiaThem.DataSource = attitudes;
             DdlThaiDoThamGiaThem.DataValueField = "MaThaiDoThamGia";
             DdlThaiDoThamGiaThem.DataTextField = "TenThaiDoThamGia";
             DdlThaiDoThamGiaThem.DataBind();
             DdlThaiDoThamGiaThem.Items.Insert(0, new ListItem("Chưa xác định", "0"));
 
-            DdlThaiDoThamGiaSua.DataSource = lstThaiDoThamGia;
+            DdlThaiDoThamGiaSua.DataSource = attitudes;
             DdlThaiDoThamGiaSua.DataValueField = "MaThaiDoThamGia";
             DdlThaiDoThamGiaSua.DataTextField = "TenThaiDoThamGia";
             DdlThaiDoThamGiaSua.DataBind();
@@ -131,37 +132,36 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void InitDates()
         {
-            DateTime today = DateTime.Now;
-            DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
-            TxtTuNgay.Text = beginDateOfMonth.ToShortDateString();
-            DateTime dateOfNextMonth = today.AddMonths(1);
-            DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
-            DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
-            TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
+            DateTime dtToday = DateTime.Now;
+            DateTime dtBeginDateOfMonth = new DateTime(dtToday.Year, dtToday.Month, 1);            
+            DateTime dtDateOfNextMonth = dtToday.AddMonths(1);
+            DateTime dtBeginDateOfNextMonth = new DateTime(dtDateOfNextMonth.Year, dtDateOfNextMonth.Month, 1);
+            DateTime dtEndDateOfMonth = dtBeginDateOfNextMonth.AddDays(-1);
 
-            TxtNgayThem.Text = today.ToShortDateString();
-
-            TxtNgaySua.Text = today.ToShortDateString();
+            TxtTuNgay.Text = dtBeginDateOfMonth.ToShortDateString();
+            TxtDenNgay.Text = dtEndDateOfMonth.ToShortDateString();
+            TxtNgayThem.Text = dtToday.ToShortDateString();
+            TxtNgaySua.Text = dtToday.ToShortDateString();
         }
 
-        private void BindRepeater()
+        private void BindRptStudentActivities()
         {
             HocSinh_ThongTinCaNhan student = null;
             CauHinh_NamHoc year = null;
             CauHinh_HocKy term = null;
             DateTime dtBeginDate;
             DateTime dtEndDate;
-            double totalRecords;
-            List<TabularStudentActivity> lstTabularHoatDongs;
+            double dTotalRecords;
+            List<TabularStudentActivity> tabularStudentActivities;
 
             student = new HocSinh_ThongTinCaNhan();
             student.MaHocSinh = (int)ViewState["MaHocSinh"];
-            if(DdlNamHoc.SelectedIndex > 0)
+            if(DdlNamHoc.SelectedIndex >= 0)
             {
                 year = new CauHinh_NamHoc();
                 year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
             }
-            if (DdlHocKy.SelectedIndex > 0)
+            if (DdlHocKy.SelectedIndex >= 0)
             {
                 term = new CauHinh_HocKy();
                 term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
@@ -169,22 +169,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
             dtEndDate = DateTime.Parse(TxtDenNgay.Text);
 
-            lstTabularHoatDongs = hoatDongBL.GetTabularStudentActivities(student, year, term,
-                dtBeginDate, dtEndDate, MainDataPager.CurrentIndex, MainDataPager.PageSize,
-                out totalRecords);
+            tabularStudentActivities = studentActivityBL.GetTabularStudentActivities(
+                student, year, term, dtBeginDate, dtEndDate, 
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if (totalRecords != 0 && lstTabularHoatDongs.Count == 0)
+            if (dTotalRecords != 0 && tabularStudentActivities.Count == 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRepeater();
+                BindRptStudentActivities();
                 return;
             }
 
-            bool bDisplayData = (lstTabularHoatDongs.Count != 0) ? true : false;
+            bool bDisplayData = (tabularStudentActivities.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
-            RptHoatDong.DataSource = lstTabularHoatDongs;
+
+            RptHoatDong.DataSource = tabularStudentActivities;
             RptHoatDong.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -219,7 +220,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             MainDataPager.CurrentIndex = currentPageIndex;
-            BindRepeater();
+            BindRptStudentActivities();
         }
         #endregion
 
@@ -228,7 +229,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRepeater();
+            BindRptStudentActivities();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -238,9 +239,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             CauHinh_HocKy term = null;
             DateTime date;
             CauHinh_NamHoc year = null;
-
+            
             student = new HocSinh_ThongTinCaNhan();
             student.MaHocSinh = (int)ViewState["MaHocSinh"];
+            year = systemConfigBL.GetCurrentYear();
             term = new CauHinh_HocKy();
             term.MaHocKy = Int32.Parse(this.DdlHocKyThem.SelectedValue);
             string tieuDe = this.TxtTieuDeThem.Text.Trim();
@@ -281,7 +283,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             return;
                         }
 
-                        if (hoatDongBL.StudentActivityNamExists(tieuDe, student, year, term, DateTime.Parse(strNgay)))
+                        if (studentActivityBL.StudentActivityNamExists(tieuDe, student, year, term, DateTime.Parse(strNgay)))
                         {
                             TieuDeValidatorAdd.IsValid = false;
                             MPEAdd.Show();
@@ -291,14 +293,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            string moTa = this.TxtMoTaThem.Text;
+            string strContent = this.TxtMoTaThem.Text;
             date = DateTime.Parse(this.TxtNgayThem.Text);
-            int maThaiDoThamGia = Int32.Parse(this.DdlThaiDoThamGiaThem.SelectedValue);
+            if (this.DdlThaiDoThamGiaThem.SelectedIndex > 0)
+            {
+                attitude = new DanhMuc_ThaiDoThamGia();
+                attitude.MaThaiDoThamGia = Int32.Parse(this.DdlThaiDoThamGiaThem.SelectedValue);
+            }            
 
-            hoatDongBL.InsertStudentActivity(student, term, date, tieuDe, moTa, attitude);
+            studentActivityBL.InsertStudentActivity(student, term, date, tieuDe, strContent, attitude);
 
             MainDataPager.CurrentIndex = 1;
-            BindRepeater();
+            BindRptStudentActivities();
 
             this.DdlHocKyThem.SelectedIndex = 0;
             this.TxtNgayThem.Text = DateTime.Now.ToShortDateString();
@@ -314,7 +320,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            HocSinh_ThongTinCaNhan student = null;
             HocSinh_HoatDong studentActivity = null;
             DanhMuc_ThaiDoThamGia attitude = null;
             ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
@@ -371,17 +376,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            DateTime date = DateTime.Parse(this.TxtNgaySua.Text);
-            string strContent = this.TxtMoTaSua.Text;
-            int iAttitudeId = Int32.Parse(this.DdlThaiDoThamGiaSua.SelectedValue);
-
             studentActivity = new HocSinh_HoatDong();
             studentActivity.MaHoatDong = iStudentActivityId;
-            attitude.MaThaiDoThamGia = iAttitudeId;
-            hoatDongBL.UpdateStudentActivity(studentActivity, date, strContent, attitude);
+            DateTime date = DateTime.Parse(this.TxtNgaySua.Text);
+            string strContent = this.TxtMoTaSua.Text;
+            if (this.DdlThaiDoThamGiaSua.SelectedIndex > 0)
+            {
+                attitude = new DanhMuc_ThaiDoThamGia();
+                attitude.MaThaiDoThamGia = Int32.Parse(this.DdlThaiDoThamGiaSua.SelectedValue);
+            }
 
-            MainDataPager.CurrentIndex = 1;
-            BindRepeater();
+            studentActivityBL.UpdateStudentActivity(studentActivity, date, strContent, attitude);
+
+            BindRptStudentActivities();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
@@ -389,10 +396,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maHoatDong = Int32.Parse(this.HdfMaHoatDong.Value);
             HocSinh_HoatDong studentActivity = new HocSinh_HoatDong();
             studentActivity.MaHoatDong = maHoatDong;
-            hoatDongBL.DeleteStudentActivity(studentActivity);
+            studentActivityBL.DeleteStudentActivity(studentActivity);
 
             isSearch = false;
-            BindRepeater();
+            BindRptStudentActivities();
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
@@ -485,7 +492,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maHoatDong = Int32.Parse(e.CommandArgument.ToString());
-                        HocSinh_HoatDong hoatDong = hoatDongBL.GetStudentActivity(maHoatDong);
+                        HocSinh_HoatDong hoatDong = studentActivityBL.GetStudentActivity(maHoatDong);
                         this.HdfSltActivityName.Value = hoatDong.TieuDe;
                         this.LblTieuDeSua.Text = hoatDong.TieuDe;
                         this.HdfTieuDe.Value = hoatDong.TieuDe;

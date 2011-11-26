@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="themhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ThemHocSinh" %>
+    CodeBehind="themhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.AddStudentPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">

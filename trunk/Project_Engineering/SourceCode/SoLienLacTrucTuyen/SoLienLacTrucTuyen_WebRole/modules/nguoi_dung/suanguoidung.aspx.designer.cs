@@ -10,6 +10,6 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class SuaNguoiDung {
+    public partial class EditUserPage {
     }
 }

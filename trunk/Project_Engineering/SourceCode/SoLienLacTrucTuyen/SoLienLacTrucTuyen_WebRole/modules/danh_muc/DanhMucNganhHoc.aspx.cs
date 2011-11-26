@@ -64,11 +64,11 @@ namespace SoLienLacTrucTuyen_WebRole
         public void BindData()
         {
             string facultyName = TxtSearchNganhHoc.Text.Trim();
-            double totalRecords;
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties(facultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+            double dTotalRecords;
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties(facultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             
             // Decrease page current index when delete
-            if (faculties.Count == 0 && totalRecords != 0)
+            if (faculties.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindData();
@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
             RptNganhHoc.DataSource = faculties;
             RptNganhHoc.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
         #endregion
 

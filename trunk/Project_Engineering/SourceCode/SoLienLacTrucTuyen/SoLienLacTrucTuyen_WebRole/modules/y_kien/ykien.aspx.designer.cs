@@ -7,9 +7,180 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen_WebRole {
+namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class GopY {
+    public partial class ParentsCommentPage {
+        
+        /// <summary>
+        /// DdlYears control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlYears;
+        
+        /// <summary>
+        /// TxtBeginDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBeginDate;
+        
+        /// <summary>
+        /// ImgCalendarBeginDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImgCalendarBeginDate;
+        
+        /// <summary>
+        /// CalendarExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender CalendarExtender1;
+        
+        /// <summary>
+        /// MaskedEditExtender1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender1;
+        
+        /// <summary>
+        /// DdlXacNhan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlXacNhan;
+        
+        /// <summary>
+        /// TxtEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtEndDate;
+        
+        /// <summary>
+        /// ImgCalendarEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImgCalendarEndDate;
+        
+        /// <summary>
+        /// CalendarExtender2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.CalendarExtender CalendarExtender2;
+        
+        /// <summary>
+        /// MaskedEditExtender2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender2;
+        
+        /// <summary>
+        /// BtnSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
+        
+        /// <summary>
+        /// LblSearchResult control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblSearchResult;
+        
+        /// <summary>
+        /// HdfMaLoiNhanKhan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfMaLoiNhanKhan;
+        
+        /// <summary>
+        /// HdfRptLoiNhanKhanMPEDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDelete;
+        
+        /// <summary>
+        /// HdfRptLoiNhanKhanMPEEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEEdit;
+        
+        /// <summary>
+        /// HdfRptLoiNhanKhanMPEDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDetail;
+        
+        /// <summary>
+        /// HdfRptLoiNhanKhanMPEDetailHS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDetailHS;
+        
+        /// <summary>
+        /// RptLoiNhanKhan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RptLoiNhanKhan;
+        
+        /// <summary>
+        /// MainDataPager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
     }
 }

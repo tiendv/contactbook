@@ -60,14 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDA.cs" />
-    <Compile Include="DbEContactBook.cs">
-      <DependentUpon>DbEContactBook.dbml</DependentUpon>
-    </Compile>
     <Compile Include="DbEContactBook.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DbEContactBook.dbml</DependentUpon>
     </Compile>
+    <Compile Include="ParentsCommentDA.cs" />
     <Compile Include="SessionDA.cs" />
     <Compile Include="SystemConfigDA.cs" />
     <Compile Include="DanhHieuDA.cs" />

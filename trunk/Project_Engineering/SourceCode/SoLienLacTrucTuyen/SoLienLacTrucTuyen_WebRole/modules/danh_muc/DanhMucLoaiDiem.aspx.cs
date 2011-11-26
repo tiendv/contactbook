@@ -62,15 +62,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public void BindRptLoaiDiem()
         {
             string tenLoaiDiem = TxtSearchLoaiDiem.Text.Trim();
-            double totalRecords = 0;
+            double dTotalRecords = 0;
             
             List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes(
                 tenLoaiDiem,
-                PagerMain.CurrentIndex, PagerMain.PageSize, out totalRecords);
-            PagerMain.ItemCount = totalRecords;
+                PagerMain.CurrentIndex, PagerMain.PageSize, out dTotalRecords);
+            PagerMain.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
-            if (lstLoaiDiem.Count == 0 && totalRecords != 0)
+            if (lstLoaiDiem.Count == 0 && dTotalRecords != 0)
             {
                 PagerMain.CurrentIndex--;
                 BindRptLoaiDiem();

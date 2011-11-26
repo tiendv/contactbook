@@ -188,15 +188,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
             //int maHanhKiem = Int32.Parse(DdlHanhKiem.SelectedValue);
 
-            double totalRecords = 0;
+            double dTotalRecords = 0;
             List<TabularHanhKiemHocSinh> lstTbHanhKiemHocSinh;
             lstTbHanhKiemHocSinh = hocSinhBL.GetListHanhKiemHocSinh(
                 maLopHoc, maHocKy,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             this.RptHanhKiemHocSinh.DataSource = lstTbHanhKiemHocSinh;
             this.RptHanhKiemHocSinh.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
 
             bool bDisplayData = (lstTbHanhKiemHocSinh.Count != 0) ? true : false;
             ProcDisplayGUI(bDisplayData);
