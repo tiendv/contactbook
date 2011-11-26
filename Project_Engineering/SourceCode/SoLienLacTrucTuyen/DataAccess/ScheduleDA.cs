@@ -162,6 +162,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
                                                       where schd.MaMonHocTKB == scheduleId
+                                                      && schd.DanhMuc_GiaoVien.SchoolId == school.SchoolId
                                                       select schd;
             if (iqSchedule.Count() != 0)
             {
@@ -202,7 +203,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return schedules;
-        }        
+        }
 
         public List<DanhMuc_MonHoc> GetScheduledSubjects(LopHoc_Lop Class, CauHinh_HocKy term)
         {

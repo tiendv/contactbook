@@ -79,17 +79,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             CauHinh_NamHoc year = new CauHinh_NamHoc();
             HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
             CauHinh_HocKy term = new CauHinh_HocKy();
-            double totalRecords;
+            double dTotalRecords;
 
             student.MaHocSinh = maHocSinh;
             year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
             term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
             
             List<TabularSubjectTermResult> lstTabularKetQuaMonHoc = ketQuaHocTapBL.GetTabularSubjectTermResults(student, year, term,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTabularKetQuaMonHoc.Count == 0 && totalRecords != 0)
+            if (lstTabularKetQuaMonHoc.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeaterKetQuaHocTap();
@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             this.RptKetQuaDiem.DataSource = lstTabularKetQuaMonHoc;
             this.RptKetQuaDiem.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void BindRepeaterTenLoaiDiem()
@@ -155,7 +155,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<TabularTermStudentResult> tabularTermStudentResults;
             HocSinh_ThongTinCaNhan student = null;
             CauHinh_NamHoc year = null;
-            double totalRecords;
+            double dTotalRecords;
 
             student = new HocSinh_ThongTinCaNhan();
             student.MaHocSinh = maHocSinh;
@@ -163,11 +163,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
             
             tabularTermStudentResults = ketQuaHocTapBL.GetTabularTermStudentResults(student, year,
-                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out totalRecords);
+                DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out dTotalRecords);
 
             RptDanhHieu.DataSource = tabularTermStudentResults;
             RptDanhHieu.DataBind();
-            DataPagerDanhHieu.ItemCount = totalRecords;
+            DataPagerDanhHieu.ItemCount = dTotalRecords;
         }
 
         protected void RptDanhHieu_ItemDataBound(object sender, RepeaterItemEventArgs e)

@@ -13,10 +13,10 @@ using System.Text.RegularExpressions;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class NgayNghiHocPage : BaseContentPage
+    public partial class StudentAbsentPage : BaseContentPage
     {
         #region Fields
-        private StudentBL hocSinhBL;
+        private StudentBL studentBL;
         private AbsentBL absentBL;
         private SystemConfigBL systemConfigBL;
         private bool isSearch;
@@ -31,7 +31,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new StudentBL(UserSchool);
+            studentBL = new StudentBL(UserSchool);
             absentBL = new AbsentBL(UserSchool);
 
             systemConfigBL = new SystemConfigBL(UserSchool);            
@@ -46,7 +46,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     BindDropDownLists();
                     InitDates();
                     isSearch = false;
-                    BindRepeater();
+                    BindRptStudentAbsents();
 
                     HlkThongTinCaNhan.NavigateUrl = String.Format("thongtincanhan.aspx?hocsinh={0}", maHocSinh);
                     HlkKetQuaHocTap.NavigateUrl = String.Format("ketquahoctap.aspx?hocsinh={0}", maHocSinh);
@@ -76,18 +76,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
-            BindDropDownListHocKy();
-            BindDropDownListBuoi();
+            BindDDLYears();
+            BindDDDLTerms();
+            BindDDLSessions();
         }
 
-        private void BindDropDownListNamHoc()
+        private void BindDDLYears()
         {
             if (HdfMaHocSinh.Value != "")
             {
                 HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
                 student.MaHocSinh = Int32.Parse(HdfMaHocSinh.Value.ToString());
-                List<CauHinh_NamHoc> lstNamHoc = hocSinhBL.GetYears(student);
+                List<CauHinh_NamHoc> lstNamHoc = studentBL.GetYears(student);
                 DdlNamHoc.DataSource = lstNamHoc;
                 DdlNamHoc.DataValueField = "MaNamHoc";
                 DdlNamHoc.DataTextField = "TenNamHoc";
@@ -95,7 +95,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListHocKy()
+        private void BindDDDLTerms()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
@@ -118,7 +118,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKySua.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
         }
 
-        private void BindDropDownListBuoi()
+        private void BindDDLSessions()
         {
             List<CauHinh_Buoi> lstBuoi = systemConfigBL.GetSessions();
             DdlBuoiThem.DataSource = lstBuoi;
@@ -136,25 +136,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void InitDates()
         {
-            DateTime today = DateTime.Now;
-            DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
-            TxtTuNgay.Text = beginDateOfMonth.ToShortDateString();
-            DateTime dateOfNextMonth = today.AddMonths(1);
-            DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
-            DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
-            TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
+            DateTime dtToday = DateTime.Now;
+            DateTime dtBeginDateOfMonth = new DateTime(dtToday.Year, dtToday.Month, 1);            
+            DateTime dtDateOfNextMonth = dtToday.AddMonths(1);
+            DateTime dtBeginDateOfNextMonth = new DateTime(dtDateOfNextMonth.Year, dtDateOfNextMonth.Month, 1);
+            DateTime dtEndDateOfMonth = dtBeginDateOfNextMonth.AddDays(-1);
 
-            TxtNgayThem.Text = today.ToShortDateString();
-
-            TxtNgaySua.Text = today.ToShortDateString();
+            TxtTuNgay.Text = dtBeginDateOfMonth.ToShortDateString();
+            TxtDenNgay.Text = dtEndDateOfMonth.ToShortDateString();
+            TxtNgayThem.Text = dtToday.ToShortDateString();
+            TxtNgaySua.Text = dtToday.ToShortDateString();
         }
 
-        private void BindRepeater()
+        private void BindRptStudentAbsents()
         {
             HocSinh_ThongTinCaNhan student = null;
             CauHinh_NamHoc year = null;
             CauHinh_HocKy term = null;
-            double totalRecords;
+            double dTotalRecords;
             List<TabularAbsent> tabularAbsents;
 
             student = new HocSinh_ThongTinCaNhan();
@@ -167,12 +166,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
 
             tabularAbsents = absentBL.GetTabularAbsents(student, year, term, dtBeginDate, dtEndDate,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if (totalRecords != 0 && tabularAbsents.Count == 0)
+            if (dTotalRecords != 0 && tabularAbsents.Count == 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRepeater();
+                BindRptStudentAbsents();
                 return;
             }
 
@@ -180,7 +179,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcessDislayInfo(bDisplayData);
             RptNgayNghi.DataSource = tabularAbsents;
             RptNgayNghi.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -327,7 +326,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRepeater();
+            BindRptStudentAbsents();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -388,7 +387,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             absentBL.InsertAbsent(student, term, ngay, session, xinPhep, lyDo);
 
             MainDataPager.CurrentIndex = 1;
-            BindRepeater();
+            BindRptStudentAbsents();
 
             this.DdlHocKyThem.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().MaHocKy.ToString();
             this.TxtNgayThem.Text = DateTime.Now.ToShortDateString();
@@ -479,7 +478,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             absentBL.UpdateAbsent(absent, term, date, session, xinPhep, lyDo);
 
             MainDataPager.CurrentIndex = 1;
-            BindRepeater();
+            BindRptStudentAbsents();
 
             this.DdlHocKySua.SelectedIndex = 0;
             this.TxtNgaySua.Text = DateTime.Now.ToShortDateString();
@@ -493,7 +492,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
             absentBL.DeleteAbsent(maNgayNghiHoc);
             isSearch = false;
-            BindRepeater();
+            BindRptStudentAbsents();
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
@@ -507,7 +506,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             MainDataPager.CurrentIndex = currentPageIndex;
-            BindRepeater();
+            BindRptStudentAbsents();
         }
         #endregion
     }

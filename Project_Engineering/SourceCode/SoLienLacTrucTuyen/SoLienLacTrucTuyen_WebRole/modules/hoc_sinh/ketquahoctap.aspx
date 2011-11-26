@@ -1,43 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="ketquahoctap.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.KetQuaHocTapPage" %>
+    CodeBehind="ketquahoctap.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.StudentStudyingResultPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <div id="divScript">
-        <script type="text/javascript">
-            function popopHanhKiem_Cancel_Click() {
-                var mPEHanhKiem = $get('<%=RptMPEHanhKiem.ClientID%>').value;
-                $find(mPEHanhKiem).hide();
-                return false;
-            }
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.rbtnHanhKiem').find(':radio').each(function () {
-                    $(this).change(function () {
-                        var $maHanhKiem = $(this).val();
-                        if ($(this).is(':checked')) {
-                            $.ajax({
-                                type: "POST",
-                                url: "/modules/hoc_sinh/hocsinhservicepage.aspx/CheckedHanhKiem",
-                                data: "{'radioButtonName':'" + $maHanhKiem + "'}",
-                                contentType: "application/json; charset=utf-8",
-                                success: function (serverResponseData) {
-                                },
-                                error: function (xhr, ajaxOptions, thrownError) {
-                                    alert('Error!');
-                                }
-                            });
-                        }
-                        else {
-
-                        }
-                    });
-                });
-            });
-        </script>
-    </div>
     <div>
         <asp:HyperLink ID="HlkThongTinCaNhan" runat="server" CssClass="tabHeader">THÔNG TIN CÁ NHÂN</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Label ID="Label2" runat="server" Text="KẾT QUẢ HỌC TẬP" CssClass="tabHeader"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -85,12 +51,8 @@
                 <td id="tdKQHocTapDTB" runat="server" style="width: 70px">
                     Điểm trung bình
                 </td>
-                <td id="tdEdit" runat="server" class="icon">
-                    Sửa
-                </td>
             </tr>
-            <asp:Repeater ID="RptKetQuaDiem" runat="server" OnItemDataBound="RptKetQuaDiem_ItemDataBound"
-                OnItemCommand="RptKetQuaDiem_ItemCommand">
+            <asp:Repeater ID="RptKetQuaDiem" runat="server" OnItemDataBound="RptKetQuaDiem_ItemDataBound">
                 <ItemTemplate>
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
@@ -110,10 +72,6 @@
                         <td>
                             <asp:Label ID="Label16" runat="server" Style="float: right" Text='<%#DataBinder.Eval(Container.DataItem, "StrDiemTB")%>'></asp:Label>
                         </td>
-                        <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaDiemMonHK")%>' />
-                        </td>
                     </tr>
                 </ItemTemplate>
                 <FooterTemplate>
@@ -125,18 +83,13 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -45px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG"
-                OnCommand="MainDataPager_Command" PageSize="10" ViewStateMode="Enabled" LastClause=">>"
-                GenerateHiddenHyperlinks="False" CompactModePageCount="3" GenerateFirstLastSection="True"
-                GenerateGoToSection="False" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-                BackToPageClause="Trở về trang" GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang"
-                ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
+                ViewStateMode="Enabled" />
         </div>
         <table class="repeater">
             <asp:HiddenField ID="RptMPEHanhKiem" runat="server" />
             <asp:HiddenField ID="HdfMaDanhHieuHSHK" runat="server" />
-            <asp:Repeater ID="RptDanhHieu" runat="server" OnItemCommand="RptDanhHieu_ItemCommand"
-                OnItemDataBound="RptDanhHieu_ItemDataBound">
+            <asp:Repeater ID="RptDanhHieu" runat="server" OnItemDataBound="RptDanhHieu_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
@@ -177,14 +130,7 @@
                         <td style="height: 40px; vertical-align: middle">
                             <asp:HiddenField ID="HiddenField1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>' />
                             <%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>
-                            <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
-                                Style="float: right;" CommandName="OpenPopupHanhKiem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>'
-                                class='<%#(Container.ItemIndex == 2) ? "hidden" : "visible"%>' />
                             <asp:Label ID="LblFakeEdit" runat="server"></asp:Label>
-                            <ajaxToolkit:ModalPopupExtender ID="MPEHanhKiem" runat="server" TargetControlID="LblFakeEdit"
-                                PopupControlID="PnlPopupHanhKiem" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupHanhKiem"
-                                PopupDragHandleControlID="PnlDragPopupHanhKiem">
-                            </ajaxToolkit:ModalPopupExtender>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "TenDanhHieu")%>
@@ -200,31 +146,9 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px; display: none">
-            <cc1:DataPager ID="DataPagerDanhHieu" runat="server" OfClause="/" PageClause="TRANG"
-                PageSize="10" ViewStateMode="Enabled" LastClause=">>" GenerateHiddenHyperlinks="False"
-                CompactModePageCount="3" GenerateFirstLastSection="True" GenerateGoToSection="False"
-                FirstClause="<<" BackToFirstClause="Trở về trang đầu" BackToPageClause="Trở về trang"
-                GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+            <cc1:DataPager ID="DataPagerDanhHieu" runat="server" ViewStateMode="Enabled" />
         </div>
-    </div>
-    <asp:Panel ID="PnlPopupHanhKiem" runat="server" CssClass="popup ui-corner-all" Width="200px">
-        <asp:Panel ID="PnlDragPopupHanhKiem" runat="server" CssClass="popup_header ui-corner-top">
-            <asp:Label ID="LblPnlPopupHanhKiemTitle" runat="server" CssClass="popup_header_title"
-                Text="Xếp loại hạnh kiểm"></asp:Label>
-            <img id="ImgClosePopupHanhKiem" class="button_close" src="../../Styles/Images/popup_button_close.png"
-                alt="close" />
-        </asp:Panel>
-        <div id="PnlPopupHanhKiem_DivListHanhKiem" runat="server">
-        </div>
-        <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
-            <asp:ImageButton ID="BtnSave" runat="server" OnClick="popopHanhKiem_Save_Click" ImageUrl="~/Styles/Images/button_save.png"
-                CssClass="SaveButton" />
-            &nbsp;
-            <asp:ImageButton ID="BtnCancel" runat="server" OnClientClick="return popopHanhKiem_Cancel_Click();"
-                ImageUrl="~/Styles/Images/button_cancel.png" CssClass="Button" />
-        </div>
-    </asp:Panel>
+    </div>    
     <div style="padding: 5px; vertical-align: middle;">
         <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
             OnClick="BtnBackPrevPage_Click" />

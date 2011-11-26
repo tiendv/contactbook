@@ -81,15 +81,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             List<TabularChiTietDiemMonHocLoaiDiem> lstChiTietDiem = null;
             HocSinh_DiemMonHocHocKy termSubjectedMark = new HocSinh_DiemMonHocHocKy();
-            double totalRecords;
+            double dTotalRecords;
 
             termSubjectedMark.MaDiemMonHK = Int32.Parse(this.HdfMaDiemMonHK.Value);
 
             lstChiTietDiem = ketQuaHocTapBL.GetListTabularChiTietDiemMonHocLoaiDiem(termSubjectedMark, 
-                this.MainDataPager.CurrentIndex, this.MainDataPager.PageSize, out totalRecords);
+                this.MainDataPager.CurrentIndex, this.MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstChiTietDiem.Count == 0 && totalRecords != 0)
+            if (lstChiTietDiem.Count == 0 && dTotalRecords != 0)
             {
                 this.MainDataPager.CurrentIndex--;
                 BindRepeater();
@@ -99,7 +99,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             bool bDisplayData = (lstChiTietDiem.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
 
-            this.MainDataPager.ItemCount = totalRecords;
+            this.MainDataPager.ItemCount = dTotalRecords;
             this.RptDiemMonHoc.DataSource = lstChiTietDiem;
             this.RptDiemMonHoc.DataBind();
 

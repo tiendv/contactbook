@@ -39,18 +39,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<DanhMuc_ThaiDoThamGia> GetListAttitudes()
         {
-            return attitudeDA.GetListAttitudes();
+            return attitudeDA.GetAttitudes();
         }
       
         public List<DanhMuc_ThaiDoThamGia> GetListAttitudes(string attitudeName, int pageIndex, int pageSize, out double totalRecords)
         {
             if (String.Compare(attitudeName, "tất cả", true) == 0 || attitudeName == "")
             {
-                return attitudeDA.GetListAttitudes(pageIndex, pageSize, out totalRecords);
+                return attitudeDA.GetAttitudes(pageIndex, pageSize, out totalRecords);
             }
             else
             {
-                return attitudeDA.GetListAttitudes(attitudeName, pageIndex, pageSize, out totalRecords);
+                return attitudeDA.GetAttitudes(attitudeName, pageIndex, pageSize, out totalRecords);
             }            
         }
 

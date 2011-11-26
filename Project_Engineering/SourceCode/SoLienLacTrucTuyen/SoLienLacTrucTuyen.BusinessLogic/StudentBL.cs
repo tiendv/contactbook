@@ -93,9 +93,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             studentDA.UpdateStudentInClass(studentInClass, Class);
         }
 
-        public void DeleteStudent(int studentId)
+        public void DeleteStudent(HocSinh_ThongTinCaNhan deletedStudent)
         {
-            studentDA.DeleteStudent(studentId);
+            //studentDA.DeleteStudent(deletedStudent);
         }
 
         public bool IsDeletable(string studentCode)
@@ -106,6 +106,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool StudentCodeExists(string studentCode)
         {
             return studentDA.StudentCodeExists(studentCode);
+        }
+
+        public bool StudentCodeExists(string oldStudentCode, string newStudentCode)
+        {
+            if (oldStudentCode.Trim() == newStudentCode.Trim())
+            {
+                return false;
+            }
+            else
+            {
+                return studentDA.StudentCodeExists(newStudentCode);
+            }
         }
 
         public HocSinh_ThongTinCaNhan GetStudent(string studentCode)

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="suahocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.SuaHocSinh" %>
+    CodeBehind="suahocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.EditStudentPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
@@ -55,9 +55,7 @@
         <ContentTemplate>
             <div style="padding: 10px 0px 10px 0px">
                 Năm học:
-                <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" AutoPostBack="true"
-                    OnSelectedIndexChanged="DdlNamHoc_SelectedIndexChanged">
-                </asp:DropDownList>
+                <asp:Label ID="LblYear" runat="server" Width="150px" CssClass="readOnlyTextBox"></asp:Label>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ngành:
                 <asp:DropDownList ID="DdlNganh" runat="server" Width="150px" AutoPostBack="true"
                     OnSelectedIndexChanged="DdlNganh_SelectedIndexChanged">
@@ -85,13 +83,14 @@
                 <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="TxtMaHocSinhHienThi" runat="server" CssClass="input_textbox" Text="090001"></asp:TextBox>
+                <asp:HiddenField ID="HdfOldStudentCode" runat="server" Value="true" />
+                <asp:TextBox ID="TxtMaHocSinhHienThi" runat="server" CssClass="input_textbox"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="MaHocSinhRequired" runat="server" ValidationGroup="AddHocSinh"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi" ErrorMessage="Mã học sinh không được để trống">
                 </asp:RequiredFieldValidator>
                 <asp:HiddenField ID="hdfOutput" runat="server" Value="true" />
                 <asp:CustomValidator ID="MaHocSinhValidator" runat="server" ValidationGroup="AddHocSinh"
-                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi" ClientValidationFunction="ValidateMaHocSinh"
+                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi" 
                     ErrorMessage="Mã học sinh đã tồn tại">
                 </asp:CustomValidator>
             </td>
@@ -135,11 +134,11 @@
                 <asp:Label ID="Label14" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="TxtNgaySinhHocSinh" runat="server" Text="09/09/1989"></asp:TextBox>
+                <asp:TextBox ID="TxtNgaySinhHocSinh" runat="server"></asp:TextBox>
                 <asp:Image ID="ImgCalendarNgaySinhHocSinh" runat="server" ImageUrl="~/Styles/Images/calendar.png" />
                 <br />
                 <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtNgaySinhHocSinh"
-                    PopupButtonID="ImgCalendarNgaySinhHocSinh" Format="dd/MM/yyyy" PopupPosition="Right">
+                    PopupButtonID="ImgCalendarNgaySinhHocSinh" Format="MM/dd/yyyy" PopupPosition="Right">
                 </ajaxToolkit:CalendarExtender>
                 <asp:RequiredFieldValidator ID="NgaySinhHocSinhRequired" runat="server" ValidationGroup="AddHocSinh"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtNgaySinhHocSinh" ErrorMessage="Ngày sinh học sinh không được để trống">

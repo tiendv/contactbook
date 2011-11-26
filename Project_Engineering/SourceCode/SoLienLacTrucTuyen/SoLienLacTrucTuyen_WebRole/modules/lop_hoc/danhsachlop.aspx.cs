@@ -348,7 +348,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindRepeaterLopHoc()
         {
             List<TabularClass> tabularClasses;
-            double totalRecords;
+            double dTotalRecords;
             DanhMuc_NganhHoc faculty = null;
             DanhMuc_KhoiLop grade = null;
             CauHinh_NamHoc year = null;
@@ -390,13 +390,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 catch (Exception) { }
                 
                 tabularClasses = lopHocBL.GetTabularClasses(year, faculty, grade,
-                    MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
-                MainDataPager.ItemCount = totalRecords;
+                    MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                MainDataPager.ItemCount = dTotalRecords;
             }
             else
             {
                 tabularClasses = new List<TabularClass> { lopHocBL.GetTabularClass(Class) };
-                totalRecords = 1;
+                dTotalRecords = 1;
             }
 
             // Decrease page current index when delete
@@ -411,7 +411,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcessDislayInfo(bDisplayData);
             RptLopHoc.DataSource = tabularClasses;
             RptLopHoc.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)

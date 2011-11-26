@@ -97,7 +97,8 @@ namespace SoLienLacTrucTuyen.DataAccess
                 Description = description,
                 Expired = false,
                 CanBeDeleted = true,
-                Actived = true
+                Actived = true,
+                SchoolId = school.SchoolId
             };
             db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
             db.SubmitChanges();
@@ -143,23 +144,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 return false;
             }
         }
-
-        public bool RoleExists(string exceptedRoleName, string roleName)
-        {
-            IQueryable<aspnet_Role> iqRole = from role in db.aspnet_Roles
-                                             where role.RoleName != exceptedRoleName
-                                                 && role.RoleName == roleName
-                                             select role;
-            if (iqRole.Count() != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
+        
         public bool IsDeletableRole(string roleName)
         {
             aspnet_Role role = (from rl in db.aspnet_Roles
@@ -221,8 +206,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<TabularRole> GetListTbRoles(
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularRole> GetListTbRoles(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularRole> lstTbRoles = new List<TabularRole>();
 
@@ -249,8 +233,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lstTbRoles;
         }
 
-        public List<TabularRole> GetListTbRoles(string roleName,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularRole> GetListTbRoles(string roleName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularRole> lstTbRoles = new List<TabularRole>();
 

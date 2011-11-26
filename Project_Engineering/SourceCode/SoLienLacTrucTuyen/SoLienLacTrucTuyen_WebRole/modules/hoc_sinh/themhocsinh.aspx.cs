@@ -10,7 +10,7 @@ using System.IO;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThemHocSinh : BaseContentPage
+    public partial class AddStudentPage : BaseContentPage
     {
         #region Fields
         private StudentBL hocSinhBL;

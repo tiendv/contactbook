@@ -10,10 +10,11 @@ using System.IO;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SuaHocSinh : BaseContentPage
+    public partial class EditStudentPage : BaseContentPage
     {
         #region Fields
-        private StudentBL hocSinhBL;
+        private StudentBL studentBL;
+        private CauHinh_NamHoc currentYear;
         #endregion
 
         #region Page event handlers
@@ -25,49 +26,53 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            studentBL = new StudentBL(UserSchool);
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+            currentYear = systemConfigBL.GetCurrentYear();
+
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
-                int maHocSinh = Int32.Parse(Request.QueryString["hocsinh"]);
-                int maLopHoc = Int32.Parse(Request.QueryString["lop"]);
-                ViewState["MaHocSinh"] = maHocSinh;
-                FillHocSinh(maHocSinh, maLopHoc);
+                ViewState[AppConstant.VIEWSTATE_STUDENT] = Int32.Parse(Request.QueryString[AppConstant.QUERY_STUDENT]);
+                FillHocSinh();
             }
         }
 
-        private void FillHocSinh(int maHocSinh, int maLopHoc)
+        private void FillHocSinh()
         {
-            HocSinh_ThongTinCaNhan thongTinCaNhan = hocSinhBL.GetStudent(maHocSinh);
-            TxtMaHocSinhHienThi.Text = thongTinCaNhan.MaHocSinhHienThi;
-            TxtTenHocSinh.Text = thongTinCaNhan.HoTen;
-            TxtNgaySinhHocSinh.Text = thongTinCaNhan.NgaySinh.ToShortDateString();
-            RbtnNam.Checked = thongTinCaNhan.GioiTinh;
-            RbtnNu.Checked = !thongTinCaNhan.GioiTinh;
-            TxtNoiSinh.Text = thongTinCaNhan.NoiSinh;
-            TxtDiaChi.Text = thongTinCaNhan.DiaChi;
-            TxtDienThoai.Text = thongTinCaNhan.DienThoai;
-            TxtHoTenBo.Text = thongTinCaNhan.HoTenBo;
-            if (thongTinCaNhan.NgaySinhBo != null)
+            int studentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENT].ToString());
+            HocSinh_ThongTinCaNhan student = studentBL.GetStudent(studentId);
+            TxtMaHocSinhHienThi.Text = student.MaHocSinhHienThi;
+            HdfOldStudentCode.Value = student.MaHocSinhHienThi;
+            TxtTenHocSinh.Text = student.HoTen;
+            TxtNgaySinhHocSinh.Text = student.NgaySinh.ToShortDateString();
+            RbtnNam.Checked = student.GioiTinh;
+            RbtnNu.Checked = !student.GioiTinh;
+            TxtNoiSinh.Text = student.NoiSinh;
+            TxtDiaChi.Text = student.DiaChi;
+            TxtDienThoai.Text = student.DienThoai;
+            TxtHoTenBo.Text = student.HoTenBo;
+            if (student.NgaySinhBo != null)
             {
-                TxtNgaySinhBo.Text = ((DateTime)thongTinCaNhan.NgaySinhBo).ToShortDateString();
+                TxtNgaySinhBo.Text = ((DateTime)student.NgaySinhBo).ToShortDateString();
             }
-            TxtNgheNghiepBo.Text = thongTinCaNhan.NgheNghiepBo;
-            TxtHoTenMe.Text = thongTinCaNhan.HoTenMe;
-            if (thongTinCaNhan.NgaySinhMe != null)
+            TxtNgheNghiepBo.Text = student.NgheNghiepBo;
+            TxtHoTenMe.Text = student.HoTenMe;
+            if (student.NgaySinhMe != null)
             {
-                TxtNgaySinhMe.Text = ((DateTime)thongTinCaNhan.NgaySinhMe).ToShortDateString();
+                TxtNgaySinhMe.Text = ((DateTime)student.NgaySinhMe).ToShortDateString();
             }
-            TxtNgheNghiepMe.Text = thongTinCaNhan.NgheNghiepMe;
-            TxtHoTenNguoiDoDau.Text = thongTinCaNhan.HoTenNguoiDoDau;
-            if (thongTinCaNhan.NgaySinhNguoiDoDau != null)
+            TxtNgheNghiepMe.Text = student.NgheNghiepMe;
+            TxtHoTenNguoiDoDau.Text = student.HoTenNguoiDoDau;
+            if (student.NgaySinhNguoiDoDau != null)
             {
-                TxtNgaySinhNguoiDoDau.Text = ((DateTime)thongTinCaNhan.NgaySinhNguoiDoDau).ToShortDateString();
+                TxtNgaySinhNguoiDoDau.Text = ((DateTime)student.NgaySinhNguoiDoDau).ToShortDateString();
             }
-            TxtNgheNghiepNguoiDoDau.Text = thongTinCaNhan.NgheNghiepNguoiDoDau;
+            TxtNgheNghiepNguoiDoDau.Text = student.NgheNghiepNguoiDoDau;
 
             ClassBL lopHocBL = new ClassBL(UserSchool);
-            LopHoc_Lop lopHoc = lopHocBL.GetClass(maLopHoc);
-            DdlNamHoc.SelectedValue = lopHoc.MaNamHoc.ToString();
+            LopHoc_Lop lopHoc = studentBL.GetLastedClass(student);
+            LblYear.Text = lopHoc.CauHinh_NamHoc.TenNamHoc;
             DdlNganh.SelectedValue = lopHoc.MaNganhHoc.ToString();
             DdlKhoiLop.SelectedValue = lopHoc.MaKhoiLop.ToString();
             DdlLopHoc.SelectedValue = lopHoc.MaLopHoc.ToString();
@@ -95,91 +100,82 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            int maLopHoc = Int32.Parse(this.DdlLopHoc.SelectedValue);
+            HocSinh_ThongTinCaNhan editedStudent = null;
+            LopHoc_Lop newClass = null;            
 
-            string maHocSinhHienThi = this.TxtMaHocSinhHienThi.Text.Trim();
-            if (maHocSinhHienThi == "")
+            string strNewStudentCode = this.TxtMaHocSinhHienThi.Text.Trim();
+            string strNewStudentName = this.TxtTenHocSinh.Text.Trim(); 
+            string strBirthday = this.TxtNgaySinhHocSinh.Text.Trim();
+            string strNewAddress = this.TxtDiaChi.Text.Trim();
+            string strNewFatherName = this.TxtHoTenBo.Text.Trim();
+            string strNewMotherName = this.TxtHoTenMe.Text.Trim();
+            string tenNguoiDoDau = this.TxtHoTenNguoiDoDau.Text;
+
+            if (strNewStudentCode.Trim() == "")
             {
                 MaHocSinhRequired.IsValid = false;
                 return;
             }
             else
             {
-                if (hocSinhBL.StudentCodeExists(maHocSinhHienThi))
+                if (studentBL.StudentCodeExists(HdfOldStudentCode.Value, strNewStudentCode))
                 {
                     MaHocSinhValidator.IsValid = false;
                     return;
                 }
-            }
-
-            string tenHocSinh = this.TxtTenHocSinh.Text.Trim();
-            if (tenHocSinh == "")
+            }            
+            if (strNewStudentName.Trim() == "")
             {
                 TenHocSinhRequired.IsValid = false;
                 return;
-            }
-
-            string strNgaySinh = this.TxtNgaySinhHocSinh.Text.Trim();
-            if (strNgaySinh == "")
+            }            
+            if (strBirthday == "")
             {
                 NgaySinhHocSinhRequired.IsValid = false;
                 return;
-            }
-
-            string diaChi = this.TxtDiaChi.Text.Trim();
-            if (diaChi == "")
+            }            
+            if (strNewAddress.Trim() == "")
             {
                 DiaChiRequired.IsValid = false;
                 return;
             }
-
-            string tenBo = this.TxtHoTenBo.Text.Trim();
-            string tenMe = this.TxtHoTenMe.Text.Trim();
-            string tenNguoiDoDau = this.TxtHoTenNguoiDoDau.Text;
-
-            if (tenBo == "" && tenMe == "" && tenNguoiDoDau == "")
+            if (strNewFatherName == "" && strNewMotherName == "" && tenNguoiDoDau == "")
             {
-                LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, "none");
+                LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
                 return;
             }
             else
             {
-                LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, "block");
+                LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
             }
 
-            string ngheNghiepBo = this.TxtNgheNghiepBo.Text.Trim();
-            DateTime? ngaySinhBo = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
-            string ngheNghiepMe = this.TxtNgheNghiepMe.Text.Trim();
-            DateTime? ngaySinhMe = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
-            string ngheNghiepNguoiDoDau = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
-            DateTime? ngaySinhNguoiDoDau = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+            string strNewFatherJob = this.TxtNgheNghiepBo.Text.Trim();
+            DateTime? dtNewFatherBirthday = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
+            string strNewMotherJob = this.TxtNgheNghiepMe.Text.Trim();
+            DateTime? dtNewMotherBirthday = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
+            string strNewPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
+            DateTime? dtNewPatronBirthday = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
 
-            bool gioiTinh = this.RbtnNam.Checked;
-            string[] arrNgaySinh = strNgaySinh.Split('/');
-            DateTime ngaySinh = new DateTime(Int32.Parse(arrNgaySinh[2]),
-                Int32.Parse(arrNgaySinh[1]), Int32.Parse(arrNgaySinh[0]));
-            string noiSinh = this.TxtNoiSinh.Text.Trim();
-            string dienThoai = this.TxtDienThoai.Text.Trim();
+            bool bNewStudentGender = this.RbtnNam.Checked;
+            DateTime dtBirthday = DateTime.Parse(strBirthday);
+            string strNewBirthPlace = this.TxtNoiSinh.Text.Trim();
+            string strNewPhone = this.TxtDienThoai.Text.Trim();
 
-            //hocSinhBL.InsertHocSinh(maLopHoc, maHocSinhHienThi, tenHocSinh,
-            //    gioiTinh, ngaySinh, noiSinh, diaChi, dienThoai,
-            //    tenBo, ngheNghiepBo, ngaySinhBo,
-            //    tenMe, ngheNghiepMe, ngaySinhMe,
-            //    tenNguoiDoDau, ngheNghiepNguoiDoDau, ngaySinhNguoiDoDau);
+            editedStudent = new HocSinh_ThongTinCaNhan();
+            editedStudent.MaHocSinh = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENT].ToString());
+            newClass = new LopHoc_Lop();
+            newClass.MaLopHoc = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
-            if (this.CkbAddAfterSave.Checked)
-            {
-                Response.Redirect(Request.Path);
-            }
-            else
-            {
-                Response.Redirect("danhsachhocsinh.aspx");
-            }
+            studentBL.UpdateHocSinh(editedStudent, newClass, strNewStudentCode, strNewStudentName, bNewStudentGender, dtBirthday,
+                strNewBirthPlace, strNewAddress, strNewPhone, strNewFatherName, strNewFatherJob, dtNewFatherBirthday,
+                strNewMotherName, strNewMotherJob, dtNewMotherBirthday, tenNguoiDoDau, strNewPatronJob, dtNewPatronBirthday);
+
+            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("danhsachhocsinh.aspx");
+            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
         }
 
         protected void BtnDuyetHinhAnh_Click(object sender, ImageClickEventArgs e)
@@ -215,22 +211,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
             BindDropDownListNganhHoc();
             BindDropDownListKhoiLop();
             BindDropDownListLopHoc();
         }
-
-        private void BindDropDownListNamHoc()
-        {
-            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
-            DdlNamHoc.DataBind();
-        }
-
+    
         private void BindDropDownListKhoiLop()
         {
             GradeBL KhoiLopBL = new GradeBL(UserSchool);
@@ -253,49 +238,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListLopHoc()
         {
-            int maNamHoc = 0;
+            DanhMuc_NganhHoc faculty = null;
+            DanhMuc_KhoiLop grade = null;
+            ClassBL lopHocBL = new ClassBL(UserSchool);           
+
             try
             {
-                maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new DanhMuc_NganhHoc();
+                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                }
+            }
+            catch (Exception) { }
+            
+            try
+            {
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new DanhMuc_KhoiLop();
+                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                }
             }
             catch (Exception) { }
 
-            int maNganhHoc = 0;
-            try
-            {
-                maNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
-            }
-            catch (Exception) { }
-
-            int maKhoiLop = 0;
-            try
-            {
-                maKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
-            }
-            catch (Exception) { }
-
-            List<LopHoc_Lop> lstLop = GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
-            DdlLopHoc.DataSource = lstLop;
+            List<LopHoc_Lop> classes = lopHocBL.GetListClasses(currentYear, faculty, grade);
+            DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";
             DdlLopHoc.DataBind();
-        }
-
-        private List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
-        {
-            ClassBL lopHocBL = new ClassBL(UserSchool);
-
-            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
-            faculty.MaNganhHoc = maNganhHoc;
-
-            DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
-            grade.MaKhoiLop = maKhoiLop;
-
-            CauHinh_NamHoc year = new CauHinh_NamHoc();
-            year.MaNamHoc = maNamHoc;
-
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
-            return lstLop;
         }
 
         private DateTime? ToDateTime(string str)

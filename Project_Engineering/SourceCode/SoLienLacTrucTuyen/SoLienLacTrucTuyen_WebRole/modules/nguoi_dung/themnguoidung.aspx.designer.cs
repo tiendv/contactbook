@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ThemNguoiDung {
+    public partial class AddUserPage {
         
         /// <summary>
         /// HdfIsSelectRoleParents control.

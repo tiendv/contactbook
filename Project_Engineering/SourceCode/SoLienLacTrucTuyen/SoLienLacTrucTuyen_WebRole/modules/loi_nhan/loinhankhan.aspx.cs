@@ -49,12 +49,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string maHocSinhHienThi = TxtMaHS.Text;
             int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
 
-            double totalRecords;
+            double dTotalRecords;
             List<TabularLoiNhanKhan> lstTabularLoiNhanKhan = loiNhanKhanBL.GetListTabularLoiNhanKhan(
                 maNamHoc, tuNgay, denNgay,
-                maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if (lstTabularLoiNhanKhan.Count == 0 && totalRecords != 0)
+            if (lstTabularLoiNhanKhan.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptLoiNhanKhan();
@@ -66,7 +66,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptLoiNhanKhan.DataSource = lstTabularLoiNhanKhan;
             RptLoiNhanKhan.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -400,7 +400,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            //BindRepeaterLopHoc();
+            BindRptLoiNhanKhan();
         }
         #endregion
     }

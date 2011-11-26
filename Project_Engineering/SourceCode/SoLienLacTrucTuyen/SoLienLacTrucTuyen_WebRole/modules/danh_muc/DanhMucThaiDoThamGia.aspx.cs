@@ -258,10 +258,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string tenThaiDoThamGia = TxtSearchThaiDoThamGia.Text.Trim();
 
-            double totalRecords = 0;
+            double dTotalRecords = 0;
             List<DanhMuc_ThaiDoThamGia> lstThaiDoThamGia;
             lstThaiDoThamGia = attitudeBL.GetListAttitudes(tenThaiDoThamGia,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
             if (lstThaiDoThamGia.Count == 0 && MainDataPager.ItemCount != 0)
@@ -271,7 +271,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
 
             bool bDisplayData = (lstThaiDoThamGia.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;

@@ -10,29 +10,10 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DiemHocSinhPage : BaseContentPage
+    public partial class StudentMarkPage : BaseContentPage
     {
         #region Fields
         private StudyingResultBL studyingResultBL;
-
-        public bool ChooseAllMarkType
-        {
-            get
-            {
-                if (ViewState["ChooseAllMarkType"] != null)
-                {
-                    return (bool)ViewState["ChooseAllMarkType"];
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            set
-            {
-                ViewState["ChooseAllMarkType"] = value;
-            }
-        }
         #endregion
 
         #region Page event handlers
@@ -49,8 +30,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
-                BindRptTenLoaiDiem();
-                BindRptDiemHocSinh();
+                BindRptMarkTypes();
+                BindRptStudentMarks();
             }
         }
         #endregion
@@ -159,9 +140,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (lstLoaiDiem.Count > 1)
             {
                 DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
-                ChooseAllMarkType = true;
             }
-
         }
 
         private void BindDDLLopHoc()
@@ -245,7 +224,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindRptTenLoaiDiem()
+        private void BindRptMarkTypes()
         {
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
             List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
@@ -267,27 +246,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             this.RptLoaiDiem.DataBind();
         }
 
-        private void BindRptDiemHocSinh()
+        private void BindRptStudentMarks()
         {
+            // declare variables
             LopHoc_Lop Class = null;
             DanhMuc_MonHoc subject = null;
             CauHinh_HocKy term = null;
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
+            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();            
+            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
+            double dTotalRecords = 0;
 
+            // case: there is no Class or schedule subject or marktype
             if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0 || DdlLoaiDiem.Items.Count == 0)
             {
+                // do not display 
                 ProcDisplayGUI(false);
                 return;
             }
 
+            // init object against user selections
             Class = new LopHoc_Lop();
             Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
             subject = new DanhMuc_MonHoc();
             subject.MaMonHoc = Int32.Parse(DdlMonHoc.SelectedValue);
             term = new CauHinh_HocKy();
             term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-
             if (DdlLoaiDiem.SelectedIndex == 0)
             {
                 markTypes = markTypeBL.GetListMarkTypes();
@@ -298,14 +282,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 markTypes.Add(markTypeBL.GetMarkType(markTypeName));
             }
 
-            double totalRecords;
-            List<TabularStudentMark> tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+            // get student mark information
+            tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
+            // bind to repeater and datapager
             this.RptDiemMonHoc.DataSource = tabularStudentMarks;
             this.RptDiemMonHoc.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
 
+            // display information
             bool bDisplayData = (tabularStudentMarks.Count != 0) ? true : false;
             ProcDisplayGUI(bDisplayData);
         }
@@ -330,22 +316,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
-            if (DdlLopHoc.Items.Count != 0)
-            {
-                if ((DdlLoaiDiem.SelectedValue == "") || (string.Compare(DdlLoaiDiem.SelectedValue, "tất cả", true) == 0))
-                {
-                    ChooseAllMarkType = true;
-                }
-                else
-                {
-                    ChooseAllMarkType = false;
-                }
-            }
-
             MainDataPager.CurrentIndex = 1;
             //isSearch = true;
-            BindRptTenLoaiDiem();
-            BindRptDiemHocSinh();
+            BindRptMarkTypes();
+            BindRptStudentMarks();
         }
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
@@ -387,9 +361,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                     {
                                         double dMark = double.Parse(strMark.Trim());
                                         detailMarks.Add(new DetailMark
-                                        { 
-                                            MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value), 
-                                            GiaTri = dMark 
+                                        {
+                                            MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value),
+                                            GiaTri = dMark
                                         });
                                     }
                                 }
@@ -424,7 +398,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 studyingResultBL.UpdateDetailedMark(pair.Key, Class, term, subject, pair.Value);
             }
 
-            BindRptDiemHocSinh();
+            BindRptStudentMarks();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
@@ -438,10 +412,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (e.Item.ItemType == ListItemType.Item
                 || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                TabularStudentMark tbDiemHocSinh = (TabularStudentMark)e.Item.DataItem;
-                Repeater rptDiemTheoLoaiDiem = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
-                rptDiemTheoLoaiDiem.DataSource = tbDiemHocSinh.DiemTheoLoaiDiems;
-                rptDiemTheoLoaiDiem.DataBind();
+                TabularStudentMark tabularStudentMark = (TabularStudentMark)e.Item.DataItem;
+                Repeater rptMarkTypeBasedMarks = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
+                rptMarkTypeBasedMarks.DataSource = tabularStudentMark.DiemTheoLoaiDiems;
+                rptMarkTypeBasedMarks.DataBind();
             }
         }
         #endregion
@@ -451,7 +425,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindRptDiemHocSinh();
+            BindRptStudentMarks();
         }
         #endregion
     }

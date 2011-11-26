@@ -51,12 +51,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         ////    string maHocSinhHienThi = TxtMaHS.Text;
         ////    int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
 
-        ////    double totalRecords;
+        ////    double dTotalRecords;
         ////    List<TabularThongBao> lstTabularThongBao = thongBaoBL.GetListTabularThongBao(
         ////        maNamHoc, tuNgay, denNgay,
-        ////        maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+        ////        maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             
-        ////    if (lstTabularThongBao.Count == 0 && totalRecords != 0)
+        ////    if (lstTabularThongBao.Count == 0 && dTotalRecords != 0)
         ////    {
         ////        MainDataPager.CurrentIndex--;
         ////        BindRepeater();
@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         ////    ProcessDislayInfo(bDisplayData);
         ////    RptThongBao.DataSource = lstTabularThongBao;
         ////    RptThongBao.DataBind();
-        ////    MainDataPager.ItemCount = totalRecords;
+        ////    MainDataPager.ItemCount = dTotalRecords;
         ////}
 
         ////private void ProcessDislayInfo(bool bDisplayData)

@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class hoatdong {
+    public partial class StudentActivityPage {
         
         /// <summary>
         /// HlkThongTinCaNhan control.

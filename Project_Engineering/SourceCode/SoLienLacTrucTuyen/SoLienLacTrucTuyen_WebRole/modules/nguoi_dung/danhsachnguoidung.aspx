@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhsachnguoidung.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DanhSachNguoiDung" %>
+    CodeBehind="danhsachnguoidung.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.UsersPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>

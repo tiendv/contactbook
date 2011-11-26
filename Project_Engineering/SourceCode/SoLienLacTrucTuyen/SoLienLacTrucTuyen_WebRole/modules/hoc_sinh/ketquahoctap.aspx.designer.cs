@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class KetQuaHocTapPage {
+    public partial class StudentStudyingResultPage {
         
         /// <summary>
         /// HlkThongTinCaNhan control.
@@ -139,15 +139,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdKQHocTapDTB;
         
         /// <summary>
-        /// tdEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdEdit;
-        
-        /// <summary>
         /// RptKetQuaDiem control.
         /// </summary>
         /// <remarks>
@@ -200,60 +191,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::SoLienLacTrucTuyen.DataPager.DataPager DataPagerDanhHieu;
-        
-        /// <summary>
-        /// PnlPopupHanhKiem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PnlPopupHanhKiem;
-        
-        /// <summary>
-        /// PnlDragPopupHanhKiem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PnlDragPopupHanhKiem;
-        
-        /// <summary>
-        /// LblPnlPopupHanhKiemTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblPnlPopupHanhKiemTitle;
-        
-        /// <summary>
-        /// PnlPopupHanhKiem_DivListHanhKiem control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PnlPopupHanhKiem_DivListHanhKiem;
-        
-        /// <summary>
-        /// BtnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSave;
-        
-        /// <summary>
-        /// BtnCancel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancel;
         
         /// <summary>
         /// BtnBackPrevPage control.

@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ThemHocSinh {
+    public partial class AddStudentPage {
         
         /// <summary>
         /// UpdatePanel1 control.

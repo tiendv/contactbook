@@ -257,7 +257,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindRepeater()
         {
             CauHinh_Buoi session = null;
-            double totalRecords;
+            double dTotalRecords;
             string tenTiet = TxtSearchTiet.Text.Trim();
 
             if (DdlBuoi.SelectedIndex != 0)
@@ -267,17 +267,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             List<TabularTeachingPeriod> listTbTiets = tietBL.GetTabularTeachingPeriods(tenTiet, session,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (listTbTiets.Count == 0 && totalRecords != 0)
+            if (listTbTiets.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
                 return;
             }
 
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
             bool bDisplayData = (listTbTiets.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             PnlPopupEdit.Visible = bDisplayData;

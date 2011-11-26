@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {  
     
-    public partial class NhomNguoiDung {
+    public partial class RolesPage {
         
         /// <summary>
         /// divScript control.

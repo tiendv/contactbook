@@ -8,7 +8,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SuaNguoiDung : BaseContentPage
+    public partial class EditUserPage : BaseContentPage
     {
         protected override void Page_Load(object sender, EventArgs e)
         {

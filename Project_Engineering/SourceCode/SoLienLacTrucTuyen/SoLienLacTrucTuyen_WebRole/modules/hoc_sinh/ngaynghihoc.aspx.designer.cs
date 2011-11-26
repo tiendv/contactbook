@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class NgayNghiHocPage {
+    public partial class StudentAbsentPage {
         
         /// <summary>
         /// HlkThongTinCaNhan control.

@@ -11,7 +11,7 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class GVCN : BaseContentPage
+    public partial class FormerTeacherPage : BaseContentPage
     {
         #region Fields
         private FormerTeacherBL giaoVienChuNhiemBL;
@@ -258,14 +258,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             
             string tenGVCN = TxtTenGVCN.Text.Trim();
             string maGVCN = TxtMaGVCN.Text.Trim();
-            double totalRecords = 0;
+            double dTotalRecords = 0;
 
             List<TabularFormerTeacher> lstTbGVCN = giaoVienChuNhiemBL.GetListFormerTeachers(
                 year, faculty, grade, Class, maGVCN, tenGVCN,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTbGVCN.Count == 0 && totalRecords != 0)
+            if (lstTbGVCN.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
@@ -276,7 +276,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcessDislayInfo(bDisplayData);
             RptGVCN.DataSource = lstTbGVCN;
             RptGVCN.DataBind();
-            MainDataPager.ItemCount = totalRecords;
+            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)

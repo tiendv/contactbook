@@ -17,27 +17,32 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             roleDA = new RoleDA(school);
         }
 
-        public void UpdateRole(string roleName,
-            string newRoleName, string description)
+        public void UpdateRole(string roleName, string newRoleName, string description)
         {
+            roleName = GetActualName(roleName);
+            newRoleName = GetActualName(newRoleName);
+
             roleDA.UpdateRole(roleName, newRoleName, description);
         }
 
-        public void CreateRoleDetail(string roleName,
-            string description)
+        public void CreateRoleDetail(string roleName, string description)
         {
+            roleName = GetActualName(roleName);
             roleDA.CreateRoleDetail(roleName, description);
         }
 
-        public void UpdateRoleDetail(string roleName,
-            string description, bool expired, bool canBeDeleted, bool actived)
+        public void UpdateRoleDetail(string roleName, string description, bool expired, bool canBeDeleted, bool actived)
         {
-            roleDA.UpdateRoleDetail(roleName,
-                description, expired, canBeDeleted, actived);
+            roleName = GetActualName(roleName);
+            roleDA.UpdateRoleDetail(roleName, description, expired, canBeDeleted, actived);
         }
 
-        public List<TabularRole> GetListTbRoles(string roleName,
-            int pageCurrentIndex, int pageSize, out double totalRecords)
+        public TabularRole GetTabularRole(Guid roleId)
+        {
+            return roleDA.GetTabRole(roleId);
+        }
+        
+        public List<TabularRole> GetTabularRoles(string roleName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             if ((roleName == "") || (string.Compare(roleName, "tất cả", true) == 0))
             {
@@ -45,13 +50,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
+                roleName = GetActualName(roleName);
                 return roleDA.GetListTbRoles(roleName, pageCurrentIndex, pageSize, out totalRecords);
             }
-
         }
 
         public void DeleteRole(string roleName)
         {
+            roleName = GetActualName(roleName);
             roleDA.DeleteRole(roleName);
         }
 
@@ -60,12 +66,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return roleDA.GetAccessibilities(roleId, pageUrl);
         }
 
-        public TabularRole GetTbRole(Guid roleId)
-        {
-            return roleDA.GetTabRole(roleId);
-        }
-
-        public List<aspnet_Role> GetListRoles()
+        public List<aspnet_Role> GetRoles()
         {
             bool parentRoleOnly = true;
             return roleDA.GetListRoles(parentRoleOnly);
@@ -76,12 +77,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return roleDA.GetRolesForAddingUser();
         }
 
-        public Guid GetRoleAdmin()
+        public Guid GetRoleADMIN()
         {
             return roleDA.GetRoleAdminId();
         }
 
-        public bool IsRoleParents(string roleName)
+        public bool IsRolePARENTS(string roleName)
         {
             return roleDA.IsRoleParents(roleName);
         }
@@ -98,12 +99,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool RoleExists(string roleName)
         {
+            roleName = GetActualName(roleName);
             return roleDA.RoleExists(roleName);
         }
 
-        public bool RoleExists(string roleName, string newRoleName)
+        public bool RoleExists(string oldRoleName, string newRoleName)
         {
-            return roleDA.RoleExists(roleName, newRoleName);
+            if (oldRoleName == newRoleName)
+            {
+                return false;
+            }
+            else
+            {
+                newRoleName = GetActualName(newRoleName);
+                return roleDA.RoleExists(newRoleName);
+            }
         }
 
         public void AddUserToRole(string userName, string roleName)
@@ -128,17 +138,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return roleDA.GetChildRoleParentsByFunctions(lstFunctions);
         }
 
-        public bool CanDeleteRole(string roleName)
+        public bool IsDeletable(string roleName)
         {
+            roleName = GetActualName(roleName);
             return roleDA.IsDeletableRole(roleName);
         }
 
-        public bool IsRoleGiaoVienChuNhiem(string roleName)
+        public bool IsRoleFORMERERTEACHER(string roleName)
         {
             return roleDA.IsRoleFormerTeacher(roleName);
         }
 
-        public bool IsRoleGiaoVienBoMon(string roleName)
+        public bool IsRoleSUBJECTEDTEACHER(string roleName)
         {
             return roleDA.IsRoleSubjectTeacher(roleName);
         }

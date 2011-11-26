@@ -44,9 +44,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             classDA.DeleteClass(deletedClass);
         }
 
-        public LopHoc_Lop GetClass(int maLopHoc)
+        public LopHoc_Lop GetClass(int classId)
         {
-            return classDA.GetClass(maLopHoc);
+            return classDA.GetClass(classId);
         }
 
         public TabularClass GetTabularClass(LopHoc_Lop Class)

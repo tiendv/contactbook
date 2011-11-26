@@ -29,6 +29,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 editedStudentActivity.MaThaiDoThamGia = attitude.MaThaiDoThamGia;
             }
+            else
+            {
+                editedStudentActivity.MaThaiDoThamGia = null;
+            }
 
             studentActivityDA.UpdateStudentActivity(editedStudentActivity);
         }
@@ -54,7 +58,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             AttitudeBL attitudeBL = new AttitudeBL(school);
             List<TabularStudentActivity> tabularStudentActivities = new List<TabularStudentActivity>();
             List<HocSinh_HoatDong> studentActivities = new List<HocSinh_HoatDong>();
-            studentActivities = studentActivityDA.GetListStudentActivities(student, year, term, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+            studentActivities = studentActivityDA.GetStudentActivities(student, year, term, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
             TabularStudentActivity tabularStudentActivity = null;
 
             foreach (HocSinh_HoatDong studentActivity in studentActivities)
@@ -73,6 +77,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     tabularStudentActivity.ThaiDoThamGia = "Không xác định";
                 }
+
+                tabularStudentActivities.Add(tabularStudentActivity);
             }
             return tabularStudentActivities;
         }

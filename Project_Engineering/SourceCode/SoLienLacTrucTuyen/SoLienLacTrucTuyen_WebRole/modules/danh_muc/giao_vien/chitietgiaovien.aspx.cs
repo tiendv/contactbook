@@ -99,9 +99,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
             int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());            
             teacher.MaGiaoVien = maGiaoVien;
-            double totalRecords;
+            double dTotalRecords;
             List<TabularTeaching> lstTbGiangDays = giaoVienBL.GetListTeachings(
-                teacher, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out totalRecords);
+                teacher, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out dTotalRecords);
 
             bool bDisplayData = (lstTbGiangDays.Count != 0) ? true : false;
             RptGiangDay.Visible = bDisplayData;
@@ -110,7 +110,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptGiangDay.DataSource = lstTbGiangDays;
             RptGiangDay.DataBind();
-            DataPagerGiangDay.ItemCount = totalRecords;
+            DataPagerGiangDay.ItemCount = dTotalRecords;
         }
 
         private void BindDataChuNhiem()
@@ -118,9 +118,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
             int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());
             teacher.MaGiaoVien = maGiaoVien;
-            double totalRecords;
+            double dTotalRecords;
             List<TabularFormering> lstTbChuNhiems = giaoVienBL.GetListFormerings(
-                teacher, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out totalRecords);
+                teacher, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out dTotalRecords);
 
             bool bDisplayData = (lstTbChuNhiems.Count != 0) ? true : false;
             RptChuNhiem.Visible = bDisplayData;
@@ -129,7 +129,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptChuNhiem.DataSource = lstTbChuNhiems;
             RptChuNhiem.DataBind();
-            DataPagerChuNhiem.ItemCount = totalRecords;
+            DataPagerChuNhiem.ItemCount = dTotalRecords;
         }
         #endregion
     }

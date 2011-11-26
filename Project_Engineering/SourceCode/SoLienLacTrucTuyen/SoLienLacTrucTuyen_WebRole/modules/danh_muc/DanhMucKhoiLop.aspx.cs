@@ -232,13 +232,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string tenKhoiLop = TxtSearchKhoiLop.Text.Trim();
 
-            double totalRecords;
+            double dTotalRecords;
             List<DanhMuc_KhoiLop> lstKhoiLop = gradeBL.GetListGrades(tenKhoiLop, 
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecords);
-            MainDataPager.ItemCount = totalRecords;
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            MainDataPager.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
-            if (lstKhoiLop.Count == 0 && totalRecords != 0)
+            if (lstKhoiLop.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptKhoiLop();

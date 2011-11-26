@@ -18,5 +18,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public BaseBL()
         {
         }
+
+        protected string GetActualName(String name)
+        {
+            string strActualName = school.SchoolId + "_" + name;
+            return strActualName;
+        }
     }
 }

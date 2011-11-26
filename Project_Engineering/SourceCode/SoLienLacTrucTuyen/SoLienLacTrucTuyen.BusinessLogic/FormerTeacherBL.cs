@@ -42,8 +42,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return formerTeacherDA.GetFormerTeacher(Class);
         }
 
-        private List<LopHoc_GVCN> GetListFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class,
-            string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<LopHoc_GVCN> GetListFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
             if (Class != null)
@@ -116,8 +115,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lFormerTeachers;
         }
 
-        private List<LopHoc_GVCN> GetListFormerTeachersByCode(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class,
-            string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<LopHoc_GVCN> GetListFormerTeachersByCode(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
             if (Class != null)
@@ -190,8 +188,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lFormerTeachers;
         }
 
-        public List<TabularFormerTeacher> GetListFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class,
-            string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularFormerTeacher> GetListFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularFormerTeacher> lTbFormerTeachers = new List<TabularFormerTeacher>();
             List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();

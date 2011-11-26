@@ -275,11 +275,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string tenHanhKiem = TxtSearchHanhKiem.Text.Trim();
 
-            double totalRecords;
+            double dTotalRecords;
             List<DanhMuc_HanhKiem> lstHanhKiem;
             lstHanhKiem = hanhKiemBL.GetListConducts(tenHanhKiem, MainDataPager.CurrentIndex, MainDataPager.PageSize, 
-                out totalRecords);
-            MainDataPager.ItemCount = totalRecords;
+                out dTotalRecords);
+            MainDataPager.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
             if (lstHanhKiem.Count == 0 && MainDataPager.ItemCount != 0)

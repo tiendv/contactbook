@@ -269,7 +269,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             return formerTeacher;
         }
 
-
         public bool FormerTeacherExists(DanhMuc_GiaoVien teacher)
         {
             IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
