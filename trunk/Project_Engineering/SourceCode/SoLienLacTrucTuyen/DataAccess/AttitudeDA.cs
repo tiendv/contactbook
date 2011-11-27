@@ -15,6 +15,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertAttitude(DanhMuc_ThaiDoThamGia attitude)
         {
+            attitude.SchoolId = school.SchoolId;
             db.DanhMuc_ThaiDoThamGias.InsertOnSubmit(attitude);
             db.SubmitChanges();
         }

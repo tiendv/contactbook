@@ -15,6 +15,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertGrade(DanhMuc_KhoiLop grade)
         {
+            grade.SchoolId = school.SchoolId;
             db.DanhMuc_KhoiLops.InsertOnSubmit(grade);
             db.SubmitChanges();
         }

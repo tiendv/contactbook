@@ -14,6 +14,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertMarkType(DanhMuc_LoaiDiem markType)
         {
+            markType.SchoolId = school.SchoolId;
             db.DanhMuc_LoaiDiems.InsertOnSubmit(markType);
             db.SubmitChanges();
         }

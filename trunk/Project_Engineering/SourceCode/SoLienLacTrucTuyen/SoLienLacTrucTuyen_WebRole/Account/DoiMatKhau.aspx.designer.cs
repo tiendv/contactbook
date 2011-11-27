@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DoiMatKhau {
+    public partial class ChangePassword {
         
         /// <summary>
         /// ChangeUserPassword control.

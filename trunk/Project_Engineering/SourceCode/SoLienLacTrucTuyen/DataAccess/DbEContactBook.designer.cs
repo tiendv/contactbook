@@ -30,12 +30,12 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
+    partial void UpdateUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
+    partial void DeleteUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
     partial void Insertaspnet_Application(aspnet_Application instance);
     partial void Updateaspnet_Application(aspnet_Application instance);
     partial void Deleteaspnet_Application(aspnet_Application instance);
-    partial void InsertUserManagement_RoleDetail(UserManagement_RoleDetail instance);
-    partial void UpdateUserManagement_RoleDetail(UserManagement_RoleDetail instance);
-    partial void DeleteUserManagement_RoleDetail(UserManagement_RoleDetail instance);
     partial void Insertaspnet_Membership(aspnet_Membership instance);
     partial void Updateaspnet_Membership(aspnet_Membership instance);
     partial void Deleteaspnet_Membership(aspnet_Membership instance);
@@ -177,6 +177,9 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void InsertUserManagement_PagePath(UserManagement_PagePath instance);
     partial void UpdateUserManagement_PagePath(UserManagement_PagePath instance);
     partial void DeleteUserManagement_PagePath(UserManagement_PagePath instance);
+    partial void InsertUserManagement_RoleDetail(UserManagement_RoleDetail instance);
+    partial void UpdateUserManagement_RoleDetail(UserManagement_RoleDetail instance);
+    partial void DeleteUserManagement_RoleDetail(UserManagement_RoleDetail instance);
     #endregion
 		
 		public DbEContactBookDataContext() : 
@@ -209,19 +212,19 @@ namespace SoLienLacTrucTuyen.DataAccess
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
+		{
+			get
+			{
+				return this.GetTable<UserManagement_RoleParentsAuthorization>();
+			}
+		}
+		
 		public System.Data.Linq.Table<aspnet_Application> aspnet_Applications
 		{
 			get
 			{
 				return this.GetTable<aspnet_Application>();
-			}
-		}
-		
-		public System.Data.Linq.Table<UserManagement_RoleDetail> UserManagement_RoleDetails
-		{
-			get
-			{
-				return this.GetTable<UserManagement_RoleDetail>();
 			}
 		}
 		
@@ -624,6 +627,251 @@ namespace SoLienLacTrucTuyen.DataAccess
 				return this.GetTable<UserManagement_RoleBasedFunctionFlag>();
 			}
 		}
+		
+		public System.Data.Linq.Table<UserManagement_RoleDetail> UserManagement_RoleDetails
+		{
+			get
+			{
+				return this.GetTable<UserManagement_RoleDetail>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_RoleParentsAuthorizations")]
+	public partial class UserManagement_RoleParentsAuthorization : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _RoleParentAuthorizationId;
+		
+		private System.Guid _UserId;
+		
+		private EntityRef<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorization2;
+		
+		private EntityRef<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorization1;
+		
+		private EntityRef<aspnet_User> _aspnet_User;
+		
+		private EntityRef<UserManagement_Authorization> _UserManagement_Authorization;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRoleParentAuthorizationIdChanging(int value);
+    partial void OnRoleParentAuthorizationIdChanged();
+    partial void OnUserIdChanging(System.Guid value);
+    partial void OnUserIdChanged();
+    #endregion
+		
+		public UserManagement_RoleParentsAuthorization()
+		{
+			this._UserManagement_RoleParentsAuthorization2 = default(EntityRef<UserManagement_RoleParentsAuthorization>);
+			this._UserManagement_RoleParentsAuthorization1 = default(EntityRef<UserManagement_RoleParentsAuthorization>);
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			this._UserManagement_Authorization = default(EntityRef<UserManagement_Authorization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleParentAuthorizationId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int RoleParentAuthorizationId
+		{
+			get
+			{
+				return this._RoleParentAuthorizationId;
+			}
+			set
+			{
+				if ((this._RoleParentAuthorizationId != value))
+				{
+					if ((this._UserManagement_RoleParentsAuthorization1.HasLoadedOrAssignedValue || this._UserManagement_Authorization.HasLoadedOrAssignedValue))
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoleParentAuthorizationIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleParentAuthorizationId = value;
+					this.SendPropertyChanged("RoleParentAuthorizationId");
+					this.OnRoleParentAuthorizationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					if (this._aspnet_User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_RoleParentsAuthorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorization2", ThisKey="RoleParentAuthorizationId", OtherKey="RoleParentAuthorizationId", IsUnique=true, IsForeignKey=false)]
+		public UserManagement_RoleParentsAuthorization UserManagement_RoleParentsAuthorization2
+		{
+			get
+			{
+				return this._UserManagement_RoleParentsAuthorization2.Entity;
+			}
+			set
+			{
+				UserManagement_RoleParentsAuthorization previousValue = this._UserManagement_RoleParentsAuthorization2.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagement_RoleParentsAuthorization2.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagement_RoleParentsAuthorization2.Entity = null;
+						previousValue.UserManagement_RoleParentsAuthorization1 = null;
+					}
+					this._UserManagement_RoleParentsAuthorization2.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleParentsAuthorization1 = this;
+					}
+					this.SendPropertyChanged("UserManagement_RoleParentsAuthorization2");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_RoleParentsAuthorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorization1", ThisKey="RoleParentAuthorizationId", OtherKey="RoleParentAuthorizationId", IsForeignKey=true)]
+		public UserManagement_RoleParentsAuthorization UserManagement_RoleParentsAuthorization1
+		{
+			get
+			{
+				return this._UserManagement_RoleParentsAuthorization1.Entity;
+			}
+			set
+			{
+				UserManagement_RoleParentsAuthorization previousValue = this._UserManagement_RoleParentsAuthorization1.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagement_RoleParentsAuthorization1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagement_RoleParentsAuthorization1.Entity = null;
+						previousValue.UserManagement_RoleParentsAuthorization2 = null;
+					}
+					this._UserManagement_RoleParentsAuthorization1.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleParentsAuthorization2 = this;
+						this._RoleParentAuthorizationId = value.RoleParentAuthorizationId;
+					}
+					else
+					{
+						this._RoleParentAuthorizationId = default(int);
+					}
+					this.SendPropertyChanged("UserManagement_RoleParentsAuthorization1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_aspnet_User", ThisKey="UserId", OtherKey="UserId", IsForeignKey=true)]
+		public aspnet_User aspnet_User
+		{
+			get
+			{
+				return this._aspnet_User.Entity;
+			}
+			set
+			{
+				aspnet_User previousValue = this._aspnet_User.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_User.Entity = null;
+						previousValue.UserManagement_RoleParentsAuthorizations.Remove(this);
+					}
+					this._aspnet_User.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleParentsAuthorizations.Add(this);
+						this._UserId = value.UserId;
+					}
+					else
+					{
+						this._UserId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_Authorization", ThisKey="RoleParentAuthorizationId", OtherKey="AuthorizationId", IsForeignKey=true)]
+		public UserManagement_Authorization UserManagement_Authorization
+		{
+			get
+			{
+				return this._UserManagement_Authorization.Entity;
+			}
+			set
+			{
+				UserManagement_Authorization previousValue = this._UserManagement_Authorization.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagement_Authorization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagement_Authorization.Entity = null;
+						previousValue.UserManagement_RoleParentsAuthorization = null;
+					}
+					this._UserManagement_Authorization.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleParentsAuthorization = this;
+						this._RoleParentAuthorizationId = value.AuthorizationId;
+					}
+					else
+					{
+						this._RoleParentAuthorizationId = default(int);
+					}
+					this.SendPropertyChanged("UserManagement_Authorization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.aspnet_Applications")]
@@ -869,318 +1117,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_Application = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_RoleDetails")]
-	public partial class UserManagement_RoleDetail : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _RoleId;
-		
-		private string _Description;
-		
-		private bool _Expired;
-		
-		private bool _CanBeDeleted;
-		
-		private bool _Actived;
-		
-		private System.Nullable<System.Guid> _ParentRoleId;
-		
-		private int _SchoolId;
-		
-		private string _DisplayedName;
-		
-		private EntityRef<aspnet_Role> _aspnet_Role;
-		
-		private EntityRef<School> _School;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnRoleIdChanging(System.Guid value);
-    partial void OnRoleIdChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnExpiredChanging(bool value);
-    partial void OnExpiredChanged();
-    partial void OnCanBeDeletedChanging(bool value);
-    partial void OnCanBeDeletedChanged();
-    partial void OnActivedChanging(bool value);
-    partial void OnActivedChanged();
-    partial void OnParentRoleIdChanging(System.Nullable<System.Guid> value);
-    partial void OnParentRoleIdChanged();
-    partial void OnSchoolIdChanging(int value);
-    partial void OnSchoolIdChanged();
-    partial void OnDisplayedNameChanging(string value);
-    partial void OnDisplayedNameChanged();
-    #endregion
-		
-		public UserManagement_RoleDetail()
-		{
-			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._School = default(EntityRef<School>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					if (this._aspnet_Role.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRoleIdChanging(value);
-					this.SendPropertyChanging();
-					this._RoleId = value;
-					this.SendPropertyChanged("RoleId");
-					this.OnRoleIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(256)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Expired", DbType="Bit NOT NULL")]
-		public bool Expired
-		{
-			get
-			{
-				return this._Expired;
-			}
-			set
-			{
-				if ((this._Expired != value))
-				{
-					this.OnExpiredChanging(value);
-					this.SendPropertyChanging();
-					this._Expired = value;
-					this.SendPropertyChanged("Expired");
-					this.OnExpiredChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanBeDeleted", DbType="Bit NOT NULL")]
-		public bool CanBeDeleted
-		{
-			get
-			{
-				return this._CanBeDeleted;
-			}
-			set
-			{
-				if ((this._CanBeDeleted != value))
-				{
-					this.OnCanBeDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._CanBeDeleted = value;
-					this.SendPropertyChanged("CanBeDeleted");
-					this.OnCanBeDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Actived", DbType="Bit NOT NULL")]
-		public bool Actived
-		{
-			get
-			{
-				return this._Actived;
-			}
-			set
-			{
-				if ((this._Actived != value))
-				{
-					this.OnActivedChanging(value);
-					this.SendPropertyChanging();
-					this._Actived = value;
-					this.SendPropertyChanged("Actived");
-					this.OnActivedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentRoleId", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ParentRoleId
-		{
-			get
-			{
-				return this._ParentRoleId;
-			}
-			set
-			{
-				if ((this._ParentRoleId != value))
-				{
-					this.OnParentRoleIdChanging(value);
-					this.SendPropertyChanging();
-					this._ParentRoleId = value;
-					this.SendPropertyChanged("ParentRoleId");
-					this.OnParentRoleIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
-		public int SchoolId
-		{
-			get
-			{
-				return this._SchoolId;
-			}
-			set
-			{
-				if ((this._SchoolId != value))
-				{
-					if (this._School.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSchoolIdChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayedName", DbType="NVarChar(100)")]
-		public string DisplayedName
-		{
-			get
-			{
-				return this._DisplayedName;
-			}
-			set
-			{
-				if ((this._DisplayedName != value))
-				{
-					this.OnDisplayedNameChanging(value);
-					this.SendPropertyChanging();
-					this._DisplayedName = value;
-					this.SendPropertyChanged("DisplayedName");
-					this.OnDisplayedNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_RoleDetail", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
-		public aspnet_Role aspnet_Role
-		{
-			get
-			{
-				return this._aspnet_Role.Entity;
-			}
-			set
-			{
-				aspnet_Role previousValue = this._aspnet_Role.Entity;
-				if (((previousValue != value) 
-							|| (this._aspnet_Role.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._aspnet_Role.Entity = null;
-						previousValue.UserManagement_RoleDetail = null;
-					}
-					this._aspnet_Role.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_RoleDetail = this;
-						this._RoleId = value.RoleId;
-					}
-					else
-					{
-						this._RoleId = default(System.Guid);
-					}
-					this.SendPropertyChanged("aspnet_Role");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_UserManagement_RoleDetail", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
-		public School School
-		{
-			get
-			{
-				return this._School.Entity;
-			}
-			set
-			{
-				School previousValue = this._School.Entity;
-				if (((previousValue != value) 
-							|| (this._School.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._School.Entity = null;
-						previousValue.UserManagement_RoleDetails.Remove(this);
-					}
-					this._School.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_RoleDetails.Add(this);
-						this._SchoolId = value.SchoolId;
-					}
-					else
-					{
-						this._SchoolId = default(int);
-					}
-					this.SendPropertyChanged("School");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -2978,11 +2914,11 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private string _Description;
 		
-		private EntityRef<UserManagement_RoleDetail> _UserManagement_RoleDetail;
-		
 		private EntitySet<aspnet_UsersInRole> _aspnet_UsersInRoles;
 		
 		private EntitySet<UserManagement_Authorization> _UserManagement_Authorizations;
+		
+		private EntityRef<UserManagement_RoleDetail> _UserManagement_RoleDetail;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -3004,9 +2940,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		public aspnet_Role()
 		{
-			this._UserManagement_RoleDetail = default(EntityRef<UserManagement_RoleDetail>);
 			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
 			this._UserManagement_Authorizations = new EntitySet<UserManagement_Authorization>(new Action<UserManagement_Authorization>(this.attach_UserManagement_Authorizations), new Action<UserManagement_Authorization>(this.detach_UserManagement_Authorizations));
+			this._UserManagement_RoleDetail = default(EntityRef<UserManagement_RoleDetail>);
 			this._aspnet_Application = default(EntityRef<aspnet_Application>);
 			OnCreated();
 		}
@@ -3115,6 +3051,32 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_aspnet_UsersInRole", Storage="_aspnet_UsersInRoles", ThisKey="RoleId", OtherKey="RoleId")]
+		public EntitySet<aspnet_UsersInRole> aspnet_UsersInRoles
+		{
+			get
+			{
+				return this._aspnet_UsersInRoles;
+			}
+			set
+			{
+				this._aspnet_UsersInRoles.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_Authorization", Storage="_UserManagement_Authorizations", ThisKey="RoleId", OtherKey="RoleId")]
+		public EntitySet<UserManagement_Authorization> UserManagement_Authorizations
+		{
+			get
+			{
+				return this._UserManagement_Authorizations;
+			}
+			set
+			{
+				this._UserManagement_Authorizations.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetail", ThisKey="RoleId", OtherKey="RoleId", IsUnique=true, IsForeignKey=false)]
 		public UserManagement_RoleDetail UserManagement_RoleDetail
 		{
@@ -3141,32 +3103,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 					}
 					this.SendPropertyChanged("UserManagement_RoleDetail");
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_aspnet_UsersInRole", Storage="_aspnet_UsersInRoles", ThisKey="RoleId", OtherKey="RoleId")]
-		public EntitySet<aspnet_UsersInRole> aspnet_UsersInRoles
-		{
-			get
-			{
-				return this._aspnet_UsersInRoles;
-			}
-			set
-			{
-				this._aspnet_UsersInRoles.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_Authorization", Storage="_UserManagement_Authorizations", ThisKey="RoleId", OtherKey="RoleId")]
-		public EntitySet<UserManagement_Authorization> UserManagement_Authorizations
-		{
-			get
-			{
-				return this._UserManagement_Authorizations;
-			}
-			set
-			{
-				this._UserManagement_Authorizations.Assign(value);
 			}
 		}
 		
@@ -3379,6 +3315,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.DateTime _LastActivityDate;
 		
+		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
+		
 		private EntityRef<aspnet_Membership> _aspnet_Membership;
 		
 		private EntitySet<aspnet_PersonalizationPerUser> _aspnet_PersonalizationPerUsers;
@@ -3415,6 +3353,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		public aspnet_User()
 		{
+			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
 			this._aspnet_Membership = default(EntityRef<aspnet_Membership>);
 			this._aspnet_PersonalizationPerUsers = new EntitySet<aspnet_PersonalizationPerUser>(new Action<aspnet_PersonalizationPerUser>(this.attach_aspnet_PersonalizationPerUsers), new Action<aspnet_PersonalizationPerUser>(this.detach_aspnet_PersonalizationPerUsers));
 			this._aspnet_Profile = default(EntityRef<aspnet_Profile>);
@@ -3566,6 +3505,19 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this.SendPropertyChanged("LastActivityDate");
 					this.OnLastActivityDateChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="UserId", OtherKey="UserId")]
+		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
+		{
+			get
+			{
+				return this._UserManagement_RoleParentsAuthorizations;
+			}
+			set
+			{
+				this._UserManagement_RoleParentsAuthorizations.Assign(value);
 			}
 		}
 		
@@ -3731,6 +3683,18 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
 		}
 		
 		private void attach_aspnet_PersonalizationPerUsers(aspnet_PersonalizationPerUser entity)
@@ -12567,8 +12531,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _TotalOfUsers;
 		
-		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
-		
 		private EntitySet<aspnet_Membership> _aspnet_Memberships;
 		
 		private EntitySet<DanhMuc_DanhHieu> _DanhMuc_DanhHieus;
@@ -12591,6 +12553,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private EntitySet<LopHoc_Lop> _LopHoc_Lops;
 		
+		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -12607,7 +12571,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		public School()
 		{
-			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
 			this._aspnet_Memberships = new EntitySet<aspnet_Membership>(new Action<aspnet_Membership>(this.attach_aspnet_Memberships), new Action<aspnet_Membership>(this.detach_aspnet_Memberships));
 			this._DanhMuc_DanhHieus = new EntitySet<DanhMuc_DanhHieu>(new Action<DanhMuc_DanhHieu>(this.attach_DanhMuc_DanhHieus), new Action<DanhMuc_DanhHieu>(this.detach_DanhMuc_DanhHieus));
 			this._DanhMuc_HanhKiems = new EntitySet<DanhMuc_HanhKiem>(new Action<DanhMuc_HanhKiem>(this.attach_DanhMuc_HanhKiems), new Action<DanhMuc_HanhKiem>(this.detach_DanhMuc_HanhKiems));
@@ -12619,6 +12582,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 			this._DanhMuc_Tiets = new EntitySet<DanhMuc_Tiet>(new Action<DanhMuc_Tiet>(this.attach_DanhMuc_Tiets), new Action<DanhMuc_Tiet>(this.detach_DanhMuc_Tiets));
 			this._HocSinh_ThongTinCaNhans = new EntitySet<HocSinh_ThongTinCaNhan>(new Action<HocSinh_ThongTinCaNhan>(this.attach_HocSinh_ThongTinCaNhans), new Action<HocSinh_ThongTinCaNhan>(this.detach_HocSinh_ThongTinCaNhans));
 			this._LopHoc_Lops = new EntitySet<LopHoc_Lop>(new Action<LopHoc_Lop>(this.attach_LopHoc_Lops), new Action<LopHoc_Lop>(this.detach_LopHoc_Lops));
+			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
 			OnCreated();
 		}
 		
@@ -12699,19 +12663,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this.SendPropertyChanged("TotalOfUsers");
 					this.OnTotalOfUsersChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetails", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<UserManagement_RoleDetail> UserManagement_RoleDetails
-		{
-			get
-			{
-				return this._UserManagement_RoleDetails;
-			}
-			set
-			{
-				this._UserManagement_RoleDetails.Assign(value);
 			}
 		}
 		
@@ -12858,6 +12809,19 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetails", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<UserManagement_RoleDetail> UserManagement_RoleDetails
+		{
+			get
+			{
+				return this._UserManagement_RoleDetails;
+			}
+			set
+			{
+				this._UserManagement_RoleDetails.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -12876,18 +12840,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.School = this;
-		}
-		
-		private void detach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.School = null;
 		}
 		
 		private void attach_aspnet_Memberships(aspnet_Membership entity)
@@ -13017,6 +12969,18 @@ namespace SoLienLacTrucTuyen.DataAccess
 		}
 		
 		private void detach_LopHoc_Lops(LopHoc_Lop entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = null;
+		}
+		
+		private void attach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.School = this;
+		}
+		
+		private void detach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
 		{
 			this.SendPropertyChanging();
 			entity.School = null;
@@ -13338,6 +13302,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _AuthorizedPagePathId;
 		
+		private EntityRef<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorization;
+		
 		private EntityRef<aspnet_Role> _aspnet_Role;
 		
 		private EntityRef<UserManagement_AuthorizedPage> _UserManagement_AuthorizedPage;
@@ -13356,6 +13322,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		public UserManagement_Authorization()
 		{
+			this._UserManagement_RoleParentsAuthorization = default(EntityRef<UserManagement_RoleParentsAuthorization>);
 			this._aspnet_Role = default(EntityRef<aspnet_Role>);
 			this._UserManagement_AuthorizedPage = default(EntityRef<UserManagement_AuthorizedPage>);
 			OnCreated();
@@ -13425,6 +13392,35 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._AuthorizedPagePathId = value;
 					this.SendPropertyChanged("AuthorizedPagePathId");
 					this.OnAuthorizedPagePathIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorization", ThisKey="AuthorizationId", OtherKey="RoleParentAuthorizationId", IsUnique=true, IsForeignKey=false)]
+		public UserManagement_RoleParentsAuthorization UserManagement_RoleParentsAuthorization
+		{
+			get
+			{
+				return this._UserManagement_RoleParentsAuthorization.Entity;
+			}
+			set
+			{
+				UserManagement_RoleParentsAuthorization previousValue = this._UserManagement_RoleParentsAuthorization.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagement_RoleParentsAuthorization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagement_RoleParentsAuthorization.Entity = null;
+						previousValue.UserManagement_Authorization = null;
+					}
+					this._UserManagement_RoleParentsAuthorization.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_Authorization = this;
+					}
+					this.SendPropertyChanged("UserManagement_RoleParentsAuthorization");
 				}
 			}
 		}
@@ -14602,6 +14598,318 @@ namespace SoLienLacTrucTuyen.DataAccess
 				{
 					this._Description = value;
 				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_RoleDetails")]
+	public partial class UserManagement_RoleDetail : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _RoleId;
+		
+		private string _Description;
+		
+		private bool _Expired;
+		
+		private bool _CanBeDeleted;
+		
+		private bool _Actived;
+		
+		private System.Nullable<System.Guid> _ParentRoleId;
+		
+		private int _SchoolId;
+		
+		private string _DisplayedName;
+		
+		private EntityRef<aspnet_Role> _aspnet_Role;
+		
+		private EntityRef<School> _School;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRoleIdChanging(System.Guid value);
+    partial void OnRoleIdChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnExpiredChanging(bool value);
+    partial void OnExpiredChanged();
+    partial void OnCanBeDeletedChanging(bool value);
+    partial void OnCanBeDeletedChanged();
+    partial void OnActivedChanging(bool value);
+    partial void OnActivedChanged();
+    partial void OnParentRoleIdChanging(System.Nullable<System.Guid> value);
+    partial void OnParentRoleIdChanged();
+    partial void OnSchoolIdChanging(int value);
+    partial void OnSchoolIdChanged();
+    partial void OnDisplayedNameChanging(string value);
+    partial void OnDisplayedNameChanged();
+    #endregion
+		
+		public UserManagement_RoleDetail()
+		{
+			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._School = default(EntityRef<School>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					if (this._aspnet_Role.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(256)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Expired", DbType="Bit NOT NULL")]
+		public bool Expired
+		{
+			get
+			{
+				return this._Expired;
+			}
+			set
+			{
+				if ((this._Expired != value))
+				{
+					this.OnExpiredChanging(value);
+					this.SendPropertyChanging();
+					this._Expired = value;
+					this.SendPropertyChanged("Expired");
+					this.OnExpiredChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanBeDeleted", DbType="Bit NOT NULL")]
+		public bool CanBeDeleted
+		{
+			get
+			{
+				return this._CanBeDeleted;
+			}
+			set
+			{
+				if ((this._CanBeDeleted != value))
+				{
+					this.OnCanBeDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._CanBeDeleted = value;
+					this.SendPropertyChanged("CanBeDeleted");
+					this.OnCanBeDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Actived", DbType="Bit NOT NULL")]
+		public bool Actived
+		{
+			get
+			{
+				return this._Actived;
+			}
+			set
+			{
+				if ((this._Actived != value))
+				{
+					this.OnActivedChanging(value);
+					this.SendPropertyChanging();
+					this._Actived = value;
+					this.SendPropertyChanged("Actived");
+					this.OnActivedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentRoleId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ParentRoleId
+		{
+			get
+			{
+				return this._ParentRoleId;
+			}
+			set
+			{
+				if ((this._ParentRoleId != value))
+				{
+					this.OnParentRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParentRoleId = value;
+					this.SendPropertyChanged("ParentRoleId");
+					this.OnParentRoleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
+		public int SchoolId
+		{
+			get
+			{
+				return this._SchoolId;
+			}
+			set
+			{
+				if ((this._SchoolId != value))
+				{
+					if (this._School.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSchoolIdChanging(value);
+					this.SendPropertyChanging();
+					this._SchoolId = value;
+					this.SendPropertyChanged("SchoolId");
+					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayedName", DbType="NVarChar(100)")]
+		public string DisplayedName
+		{
+			get
+			{
+				return this._DisplayedName;
+			}
+			set
+			{
+				if ((this._DisplayedName != value))
+				{
+					this.OnDisplayedNameChanging(value);
+					this.SendPropertyChanging();
+					this._DisplayedName = value;
+					this.SendPropertyChanged("DisplayedName");
+					this.OnDisplayedNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_RoleDetail", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
+		public aspnet_Role aspnet_Role
+		{
+			get
+			{
+				return this._aspnet_Role.Entity;
+			}
+			set
+			{
+				aspnet_Role previousValue = this._aspnet_Role.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_Role.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_Role.Entity = null;
+						previousValue.UserManagement_RoleDetail = null;
+					}
+					this._aspnet_Role.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleDetail = this;
+						this._RoleId = value.RoleId;
+					}
+					else
+					{
+						this._RoleId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_Role");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_UserManagement_RoleDetail", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School School
+		{
+			get
+			{
+				return this._School.Entity;
+			}
+			set
+			{
+				School previousValue = this._School.Entity;
+				if (((previousValue != value) 
+							|| (this._School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School.Entity = null;
+						previousValue.UserManagement_RoleDetails.Remove(this);
+					}
+					this._School.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleDetails.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

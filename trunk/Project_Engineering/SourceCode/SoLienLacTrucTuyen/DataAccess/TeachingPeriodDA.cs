@@ -31,6 +31,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertTeachingPeriod(DanhMuc_Tiet newTeachingPeriod)
         {
+            newTeachingPeriod.SchoolId = school.SchoolId;
             db.DanhMuc_Tiets.InsertOnSubmit(newTeachingPeriod);
             db.SubmitChanges();
         }

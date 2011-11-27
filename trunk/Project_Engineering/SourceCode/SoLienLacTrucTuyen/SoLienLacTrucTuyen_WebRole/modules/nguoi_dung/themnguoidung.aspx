@@ -82,10 +82,10 @@
                         <asp:HiddenField ID="HdfIsSelectRoleParents" runat="server" Value="false" />
                         <table style="width: 100%;">
                             <tr>
-                                <td style="width: 30%; height: 27px; padding-left: 10px">
+                                <td style="width: 30%; height: 27px; padding-left: 10px;">
                                     Nhóm người dùng:
                                 </td>
-                                <td style="width: 70%; padding-right: 10px">
+                                <td style="width: 70%; padding-right: 10px ;font-weight:bold">
                                     <asp:Label ID="LblSelectedRole" runat="server"></asp:Label>
                                 </td>
                             </tr>
@@ -147,6 +147,9 @@
                                 </td>
                                 <td style="padding-right: 10px">
                                     <asp:TextBox ID="Email" runat="server" Style="width: 98%"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email"
+                                        Display="Dynamic" ForeColor="Red" ErrorMessage="Email không được để trống"
+                                        ToolTip="Email không được để trống" ValidationGroup="CreateUser"></asp:RequiredFieldValidator>
                                 </td>
                             </tr>
                             <tr id="HtmlTrThoiHan" runat="server" style="display: none;">

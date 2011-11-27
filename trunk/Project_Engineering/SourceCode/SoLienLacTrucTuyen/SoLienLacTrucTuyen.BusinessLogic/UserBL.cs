@@ -93,9 +93,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.UserInRolePARENTS(userName);
         }
 
-        public void UpdateMembership(aspnet_User user, bool isTeacher)
+        public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email)
         {
-            userDA.UpdateMembership(user, isTeacher);
+            userDA.UpdateMembership(user, isTeacher, realName, email);
         }
 
         private TabularUser ConvertToTabular(aspnet_User user)

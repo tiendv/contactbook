@@ -66,7 +66,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return roleDA.IsRoleTeachers(role);
         }
 
-        public bool IsRolePARENTS(aspnet_Role role)
+        public bool IsRoleParents(aspnet_Role role)
         {
             return roleDA.IsRoleParents(role);
         }
@@ -149,6 +149,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }            
 
             return pagePages;
+        }
+
+        public void AddServicesToParentsUser(aspnet_User createdUser, List<UserManagement_Function> functions)
+        {
+            authorizationDA.AddServicesToParentsUser(createdUser, functions);
         }
     }
 }
