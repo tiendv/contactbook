@@ -18,10 +18,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private RoleBL roleBL;
         private UserBL userBL;
-        private const string STEP_SELECTEDROLE_DDLROLE = "DdlRoles";
-        private const string STEP_SELECTEDROLE_LBLSTEPERROR = "LblStepError";
+        private const string STEP_SELECTROLE_DDLROLE = "DdlRoles";
+        private const string STEP_SELECTROLE_LBLSTEPERROR = "LblStepError";
+        private const string STEP_SELECTROLE_MULVIEW = "MultiViewCtrl";
+        private const string STARTNEXTBUTTON = "StartNextButton";
+        private const string STEP_CREATEUSER_LBLROLE = "LblSelectedRole";
+        private const string STEP_CREATEUSER_LBLUSERNAME = "LblTenNguoiDung";
+        private const string STEP_CREATEUSER_VALIDATORREALNAME = "RealNameRequired";
+        private const string STEP_CREATEUSER_TR_PERIOD = "HtmlTrThoiHan";
+        private const string STEP_CREATEUSER_TR_REALNAME = "HtmlTrTenThat";
+        private const string STEP_CREATEUSER_TXT_REALNAME = "TxtTenThat";
+
         private const string VIEWSTATE_ISCHOSEROLEPARENTS = "IsChoseRoleParents";
         private const string VIEWSTATE_ISCHOSEROLETEACHERS = "IsChoseRoleTeachers";
+
         public Guid SeletedRoleId
         {
             get
@@ -58,10 +68,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BindDDLRoles();
 
-                DropDownList DdlRoles = (DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE);
+                DropDownList DdlRoles = (DropDownList)SeleteRoleStep.FindControl(STEP_SELECTROLE_DDLROLE);
                 if (DdlRoles.Items.Count != 0)
                 {
-                    ProcessUI();
+                    Display();
                 }
             }
         }
@@ -71,7 +81,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLRoles()
         {
             List<TabularRole> roles = roleBL.GetTabularRoles();
-            DropDownList ddlRoles = (DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE);
+            DropDownList ddlRoles = (DropDownList)SeleteRoleStep.FindControl(STEP_SELECTROLE_DDLROLE);
             ddlRoles.DataSource = roles;
             ddlRoles.DataValueField = "RoleId";
             ddlRoles.DataTextField = "DisplayedName";
@@ -89,36 +99,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region DropDownList event handlers
         protected void DdlRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ProcessUI();
+            Display();
         }
 
-        private void ProcessUI()
+        private void Display()
         {
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
-            aspnet_Role role = null;
-            Guid roleId = new Guid(((DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE)).SelectedValue);
-            SeletedRoleId = roleId;
-            role = new aspnet_Role();
-            role.RoleId = roleId;
+            aspnet_Role role = new aspnet_Role();
+            role.RoleId = new Guid(((DropDownList)SeleteRoleStep.FindControl(STEP_SELECTROLE_DDLROLE)).SelectedValue);
+            role.RoleName = ((DropDownList)SeleteRoleStep.FindControl(STEP_SELECTROLE_DDLROLE)).SelectedItem.Text;
+            SeletedRoleId = role.RoleId;
 
-            string strRoleName = ((DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE)).SelectedItem.Text;
-
-            ImageButton NextButton = (ImageButton)RegisterUserWizard.FindControl("StartNavigationTemplateContainerID").FindControl("StartNextButton");
+            ImageButton NextButton = (ImageButton)RegisterUserWizard.FindControl(
+                "StartNavigationTemplateContainerID").FindControl(STARTNEXTBUTTON);
             NextButton.Visible = true; // default
-            Label lblStepError = (Label)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_LBLSTEPERROR);
+            Label lblStepError = (Label)SeleteRoleStep.FindControl(STEP_SELECTROLE_LBLSTEPERROR);
             lblStepError.Text = ""; // default
 
             Control container = CreateUserStep.ContentTemplateContainer;
-            ((Label)container.FindControl("LblSelectedRole")).Text = strRoleName;
-            Label lblUserName = ((Label)container.FindControl("LblTenNguoiDung"));
-            ((RequiredFieldValidator)container.FindControl("RealNameRequired")).Enabled = true;
-            ((HtmlTableRow)container.FindControl("HtmlTrThoiHan")).Style.Add(HtmlTextWriterStyle.Display, "none");
-            ((HtmlTableRow)container.FindControl("HtmlTrTenThat")).Style.Add(HtmlTextWriterStyle.Display, "block");
-
-            MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl("MultiViewCtrl");
+            ((Label)container.FindControl(STEP_CREATEUSER_LBLROLE)).Text = role.RoleName;
+            Label lblUserName = ((Label)container.FindControl(STEP_CREATEUSER_LBLUSERNAME));
+            RequiredFieldValidator reqValidatorRealName = ((RequiredFieldValidator)container.FindControl(STEP_CREATEUSER_VALIDATORREALNAME));
+            HtmlTableRow htmlTableRowPeriod = ((HtmlTableRow)container.FindControl(STEP_CREATEUSER_TR_PERIOD));
+            HtmlTableRow htmlTableRowRealName = ((HtmlTableRow)container.FindControl(STEP_CREATEUSER_TR_REALNAME));
+            MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl(STEP_SELECTROLE_MULVIEW);
             multiViewCtrl.ActiveViewIndex = 0;
 
-            if (authorizationBL.IsRolePARENTS(role))
+            if (authorizationBL.IsRoleParents(role))
             {
                 lblUserName.Text = "Mã học sinh:";
                 multiViewCtrl.ActiveViewIndex = 1;
@@ -126,14 +133,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 rptRoleBasedFunctions.DataSource = authorizationBL.GetListRoleParentsBasedFunctions();
                 rptRoleBasedFunctions.DataBind();
 
-                ((RequiredFieldValidator)container.FindControl("RealNameRequired")).Enabled = false;
-                ((HtmlTableRow)container.FindControl("HtmlTrThoiHan")).Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
-                ((HtmlTableRow)container.FindControl("HtmlTrTenThat")).Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
+                reqValidatorRealName.Enabled = false;
+                htmlTableRowRealName.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
+                htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
                 ViewState[VIEWSTATE_ISCHOSEROLEPARENTS] = true;
                 ViewState[VIEWSTATE_ISCHOSEROLETEACHERS] = false;
             }
             else
             {
+                reqValidatorRealName.Enabled = true;
+                htmlTableRowRealName.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
+                htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
+
                 ViewState[VIEWSTATE_ISCHOSEROLEPARENTS] = false;
 
                 if (authorizationBL.IsRoleTeachers(role))
@@ -158,27 +169,36 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnNext_Click(object sender, ImageClickEventArgs e)
         {
-            List<int> functionIds = new List<int>();
-            Repeater rptRoleBasedFunctions = (Repeater)SeleteRoleStep.FindControl("RptRoleBasedFunctions");
-            foreach (RepeaterItem rptItem in rptRoleBasedFunctions.Items)
+            /*
+             * 1. Loop in repeater RptRoleBasedFunctions
+             *      1.1. Determine wheather CheckBox is checked
+             *          1.1.1. Add checked function to list
+             *      1.2. Continue loop
+             * 2. Save checked function list to session
+             * */
+
+            List<UserManagement_Function> functions = new List<UserManagement_Function>();
+            UserManagement_Function function = null;
+
+            Repeater rptRoleParentsFunctions = (Repeater)SeleteRoleStep.FindControl("RptRoleBasedFunctions");
+            foreach (RepeaterItem rptItem in rptRoleParentsFunctions.Items)
             {
                 if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
                 {
                     CheckBox ChkBxSelectedFunction = (CheckBox)rptItem.FindControl("ChkBxSelectedFunction");
                     if (ChkBxSelectedFunction.Checked)
                     {
-                        HiddenField HdfFunctionId = (HiddenField)rptItem.FindControl("HdfFunctionId");
-                        functionIds.Add(Int32.Parse(HdfFunctionId.Value));
+                        function = new UserManagement_Function();
+                        function.FunctionId = Int32.Parse(((HiddenField)rptItem.FindControl("HdfFunctionId")).Value);
+                        functions.Add(function);
                     }
                 }
             }
 
-            //string roleName = roleBL.GetChildRoleParentsByFunctions(functionIds);
-            //if (roleName != "")
-            //{
-            //    SeletedRoleId = roleName;
-            //}
-
+            if (functions.Count != 0)
+            {
+                AddSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTION, functions);
+            }
         }
         #endregion
 
@@ -189,7 +209,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             StringBuilder strB = new StringBuilder();
             strB.Append(UserSchool.SchoolId);
             strB.Append("_");
-            strB.Append(RegisterUserWizard.UserName);            
+            strB.Append(RegisterUserWizard.UserName);
             RegisterUserWizard.UserName = strB.ToString();
         }
 
@@ -211,7 +231,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 isTeacher = true;
             }
-            userBL.UpdateMembership(createdUser, isTeacher);
+            Control container = CreateUserStep.ContentTemplateContainer;
+            String strRealName = ((TextBox)container.FindControl(STEP_CREATEUSER_TXT_REALNAME)).Text;
+            userBL.UpdateMembership(createdUser, isTeacher, strRealName, RegisterUserWizard.Email);
+
+            if ((bool)ViewState[VIEWSTATE_ISCHOSEROLEPARENTS])
+            {
+                if (CheckSessionKey(AppConstant.SESSION_SELECTEDPARENTSFUNCTION))
+                {
+                    List<UserManagement_Function> functions = (List<UserManagement_Function>)GetSession(
+                        AppConstant.SESSION_SELECTEDPARENTSFUNCTION);
+
+                    authorizationBL.AddServicesToParentsUser(createdUser, functions);
+                }                
+            }
+
+            RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTION);
         }
 
         protected void RegisterUserWizard_ContinueButtonClick(object sender, ImageClickEventArgs e)

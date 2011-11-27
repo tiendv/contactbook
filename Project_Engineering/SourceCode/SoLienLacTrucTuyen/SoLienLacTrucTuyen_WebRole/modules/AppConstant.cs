@@ -20,6 +20,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_STUDENT = "std";
         public const string VIEWSTATE_ROLE = "Role";
 
+        public const string SESSION_SELECTEDPARENTSFUNCTION = "SelectedParentFunction";
+
         public const string CSSSTYLE_DISPLAY_NONE = "none";
         public const string CSSSTYLE_DISPLAY_BLOCK = "block";
 
@@ -34,5 +36,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public const string ROLE = "Role";
         public const string TEACHER = "Teacher";
+        public const string UNDERSCORE = "_";
     }
 }

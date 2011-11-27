@@ -15,6 +15,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertConduct(DanhMuc_HanhKiem conduct)
         {
+            conduct.SchoolId = school.SchoolId;
             db.DanhMuc_HanhKiems.InsertOnSubmit(conduct);
             db.SubmitChanges();
         }

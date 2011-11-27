@@ -8,17 +8,12 @@ using SoLienLacTrucTuyen.BusinessLogic;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DoiMatKhau : System.Web.UI.Page
+    public partial class ChangePassword : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //string pageUrl = Page.Request.Path;
-            //Guid role = (new UserBL(UserSchool)).GetRoleId(User.Identity.Name);
-
             Site masterPage = (Site)Page.Master;
             masterPage.PageTitle = "Đổi mật khẩu";
-            //masterPage.UserRole = role;
-            //masterPage.PageUrl = pageUrl;
         }
 
         protected void ChangeUserPassword_ChangePasswordError(object sender, EventArgs e)

@@ -67,5 +67,42 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
         #endregion
+
+        protected void AddSession(string key, object value)
+        {
+            Session.Add(UserSchool + AppConstant.UNDERSCORE + key, value);
+        }
+
+        protected void RemoveSession(string key)
+        {
+            if (CheckSessionKey(key))
+            {
+                Session.Remove(UserSchool + AppConstant.UNDERSCORE + key);
+            }
+        }
+        
+        protected object GetSession(string key)
+        {
+            if (CheckSessionKey(key))
+            {
+                return Session[UserSchool + AppConstant.UNDERSCORE + key];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        protected bool CheckSessionKey(string key)
+        {
+            if (Session[UserSchool + AppConstant.UNDERSCORE + key] != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

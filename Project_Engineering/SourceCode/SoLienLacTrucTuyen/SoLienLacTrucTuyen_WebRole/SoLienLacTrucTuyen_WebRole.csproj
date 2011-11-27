@@ -73,6 +73,7 @@
     <Content Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx" />
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
+    <Content Include="modules\ErrorPage\pagenotfound.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
     <Content Include="modules\hoc_sinh\HocSinhServicePage.aspx" />
@@ -312,6 +313,13 @@
     </Compile>
     <Compile Include="modules\danh_muc\giao_vien\suagiaovien.aspx.designer.cs">
       <DependentUpon>suagiaovien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ErrorPage\pagenotfound.aspx.cs">
+      <DependentUpon>pagenotfound.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\ErrorPage\pagenotfound.aspx.designer.cs">
+      <DependentUpon>pagenotfound.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\hoatdong.aspx.cs">
       <DependentUpon>hoatdong.aspx</DependentUpon>

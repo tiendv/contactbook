@@ -16,6 +16,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertSubject(DanhMuc_MonHoc subject)
         {
+            subject.SchoolId = school.SchoolId;
             db.DanhMuc_MonHocs.InsertOnSubmit(subject);
             db.SubmitChanges();
         }

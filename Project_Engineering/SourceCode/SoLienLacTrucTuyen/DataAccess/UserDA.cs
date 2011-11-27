@@ -148,7 +148,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return false;
         }
 
-        public void UpdateMembership(aspnet_User user, bool isTeacher)
+        public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email)
         {
             IQueryable<aspnet_Membership> iqMembership = from mem in db.aspnet_Memberships
                                                          where mem.aspnet_User.UserName == user.UserName
@@ -158,6 +158,8 @@ namespace SoLienLacTrucTuyen.DataAccess
                 aspnet_Membership membership = iqMembership.First();
                 membership.SchoolId = school.SchoolId;
                 membership.IsTeacher = isTeacher;
+                membership.RealName = realName;
+                membership.Email = email;
                 db.SubmitChanges();
             }
         }

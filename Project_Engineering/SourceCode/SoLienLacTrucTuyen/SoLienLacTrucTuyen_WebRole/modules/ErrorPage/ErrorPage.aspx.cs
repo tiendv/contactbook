@@ -11,7 +11,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Site masterPage = (Site)Page.Master;
+            masterPage.PageTitle = "Lỗi";
         }
     }
 }

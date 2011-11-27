@@ -15,6 +15,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void InsertFaculty(DanhMuc_NganhHoc faculty)
         {
+            faculty.SchoolId = school.SchoolId;
             db.DanhMuc_NganhHocs.InsertOnSubmit(faculty);
             db.SubmitChanges();
         }

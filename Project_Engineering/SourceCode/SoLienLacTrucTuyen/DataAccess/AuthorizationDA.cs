@@ -53,5 +53,75 @@ namespace SoLienLacTrucTuyen.DataAccess
         //{
 
         //}
+
+        public void AddServicesToParentsUser(UserManagement_Function functions)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddServicesToParentsUser(aspnet_User userParents, List<UserManagement_Function> functions)
+        {
+            List<UserManagement_Authorization> parentsAuthorizations = null;
+            aspnet_Role roleParents = GetRoleParents();            
+            UserManagement_RoleParentsAuthorization roleParentsAuthorization = null;
+            IQueryable<UserManagement_Authorization> iqRoleParentsAuthorizations;
+            List<int> functionIds;            
+
+            iqRoleParentsAuthorizations = from authorization in db.UserManagement_Authorizations
+                                          where authorization.RoleId == roleParents.RoleId
+                                          select authorization;
+
+            if (iqRoleParentsAuthorizations.Count() != 0)
+            {
+                parentsAuthorizations = iqRoleParentsAuthorizations.ToList();
+                functionIds = new List<int>();
+                foreach (UserManagement_Function function in functions)
+                {
+                    functionIds.Add(function.FunctionId);
+                }
+
+                int i = 0;
+                while (i < parentsAuthorizations.Count)
+                {
+                    if (!functionIds.Contains(parentsAuthorizations[i].UserManagement_AuthorizedPage.FunctionId))
+                    {
+                        parentsAuthorizations.RemoveAt(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
+                }
+
+                userParents = (from user in db.aspnet_Users
+                               where user.UserName == userParents.UserName
+                               select user).First();
+
+                foreach (UserManagement_Authorization authorization in parentsAuthorizations)
+                {
+                    roleParentsAuthorization = new UserManagement_RoleParentsAuthorization();
+                    roleParentsAuthorization.RoleParentAuthorizationId = authorization.AuthorizationId;
+                    roleParentsAuthorization.UserId = userParents.UserId;
+
+                    db.UserManagement_RoleParentsAuthorizations.InsertOnSubmit(roleParentsAuthorization);
+                }
+                db.SubmitChanges();
+            }
+        }
+
+        public aspnet_Role GetRoleParents()
+        {
+            aspnet_Role roleParents = null;
+            IQueryable<aspnet_Role> iqRoleParent = from role in db.aspnet_Roles
+                                                   join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
+                                                   where param.SchoolId == school.SchoolId
+                                                   select role;
+            if (iqRoleParent.Count() != 0)
+            {
+                roleParents = iqRoleParent.First();
+            }
+
+            return roleParents;
+        }
     }
 }
