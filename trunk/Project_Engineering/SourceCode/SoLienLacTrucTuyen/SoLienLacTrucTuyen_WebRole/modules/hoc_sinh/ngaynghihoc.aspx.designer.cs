@@ -13,40 +13,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class StudentAbsentPage {
         
         /// <summary>
-        /// HlkThongTinCaNhan control.
+        /// RptStudentFunctions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HlkThongTinCaNhan;
-        
-        /// <summary>
-        /// HlkKetQuaHocTap control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HlkKetQuaHocTap;
-        
-        /// <summary>
-        /// Label21 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label21;
-        
-        /// <summary>
-        /// HlkHoatDong control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HlkHoatDong;
+        protected global::System.Web.UI.WebControls.Repeater RptStudentFunctions;
         
         /// <summary>
         /// HdfMaHocSinh control.

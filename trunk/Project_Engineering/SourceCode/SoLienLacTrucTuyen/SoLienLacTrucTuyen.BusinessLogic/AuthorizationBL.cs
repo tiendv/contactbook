@@ -9,11 +9,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 {
     public class AuthorizationBL : BaseBL
     {
+        AuthorizationDA authorizationDA;
         RoleDA roleDA;
         public AuthorizationBL(School school)
             : base(school)
         {
             roleDA = new RoleDA(school);
+            authorizationDA = new AuthorizationDA(school);
         }
 
         public List<TabularRole> GetAuthorizedRoles()
@@ -102,6 +104,51 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool IsRoleSUBJECTEDTEACHER(string roleName)
         {
             return roleDA.IsRoleSubjectTeacher(roleName);
+        }
+
+        public List<UserManagement_Function> GetStudentFunctions(string functionFlag)
+        {
+            return authorizationDA.GetStudentFunctions(AuthorizationDA.FUNCTIONFLAG_OTHERS);
+        }
+
+        public List<UserManagement_PagePath> GetStudentPages(List<aspnet_Role> roles)
+        {
+            List<UserManagement_PagePath> pagePages = new List<UserManagement_PagePath>();
+            pagePages.Add(new UserManagement_PagePath
+            {
+                PhysicalPath = "/modules/hoc_sinh/thongtincanhan.aspx",
+                PageTitle = "Thông tin cá nhân"                
+            });
+            pagePages.Add(new UserManagement_PagePath
+            {
+                PhysicalPath = "/modules/hoc_sinh/ketquahoctap.aspx",
+                PageTitle = "Kết quả học tập"
+            });
+            pagePages.Add(new UserManagement_PagePath
+            {
+                PhysicalPath = "/modules/hoc_sinh/ngaynghihoc.aspx",
+                PageTitle = "Ngày nghỉ học"
+            });
+            pagePages.Add(new UserManagement_PagePath
+            {
+                PhysicalPath = "/modules/hoc_sinh/hoatdong.aspx",
+                PageTitle = "Hoạt động"
+            });
+
+            int i = 0;
+            while(i < pagePages.Count)
+            {
+                if (!ValidateAuthorization(roles, pagePages[i].PhysicalPath))
+                {
+                    pagePages.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }            
+
+            return pagePages;
         }
     }
 }

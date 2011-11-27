@@ -49,9 +49,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     isSearch = false;
                     BindRptStudentActivities();
 
-                    HlkThongTinCaNhan.NavigateUrl = String.Format("thongtincanhan.aspx?hocsinh={0}", maHocSinh);
-                    HlkKetQuaHocTap.NavigateUrl = String.Format("ketquahoctap.aspx?hocsinh={0}", maHocSinh);
-                    HlkNgayNghiHoc.NavigateUrl = String.Format("ngaynghihoc.aspx?hocsinh={0}", maHocSinh);
+                    AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+                    List<UserManagement_PagePath> pagePages = authorizationBL.GetStudentPages(
+                        (new UserBL()).GetRoles(User.Identity.Name));
+                    foreach (UserManagement_PagePath pagePage in pagePages)
+                    {
+                        if (pagePage.PhysicalPath == Request.Path)
+                        {
+                            pagePage.PhysicalPath = "";
+                        }
+                        else
+                        {
+                            pagePage.PhysicalPath = String.Format("{0}?hocsinh={1}", pagePage.PhysicalPath, maHocSinh);
+                        }
+                    }
+                    RptStudentFunctions.DataSource = pagePages;
+                    RptStudentFunctions.DataBind();
                 }
             }
 

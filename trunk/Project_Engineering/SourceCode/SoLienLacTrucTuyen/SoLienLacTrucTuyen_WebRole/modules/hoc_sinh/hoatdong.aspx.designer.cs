@@ -13,40 +13,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class StudentActivityPage {
         
         /// <summary>
-        /// HlkThongTinCaNhan control.
+        /// RptStudentFunctions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HlkThongTinCaNhan;
-        
-        /// <summary>
-        /// HlkKetQuaHocTap control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HlkKetQuaHocTap;
-        
-        /// <summary>
-        /// HlkNgayNghiHoc control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HlkNgayNghiHoc;
-        
-        /// <summary>
-        /// Label21 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label21;
+        protected global::System.Web.UI.WebControls.Repeater RptStudentFunctions;
         
         /// <summary>
         /// UpdatePanel1 control.
