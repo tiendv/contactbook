@@ -7,16 +7,6 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public enum FunctionFlag
-    {
-        ADMINONLY,
-        PARENTSONLY,
-        SUBJECTBASETEACHERS,
-        MANAGEBASETEACHERS,
-        ALLROLES,
-        OTHERS,
-    }
-
     public class RoleDA : BaseDA
     {
         public RoleDA(School school)
@@ -349,7 +339,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                    where pagePath.PhysicalPath == pageUrl
                                        && authorization.RoleId == role.RoleId
                                    select authorization.AuthorizationId;
-                if (authorizationIds.First() != null)
+                if (authorizationIds.Count() != 0)
                 {
                     return true;
                 }

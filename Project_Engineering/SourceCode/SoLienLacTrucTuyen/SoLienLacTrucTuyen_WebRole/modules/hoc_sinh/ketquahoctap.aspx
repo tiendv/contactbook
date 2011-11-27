@@ -5,10 +5,13 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div>
-        <asp:HyperLink ID="HlkThongTinCaNhan" runat="server" CssClass="tabHeader">THÔNG TIN CÁ NHÂN</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label2" runat="server" Text="KẾT QUẢ HỌC TẬP" CssClass="tabHeader"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:HyperLink ID="HlkNgayNghiHoc" runat="server" CssClass="tabHeader">NGÀY NGHỈ HỌC</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:HyperLink ID="HlkHoatDong" runat="server" CssClass="tabHeader">HOẠT ĐỘNG</asp:HyperLink>
+        <asp:Repeater ID="RptStudentFunctions" runat="server">
+            <ItemTemplate>
+                <asp:HyperLink ID="HlkStudentFunctionPage" runat="server" CssClass="tabHeader" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'>
+                    <%#DataBinder.Eval(Container.DataItem, "PageTitle")%>
+                </asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
@@ -148,7 +151,7 @@
         <div style="float: right; margin-top: -35px; padding-right: 30px; display: none">
             <cc1:DataPager ID="DataPagerDanhHieu" runat="server" ViewStateMode="Enabled" />
         </div>
-    </div>    
+    </div>
     <div style="padding: 5px; vertical-align: middle;">
         <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
             OnClick="BtnBackPrevPage_Click" />

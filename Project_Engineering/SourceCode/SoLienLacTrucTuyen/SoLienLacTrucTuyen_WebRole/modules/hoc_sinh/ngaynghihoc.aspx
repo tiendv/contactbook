@@ -99,10 +99,13 @@
         </script>
     </div>
     <div>
-        <asp:HyperLink ID="HlkThongTinCaNhan" runat="server" CssClass="tabHeader">THÔNG TIN CÁ NHÂN</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:HyperLink ID="HlkKetQuaHocTap" runat="server" CssClass="tabHeader">KẾT QUẢ HỌC TẬP</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label21" runat="server" Text="NGÀY NGHỈ HỌC" CssClass="tabHeader"></asp:Label>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:HyperLink ID="HlkHoatDong" runat="server" CssClass="tabHeader">HOẠT ĐỘNG</asp:HyperLink>
+        <asp:Repeater ID="RptStudentFunctions" runat="server">
+            <ItemTemplate>
+                <asp:HyperLink ID="HlkStudentFunctionPage" runat="server" CssClass="tabHeader" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'>
+                    <%#DataBinder.Eval(Container.DataItem, "PageTitle")%>
+                </asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
     <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
     <div id="divSearch">
@@ -261,12 +264,12 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG" OnCommand="MainDataPager_Command"
-                PageSize="10" ViewStateMode="Enabled" LastClause=">>" GenerateHiddenHyperlinks="False"
-                CompactModePageCount="3" GenerateFirstLastSection="True" GenerateGoToSection="False"
-                FirstClause="<<" BackToFirstClause="Trở về trang đầu" BackToPageClause="Trở về trang"
-                GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG"
+                OnCommand="MainDataPager_Command" PageSize="10" ViewStateMode="Enabled" LastClause=">>"
+                GenerateHiddenHyperlinks="False" CompactModePageCount="3" GenerateFirstLastSection="True"
+                GenerateGoToSection="False" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
+                BackToPageClause="Trở về trang" GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang"
+                ShowResultClause="Hiển thị kết quả" ToClause="đến" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupAdd" runat="server" CssClass="popup ui-corner-all" Width="300px">

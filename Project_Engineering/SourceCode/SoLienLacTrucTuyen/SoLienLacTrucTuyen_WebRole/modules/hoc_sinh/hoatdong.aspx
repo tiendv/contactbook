@@ -95,10 +95,13 @@
         </script>
     </div>
     <div>
-        <asp:HyperLink ID="HlkThongTinCaNhan" runat="server" CssClass="tabHeader">THÔNG TIN CÁ NHÂN</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:HyperLink ID="HlkKetQuaHocTap" runat="server" CssClass="tabHeader">KẾT QUẢ HỌC TẬP</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:HyperLink ID="HlkNgayNghiHoc" runat="server" CssClass="tabHeader">NGÀY NGHỈ HỌC</asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-        <asp:Label ID="Label21" runat="server" Text="HOẠT ĐỘNG" CssClass="tabHeader"></asp:Label>
+        <asp:Repeater ID="RptStudentFunctions" runat="server">
+            <ItemTemplate>
+                <asp:HyperLink ID="HlkStudentFunctionPage" runat="server" CssClass="tabHeader" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'>
+                    <%#DataBinder.Eval(Container.DataItem, "PageTitle")%>
+                </asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
