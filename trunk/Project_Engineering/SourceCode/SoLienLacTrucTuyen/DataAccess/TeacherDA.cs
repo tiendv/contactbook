@@ -12,57 +12,56 @@ namespace SoLienLacTrucTuyen.DataAccess
             : base(school)
         { }
 
-        public void InsertTeacher(DanhMuc_GiaoVien teacher)
-        {
-            db.DanhMuc_GiaoViens.InsertOnSubmit(teacher);
-            db.SubmitChanges();
-        }
+        //public void InsertTeacher(aspnet_User teacher)
+        //{
+        //    db.aspnet_Users.InsertOnSubmit(teacher);
+        //    db.SubmitChanges();
+        //}
 
-        public void UpdateTeacher(DanhMuc_GiaoVien editedTeacher)
+        public void UpdateTeacher(aspnet_Membership editedTeacher)
         {
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaGiaoVien == editedTeacher.MaGiaoVien
-                                                     & tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_Membership> iqTeacher = from tchr in db.aspnet_Memberships
+                                                      where tchr.UserId == editedTeacher.UserId
+                                                      & tchr.SchoolId == school.SchoolId
+                                                      select tchr;
 
             if (iqTeacher.Count() != 0)
             {
-                DanhMuc_GiaoVien teacher = iqTeacher.First();
-                teacher.MaHienThiGiaoVien = editedTeacher.MaHienThiGiaoVien;
-                teacher.HoTen = editedTeacher.HoTen;
-                teacher.GioiTinh = editedTeacher.GioiTinh;
-                teacher.NgaySinh = editedTeacher.NgaySinh;
-                teacher.HinhAnh = editedTeacher.HinhAnh;
-                teacher.DiaChi = editedTeacher.DiaChi;
-                teacher.DienThoai = editedTeacher.DienThoai;
+                aspnet_Membership teacher = iqTeacher.First();
+                teacher.RealName = editedTeacher.RealName;
+                teacher.Gender = editedTeacher.Gender;
+                teacher.Birthday = editedTeacher.Birthday;
+                teacher.Photo = editedTeacher.Photo;
+                teacher.Address = editedTeacher.Address;
+                teacher.Phone = editedTeacher.Phone;
 
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteTeacher(DanhMuc_GiaoVien deletedTeacher)
+        //public void DeleteTeacher(aspnet_User deletedTeacher)
+        //{
+        //    IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+        //                                             where tchr.MaGiaoVien == deletedTeacher.MaGiaoVien
+        //                                             && tchr.SchoolId == school.SchoolId
+        //                                             select tchr;
+
+        //    if (iqTeacher.Count() != 0)
+        //    {
+        //        aspnet_User teacher = iqTeacher.First();
+        //        db.aspnet_Users.DeleteOnSubmit(teacher);
+        //        db.SubmitChanges();
+        //    }
+        //}
+
+        public aspnet_User GetTeacher(string teacherCode)
         {
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaGiaoVien == deletedTeacher.MaGiaoVien
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            aspnet_User teacher = null;
 
-            if (iqTeacher.Count() != 0)
-            {
-                DanhMuc_GiaoVien teacher = iqTeacher.First();
-                db.DanhMuc_GiaoViens.DeleteOnSubmit(teacher);
-                db.SubmitChanges();
-            }
-        }
-
-        public DanhMuc_GiaoVien GetTeacher(string teacherCode)
-        {
-            DanhMuc_GiaoVien teacher = null;
-
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaHienThiGiaoVien == teacherCode
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.UserName == teacherCode
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -72,14 +71,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             return teacher;
         }
 
-        public DanhMuc_GiaoVien GetTeacher(int teacherId)
+        public aspnet_User GetTeacher(Guid teacherId)
         {
-            DanhMuc_GiaoVien teacher = null;
+            aspnet_User teacher = null;
 
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaGiaoVien == teacherId
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.UserId == teacherId
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -88,67 +87,73 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             return teacher;
         }
-        private List<DanhMuc_GiaoVien> GetListTeachers(ref IQueryable<DanhMuc_GiaoVien> iqTeacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+
+        private List<aspnet_User> GetListTeachers(ref IQueryable<aspnet_User> iqTeacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
 
             totalRecords = iqTeacher.Count();
             if (totalRecords != 0)
             {
-                lTeachers = iqTeacher.OrderBy(giaoVien => giaoVien.MaHienThiGiaoVien)
+                lTeachers = iqTeacher.OrderBy(giaoVien => giaoVien.UserName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return lTeachers;
         }
 
-        public List<DanhMuc_GiaoVien> GetListTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaHienThiGiaoVien == teacherCode
-                                                       && tchr.HoTen == teacherName
-                                                       && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.UserName == teacherCode
+                                                  && tchr.aspnet_Membership.RealName == teacherName
+                                                  && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_GiaoVien> GetListTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_GiaoVien> GetListTeachersByCode(string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListTeachersByCode(string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaHienThiGiaoVien == teacherCode
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.UserName == teacherCode
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_GiaoVien> GetListTeachersByName(string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListTeachersByName(string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.HoTen == teacherName
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.aspnet_Membership.RealName == teacherName
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_GiaoVien> GetListUnformedTeachersByName(CauHinh_NamHoc year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.HoTen == teacherName
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.aspnet_Membership.RealName == teacherName
+                                                && tchr.UserName == teacherCode
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -159,10 +164,11 @@ namespace SoLienLacTrucTuyen.DataAccess
                 {
                     IQueryable<LopHoc_GVCN> iqFormerTeacher;
                     iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                      where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
-                                        && fTchr.DanhMuc_GiaoVien.HoTen == teacherName
+                                      where fTchr.TeacherId == lTeachers[i].UserId
+                                        && fTchr.aspnet_User.UserName == teacherCode
+                                        && fTchr.aspnet_User.aspnet_Membership.RealName == teacherName
                                         && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                        && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                        && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -180,12 +186,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<DanhMuc_GiaoVien> GetListUnformedTeachers(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachers(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -196,9 +203,9 @@ namespace SoLienLacTrucTuyen.DataAccess
                 {
                     IQueryable<LopHoc_GVCN> iqFormerTeacher;
                     iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                      where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
-                                          && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                          && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                      where fTchr.TeacherId == lTeachers[i].UserId
+                                        && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -216,13 +223,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<DanhMuc_GiaoVien> GetListUnformedTeachersByCode(CauHinh_NamHoc year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachersByName(CauHinh_NamHoc year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.MaHienThiGiaoVien == teacherCode
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.aspnet_Membership.RealName == teacherName
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -233,10 +241,10 @@ namespace SoLienLacTrucTuyen.DataAccess
                 {
                     IQueryable<LopHoc_GVCN> iqFormerTeacher;
                     iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                      where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
-                                        && fTchr.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
+                                      where fTchr.TeacherId == lTeachers[i].UserId
+                                        && fTchr.aspnet_User.aspnet_Membership.RealName == teacherName
                                         && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                        && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                        && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -254,13 +262,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<DanhMuc_GiaoVien> GetListUnformedTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachersByCode(CauHinh_NamHoc year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
-            IQueryable<DanhMuc_GiaoVien> iqTeacher = from tchr in db.DanhMuc_GiaoViens
-                                                     where tchr.HoTen == teacherName && tchr.MaHienThiGiaoVien == teacherCode
-                                                     && tchr.SchoolId == school.SchoolId
-                                                     select tchr;
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
+            IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
+                                                where tchr.aspnet_Membership.IsTeacher == true
+                                                && tchr.UserName == teacherCode
+                                                && tchr.aspnet_Membership.SchoolId == school.SchoolId
+                                                select tchr;
 
             if (iqTeacher.Count() != 0)
             {
@@ -271,11 +280,10 @@ namespace SoLienLacTrucTuyen.DataAccess
                 {
                     IQueryable<LopHoc_GVCN> iqFormerTeacher;
                     iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                      where fTchr.MaGiaoVien == lTeachers[i].MaGiaoVien
-                                        && fTchr.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
-                                        && fTchr.DanhMuc_GiaoVien.HoTen == teacherName
+                                      where fTchr.TeacherId == lTeachers[i].UserId
+                                        && fTchr.aspnet_User.UserName == teacherCode
                                         && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                        && fTchr.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                        && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
                     {
@@ -295,10 +303,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool TeacherCodeExists(string teacherCode)
         {
-            IQueryable<DanhMuc_GiaoVien> giaoViens;
-            giaoViens = from giaoVien in db.DanhMuc_GiaoViens
-                        where giaoVien.MaHienThiGiaoVien == teacherCode
-                        && giaoVien.SchoolId == school.SchoolId
+            IQueryable<aspnet_User> giaoViens;
+            giaoViens = from giaoVien in db.aspnet_Users
+                        where giaoVien.UserName == teacherCode
+                        && giaoVien.aspnet_Membership.SchoolId == school.SchoolId
                         select giaoVien;
 
             if (giaoViens.Count() != 0)
@@ -311,15 +319,15 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsTeaching(DanhMuc_GiaoVien teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
+        public bool IsTeaching(aspnet_User teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
         {
             IQueryable<LopHoc_MonHocTKB> iqThoiKhoaBieu;
             iqThoiKhoaBieu = from tkb in db.LopHoc_MonHocTKBs
-                             where tkb.MaGiaoVien == teacher.MaGiaoVien
+                             where tkb.TeacherId == teacher.UserId
                                 && tkb.MaHocKy == term.MaHocKy
                                 && tkb.MaThu == dayInWeek.MaThu
                                 && tkb.MaTiet == teachingPeriod.MaTiet
-                                && tkb.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                && tkb.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                              select tkb;
             if (iqThoiKhoaBieu.Count() != 0)
             {
@@ -331,14 +339,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<LopHoc_GVCN> GetFormering(DanhMuc_GiaoVien teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_GVCN> GetFormering(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_GVCN> lFormering = new List<LopHoc_GVCN>();
 
             IQueryable<LopHoc_GVCN> iqFormering;
             iqFormering = from formering in db.LopHoc_GVCNs
-                          where formering.MaGiaoVien == teacher.MaGiaoVien
-                          && formering.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                          where formering.TeacherId == teacher.UserId
+                          && formering.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                           select formering;
 
             totalRecords = iqFormering.Count();
@@ -351,14 +359,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lFormering;
         }
 
-        public List<LopHoc_MonHocTKB> GetTeaching(DanhMuc_GiaoVien teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<LopHoc_MonHocTKB> GetTeaching(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<LopHoc_MonHocTKB> lShedules = new List<LopHoc_MonHocTKB>();
 
             IQueryable<LopHoc_MonHocTKB> iqSchedule;
             iqSchedule = from schedule in db.LopHoc_MonHocTKBs
-                         where schedule.MaGiaoVien == teacher.MaGiaoVien
-                         && schedule.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                         where schedule.TeacherId == teacher.UserId
+                         && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                          select schedule;
 
             totalRecords = iqSchedule.Count();

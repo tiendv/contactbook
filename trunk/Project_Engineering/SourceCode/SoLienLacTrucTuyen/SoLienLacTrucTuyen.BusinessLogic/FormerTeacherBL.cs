@@ -17,12 +17,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             formerTeacherDA = new FormerTeacherDA(school);
         }
 
-        public void Insert(LopHoc_Lop Class, DanhMuc_GiaoVien teacher)
+        public void Insert(LopHoc_Lop Class, aspnet_User teacher)
         {
             formerTeacherDA.InsertFormerTeacher(Class, teacher);
         }
 
-        public void Update(int formerTeacherId, DanhMuc_GiaoVien teacher)
+        public void Update(int formerTeacherId, aspnet_User teacher)
         {
             formerTeacherDA.UpdateFormerTeacher(formerTeacherId, teacher);
         }
@@ -193,7 +193,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             List<TabularFormerTeacher> lTbFormerTeachers = new List<TabularFormerTeacher>();
             List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
             TeacherBL teacherBL = new TeacherBL(school);
-            DanhMuc_GiaoVien teacher = null;
+            aspnet_User teacher = null;
 
             if ((teacherCode != "") && (string.Compare(teacherCode, "tất cả", true) != 0))
             {
@@ -205,7 +205,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    if (teacher.HoTen != teacherName && (teacherName != "") && (string.Compare(teacherName, "tất cả", true) != 0))
+                    if (teacher.aspnet_Membership.RealName != teacherName && (teacherName != "") 
+                        && (string.Compare(teacherName, "tất cả", true) != 0))
                     {
                         totalRecords = 0;
                         return lTbFormerTeachers;
@@ -219,6 +220,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
+                teacherCode = GetActualName(teacherCode);
                 lFormerTeachers = GetListFormerTeachersByCode(year, faculty, grade, Class, teacherCode, pageCurrentIndex, pageSize, out totalRecords);
             }
             
@@ -228,8 +230,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 lTbFormerTeachers.Add(new TabularFormerTeacher
                 {
                     MaGVCN = formerTeacher.MaGVCN,
-                    MaGiaoVien = formerTeacher.MaGiaoVien,
-                    TenGiaoVien = formerTeacher.DanhMuc_GiaoVien.HoTen,
+                    MaGiaoVien = formerTeacher.TeacherId,
+                    TenGiaoVien = formerTeacher.aspnet_User.aspnet_Membership.RealName,
                     MaLopHoc = formerTeacher.MaLopHoc,
                     TenLopHoc = formerTeacher.LopHoc_Lop.TenLopHoc
                 });
@@ -238,7 +240,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTbFormerTeachers;
         }
 
-        public bool FormerTeacherExists(DanhMuc_GiaoVien teacher)
+        public bool FormerTeacherExists(aspnet_User teacher)
         {
             return formerTeacherDA.FormerTeacherExists(teacher);
         }

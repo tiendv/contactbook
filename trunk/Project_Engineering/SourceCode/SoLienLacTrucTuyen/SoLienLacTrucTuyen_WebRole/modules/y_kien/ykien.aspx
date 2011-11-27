@@ -95,7 +95,7 @@
                             <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaYKien")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/Modules/Hoc_Sinh/ChiTietHocSinh.aspx?HocSinh=" + DataBinder.Eval(Container.DataItem, "MaYKien")%>'
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "MaYKien")%>'
                                 Target="_blank">
                                     <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
                             </asp:HyperLink>

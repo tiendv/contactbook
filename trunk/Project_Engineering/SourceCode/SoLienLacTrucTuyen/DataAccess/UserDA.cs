@@ -56,218 +56,50 @@ namespace SoLienLacTrucTuyen.DataAccess
             return true;
         }
 
-        public List<TabularUser> GetUsers(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUsers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<TabularUser> lstTbUsers = new List<TabularUser>();
+            IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
+                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             && user.aspnet_Membership.SchoolId == school.SchoolId
+                                             select user;
 
-            IQueryable<TabularUser> tbUsers = from user in db.aspnet_Users
-                                              join usersInRole in db.aspnet_UsersInRoles
-                                                on user.UserId equals usersInRole.UserId
-                                              join role in db.aspnet_Roles
-                                                on usersInRole.RoleId equals role.RoleId
-                                              join membership in db.aspnet_Memberships
-                                                on user.UserId equals membership.UserId
-                                              where membership.CanBeDeleted == true
-                                              select new TabularUser
-                                              {
-                                                  UserId = user.UserId,
-                                                  UserName = user.UserName,
-                                                  RoleName = role.RoleName
-                                              };
-
-            totalRecords = tbUsers.Count();
-            if (totalRecords != 0)
-            {
-                lstTbUsers = tbUsers.OrderBy(user => user.RoleName)
-                    .ThenBy(user => user.UserName).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
-
-                foreach (TabularUser tbUser in lstTbUsers)
-                {
-                    IQueryable<Guid> parentRoleIds = from role in db.aspnet_Roles
-                                                     join roleDetail in db.UserManagement_RoleDetails
-                                                        on role.RoleId equals roleDetail.RoleId
-                                                     where role.RoleName == tbUser.RoleName
-                                                        && roleDetail.ParentRoleId != null
-                                                     select (Guid)roleDetail.ParentRoleId;
-                    if (parentRoleIds.Count() != 0)
-                    {
-                        string parentRoleName = (from role in db.aspnet_Roles
-                                                 where role.RoleId == parentRoleIds.First()
-                                                 select role.RoleName).First();
-                        tbUser.RoleName = parentRoleName;
-                    }
-                }
-            }
-
-            return lstTbUsers;
+            return GetUsers(ref iqUser, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<TabularUser> GetUsers(Guid roleId, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUsers(string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Guid> relatedRoleIds = new List<Guid>();
-            relatedRoleIds.Add(roleId);
+            IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
+                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             && user.UserName == userName
+                                             && user.aspnet_Membership.SchoolId == school.SchoolId
+                                             select user;
 
-            IQueryable<Guid> childRoleIds = from role in db.aspnet_Roles
-                                            join roleDetail in db.UserManagement_RoleDetails
-                                                on role.RoleId equals roleDetail.RoleId
-                                            where roleDetail.ParentRoleId == roleId
-                                            select role.RoleId;
-
-            if (childRoleIds.Count() != 0)
-            {
-                relatedRoleIds.AddRange(childRoleIds.ToList());
-            }
-
-            List<TabularUser> lstTbUsers = new List<TabularUser>();
-
-            IQueryable<TabularUser> tbUsers = from user in db.aspnet_Users
-                                              join usersInRole in db.aspnet_UsersInRoles
-                                                on user.UserId equals usersInRole.UserId
-                                              join role in db.aspnet_Roles
-                                                on usersInRole.RoleId equals role.RoleId
-                                              join membership in db.aspnet_Memberships
-                                                on user.UserId equals membership.UserId
-                                              where relatedRoleIds.Contains(usersInRole.RoleId) == true
-                                                && membership.CanBeDeleted == true
-                                              select new TabularUser
-                                              {
-                                                  UserId = user.UserId,
-                                                  UserName = user.UserName,
-                                                  RoleName = role.RoleName
-                                              };
-            totalRecords = tbUsers.Count();
-            if (totalRecords != 0)
-            {
-                lstTbUsers = tbUsers.OrderBy(user => user.RoleName)
-                    .ThenBy(user => user.UserName).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
-
-                foreach (TabularUser tbUser in lstTbUsers)
-                {
-                    IQueryable<Guid> parentRoleIds = from role in db.aspnet_Roles
-                                                     join roleDetail in db.UserManagement_RoleDetails
-                                                        on role.RoleId equals roleDetail.RoleId
-                                                     where role.RoleName == tbUser.RoleName
-                                                        && roleDetail.ParentRoleId != null
-                                                     select (Guid)roleDetail.ParentRoleId;
-                    if (parentRoleIds.Count() != 0)
-                    {
-                        string parentRoleName = (from role in db.aspnet_Roles
-                                                 where role.RoleId == parentRoleIds.First()
-                                                 select role.RoleName).First();
-                        tbUser.RoleName = parentRoleName;
-                    }
-                }
-            }
-
-            return lstTbUsers;
+            return GetUsers(ref iqUser, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<TabularUser> GetUsers(Guid roleId, string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUsers(aspnet_Role role, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Guid> relatedRoleIds = new List<Guid>();
-            relatedRoleIds.Add(roleId);
+            IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
+                                             join usersInRole in db.aspnet_UsersInRoles on user.UserId equals usersInRole.UserId
+                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             && (usersInRole.RoleId == role.RoleId || usersInRole.aspnet_Role.UserManagement_RoleDetail.ParentRoleId == role.RoleId)
+                                             && user.aspnet_Membership.SchoolId == school.SchoolId
+                                             select user;
 
-            IQueryable<Guid> childRoleIds = from role in db.aspnet_Roles
-                                            join roleDetail in db.UserManagement_RoleDetails
-                                                on role.RoleId equals roleDetail.RoleId
-                                            where roleDetail.ParentRoleId == roleId
-                                            select role.RoleId;
-
-            if (childRoleIds.Count() != 0)
-            {
-                relatedRoleIds.AddRange(childRoleIds.ToList());
-            }
-
-            List<TabularUser> lstTbUsers = new List<TabularUser>();
-
-            IQueryable<TabularUser> tbUsers = from user in db.aspnet_Users
-                                              join usersInRole in db.aspnet_UsersInRoles
-                                                on user.UserId equals usersInRole.UserId
-                                              join role in db.aspnet_Roles
-                                                on usersInRole.RoleId equals role.RoleId
-                                              join membership in db.aspnet_Memberships
-                                                on user.UserId equals membership.UserId
-                                              where relatedRoleIds.Contains(usersInRole.RoleId) == true
-                                                && membership.CanBeDeleted == true
-                                                && user.UserName == userName
-                                              select new TabularUser
-                                              {
-                                                  UserId = user.UserId,
-                                                  UserName = user.UserName,
-                                                  RoleName = role.RoleName
-                                              };
-            totalRecords = tbUsers.Count();
-            if (totalRecords != 0)
-            {
-                lstTbUsers = tbUsers.OrderBy(user => user.RoleName)
-                    .ThenBy(user => user.UserName).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
-
-                foreach (TabularUser tbUser in lstTbUsers)
-                {
-                    IQueryable<Guid> parentRoleIds = from role in db.aspnet_Roles
-                                                     join roleDetail in db.UserManagement_RoleDetails
-                                                        on role.RoleId equals roleDetail.RoleId
-                                                     where role.RoleName == tbUser.RoleName
-                                                        && roleDetail.ParentRoleId != null
-                                                     select (Guid)roleDetail.ParentRoleId;
-                    if (parentRoleIds.Count() != 0)
-                    {
-                        string parentRoleName = (from role in db.aspnet_Roles
-                                                 where role.RoleId == parentRoleIds.First()
-                                                 select role.RoleName).First();
-                        tbUser.RoleName = parentRoleName;
-                    }
-                }
-            }
-
-            return lstTbUsers;
+            return GetUsers(ref iqUser, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<TabularUser> GetUsers(string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUsers(aspnet_Role role, string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<TabularUser> lstTbUsers = new List<TabularUser>();
+            IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
+                                             join usersInRole in db.aspnet_UsersInRoles on user.UserId equals usersInRole.UserId
+                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             && (usersInRole.RoleId == role.RoleId || usersInRole.aspnet_Role.UserManagement_RoleDetail.ParentRoleId == role.RoleId)
+                                             && user.UserName == userName
+                                             && user.aspnet_Membership.SchoolId == school.SchoolId
+                                             select user;
 
-            IQueryable<TabularUser> tbUsers = from user in db.aspnet_Users
-                                              join usersInRole in db.aspnet_UsersInRoles
-                                                on user.UserId equals usersInRole.UserId
-                                              join role in db.aspnet_Roles
-                                                on usersInRole.RoleId equals role.RoleId
-                                              join membership in db.aspnet_Memberships
-                                                on user.UserId equals membership.UserId
-                                              where user.UserName == userName
-                                                && membership.CanBeDeleted == true
-                                              select new TabularUser
-                                              {
-                                                  UserId = user.UserId,
-                                                  UserName = user.UserName,
-                                                  RoleName = role.RoleName
-                                              };
-
-            totalRecords = tbUsers.Count();
-            if (totalRecords != 0)
-            {
-                lstTbUsers = tbUsers.OrderBy(user => user.RoleName)
-                    .ThenBy(user => user.UserName).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
-
-                foreach (TabularUser tbUser in lstTbUsers)
-                {
-                    IQueryable<Guid> parentRoleIds = from role in db.aspnet_Roles
-                                                     join roleDetail in db.UserManagement_RoleDetails
-                                                        on role.RoleId equals roleDetail.RoleId
-                                                     where role.RoleName == tbUser.RoleName
-                                                        && roleDetail.ParentRoleId != null
-                                                     select (Guid)roleDetail.ParentRoleId;
-                    if (parentRoleIds.Count() != 0)
-                    {
-                        string parentRoleName = (from role in db.aspnet_Roles
-                                                 where role.RoleId == parentRoleIds.First()
-                                                 select role.RoleName).First();
-                        tbUser.RoleName = parentRoleName;
-                    }
-                }
-            }
-
-            return lstTbUsers;
+            return GetUsers(ref iqUser, pageCurrentIndex, pageSize, out totalRecords);
         }
 
         public List<aspnet_Role> GetRoles(string userName)
@@ -316,7 +148,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return false;
         }
 
-        public void UpdateMembership(aspnet_User user)
+        public void UpdateMembership(aspnet_User user, bool isTeacher)
         {
             IQueryable<aspnet_Membership> iqMembership = from mem in db.aspnet_Memberships
                                                          where mem.aspnet_User.UserName == user.UserName
@@ -325,8 +157,38 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 aspnet_Membership membership = iqMembership.First();
                 membership.SchoolId = school.SchoolId;
+                membership.IsTeacher = isTeacher;
                 db.SubmitChanges();
             }
+        }
+
+        public List<aspnet_Role> GetRoles(aspnet_User user)
+        {
+            List<aspnet_Role> roles = new List<aspnet_Role>();
+
+            IQueryable<aspnet_Role> iqRole = from usersInRole in db.aspnet_UsersInRoles
+                                             where usersInRole.UserId == user.UserId
+                                             && usersInRole.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
+                                             select usersInRole.aspnet_Role;
+            if (iqRole.Count() != 0)
+            {
+                roles = iqRole.ToList();
+            }
+
+            return roles;
+        }
+
+        private List<aspnet_User> GetUsers(ref IQueryable<aspnet_User> iqUser, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<aspnet_User> users = new List<aspnet_User>();
+            totalRecords = iqUser.Count();
+
+            if (totalRecords != 0)
+            {
+                users = iqUser.Distinct().OrderBy(user => user.UserName).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return users;
         }
     }
 }

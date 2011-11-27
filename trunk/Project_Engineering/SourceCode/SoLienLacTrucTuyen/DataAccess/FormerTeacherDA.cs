@@ -14,19 +14,19 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         }
 
-        public void InsertFormerTeacher(LopHoc_Lop Class, DanhMuc_GiaoVien teacher)
+        public void InsertFormerTeacher(LopHoc_Lop Class, aspnet_User teacher)
         {
             LopHoc_GVCN formerTeacher = new LopHoc_GVCN
             {
                 MaLopHoc = Class.MaLopHoc,
-                MaGiaoVien = teacher.MaGiaoVien
+                TeacherId = teacher.UserId
             };
 
             db.LopHoc_GVCNs.InsertOnSubmit(formerTeacher);
             db.SubmitChanges();
         }
 
-        public void UpdateFormerTeacher(int formerTeacherId, DanhMuc_GiaoVien teacher)
+        public void UpdateFormerTeacher(int formerTeacherId, aspnet_User teacher)
         {
             IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
                                                       where fTchr.MaGVCN == formerTeacherId
@@ -34,7 +34,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             if (iqFormerTeacher.Count() != 0)
             {
                 LopHoc_GVCN formerTeacher = iqFormerTeacher.First();
-                formerTeacher.MaGiaoVien = teacher.MaGiaoVien;
+                formerTeacher.TeacherId = teacher.UserId;
                 db.SubmitChanges();
             }
         }
@@ -58,7 +58,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             totalRecords = iqFormerTeacher.Count();
             if (totalRecords != 0)
             {
-                lFormerTeacher = iqFormerTeacher.OrderBy(teacher => teacher.MaGiaoVien)
+                lFormerTeacher = iqFormerTeacher.OrderBy(teacher => teacher.aspnet_User.UserName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
@@ -89,7 +89,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_GVCN> iqFomerTeacher;
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
-                               && formerTeacher.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
+                               && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -100,7 +100,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_GVCN> iqFomerTeacher;
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
-                               && formerTeacher.DanhMuc_GiaoVien.HoTen == teacherName
+                               && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -121,7 +121,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_GVCN> iqFomerTeacher;
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.DanhMuc_GiaoVien.HoTen == teacherName
+                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -132,7 +132,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             IQueryable<LopHoc_GVCN> iqFomerTeacher;
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
+                             && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -155,7 +155,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
                              && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                             && formerTeacher.DanhMuc_GiaoVien.HoTen == teacherName
+                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -167,7 +167,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
                              && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                             && formerTeacher.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
+                             && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -190,7 +190,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
                              && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                             && formerTeacher.DanhMuc_GiaoVien.HoTen == teacherName
+                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -202,7 +202,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
                              && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                             && formerTeacher.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
+                             && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -227,7 +227,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
                              && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
                              && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                             && formerTeacher.DanhMuc_GiaoVien.HoTen == teacherName
+                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -240,7 +240,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                              where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
                              && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
                              && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                             && formerTeacher.DanhMuc_GiaoVien.MaHienThiGiaoVien == teacherCode
+                             && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -269,10 +269,10 @@ namespace SoLienLacTrucTuyen.DataAccess
             return formerTeacher;
         }
 
-        public bool FormerTeacherExists(DanhMuc_GiaoVien teacher)
+        public bool FormerTeacherExists(aspnet_User teacher)
         {
             IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                                      where fTchr.MaGiaoVien == teacher.MaGiaoVien
+                                                      where fTchr.TeacherId == teacher.UserId
                                                       select fTchr;
             if (iqFormerTeacher.Count() != 0)
             {

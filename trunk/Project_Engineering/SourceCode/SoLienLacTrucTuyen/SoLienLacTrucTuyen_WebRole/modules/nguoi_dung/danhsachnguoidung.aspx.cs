@@ -48,10 +48,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLRoles()
         {
             RoleBL roleBL = new RoleBL(UserSchool);
-            List<aspnet_Role> roles = roleBL.GetRoles();
+            List<TabularRole> roles = roleBL.GetTabularRoles();
             DdlRoles.DataSource = roles;
             DdlRoles.DataValueField = "RoleId";
-            DdlRoles.DataTextField = "RoleName";
+            DdlRoles.DataTextField = "DisplayedName";
             DdlRoles.DataBind();
 
             if (DdlRoles.Items.Count != 0)
@@ -62,23 +62,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void BindRptUsers()
         {
+            aspnet_Role role = null;
             List<TabularUser> tabularUsers;
             double dTotalRecords;
             string strUserName = TxtSearchUserName.Text.Trim();
-            Guid role;
 
             if (DdlRoles.Items.Count != 0)
             {
-                role = new Guid(DdlRoles.SelectedValue);
+                if (DdlRoles.SelectedIndex > 0)
+                {
+                    role = new aspnet_Role();
+                    role.RoleId = new Guid(DdlRoles.SelectedValue);
+                }
             }
-            else
-            {
-                role = new Guid();
-            }
-            
-            tabularUsers = userBL.GetListTabularUsers(
-                role, strUserName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+
+            tabularUsers = userBL.GetTabularUsers(role, strUserName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
             if (tabularUsers.Count == 0 && dTotalRecords != 0)
@@ -235,15 +233,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        this.HdfUserName.Value = e.CommandArgument.ToString();
-                        this.HdfRptUserMPEDelete.Value = mPEDelete.ClientID;
+                        this.HdfUserName.Value = ((HiddenField)e.Item.FindControl("HdfRptActualUserName")).Value;
+                        this.HdfRptUserMPEDelete.Value = mPEDelete.ClientID;                        
 
                         break;
                     }
                 case "CmdEditItem":
                     {
-                        Response.Redirect("~/modules/nguoi_dung/suanguoidung.aspx?UserId="
-                            + e.CommandArgument);
+                        Response.Redirect(string.Format(AppConstant.PAGEPATH_EDITUSER + "?UserId={0}", e.CommandArgument));
                         break;
                     }
                 default:

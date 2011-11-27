@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public int MaMonHocTKB { get; set; }
         public int MaMonHoc { get; set; }        
         public string TenMonHoc { get; set; }
-        public int MaGiaoVien { get; set; }
+        public Guid MaGiaoVien { get; set; }
         public string TenGiaoVien { get; set; }
         public int Tiet { get; set; }
         public string ChiTietTiet { get; set; }

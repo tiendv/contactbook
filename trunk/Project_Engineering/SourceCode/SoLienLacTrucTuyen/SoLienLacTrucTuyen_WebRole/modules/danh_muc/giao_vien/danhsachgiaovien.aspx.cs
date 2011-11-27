@@ -11,7 +11,7 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhSachGiaoVien : BaseContentPage
+    public partial class TeachersPage : BaseContentPage
     {
         #region Fields
         private TeacherBL teacherBL;
@@ -44,24 +44,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         public void BindRptTeachers()
         {
+            // declare variables
+            List<TabularTeacher> tabularTeachers = null;
             string strTeacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
             string strTeacherName = TxtSearchTenGiaoVien.Text.Trim();
-
             double dTotalRecords;
-            List<TabularTeacher> lTbTeachers = teacherBL.GetTabularTeachers(
-                strTeacherCode, strTeacherName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            // Decrease page current index when delete
-            if (lTbTeachers.Count == 0 && dTotalRecords != 0)
+            // get list of teachers
+            tabularTeachers = teacherBL.GetTabularTeachers(strTeacherCode, strTeacherName,
+                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+
+            // decrease page current index when delete
+            if (tabularTeachers.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptTeachers();
                 return;
             }
 
-            bool bDisplayData = (lTbTeachers.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
+            bool bDisplayData = (tabularTeachers.Count != 0) ? true : false;
+            //PnlPopupConfirmDelete.Visible = bDisplayData;
             RptGiaoVien.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -69,11 +71,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (!isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin giáo viên";
+                    LblSearchResult.Text = string.Format(
+                        (string)GetGlobalResourceObject(AppConstant.FILENAME_MAINRESOURCE, AppConstant.RESOURCE_SEARCH_NOINFO),
+                        (string)GetGlobalResourceObject(AppConstant.FILENAME_MAINRESOURCE, AppConstant.TEACHER));
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy giáo viên";
+                    LblSearchResult.Text = string.Format(
+                        (string)GetGlobalResourceObject(AppConstant.FILENAME_MAINRESOURCE, AppConstant.RESOURCE_SEARCH_NOMATCH),
+                        (string)GetGlobalResourceObject(AppConstant.FILENAME_MAINRESOURCE, AppConstant.TEACHER));
                 }
 
                 MainDataPager.CurrentIndex = 1;
@@ -85,7 +91,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }
 
-            RptGiaoVien.DataSource = lTbTeachers;
+            RptGiaoVien.DataSource = tabularTeachers;
             RptGiaoVien.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }
@@ -120,9 +126,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
-            teacher.MaGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
-            teacherBL.DeleteTeacher(teacher);
+            aspnet_User teacher = new aspnet_User();
+            teacher.UserId = new Guid(HdfMaGiaoVien.Value);
+            //teacherBL.DeleteTeacher(teacher);
 
             isSearch = false;
             BindRptTeachers();
@@ -138,7 +144,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                    int maGiaoVien = giaoVien.MaGiaoVien;
+                    Guid maGiaoVien = giaoVien.MaGiaoVien;
                     ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
                     btnEditItem.Attributes.Add("OnClientClick",
                         "return editGiaoVien();");
@@ -163,14 +169,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                    int maGiaoVien = giaoVien.MaGiaoVien;
-                    if (!teacherBL.IsDeletable(giaoVien.MaHienThiGiaoVien))
-                    {
-                        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                        btnDeleteItem.Enabled = false;
-                    }
+                    //TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
+                    //if (!teacherBL.IsDeletable(giaoVien.MaGiaoVien))
+                    //{
+                    //    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
+                    //    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
+                    //    btnDeleteItem.Enabled = false;
+                    //}
                 }
             }
             else
@@ -186,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     e.Item.FindControl("tdDelete").Visible = false;
                 }
 
-                this.PnlPopupConfirmDelete.Visible = false;
+                //this.PnlPopupConfirmDelete.Visible = false;
             }
 
             if (e.Item.ItemType == ListItemType.Item
@@ -205,18 +210,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDeleteItem":
                     {
-                        DanhMuc_GiaoVien teacher = null;
+                        aspnet_User teacher = null;
 
                         string strTeacherCode = (string)e.CommandArgument;
                         teacher = teacherBL.GetTeacher(strTeacherCode);
                         HdfTeacherCode.Value = strTeacherCode;
 
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
-                            + teacher.HoTen + "\"</b> này không?";
+                        //this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
+                        //    + teacher.aspnet_Membership.RealName + "\"</b> này không?";
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        this.HdfMaGiaoVien.Value = teacher.MaGiaoVien.ToString();
+                        this.HdfMaGiaoVien.Value = teacher.UserId.ToString();
                         this.HdfRptGiaoVienMPEDelete.Value = mPEDelete.ClientID;
 
                         break;

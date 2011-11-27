@@ -59,7 +59,7 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             if (Page.User.Identity.Name != "")
             {
-                userName = Page.User.Identity.Name.Split('-')[1];
+                userName = Page.User.Identity.Name.Split('_')[1];
             }
             
             SetLevel0MenuItems();

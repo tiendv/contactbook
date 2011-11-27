@@ -17,87 +17,87 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             teacherDA = new TeacherDA(school);
         }
 
-        public void InsertTeacher(string teacherCode, string teacherName, bool gender, DateTime birthday, string address, string phone)
-        {
-            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien
-            {
-                MaHienThiGiaoVien = teacherCode,
-                HoTen = teacherName,
-                GioiTinh = gender,
-                NgaySinh = birthday,
-                DiaChi = address,
-                DienThoai = phone
-            };
+        //public void InsertTeacher(string teacherCode, string teacherName, bool gender, DateTime birthday, string address, string phone)
+        //{
+        //    aspnet_User teacher = new aspnet_User
+        //    {
+        //        MaHienThiGiaoVien = teacherCode,
+        //        HoTen = teacherName,
+        //        GioiTinh = gender,
+        //        NgaySinh = birthday,
+        //        DiaChi = address,
+        //        DienThoai = phone
+        //    };
 
-            teacherDA.InsertTeacher(teacher);
-        }
+        //    teacherDA.InsertTeacher(teacher);
+        //}
 
-        public void DeleteTeacher(DanhMuc_GiaoVien teacher)
-        {
-            teacherDA.DeleteTeacher(teacher);
-        }
+        //public void DeleteTeacher(aspnet_User teacher)
+        //{
+        //    teacherDA.DeleteTeacher(teacher);
+        //}
 
-        public void UpdateTeacher(DanhMuc_GiaoVien editedTeacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
+        public void UpdateTeacher(aspnet_Membership editedTeacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
         {
-            editedTeacher.HoTen = newTeacherName;
-            editedTeacher.GioiTinh = newGender;
-            editedTeacher.NgaySinh = newBirthday;
-            editedTeacher.DiaChi = newAddress;
-            editedTeacher.DienThoai = newPhone;
+            editedTeacher.RealName = newTeacherName;
+            editedTeacher.Gender = newGender;
+            editedTeacher.Birthday = newBirthday;
+            editedTeacher.Address = newAddress;
+            editedTeacher.Phone = newPhone;
 
             teacherDA.UpdateTeacher(editedTeacher);
         }
 
-        public DanhMuc_GiaoVien GetTeacher(string teacherCode)
+        public aspnet_User GetTeacher(string teacherCode)
         {
+            teacherCode = GetActualName(teacherCode);
             return teacherDA.GetTeacher(teacherCode);
         }
 
-        public DanhMuc_GiaoVien GetTeacher(int teacherId)
+        public aspnet_User GetTeacher(Guid teacherId)
         {
             return teacherDA.GetTeacher(teacherId);
         }
 
         public List<TabularTeacher> GetTabularTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
             List<TabularTeacher> lTabularTeachers = new List<TabularTeacher>();
 
             if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
             {
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListTeachers(
-                        pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetListTeachers(pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTeachers = teacherDA.GetListTeachersByName(teacherName,
-                        pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetListTeachersByName(teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
             else
             {
+                teacherCode = GetActualName(teacherCode);
+
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListTeachersByCode(teacherCode,
-                        pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetListTeachersByCode(teacherCode, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTeachers = teacherDA.GetListTeachers(teacherCode, teacherName,
-                        pageCurrentIndex, pageSize, out totalRecords);
+                    
+                    lTeachers = teacherDA.GetListTeachers(teacherCode, teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
 
-            foreach (DanhMuc_GiaoVien teacher in lTeachers)
+            foreach (aspnet_User teacher in lTeachers)
             {
                 TabularTeacher tbTeacher = new TabularTeacher();
-                tbTeacher.MaGiaoVien = teacher.MaGiaoVien;
-                tbTeacher.MaHienThiGiaoVien = teacher.MaHienThiGiaoVien;
-                tbTeacher.HoTen = teacher.HoTen;
-                tbTeacher.NgaySinh = teacher.NgaySinh;
-                tbTeacher.GioiTinh = teacher.GioiTinh;
+                tbTeacher.MaGiaoVien = teacher.UserId;
+                tbTeacher.MaHienThiGiaoVien = teacher.UserName.Split('_')[1];
+                tbTeacher.HoTen = teacher.aspnet_Membership.RealName;
+                tbTeacher.NgaySinh = teacher.aspnet_Membership.Birthday;
+                tbTeacher.GioiTinh = teacher.aspnet_Membership.Gender;
 
                 lTabularTeachers.Add(tbTeacher);
             }
@@ -106,7 +106,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<TabularTeacher> GetTabularUnformeredTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_GiaoVien> lTeachers = new List<DanhMuc_GiaoVien>();
+            List<aspnet_User> lTeachers = new List<aspnet_User>();
             List<TabularTeacher> lTabularTeachers = new List<TabularTeacher>();
 
             if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
@@ -122,9 +122,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
+                teacherCode = GetActualName(teacherCode);
+
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListUnformedTeachersByCode(year, teacherName, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetListUnformedTeachersByCode(year, teacherCode, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
@@ -132,14 +134,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            foreach (DanhMuc_GiaoVien teacher in lTeachers)
+            foreach (aspnet_User teacher in lTeachers)
             {
                 TabularTeacher tbTeacher = new TabularTeacher();
-                tbTeacher.MaGiaoVien = teacher.MaGiaoVien;
-                tbTeacher.MaHienThiGiaoVien = teacher.MaHienThiGiaoVien;
-                tbTeacher.HoTen = teacher.HoTen;
-                tbTeacher.NgaySinh = teacher.NgaySinh;
-                tbTeacher.GioiTinh = teacher.GioiTinh;
+                tbTeacher.MaGiaoVien = teacher.UserId;
+                tbTeacher.MaHienThiGiaoVien = teacher.UserName.Split('_')[1];
+                tbTeacher.HoTen = teacher.aspnet_Membership.RealName;
+                tbTeacher.NgaySinh = teacher.aspnet_Membership.Birthday;
+                tbTeacher.GioiTinh = teacher.aspnet_Membership.Gender;
 
                 lTabularTeachers.Add(tbTeacher);
             }
@@ -151,13 +153,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return teacherDA.TeacherCodeExists(teacherCode);
         }
 
-        public bool IsDeletable(string teacherCode)
+        public bool IsDeletable(Guid teacherId)
         {
             ScheduleBL scheduleBL = new ScheduleBL(school);
             FormerTeacherBL formerTeacherBL = new FormerTeacherBL(school);
             bool bDeletable = false;
 
-            DanhMuc_GiaoVien teacher = GetTeacher(teacherCode);
+            aspnet_User teacher = GetTeacher(teacherId);
 
             if (!scheduleBL.ScheduleExists(teacher))
             {
@@ -170,12 +172,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return bDeletable;
         }
 
-        public bool IsTeaching(DanhMuc_GiaoVien teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
+        public bool IsTeaching(aspnet_User teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
         {
             return teacherDA.IsTeaching(teacher, term, dayInWeek, teachingPeriod);
         }
 
-        public List<TabularFormering> GetListFormerings(DanhMuc_GiaoVien teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularFormering> GetListFormerings(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularFormering> lTbFormering = new List<TabularFormering>();
             List<LopHoc_GVCN> lFormering = teacherDA.GetFormering(teacher, pageCurrentIndex, pageSize, out totalRecords);
@@ -195,7 +197,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTbFormering;
         }
 
-        public List<TabularTeaching> GetListTeachings(DanhMuc_GiaoVien teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTeaching> GetListTeachings(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularTeaching> lTeachings = new List<TabularTeaching>();
             List<LopHoc_MonHocTKB> lShedules = new List<LopHoc_MonHocTKB>();

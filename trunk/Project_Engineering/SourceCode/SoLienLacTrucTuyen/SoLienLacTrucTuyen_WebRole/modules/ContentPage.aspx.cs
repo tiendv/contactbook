@@ -41,13 +41,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             UserSchool = (School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);
             RoleBL roleBL = new RoleBL(UserSchool);
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
 
             string pageUrl = Page.Request.Path;
             List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
 
             Guid role = userBL.GetRoleId(User.Identity.Name);
 
-            if (!roleBL.ValidateAuthorization(roles, pageUrl))
+            if (!authorizationBL.ValidateAuthorization(roles, pageUrl))
             {
                 Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
                 isAccessDenied = false;
@@ -58,7 +59,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             masterPage.UserRole = role;
             masterPage.PageUrl = pageUrl;
 
-            lstAccessibilities = roleBL.GetAccessibilities(role, pageUrl);
+            lstAccessibilities = authorizationBL.GetAccessibilities(role, pageUrl);
 
             if (Session[AppConstant.SCHOOL] != null)
             {

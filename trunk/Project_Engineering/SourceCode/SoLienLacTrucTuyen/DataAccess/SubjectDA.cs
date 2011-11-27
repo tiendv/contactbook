@@ -236,7 +236,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<LopHoc_MonHocTKB> iqScheduledSubjects = from scheduledSubject in db.LopHoc_MonHocTKBs
                                                                where scheduledSubject.MaMonHoc == subject.MaMonHoc
-                                                               && scheduledSubject.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                                               && scheduledSubject.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                                                select scheduledSubject;
 
             if (iqScheduledSubjects.Count() != 0)

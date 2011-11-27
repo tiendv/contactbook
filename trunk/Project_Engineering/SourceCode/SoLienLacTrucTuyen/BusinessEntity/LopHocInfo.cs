@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public int MaKhoiLop { get; set; }
         public string TenKhoiLop { get; set; }
 
-        public int HomeroomTeacherCode { get; set; }
+        public Guid HomeroomTeacherCode { get; set; }
         public string TenGVCN { get; set; }
         public int SiSo { get; set; }
 

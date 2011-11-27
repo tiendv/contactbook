@@ -7,13 +7,13 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularTeacher
     {
-        public int MaGiaoVien { get; set; }
+        public Guid MaGiaoVien { get; set; }
 
         public string MaHienThiGiaoVien { get; set; }
         public string HoTen { get; set; }
 
-        private bool gioiTinh;
-        public bool GioiTinh 
+        private bool? gioiTinh;
+        public bool? GioiTinh 
         {
             get
             {
@@ -22,12 +22,15 @@ namespace SoLienLacTrucTuyen.BusinessEntity
             set
             {
                 gioiTinh = value;
-                StringGioiTinh = (gioiTinh) ? "Nam" : "Nữ";
+                if (gioiTinh != null)
+                {
+                    StringGioiTinh = ((bool)gioiTinh) ? "Nam" : "Nữ";
+                }
             }
         }
 
-        private DateTime ngaySinh;
-        public DateTime NgaySinh 
+        private DateTime? ngaySinh;
+        public DateTime? NgaySinh 
         { 
             get
             {
@@ -36,7 +39,11 @@ namespace SoLienLacTrucTuyen.BusinessEntity
             set 
             {
                 ngaySinh = value;
-                StringNgaySinh = String.Format("{0}/{1}/{2}", ngaySinh.Day, ngaySinh.Month, ngaySinh.Year);
+                if (ngaySinh != null)
+                {
+                    DateTime birthday = (DateTime)ngaySinh;
+                    StringNgaySinh = String.Format("{0}/{1}/{2}", birthday.Day, birthday.Month, birthday.Year);
+                }
             } 
         }
 

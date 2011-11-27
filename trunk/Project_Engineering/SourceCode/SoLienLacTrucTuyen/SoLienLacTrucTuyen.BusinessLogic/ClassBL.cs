@@ -68,8 +68,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             formerTeacher = formerTeacherBL.GetFormerTeacher(Class);
             if (formerTeacher != null)
             {
-                tabularClass.HomeroomTeacherCode = formerTeacher.MaGiaoVien;
-                tabularClass.TenGVCN = formerTeacher.DanhMuc_GiaoVien.HoTen;
+                tabularClass.HomeroomTeacherCode = formerTeacher.aspnet_User.UserId;
+                tabularClass.TenGVCN = formerTeacher.aspnet_User.aspnet_Membership.RealName;
             }
 
             return tabularClass;

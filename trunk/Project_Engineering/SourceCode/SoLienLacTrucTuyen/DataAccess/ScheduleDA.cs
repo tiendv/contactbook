@@ -54,7 +54,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, DanhMuc_GiaoVien teacher)
+        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, aspnet_User teacher)
         {
             IQueryable<LopHoc_MonHocTKB> iqNewSubjectedSchedule;
             iqNewSubjectedSchedule = from schdl in db.LopHoc_MonHocTKBs
@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                          select schdl).First();
             int iOriginalSubjectId = schedule.MaMonHoc; // store
             schedule.MaMonHoc = subject.MaMonHoc;
-            schedule.MaGiaoVien = teacher.MaGiaoVien;
+            schedule.TeacherId = teacher.UserId;
             db.SubmitChanges();
 
             IQueryable<LopHoc_MonHocTKB> iqOrginalSubjectedSchedule;
@@ -162,7 +162,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
                                                       where schd.MaMonHocTKB == scheduleId
-                                                      && schd.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                                      && schd.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                                       select schd;
             if (iqSchedule.Count() != 0)
             {
@@ -242,10 +242,10 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool ScheduleExists(DanhMuc_GiaoVien teacher)
+        public bool ScheduleExists(aspnet_User teacher)
         {
             IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
-                                                      where schd.MaGiaoVien == teacher.MaGiaoVien
+                                                      where schd.TeacherId == teacher.UserId
                                                       select schd;
 
             if (iqSchedule.Count() != 0)

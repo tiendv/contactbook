@@ -21,6 +21,7 @@
       <Column Name="Actived" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ParentRoleId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DisplayedName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
       <Association Name="School_UserManagement_RoleDetail" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
     </Type>
@@ -54,6 +55,12 @@
       <Column Name="CanBeDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IsTeacher" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="RealName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Photo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
       <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="School_aspnet_Membership" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
@@ -132,7 +139,8 @@
       <Association Name="aspnet_User_aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers" ThisKey="UserId" OtherKey="UserId" Type="aspnet_PersonalizationPerUser" />
       <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_Profile" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Profile" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
-      <Association Name="aspnet_User_UserManagement_GVCNUser" Member="UserManagement_GVCNUsers" ThisKey="UserId" OtherKey="UserId" Type="UserManagement_GVCNUser" />
+      <Association Name="aspnet_User_LopHoc_GVCN" Member="LopHoc_GVCNs" ThisKey="UserId" OtherKey="TeacherId" Type="LopHoc_GVCN" />
+      <Association Name="aspnet_User_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="UserId" OtherKey="TeacherId" Type="LopHoc_MonHocTKB" />
       <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
     </Type>
   </Table>
@@ -231,22 +239,6 @@
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="DanhMuc_DanhHieu_DanhMuc_ChiTietDanhHieu" Member="DanhMuc_ChiTietDanhHieus" ThisKey="MaDanhHieu" OtherKey="MaDanhHieu" Type="DanhMuc_ChiTietDanhHieu" />
       <Association Name="School_DanhMuc_DanhHieu" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.DanhMuc_GiaoVien" Member="DanhMuc_GiaoViens">
-    <Type Name="DanhMuc_GiaoVien">
-      <Column Name="MaGiaoVien" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="MaHienThiGiaoVien" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="NgaySinh" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="DienThoai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="HinhAnh" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="DanhMuc_GiaoVien_LopHoc_GVCN" Member="LopHoc_GVCNs" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_GVCN" />
-      <Association Name="DanhMuc_GiaoVien_LopHoc_MonHocTKB" Member="LopHoc_MonHocTKBs" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="LopHoc_MonHocTKB" />
-      <Association Name="School_DanhMuc_GiaoVien" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.DanhMuc_HanhKiem" Member="DanhMuc_HanhKiems">
@@ -501,9 +493,8 @@
     <Type Name="LopHoc_GVCN">
       <Column Name="MaGVCN" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="MaGiaoVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="LopHoc_GVCN_UserManagement_GVCNUser" Member="UserManagement_GVCNUsers" ThisKey="MaGVCN" OtherKey="MaGVCN" Type="UserManagement_GVCNUser" />
-      <Association Name="DanhMuc_GiaoVien_LopHoc_GVCN" Member="DanhMuc_GiaoVien" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="DanhMuc_GiaoVien" IsForeignKey="true" />
+      <Column Name="TeacherId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_User_LopHoc_GVCN" Member="aspnet_User" ThisKey="TeacherId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="LopHoc_Lop_LopHoc_GVCN" Member="LopHoc_Lop" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_Lop" IsForeignKey="true" />
     </Type>
   </Table>
@@ -535,13 +526,13 @@
       <Column Name="MaTiet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaLopHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MaMonHoc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="MaGiaoVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeacherId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_User_LopHoc_MonHocTKB" Member="aspnet_User" ThisKey="TeacherId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="CauHinh_Buoi_LopHoc_MonHocTKB" Member="CauHinh_Buoi" ThisKey="MaBuoi" OtherKey="MaBuoi" Type="CauHinh_Buoi" IsForeignKey="true" />
       <Association Name="CauHinh_HocKy_LopHoc_MonHocTKB" Member="CauHinh_HocKy" ThisKey="MaHocKy" OtherKey="MaHocKy" Type="CauHinh_HocKy" IsForeignKey="true" />
       <Association Name="CauHinh_Thu_LopHoc_MonHocTKB" Member="CauHinh_Thu" ThisKey="MaThu" OtherKey="MaThu" Type="CauHinh_Thu" IsForeignKey="true" />
       <Association Name="DanhMuc_MonHoc_LopHoc_MonHocTKB" Member="DanhMuc_MonHoc" ThisKey="MaMonHoc" OtherKey="MaMonHoc" Type="DanhMuc_MonHoc" IsForeignKey="true" />
       <Association Name="DanhMuc_Tiet_LopHoc_MonHocTKB" Member="DanhMuc_Tiet" ThisKey="MaTiet" OtherKey="MaTiet" Type="DanhMuc_Tiet" IsForeignKey="true" />
-      <Association Name="DanhMuc_GiaoVien_LopHoc_MonHocTKB" Member="DanhMuc_GiaoVien" ThisKey="MaGiaoVien" OtherKey="MaGiaoVien" Type="DanhMuc_GiaoVien" IsForeignKey="true" />
       <Association Name="LopHoc_Lop_LopHoc_MonHocTKB" Member="LopHoc_Lop" ThisKey="MaLopHoc" OtherKey="MaLopHoc" Type="LopHoc_Lop" IsForeignKey="true" />
     </Type>
   </Table>
@@ -566,7 +557,6 @@
       <Association Name="School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
       <Association Name="School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_DanhMuc_DanhHieu" Member="DanhMuc_DanhHieus" ThisKey="SchoolId" OtherKey="SchoolId" Type="DanhMuc_DanhHieu" />
-      <Association Name="School_DanhMuc_GiaoVien" Member="DanhMuc_GiaoViens" ThisKey="SchoolId" OtherKey="SchoolId" Type="DanhMuc_GiaoVien" />
       <Association Name="School_DanhMuc_HanhKiem" Member="DanhMuc_HanhKiems" ThisKey="SchoolId" OtherKey="SchoolId" Type="DanhMuc_HanhKiem" />
       <Association Name="School_DanhMuc_HocLuc" Member="DanhMuc_HocLucs" ThisKey="SchoolId" OtherKey="SchoolId" Type="DanhMuc_HocLuc" />
       <Association Name="School_DanhMuc_KhoiLop" Member="DanhMuc_KhoiLops" ThisKey="SchoolId" OtherKey="SchoolId" Type="DanhMuc_KhoiLop" />
@@ -583,6 +573,7 @@
     <Type Name="System_Parameter">
       <Column Name="AdminRoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ParentsRoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="RoleTeacher" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="RoleGVCNId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="RoleGVBMId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="HomePageFunctionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -631,14 +622,6 @@
       <Column Name="ParentFunctionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="UserManagement_Function_UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages" ThisKey="FunctionId" OtherKey="FunctionId" Type="UserManagement_AuthorizedPage" />
       <Association Name="UserManagement_Function_UserManagement_Menus" Member="UserManagement_Menus" ThisKey="FunctionId" OtherKey="FunctionId" Type="UserManagement_Menus" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UserManagement_GVCNUsers" Member="UserManagement_GVCNUsers">
-    <Type Name="UserManagement_GVCNUser">
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="MaGVCN" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="aspnet_User_UserManagement_GVCNUser" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-      <Association Name="LopHoc_GVCN_UserManagement_GVCNUser" Member="LopHoc_GVCN" ThisKey="MaGVCN" OtherKey="MaGVCN" Type="LopHoc_GVCN" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UserManagement_Menus" Member="UserManagement_Menus">

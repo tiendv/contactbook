@@ -153,7 +153,7 @@
                             <asp:HiddenField ID="HdfRptTenNhomNguoiDung" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "RoleName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "RoleName")%>
+                            <%#DataBinder.Eval(Container.DataItem, "DisplayedName")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Description")%>
@@ -172,7 +172,7 @@
                                 <%#DataBinder.Eval(Container.DataItem, "RoleName")%></span>
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CssClass="DeleteItemButton" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "RoleName")%>' />
+                                CssClass="DeleteItemButton" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "DisplayedName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -235,7 +235,7 @@
                             ValidationGroup="AddRoleGroup"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="RoleNameValidatorAdd" runat="server" Display="Dynamic" ForeColor="Red"
                             ControlToValidate="TxtRoleNameAdd" ErrorMessage="Tên nhóm người dùng này đã tồn tại"
-                            ClientValidationFunction="validateAddRoleName" ValidationGroup="AddRoleGroup"></asp:CustomValidator>
+                            ValidationGroup="AddRoleGroup"></asp:CustomValidator>
                         <asp:HiddenField ID="hdfOutputAdd" runat="server" Value="true" />
                     </td>
                 </tr>
@@ -287,7 +287,7 @@
                         <%--<asp:RegularExpressionValidator ID="REV_TxtRoleNameEdit" runat="server" Display="Dynamic" ForeColor="Red" ControlToValidate="TxtRoleNameEdit" ValidationExpression="[\w| ]*" ErrorMessage="Tên nhóm không hợp lệ<br/>" ValidationGroup="EditRoleGroup"/>--%>
                         <asp:CustomValidator ID="RoleNameValidatorEdit" runat="server" Display="Dynamic"
                             ForeColor="Red" ControlToValidate="TxtRoleNameEdit" ErrorMessage="Tên nhóm người dùng này đã tồn tại"
-                            ClientValidationFunction="validateEditRoleName" ValidationGroup="EditRoleGroup"></asp:CustomValidator>
+                            ValidationGroup="EditRoleGroup"></asp:CustomValidator>
                         <asp:HiddenField ID="hdfEditingRoleName" runat="server" />
                         <asp:HiddenField ID="hdfOutputEdit" runat="server" Value="true" />
                     </td>

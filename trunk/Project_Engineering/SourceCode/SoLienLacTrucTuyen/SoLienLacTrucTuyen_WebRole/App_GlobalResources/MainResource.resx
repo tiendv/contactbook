@@ -126,4 +126,10 @@
   <data name="LblSearchResultText" xml:space="preserve">
     <value>Chưa có thông tin {0}</value>
   </data>
+  <data name="Role" xml:space="preserve">
+    <value>nhóm người dùng</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>giáo viên</value>
+  </data>
 </root>

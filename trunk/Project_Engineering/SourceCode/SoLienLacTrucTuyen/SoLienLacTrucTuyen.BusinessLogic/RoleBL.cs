@@ -17,84 +17,80 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             roleDA = new RoleDA(school);
         }
 
-        public void UpdateRole(string roleName, string newRoleName, string description)
-        {
-            roleName = GetActualName(roleName);
-            newRoleName = GetActualName(newRoleName);
-
-            roleDA.UpdateRole(roleName, newRoleName, description);
-        }
-
         public void CreateRoleDetail(string roleName, string description)
         {
             roleName = GetActualName(roleName);
             roleDA.CreateRoleDetail(roleName, description);
         }
+        
+        public void UpdateRole(string roleName, string newRoleName, string description)
+        {         
+            newRoleName = GetActualName(newRoleName);
+            roleDA.UpdateRole(roleName, newRoleName, description);
+        }        
 
-        public void UpdateRoleDetail(string roleName, string description, bool expired, bool canBeDeleted, bool actived)
+        public void DeleteRole(string roleName)
         {
-            roleName = GetActualName(roleName);
-            roleDA.UpdateRoleDetail(roleName, description, expired, canBeDeleted, actived);
+            roleDA.DeleteRole(roleName);
+        }
+
+        public List<TabularRole> GetTabularRoles()
+        {
+            List<aspnet_Role> roles = roleDA.GetListRoles(true);
+            List<TabularRole> tabularRoles = null;
+            TabularRole tabularRole = null;
+            tabularRoles = new List<TabularRole>();
+            foreach (aspnet_Role role in roles)
+            {
+                tabularRole = ConvertToTabular(role);
+                tabularRoles.Add(tabularRole);
+            }
+
+            return tabularRoles;
+        }
+
+        public List<TabularRole> GetTabularRoles(string roleName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<aspnet_Role> roles = null;
+            List<TabularRole> tabularRoles = null;
+            TabularRole tabularRole = null;
+
+            if ((roleName == "") || (string.Compare(roleName, "tất cả", true) == 0))
+            {
+                roles = roleDA.GetRoles(pageCurrentIndex, pageSize, out totalRecords);
+            }
+            else
+            {
+                roles = new List<aspnet_Role>();
+                roleName = GetActualName(roleName);
+                aspnet_Role role = roleDA.GetRole(roleName);
+                if (role != null)
+                {
+                    roles.Add(role);
+                }
+                totalRecords = roles.Count;
+            }
+
+            tabularRoles = new List<TabularRole>();
+            foreach (aspnet_Role role in roles)
+            {
+                tabularRole = ConvertToTabular(role);
+                tabularRoles.Add(tabularRole);
+            }
+
+            return tabularRoles;
         }
 
         public TabularRole GetTabularRole(Guid roleId)
         {
-            return roleDA.GetTabRole(roleId);
-        }
-        
-        public List<TabularRole> GetTabularRoles(string roleName, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            if ((roleName == "") || (string.Compare(roleName, "tất cả", true) == 0))
+            TabularRole tabularRole = null;
+            aspnet_Role role = roleDA.GetRole(roleId);
+            if (role != null)
             {
-                return roleDA.GetListTbRoles(pageCurrentIndex, pageSize, out totalRecords);
+                tabularRole = ConvertToTabular(role);
             }
-            else
-            {
-                roleName = GetActualName(roleName);
-                return roleDA.GetListTbRoles(roleName, pageCurrentIndex, pageSize, out totalRecords);
-            }
-        }
 
-        public void DeleteRole(string roleName)
-        {
-            roleName = GetActualName(roleName);
-            roleDA.DeleteRole(roleName);
-        }
-
-        public List<AccessibilityEnum> GetAccessibilities(Guid roleId, string pageUrl)
-        {
-            return roleDA.GetAccessibilities(roleId, pageUrl);
-        }
-
-        public List<aspnet_Role> GetRoles()
-        {
-            bool parentRoleOnly = true;
-            return roleDA.GetListRoles(parentRoleOnly);
-        }
-
-        public List<aspnet_Role> GetRolesForAddingUser()
-        {
-            return roleDA.GetRolesForAddingUser();
-        }
-
-        public Guid GetRoleADMIN()
-        {
-            return roleDA.GetRoleAdminId();
-        }
-
-        public bool IsRolePARENTS(string roleName)
-        {
-            return roleDA.IsRoleParents(roleName);
-        }
-
-        public bool ValidateAuthorization(Guid role, string pageUrl)
-        {
-            return roleDA.ValidateAuthorization(role, pageUrl);
-        }
-
-        public bool ValidateAuthorization(List<aspnet_Role> roles, string pageUrl)
-        {
-            return roleDA.ValidateAuthorization(roles, pageUrl);
+            return tabularRole;
         }
 
         public bool RoleExists(string roleName)
@@ -105,54 +101,36 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool RoleExists(string oldRoleName, string newRoleName)
         {
+            newRoleName = GetActualName(newRoleName);
+
             if (oldRoleName == newRoleName)
             {
                 return false;
             }
             else
-            {
-                newRoleName = GetActualName(newRoleName);
+            {   
                 return roleDA.RoleExists(newRoleName);
             }
         }
 
-        public void AddUserToRole(string userName, string roleName)
-        {
-            if (roleName == "Giáo viên")
-            {
-                roleDA.AddUserToRoleTeacher(userName);
-            }
-            else
-            {
-                roleDA.AddUserToRole(userName, roleName);
-            }
-        }
-
-        public List<UserManagement_Function> GetListRoleParentsBasedFunctions()
-        {
-            return roleDA.GetListRoleParentsBasedFunctions();
-        }
-
-        public string GetChildRoleParentsByFunctions(List<int> lstFunctions)
-        {
-            return roleDA.GetChildRoleParentsByFunctions(lstFunctions);
-        }
-
         public bool IsDeletable(string roleName)
         {
-            roleName = GetActualName(roleName);
             return roleDA.IsDeletableRole(roleName);
         }
 
-        public bool IsRoleFORMERERTEACHER(string roleName)
+        internal TabularRole ConvertToTabular(aspnet_Role role)
         {
-            return roleDA.IsRoleFormerTeacher(roleName);
-        }
+            TabularRole tabularRole = new TabularRole();
+            tabularRole.RoleId = role.RoleId;
+            tabularRole.RoleName = role.RoleName;
+            tabularRole.DisplayedName = role.UserManagement_RoleDetail.DisplayedName;
+            tabularRole.Description = role.UserManagement_RoleDetail.Description;
+            tabularRole.Expired = role.UserManagement_RoleDetail.Expired;
+            tabularRole.CanBeDeleted = role.UserManagement_RoleDetail.CanBeDeleted;
+            tabularRole.Actived = role.UserManagement_RoleDetail.Actived;
 
-        public bool IsRoleSUBJECTEDTEACHER(string roleName)
-        {
-            return roleDA.IsRoleSubjectTeacher(roleName);
+            return tabularRole;
         }
-
     }
 }
+
