@@ -47,7 +47,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // Get real UserName
             DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
             int iSltSchool = Int32.Parse(ddlSchools.SelectedValue);
-            LoginCtrl.UserName = iSltSchool + "-" + LoginCtrl.UserName;
+            LoginCtrl.UserName = iSltSchool + "_" + LoginCtrl.UserName;
 
             if (ValidateUser(LoginCtrl.UserName, LoginCtrl.Password))
             {
@@ -60,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                LoginCtrl.UserName = LoginCtrl.UserName.Split('-')[1];
+                LoginCtrl.UserName = LoginCtrl.UserName.Split('_')[1];
                 e.Authenticated = false;
             }
         }

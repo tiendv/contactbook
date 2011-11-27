@@ -87,9 +87,6 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void InsertDanhMuc_DanhHieu(DanhMuc_DanhHieu instance);
     partial void UpdateDanhMuc_DanhHieu(DanhMuc_DanhHieu instance);
     partial void DeleteDanhMuc_DanhHieu(DanhMuc_DanhHieu instance);
-    partial void InsertDanhMuc_GiaoVien(DanhMuc_GiaoVien instance);
-    partial void UpdateDanhMuc_GiaoVien(DanhMuc_GiaoVien instance);
-    partial void DeleteDanhMuc_GiaoVien(DanhMuc_GiaoVien instance);
     partial void InsertDanhMuc_HanhKiem(DanhMuc_HanhKiem instance);
     partial void UpdateDanhMuc_HanhKiem(DanhMuc_HanhKiem instance);
     partial void DeleteDanhMuc_HanhKiem(DanhMuc_HanhKiem instance);
@@ -174,9 +171,6 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void InsertUserManagement_Function(UserManagement_Function instance);
     partial void UpdateUserManagement_Function(UserManagement_Function instance);
     partial void DeleteUserManagement_Function(UserManagement_Function instance);
-    partial void InsertUserManagement_GVCNUser(UserManagement_GVCNUser instance);
-    partial void UpdateUserManagement_GVCNUser(UserManagement_GVCNUser instance);
-    partial void DeleteUserManagement_GVCNUser(UserManagement_GVCNUser instance);
     partial void InsertUserManagement_Menus(UserManagement_Menus instance);
     partial void UpdateUserManagement_Menus(UserManagement_Menus instance);
     partial void DeleteUserManagement_Menus(UserManagement_Menus instance);
@@ -372,14 +366,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			get
 			{
 				return this.GetTable<DanhMuc_DanhHieu>();
-			}
-		}
-		
-		public System.Data.Linq.Table<DanhMuc_GiaoVien> DanhMuc_GiaoViens
-		{
-			get
-			{
-				return this.GetTable<DanhMuc_GiaoVien>();
 			}
 		}
 		
@@ -612,14 +598,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			get
 			{
 				return this.GetTable<UserManagement_Function>();
-			}
-		}
-		
-		public System.Data.Linq.Table<UserManagement_GVCNUser> UserManagement_GVCNUsers
-		{
-			get
-			{
-				return this.GetTable<UserManagement_GVCNUser>();
 			}
 		}
 		
@@ -914,6 +892,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _SchoolId;
 		
+		private string _DisplayedName;
+		
 		private EntityRef<aspnet_Role> _aspnet_Role;
 		
 		private EntityRef<School> _School;
@@ -936,6 +916,8 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnParentRoleIdChanged();
     partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
+    partial void OnDisplayedNameChanging(string value);
+    partial void OnDisplayedNameChanged();
     #endregion
 		
 		public UserManagement_RoleDetail()
@@ -1093,6 +1075,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayedName", DbType="NVarChar(100)")]
+		public string DisplayedName
+		{
+			get
+			{
+				return this._DisplayedName;
+			}
+			set
+			{
+				if ((this._DisplayedName != value))
+				{
+					this.OnDisplayedNameChanging(value);
+					this.SendPropertyChanging();
+					this._DisplayedName = value;
+					this.SendPropertyChanged("DisplayedName");
+					this.OnDisplayedNameChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_RoleDetail", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
 		public aspnet_Role aspnet_Role
 		{
@@ -1242,6 +1244,18 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.Nullable<bool> _IsTeacher;
 		
+		private string _RealName;
+		
+		private System.Nullable<System.DateTime> _Birthday;
+		
+		private System.Nullable<bool> _Gender;
+		
+		private string _Phone;
+		
+		private System.Data.Linq.Binary _Photo;
+		
+		private string _Address;
+		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
 		private EntityRef<aspnet_User> _aspnet_User;
@@ -1306,6 +1320,18 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnSchoolIdChanged();
     partial void OnIsTeacherChanging(System.Nullable<bool> value);
     partial void OnIsTeacherChanged();
+    partial void OnRealNameChanging(string value);
+    partial void OnRealNameChanged();
+    partial void OnBirthdayChanging(System.Nullable<System.DateTime> value);
+    partial void OnBirthdayChanged();
+    partial void OnGenderChanging(System.Nullable<bool> value);
+    partial void OnGenderChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnPhotoChanging(System.Data.Linq.Binary value);
+    partial void OnPhotoChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
     #endregion
 		
 		public aspnet_Membership()
@@ -1864,6 +1890,126 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._IsTeacher = value;
 					this.SendPropertyChanged("IsTeacher");
 					this.OnIsTeacherChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RealName", DbType="NVarChar(200)")]
+		public string RealName
+		{
+			get
+			{
+				return this._RealName;
+			}
+			set
+			{
+				if ((this._RealName != value))
+				{
+					this.OnRealNameChanging(value);
+					this.SendPropertyChanging();
+					this._RealName = value;
+					this.SendPropertyChanged("RealName");
+					this.OnRealNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Birthday", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Birthday
+		{
+			get
+			{
+				return this._Birthday;
+			}
+			set
+			{
+				if ((this._Birthday != value))
+				{
+					this.OnBirthdayChanging(value);
+					this.SendPropertyChanging();
+					this._Birthday = value;
+					this.SendPropertyChanged("Birthday");
+					this.OnBirthdayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="Bit")]
+		public System.Nullable<bool> Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this.OnGenderChanging(value);
+					this.SendPropertyChanging();
+					this._Gender = value;
+					this.SendPropertyChanged("Gender");
+					this.OnGenderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(50)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Photo", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Photo
+		{
+			get
+			{
+				return this._Photo;
+			}
+			set
+			{
+				if ((this._Photo != value))
+				{
+					this.OnPhotoChanging(value);
+					this.SendPropertyChanging();
+					this._Photo = value;
+					this.SendPropertyChanged("Photo");
+					this.OnPhotoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(200)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
 				}
 			}
 		}
@@ -3241,7 +3387,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private EntitySet<aspnet_UsersInRole> _aspnet_UsersInRoles;
 		
-		private EntitySet<UserManagement_GVCNUser> _UserManagement_GVCNUsers;
+		private EntitySet<LopHoc_GVCN> _LopHoc_GVCNs;
+		
+		private EntitySet<LopHoc_MonHocTKB> _LopHoc_MonHocTKBs;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -3271,7 +3419,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 			this._aspnet_PersonalizationPerUsers = new EntitySet<aspnet_PersonalizationPerUser>(new Action<aspnet_PersonalizationPerUser>(this.attach_aspnet_PersonalizationPerUsers), new Action<aspnet_PersonalizationPerUser>(this.detach_aspnet_PersonalizationPerUsers));
 			this._aspnet_Profile = default(EntityRef<aspnet_Profile>);
 			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
-			this._UserManagement_GVCNUsers = new EntitySet<UserManagement_GVCNUser>(new Action<UserManagement_GVCNUser>(this.attach_UserManagement_GVCNUsers), new Action<UserManagement_GVCNUser>(this.detach_UserManagement_GVCNUsers));
+			this._LopHoc_GVCNs = new EntitySet<LopHoc_GVCN>(new Action<LopHoc_GVCN>(this.attach_LopHoc_GVCNs), new Action<LopHoc_GVCN>(this.detach_LopHoc_GVCNs));
+			this._LopHoc_MonHocTKBs = new EntitySet<LopHoc_MonHocTKB>(new Action<LopHoc_MonHocTKB>(this.attach_LopHoc_MonHocTKBs), new Action<LopHoc_MonHocTKB>(this.detach_LopHoc_MonHocTKBs));
 			this._aspnet_Application = default(EntityRef<aspnet_Application>);
 			OnCreated();
 		}
@@ -3504,16 +3653,29 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_GVCNUser", Storage="_UserManagement_GVCNUsers", ThisKey="UserId", OtherKey="UserId")]
-		public EntitySet<UserManagement_GVCNUser> UserManagement_GVCNUsers
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_LopHoc_GVCN", Storage="_LopHoc_GVCNs", ThisKey="UserId", OtherKey="TeacherId")]
+		public EntitySet<LopHoc_GVCN> LopHoc_GVCNs
 		{
 			get
 			{
-				return this._UserManagement_GVCNUsers;
+				return this._LopHoc_GVCNs;
 			}
 			set
 			{
-				this._UserManagement_GVCNUsers.Assign(value);
+				this._LopHoc_GVCNs.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_LopHoc_MonHocTKB", Storage="_LopHoc_MonHocTKBs", ThisKey="UserId", OtherKey="TeacherId")]
+		public EntitySet<LopHoc_MonHocTKB> LopHoc_MonHocTKBs
+		{
+			get
+			{
+				return this._LopHoc_MonHocTKBs;
+			}
+			set
+			{
+				this._LopHoc_MonHocTKBs.Assign(value);
 			}
 		}
 		
@@ -3595,13 +3757,25 @@ namespace SoLienLacTrucTuyen.DataAccess
 			entity.aspnet_User = null;
 		}
 		
-		private void attach_UserManagement_GVCNUsers(UserManagement_GVCNUser entity)
+		private void attach_LopHoc_GVCNs(LopHoc_GVCN entity)
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_User = this;
 		}
 		
-		private void detach_UserManagement_GVCNUsers(UserManagement_GVCNUser entity)
+		private void detach_LopHoc_GVCNs(LopHoc_GVCN entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
+		}
+		
+		private void attach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_User = null;
@@ -5464,357 +5638,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.DanhMuc_DanhHieu = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DanhMuc_GiaoVien")]
-	public partial class DanhMuc_GiaoVien : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _MaGiaoVien;
-		
-		private string _MaHienThiGiaoVien;
-		
-		private string _HoTen;
-		
-		private System.DateTime _NgaySinh;
-		
-		private bool _GioiTinh;
-		
-		private string _DiaChi;
-		
-		private string _DienThoai;
-		
-		private System.Data.Linq.Binary _HinhAnh;
-		
-		private int _SchoolId;
-		
-		private EntitySet<LopHoc_GVCN> _LopHoc_GVCNs;
-		
-		private EntitySet<LopHoc_MonHocTKB> _LopHoc_MonHocTKBs;
-		
-		private EntityRef<School> _School;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnMaGiaoVienChanging(int value);
-    partial void OnMaGiaoVienChanged();
-    partial void OnMaHienThiGiaoVienChanging(string value);
-    partial void OnMaHienThiGiaoVienChanged();
-    partial void OnHoTenChanging(string value);
-    partial void OnHoTenChanged();
-    partial void OnNgaySinhChanging(System.DateTime value);
-    partial void OnNgaySinhChanged();
-    partial void OnGioiTinhChanging(bool value);
-    partial void OnGioiTinhChanged();
-    partial void OnDiaChiChanging(string value);
-    partial void OnDiaChiChanged();
-    partial void OnDienThoaiChanging(string value);
-    partial void OnDienThoaiChanged();
-    partial void OnHinhAnhChanging(System.Data.Linq.Binary value);
-    partial void OnHinhAnhChanged();
-    partial void OnSchoolIdChanging(int value);
-    partial void OnSchoolIdChanged();
-    #endregion
-		
-		public DanhMuc_GiaoVien()
-		{
-			this._LopHoc_GVCNs = new EntitySet<LopHoc_GVCN>(new Action<LopHoc_GVCN>(this.attach_LopHoc_GVCNs), new Action<LopHoc_GVCN>(this.detach_LopHoc_GVCNs));
-			this._LopHoc_MonHocTKBs = new EntitySet<LopHoc_MonHocTKB>(new Action<LopHoc_MonHocTKB>(this.attach_LopHoc_MonHocTKBs), new Action<LopHoc_MonHocTKB>(this.detach_LopHoc_MonHocTKBs));
-			this._School = default(EntityRef<School>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGiaoVien", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MaGiaoVien
-		{
-			get
-			{
-				return this._MaGiaoVien;
-			}
-			set
-			{
-				if ((this._MaGiaoVien != value))
-				{
-					this.OnMaGiaoVienChanging(value);
-					this.SendPropertyChanging();
-					this._MaGiaoVien = value;
-					this.SendPropertyChanged("MaGiaoVien");
-					this.OnMaGiaoVienChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaHienThiGiaoVien", DbType="NVarChar(20) NOT NULL", CanBeNull=false)]
-		public string MaHienThiGiaoVien
-		{
-			get
-			{
-				return this._MaHienThiGiaoVien;
-			}
-			set
-			{
-				if ((this._MaHienThiGiaoVien != value))
-				{
-					this.OnMaHienThiGiaoVienChanging(value);
-					this.SendPropertyChanging();
-					this._MaHienThiGiaoVien = value;
-					this.SendPropertyChanged("MaHienThiGiaoVien");
-					this.OnMaHienThiGiaoVienChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoTen", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string HoTen
-		{
-			get
-			{
-				return this._HoTen;
-			}
-			set
-			{
-				if ((this._HoTen != value))
-				{
-					this.OnHoTenChanging(value);
-					this.SendPropertyChanging();
-					this._HoTen = value;
-					this.SendPropertyChanged("HoTen");
-					this.OnHoTenChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySinh", DbType="DateTime NOT NULL")]
-		public System.DateTime NgaySinh
-		{
-			get
-			{
-				return this._NgaySinh;
-			}
-			set
-			{
-				if ((this._NgaySinh != value))
-				{
-					this.OnNgaySinhChanging(value);
-					this.SendPropertyChanging();
-					this._NgaySinh = value;
-					this.SendPropertyChanged("NgaySinh");
-					this.OnNgaySinhChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioiTinh", DbType="Bit NOT NULL")]
-		public bool GioiTinh
-		{
-			get
-			{
-				return this._GioiTinh;
-			}
-			set
-			{
-				if ((this._GioiTinh != value))
-				{
-					this.OnGioiTinhChanging(value);
-					this.SendPropertyChanging();
-					this._GioiTinh = value;
-					this.SendPropertyChanged("GioiTinh");
-					this.OnGioiTinhChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaChi", DbType="NVarChar(200)")]
-		public string DiaChi
-		{
-			get
-			{
-				return this._DiaChi;
-			}
-			set
-			{
-				if ((this._DiaChi != value))
-				{
-					this.OnDiaChiChanging(value);
-					this.SendPropertyChanging();
-					this._DiaChi = value;
-					this.SendPropertyChanged("DiaChi");
-					this.OnDiaChiChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DienThoai", DbType="NVarChar(20)")]
-		public string DienThoai
-		{
-			get
-			{
-				return this._DienThoai;
-			}
-			set
-			{
-				if ((this._DienThoai != value))
-				{
-					this.OnDienThoaiChanging(value);
-					this.SendPropertyChanging();
-					this._DienThoai = value;
-					this.SendPropertyChanged("DienThoai");
-					this.OnDienThoaiChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HinhAnh", DbType="Image", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary HinhAnh
-		{
-			get
-			{
-				return this._HinhAnh;
-			}
-			set
-			{
-				if ((this._HinhAnh != value))
-				{
-					this.OnHinhAnhChanging(value);
-					this.SendPropertyChanging();
-					this._HinhAnh = value;
-					this.SendPropertyChanged("HinhAnh");
-					this.OnHinhAnhChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
-		public int SchoolId
-		{
-			get
-			{
-				return this._SchoolId;
-			}
-			set
-			{
-				if ((this._SchoolId != value))
-				{
-					if (this._School.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSchoolIdChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_GVCN", Storage="_LopHoc_GVCNs", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien")]
-		public EntitySet<LopHoc_GVCN> LopHoc_GVCNs
-		{
-			get
-			{
-				return this._LopHoc_GVCNs;
-			}
-			set
-			{
-				this._LopHoc_GVCNs.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_MonHocTKB", Storage="_LopHoc_MonHocTKBs", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien")]
-		public EntitySet<LopHoc_MonHocTKB> LopHoc_MonHocTKBs
-		{
-			get
-			{
-				return this._LopHoc_MonHocTKBs;
-			}
-			set
-			{
-				this._LopHoc_MonHocTKBs.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_GiaoVien", Storage="_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
-		public School School
-		{
-			get
-			{
-				return this._School.Entity;
-			}
-			set
-			{
-				School previousValue = this._School.Entity;
-				if (((previousValue != value) 
-							|| (this._School.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._School.Entity = null;
-						previousValue.DanhMuc_GiaoViens.Remove(this);
-					}
-					this._School.Entity = value;
-					if ((value != null))
-					{
-						value.DanhMuc_GiaoViens.Add(this);
-						this._SchoolId = value.SchoolId;
-					}
-					else
-					{
-						this._SchoolId = default(int);
-					}
-					this.SendPropertyChanged("School");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_LopHoc_GVCNs(LopHoc_GVCN entity)
-		{
-			this.SendPropertyChanging();
-			entity.DanhMuc_GiaoVien = this;
-		}
-		
-		private void detach_LopHoc_GVCNs(LopHoc_GVCN entity)
-		{
-			this.SendPropertyChanging();
-			entity.DanhMuc_GiaoVien = null;
-		}
-		
-		private void attach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
-		{
-			this.SendPropertyChanging();
-			entity.DanhMuc_GiaoVien = this;
-		}
-		
-		private void detach_LopHoc_MonHocTKBs(LopHoc_MonHocTKB entity)
-		{
-			this.SendPropertyChanging();
-			entity.DanhMuc_GiaoVien = null;
 		}
 	}
 	
@@ -11285,11 +11108,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _MaLopHoc;
 		
-		private int _MaGiaoVien;
+		private System.Guid _TeacherId;
 		
-		private EntitySet<UserManagement_GVCNUser> _UserManagement_GVCNUsers;
-		
-		private EntityRef<DanhMuc_GiaoVien> _DanhMuc_GiaoVien;
+		private EntityRef<aspnet_User> _aspnet_User;
 		
 		private EntityRef<LopHoc_Lop> _LopHoc_Lop;
 		
@@ -11301,14 +11122,13 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaGVCNChanged();
     partial void OnMaLopHocChanging(int value);
     partial void OnMaLopHocChanged();
-    partial void OnMaGiaoVienChanging(int value);
-    partial void OnMaGiaoVienChanged();
+    partial void OnTeacherIdChanging(System.Guid value);
+    partial void OnTeacherIdChanged();
     #endregion
 		
 		public LopHoc_GVCN()
 		{
-			this._UserManagement_GVCNUsers = new EntitySet<UserManagement_GVCNUser>(new Action<UserManagement_GVCNUser>(this.attach_UserManagement_GVCNUsers), new Action<UserManagement_GVCNUser>(this.detach_UserManagement_GVCNUsers));
-			this._DanhMuc_GiaoVien = default(EntityRef<DanhMuc_GiaoVien>);
+			this._aspnet_User = default(EntityRef<aspnet_User>);
 			this._LopHoc_Lop = default(EntityRef<LopHoc_Lop>);
 			OnCreated();
 		}
@@ -11357,73 +11177,60 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGiaoVien", DbType="Int NOT NULL")]
-		public int MaGiaoVien
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeacherId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid TeacherId
 		{
 			get
 			{
-				return this._MaGiaoVien;
+				return this._TeacherId;
 			}
 			set
 			{
-				if ((this._MaGiaoVien != value))
+				if ((this._TeacherId != value))
 				{
-					if (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue)
+					if (this._aspnet_User.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnMaGiaoVienChanging(value);
+					this.OnTeacherIdChanging(value);
 					this.SendPropertyChanging();
-					this._MaGiaoVien = value;
-					this.SendPropertyChanged("MaGiaoVien");
-					this.OnMaGiaoVienChanged();
+					this._TeacherId = value;
+					this.SendPropertyChanged("TeacherId");
+					this.OnTeacherIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LopHoc_GVCN_UserManagement_GVCNUser", Storage="_UserManagement_GVCNUsers", ThisKey="MaGVCN", OtherKey="MaGVCN")]
-		public EntitySet<UserManagement_GVCNUser> UserManagement_GVCNUsers
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_LopHoc_GVCN", Storage="_aspnet_User", ThisKey="TeacherId", OtherKey="UserId", IsForeignKey=true)]
+		public aspnet_User aspnet_User
 		{
 			get
 			{
-				return this._UserManagement_GVCNUsers;
+				return this._aspnet_User.Entity;
 			}
 			set
 			{
-				this._UserManagement_GVCNUsers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_GVCN", Storage="_DanhMuc_GiaoVien", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien", IsForeignKey=true)]
-		public DanhMuc_GiaoVien DanhMuc_GiaoVien
-		{
-			get
-			{
-				return this._DanhMuc_GiaoVien.Entity;
-			}
-			set
-			{
-				DanhMuc_GiaoVien previousValue = this._DanhMuc_GiaoVien.Entity;
+				aspnet_User previousValue = this._aspnet_User.Entity;
 				if (((previousValue != value) 
-							|| (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue == false)))
+							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._DanhMuc_GiaoVien.Entity = null;
+						this._aspnet_User.Entity = null;
 						previousValue.LopHoc_GVCNs.Remove(this);
 					}
-					this._DanhMuc_GiaoVien.Entity = value;
+					this._aspnet_User.Entity = value;
 					if ((value != null))
 					{
 						value.LopHoc_GVCNs.Add(this);
-						this._MaGiaoVien = value.MaGiaoVien;
+						this._TeacherId = value.UserId;
 					}
 					else
 					{
-						this._MaGiaoVien = default(int);
+						this._TeacherId = default(System.Guid);
 					}
-					this.SendPropertyChanged("DanhMuc_GiaoVien");
+					this.SendPropertyChanged("aspnet_User");
 				}
 			}
 		}
@@ -11480,18 +11287,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_UserManagement_GVCNUsers(UserManagement_GVCNUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.LopHoc_GVCN = this;
-		}
-		
-		private void detach_UserManagement_GVCNUsers(UserManagement_GVCNUser entity)
-		{
-			this.SendPropertyChanging();
-			entity.LopHoc_GVCN = null;
 		}
 	}
 	
@@ -11997,7 +11792,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _MaMonHoc;
 		
-		private int _MaGiaoVien;
+		private System.Guid _TeacherId;
+		
+		private EntityRef<aspnet_User> _aspnet_User;
 		
 		private EntityRef<CauHinh_Buoi> _CauHinh_Buoi;
 		
@@ -12008,8 +11805,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		private EntityRef<DanhMuc_MonHoc> _DanhMuc_MonHoc;
 		
 		private EntityRef<DanhMuc_Tiet> _DanhMuc_Tiet;
-		
-		private EntityRef<DanhMuc_GiaoVien> _DanhMuc_GiaoVien;
 		
 		private EntityRef<LopHoc_Lop> _LopHoc_Lop;
 		
@@ -12031,18 +11826,18 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnMaLopHocChanged();
     partial void OnMaMonHocChanging(int value);
     partial void OnMaMonHocChanged();
-    partial void OnMaGiaoVienChanging(int value);
-    partial void OnMaGiaoVienChanged();
+    partial void OnTeacherIdChanging(System.Guid value);
+    partial void OnTeacherIdChanged();
     #endregion
 		
 		public LopHoc_MonHocTKB()
 		{
+			this._aspnet_User = default(EntityRef<aspnet_User>);
 			this._CauHinh_Buoi = default(EntityRef<CauHinh_Buoi>);
 			this._CauHinh_HocKy = default(EntityRef<CauHinh_HocKy>);
 			this._CauHinh_Thu = default(EntityRef<CauHinh_Thu>);
 			this._DanhMuc_MonHoc = default(EntityRef<DanhMuc_MonHoc>);
 			this._DanhMuc_Tiet = default(EntityRef<DanhMuc_Tiet>);
-			this._DanhMuc_GiaoVien = default(EntityRef<DanhMuc_GiaoVien>);
 			this._LopHoc_Lop = default(EntityRef<LopHoc_Lop>);
 			OnCreated();
 		}
@@ -12211,26 +12006,60 @@ namespace SoLienLacTrucTuyen.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGiaoVien", DbType="Int NOT NULL")]
-		public int MaGiaoVien
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeacherId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid TeacherId
 		{
 			get
 			{
-				return this._MaGiaoVien;
+				return this._TeacherId;
 			}
 			set
 			{
-				if ((this._MaGiaoVien != value))
+				if ((this._TeacherId != value))
 				{
-					if (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue)
+					if (this._aspnet_User.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnMaGiaoVienChanging(value);
+					this.OnTeacherIdChanging(value);
 					this.SendPropertyChanging();
-					this._MaGiaoVien = value;
-					this.SendPropertyChanged("MaGiaoVien");
-					this.OnMaGiaoVienChanged();
+					this._TeacherId = value;
+					this.SendPropertyChanged("TeacherId");
+					this.OnTeacherIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_LopHoc_MonHocTKB", Storage="_aspnet_User", ThisKey="TeacherId", OtherKey="UserId", IsForeignKey=true)]
+		public aspnet_User aspnet_User
+		{
+			get
+			{
+				return this._aspnet_User.Entity;
+			}
+			set
+			{
+				aspnet_User previousValue = this._aspnet_User.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_User.Entity = null;
+						previousValue.LopHoc_MonHocTKBs.Remove(this);
+					}
+					this._aspnet_User.Entity = value;
+					if ((value != null))
+					{
+						value.LopHoc_MonHocTKBs.Add(this);
+						this._TeacherId = value.UserId;
+					}
+					else
+					{
+						this._TeacherId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_User");
 				}
 			}
 		}
@@ -12401,40 +12230,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 						this._MaTiet = default(int);
 					}
 					this.SendPropertyChanged("DanhMuc_Tiet");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DanhMuc_GiaoVien_LopHoc_MonHocTKB", Storage="_DanhMuc_GiaoVien", ThisKey="MaGiaoVien", OtherKey="MaGiaoVien", IsForeignKey=true)]
-		public DanhMuc_GiaoVien DanhMuc_GiaoVien
-		{
-			get
-			{
-				return this._DanhMuc_GiaoVien.Entity;
-			}
-			set
-			{
-				DanhMuc_GiaoVien previousValue = this._DanhMuc_GiaoVien.Entity;
-				if (((previousValue != value) 
-							|| (this._DanhMuc_GiaoVien.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DanhMuc_GiaoVien.Entity = null;
-						previousValue.LopHoc_MonHocTKBs.Remove(this);
-					}
-					this._DanhMuc_GiaoVien.Entity = value;
-					if ((value != null))
-					{
-						value.LopHoc_MonHocTKBs.Add(this);
-						this._MaGiaoVien = value.MaGiaoVien;
-					}
-					else
-					{
-						this._MaGiaoVien = default(int);
-					}
-					this.SendPropertyChanged("DanhMuc_GiaoVien");
 				}
 			}
 		}
@@ -12778,8 +12573,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private EntitySet<DanhMuc_DanhHieu> _DanhMuc_DanhHieus;
 		
-		private EntitySet<DanhMuc_GiaoVien> _DanhMuc_GiaoViens;
-		
 		private EntitySet<DanhMuc_HanhKiem> _DanhMuc_HanhKiems;
 		
 		private EntitySet<DanhMuc_HocLuc> _DanhMuc_HocLucs;
@@ -12817,7 +12610,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
 			this._aspnet_Memberships = new EntitySet<aspnet_Membership>(new Action<aspnet_Membership>(this.attach_aspnet_Memberships), new Action<aspnet_Membership>(this.detach_aspnet_Memberships));
 			this._DanhMuc_DanhHieus = new EntitySet<DanhMuc_DanhHieu>(new Action<DanhMuc_DanhHieu>(this.attach_DanhMuc_DanhHieus), new Action<DanhMuc_DanhHieu>(this.detach_DanhMuc_DanhHieus));
-			this._DanhMuc_GiaoViens = new EntitySet<DanhMuc_GiaoVien>(new Action<DanhMuc_GiaoVien>(this.attach_DanhMuc_GiaoViens), new Action<DanhMuc_GiaoVien>(this.detach_DanhMuc_GiaoViens));
 			this._DanhMuc_HanhKiems = new EntitySet<DanhMuc_HanhKiem>(new Action<DanhMuc_HanhKiem>(this.attach_DanhMuc_HanhKiems), new Action<DanhMuc_HanhKiem>(this.detach_DanhMuc_HanhKiems));
 			this._DanhMuc_HocLucs = new EntitySet<DanhMuc_HocLuc>(new Action<DanhMuc_HocLuc>(this.attach_DanhMuc_HocLucs), new Action<DanhMuc_HocLuc>(this.detach_DanhMuc_HocLucs));
 			this._DanhMuc_KhoiLops = new EntitySet<DanhMuc_KhoiLop>(new Action<DanhMuc_KhoiLop>(this.attach_DanhMuc_KhoiLops), new Action<DanhMuc_KhoiLop>(this.detach_DanhMuc_KhoiLops));
@@ -12946,19 +12738,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			set
 			{
 				this._DanhMuc_DanhHieus.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_DanhMuc_GiaoVien", Storage="_DanhMuc_GiaoViens", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<DanhMuc_GiaoVien> DanhMuc_GiaoViens
-		{
-			get
-			{
-				return this._DanhMuc_GiaoViens;
-			}
-			set
-			{
-				this._DanhMuc_GiaoViens.Assign(value);
 			}
 		}
 		
@@ -13135,18 +12914,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 			entity.School = null;
 		}
 		
-		private void attach_DanhMuc_GiaoViens(DanhMuc_GiaoVien entity)
-		{
-			this.SendPropertyChanging();
-			entity.School = this;
-		}
-		
-		private void detach_DanhMuc_GiaoViens(DanhMuc_GiaoVien entity)
-		{
-			this.SendPropertyChanging();
-			entity.School = null;
-		}
-		
 		private void attach_DanhMuc_HanhKiems(DanhMuc_HanhKiem entity)
 		{
 			this.SendPropertyChanging();
@@ -13264,6 +13031,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.Guid _ParentsRoleId;
 		
+		private System.Guid _RoleTeacher;
+		
 		private System.Guid _RoleGVCNId;
 		
 		private System.Guid _RoleGVBMId;
@@ -13310,6 +13079,22 @@ namespace SoLienLacTrucTuyen.DataAccess
 				if ((this._ParentsRoleId != value))
 				{
 					this._ParentsRoleId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleTeacher", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid RoleTeacher
+		{
+			get
+			{
+				return this._RoleTeacher;
+			}
+			set
+			{
+				if ((this._RoleTeacher != value))
+				{
+					this._RoleTeacher = value;
 				}
 			}
 		}
@@ -14253,174 +14038,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.UserManagement_Function = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_GVCNUsers")]
-	public partial class UserManagement_GVCNUser : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UserId;
-		
-		private int _MaGVCN;
-		
-		private EntityRef<aspnet_User> _aspnet_User;
-		
-		private EntityRef<LopHoc_GVCN> _LopHoc_GVCN;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUserIdChanging(System.Guid value);
-    partial void OnUserIdChanged();
-    partial void OnMaGVCNChanging(int value);
-    partial void OnMaGVCNChanged();
-    #endregion
-		
-		public UserManagement_GVCNUser()
-		{
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			this._LopHoc_GVCN = default(EntityRef<LopHoc_GVCN>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					if (this._aspnet_User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGVCN", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int MaGVCN
-		{
-			get
-			{
-				return this._MaGVCN;
-			}
-			set
-			{
-				if ((this._MaGVCN != value))
-				{
-					if (this._LopHoc_GVCN.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMaGVCNChanging(value);
-					this.SendPropertyChanging();
-					this._MaGVCN = value;
-					this.SendPropertyChanged("MaGVCN");
-					this.OnMaGVCNChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_GVCNUser", Storage="_aspnet_User", ThisKey="UserId", OtherKey="UserId", IsForeignKey=true)]
-		public aspnet_User aspnet_User
-		{
-			get
-			{
-				return this._aspnet_User.Entity;
-			}
-			set
-			{
-				aspnet_User previousValue = this._aspnet_User.Entity;
-				if (((previousValue != value) 
-							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._aspnet_User.Entity = null;
-						previousValue.UserManagement_GVCNUsers.Remove(this);
-					}
-					this._aspnet_User.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_GVCNUsers.Add(this);
-						this._UserId = value.UserId;
-					}
-					else
-					{
-						this._UserId = default(System.Guid);
-					}
-					this.SendPropertyChanged("aspnet_User");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LopHoc_GVCN_UserManagement_GVCNUser", Storage="_LopHoc_GVCN", ThisKey="MaGVCN", OtherKey="MaGVCN", IsForeignKey=true)]
-		public LopHoc_GVCN LopHoc_GVCN
-		{
-			get
-			{
-				return this._LopHoc_GVCN.Entity;
-			}
-			set
-			{
-				LopHoc_GVCN previousValue = this._LopHoc_GVCN.Entity;
-				if (((previousValue != value) 
-							|| (this._LopHoc_GVCN.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._LopHoc_GVCN.Entity = null;
-						previousValue.UserManagement_GVCNUsers.Remove(this);
-					}
-					this._LopHoc_GVCN.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_GVCNUsers.Add(this);
-						this._MaGVCN = value.MaGVCN;
-					}
-					else
-					{
-						this._MaGVCN = default(int);
-					}
-					this.SendPropertyChanged("LopHoc_GVCN");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	

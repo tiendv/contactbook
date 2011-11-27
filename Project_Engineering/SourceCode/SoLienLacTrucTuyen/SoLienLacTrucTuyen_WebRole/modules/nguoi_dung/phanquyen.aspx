@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="phanquyen.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.PhanQuyen" %>
+    CodeBehind="phanquyen.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.AuthenticationPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">

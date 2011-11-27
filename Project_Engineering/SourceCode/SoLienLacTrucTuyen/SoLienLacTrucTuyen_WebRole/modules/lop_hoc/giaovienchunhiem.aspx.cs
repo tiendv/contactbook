@@ -14,8 +14,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class FormerTeacherPage : BaseContentPage
     {
         #region Fields
-        private FormerTeacherBL giaoVienChuNhiemBL;
-        private ClassBL lopHocBL;
+        private FormerTeacherBL formerTeacherBL;
+        private ClassBL classBL;
         private bool isSearch;
         #endregion
 
@@ -28,8 +28,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             } 
             
-            giaoVienChuNhiemBL = new FormerTeacherBL(UserSchool);
-            lopHocBL = new ClassBL(UserSchool);
+            formerTeacherBL = new FormerTeacherBL(UserSchool);
+            classBL = new ClassBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -38,7 +38,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 if (DdlLopHoc.Items.Count != 0)
                 {
-                    BindRepeater();
+                    BindRptTeachers();
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         TabularFormerTeacher giaoVienChuNhiem = (TabularFormerTeacher)e.Item.DataItem;
                         if (giaoVienChuNhiem != null)
                         {
-                            int maGiaoVien = giaoVienChuNhiem.MaGiaoVien;
+                            Guid maGiaoVien = giaoVienChuNhiem.MaGiaoVien;
                             HyperLink hlkTenGVCN = (HyperLink)e.Item.FindControl("HlkTenGVCN");
                             hlkTenGVCN.NavigateUrl = string.Format("/modules/danh_muc/giao_vien/chitietgiaovien.aspx?giaovien={0}", maGiaoVien);
 
@@ -178,7 +178,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRepeater();
+            BindRptTeachers();
         }
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
@@ -191,10 +191,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maGVCN = Int32.Parse(this.HdfMaGVCN.Value);
             LopHoc_GVCN formerTeacher = new LopHoc_GVCN();
             formerTeacher.MaGVCN = maGVCN;
-            giaoVienChuNhiemBL.Delete(formerTeacher);
+            formerTeacherBL.Delete(formerTeacher);
             isSearch = false;
             BindDropDownListLopHoc();
-            BindRepeater();
+            BindRptTeachers();
         }
         #endregion
 
@@ -203,7 +203,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRepeater();
+            BindRptTeachers();
         }
         #endregion
 
@@ -221,7 +221,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindRepeater()
+        private void BindRptTeachers()
         {
             CauHinh_NamHoc year = null;
             DanhMuc_NganhHoc faculty = null;
@@ -260,7 +260,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string maGVCN = TxtMaGVCN.Text.Trim();
             double dTotalRecords = 0;
 
-            List<TabularFormerTeacher> lstTbGVCN = giaoVienChuNhiemBL.GetListFormerTeachers(
+            List<TabularFormerTeacher> lstTbGVCN = formerTeacherBL.GetListFormerTeachers(
                 year, faculty, grade, Class, maGVCN, tenGVCN,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
@@ -268,7 +268,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (lstTbGVCN.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRepeater();
+                BindRptTeachers();
                 return;
             }
 
@@ -398,7 +398,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
+            List<LopHoc_Lop> lstLop = classBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";

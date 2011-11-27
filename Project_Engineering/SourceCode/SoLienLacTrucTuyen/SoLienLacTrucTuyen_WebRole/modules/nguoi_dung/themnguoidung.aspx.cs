@@ -18,25 +18,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private RoleBL roleBL;
         private UserBL userBL;
-        private StudentBL studentBL;
-
-        public string SeletedRole
+        private const string STEP_SELECTEDROLE_DDLROLE = "DdlRoles";
+        private const string STEP_SELECTEDROLE_LBLSTEPERROR = "LblStepError";
+        private const string VIEWSTATE_ISCHOSEROLEPARENTS = "IsChoseRoleParents";
+        private const string VIEWSTATE_ISCHOSEROLETEACHERS = "IsChoseRoleTeachers";
+        public Guid SeletedRoleId
         {
             get
             {
-                if (ViewState["SeletedRole"] != null)
+                Guid roleId = new Guid();
+                if (ViewState[AppConstant.VIEWSTATE_ROLE] != null)
                 {
-                    return ViewState["SeletedRole"].ToString();
+                    roleId = new Guid(ViewState[AppConstant.VIEWSTATE_ROLE].ToString());
                 }
-                else
-                {
-                    return "";
-                }
+
+                return roleId;
             }
 
             set
             {
-                ViewState["SeletedRole"] = value;
+                ViewState[AppConstant.VIEWSTATE_ROLE] = value;
             }
         }
         #endregion
@@ -51,16 +52,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             userBL = new UserBL(UserSchool);
-            studentBL = new StudentBL(UserSchool);
             roleBL = new RoleBL(UserSchool);
+
             if (!Page.IsPostBack)
             {
                 BindDDLRoles();
 
-                DropDownList DdlRoles = (DropDownList)SeleteRoleStep.FindControl("DdlRoles");
+                DropDownList DdlRoles = (DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE);
                 if (DdlRoles.Items.Count != 0)
                 {
-                    SeletedRole = DdlRoles.Items[0].Value;
                     ProcessUI();
                 }
             }
@@ -70,14 +70,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDDLRoles()
         {
-            List<aspnet_Role> roles = roleBL.GetRolesForAddingUser();
-
-            DropDownList ddlRoles = (DropDownList)SeleteRoleStep.FindControl("DdlRoles");
+            List<TabularRole> roles = roleBL.GetTabularRoles();
+            DropDownList ddlRoles = (DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE);
             ddlRoles.DataSource = roles;
-            ddlRoles.DataValueField = "RoleName";
-            ddlRoles.DataTextField = "RoleName";
+            ddlRoles.DataValueField = "RoleId";
+            ddlRoles.DataTextField = "DisplayedName";
             ddlRoles.DataBind();
-            ddlRoles.Items.Add(new ListItem("Giáo viên", "Giáo viên"));
+
+            SeletedRoleId = new Guid(DdlRoles.Items[0].Value);
         }
 
         private void BackPrevPage()
@@ -94,38 +94,58 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcessUI()
         {
-            string strSltRoleName = ((DropDownList)SeleteRoleStep.FindControl("DdlRoles")).SelectedValue;
-            SeletedRole = strSltRoleName;
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+            aspnet_Role role = null;
+            Guid roleId = new Guid(((DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE)).SelectedValue);
+            SeletedRoleId = roleId;
+            role = new aspnet_Role();
+            role.RoleId = roleId;
+
+            string strRoleName = ((DropDownList)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_DDLROLE)).SelectedItem.Text;
 
             ImageButton NextButton = (ImageButton)RegisterUserWizard.FindControl("StartNavigationTemplateContainerID").FindControl("StartNextButton");
-            NextButton.Visible = true;
-            Label lblStepError = (Label)SeleteRoleStep.FindControl("LblStepError");
-            lblStepError.Text = "";
+            NextButton.Visible = true; // default
+            Label lblStepError = (Label)SeleteRoleStep.FindControl(STEP_SELECTEDROLE_LBLSTEPERROR);
+            lblStepError.Text = ""; // default
 
             Control container = CreateUserStep.ContentTemplateContainer;
-            ((Label)container.FindControl("LblSelectedRole")).Text = SeletedRole;
-            ((Label)container.FindControl("LblTenNguoiDung")).Text = "Tên người dùng:";
+            ((Label)container.FindControl("LblSelectedRole")).Text = strRoleName;
+            Label lblUserName = ((Label)container.FindControl("LblTenNguoiDung"));
             ((RequiredFieldValidator)container.FindControl("RealNameRequired")).Enabled = true;
             ((HtmlTableRow)container.FindControl("HtmlTrThoiHan")).Style.Add(HtmlTextWriterStyle.Display, "none");
             ((HtmlTableRow)container.FindControl("HtmlTrTenThat")).Style.Add(HtmlTextWriterStyle.Display, "block");
 
-            ViewState["SeletedRoleParents"] = false;
-
             MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl("MultiViewCtrl");
             multiViewCtrl.ActiveViewIndex = 0;
 
-            if (roleBL.IsRolePARENTS(strSltRoleName))
+            if (authorizationBL.IsRolePARENTS(role))
             {
+                lblUserName.Text = "Mã học sinh:";
                 multiViewCtrl.ActiveViewIndex = 1;
                 Repeater rptRoleBasedFunctions = (Repeater)multiViewCtrl.FindControl("RptRoleBasedFunctions");
-                rptRoleBasedFunctions.DataSource = roleBL.GetListRoleParentsBasedFunctions();
+                rptRoleBasedFunctions.DataSource = authorizationBL.GetListRoleParentsBasedFunctions();
                 rptRoleBasedFunctions.DataBind();
 
-                ((Label)container.FindControl("LblTenNguoiDung")).Text = "Mã học sinh:";
                 ((RequiredFieldValidator)container.FindControl("RealNameRequired")).Enabled = false;
-                ((HtmlTableRow)container.FindControl("HtmlTrThoiHan")).Style.Add(HtmlTextWriterStyle.Display, "block");
-                ((HtmlTableRow)container.FindControl("HtmlTrTenThat")).Style.Add(HtmlTextWriterStyle.Display, "none");
-                ViewState["SeletedRoleParents"] = true;
+                ((HtmlTableRow)container.FindControl("HtmlTrThoiHan")).Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
+                ((HtmlTableRow)container.FindControl("HtmlTrTenThat")).Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
+                ViewState[VIEWSTATE_ISCHOSEROLEPARENTS] = true;
+                ViewState[VIEWSTATE_ISCHOSEROLETEACHERS] = false;
+            }
+            else
+            {
+                ViewState[VIEWSTATE_ISCHOSEROLEPARENTS] = false;
+
+                if (authorizationBL.IsRoleTeachers(role))
+                {
+                    lblUserName.Text = "Mã giáo viên:";
+                    ViewState[VIEWSTATE_ISCHOSEROLETEACHERS] = true;
+                }
+                else
+                {
+                    lblUserName.Text = "Tên người dùng:";
+                    ViewState[VIEWSTATE_ISCHOSEROLETEACHERS] = false;
+                }
             }
         }
         #endregion
@@ -153,11 +173,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            string roleName = roleBL.GetChildRoleParentsByFunctions(functionIds);
-            if (roleName != "")
-            {
-                SeletedRole = roleName;
-            }
+            //string roleName = roleBL.GetChildRoleParentsByFunctions(functionIds);
+            //if (roleName != "")
+            //{
+            //    SeletedRoleId = roleName;
+            //}
 
         }
         #endregion
@@ -165,25 +185,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region CreateUserWizard event handlers
         protected void RegisterUserWizard_CreatingUser(object sender, LoginCancelEventArgs e)
         {
+            // Make actual UserName
             StringBuilder strB = new StringBuilder();
-            strB.Append(User.Identity.Name.Split('-')[0]);
-            //strB.Append(UserSchool.SchoolId.ToString()); 
-            strB.Append("-");
-            strB.Append(RegisterUserWizard.UserName);
-
+            strB.Append(UserSchool.SchoolId);
+            strB.Append("_");
+            strB.Append(RegisterUserWizard.UserName);            
             RegisterUserWizard.UserName = strB.ToString();
         }
 
         protected void RegisterUserWizard_CreatedUser(object sender, EventArgs e)
         {
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+
+            // assign role to new created user
+            aspnet_Role role = new aspnet_Role();
+            role.RoleId = SeletedRoleId;
             string userName = RegisterUserWizard.UserName;
-            string roleName = SeletedRole;
+            authorizationBL.AddUserToRole(userName, role);
 
-            roleBL.AddUserToRole(userName, roleName);
-
+            // update user's membership
             aspnet_User createdUser = new aspnet_User();
             createdUser.UserName = userName;
-            //userBL.UpdateMembership(createdUser);
+            bool isTeacher = false;
+            if ((bool)ViewState[VIEWSTATE_ISCHOSEROLETEACHERS])
+            {
+                isTeacher = true;
+            }
+            userBL.UpdateMembership(createdUser, isTeacher);
         }
 
         protected void RegisterUserWizard_ContinueButtonClick(object sender, ImageClickEventArgs e)

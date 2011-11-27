@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private TeacherBL teacherBL;
         private int maGVCN;
         private int maNamHoc;
-        private int maGiaoVienHienHanh;
+        private Guid maGiaoVienHienHanh;
         private bool isSearch;
         #endregion
 
@@ -50,7 +50,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 LblLopHoc.Text = lopHoc.TenLopHoc;
-                maGiaoVienHienHanh = giaoVienChuNhiem.MaGiaoVien;
+                maGiaoVienHienHanh = giaoVienChuNhiem.TeacherId;
                 LblCurrentGiaoVienChuNhiem.Text = lopHoc.TenGVCN;
                 LblTitleTeacherList.Text = string.Format("DANH SÁCH GIÁO VIÊN CHƯA PHÂN CÔNG CHỦ NHIỆM (NĂM HỌC {0})",
                     lopHoc.TenNamHoc);
@@ -99,9 +99,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         if (rBtnSelect.Checked)
                         {
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
-                            int maGiaoVien = Int32.Parse(hdfRptMaGiaoVien.Value);
-                            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
-                            teacher.MaGiaoVien = maGiaoVien;
+                            Guid maGiaoVien = new Guid(hdfRptMaGiaoVien.Value);
+                            aspnet_User teacher = new aspnet_User();
+                            teacher.UserId = maGiaoVien;
                             giaoVienChuNhiemBL.Update(maGVCN, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }

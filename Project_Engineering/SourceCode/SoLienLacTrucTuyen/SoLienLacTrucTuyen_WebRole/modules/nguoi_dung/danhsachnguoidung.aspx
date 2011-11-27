@@ -68,12 +68,13 @@
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
                             <asp:HiddenField ID="HdfRptMaNhomNguoiDung" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
                             <asp:HiddenField ID="HdfRptTenNhomNguoiDung" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserName")%>' />
+                            <asp:HiddenField ID="HdfRptActualUserName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ActualUserName")%>' />
                         </td>
                         <td style="height: 40px;">
                             <asp:HyperLink ID="HlkTenNguoiDung" runat="server"><%#DataBinder.Eval(Container.DataItem, "UserName")%></asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "RoleName")%>
+                            <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>
                         </td>
                         <td id="tdEditUser" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
@@ -100,11 +101,7 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" PageSize="10"
-                ViewStateMode="Enabled" PageClause="Trang" OfClause="/" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-                LastClause=">>" GoToLastClause="Đến trang cuối" PreviousClause="<" NextClause=">"
-                CompactModePageCount="3" GenerateFirstLastSection="True" BackToPageClause="Trở về trang"
-                NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"

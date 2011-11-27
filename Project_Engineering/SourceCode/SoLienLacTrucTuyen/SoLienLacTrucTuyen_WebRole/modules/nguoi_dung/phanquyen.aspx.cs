@@ -10,9 +10,10 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class PhanQuyen : BaseContentPage
+    public partial class AuthenticationPage : BaseContentPage
     {
         #region Fields
+        AuthorizationBL authorizationBL;
         private RoleBL roleBL;
         private PhanQuyenBL phanQuyenBL;
         #endregion
@@ -24,8 +25,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (isAccessDenied)
             {
                 return;
-            } 
-            
+            }
+
+            authorizationBL = new AuthorizationBL(UserSchool);
             roleBL = new RoleBL(UserSchool);
             phanQuyenBL = new PhanQuyenBL(UserSchool);
 
@@ -68,7 +70,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
 
                     Guid selectedRole = new Guid(DdlRoles.SelectedValue.ToString());
-                    if (selectedRole == roleBL.GetRoleADMIN())
+                    if (selectedRole == authorizationBL.GetRoleADMIN())
                     {
                         if (functionBL.GetAdminOnlyFunctionCategories().Contains(tbPhanQuyen.FunctionCategoryName))
                         {
@@ -148,10 +150,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownList()
         {
-            List<aspnet_Role> lstRoles = roleBL.GetRoles();
-            DdlRoles.DataSource = lstRoles;
+            List<TabularRole> tabularRoles = authorizationBL.GetAuthorizedRoles();
+            DdlRoles.DataSource = tabularRoles;
             DdlRoles.DataValueField = "RoleId";
-            DdlRoles.DataTextField = "RoleName";
+            DdlRoles.DataTextField = "DisplayedName";
             DdlRoles.DataBind();
         }
 

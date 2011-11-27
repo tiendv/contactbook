@@ -37,7 +37,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
-                BindRepeater();
+                BindRptRoles();
             }
         }
 
@@ -53,23 +53,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        public void BindRepeater()
+        public void BindRptRoles()
         {   
-            string roleName = TxtSearchNhomNguoiDung.Text.Trim();
+            string strRoleName = TxtSearchNhomNguoiDung.Text.Trim();
             double dTotalRecords;
-            List<TabularRole> lstTbRoles = roleBL.GetTabularRoles(
-                roleName,
+            List<TabularRole> tabularRoles = roleBL.GetTabularRoles(strRoleName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTbRoles.Count == 0 && dTotalRecords != 0)
+            if (tabularRoles.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRepeater();
+                BindRptRoles();
                 return;
             }
 
-            bool bDisplayData = (lstTbRoles.Count != 0) ? true : false;
+            bool bDisplayData = (tabularRoles.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             PnlPopupEdit.Visible = bDisplayData;
             RptRoles.Visible = bDisplayData;
@@ -99,7 +98,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }          
 
-            RptRoles.DataSource = lstTbRoles;
+            RptRoles.DataSource = tabularRoles;
             RptRoles.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }
@@ -111,7 +110,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             MainDataPager.ItemCount = 0;
             isSearch = true;
-            BindRepeater();
+            BindRptRoles();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -140,12 +139,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 // Insert                
                 strActualRoleName = UserSchool.SchoolId + "_" + strRoleName;
-                Roles.CreateRole(strRoleName);
+                Roles.CreateRole(strActualRoleName);
                 roleBL.CreateRoleDetail(strRoleName, strDescription);
 
                 // Rebind data
                 MainDataPager.CurrentIndex = 1;
-                BindRepeater();
+                BindRptRoles();
 
                 // Reset UI 
                 this.TxtRoleNameAdd.Text = "";
@@ -164,7 +163,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             roleBL.DeleteRole(roleName);
 
             isSearch = false;
-            BindRepeater();
+            BindRptRoles();
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
@@ -209,7 +208,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }            
 
             roleBL.UpdateRole(roleName, newRoleName, description);
-            BindRepeater();
+            BindRptRoles();
         }        
         #endregion
 
@@ -255,7 +254,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     if (!roleBL.IsDeletable(tbRole.RoleName))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
+                        btnDeleteItem.ImageUrl = AppConstant.IMAGESOURCE_DELETE_DISABLE;
                         btnDeleteItem.Enabled = false;
                     }
                 }
@@ -279,17 +278,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        Guid maNhomNguoiDung = new Guid(e.CommandArgument.ToString());
-                        TabularRole tbRole = roleBL.GetTabularRole(maNhomNguoiDung);
-                        if (tbRole != null)
+                        Guid roleId = new Guid(e.CommandArgument.ToString());
+                        TabularRole tabularRole = roleBL.GetTabularRole(roleId);
+                        if (tabularRole != null)
                         {
-                            TxtRoleNameEdit.Text = tbRole.RoleName;
-                            TxtMoTaNhomNguoiDungSua.Text = tbRole.Description;
+                            TxtRoleNameEdit.Text = tabularRole.DisplayedName;
+                            TxtMoTaNhomNguoiDungSua.Text = tabularRole.Description;
                             ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                             mPEEdit.Show();
 
                             this.HdfRptRolesMPEEdit.Value = mPEEdit.ClientID;
-                            this.hdfEditingRoleName.Value = tbRole.RoleName;
+                            this.hdfEditingRoleName.Value = tabularRole.RoleName;
                         }
 
                         break;
@@ -307,7 +306,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindRepeater();
+            BindRptRoles();
         }
         #endregion        
     }

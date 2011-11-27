@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class PhanQuyen {
+    public partial class AuthenticationPage {
         
         /// <summary>
         /// LblSearchRoleName control.

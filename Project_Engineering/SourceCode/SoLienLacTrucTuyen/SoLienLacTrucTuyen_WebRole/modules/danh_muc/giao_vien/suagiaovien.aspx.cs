@@ -31,8 +31,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 ViewState["prevpageid"] = Request.QueryString["prevpageid"];
 
                 string maGiaoVien = Request.QueryString["giaovien"];
-                ViewState["giaovien"] = maGiaoVien;                
-                FillGiaoVien(Int32.Parse(maGiaoVien));
+                ViewState["giaovien"] = maGiaoVien;
+                FillGiaoVien(new Guid(maGiaoVien));
             }
         }
         #endregion
@@ -72,7 +72,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             ngaySinh = DateTime.Parse(strNgaySinh);
 
-            DanhMuc_GiaoVien editedTeacher = giaoVienBL.GetTeacher(maGiaoVien);
+            aspnet_Membership editedTeacher = new aspnet_Membership();
+            editedTeacher.UserId = giaoVienBL.GetTeacher(maGiaoVien).UserId;
             giaoVienBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
 
             if ((string)ViewState["prevpageid"] == "1")
@@ -101,16 +102,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void FillGiaoVien(int teacherId)
+        private void FillGiaoVien(Guid teacherId)
         {
-            DanhMuc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
-            LblMaGiaoVienHienThi.Text = teacher.MaHienThiGiaoVien;
-            TxtTenGiaoVien.Text = teacher.HoTen;
-            TxtNgaySinh.Text = teacher.NgaySinh.ToShortDateString();
-            RbtnNam.Checked = teacher.GioiTinh;
-            RbtnNu.Checked = !teacher.GioiTinh;
-            TxtDiaChi.Text = teacher.DiaChi;
-            TxtDienThoai.Text = teacher.DienThoai;
+            aspnet_User teacher = giaoVienBL.GetTeacher(teacherId);
+            LblMaGiaoVienHienThi.Text = teacher.UserName.Split('_')[1];
+            TxtTenGiaoVien.Text = teacher.aspnet_Membership.RealName;
+            if (teacher.aspnet_Membership.Birthday != null)
+            {
+                TxtNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToShortDateString();
+            }
+            if (teacher.aspnet_Membership.Gender != null)
+            {
+                RbtnNam.Checked = (bool)teacher.aspnet_Membership.Gender;
+                RbtnNu.Checked = !(bool)teacher.aspnet_Membership.Gender;
+            }
+
+            TxtDiaChi.Text = teacher.aspnet_Membership.Address;
+            TxtDienThoai.Text = (teacher.aspnet_Membership.Phone != "") ? teacher.aspnet_Membership.Phone : "(không có)";
         }
         #endregion
     }

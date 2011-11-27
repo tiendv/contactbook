@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationDA.cs" />
     <Compile Include="BaseDA.cs" />
     <Compile Include="DbEContactBook.designer.cs">
       <AutoGen>True</AutoGen>

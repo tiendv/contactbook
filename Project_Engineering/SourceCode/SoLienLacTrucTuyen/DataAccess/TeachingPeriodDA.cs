@@ -128,7 +128,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<LopHoc_MonHocTKB> iqSchedule = from schedule in db.LopHoc_MonHocTKBs
                                                       where schedule.MaTiet == teachingPeriod.MaTiet
-                                                      && schedule.DanhMuc_GiaoVien.SchoolId == school.SchoolId
+                                                      && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                                       select schedule;
             if (iqSchedule.Count() != 0)
             {

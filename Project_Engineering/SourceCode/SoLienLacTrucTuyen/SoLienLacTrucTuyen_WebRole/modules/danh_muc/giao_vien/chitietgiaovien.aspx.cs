@@ -10,10 +10,10 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ChiTietGiaoVienPage : BaseContentPage
+    public partial class DetailedTeacherPage : BaseContentPage
     {
         #region Fields
-        TeacherBL giaoVienBL;
+        TeacherBL teacherBL;
         #endregion
 
         #region Page event handlers
@@ -25,7 +25,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            giaoVienBL = new TeacherBL(UserSchool);
+            teacherBL = new TeacherBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -33,7 +33,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 string maGiaoVien = Request.QueryString["giaovien"];
                 ViewState["magiaovien"] = maGiaoVien;                
-                FillGiaoVien(Int32.Parse(maGiaoVien));
+                FillGiaoVien(new Guid(maGiaoVien));
                 BindDataChuNhiem();
                 BindDataGiangDay();
                 ProcPermissions();
@@ -55,15 +55,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void FillGiaoVien(int teacherId)
+        private void FillGiaoVien(Guid teacherId)
         {
-            DanhMuc_GiaoVien teacher = giaoVienBL.GetTeacher(teacherId);
-            LblMaGiaoVienHienThi.Text = teacher.MaHienThiGiaoVien;
-            LblTenGiaoVien.Text = teacher.HoTen;
-            LblNgaySinh.Text = teacher.NgaySinh.ToShortDateString();
-            LblGioiTinh.Text = teacher.GioiTinh ? "Nam" : "Nữ";
-            LblDiaChi.Text = teacher.DiaChi;
-            LblDienThoai.Text = (teacher.DienThoai != "") ? teacher.DienThoai : "(không có)";
+            aspnet_User teacher = teacherBL.GetTeacher(teacherId);
+            LblMaGiaoVienHienThi.Text = teacher.UserName.Split('_')[1];
+            LblTenGiaoVien.Text = teacher.aspnet_Membership.RealName;
+            if (teacher.aspnet_Membership.Birthday != null)
+            {
+                LblNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToShortDateString();
+            }
+            if (teacher.aspnet_Membership.Gender != null)
+            {
+                LblGioiTinh.Text = (bool)teacher.aspnet_Membership.Gender ? "Nam" : "Nữ";
+            }
+            
+            LblDiaChi.Text = teacher.aspnet_Membership.Address;
+            LblDienThoai.Text = (teacher.aspnet_Membership.Phone != "") ? teacher.aspnet_Membership.Phone : "(không có)";
         }
 
         private void ProcPermissions()
@@ -96,11 +103,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDataGiangDay()
         {
-            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
-            int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());            
-            teacher.MaGiaoVien = maGiaoVien;
+            aspnet_User teacher = new aspnet_User();
+            Guid maGiaoVien = new Guid(ViewState["magiaovien"].ToString());            
+            teacher.UserId = maGiaoVien;
             double dTotalRecords;
-            List<TabularTeaching> lstTbGiangDays = giaoVienBL.GetListTeachings(
+            List<TabularTeaching> lstTbGiangDays = teacherBL.GetListTeachings(
                 teacher, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out dTotalRecords);
 
             bool bDisplayData = (lstTbGiangDays.Count != 0) ? true : false;
@@ -115,11 +122,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDataChuNhiem()
         {
-            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
-            int maGiaoVien = Int32.Parse(ViewState["magiaovien"].ToString());
-            teacher.MaGiaoVien = maGiaoVien;
+            aspnet_User teacher = new aspnet_User();
+            teacher.UserId = new Guid(ViewState["magiaovien"].ToString());
             double dTotalRecords;
-            List<TabularFormering> lstTbChuNhiems = giaoVienBL.GetListFormerings(
+            List<TabularFormering> lstTbChuNhiems = teacherBL.GetListFormerings(
                 teacher, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out dTotalRecords);
 
             bool bDisplayData = (lstTbChuNhiems.Count != 0) ? true : false;

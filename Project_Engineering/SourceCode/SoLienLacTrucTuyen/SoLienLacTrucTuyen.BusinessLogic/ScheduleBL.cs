@@ -17,12 +17,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             scheduleDA = new ScheduleDA(school);
         }
 
-        public void InsertSchedule(LopHoc_Lop Class, DanhMuc_MonHoc subject, DanhMuc_GiaoVien teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
+        public void InsertSchedule(LopHoc_Lop Class, DanhMuc_MonHoc subject, aspnet_User teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
         {
             LopHoc_MonHocTKB schedule = new LopHoc_MonHocTKB();
             schedule.MaLopHoc = Class.MaLopHoc;
             schedule.MaMonHoc = subject.MaMonHoc;
-            schedule.MaGiaoVien = teacher.MaGiaoVien;
+            schedule.TeacherId = teacher.UserId;
             schedule.MaHocKy = term.MaHocKy;
             schedule.MaThu = dayInWeek.MaThu;
             schedule.MaBuoi = teachingPeriod.MaBuoi;
@@ -31,10 +31,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             scheduleDA.InsertSchedule(schedule);
         }
 
-        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, DanhMuc_GiaoVien teacher)
+        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, aspnet_User teacher)
         {
             editedSchedule.MaMonHoc = subject.MaMonHoc;
-            editedSchedule.MaGiaoVien = teacher.MaGiaoVien;
+            editedSchedule.TeacherId = teacher.UserId;
             scheduleDA.UpdateSchedule(editedSchedule, subject, teacher);
         }
 
@@ -48,7 +48,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return scheduleDA.ScheduleExists(Class, subject, term, dayInweek, session);
         }
 
-        public bool ScheduleExists(DanhMuc_GiaoVien teacher)
+        public bool ScheduleExists(aspnet_User teacher)
         {
             return scheduleDA.ScheduleExists(teacher);
         }
@@ -133,8 +133,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     teachingPeriodSchedule.MaMonHocTKB = schedule.MaMonHocTKB;
                     teachingPeriodSchedule.MaMonHoc = schedule.MaMonHoc;
                     teachingPeriodSchedule.TenMonHoc = schedule.DanhMuc_MonHoc.TenMonHoc;
-                    teachingPeriodSchedule.MaGiaoVien = schedule.DanhMuc_GiaoVien.MaGiaoVien;
-                    teachingPeriodSchedule.TenGiaoVien = schedule.DanhMuc_GiaoVien.HoTen;
+                    teachingPeriodSchedule.MaGiaoVien = schedule.TeacherId;
+                    teachingPeriodSchedule.TenGiaoVien = schedule.aspnet_User.aspnet_Membership.RealName;
                     teachingPeriodSchedule.MaLopHoc = schedule.MaLopHoc;
                     teachingPeriodSchedule.MaHocKy = schedule.MaHocKy;
                     teachingPeriodSchedule.MaThu = schedule.MaThu;
@@ -185,8 +185,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             teachingPeriodSchedule.MaLopHoc = schedule.MaLopHoc;
             teachingPeriodSchedule.MaMonHoc = schedule.MaMonHoc;
             teachingPeriodSchedule.TenMonHoc = schedule.DanhMuc_MonHoc.TenMonHoc;
-            teachingPeriodSchedule.MaGiaoVien = schedule.MaGiaoVien;
-            teachingPeriodSchedule.TenGiaoVien = schedule.DanhMuc_GiaoVien.HoTen;
+            teachingPeriodSchedule.MaGiaoVien = schedule.TeacherId;
+            teachingPeriodSchedule.TenGiaoVien = schedule.aspnet_User.aspnet_Membership.RealName;
             teachingPeriodSchedule.Tiet = schedule.DanhMuc_Tiet.MaTiet;
             teachingPeriodSchedule.MaThu = schedule.CauHinh_Thu.MaThu;
 

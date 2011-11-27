@@ -76,15 +76,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         if (rBtnSelect.Checked)
                         {
                             LopHoc_Lop Class = new LopHoc_Lop();
-                            DanhMuc_GiaoVien teacher = new DanhMuc_GiaoVien();
+                            aspnet_User teacher = new aspnet_User();
                             FormerTeacherBL gvcnBL = new FormerTeacherBL(UserSchool);
 
                             HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
-                            int maGiaoVien = Int32.Parse(hdfRptMaGiaoVien.Value);
+                            Guid maGiaoVien = new Guid(hdfRptMaGiaoVien.Value);
                             int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
                             
                             Class.MaLopHoc = maLopHoc;                            
-                            teacher.MaGiaoVien = maGiaoVien;                            
+                            teacher.UserId = maGiaoVien;                            
                             gvcnBL.Insert(Class, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }
@@ -244,8 +244,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             double dTotalRecords;
             List<TabularTeacher> lstTbGiaoViens = teacherBL.GetTabularUnformeredTeachers(
-                year,
-                maHienThiGiaoVien, hoTen,
+                year, maHienThiGiaoVien, hoTen,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete

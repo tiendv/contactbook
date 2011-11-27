@@ -9,6 +9,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     {
         public Guid RoleId { get; set; }
         public string RoleName { get; set; }
+        public string DisplayedName { get; set; }
         public string Description { get; set; }
         public bool Expired { get; set; }
         public bool CanBeDeleted { get; set; }

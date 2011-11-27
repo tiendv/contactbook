@@ -149,7 +149,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ScheduleBL thoiKhoaBieuBL = new ScheduleBL(UserSchool);
             LopHoc_MonHocTKB schedule = null;
             DanhMuc_MonHoc subject = null;
-            DanhMuc_GiaoVien teacher = null;
+            aspnet_User teacher = null;
 
             if (!validateInput())
             {
@@ -165,14 +165,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 int maThu = dicQueryStrings["MaThu"];
                 int maTiet = dicQueryStrings["MaTiet"];
                 int maMonHoc = Int32.Parse(HdfMaMonHoc.Value);
-                int maGiaoVien = Int32.Parse(HdfMaGiaoVien.Value);
+                Guid maGiaoVien = new Guid(HdfMaGiaoVien.Value);
 
                 schedule = new LopHoc_MonHocTKB();
                 schedule.MaMonHocTKB = maTKBTiet;
                 subject = new DanhMuc_MonHoc();
                 subject.MaMonHoc = maMonHoc;
-                teacher = new DanhMuc_GiaoVien();
-                teacher.MaGiaoVien = maGiaoVien;
+                teacher = new aspnet_User();
+                teacher.UserId = maGiaoVien;
                 thoiKhoaBieuBL.UpdateSchedule(schedule, subject, teacher);
 
                 Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",

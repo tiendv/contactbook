@@ -128,7 +128,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // Set NavigateUrl for Hyperlink HomeroomTeacher
             string pageUrl = Page.Request.Path;
             Guid role = (new UserBL(UserSchool)).GetRoleId(User.Identity.Name);
-            if ((new RoleBL(UserSchool)).ValidateAuthorization(role, pageUrl))
+            if ((new AuthorizationBL(UserSchool)).ValidateAuthorization(role, pageUrl))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -136,7 +136,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     TabularClass classInfo = (TabularClass)e.Item.DataItem;
                     if (classInfo != null)
                     {
-                        int homeroomTecherCode = classInfo.HomeroomTeacherCode;
+                        Guid homeroomTecherCode = classInfo.HomeroomTeacherCode;
                         HyperLink hlkHomeRoomTeacher = (HyperLink)e.Item.FindControl("HlkHomeRoomTeacher");
                         hlkHomeRoomTeacher.NavigateUrl = string.Format("~/modules/danh_muc/giao_vien/chitietgiaovien.aspx?giaovien={0}",
                             homeroomTecherCode);

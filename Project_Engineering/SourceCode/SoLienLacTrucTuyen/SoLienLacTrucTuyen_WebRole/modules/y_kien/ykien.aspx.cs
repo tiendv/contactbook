@@ -49,10 +49,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             year.MaNamHoc = Int32.Parse(DdlYears.SelectedValue); 
             DateTime dtBeginDate = DateTime.Parse(TxtBeginDate.Text);
             DateTime dtEndDate = DateTime.Parse(TxtEndDate.Text);
-            int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
-
+            CauHinh_TinhTrangYKien commentStatus = null;
+            if (DdlXacNhan.SelectedIndex == 0 || DdlXacNhan.SelectedIndex == 1)
+            {
+                commentStatus = new CauHinh_TinhTrangYKien();
+                commentStatus.MaTinhTrangYKien = Int32.Parse(DdlXacNhan.SelectedValue);
+            }
             double dTotalRecords;
-            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(year, dtBeginDate, dtEndDate, 
+
+            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(year, commentStatus, dtBeginDate, dtEndDate, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (tabularParentsComments.Count == 0 && dTotalRecords != 0)
@@ -96,11 +101,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownLists()
         {
-            BindDDLNamHoc();
-            BindDDLXacNhan();
+            BindDDLYears();
+            BindDDLCommentStatus();
         }
 
-        private void BindDDLNamHoc()
+        private void BindDDLYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
@@ -111,11 +116,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlYears.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
         }
 
-        private void BindDDLXacNhan()
+        private void BindDDLCommentStatus()
         {
-            DdlXacNhan.Items.Add(new ListItem("Tất cả", "-1"));
-            DdlXacNhan.Items.Add(new ListItem("Có", "1"));
-            DdlXacNhan.Items.Add(new ListItem("Không", "0"));
+            List<CauHinh_TinhTrangYKien> commentStatuses = parentsCommentBL.GetCommentStatuses();
+            DdlXacNhan.DataSource = commentStatuses;
+            DdlXacNhan.DataValueField = "MaTinhTrangYKien";
+            DdlXacNhan.DataTextField = "TenTinhTrangYKien";
+            DdlXacNhan.DataBind();
         }
 
         private void InitDates()

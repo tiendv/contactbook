@@ -1,23 +1,15 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhsachgiaovien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DanhSachGiaoVien" %>
+    CodeBehind="danhsachgiaovien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.TeachersPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript" runat="server">
-        <script type="text/javascript">
-            $(document).ready(function () {
-            });
-        </script>
         <script language="javascript" type="text/javascript">
             function popopConfirmDelete_CancelDelete_Click() {
                 var mPEDeleteID = $get('<%=HdfRptGiaoVienMPEDelete.ClientID%>').value;
                 $find(mPEDeleteID).hide();
                 return false;
-            }
-
-            function editGiaoVien(maGiaoVien) {
-                window.location.replace("suagiaovien.aspx?giaovien=" + maGiaoVien);
             }
         </script>
     </div>
@@ -42,7 +34,7 @@
         <br />
     </div>
     <div class="table_data ui-corner-all">
-        <div class="add">
+        <div class="add" style="display: none">
             <asp:ImageButton ID="BtnAddGiaoVien" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm giáo viên mới" OnClick="BtnAdd_Click" />
         </div>
@@ -71,9 +63,9 @@
                         <td id="thEdit" runat="server" class="icon">
                             Sửa
                         </td>
-                        <td id="thDelete" runat="server" class="icon">
+                        <%--<td id="thDelete" runat="server" class="icon">
                             Xóa
-                        </td>
+                        </td>--%>
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
@@ -92,7 +84,7 @@
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
                                 CssClass="EditItemButton" CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaGiaoVien")%>' />
                         </td>
-                        <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
+                        <%--<td id="tdDelete" runat="server" class="icon" style="height: 40px">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
                                 CssClass="DeleteItemButton" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHienThiGiaoVien")%>' />
@@ -100,7 +92,7 @@
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
                             </ajaxToolkit:ModalPopupExtender>
-                        </td>
+                        </td>--%>
                     </tr>
                 </ItemTemplate>
                 <FooterTemplate>
@@ -112,14 +104,10 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" PageSize="10"
-                ViewStateMode="Enabled" PageClause="Trang" OfClause="/" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-                LastClause=">>" GoToLastClause="Đến trang cuối" PreviousClause="<" NextClause=">"
-                CompactModePageCount="3" GenerateFirstLastSection="True" BackToPageClause="Trở về trang"
-                NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
-    <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
+    <%--<asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa hạnh kiểm" CssClass="popup_header_title"></asp:Label>
@@ -140,5 +128,5 @@
             <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
-    </asp:Panel>
+    </asp:Panel>--%>
 </asp:Content>

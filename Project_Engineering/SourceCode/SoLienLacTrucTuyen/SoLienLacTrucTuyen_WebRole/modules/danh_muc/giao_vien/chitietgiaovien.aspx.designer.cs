@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ChiTietGiaoVienPage {
+    public partial class DetailedTeacherPage {
         
         /// <summary>
         /// BtnSua control.
