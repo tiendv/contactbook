@@ -13,14 +13,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_EDITUSER = "/modules/nguoi_dung/suanguoidung.aspx";
         public const string PAGEPATH_STUDENTS = "/modules/hoc_sinh/danhsachhocsinh.aspx";
         public const string PAGEPATH_PARENTSCOMMENTS = "/modules/y_kien/ykien.aspx";
+        public const string PAGEPATH_STUDENTINFOR = "/modules/hoc_sinh/thongtincanhan.aspx";
+        public const string PAGEPATH_STUDENTEDIT = "/modules/hoc_sinh/suahocsinh.aspx";
 
         public const string QUERY_STUDENT = "std";
         public const string QUERY_PARENTSCOMMENT = "id";
 
-        public const string VIEWSTATE_STUDENT = "std";
+        public const string VIEWSTATE_CLASSID = "ClassId";
+        public const string VIEWSTATE_STUDENTID = "StudentId";
         public const string VIEWSTATE_ROLE = "Role";
+        public const string VIEWSTATE_YEAR = "Year";
+        public const string VIEWSTATE_CLASS = "Class";
+        public const string VIEWSTATE_FACULTY = "Faculty";
+        public const string VIEWSTATE_GRADE = "Grade";
+        public const string VIEWSTATE_STUDENTCODE = "StudentName";
+        public const string VIEWSTATE_STUDENTNAME = "StudenCode";
 
         public const string SESSION_SELECTEDPARENTSFUNCTION = "SelectedParentFunction";
+        public const string SESSION_STUDENT = "Student";
+        public const string SESSION_YEAR = "Year";
+        public const string SESSION_CLASS = "Class";
+        public const string SESSION_FACULTY = "Faculty";
+        public const string SESSION_GRADE = "Grade";
+        public const string SESSION_STUDENTCODE = "StudentName";
+        public const string SESSION_STUDENTNAME = "StudenCode";
 
         public const string CSSSTYLE_DISPLAY_NONE = "none";
         public const string CSSSTYLE_DISPLAY_BLOCK = "block";

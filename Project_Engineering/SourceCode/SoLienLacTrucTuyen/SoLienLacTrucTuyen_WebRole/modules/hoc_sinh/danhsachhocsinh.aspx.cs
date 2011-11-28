@@ -35,22 +35,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 this.isSearch = false;
 
                 // Khôi phục lại thông tin khi chuyển sang trang khác rồi trở về trang này
-                if (Request.QueryString["SNam"] != null && Request.QueryString["SNganh"] != null
-                    && Request.QueryString["SKhoi"] != null && Request.QueryString["SLop"] != null
-                    && Request.QueryString["SMa"] != null && Request.QueryString["STen"] != null)
+                    if (CheckSessionKey(AppConstant.SESSION_YEAR) 
+                        && CheckSessionKey(AppConstant.SESSION_FACULTY) 
+                        && CheckSessionKey(AppConstant.SESSION_GRADE)
+                        && CheckSessionKey(AppConstant.SESSION_CLASS)
+                        && CheckSessionKey(AppConstant.SESSION_STUDENTCODE)
+                        && CheckSessionKey(AppConstant.SESSION_STUDENTNAME))
                 {
-                    HdfSearchNamHoc.Value = Request.QueryString["SNam"];
-                    HdfSearchNganhHoc.Value = Request.QueryString["SNganh"];
-                    HdfSearchKhoiLop.Value = Request.QueryString["SKhoi"];
-                    HdfSearchKhoiLop.Value = Request.QueryString["SLop"];
-                    HdfSearchMaHocSinh.Value = Request.QueryString["SMa"];
-                    HdfSearchTenHocSinh.Value = Request.QueryString["STen"];
-                    DdlNamHoc.SelectedValue = HdfSearchNamHoc.Value;
-                    DdlNganh.SelectedValue = HdfSearchNganhHoc.Value;
-                    DdlKhoiLop.SelectedValue = HdfSearchKhoiLop.Value;
-                    DdlLopHoc.SelectedValue = HdfSearchLopHoc.Value;
-                    TxtMaHocSinh.Text = HdfSearchMaHocSinh.Value;
-                    TxtTenHocSinh.Text = HdfSearchTenHocSinh.Value;
+                    CauHinh_NamHoc year = (CauHinh_NamHoc)GetSession(AppConstant.SESSION_YEAR);
+                    RemoveSession(AppConstant.SESSION_YEAR);
+                    DdlNamHoc.SelectedValue = year.MaNamHoc.ToString();
+
+                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)GetSession(AppConstant.SESSION_FACULTY);
+                    RemoveSession(AppConstant.SESSION_FACULTY);
+                    DdlNganh.SelectedValue = faculty.MaNganhHoc.ToString();
+
+                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)GetSession(AppConstant.SESSION_GRADE);
+                    RemoveSession(AppConstant.SESSION_GRADE);
+                    DdlKhoiLop.SelectedValue = grade.MaKhoiLop.ToString();
+
+                    LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_CLASS);
+                    RemoveSession(AppConstant.SESSION_CLASS);
+                    DdlLopHoc.SelectedValue = Class.MaLopHoc.ToString();
+
+                    String strStudentName = (string)GetSession(AppConstant.SESSION_STUDENTNAME);
+                    RemoveSession(AppConstant.SESSION_STUDENTNAME);
+                    TxtTenHocSinh.Text = strStudentName;
+
+                    String strStudentCode = (string)GetSession(AppConstant.SESSION_STUDENTCODE);
+                    RemoveSession(AppConstant.SESSION_STUDENTCODE);
+                    TxtMaHocSinh.Text = strStudentCode;
+
                     isSearch = true;
                 }
 
@@ -151,16 +166,51 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         //string saveSearchQuery = "&SNam=" + HdfSearchNamHoc.Value + "&SNganh=" + HdfSearchNganhHoc.Value
                         //    + "&SKhoi=" + HdfSearchKhoiLop.Value + "&SLop=" + HdfSearchLopHoc.Value
                         //    + "&STen=" + HdfSearchTenHocSinh.Value + "&SMa=" + HdfSearchMaHocSinh.Value;
-                        HiddenField hdfMaLopHoc = (HiddenField)e.Item.FindControl("HdfMaLopHoc");
-                        Response.Redirect(String.Format("thongtincanhan.aspx?hocsinh={0}&lop={1}",
-                            e.CommandArgument, hdfMaLopHoc.Value));
+                        //HiddenField hdfMaLopHoc = (HiddenField)e.Item.FindControl("HdfMaLopHoc");
+
+                        CauHinh_NamHoc year = new CauHinh_NamHoc();
+                        year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                        AddSession(AppConstant.SESSION_YEAR, year);
+
+                        DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
+                        faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                        AddSession(AppConstant.SESSION_FACULTY, faculty);
+
+                        DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
+                        grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                        AddSession(AppConstant.SESSION_GRADE, grade);
+
+                        LopHoc_Lop Class = new LopHoc_Lop();
+                        Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                        AddSession(AppConstant.SESSION_CLASS, Class);
+
+                        String strStudentName = TxtTenHocSinh.Text;
+                        AddSession(AppConstant.SESSION_STUDENTNAME, strStudentName);
+
+                        String strStudentCode = TxtMaHocSinh.Text;
+                        AddSession(AppConstant.SESSION_STUDENTCODE, strStudentCode);
+
+                        HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+                        student.MaHocSinh = Int32.Parse(e.CommandArgument.ToString());
+                        AddSession(AppConstant.SESSION_STUDENT, student);
+
+                        Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
                         break;
                     }
                 case "CmdEditItem":
                     {
-                        HiddenField hdfMaLopHoc = (HiddenField)e.Item.FindControl("HdfMaLopHoc");
-                        Response.Redirect(String.Format("suahocsinh.aspx?hocsinh={0}&lop={1}",
-                            e.CommandArgument, hdfMaLopHoc.Value));
+                        // Get seleteced student and set to session
+                        HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+                        student.MaHocSinh = Int32.Parse(e.CommandArgument.ToString());
+                        AddSession(AppConstant.SESSION_STUDENT, student);
+
+                        // Get seleteced class and set to session
+                        LopHoc_Lop Class = new LopHoc_Lop();
+                        Class.MaLopHoc = Int32.Parse(((HiddenField)e.Item.FindControl("HdfMaLopHoc")).Value);
+                        AddSession(AppConstant.SESSION_CLASS, Class);
+                        
+                        // redirect to "Sửa học sinh"
+                        Response.Redirect(AppConstant.PAGEPATH_STUDENTEDIT);
                         break;
                     }
                 case "CmdDeleteItem":
@@ -337,29 +387,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             BindDropDownListNganhHoc();
 
-            BindDropDownListKhoiLop();
+            BindDDLGrades();
 
             BindDDLClasses();
         }
 
         private void BindDropDownListNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
-            DdlNganh.DataSource = lstNganhHoc;
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganh.DataSource = faculties;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
             DdlNganh.DataBind();
-            if (lstNganhHoc.Count > 1)
+            if (faculties.Count > 1)
             {
                 DdlNganh.Items.Insert(0, new ListItem("Tất cả", "0"));
             }
         }
 
-        private void BindDropDownListKhoiLop()
+        private void BindDDLGrades()
         {
-            GradeBL KhoiLopBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
+            GradeBL grades = new GradeBL(UserSchool);
+            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";

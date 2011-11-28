@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class thongtincanhan {
+    public partial class StudentPersonalPage {
         
         /// <summary>
         /// RptStudentFunctions control.

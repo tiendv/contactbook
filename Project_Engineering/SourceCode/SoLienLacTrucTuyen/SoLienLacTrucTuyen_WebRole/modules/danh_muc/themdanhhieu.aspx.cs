@@ -153,7 +153,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             SelectedHocLucHanhKiems = sltHocLucHanhKiems;
             //int maKhoiLop = Int32.Parse(this.HdfMaKhoiLop.Value);
-            //khoiLopBL.DeleteKhoiLop(maKhoiLop);
+            //grades.DeleteKhoiLop(maKhoiLop);
             BindRptMoTaDanhHieu();
         }
 
@@ -180,7 +180,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         //int maKhoiLop = Int32.Parse(e.CommandArgument.ToString());
-                        //DanhMuc_KhoiLop khoiLop = khoiLopBL.GetKhoiLop(maKhoiLop);
+                        //DanhMuc_KhoiLop khoiLop = grades.GetKhoiLop(maKhoiLop);
 
                         //TxtSuaTenKhoiLop.Text = khoiLop.TenKhoiLop;
                         //TxtOrderEdit.Text = khoiLop.ThuTuHienThi.ToString();

@@ -260,8 +260,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillDDLKhoi()
         {
-            GradeBL KhoiLopBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
+            GradeBL grades = new GradeBL(UserSchool);
+            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
 
             DdlKhoi.DataSource = lstKhoiLop;
             DdlKhoi.DataValueField = "TenKhoiLop";
@@ -271,8 +271,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillDDLNganh()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhs = nganhHocBL.GetFaculties();
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> lstNganhs = facultyBL.GetFaculties();
 
             DdlNganh.DataSource = lstNganhs;
             DdlNganh.DataValueField = "TenNganhHoc";

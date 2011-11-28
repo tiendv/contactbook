@@ -42,8 +42,8 @@ namespace SoLienLacTrucTuyen_WebRole
         //public static bool CheckExistTenKhoiLop(int maKhoiLop, string tenKhoiLop)
         //{
         //    tenKhoiLop = Uri.UnescapeDataString(tenKhoiLop);
-        //    GradeBL khoiLopBL = new GradeBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-        //    return khoiLopBL.GradeNameExists(maKhoiLop, tenKhoiLop);
+        //    GradeBL grades = new GradeBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
+        //    return grades.GradeNameExists(maKhoiLop, tenKhoiLop);
         //}
 
         //[WebMethod]
