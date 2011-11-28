@@ -144,5 +144,91 @@ namespace SoLienLacTrucTuyen.DataAccess
                 return null;
             }
         }
+        public bool ConductNameExists(string conductName)
+        {
+            IQueryable<DanhMuc_HocLuc> iqConduct = from cdt in db.DanhMuc_HocLucs
+                                                     where cdt.TenHocLuc == conductName
+                                                     //&& cdt.SchoolId == school.SchoolId
+                                                     select cdt;
+            if (iqConduct.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public void InsertConduct(DanhMuc_HocLuc conduct)
+        {
+            db.DanhMuc_HocLucs.InsertOnSubmit(conduct);
+            db.SubmitChanges();
+        }
+        public void DeleteConduct(DanhMuc_HocLuc deletedHocLuc)
+        {
+            DanhMuc_HocLuc conduct = null;
+
+            IQueryable<DanhMuc_HocLuc> iqConduct = from cdt in db.DanhMuc_HocLucs
+                                                   where cdt.MaHocLuc == deletedHocLuc.MaHocLuc
+                                                     && cdt.SchoolId == school.SchoolId
+                                                     select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                conduct = iqConduct.First();
+                db.DanhMuc_HocLucs.DeleteOnSubmit(conduct);
+                db.SubmitChanges();
+            }
+        }
+        public DanhMuc_HocLuc GetConduct(string conductName)
+        {
+            DanhMuc_HocLuc conduct = null;
+
+            IQueryable<DanhMuc_HocLuc> iqConduct = from cdt in db.DanhMuc_HocLucs
+                                                     where cdt.TenHocLuc == conductName
+                                                     && cdt.SchoolId == school.SchoolId
+                                                     select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                conduct = iqConduct.First();
+            }
+
+            return conduct;
+        }
+        public void UpdateConduct(DanhMuc_HocLuc editedConduct)
+        {
+            DanhMuc_HocLuc conduct = null;
+
+            IQueryable<DanhMuc_HocLuc> iqConduct = from cdt in db.DanhMuc_HocLucs
+                                                     where cdt.MaHocLuc == editedConduct.MaHocLuc
+                                                     && cdt.SchoolId == school.SchoolId
+                                                     select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                conduct = iqConduct.First();
+                conduct.TenHocLuc = editedConduct.TenHocLuc;
+                db.SubmitChanges();
+            }
+        }
+        public bool IsDeletable(string tenHocLuc)
+        {
+            bool bResult = true;
+            IQueryable<HocSinh_DanhHieuHocKy> iqTermStudentResult;
+
+            // Kiểm tra có tồn tại Học sinh nào đạt hạnh kiểm chỉ định hay không
+            iqTermStudentResult = from termStudentResult in db.HocSinh_DanhHieuHocKies
+                                  join hocluc in db.DanhMuc_HocLucs on termStudentResult.MaHocLucHK equals hocluc.MaHocLuc
+                                  where hocluc.TenHocLuc == tenHocLuc
+                                  select termStudentResult;
+
+            if (iqTermStudentResult.Count() != 0)
+            {
+                bResult = false;
+            }
+
+            return bResult;
+        }
     }
 }
