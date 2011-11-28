@@ -94,13 +94,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
-            DdlNganh.DataSource = lstNganhHoc;
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganh.DataSource = faculties;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
             DdlNganh.DataBind();
-            if (lstNganhHoc.Count > 1)
+            if (faculties.Count > 1)
             {
                 DdlNganh.Items.Insert(0, new ListItem("Tất cả", "0"));
             }
@@ -108,8 +108,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLKhoiLop()
         {
-            GradeBL KhoiLopBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
+            GradeBL grades = new GradeBL(UserSchool);
+            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";

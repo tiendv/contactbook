@@ -70,14 +70,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void AddSession(string key, object value)
         {
-            Session.Add(UserSchool + AppConstant.UNDERSCORE + key, value);
+            Session.Add(UserSchool.SchoolId + AppConstant.UNDERSCORE + key, value);
         }
 
         protected void RemoveSession(string key)
         {
             if (CheckSessionKey(key))
             {
-                Session.Remove(UserSchool + AppConstant.UNDERSCORE + key);
+                Session.Remove(UserSchool.SchoolId + AppConstant.UNDERSCORE + key);
             }
         }
         
@@ -85,7 +85,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (CheckSessionKey(key))
             {
-                return Session[UserSchool + AppConstant.UNDERSCORE + key];
+                return Session[UserSchool.SchoolId + AppConstant.UNDERSCORE + key];
             }
             else
             {
@@ -95,7 +95,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected bool CheckSessionKey(string key)
         {
-            if (Session[UserSchool + AppConstant.UNDERSCORE + key] != null)
+            if (Session[UserSchool.SchoolId + AppConstant.UNDERSCORE + key] != null)
             {
                 return true;
             }

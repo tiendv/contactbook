@@ -37,17 +37,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region DropDownList event hanlders
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
         #endregion
 
@@ -179,8 +179,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDropDownListNamHoc();
             BindDropDownListNganhHoc();
-            BindDropDownListKhoiLop();
-            BindDropDownListLopHoc();
+            BindDDLGrades();
+            BindDDLClasses();
         }
 
         private void BindDropDownListNamHoc()
@@ -199,10 +199,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListKhoiLop()
+        private void BindDDLGrades()
         {
-            GradeBL KhoiLopBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
+            GradeBL grades = new GradeBL(UserSchool);
+            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";
@@ -211,15 +211,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
-            DdlNganh.DataSource = lstNganhHoc;
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganh.DataSource = faculties;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
             DdlNganh.DataBind();
         }
 
-        private void BindDropDownListLopHoc()
+        private void BindDDLClasses()
         {
             int maNamHoc = 0;
             try

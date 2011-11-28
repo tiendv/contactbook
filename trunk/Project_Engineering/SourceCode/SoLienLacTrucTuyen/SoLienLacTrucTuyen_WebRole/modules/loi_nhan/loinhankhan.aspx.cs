@@ -138,13 +138,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
-            DdlNganhHocThem.DataSource = lstNganhHoc;
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganhHocThem.DataSource = faculties;
             DdlNganhHocThem.DataValueField = "MaNganhHoc";
             DdlNganhHocThem.DataTextField = "TenNganhHoc";
             DdlNganhHocThem.DataBind();
-            if (lstNganhHoc.Count > 1)
+            if (faculties.Count > 1)
             {
                 DdlNganhHocThem.Items.Insert(0, new ListItem("Tất cả", "0"));
             }
@@ -319,8 +319,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         //LopHoc_Lop lophoc = lopHocBL.GetLopHoc(maLopHoc);
 
                         //LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;
-                        //LblTenNganhHocChiTiet.Text = (new NganhHocBL(UserSchool)).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
-                        //LblTenKhoiLopChiTiet.Text = (new KhoiLopBL(UserSchool)).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
+                        //LblTenNganhHocChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
+                        //LblTenKhoiLopChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
                         //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
                         //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
                         //mPEDetail.Show();

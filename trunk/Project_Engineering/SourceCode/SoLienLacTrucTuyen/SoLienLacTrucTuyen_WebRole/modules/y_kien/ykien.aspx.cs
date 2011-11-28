@@ -166,8 +166,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         //LopHoc_Lop lophoc = lopHocBL.GetLopHoc(maLopHoc);
 
                         //LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;
-                        //LblTenNganhHocChiTiet.Text = (new NganhHocBL(UserSchool)).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
-                        //LblTenKhoiLopChiTiet.Text = (new KhoiLopBL(UserSchool)).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
+                        //LblTenNganhHocChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
+                        //LblTenKhoiLopChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
                         //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
                         //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
                         //mPEDetail.Show();

@@ -50,17 +50,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region DropDownList event hanlders
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
         #endregion
 
@@ -242,7 +242,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             lopHocBL.InsertClass(tenLopHoc, year, faculty, grade);
 
-            BindDropDownListLopHoc();
+            BindDDLClasses();
             MainDataPager.CurrentIndex = 1;
             BindRepeaterLopHoc();
 
@@ -313,7 +313,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Class.MaLopHoc = Int32.Parse(this.HdfMaLopHoc.Value);
             lopHocBL.DeleteClass(Class);
             isSearch = false;
-            BindDropDownListLopHoc();
+            BindDDLClasses();
             BindRepeaterLopHoc();
         }
         #endregion
@@ -446,15 +446,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             BindDropDownListNganhHoc();
 
-            BindDropDownListKhoiLop();
+            BindDDLGrades();
 
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
-        private void BindDropDownListKhoiLop()
+        private void BindDDLGrades()
         {
-            GradeBL KhoiLopBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
+            GradeBL grades = new GradeBL(UserSchool);
+            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";
@@ -472,18 +472,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownListNganhHoc()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
-            DdlNganh.DataSource = lstNganhHoc;
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganh.DataSource = faculties;
             DdlNganh.DataValueField = "MaNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
             DdlNganh.DataBind();
-            if (lstNganhHoc.Count > 1)
+            if (faculties.Count > 1)
             {
                 DdlNganh.Items.Insert(0, new ListItem("Tất cả", "0"));
             }
 
-            DdlNganhHocThem.DataSource = lstNganhHoc;
+            DdlNganhHocThem.DataSource = faculties;
             DdlNganhHocThem.DataValueField = "MaNganhHoc";
             DdlNganhHocThem.DataTextField = "TenNganhHoc";
             DdlNganhHocThem.DataBind();
@@ -512,7 +512,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListLopHoc()
+        private void BindDDLClasses()
         {
             CauHinh_NamHoc year = null;
             DanhMuc_NganhHoc faculty = null;

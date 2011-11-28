@@ -408,17 +408,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
 
-            List<DanhMuc_NganhHoc> lstNganhHoc = facultyBL.GetFaculties();
-            DdlNganh.DataSource = lstNganhHoc;
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganh.DataSource = faculties;
             DdlNganh.DataValueField = "TenNganhHoc";
             DdlNganh.DataTextField = "TenNganhHoc";
             DdlNganh.DataBind();
-            if (lstNganhHoc.Count > 1)
+            if (faculties.Count > 1)
             {
                 DdlNganh.Items.Insert(0, new ListItem("Tất cả", "Tất cả"));
             }
 
-            DdlNganhHocThem.DataSource = lstNganhHoc;
+            DdlNganhHocThem.DataSource = faculties;
             DdlNganhHocThem.DataValueField = "TenNganhHoc";
             DdlNganhHocThem.DataTextField = "TenNganhHoc";
             DdlNganhHocThem.DataBind();

@@ -33,15 +33,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
-                ViewState[AppConstant.VIEWSTATE_STUDENT] = Int32.Parse(Request.QueryString[AppConstant.QUERY_STUDENT]);
-                FillHocSinh();
+
+                HocSinh_ThongTinCaNhan student = (HocSinh_ThongTinCaNhan)GetSession(AppConstant.SESSION_STUDENT);
+                RemoveSession(AppConstant.SESSION_STUDENT);
+                ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+
+                LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_CLASS);
+                RemoveSession(AppConstant.SESSION_CLASS);
+                ViewState[AppConstant.VIEWSTATE_CLASSID] = Class.MaLopHoc;
+
+                FillStudentPersonalInformation(student);
             }
         }
 
-        private void FillHocSinh()
+        private void FillStudentPersonalInformation(HocSinh_ThongTinCaNhan student)
         {
-            int studentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENT].ToString());
-            HocSinh_ThongTinCaNhan student = studentBL.GetStudent(studentId);
+            student = studentBL.GetStudent(student.MaHocSinh);
             TxtMaHocSinhHienThi.Text = student.MaHocSinhHienThi;
             HdfOldStudentCode.Value = student.MaHocSinhHienThi;
             TxtTenHocSinh.Text = student.HoTen;
@@ -76,24 +83,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNganh.SelectedValue = lopHoc.MaNganhHoc.ToString();
             DdlKhoiLop.SelectedValue = lopHoc.MaKhoiLop.ToString();
             DdlLopHoc.SelectedValue = lopHoc.MaLopHoc.ToString();
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
         #endregion
 
         #region DropDownList event hanlders
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDropDownListLopHoc();
+            BindDDLClasses();
         }
         #endregion
 
@@ -162,7 +169,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strNewPhone = this.TxtDienThoai.Text.Trim();
 
             editedStudent = new HocSinh_ThongTinCaNhan();
-            editedStudent.MaHocSinh = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENT].ToString());
+            editedStudent.MaHocSinh = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
             newClass = new LopHoc_Lop();
             newClass.MaLopHoc = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
@@ -211,40 +218,41 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownLists()
         {
-            BindDropDownListNganhHoc();
-            BindDropDownListKhoiLop();
-            BindDropDownListLopHoc();
+            BindDDLFaculties();
+            BindDDLGrades();
+            BindDDLClasses();
+        }
+
+        private void BindDDLFaculties()
+        {
+            FacultyBL facultyBL = new FacultyBL(UserSchool);
+            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            DdlNganh.DataSource = faculties;
+            DdlNganh.DataValueField = "MaNganhHoc";
+            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataBind();
         }
     
-        private void BindDropDownListKhoiLop()
+        private void BindDDLGrades()
         {
-            GradeBL KhoiLopBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = KhoiLopBL.GetListGrades();
-            DdlKhoiLop.DataSource = lstKhoiLop;
+            GradeBL gradeBL = new GradeBL(UserSchool);
+            List<DanhMuc_KhoiLop> grades = gradeBL.GetListGrades();
+            DdlKhoiLop.DataSource = grades;
             DdlKhoiLop.DataValueField = "MaKhoiLop";
             DdlKhoiLop.DataTextField = "TenKhoiLop";
             DdlKhoiLop.DataBind();
         }
 
-        private void BindDropDownListNganhHoc()
+        private void BindDDLClasses()
         {
-            FacultyBL nganhHocBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhHoc = nganhHocBL.GetFaculties();
-            DdlNganh.DataSource = lstNganhHoc;
-            DdlNganh.DataValueField = "MaNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
-            DdlNganh.DataBind();
-        }
-
-        private void BindDropDownListLopHoc()
-        {
+            // declare variables
             DanhMuc_NganhHoc faculty = null;
             DanhMuc_KhoiLop grade = null;
-            ClassBL lopHocBL = new ClassBL(UserSchool);           
+            ClassBL classBL = new ClassBL(UserSchool);           
 
             try
             {
-                if (DdlNganh.SelectedIndex > 0)
+                if (DdlNganh.SelectedIndex >= 0)
                 {
                     faculty = new DanhMuc_NganhHoc();
                     faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
@@ -254,7 +262,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             
             try
             {
-                if (DdlKhoiLop.SelectedIndex > 0)
+                if (DdlKhoiLop.SelectedIndex >= 0)
                 {
                     grade = new DanhMuc_KhoiLop();
                     grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
@@ -262,7 +270,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<LopHoc_Lop> classes = lopHocBL.GetListClasses(currentYear, faculty, grade);
+            List<LopHoc_Lop> classes = classBL.GetListClasses(currentYear, faculty, grade);
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "MaLopHoc";
             DdlLopHoc.DataTextField = "TenLopHoc";
