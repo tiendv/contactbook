@@ -121,24 +121,61 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            PagerMain.CurrentIndex = 1;
+            //PagerMain.CurrentIndex = 1;
 
+            //string tenHocLuc = this.TxtTenHocLucThem.Text;
+            //float dtbDau = float.Parse(this.TxtDTBTuThem.Text);
+            //float dtbCuoi = float.Parse(this.TxtDTBDenThem.Text);
+
+            //hocLucBL.InsertHocLuc(new DanhMuc_HocLuc
+            //{
+            //    TenHocLuc = tenHocLuc,
+            //    DTBDau = dtbDau,
+            //    DTBCuoi = dtbCuoi
+            //});
+
+            //BindData();
+
+            //this.TxtTenHocLucThem.Text = "";
+            //this.TxtDTBTuThem.Text = "";
+            //this.TxtDTBDenThem.Text = "";
+
+            //if (this.CkbAddAfterSave.Checked)
+            //{
+            //    this.MPEAdd.Show();
+            //}
             string tenHocLuc = this.TxtTenHocLucThem.Text;
+
+            if (tenHocLuc == "")
+            {
+                TenHocLucRequiredAdd.IsValid = false;
+                TxtTenHocLucThem.Focus();
+                MPEAdd.Show();
+                return;
+            }
+            else
+            {
+                if (hocLucBL.ConductNameExists(tenHocLuc))
+                {
+                    TenHocLucValidatorAdd.IsValid = false;
+                    TxtTenHocLucThem.Focus();
+                    MPEAdd.Show();
+                    return;
+                }
+            }
             float dtbDau = float.Parse(this.TxtDTBTuThem.Text);
             float dtbCuoi = float.Parse(this.TxtDTBDenThem.Text);
-
-            hocLucBL.InsertHocLuc(new DanhMuc_HocLuc
+            hocLucBL.InsertConduct(new DanhMuc_HocLuc
             {
                 TenHocLuc = tenHocLuc,
                 DTBDau = dtbDau,
                 DTBCuoi = dtbCuoi
             });
 
+            //PagerMain.CurrentIndex = 1;
             BindData();
 
             this.TxtTenHocLucThem.Text = "";
-            this.TxtDTBTuThem.Text = "";
-            this.TxtDTBDenThem.Text = "";
 
             if (this.CkbAddAfterSave.Checked)
             {
@@ -148,19 +185,67 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
+            //int maHocLuc = Int32.Parse(this.HdfMaHocLuc.Value);
+            //hocLucBL.DeleteHocLuc(maHocLuc);
+            //isSearch = false;
+            //BindData();
             int maHocLuc = Int32.Parse(this.HdfMaHocLuc.Value);
-            hocLucBL.DeleteHocLuc(maHocLuc);
+
+            DanhMuc_HocLuc conduct = new DanhMuc_HocLuc();
+            conduct.MaHocLuc = maHocLuc;
+
+            hocLucBL.DeleteConduct(conduct);
             isSearch = false;
             BindData();
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            int maHocLuc = Int32.Parse(this.HdfMaHocLuc.Value);
-            string tenHocLuc = TxtSuaTenHocLuc.Text;
-            float dtbDau = float.Parse(TxtHeSoDiemHocLucSua.Text);
-            float dtbCuoi = 0; // float.Parse(TxtHeSoDiemHocLucSua.Text);
-            hocLucBL.UpdateHocLuc(maHocLuc, tenHocLuc, dtbDau, dtbCuoi);
+            //int maHocLuc = Int32.Parse(this.HdfMaHocLuc.Value);
+            //string tenHocLuc = TxtSuaTenHocLuc.Text;
+            //float dtbDau = 0;// float.Parse(TxtHeSoDiemHocLucSua.Text);
+            //float dtbCuoi = 0; // float.Parse(TxtHeSoDiemHocLucSua.Text);
+            //hocLucBL.UpdateHocLuc(maHocLuc, tenHocLuc, dtbDau, dtbCuoi);
+            //BindData();
+            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
+            foreach (RepeaterItem rptItem in RptHocLuc.Items)
+            {
+                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
+                {
+                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
+                    if (modalPopupEdit.ClientID == HdfRptHocLucMPEEdit.Value)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if (!Page.IsValid)
+            {
+                return;
+            }
+
+            string editedTenHanhKiem = (string)HdfEditedTenHanhKiem.Value;
+            string newTenHanhKiem = TxtSuaTenHocLuc.Text.Trim();
+
+            if (newTenHanhKiem == "")
+            {
+                TenHocLucRequiredEdit.IsValid = false;
+                modalPopupEdit.Show();
+                return;
+            }
+            else
+            {
+                if (hocLucBL.ConductNameExists(editedTenHanhKiem, newTenHanhKiem))
+                {
+                    TenHocLucValidatorEdit.IsValid = false;
+                    modalPopupEdit.Show();
+                    return;
+                }
+            }
+
+            int editedMaHanhKiem = Int32.Parse(this.HdfMaHocLuc.Value);
+            hocLucBL.UpdateConduct(editedTenHanhKiem, newTenHanhKiem);
             BindData();
         }
         #endregion
@@ -168,15 +253,68 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptHocLuc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            //if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            //{
+            //    DanhMuc_HocLuc HocLuc = (DanhMuc_HocLuc)e.Item.DataItem;
+            //    if (!hocLucBL.CheckCanDeleteHocLuc(HocLuc.MaHocLuc))
+            //    {
+            //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
+            //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
+            //        btnDeleteItem.Enabled = false;
+            //    }
+            //}
+            if (lstAccessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Modify))
             {
-                DanhMuc_HocLuc HocLuc = (DanhMuc_HocLuc)e.Item.DataItem;
-                if (!hocLucBL.CheckCanDeleteHocLuc(HocLuc.MaHocLuc))
+                // Do something
+            }
+            else
+            {
+                if (e.Item.ItemType == ListItemType.Header)
                 {
-                    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                    btnDeleteItem.Enabled = false;
+                    e.Item.FindControl("thEdit").Visible = false;
                 }
+
+                if (e.Item.ItemType == ListItemType.Item ||
+                    e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+                    e.Item.FindControl("tdEdit").Visible = false;
+                }
+
+                PnlPopupEdit.Visible = false;
+            }
+
+            if (lstAccessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Delete))
+            {
+                if (e.Item.ItemType == ListItemType.Item
+                    || e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+                    if (e.Item.DataItem != null)
+                    {
+                        DanhMuc_HanhKiem conduct = (DanhMuc_HanhKiem)e.Item.DataItem;
+
+                        if (!hocLucBL.IsDeletable(conduct.TenHanhKiem))
+                        {
+                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
+                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
+                            btnDeleteItem.Enabled = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (e.Item.ItemType == ListItemType.Header)
+                {
+                    e.Item.FindControl("thDelete").Visible = false;
+                }
+
+                if (e.Item.ItemType == ListItemType.Item ||
+                    e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+                    e.Item.FindControl("tdDelete").Visible = false;
+                }
+
+                this.PnlPopupConfirmDelete.Visible = false;
             }
         }
 
@@ -203,7 +341,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         DanhMuc_HocLuc HocLuc = hocLucBL.GetHocLuc(maHocLuc);
 
                         TxtSuaTenHocLuc.Text = HocLuc.TenHocLuc;
-                        TxtHeSoDiemHocLucSua.Text = HocLuc.DTBDau.ToString();
+                        //TxtHeSoDiemHocLucSua.Text = HocLuc.DTBDau.ToString();
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
