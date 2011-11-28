@@ -290,9 +290,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        DanhMuc_HanhKiem conduct = (DanhMuc_HanhKiem)e.Item.DataItem;
+                        DanhMuc_HocLuc conduct = (DanhMuc_HocLuc)e.Item.DataItem;
 
-                        if (!hocLucBL.IsDeletable(conduct.TenHanhKiem))
+                        if (!hocLucBL.IsDeletable(conduct.TenHocLuc))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
