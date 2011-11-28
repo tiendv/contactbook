@@ -85,5 +85,49 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return hocLucDA.CheckCanDeleteHocLuc(maHocLuc);
         }
+
+        public bool ConductNameExists(string conductName)
+        {
+            return hocLucDA.ConductNameExists(conductName);
+        }
+        public void InsertConduct(DanhMuc_HocLuc conduct)
+        {
+            hocLucDA.InsertConduct(conduct);
+        }
+        public void DeleteConduct(DanhMuc_HocLuc conduct)
+        {
+            hocLucDA.DeleteConduct(conduct);
+        }
+        public bool ConductNameExists(string oldConductName, string newConductName)
+        {
+            bool bResult = false;
+
+            if (oldConductName == newConductName)
+            {
+                bResult = false;
+            }
+            else
+            {
+                bResult = hocLucDA.ConductNameExists(newConductName);
+            }
+
+            return bResult;
+        }
+        public void UpdateConduct(string editedConductName, string newConductName)
+        {
+            DanhMuc_HocLuc hocluc = GetConduct(editedConductName);
+
+            hocluc.TenHocLuc = newConductName;
+
+            hocLucDA.UpdateConduct(hocluc);
+        }
+        public DanhMuc_HocLuc GetConduct(string conductName)
+        {
+            return hocLucDA.GetConduct(conductName);
+        }
+        public bool IsDeletable(string conductName)
+        {
+            return hocLucDA.IsDeletable(conductName);
+        }
     }
 }
