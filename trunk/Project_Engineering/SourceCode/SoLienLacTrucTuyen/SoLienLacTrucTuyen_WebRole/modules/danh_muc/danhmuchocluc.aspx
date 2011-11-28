@@ -81,6 +81,7 @@
         <tr>
             <td>
                 <table class="repeater">   
+                    <asp:HiddenField ID="HdfEditedTenHanhKiem" runat="server" />
                     <asp:HiddenField ID="HdfMaHocLuc" runat="server"/>
                     <asp:HiddenField ID="HdfRptHocLucMPEDelete" runat="server"/>
                     <asp:HiddenField ID="HdfRptHocLucMPEEdit" runat="server"/>
@@ -92,11 +93,14 @@
                                 <td class="left orderNo">
                                     STT
                                 </td>
-                                <td class="middle">
+                                <td class="middle" style="width:400px">
                                     học lực
                                 </td>
-                                <td class="middle" style="width:100px">
-                                    Hệ số điểm
+                                <td class="middle">
+                                    DTB Đầu
+                                </td>
+                                <td class="middle">
+                                    DTB Cuối
                                 </td>
                                 <td class="middle icon">
                                     Sửa
@@ -117,7 +121,10 @@
                                     <%#DataBinder.Eval(Container.DataItem, "TenHocLuc")%>
                                 </td>
                                 <td style="height:40px; text-align:right">
-                                    <%#DataBinder.Eval(Container.DataItem, "HeSoDiem")%>
+                                    <%#DataBinder.Eval(Container.DataItem, "DTBDau")%>
+                                </td>
+                                <td style="height:40px; text-align:right">
+                                    <%#DataBinder.Eval(Container.DataItem, "DTBCuoi")%>
                                 </td>
                                 <td class="icon" style="height:40px;">
                                     <asp:ImageButton ID="BtnFakeEditItem" runat="server" style="display:none;"/>
@@ -147,11 +154,11 @@
                         </ItemTemplate>                        
                         <FooterTemplate>
                             <tr>
-                                <td colspan="5" class="footer">
-                                    <div class="left"></div>
+                                <td colspan="6" class="footer">
+<%--                                    <div class="left"></div>
                                     <div class="right"></div>
                                     <div class="middle">                                        
-                                    </div>
+                                    </div>--%>
                                 </td>
                             </tr>
                         </FooterTemplate>
@@ -197,6 +204,13 @@
                                 <asp:Label ID="LblErrorTenHocLucThem" runat="server" 
                                     Text="Tên học lực không được để trống" CssClass="error hide_error">
                                 </asp:Label>
+                                <asp:RequiredFieldValidator ID="TenHocLucRequiredAdd" runat="server" 
+                                    ControlToValidate="TxtTenHocLucThem" Display="Dynamic" 
+                                    ErrorMessage="Tên học lực không được để trống" ForeColor="Red" 
+                                    ValidationGroup="AddHanhKiem"></asp:RequiredFieldValidator>
+                                <asp:CustomValidator ID="TenHocLucValidatorAdd" runat="server" 
+                                    ControlToValidate="TxtTenHocLucThem" Display="Dynamic" 
+                                    ErrorMessage="Học lực đã tồn tại" ForeColor="Red" ValidationGroup="AddHanhKiem"></asp:CustomValidator>
                             </td>                                        
                         </tr>
                         <tr>
@@ -270,23 +284,30 @@
                     <div class="inputBorder">
                         <table style="width:100%;">
                             <tr>
-                                <td style="width:15%; vertical-align:top; padding-top:3px;">
+                                <td style="width:80px; vertical-align:top; padding-top:3px;">
                                     <asp:Label ID="Label2" runat="server" Text="Tên:"></asp:Label>&nbsp;
                                     <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                                 </td>
-                                <td style="width:auto;">
+                                <td style="width:auto;" colspan="4" >
                                     <asp:TextBox ID="TxtSuaTenHocLuc" runat="server" CssClass="input_textbox"></asp:TextBox>                                            
                                     <asp:Label ID="TxtErrorSuaTenHocLuc" runat="server" 
                                         Text="Tên học lực không được để trống" ForeColor="red"
                                         style=" display:none;">
                                     </asp:Label>
+                                    <asp:RequiredFieldValidator ID="TenHocLucRequiredEdit" runat="server" 
+                                        ControlToValidate="TxtTenHocLucThem" Display="Dynamic" 
+                                        ErrorMessage="Tên học lực không được để trống" ForeColor="Red" 
+                                        ValidationGroup="AddHanhKiem"></asp:RequiredFieldValidator>
+                                    <asp:CustomValidator ID="TenHocLucValidatorEdit" runat="server" 
+                                        ControlToValidate="TxtTenHocLucThem" Display="Dynamic" 
+                                        ErrorMessage="Học lực đã tồn tại" ForeColor="Red" ValidationGroup="AddHanhKiem"></asp:CustomValidator>
                                 </td>                                        
                             </tr>
                             <tr>
                                 <td style="vertical-align:text-top; padding-top:3px;">
                                     <asp:Label ID="Label10" runat="server" Text="Hệ số điểm:"></asp:Label>
                                 </td>
-                                <td style="width:auto;">
+ <%--                               <td style="width:auto;">
                                     <asp:TextBox ID="TxtHeSoDiemHocLucSua" runat="server" CssClass="input_textbox" style="font-family:arial; text-align:right">
                                     </asp:TextBox>
                                     <ajaxToolkit:MaskedEditExtender ID="MEE_TxtHeSoDiemHocLucSua" runat="server"
@@ -302,7 +323,29 @@
                                     <asp:Label ID="TxtErrorHeSoDiemHocLucSua" runat="server" 
                                         Text="Hệ số điểm không được để trống" CssClass="error hide_error">
                                     </asp:Label>
-                                </td>
+                                </td>--%>
+                            <td style="width:30px;">
+                                <asp:Label ID="Label16" runat="server" Text="Từ:"></asp:Label>
+                                <asp:Label ID="Label17" runat="server" Text="*" ForeColor="Red"></asp:Label>
+                            </td>
+                            <td style="width:60px; padding-right:10px; float:right">
+                                <asp:TextBox ID="TxtDTBTuSua" runat="server" CssClass="input_textbox" style="text-align:right"></asp:TextBox>
+                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender3" runat="server"
+                                    TargetControlID="TxtDTBTuSua" MaskType="Number" Mask="9.9">                                    
+                                </ajaxToolkit:MaskedEditExtender>                                
+                                <asp:Label ID="Label18" runat="server" Text="Khoảng điểm trung bình không được để trống" CssClass="error hide_error">
+                                </asp:Label>
+                            </td>
+                            <td style="width:50px;">
+                                <asp:Label ID="Label19" runat="server" Text="Đến:"></asp:Label>
+                                <asp:Label ID="Label20" runat="server" Text="*" ForeColor="Red"></asp:Label>
+                            </td>
+                            <td style="width:60px; float:right; padding-right:10px">
+                                <asp:TextBox ID="TxtDTBDenSua" runat="server" CssClass="input_textbox" style="text-align:right"></asp:TextBox>
+                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender4" runat="server"
+                                    TargetControlID="TxtDTBDenSua" MaskType="Number" Mask="9.9">                                    
+                                </ajaxToolkit:MaskedEditExtender>
+                            </td>
                             </tr>
                         </table>                        
                     </div>
