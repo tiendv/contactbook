@@ -83,7 +83,29 @@ namespace SoLienLacTrucTuyen.DataAccess
             hocLucs = hocLucs.OrderBy(n => n.TenHocLuc).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
             return hocLucs.ToList();
         }
+        public List<DanhMuc_HocLuc> GetHocLucs(int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<DanhMuc_HocLuc> lConducts = new List<DanhMuc_HocLuc>();
 
+            IQueryable<DanhMuc_HocLuc> iqConduct = from cdt in db.DanhMuc_HocLucs
+                                                     where cdt.SchoolId == school.SchoolId
+                                                     select cdt;
+
+            return GetHocLucs(ref iqConduct, pageCurrentIndex, pageSize, out totalRecords);
+        }
+        private List<DanhMuc_HocLuc> GetHocLucs(ref IQueryable<DanhMuc_HocLuc> iqHocLuc, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            totalRecords = iqHocLuc.Count();
+            if (totalRecords != 0)
+            {
+                return iqHocLuc.OrderBy(hocluc => hocluc.MaHocLuc)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+            else
+            {
+                return new List<DanhMuc_HocLuc>();
+            }
+        }
         public double GetHocLucCount()
         {
             IQueryable<DanhMuc_HocLuc> hocLucs = from hl in db.DanhMuc_HocLucs
@@ -161,6 +183,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         }
         public void InsertConduct(DanhMuc_HocLuc conduct)
         {
+            conduct.SchoolId = school.SchoolId;
             db.DanhMuc_HocLucs.InsertOnSubmit(conduct);
             db.SubmitChanges();
         }
@@ -196,6 +219,22 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             return conduct;
         }
+        public DanhMuc_HocLuc GetConduct(int conductName)
+        {
+            DanhMuc_HocLuc conduct = null;
+
+            IQueryable<DanhMuc_HocLuc> iqConduct = from cdt in db.DanhMuc_HocLucs
+                                                   where cdt.MaHocLuc == conductName
+                                                   && cdt.SchoolId == school.SchoolId
+                                                   select cdt;
+
+            if (iqConduct.Count() != 0)
+            {
+                conduct = iqConduct.First();
+            }
+
+            return conduct;
+        }
         public void UpdateConduct(DanhMuc_HocLuc editedConduct)
         {
             DanhMuc_HocLuc conduct = null;
@@ -209,6 +248,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 conduct = iqConduct.First();
                 conduct.TenHocLuc = editedConduct.TenHocLuc;
+                conduct.DTBDau = editedConduct.DTBDau;
+                conduct.DTBCuoi = editedConduct.DTBCuoi;
                 db.SubmitChanges();
             }
         }
