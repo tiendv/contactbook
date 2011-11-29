@@ -10,20 +10,12 @@
     </script>
     <script language="javascript" type="text/javascript">
         function pageLoad() {
-            $find('<%=MPEAdd.ClientID%>').add_showing(function () {
-                $get('<%=TxtTenHocLucThem.ClientID%>').value = "";
-                $get('<%=TxtTenHocLucThem.ClientID%>').focus();
-
-                $get('<%=LblErrorTenHocLucThem.ClientID%>').style.display = 'none';
-                $get('<%=LblErrorTenHocLucThem.ClientID%>').style.color = '#FF0000';
-
-                $get('<%=TxtDTBTuThem.ClientID%>').value = "";
-
-                $get('<%=TxtDTBDenThem.ClientID%>').value = "";
-
-                $get('<%=LblErrorDTBThem.ClientID%>').style.display = 'none';
-                $get('<%=LblErrorDTBThem.ClientID%>').style.color = '#FF0000';
-            });
+            var modalPopupAdd = $find('<%=MPEAdd.ClientID%>')
+            if (modalPopupAdd != null) {
+                modalPopupAdd.add_showing(function () {
+                    $get('<%=TxtTenHocLucThem.ClientID%>').value = "";
+                });
+            }
         }
 
         function popopAdd_CancelSave_Click() {
