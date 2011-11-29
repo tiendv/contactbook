@@ -35,35 +35,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 this.isSearch = false;
 
                 // Khôi phục lại thông tin khi chuyển sang trang khác rồi trở về trang này
-                    if (CheckSessionKey(AppConstant.SESSION_YEAR) 
-                        && CheckSessionKey(AppConstant.SESSION_FACULTY) 
-                        && CheckSessionKey(AppConstant.SESSION_GRADE)
-                        && CheckSessionKey(AppConstant.SESSION_CLASS)
-                        && CheckSessionKey(AppConstant.SESSION_STUDENTCODE)
-                        && CheckSessionKey(AppConstant.SESSION_STUDENTNAME))
+                    if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR) 
+                        && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY) 
+                        && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE)
+                        && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
+                        && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTCODE)
+                        && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTNAME))
                 {
-                    CauHinh_NamHoc year = (CauHinh_NamHoc)GetSession(AppConstant.SESSION_YEAR);
-                    RemoveSession(AppConstant.SESSION_YEAR);
+                    CauHinh_NamHoc year = (CauHinh_NamHoc)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                    RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
                     DdlNamHoc.SelectedValue = year.MaNamHoc.ToString();
 
-                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)GetSession(AppConstant.SESSION_FACULTY);
-                    RemoveSession(AppConstant.SESSION_FACULTY);
+                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
+                    RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
                     DdlNganh.SelectedValue = faculty.MaNganhHoc.ToString();
 
-                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)GetSession(AppConstant.SESSION_GRADE);
-                    RemoveSession(AppConstant.SESSION_GRADE);
+                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)GetSession(AppConstant.SESSION_SELECTED_GRADE);
+                    RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
                     DdlKhoiLop.SelectedValue = grade.MaKhoiLop.ToString();
 
-                    LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_CLASS);
-                    RemoveSession(AppConstant.SESSION_CLASS);
+                    LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                    RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
                     DdlLopHoc.SelectedValue = Class.MaLopHoc.ToString();
 
-                    String strStudentName = (string)GetSession(AppConstant.SESSION_STUDENTNAME);
-                    RemoveSession(AppConstant.SESSION_STUDENTNAME);
+                    String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
+                    RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
                     TxtTenHocSinh.Text = strStudentName;
 
-                    String strStudentCode = (string)GetSession(AppConstant.SESSION_STUDENTCODE);
-                    RemoveSession(AppConstant.SESSION_STUDENTCODE);
+                    String strStudentCode = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTCODE);
+                    RemoveSession(AppConstant.SESSION_SELECTED_STUDENTCODE);
                     TxtMaHocSinh.Text = strStudentCode;
 
                     isSearch = true;
@@ -162,53 +162,75 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDetailItem":
                     {
-                        //string query = "HocSinh=" + e.CommandArgument;
-                        //string saveSearchQuery = "&SNam=" + HdfSearchNamHoc.Value + "&SNganh=" + HdfSearchNganhHoc.Value
-                        //    + "&SKhoi=" + HdfSearchKhoiLop.Value + "&SLop=" + HdfSearchLopHoc.Value
-                        //    + "&STen=" + HdfSearchTenHocSinh.Value + "&SMa=" + HdfSearchMaHocSinh.Value;
-                        //HiddenField hdfMaLopHoc = (HiddenField)e.Item.FindControl("HdfMaLopHoc");
-
                         CauHinh_NamHoc year = new CauHinh_NamHoc();
                         year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-                        AddSession(AppConstant.SESSION_YEAR, year);
+                        AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
                         DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
                         faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
-                        AddSession(AppConstant.SESSION_FACULTY, faculty);
+                        AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
                         DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
                         grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
-                        AddSession(AppConstant.SESSION_GRADE, grade);
+                        AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
                         LopHoc_Lop Class = new LopHoc_Lop();
                         Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
-                        AddSession(AppConstant.SESSION_CLASS, Class);
+                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
                         String strStudentName = TxtTenHocSinh.Text;
-                        AddSession(AppConstant.SESSION_STUDENTNAME, strStudentName);
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, strStudentName);
 
                         String strStudentCode = TxtMaHocSinh.Text;
-                        AddSession(AppConstant.SESSION_STUDENTCODE, strStudentCode);
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
                         HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
                         student.MaHocSinh = Int32.Parse(e.CommandArgument.ToString());
                         AddSession(AppConstant.SESSION_STUDENT, student);
+
+                        LopHoc_Lop studentClass = new LopHoc_Lop();
+                        studentClass.MaLopHoc = Int32.Parse(((HiddenField)e.Item.FindControl("HdfMaLopHoc")).Value);
+                        AddSession(AppConstant.SESSION_STUDENTCLASS, Class);
 
                         Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
                         break;
                     }
                 case "CmdEditItem":
                     {
+                        CauHinh_NamHoc year = new CauHinh_NamHoc();
+                        year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+
+                        DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
+                        faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+
+                        DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
+                        grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+
+                        LopHoc_Lop Class = new LopHoc_Lop();
+                        Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+                        String strStudentName = TxtTenHocSinh.Text;
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, strStudentName);
+
+                        String strStudentCode = TxtMaHocSinh.Text;
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
+
                         // Get seleteced student and set to session
                         HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
                         student.MaHocSinh = Int32.Parse(e.CommandArgument.ToString());
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
                         // Get seleteced class and set to session
-                        LopHoc_Lop Class = new LopHoc_Lop();
-                        Class.MaLopHoc = Int32.Parse(((HiddenField)e.Item.FindControl("HdfMaLopHoc")).Value);
-                        AddSession(AppConstant.SESSION_CLASS, Class);
-                        
+                        LopHoc_Lop studentClass = new LopHoc_Lop();
+                        studentClass.MaLopHoc = Int32.Parse(((HiddenField)e.Item.FindControl("HdfMaLopHoc")).Value);
+                        AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
+
+                        AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
+
                         // redirect to "Sửa học sinh"
                         Response.Redirect(AppConstant.PAGEPATH_STUDENTEDIT);
                         break;

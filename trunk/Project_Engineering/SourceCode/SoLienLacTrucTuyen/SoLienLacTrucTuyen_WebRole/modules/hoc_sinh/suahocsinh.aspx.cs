@@ -34,15 +34,48 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BindDropDownLists();
 
-                HocSinh_ThongTinCaNhan student = (HocSinh_ThongTinCaNhan)GetSession(AppConstant.SESSION_STUDENT);
-                RemoveSession(AppConstant.SESSION_STUDENT);
-                ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+                if (CheckSessionKey(AppConstant.SESSION_STUDENT))
+                {
+                    HocSinh_ThongTinCaNhan student = (HocSinh_ThongTinCaNhan)GetSession(AppConstant.SESSION_STUDENT);
+                    RemoveSession(AppConstant.SESSION_STUDENT);
+                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
 
-                LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_CLASS);
-                RemoveSession(AppConstant.SESSION_CLASS);
-                ViewState[AppConstant.VIEWSTATE_CLASSID] = Class.MaLopHoc;
+                    LopHoc_Lop studentClass = (LopHoc_Lop)GetSession(AppConstant.SESSION_STUDENTCLASS);
+                    RemoveSession(AppConstant.SESSION_STUDENTCLASS);
+                    ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID] = studentClass.MaLopHoc;
 
-                FillStudentPersonalInformation(student);
+                    CauHinh_NamHoc year = (CauHinh_NamHoc)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                    RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
+                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+
+                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
+                    RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.MaNganhHoc;
+
+                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)GetSession(AppConstant.SESSION_SELECTED_GRADE);
+                    RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.MaKhoiLop;
+
+                    LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                    RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.MaLopHoc;
+
+                    String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
+                    RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME] = strStudentName;
+
+                    String strStudentCode = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTCODE);
+                    RemoveSession(AppConstant.SESSION_SELECTED_STUDENTCODE);
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE] = strStudentCode;
+
+                    string strPrevPage = (string)GetSession(AppConstant.SESSION_PREV_PAGE);
+                    RemoveSession(AppConstant.SESSION_PREV_PAGE);
+                    ViewState[AppConstant.VIEWSTATE_PREV_PAGE] = strPrevPage;
+
+                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+
+                    FillStudentPersonalInformation(student);
+                }                
             }
         }
 
@@ -177,12 +210,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 strNewBirthPlace, strNewAddress, strNewPhone, strNewFatherName, strNewFatherJob, dtNewFatherBirthday,
                 strNewMotherName, strNewMotherJob, dtNewMotherBirthday, tenNguoiDoDau, strNewPatronJob, dtNewPatronBirthday);
 
-            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+            RedirectPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+            RedirectPage();
         }
 
         protected void BtnDuyetHinhAnh_Click(object sender, ImageClickEventArgs e)
@@ -288,6 +321,50 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             else
             {
                 return null;
+            }
+        }
+
+        private void RedirectPage()
+        {
+            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            year.MaNamHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+
+            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
+            faculty.MaNganhHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+
+            DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
+            grade.MaKhoiLop = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+
+            LopHoc_Lop Class = new LopHoc_Lop();
+            Class.MaLopHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+            String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
+            AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, strStudentName);
+
+            String strStudentCode = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE].ToString();
+            AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
+
+            string strPrevPage = (string)ViewState[AppConstant.VIEWSTATE_PREV_PAGE];
+
+            if (strPrevPage == AppConstant.PAGEPATH_STUDENTINFOR)
+            {
+                HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
+                student.MaHocSinh = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
+                AddSession(AppConstant.SESSION_STUDENT, student);
+
+                LopHoc_Lop studentClass = new LopHoc_Lop();
+                studentClass.MaLopHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID].ToString());
+                AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
+
+                Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
+            }
+            else
+            {
+                Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
             }
         }
         #endregion

@@ -5,13 +5,17 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div>
-        <asp:Repeater ID="RptStudentFunctions" runat="server">
-            <ItemTemplate>
-                <asp:HyperLink ID="HlkStudentFunctionPage" runat="server" CssClass="tabHeader" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'>
-                    <%#DataBinder.Eval(Container.DataItem, "PageTitle")%>
-                </asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
-            </ItemTemplate>
-        </asp:Repeater>
+        <div>
+            <asp:Repeater ID="RptStudentFunctions" runat="server" OnItemDataBound="RptStudentFunctions_ItemDataBound"
+                OnItemCommand="RptStudentFunctions_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton ID="LkBtnStudentPage" runat="server" CssClass="tabHeader" CommandName="Redirect"
+                        CommandArgument='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'><%#DataBinder.Eval(Container.DataItem, "PageTitle")%></asp:LinkButton>
+                    <asp:HiddenField ID="HdfPhysicalPath" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>' />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
@@ -92,7 +96,7 @@
         <table class="repeater">
             <asp:HiddenField ID="RptMPEHanhKiem" runat="server" />
             <asp:HiddenField ID="HdfMaDanhHieuHSHK" runat="server" />
-            <asp:Repeater ID="RptDanhHieu" runat="server" OnItemDataBound="RptDanhHieu_ItemDataBound">
+            <asp:Repeater ID="RptDanhHieu" runat="server">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
