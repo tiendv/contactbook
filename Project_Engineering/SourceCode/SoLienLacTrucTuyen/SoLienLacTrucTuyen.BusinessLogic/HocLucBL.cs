@@ -65,7 +65,23 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return hocLucDA.GetListHocLuc(tenHocLuc, pageCurrentIndex, pageSize);
         }
+        public List<DanhMuc_HocLuc> GetListHocLuc(string conductName, int pageIndex, int pageSize, out double totalRecords)
+        {
+            List<DanhMuc_HocLuc> lConducts = new List<DanhMuc_HocLuc>();
 
+            if ((conductName == "") || (string.Compare(conductName, "tất cả", true) == 0))
+            {
+                lConducts = hocLucDA.GetHocLucs(pageIndex, pageSize, out totalRecords);
+            }
+            else
+            {
+                DanhMuc_HocLuc conduct = GetConduct(conductName);
+                lConducts.Add(conduct);
+                totalRecords = 1;
+            }
+
+            return lConducts;
+        }
         public double GetHocLucCount()
         {
             return hocLucDA.GetHocLucCount();
@@ -113,13 +129,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return bResult;
         }
-        public void UpdateConduct(string editedConductName, string newConductName)
+        public void UpdateConduct(int editedConductName, string newConductName, double dtbdau, double dtbcuoi)
         {
             DanhMuc_HocLuc hocluc = GetConduct(editedConductName);
 
             hocluc.TenHocLuc = newConductName;
+            hocluc.DTBDau = dtbdau;
+            hocluc.DTBCuoi = dtbcuoi;
 
             hocLucDA.UpdateConduct(hocluc);
+        }
+        public DanhMuc_HocLuc GetConduct(int conductName)
+        {
+            return hocLucDA.GetConduct(conductName);
         }
         public DanhMuc_HocLuc GetConduct(string conductName)
         {
