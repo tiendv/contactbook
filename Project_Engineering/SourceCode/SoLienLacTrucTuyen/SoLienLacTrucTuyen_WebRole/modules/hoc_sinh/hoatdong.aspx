@@ -95,11 +95,13 @@
         </script>
     </div>
     <div>
-        <asp:Repeater ID="RptStudentFunctions" runat="server">
+        <asp:Repeater ID="RptStudentFunctions" runat="server" OnItemDataBound="RptStudentFunctions_ItemDataBound"
+            OnItemCommand="RptStudentFunctions_ItemCommand">
             <ItemTemplate>
-                <asp:HyperLink ID="HlkStudentFunctionPage" runat="server" CssClass="tabHeader" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'>
-                    <%#DataBinder.Eval(Container.DataItem, "PageTitle")%>
-                </asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:LinkButton ID="LkBtnStudentPage" runat="server" CssClass="tabHeader" CommandName="Redirect"
+                    CommandArgument='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'><%#DataBinder.Eval(Container.DataItem, "PageTitle")%></asp:LinkButton>
+                <asp:HiddenField ID="HdfPhysicalPath" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>' />
+                &nbsp;&nbsp;&nbsp;&nbsp;
             </ItemTemplate>
         </asp:Repeater>
     </div>
@@ -132,12 +134,12 @@
                                 <asp:TextBox ID="TxtTuNgay" runat="server" Width="125px"></asp:TextBox>
                                 <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                                     ImageAlign="Middle" />
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender5" runat="server" TargetControlID="TxtTuNgay"
-                                    PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
-                                </ajaxToolkit:CalendarExtender>
-                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="TxtTuNgay"
-                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                                </ajaxToolkit:MaskedEditExtender>
+                                <ajaxtoolkit:calendarextender id="CalendarExtender5" runat="server" targetcontrolid="TxtTuNgay"
+                                    popupbuttonid="ImgCalendarTuNgay" popupposition="Right">
+                                </ajaxtoolkit:calendarextender>
+                                <ajaxtoolkit:maskededitextender id="MaskedEditExtender5" runat="server" targetcontrolid="TxtTuNgay"
+                                    masktype="Date" mask="99/99/9999" errortooltipenabled="true">
+                                </ajaxtoolkit:maskededitextender>
                             </td>
                             <td>
                                 Đến ngày:
@@ -146,12 +148,12 @@
                                 <asp:TextBox ID="TxtDenNgay" runat="server" Width="125px"></asp:TextBox>
                                 <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                                     ImageAlign="Middle" />
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender6" runat="server" TargetControlID="TxtDenNgay"
-                                    PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
-                                </ajaxToolkit:CalendarExtender>
-                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="TxtDenNgay"
-                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                                </ajaxToolkit:MaskedEditExtender>
+                                <ajaxtoolkit:calendarextender id="CalendarExtender6" runat="server" targetcontrolid="TxtDenNgay"
+                                    popupbuttonid="ImgCalendarDenNgay" popupposition="Right">
+                                </ajaxtoolkit:calendarextender>
+                                <ajaxtoolkit:maskededitextender id="MaskedEditExtender6" runat="server" targetcontrolid="TxtDenNgay"
+                                    masktype="Date" mask="99/99/9999" errortooltipenabled="true">
+                                </ajaxtoolkit:maskededitextender>
                             </td>
                         </tr>
                     </table>
@@ -167,10 +169,10 @@
         <div class="add">
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm hoạt động mới" CssClass="BtnAdd" />
-            <ajaxToolkit:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAdd"
-                PopupControlID="PnlPopupAdd" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupAdd"
-                PopupDragHandleControlID="PnlDragPopupAdd">
-            </ajaxToolkit:ModalPopupExtender>
+            <ajaxtoolkit:modalpopupextender id="MPEAdd" runat="server" targetcontrolid="BtnAdd"
+                popupcontrolid="PnlPopupAdd" backgroundcssclass="modalBackground" cancelcontrolid="ImgClosePopupAdd"
+                popupdraghandlecontrolid="PnlDragPopupAdd">
+            </ajaxtoolkit:modalpopupextender>
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
@@ -223,19 +225,19 @@
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
                                 CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHoatDong")%>' />
-                            <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
-                                PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
-                                PopupDragHandleControlID="PnlDragPopupEdit">
-                            </ajaxToolkit:ModalPopupExtender>
+                            <ajaxtoolkit:modalpopupextender id="MPEEdit" runat="server" targetcontrolid="BtnFakeEditItem"
+                                popupcontrolid="PnlPopupEdit" backgroundcssclass="modalBackground" cancelcontrolid="ImgClosePopupEdit"
+                                popupdraghandlecontrolid="PnlDragPopupEdit">
+                            </ajaxtoolkit:modalpopupextender>
                         </td>
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
                                 CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenHoatDong")%>' />
-                            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
-                                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
-                                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
-                            </ajaxToolkit:ModalPopupExtender>
+                            <ajaxtoolkit:modalpopupextender id="MPEDelete" runat="server" targetcontrolid="BtnFakeDeleteItem"
+                                popupcontrolid="PnlPopupConfirmDelete" backgroundcssclass="modalBackground" cancelcontrolid="imgClosePopupConfirmDelete"
+                                popupdraghandlecontrolid="PnlDragPopupConfirmDelete">
+                            </ajaxtoolkit:modalpopupextender>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -248,8 +250,8 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
-                ViewStateMode="Enabled" />
+            <cc1:datapager id="MainDataPager" runat="server" oncommand="MainDataPager_Command"
+                viewstatemode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupAdd" runat="server" CssClass="popup ui-corner-all" Width="400px">
@@ -321,9 +323,9 @@
                         <asp:TextBox ID="TxtNgayThem" runat="server" Width="125px"></asp:TextBox>
                         <asp:Image ID="ImgCalendarNgayThem" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
-                        <ajaxToolkit:CalendarExtender ID="CalendarExtender7" runat="server" TargetControlID="TxtNgayThem"
-                            PopupButtonID="ImgCalendarNgayThem" PopupPosition="Right">
-                        </ajaxToolkit:CalendarExtender>
+                        <ajaxtoolkit:calendarextender id="CalendarExtender7" runat="server" targetcontrolid="TxtNgayThem"
+                            popupbuttonid="ImgCalendarNgayThem" popupposition="Right">
+                        </ajaxtoolkit:calendarextender>
                         <asp:RequiredFieldValidator ID="NgayRequiredAdd" runat="server" ControlToValidate="TxtNgayThem"
                             ValidationGroup="AddHoatDong" ErrorMessage="Ngày không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
@@ -416,12 +418,12 @@
                         <asp:TextBox ID="TxtNgaySua" runat="server" Width="125px"></asp:TextBox>
                         <asp:Image ID="ImgCalendarNgaySua" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
-                        <ajaxToolkit:CalendarExtender ID="CalendarExtender8" runat="server" TargetControlID="TxtNgaySua"
-                            PopupButtonID="ImgCalendarNgaySua" PopupPosition="Right">
-                        </ajaxToolkit:CalendarExtender>
-                        <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender8" runat="server" TargetControlID="TxtNgaySua"
-                            MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                        </ajaxToolkit:MaskedEditExtender>
+                        <ajaxtoolkit:calendarextender id="CalendarExtender8" runat="server" targetcontrolid="TxtNgaySua"
+                            popupbuttonid="ImgCalendarNgaySua" popupposition="Right">
+                        </ajaxtoolkit:calendarextender>
+                        <ajaxtoolkit:maskededitextender id="MaskedEditExtender8" runat="server" targetcontrolid="TxtNgaySua"
+                            masktype="Date" mask="99/99/9999" errortooltipenabled="true">
+                        </ajaxtoolkit:maskededitextender>
                         <br />
                         <asp:RequiredFieldValidator ID="NgayRequiredEdit" runat="server" ControlToValidate="TxtNgaysua"
                             ValidationGroup="EditHoatDong" ErrorMessage="Ngày không được để trống" Display="Dynamic"

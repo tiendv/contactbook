@@ -8,16 +8,20 @@
     </div>
     <div>
         <div>
-            <asp:Repeater ID="RptStudentFunctions" runat="server">
+            <asp:Repeater ID="RptStudentFunctions" runat="server" OnItemDataBound="RptStudentFunctions_ItemDataBound"
+                OnItemCommand="RptStudentFunctions_ItemCommand">
                 <ItemTemplate>
-                    <asp:HyperLink ID="HlkStudentFunctionPage" runat="server" CssClass="tabHeader" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'>
-                    <%#DataBinder.Eval(Container.DataItem, "PageTitle")%>
-                    </asp:HyperLink>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:LinkButton ID="LkBtnStudentPage" runat="server" CssClass="tabHeader" CommandName="Redirect"
+                        CommandArgument='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'><%#DataBinder.Eval(Container.DataItem, "PageTitle")%></asp:LinkButton>
+                    <asp:HiddenField ID="HdfPhysicalPath" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>' />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                 </ItemTemplate>
             </asp:Repeater>
-        </div>        
-        <asp:ImageButton ID="BtnSua" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
-            OnClick="BtnSua_Click" />
+        </div>
+        <div>
+            <asp:ImageButton ID="BtnSua" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
+                OnClick="BtnSua_Click" />
+        </div>
         <table style="width: 100%; background-color: #E6F7F6; border: 2px solid #9AA8F2;
             padding: 10px 20px 10px 20px" class="ui-corner-all">
             <tr>
