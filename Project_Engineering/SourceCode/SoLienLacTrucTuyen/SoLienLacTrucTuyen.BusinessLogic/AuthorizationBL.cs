@@ -51,16 +51,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return roleDA.GetListRoles(ascentorRoleOnly);
         }
 
-        public List<aspnet_Role> GetRolesForAddingUser()
-        {
-            return roleDA.GetRolesForAddingUser();
-        }
-
-        public Guid GetRoleADMIN()
-        {
-            return roleDA.GetRoleAdminId();
-        }
-
         public bool IsRoleTeachers(aspnet_Role role)
         {
             return roleDA.IsRoleTeachers(role);
@@ -89,11 +79,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<UserManagement_Function> GetListRoleParentsBasedFunctions()
         {
             return roleDA.GetListRoleParentsBasedFunctions();
-        }
-
-        public string GetChildRoleParentsByFunctions(List<int> lstFunctions)
-        {
-            return roleDA.GetChildRoleParentsByFunctions(lstFunctions);
         }
 
         public bool IsRoleFORMERERTEACHER(string roleName)
@@ -154,6 +139,20 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void AddServicesToParentsUser(aspnet_User createdUser, List<UserManagement_Function> functions)
         {
             authorizationDA.AddServicesToParentsUser(createdUser, functions);
+        }
+
+        public Guid GetRoleAdminId()
+        {
+            RoleBL roleBL = new RoleBL(school);
+            aspnet_Role roleAdmin = roleBL.GetRoleAdmin();
+            if (roleAdmin != null)
+            {
+                return roleAdmin.RoleId;
+            }
+            else
+            {
+                return new Guid();
+            }
         }
     }
 }

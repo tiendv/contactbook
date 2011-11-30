@@ -88,11 +88,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.IsDeletable(user);
         }
 
-        public bool UserInRoleParents(string userName)
-        {
-            return userDA.UserInRolePARENTS(userName);
-        }
-
         public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email)
         {
             userDA.UpdateMembership(user, isTeacher, realName, email);
