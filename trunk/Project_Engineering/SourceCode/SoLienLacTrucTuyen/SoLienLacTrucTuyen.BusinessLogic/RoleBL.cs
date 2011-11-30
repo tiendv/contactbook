@@ -131,6 +131,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return tabularRole;
         }
+
+        public aspnet_Role GetRoleAdmin()
+        {
+            return roleDA.GetRoleAdmin();
+        }
     }
 }
 

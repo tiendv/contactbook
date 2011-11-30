@@ -282,30 +282,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             return roles;
         }
 
-        public List<aspnet_Role> GetRolesForAddingUser()
-        {
-            List<aspnet_Role> roles = new List<aspnet_Role>();
-
-            Guid formerTeacherRoleId = (from param in db.System_Parameters select param.RoleGVCNId).First();
-            Guid subjectTeacherRoleId = (from param in db.System_Parameters select param.RoleGVBMId).First();
-
-            IQueryable<aspnet_Role> iqRole;
-            iqRole = from role in db.aspnet_Roles
-                     join roleDetail in db.UserManagement_RoleDetails
-                         on role.RoleId equals roleDetail.RoleId
-                     where roleDetail.ParentRoleId == null
-                        && role.RoleId != formerTeacherRoleId
-                        && role.RoleId != subjectTeacherRoleId
-                     select role;
-
-            if (iqRole.Count() != 0)
-            {
-                roles = iqRole.OrderBy(role => role.RoleName).ToList();
-            }
-
-            return roles;
-        }
-
         public bool ValidateAuthorization(Guid role, string pageUrl)
         {
             IQueryable<int> authorizationIds = from authorizedPage in db.UserManagement_AuthorizedPages
@@ -349,7 +325,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         }
 
         public void AddUserToRole(string userName, aspnet_Role role)
-        {   
+        {
             aspnet_User user = (new UserDA(school)).GetUser(userName);
 
             aspnet_UsersInRole usersInRole = new aspnet_UsersInRole
@@ -375,10 +351,12 @@ namespace SoLienLacTrucTuyen.DataAccess
                          select giaoVien;
             if (iqGiaoVien.Count() != 0)
             {
-                Guid formerTeacherRoleId = (from param in db.System_Parameters select param.RoleGVCNId).First();
+                aspnet_Role formerTeacherRole = (from role in db.aspnet_Roles
+                                                 where role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == FORMERTEACHER
+                                                 select role).First();
                 db.aspnet_UsersInRoles.InsertOnSubmit(new aspnet_UsersInRole
                 {
-                    RoleId = formerTeacherRoleId,
+                    RoleId = formerTeacherRole.RoleId,
                     UserId = userId
                 });
             }
@@ -391,10 +369,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             if (iqGiaoVien.Count() != 0)
             {
-                Guid subjectTeacherRoleId = (from param in db.System_Parameters select param.RoleGVBMId).First();
+                aspnet_Role subjectTeacherRole = (from role in db.aspnet_Roles
+                                                 where role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == SUBJECTTEACHER
+                                                 select role).First();
+
                 db.aspnet_UsersInRoles.InsertOnSubmit(new aspnet_UsersInRole
                 {
-                    RoleId = subjectTeacherRoleId,
+                    RoleId = subjectTeacherRole.RoleId,
                     UserId = userId
                 });
             }
@@ -418,63 +399,72 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lstRoleBasedFunctions;
         }
 
-        public string GetChildRoleParentsByFunctions(List<int> lstFunctions)
+        //public string GetChildRoleParentsByFunctions(List<int> lstFunctions)
+        //{
+        //    lstFunctions.Sort();
+        //    Guid roleParentsId = (from param in db.System_Parameters
+        //                          select param.ParentsRoleId).First();
+
+        //    IQueryable<aspnet_Role> childRoleParents = from role in db.aspnet_Roles
+        //                                               join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
+        //                                               where roleDetail.ParentRoleId == roleParentsId
+        //                                               select role;
+
+        //    foreach (aspnet_Role child in childRoleParents)
+        //    {
+        //        IQueryable<int> roleBasedFunctions = from authorizedPage in db.UserManagement_AuthorizedPages
+        //                                             join authorization in db.UserManagement_Authorizations
+        //                                                 on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
+        //                                             where authorization.RoleId == child.RoleId
+        //                                             select authorizedPage.FunctionId;
+        //        if (roleBasedFunctions.Count() != 0)
+        //        {
+        //            List<int> lstRoleBasedFunctions = roleBasedFunctions.Distinct().ToList();
+        //            lstRoleBasedFunctions.Sort();
+
+        //            if (lstRoleBasedFunctions.Count == lstFunctions.Count)
+        //            {
+        //                int i;
+        //                for (i = 0; i < lstRoleBasedFunctions.Count; i++)
+        //                {
+        //                    if (!lstFunctions.Contains(lstRoleBasedFunctions[i]))
+        //                    {
+        //                        break;
+        //                    }
+        //                }
+        //                if (i == lstRoleBasedFunctions.Count)
+        //                {
+        //                    return child.RoleName;
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return "";
+        //}
+
+        public aspnet_Role GetRoleAdmin()
         {
-            lstFunctions.Sort();
-            Guid roleParentsId = (from param in db.System_Parameters
-                                  select param.ParentsRoleId).First();
+            aspnet_Role roleAdmin = null;
 
-            IQueryable<aspnet_Role> childRoleParents = from role in db.aspnet_Roles
-                                                       join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
-                                                       where roleDetail.ParentRoleId == roleParentsId
-                                                       select role;
-
-            foreach (aspnet_Role child in childRoleParents)
+            IQueryable<aspnet_Role> iqRoleAdmin = from role in db.aspnet_Roles
+                                                where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == ADMIN
+                                                select role;
+            if (iqRoleAdmin.Count() != 0)
             {
-                IQueryable<int> roleBasedFunctions = from authorizedPage in db.UserManagement_AuthorizedPages
-                                                     join authorization in db.UserManagement_Authorizations
-                                                         on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
-                                                     where authorization.RoleId == child.RoleId
-                                                     select authorizedPage.FunctionId;
-                if (roleBasedFunctions.Count() != 0)
-                {
-                    List<int> lstRoleBasedFunctions = roleBasedFunctions.Distinct().ToList();
-                    lstRoleBasedFunctions.Sort();
-
-                    if (lstRoleBasedFunctions.Count == lstFunctions.Count)
-                    {
-                        int i;
-                        for (i = 0; i < lstRoleBasedFunctions.Count; i++)
-                        {
-                            if (!lstFunctions.Contains(lstRoleBasedFunctions[i]))
-                            {
-                                break;
-                            }
-                        }
-                        if (i == lstRoleBasedFunctions.Count)
-                        {
-                            return child.RoleName;
-                        }
-                    }
-                }
+                roleAdmin = iqRoleAdmin.First();
             }
-
-            return "";
-        }
-
-        public Guid GetRoleAdminId()
-        {
-            Guid adminRoleId = (from param in db.System_Parameters
-                                select param.AdminRoleId).First();
-            return adminRoleId;
+            
+            return roleAdmin;
         }
 
         public bool IsRoleParents(aspnet_Role role)
         {
             IQueryable<aspnet_Role> iqRoleParents;
             iqRoleParents = from rl in db.aspnet_Roles
-                            join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
                             where rl.RoleId == role.RoleId
+                            && rl.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == PARENTS
                             select rl;
 
             if (iqRoleParents.Count() != 0)
@@ -491,8 +481,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<aspnet_Role> iqRoleParents;
             iqRoleParents = from rl in db.aspnet_Roles
-                            join param in db.System_Parameters on role.RoleId equals param.RoleTeacher
                             where rl.RoleId == role.RoleId
+                            && rl.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == TEACHER
                             select rl;
 
             if (iqRoleParents.Count() != 0)
@@ -505,41 +495,41 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsRoleParentsChildRole(Guid roleId)
-        {
-            aspnet_Role roleParents = (from role in db.aspnet_Roles
-                                       join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
-                                       select role).First();
+        //public bool IsRoleParentsChildRole(Guid roleId)
+        //{
+        //    aspnet_Role roleParents = (from role in db.aspnet_Roles
+        //                               join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
+        //                               select role).First();
 
-            if (roleParents.RoleId == roleId)
-            {
-                return true;
-            }
-            else
-            {
-                IQueryable<aspnet_Role> iqRole;
-                iqRole = from role in db.aspnet_Roles
-                         join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
-                         where (role.RoleId == roleId) && (roleDetail.ParentRoleId == roleParents.RoleId)
-                         select role;
-                if (iqRole.Count() != 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+        //    if (roleParents.RoleId == roleId)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        IQueryable<aspnet_Role> iqRole;
+        //        iqRole = from role in db.aspnet_Roles
+        //                 join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
+        //                 where (role.RoleId == roleId) && (roleDetail.ParentRoleId == roleParents.RoleId)
+        //                 select role;
+        //        if (iqRole.Count() != 0)
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //}
 
         public bool IsRoleFormerTeacher(string roleName)
         {
             IQueryable<aspnet_Role> iqFormerTeacherRole;
-            iqFormerTeacherRole = from role in db.aspnet_Roles
-                                  join param in db.System_Parameters on role.RoleId equals param.RoleGVCNId
-                                  where role.RoleName == roleName
-                                  select role;
+            iqFormerTeacherRole = from rl in db.aspnet_Roles
+                                  where rl.RoleName == roleName
+                                  && rl.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == FORMERTEACHER
+                                  select rl;
 
             if (iqFormerTeacherRole.Count() != 0)
             {
@@ -555,8 +545,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<aspnet_Role> iqSbjTeacherRole;
             iqSbjTeacherRole = from role in db.aspnet_Roles
-                               join param in db.System_Parameters on role.RoleId equals param.RoleGVBMId
                                where role.RoleName == roleName
+                               && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == SUBJECTTEACHER
                                select role;
 
             if (iqSbjTeacherRole.Count() != 0)
@@ -571,13 +561,13 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool IsRoleTeacher(aspnet_Role role)
         {
-            IQueryable<aspnet_Role> iqRoleParents;
-            iqRoleParents = from rl in db.aspnet_Roles
-                            join param in db.System_Parameters on role.RoleId equals param.RoleTeacher
+            IQueryable<aspnet_Role> iqRoleTeacher;
+            iqRoleTeacher = from rl in db.aspnet_Roles
                             where role.RoleId == role.RoleId
+                            && rl.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == TEACHER
                             select role;
 
-            if (iqRoleParents.Count() != 0)
+            if (iqRoleTeacher.Count() != 0)
             {
                 return true;
             }

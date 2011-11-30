@@ -155,11 +155,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             string userName = this.HdfUserName.Value;
-
-            if (!userBL.UserInRoleParents(userName))
-            {
-                Membership.DeleteUser(userName, true);
-            }
+            Membership.DeleteUser(userName, true);
 
             isSearch = false;
             BindRptUsers();

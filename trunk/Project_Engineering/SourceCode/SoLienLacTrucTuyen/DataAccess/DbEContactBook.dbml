@@ -4,8 +4,6 @@
     <Type Name="UserManagement_RoleParentsAuthorization">
       <Column Name="RoleParentAuthorizationId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="UserManagement_RoleParentsAuthorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorization2" ThisKey="RoleParentAuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" Cardinality="One" />
-      <Association Name="UserManagement_RoleParentsAuthorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorization1" ThisKey="RoleParentAuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" IsForeignKey="true" />
       <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_Authorization" ThisKey="RoleParentAuthorizationId" OtherKey="AuthorizationId" Type="UserManagement_Authorization" IsForeignKey="true" />
     </Type>
@@ -562,23 +560,12 @@
       <Association Name="School_DanhMuc_Tiet" Member="DanhMuc_Tiets" ThisKey="SchoolId" OtherKey="SchoolId" Type="DanhMuc_Tiet" />
       <Association Name="School_HocSinh_ThongTinCaNhan" Member="HocSinh_ThongTinCaNhans" ThisKey="SchoolId" OtherKey="SchoolId" Type="HocSinh_ThongTinCaNhan" />
       <Association Name="School_LopHoc_Lop" Member="LopHoc_Lops" ThisKey="SchoolId" OtherKey="SchoolId" Type="LopHoc_Lop" />
-      <Association Name="School_System_Parameter" Member="System_Parameters" ThisKey="SchoolId" OtherKey="SchoolId" Type="System_Parameter" />
       <Association Name="School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
     </Type>
   </Table>
   <Table Name="dbo.System_Parameters" Member="System_Parameters">
     <Type Name="System_Parameter">
-      <Column Name="AdminRoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ParentsRoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleTeacher" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleGVCNId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleGVBMId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="HomePageFunctionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FuncFlagAdminRoleOnly" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="FuncFlagParentsRoleOnly" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="FuncFlagOtherRoles" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="School_System_Parameter" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UserManagement_Accessibility" Member="UserManagement_Accessibilities">
@@ -646,25 +633,27 @@
       <Association Name="UserManagement_PagePath_UserManagement_Menus" Member="UserManagement_Menus" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_Menus" />
     </Type>
   </Table>
-  <Table Name="dbo.UserManagement_RoleBasedFunctionFlags" Member="UserManagement_RoleBasedFunctionFlags">
-    <Type Name="UserManagement_RoleBasedFunctionFlag">
-      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+  <Table Name="dbo.UserManagement_RoleCategory" Member="UserManagement_RoleCategories">
+    <Type Name="UserManagement_RoleCategory">
+      <Column Name="RoleCategoryId" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="FunctionFlag" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="UserManagement_RoleCategory_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="RoleCategoryId" OtherKey="RoleCategoryId" Type="UserManagement_RoleDetail" />
     </Type>
   </Table>
   <Table Name="dbo.UserManagement_RoleDetails" Member="UserManagement_RoleDetails">
     <Type Name="UserManagement_RoleDetail">
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DisplayedName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
       <Column Name="Expired" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CanBeDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="Actived" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ParentRoleId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="RoleCategoryId" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DisplayedName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
       <Association Name="School_UserManagement_RoleDetail" Member="School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School" IsForeignKey="true" />
+      <Association Name="UserManagement_RoleCategory_UserManagement_RoleDetail" Member="UserManagement_RoleCategory" ThisKey="RoleCategoryId" OtherKey="RoleCategoryId" Type="UserManagement_RoleCategory" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

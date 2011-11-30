@@ -120,33 +120,35 @@ namespace SoLienLacTrucTuyen.DataAccess
             return bCanDelete;
         }
 
-        public bool UserInRolePARENTS(string userName)
-        {
-            Guid roleParentsId = (from param in db.System_Parameters
-                                  select param.ParentsRoleId).First();
+        //public bool UserInRolePARENTS(string userName)
+        //{
+        //    aspnet_Role roleParent = from rl in db.aspnet_Roles
+        //                             where 
+        //    Guid roleParentsId = (from param in db.System_Parameters
+        //                          select param.ParentsRoleId).First();
 
-            IQueryable<Guid> childRoleParentsIds;
-            childRoleParentsIds = from role in db.aspnet_Roles
-                                  join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
-                                  where roleDetail.ParentRoleId == roleParentsId
-                                  select role.RoleId;
-            foreach (Guid childRoleParentsId in childRoleParentsIds)
-            {
-                IQueryable<aspnet_UsersInRole> usersInRoles;
-                usersInRoles = from usersInRole in db.aspnet_UsersInRoles
-                               join user in db.aspnet_Users
-                                    on usersInRole.UserId equals user.UserId
-                               where usersInRole.RoleId == childRoleParentsId
-                                    && user.UserName == userName
-                               select usersInRole;
-                if (usersInRoles.Count() != 0)
-                {
-                    return true;
-                }
-            }
+        //    IQueryable<Guid> childRoleParentsIds;
+        //    childRoleParentsIds = from role in db.aspnet_Roles
+        //                          join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
+        //                          where roleDetail.ParentRoleId == roleParentsId
+        //                          select role.RoleId;
+        //    foreach (Guid childRoleParentsId in childRoleParentsIds)
+        //    {
+        //        IQueryable<aspnet_UsersInRole> usersInRoles;
+        //        usersInRoles = from usersInRole in db.aspnet_UsersInRoles
+        //                       join user in db.aspnet_Users
+        //                            on usersInRole.UserId equals user.UserId
+        //                       where usersInRole.RoleId == childRoleParentsId
+        //                            && user.UserName == userName
+        //                       select usersInRole;
+        //        if (usersInRoles.Count() != 0)
+        //        {
+        //            return true;
+        //        }
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email)
         {

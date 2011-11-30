@@ -66,18 +66,12 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public List<string> GetFunctionFlags(Guid roleId)
         {
-            IQueryable<string> functionFlags = from functionFlag in db.UserManagement_RoleBasedFunctionFlags
-                                               where functionFlag.RoleId == roleId
-                                               select functionFlag.FunctionFlag;
-            if (functionFlags.Count() == 0)
-            {
-                functionFlags = from functionFlag in db.UserManagement_RoleBasedFunctionFlags
-                                where functionFlag.RoleId == new Guid()
-                                select functionFlag.FunctionFlag;
-            }
+            IQueryable<string> iqFunctionFlag = from rl in db.aspnet_Roles
+                                                where rl.RoleId == roleId
+                                                select rl.UserManagement_RoleDetail.UserManagement_RoleCategory.FunctionFlag;
 
-            List<string> lstFunctionFlags = functionFlags.First().Split(',').ToList();
-            return lstFunctionFlags;
+            List<string> functionFlags = iqFunctionFlag.First().Split(',').ToList();
+            return functionFlags;
         }
 
         public string GetHomePageFunctionCategory()

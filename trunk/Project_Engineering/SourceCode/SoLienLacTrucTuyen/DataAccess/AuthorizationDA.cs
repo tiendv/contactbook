@@ -113,8 +113,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             aspnet_Role roleParents = null;
             IQueryable<aspnet_Role> iqRoleParent = from role in db.aspnet_Roles
-                                                   join param in db.System_Parameters on role.RoleId equals param.ParentsRoleId
-                                                   where param.SchoolId == school.SchoolId
+                                                   where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                   && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == PARENTS
                                                    select role;
             if (iqRoleParent.Count() != 0)
             {

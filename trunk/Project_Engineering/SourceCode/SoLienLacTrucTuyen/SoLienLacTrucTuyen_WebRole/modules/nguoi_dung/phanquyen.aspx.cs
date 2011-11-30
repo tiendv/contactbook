@@ -70,7 +70,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
 
                     Guid selectedRole = new Guid(DdlRoles.SelectedValue.ToString());
-                    if (selectedRole == authorizationBL.GetRoleADMIN())
+                    if (selectedRole == authorizationBL.GetRoleAdminId())
                     {
                         if (functionBL.GetAdminOnlyFunctionCategories().Contains(tbPhanQuyen.FunctionCategoryName))
                         {
