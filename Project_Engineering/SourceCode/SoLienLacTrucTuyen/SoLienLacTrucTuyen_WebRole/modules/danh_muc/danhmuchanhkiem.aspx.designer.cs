@@ -76,22 +76,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// HdfEditedTenHanhKiem control.
+        /// HdfEditedConductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfEditedTenHanhKiem;
+        protected global::System.Web.UI.WebControls.HiddenField HdfEditedConductName;
         
         /// <summary>
-        /// HdfMaHanhKiem control.
+        /// HdfConductId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaHanhKiem;
+        protected global::System.Web.UI.WebControls.HiddenField HdfConductId;
         
         /// <summary>
         /// HdfRptHanhKiemMPEDelete control.
@@ -229,31 +229,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenHanhKiem control.
+        /// TxtConductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenHanhKiem;
+        protected global::System.Web.UI.WebControls.TextBox TxtConductName;
         
         /// <summary>
-        /// TenHanhKiemRequiredAdd control.
+        /// ConductNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenHanhKiemRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ConductNameRequiredAdd;
         
         /// <summary>
-        /// TenHanhKiemValidatorAdd control.
+        /// ConductNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenHanhKiemValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator ConductNameValidatorAdd;
         
         /// <summary>
         /// Label5 control.
@@ -328,31 +328,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtSuaTenHanhKiem control.
+        /// TxtSuaConductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaTenHanhKiem;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaConductName;
         
         /// <summary>
-        /// TenHanhKiemRequiredEdit control.
+        /// ConductNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenHanhKiemRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ConductNameRequiredEdit;
         
         /// <summary>
-        /// TenHanhKiemValidatorEdit control.
+        /// ConductNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenHanhKiemValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator ConductNameValidatorEdit;
         
         /// <summary>
         /// Label11 control.

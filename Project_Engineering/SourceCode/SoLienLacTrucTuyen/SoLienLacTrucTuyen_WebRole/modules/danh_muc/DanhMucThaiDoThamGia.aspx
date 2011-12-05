@@ -10,7 +10,7 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     modalPopupAdd.add_showing(function () {
-                        $get('<%=TxtTenThaiDoThamGia.ClientID%>').value = "";
+                        $get('<%=TxtAttitudeName.ClientID%>').value = "";
                     });
                 }
             }
@@ -32,13 +32,13 @@
                 return false;
             }
 
-            function validateTenThaiDoThamGiaAdd(ctrl, args) {
+            function validateAttitudeNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var tenThaiDoThamGia = $.trim(args.Value);
+                var AttitudeName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenThaiDoThamGia",
-                    data: "{'maThaiDoThamGia':'" + 0 + "', 'tenThaiDoThamGia':'" + tenThaiDoThamGia + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistAttitudeName",
+                    data: "{'AttitudeId':'" + 0 + "', 'AttitudeName':'" + AttitudeName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -60,14 +60,14 @@
                 }
             }
 
-            function validateTenThaiDoThamGiaEdit(ctrl, args) {
+            function validateAttitudeNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maThaiDoThamGia = $('#<%=HdfMaThaiDoThamGia.ClientID%>').val();
-                var tenThaiDoThamGia = $.trim(args.Value);
+                var AttitudeId = $('#<%=HdfAttitudeId.ClientID%>').val();
+                var AttitudeName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenThaiDoThamGia",
-                    data: "{'maThaiDoThamGia':'" + maThaiDoThamGia + "', 'tenThaiDoThamGia':'" + tenThaiDoThamGia + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistAttitudeName",
+                    data: "{'AttitudeId':'" + AttitudeId + "', 'AttitudeName':'" + AttitudeName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -119,7 +119,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfSltAttitudeName" runat="server" />
-            <asp:HiddenField ID="HdfMaThaiDoThamGia" runat="server" />
+            <asp:HiddenField ID="HdfAttitudeId" runat="server" />
             <asp:HiddenField ID="HdfRptThaiDoThamGiaMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptThaiDoThamGiaMPEEdit" runat="server" />
             <asp:Repeater ID="RptThaiDoThamGia" runat="server" OnItemCommand="RptThaiDoThamGia_ItemCommand"
@@ -144,16 +144,16 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaThaiDoThamGia" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaThaiDoThamGia")%>' />
-                            <asp:HiddenField ID="HdfRptTenThaiDoThamGia" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenThaiDoThamGia")%>' />
+                            <asp:HiddenField ID="HdfRptAttitudeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "AttitudeId")%>' />
+                            <asp:HiddenField ID="HdfRptAttitudeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "AttitudeName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenThaiDoThamGia")%>
+                            <%#DataBinder.Eval(Container.DataItem, "AttitudeName")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaThaiDoThamGia")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AttitudeId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -162,7 +162,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenThaiDoThamGia")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AttitudeName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -225,12 +225,12 @@
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenThaiDoThamGia" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:TextBox ID="TxtAttitudeName" runat="server" CssClass="input_textbox"></asp:TextBox>
                         <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
-                        <asp:RequiredFieldValidator ID="TenThaiDoThamGiaRequiredAdd" runat="server" ControlToValidate="TxtTenThaiDoThamGia"
+                        <asp:RequiredFieldValidator ID="AttitudeNameRequiredAdd" runat="server" ControlToValidate="TxtAttitudeName"
                             ValidationGroup="AddThaiDoThamGia" ErrorMessage="Tên thái độ tham gia không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenThaiDoThamGiaValidatorAdd" runat="server" ControlToValidate="TxtTenThaiDoThamGia"
+                        <asp:CustomValidator ID="AttitudeNameValidatorAdd" runat="server" ControlToValidate="TxtAttitudeName"
                             ValidationGroup="AddThaiDoThamGia"
                             ErrorMessage="Thái độ tham gia đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -266,12 +266,12 @@
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaTenThaiDoThamGia" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:TextBox ID="TxtSuaAttitudeName" runat="server" CssClass="input_textbox"></asp:TextBox>
                         <asp:HiddenField ID="hfOutputEdit" runat="server" Value="true" />
-                        <asp:RequiredFieldValidator ID="TenThaiDoThamGiaRequiredEdit" runat="server" ControlToValidate="TxtSuaTenThaiDoThamGia"
+                        <asp:RequiredFieldValidator ID="AttitudeNameRequiredEdit" runat="server" ControlToValidate="TxtSuaAttitudeName"
                             ValidationGroup="EditThaiDoThamGia" ErrorMessage="Tên thái độ tham gia không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenThaiDoThamGiaValidatorEdit" runat="server" ControlToValidate="TxtTenThaiDoThamGia"
+                        <asp:CustomValidator ID="AttitudeNameValidatorEdit" runat="server" ControlToValidate="TxtAttitudeName"
                             ValidationGroup="EditThaiDoThamGia"
                             ErrorMessage="Thái độ tham gia đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>

@@ -10,39 +10,39 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private AttitudeDA attitudeDA;
 
-        public AttitudeBL(School school)
+        public AttitudeBL(School_School school)
             : base(school)
         {
             attitudeDA = new AttitudeDA(school);
         }
 
-        public void InsertThaiDoThamGia(DanhMuc_ThaiDoThamGia newAttitude)
+        public void InsertThaiDoThamGia(Category_Attitude newAttitude)
         {
             attitudeDA.InsertAttitude(newAttitude);
         }
 
-        public void UpdateAttitude(DanhMuc_ThaiDoThamGia editedAttitude, string newAttitudeName)
+        public void UpdateAttitude(Category_Attitude editedAttitude, string newAttitudeName)
         {
-            editedAttitude.TenThaiDoThamGia = newAttitudeName;
+            editedAttitude.AttitudeName = newAttitudeName;
             attitudeDA.UpdateAttitude(editedAttitude);
         }
 
-        public void DeleteAttitude(DanhMuc_ThaiDoThamGia deletedAttitude)
+        public void DeleteAttitude(Category_Attitude deletedAttitude)
         {
             attitudeDA.DeleteAttitude(deletedAttitude);
         }
         
-        public DanhMuc_ThaiDoThamGia GetAttitude(int attitudeId)
+        public Category_Attitude GetAttitude(int attitudeId)
         {
             return attitudeDA.GetAttitude(attitudeId);
         }
 
-        public List<DanhMuc_ThaiDoThamGia> GetListAttitudes()
+        public List<Category_Attitude> GetListAttitudes()
         {
             return attitudeDA.GetAttitudes();
         }
       
-        public List<DanhMuc_ThaiDoThamGia> GetListAttitudes(string attitudeName, int pageIndex, int pageSize, out double totalRecords)
+        public List<Category_Attitude> GetAttitudes(string attitudeName, int pageIndex, int pageSize, out double totalRecords)
         {
             if (String.Compare(attitudeName, "tất cả", true) == 0 || attitudeName == "")
             {
@@ -54,7 +54,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }            
         }
 
-        public bool IsDeletable(DanhMuc_ThaiDoThamGia attitude)
+        public bool IsDeletable(Category_Attitude attitude)
         {
             return attitudeDA.IsDeletable(attitude);
         }        

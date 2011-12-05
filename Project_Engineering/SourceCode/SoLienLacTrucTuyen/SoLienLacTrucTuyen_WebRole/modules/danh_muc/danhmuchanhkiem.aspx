@@ -10,7 +10,7 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>')
                 if (modalPopupAdd != null) {
                     modalPopupAdd.add_showing(function () {
-                        $get('<%=TxtTenHanhKiem.ClientID%>').value = "";
+                        $get('<%=TxtConductName.ClientID%>').value = "";
                     });
                 }
             }
@@ -32,12 +32,12 @@
                 return false;
             }
 
-            function validateTenHanhKiemAdd(ctrl, args) {
-                var tenHanhKiem = $.trim(args.Value);
+            function validateConductNameAdd(ctrl, args) {
+                var ConductName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenHanhKiem",
-                    data: "{'oldTenHanhKiem':'" + '' + "', 'newTenHanhKiem':'" + tenHanhKiem + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistConductName",
+                    data: "{'oldConductName':'" + '' + "', 'newConductName':'" + ConductName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -53,13 +53,13 @@
                 });
             }
 
-            function validateTenHanhKiemEdit(ctrl, args) {
-                var oldTenHanhKiem = $('#<%=HdfEditedTenHanhKiem.ClientID%>').val();
-                var newTenHanhKiem = $.trim(args.Value);
+            function validateConductNameEdit(ctrl, args) {
+                var oldConductName = $('#<%=HdfEditedConductName.ClientID%>').val();
+                var newConductName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenHanhKiem",
-                    data: "{'oldTenHanhKiem':'" + oldTenHanhKiem + "', 'newTenHanhKiem':'" + newTenHanhKiem + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistConductName",
+                    data: "{'oldConductName':'" + oldConductName + "', 'newConductName':'" + newConductName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -103,8 +103,8 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:HiddenField ID="HdfEditedTenHanhKiem" runat="server" />
-            <asp:HiddenField ID="HdfMaHanhKiem" runat="server" />
+            <asp:HiddenField ID="HdfEditedConductName" runat="server" />
+            <asp:HiddenField ID="HdfConductId" runat="server" />
             <asp:HiddenField ID="HdfRptHanhKiemMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptHanhKiemMPEEdit" runat="server" />
             <asp:Repeater ID="RptHanhKiem" runat="server" OnItemCommand="RptHanhKiem_ItemCommand"
@@ -129,16 +129,16 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaHanhKiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>' />
-                            <asp:HiddenField ID="HdfRptTenHanhKiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>' />
+                            <asp:HiddenField ID="HdfRptConductId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductId")%>' />
+                            <asp:HiddenField ID="HdfRptConductName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>
+                            <%#DataBinder.Eval(Container.DataItem, "ConductName")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ConductName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -147,7 +147,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ConductName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -204,11 +204,11 @@
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenHanhKiem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenHanhKiemRequiredAdd" runat="server" ControlToValidate="TxtTenHanhKiem"
+                        <asp:TextBox ID="TxtConductName" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ConductNameRequiredAdd" runat="server" ControlToValidate="TxtConductName"
                             ValidationGroup="AddHanhKiem" ErrorMessage="Tên hạnh kiểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenHanhKiemValidatorAdd" runat="server" ControlToValidate="TxtTenHanhKiem"
+                        <asp:CustomValidator ID="ConductNameValidatorAdd" runat="server" ControlToValidate="TxtConductName"
                             ValidationGroup="AddHanhKiem"
                             ErrorMessage="Hạnh kiểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -243,11 +243,11 @@
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaTenHanhKiem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenHanhKiemRequiredEdit" runat="server" ControlToValidate="TxtSuaTenHanhKiem"
+                        <asp:TextBox ID="TxtSuaConductName" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ConductNameRequiredEdit" runat="server" ControlToValidate="TxtSuaConductName"
                             ValidationGroup="EditHanhKiem" ErrorMessage="Tên hạnh kiểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenHanhKiemValidatorEdit" runat="server" ControlToValidate="TxtSuaTenHanhKiem"
+                        <asp:CustomValidator ID="ConductNameValidatorEdit" runat="server" ControlToValidate="TxtSuaConductName"
                             ValidationGroup="EditHanhKiem"
                             ErrorMessage="Hạnh kiểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>

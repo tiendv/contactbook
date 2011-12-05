@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         AuthorizationDA authorizationDA;
         RoleDA roleDA;
-        public AuthorizationBL(School school)
+        public AuthorizationBL(School_School school)
             : base(school)
         {
             roleDA = new RoleDA(school);
@@ -35,10 +35,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularRoles;
         }
 
-        public void UpdateRoleDetail(string roleName, string description, bool expired, bool canBeDeleted, bool actived)
+        public void UpdateRoleDetail(string roleName, string description, bool expired, bool IsDeletable, bool actived)
         {
             roleName = GetActualName(roleName);
-            roleDA.UpdateRoleDetail(roleName, description, expired, canBeDeleted, actived);
+            roleDA.UpdateRoleDetail(roleName, description, expired, IsDeletable, actived);
         }
 
         public List<AccessibilityEnum> GetAccessibilities(Guid roleId, string pageUrl)

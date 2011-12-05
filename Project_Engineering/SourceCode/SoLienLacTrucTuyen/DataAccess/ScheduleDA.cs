@@ -8,45 +8,45 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class ScheduleDA : BaseDA
     {
-        public ScheduleDA(School school)
+        public ScheduleDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertSchedule(LopHoc_MonHocTKB schedule)
+        public void InsertSchedule(Class_Schedule schedule)
         {
             // Insert new schedule
-            db.LopHoc_MonHocTKBs.InsertOnSubmit(schedule);
+            db.Class_Schedules.InsertOnSubmit(schedule);
             db.SubmitChanges();
             //---
 
             // Check and insert DiemMonHocHocKy for HocSinh
-            int iClassId = schedule.MaLopHoc;
-            int iSubjectId = schedule.MaMonHoc;
-            int iTermId = schedule.MaHocKy;
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentsInClass = from stdsInCls in db.HocSinh_HocSinhLopHocs
-                                                                  where stdsInCls.MaLopHoc == iClassId
+            int iClassId = schedule.ClassId;
+            int iSubjectId = schedule.SubjectId;
+            int iTermId = schedule.TermId;
+            IQueryable<Student_StudentInClass> iqStudentsInClass = from stdsInCls in db.Student_StudentInClasses
+                                                                  where stdsInCls.ClassId == iClassId
                                                                   select stdsInCls;
             if (iqStudentsInClass.Count() != 0)
             {
-                HocSinh_HocSinhLopHoc firstHsLop = iqStudentsInClass.First();
-                IQueryable<HocSinh_DiemMonHocHocKy> iqStudentTermSubjectMark;
-                iqStudentTermSubjectMark = from stdTermSubjMark in db.HocSinh_DiemMonHocHocKies
-                                           where stdTermSubjMark.MaHocSinhLopHoc == firstHsLop.MaHocSinhLopHoc
-                                              && stdTermSubjMark.MaMonHoc == iSubjectId
+                Student_StudentInClass firstHsLop = iqStudentsInClass.First();
+                IQueryable<Student_TermSubjectMark> iqStudentTermSubjectMark;
+                iqStudentTermSubjectMark = from stdTermSubjMark in db.Student_TermSubjectMarks
+                                           where stdTermSubjMark.StudentInClassId == firstHsLop.StudentInClassId
+                                              && stdTermSubjMark.SubjectId == iSubjectId
                                            select stdTermSubjMark;
                 if (iqStudentTermSubjectMark.Count() == 0)
                 {
-                    HocSinh_DiemMonHocHocKy studentTermSubjectMark = null;
-                    foreach (HocSinh_HocSinhLopHoc studentInClass in iqStudentsInClass)
+                    Student_TermSubjectMark studentTermSubjectMark = null;
+                    foreach (Student_StudentInClass studentInClass in iqStudentsInClass)
                     {
-                        studentTermSubjectMark = new HocSinh_DiemMonHocHocKy();
-                        studentTermSubjectMark.MaHocSinhLopHoc = studentInClass.MaHocSinhLopHoc;
-                        studentTermSubjectMark.MaMonHoc = iSubjectId;
-                        studentTermSubjectMark.MaHocKy = iTermId;
-                        studentTermSubjectMark.DiemTB = -1;
+                        studentTermSubjectMark = new Student_TermSubjectMark();
+                        studentTermSubjectMark.StudentInClassId = studentInClass.StudentInClassId;
+                        studentTermSubjectMark.SubjectId = iSubjectId;
+                        studentTermSubjectMark.TermId = iTermId;
+                        studentTermSubjectMark.AverageMark = -1;
 
-                        db.HocSinh_DiemMonHocHocKies.InsertOnSubmit(studentTermSubjectMark);
+                        db.Student_TermSubjectMarks.InsertOnSubmit(studentTermSubjectMark);
                     }
 
                     db.SubmitChanges();
@@ -54,101 +54,101 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, aspnet_User teacher)
+        public void UpdateSchedule(Class_Schedule editedSchedule, Category_Subject subject, aspnet_User teacher)
         {
-            IQueryable<LopHoc_MonHocTKB> iqNewSubjectedSchedule;
-            iqNewSubjectedSchedule = from schdl in db.LopHoc_MonHocTKBs
-                                     where schdl.MaMonHoc == subject.MaMonHoc
+            IQueryable<Class_Schedule> iqNewSubjectedSchedule;
+            iqNewSubjectedSchedule = from schdl in db.Class_Schedules
+                                     where schdl.SubjectId == subject.SubjectId
                                      select schdl;
             bool bAdd = (iqNewSubjectedSchedule.Count() != 0) ? false : true;
 
-            LopHoc_MonHocTKB schedule = (from schdl in db.LopHoc_MonHocTKBs
-                                         where schdl.MaMonHocTKB == editedSchedule.MaMonHocTKB
+            Class_Schedule schedule = (from schdl in db.Class_Schedules
+                                         where schdl.ScheduleId == editedSchedule.ScheduleId
                                          select schdl).First();
-            int iOriginalSubjectId = schedule.MaMonHoc; // store
-            schedule.MaMonHoc = subject.MaMonHoc;
+            int iOriginalSubjectId = schedule.SubjectId; // store
+            schedule.SubjectId = subject.SubjectId;
             schedule.TeacherId = teacher.UserId;
             db.SubmitChanges();
 
-            IQueryable<LopHoc_MonHocTKB> iqOrginalSubjectedSchedule;
-            iqOrginalSubjectedSchedule = from schdl in db.LopHoc_MonHocTKBs
-                                         where schdl.MaMonHoc == iOriginalSubjectId
+            IQueryable<Class_Schedule> iqOrginalSubjectedSchedule;
+            iqOrginalSubjectedSchedule = from schdl in db.Class_Schedules
+                                         where schdl.SubjectId == iOriginalSubjectId
                                          select schdl;
             bool bRemove = (iqOrginalSubjectedSchedule.Count() != 0) ? false : true;
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentsInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                                                                  where stdInCls.MaLopHoc == schedule.MaLopHoc
+            IQueryable<Student_StudentInClass> iqStudentsInClass = from stdInCls in db.Student_StudentInClasses
+                                                                  where stdInCls.ClassId == schedule.ClassId
                                                                   select stdInCls;
 
-            HocSinh_DiemMonHocHocKy studentTermSubjectMark = null;
+            Student_TermSubjectMark studentTermSubjectMark = null;
             if (bAdd)
             {
-                foreach (HocSinh_HocSinhLopHoc studentsInClass in iqStudentsInClass)
+                foreach (Student_StudentInClass studentsInClass in iqStudentsInClass)
                 {
-                    studentTermSubjectMark = new HocSinh_DiemMonHocHocKy();
-                    studentTermSubjectMark.MaHocSinhLopHoc = studentsInClass.MaHocSinhLopHoc;
-                    studentTermSubjectMark.MaMonHoc = subject.MaMonHoc;
-                    studentTermSubjectMark.MaHocKy = schedule.MaHocKy;
-                    studentTermSubjectMark.DiemTB = -1;
-                    db.HocSinh_DiemMonHocHocKies.InsertOnSubmit(studentTermSubjectMark);
+                    studentTermSubjectMark = new Student_TermSubjectMark();
+                    studentTermSubjectMark.StudentInClassId = studentsInClass.StudentInClassId;
+                    studentTermSubjectMark.SubjectId = subject.SubjectId;
+                    studentTermSubjectMark.TermId = schedule.TermId;
+                    studentTermSubjectMark.AverageMark = -1;
+                    db.Student_TermSubjectMarks.InsertOnSubmit(studentTermSubjectMark);
                 }
                 db.SubmitChanges();
             }
 
             if (bRemove)
             {
-                foreach (HocSinh_HocSinhLopHoc studentsInClass in iqStudentsInClass)
+                foreach (Student_StudentInClass studentsInClass in iqStudentsInClass)
                 {
-                    IQueryable<HocSinh_DiemMonHocHocKy> iqStudentTermSubjectMark;
-                    iqStudentTermSubjectMark = from stdTermSubjMark in db.HocSinh_DiemMonHocHocKies
-                                               where stdTermSubjMark.MaHocSinhLopHoc == studentsInClass.MaHocSinhLopHoc
-                                               && stdTermSubjMark.MaMonHoc == iOriginalSubjectId
+                    IQueryable<Student_TermSubjectMark> iqStudentTermSubjectMark;
+                    iqStudentTermSubjectMark = from stdTermSubjMark in db.Student_TermSubjectMarks
+                                               where stdTermSubjMark.StudentInClassId == studentsInClass.StudentInClassId
+                                               && stdTermSubjMark.SubjectId == iOriginalSubjectId
                                                select stdTermSubjMark;
                     if (iqStudentTermSubjectMark.Count() != 0)
                     {
                         studentTermSubjectMark = iqStudentTermSubjectMark.First();
-                        db.HocSinh_DiemMonHocHocKies.DeleteOnSubmit(studentTermSubjectMark);
+                        db.Student_TermSubjectMarks.DeleteOnSubmit(studentTermSubjectMark);
                     }
                 }
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteSchedule(LopHoc_MonHocTKB deletedSchedule)
+        public void DeleteSchedule(Class_Schedule deletedSchedule)
         {
-            LopHoc_MonHocTKB schedule = null;
+            Class_Schedule schedule = null;
 
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
-                                                      where schd.MaMonHocTKB == deletedSchedule.MaMonHocTKB
+            IQueryable<Class_Schedule> iqSchedule = from schd in db.Class_Schedules
+                                                      where schd.ScheduleId == deletedSchedule.ScheduleId
                                                       select schd;
             if (iqSchedule.Count() != 0)
             {
                 schedule = iqSchedule.First();
 
-                int iClasId = schedule.MaLopHoc;
-                int iOriginalSubjectId = schedule.MaMonHoc;
-                int iTermId = schedule.MaHocKy;
+                int iClasId = schedule.ClassId;
+                int iOriginalSubjectId = schedule.SubjectId;
+                int iTermId = schedule.TermId;
 
-                db.LopHoc_MonHocTKBs.DeleteOnSubmit(schedule);
+                db.Class_Schedules.DeleteOnSubmit(schedule);
                 db.SubmitChanges();
 
-                IQueryable<DanhMuc_MonHoc> iqScheduledSubjects = from scheduledSubj in db.LopHoc_MonHocTKBs
-                                                                 where scheduledSubj.MaMonHoc == iOriginalSubjectId
-                                                                 select scheduledSubj.DanhMuc_MonHoc;
+                IQueryable<Category_Subject> iqScheduledSubjects = from scheduledSubj in db.Class_Schedules
+                                                                 where scheduledSubj.SubjectId == iOriginalSubjectId
+                                                                 select scheduledSubj.Category_Subject;
 
                 if (iqScheduledSubjects.Count() == 0)
                 {
-                    IQueryable<HocSinh_DiemMonHocHocKy> iqStudentTermSubjectMark;
-                    iqStudentTermSubjectMark = from studTermSubjMark in db.HocSinh_DiemMonHocHocKies
-                                               where studTermSubjMark.MaHocKy == iTermId
-                                                 && studTermSubjMark.MaMonHoc == iOriginalSubjectId
-                                                 && studTermSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == iClasId
+                    IQueryable<Student_TermSubjectMark> iqStudentTermSubjectMark;
+                    iqStudentTermSubjectMark = from studTermSubjMark in db.Student_TermSubjectMarks
+                                               where studTermSubjMark.TermId == iTermId
+                                                 && studTermSubjMark.SubjectId == iOriginalSubjectId
+                                                 && studTermSubjMark.Student_StudentInClass.ClassId == iClasId
                                                select studTermSubjMark;
                     if (iqStudentTermSubjectMark.Count() != 0)
                     {
-                        foreach (HocSinh_DiemMonHocHocKy studentTermSubjectMark in iqStudentTermSubjectMark)
+                        foreach (Student_TermSubjectMark studentTermSubjectMark in iqStudentTermSubjectMark)
                         {
-                            db.HocSinh_DiemMonHocHocKies.DeleteOnSubmit(studentTermSubjectMark);
+                            db.Student_TermSubjectMarks.DeleteOnSubmit(studentTermSubjectMark);
                         }
                         db.SubmitChanges();
                     }
@@ -156,12 +156,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public LopHoc_MonHocTKB GetSchedule(int scheduleId)
+        public Class_Schedule GetSchedule(int scheduleId)
         {
-            LopHoc_MonHocTKB schedule = null;
+            Class_Schedule schedule = null;
 
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
-                                                      where schd.MaMonHocTKB == scheduleId
+            IQueryable<Class_Schedule> iqSchedule = from schd in db.Class_Schedules
+                                                      where schd.ScheduleId == scheduleId
                                                       && schd.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                                       select schd;
             if (iqSchedule.Count() != 0)
@@ -172,13 +172,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             return schedule;
         }
 
-        public LopHoc_MonHocTKB GetSchedule(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, DanhMuc_Tiet teachingPeriod)
+        public Class_Schedule GetSchedule(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Category_TeachingPeriod teachingPeriod)
         {
-            LopHoc_MonHocTKB schedule = null;
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
-                                                      where schd.MaLopHoc == Class.MaLopHoc && schd.MaThu == dayInweek.MaThu
-                                                      && schd.MaHocKy == term.MaHocKy
-                                                      && schd.MaTiet == teachingPeriod.MaTiet
+            Class_Schedule schedule = null;
+            IQueryable<Class_Schedule> iqSchedule = from schd in db.Class_Schedules
+                                                      where schd.ClassId == Class.ClassId && schd.DayInWeekId == dayInweek.DayInWeekId
+                                                      && schd.TermId == term.TermId
+                                                      && schd.TeachingPeriodId == teachingPeriod.TeachingPeriodId
                                                       select schd;
 
             if (iqSchedule.Count() != 0)
@@ -189,47 +189,49 @@ namespace SoLienLacTrucTuyen.DataAccess
             return schedule;
         }
 
-        public List<LopHoc_MonHocTKB> GetSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
+        public List<Class_Schedule> GetSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
-            List<LopHoc_MonHocTKB> schedules = new List<LopHoc_MonHocTKB>();
+            List<Class_Schedule> schedules = new List<Class_Schedule>();
 
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
-                                                      where schd.MaLopHoc == Class.MaLopHoc && schd.MaHocKy == term.MaHocKy
-                                                      && schd.MaThu == dayInweek.MaThu && schd.MaBuoi == session.MaBuoi
+            IQueryable<Class_Schedule> iqSchedule = from schd in db.Class_Schedules
+                                                      where schd.ClassId == Class.ClassId && schd.TermId == term.TermId
+                                                      && schd.DayInWeekId == dayInweek.DayInWeekId && schd.SessionId == session.SessionId
                                                       select schd;
             if (iqSchedule.Count() != 0)
             {
-                schedules = iqSchedule.OrderBy(teachingPeriod => teachingPeriod.MaTiet).ToList();
+                schedules = iqSchedule.OrderBy(teachingPeriod => teachingPeriod.SessionId).ToList();
             }
 
             return schedules;
         }
 
-        public List<DanhMuc_MonHoc> GetScheduledSubjects(LopHoc_Lop Class, CauHinh_HocKy term)
+        public List<Category_Subject> GetScheduledSubjects(Class_Class Class, Configuration_Term term)
         {
-            List<DanhMuc_MonHoc> scheduledSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> scheduledSubjects = new List<Category_Subject>();
 
-            IQueryable<DanhMuc_MonHoc> iqScheduledSubject;
-            iqScheduledSubject = from subj in db.DanhMuc_MonHocs
-                                 join schedule in db.LopHoc_MonHocTKBs on subj.MaMonHoc equals schedule.MaMonHoc
-                                 where schedule.MaLopHoc == Class.MaLopHoc && schedule.MaHocKy == term.MaHocKy
+            IQueryable<Category_Subject> iqScheduledSubject;
+            iqScheduledSubject = from subj in db.Category_Subjects
+                                 join schedule in db.Class_Schedules on subj.SubjectId equals schedule.SubjectId
+                                 where schedule.ClassId == Class.ClassId && schedule.TermId == term.TermId
                                  select subj;
 
             if (iqScheduledSubject.Count() != 0)
             {
-                scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.TenMonHoc)
-                    .GroupBy(c => c.MaMonHoc).Select(g => g.First()).ToList();
+                scheduledSubjects = iqScheduledSubject.OrderBy(subj => subj.SubjectName)
+                    .GroupBy(c => c.SubjectId).Select(g => g.First()).ToList();
             }
 
             return scheduledSubjects;
         }
 
-        public bool ScheduleExists(LopHoc_Lop Class, DanhMuc_MonHoc subject, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
+        public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
-                                                      where schd.MaLopHoc == Class.MaLopHoc && schd.MaMonHoc == subject.MaMonHoc
-                                                      && schd.MaHocKy == term.MaHocKy && schd.MaThu == dayInweek.MaThu
-                                                      && schd.MaTiet == session.MaBuoi
+            IQueryable<Class_Schedule> iqSchedule = from schd in db.Class_Schedules
+                                                      where schd.ClassId == Class.ClassId 
+                                                      && schd.SubjectId == subject.SubjectId
+                                                      && schd.TermId == term.TermId 
+                                                      && schd.DayInWeekId == dayInweek.DayInWeekId
+                                                      && schd.SessionId == session.SessionId
                                                       select schd;
 
             if (iqSchedule.Count() != 0)
@@ -244,7 +246,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool ScheduleExists(aspnet_User teacher)
         {
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schd in db.LopHoc_MonHocTKBs
+            IQueryable<Class_Schedule> iqSchedule = from schd in db.Class_Schedules
                                                       where schd.TeacherId == teacher.UserId
                                                       select schd;
 

@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private PhanQuyenDA phanQuyenDA;
 
-        public PhanQuyenBL(School school)
+        public PhanQuyenBL(School_School school)
             : base(school)
         {
             phanQuyenDA = new PhanQuyenDA(school);

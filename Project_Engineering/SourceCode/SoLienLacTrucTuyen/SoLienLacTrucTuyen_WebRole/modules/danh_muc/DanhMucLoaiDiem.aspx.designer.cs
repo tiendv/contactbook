@@ -247,31 +247,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenLoaiDiem control.
+        /// TxtMarkTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenLoaiDiem;
+        protected global::System.Web.UI.WebControls.TextBox TxtMarkTypeName;
         
         /// <summary>
-        /// TenLoaiDiemRequiredAdd control.
+        /// MarkTypeNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenLoaiDiemRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkTypeNameRequiredAdd;
         
         /// <summary>
-        /// TenLoaiDiemValidatorAdd control.
+        /// MarkTypeNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenLoaiDiemValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator MarkTypeNameValidatorAdd;
         
         /// <summary>
         /// hfOutputAdd control.
@@ -292,31 +292,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label8;
         
         /// <summary>
-        /// TxtHeSoDiemLoaiDiemAdd control.
+        /// TxtMarkRatioLoaiDiemAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtHeSoDiemLoaiDiemAdd;
+        protected global::System.Web.UI.WebControls.TextBox TxtMarkRatioLoaiDiemAdd;
         
         /// <summary>
-        /// HeSoDiemRequiredAdd control.
+        /// MarkRatioRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator HeSoDiemRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkRatioRequiredAdd;
         
         /// <summary>
-        /// HeSoDiemRegExpAdd control.
+        /// MarkRatioRegExpAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator HeSoDiemRegExpAdd;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator MarkRatioRegExpAdd;
         
         /// <summary>
         /// TxtMaxMarksPerTermAdd control.
@@ -463,13 +463,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtSuaTenLoaiDiem control.
+        /// TxtSuaMarkTypeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaTenLoaiDiem;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaMarkTypeName;
         
         /// <summary>
         /// hfOutputEdit control.
@@ -481,22 +481,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField hfOutputEdit;
         
         /// <summary>
-        /// TenLoaiDiemRequiredEdit control.
+        /// MarkTypeNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenLoaiDiemRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkTypeNameRequiredEdit;
         
         /// <summary>
-        /// TenLoaiDiemValidatorEdit control.
+        /// MarkTypeNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenLoaiDiemValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator MarkTypeNameValidatorEdit;
         
         /// <summary>
         /// Label10 control.
@@ -508,31 +508,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label10;
         
         /// <summary>
-        /// TxtHeSoDiemLoaiDiemSua control.
+        /// TxtMarkRatioLoaiDiemSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtHeSoDiemLoaiDiemSua;
+        protected global::System.Web.UI.WebControls.TextBox TxtMarkRatioLoaiDiemSua;
         
         /// <summary>
-        /// HeSoDiemRequiredEdit control.
+        /// MarkRatioRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator HeSoDiemRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkRatioRequiredEdit;
         
         /// <summary>
-        /// HeSoDiemRegExpEdit control.
+        /// MarkRatioRegExpEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator HeSoDiemRegExpEdit;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator MarkRatioRegExpEdit;
         
         /// <summary>
         /// TxtMaxMarksPerTermEdit control.

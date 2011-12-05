@@ -8,79 +8,79 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class StudentActivityDA : BaseDA
     {
-        public StudentActivityDA(School school)
+        public StudentActivityDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertStudentActivity(HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, string title, string content, DanhMuc_ThaiDoThamGia attitude)
+        public void InsertStudentActivity(Student_Student student, Configuration_Term term, DateTime date, string title, string content, Category_Attitude attitude)
         {
-            HocSinh_HocSinhLopHoc studentInClass = null;
+            Student_StudentInClass studentInClass = null;
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                                                                 where stdInCls.MaHocSinh == student.MaHocSinh
+            IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                                                                 where stdInCls.StudentId == student.StudentId
                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.MaHocSinhLopHoc).First();
+                studentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.StudentInClassId).First();
 
-                HocSinh_HoatDong studentActivity = new HocSinh_HoatDong();
-                studentActivity.MaHocSinhLopHoc = studentInClass.MaHocSinhLopHoc;
-                studentActivity.MaHocKy = term.MaHocKy;
-                studentActivity.Ngay = date;
-                studentActivity.TieuDe = title;
-                studentActivity.NoiDung = content;
+                Student_Activity studentActivity = new Student_Activity();
+                studentActivity.StudentInClassId = studentInClass.StudentInClassId;
+                studentActivity.TermId = term.TermId;
+                studentActivity.Date = date;
+                studentActivity.Title = title;
+                studentActivity.ActivityContent = content;
                 if (attitude != null)
                 {
-                    studentActivity.MaThaiDoThamGia = attitude.MaThaiDoThamGia;
+                    studentActivity.AttitudeId = attitude.AttitudeId;
                 }
-                db.HocSinh_HoatDongs.InsertOnSubmit(studentActivity);
+                db.Student_Activities.InsertOnSubmit(studentActivity);
                 db.SubmitChanges();
             }
         }
 
-        public void UpdateStudentActivity(HocSinh_HoatDong editedStudentActivity)
+        public void UpdateStudentActivity(Student_Activity editedStudentActivity)
         {
-            HocSinh_HoatDong studentActivity = null;
+            Student_Activity studentActivity = null;
 
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             where stdAct.MaHoatDong == editedStudentActivity.MaHoatDong
+            IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
+                                                             where stdAct.ActivityId == editedStudentActivity.ActivityId 
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
             {
                 studentActivity = iqStudentActivity.First();
-                studentActivity.Ngay = editedStudentActivity.Ngay;
-                studentActivity.NoiDung = editedStudentActivity.NoiDung;
-                studentActivity.MaThaiDoThamGia = editedStudentActivity.MaThaiDoThamGia;
+                studentActivity.Date = editedStudentActivity.Date;
+                studentActivity.ActivityContent = editedStudentActivity.ActivityContent;
+                studentActivity.AttitudeId = editedStudentActivity.AttitudeId;
 
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteStudentActivity(HocSinh_HoatDong deletedStudentActivity)
+        public void DeleteStudentActivity(Student_Activity deletedStudentActivity)
         {
-            HocSinh_HoatDong studentActivity = null;
+            Student_Activity studentActivity = null;
 
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             where stdAct.MaHoatDong == deletedStudentActivity.MaHoatDong
+            IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
+                                                             where stdAct.ActivityId  == deletedStudentActivity.ActivityId 
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
             {
                 studentActivity = iqStudentActivity.First();
-                db.HocSinh_HoatDongs.DeleteOnSubmit(studentActivity);
+                db.Student_Activities.DeleteOnSubmit(studentActivity);
                 db.SubmitChanges();
             }
         }
 
-        public HocSinh_HoatDong GetStudentActivity(int studentActivityId)
+        public Student_Activity GetStudentActivity(int studentActivityId)
         {
-            HocSinh_HoatDong studentActivity = null;
+            Student_Activity studentActivity = null;
 
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             where stdAct.MaHoatDong == studentActivityId
+            IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
+                                                             where stdAct.ActivityId  == studentActivityId
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
@@ -91,16 +91,16 @@ namespace SoLienLacTrucTuyen.DataAccess
             return studentActivity;
         }
 
-        public HocSinh_HoatDong GetStudentActivity(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public Student_Activity GetStudentActivity(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
-            HocSinh_HoatDong studentActivity = null;
+            Student_Activity studentActivity = null;
 
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             join stdInCls in db.HocSinh_HocSinhLopHocs on stdAct.MaHocSinhLopHoc equals stdInCls.MaHocSinhLopHoc
-                                                             where stdInCls.MaHocSinh == student.MaHocSinh
-                                                             && stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                             && stdAct.MaHocKy == term.MaHocKy
-                                                             && stdAct.Ngay == date
+            IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
+                                                             join stdInCls in db.Student_StudentInClasses on stdAct.StudentInClassId equals stdInCls.StudentInClassId
+                                                             where stdInCls.StudentId == student.StudentId
+                                                             && stdInCls.Class_Class.YearId == year.YearId
+                                                             && stdAct.TermId == term.TermId
+                                                             && stdAct.Date == date
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
@@ -111,14 +111,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             return studentActivity;
         }
 
-        //public HocSinh_HoatDong GetStudentActivity(int maHoatDong, int maHocSinh, int maNamHoc, int maHocKy, DateTime ngay)
+        //public Student_Activity GetStudentActivity(int ActivityId , int maHocSinh, int YearId, int TermId, DateTime ngay)
         //{
-        //    IQueryable<HocSinh_HoatDong> hoatDongs = from ngayNghi in db.HocSinh_HoatDongs
-        //                                             join hocSinhLopHoc in db.HocSinh_HocSinhLopHocs on ngayNghi.MaHocSinhLopHoc equals hocSinhLopHoc.MaHocSinhLopHoc
-        //                                             join lop in db.LopHoc_Lops on hocSinhLopHoc.MaLopHoc equals lop.MaLopHoc
-        //                                             where hocSinhLopHoc.MaHocSinh == maHocSinh && lop.MaNamHoc == maNamHoc
-        //                                                && ngayNghi.MaHocKy == maHocKy && ngayNghi.Ngay == ngay
-        //                                                && ngayNghi.MaHoatDong == maHoatDong
+        //    IQueryable<Student_Activity> hoatDongs = from ngayNghi in db.Student_Activities
+        //                                             join hocSinhLopHoc in db.Student_StudentInClasses on ngayNghi.StudentInClassId equals hocSinhLopHoc.StudentInClassId
+        //                                             join lop in db.Class_Classes on hocSinhLopHoc.ClassId equals lop.ClassId
+        //                                             where hocSinhLopHoc.StudentId == maHocSinh && lop.YearId == YearId
+        //                                                && ngayNghi.TermId == TermId && ngayNghi.Date == ngay
+        //                                                && ngayNghi.ActivityId  == ActivityId 
         //                                             select ngayNghi;
         //    if (hoatDongs.Count() != 0)
         //    {
@@ -130,15 +130,15 @@ namespace SoLienLacTrucTuyen.DataAccess
         //    }
         //}
 
-        public List<HocSinh_HoatDong> GetStudentActivities(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate,
+        public List<Student_Activity> GetStudentActivities(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime beginDate, DateTime endDate,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<HocSinh_HoatDong> studentActivities = new List<HocSinh_HoatDong>();
+            List<Student_Activity> studentActivities = new List<Student_Activity>();
 
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             where stdAct.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                                                && stdAct.HocSinh_HocSinhLopHoc.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                                && stdAct.MaHocKy == term.MaHocKy && stdAct.Ngay >= beginDate && stdAct.Ngay <= endDate
+            IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
+                                                             where stdAct.Student_StudentInClass.StudentId == student.StudentId
+                                                                && stdAct.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                && stdAct.TermId == term.TermId && stdAct.Date >= beginDate && stdAct.Date <= endDate
                                                              select stdAct;
             totalRecords = iqStudentActivity.Count();
             if (totalRecords != 0)
@@ -149,15 +149,15 @@ namespace SoLienLacTrucTuyen.DataAccess
             return studentActivities;
         }
 
-        public bool StudentActivityNameExists(string title, HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public bool StudentActivityNameExists(string title, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from stdAct in db.HocSinh_HoatDongs
-                                                             join stdInCls in db.HocSinh_HocSinhLopHocs on stdAct.MaHocSinhLopHoc equals stdInCls.MaHocSinhLopHoc
-                                                             where stdInCls.MaHocSinh == student.MaHocSinh
-                                                             && stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                             && stdAct.MaHocKy == term.MaHocKy
-                                                             && stdAct.Ngay == date
-                                                             && stdAct.TieuDe == title
+            IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
+                                                             join stdInCls in db.Student_StudentInClasses on stdAct.StudentInClassId equals stdInCls.StudentInClassId
+                                                             where stdInCls.StudentId == student.StudentId
+                                                             && stdInCls.Class_Class.YearId == year.YearId
+                                                             && stdAct.TermId == term.TermId
+                                                             && stdAct.Date == date
+                                                             && stdAct.Title == title
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)

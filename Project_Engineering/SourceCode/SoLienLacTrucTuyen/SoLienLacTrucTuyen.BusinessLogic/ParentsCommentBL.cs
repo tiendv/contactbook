@@ -11,24 +11,24 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         ParentsCommentDA parentsCommentDA;
 
-        public ParentsCommentBL(School school)
+        public ParentsCommentBL(School_School school)
             : base(school)
         {
             parentsCommentDA = new ParentsCommentDA(school);
         }
 
-        public void Reply(GopY_YKien parentsComment, string reply)
+        public void Reply(ParentComment_Comment parentsComment, string reply)
         {
             parentsCommentDA.UpdateParentsComments(parentsComment, reply);
         }
 
-        public List<TabularParentsComment> GetTabularParentsComments(CauHinh_NamHoc year, CauHinh_TinhTrangYKien commentStatus,
+        public List<TabularParentsComment> GetTabularParentsComments(Configuration_Year year, Configuration_CommentStatus commentStatus,
             DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             // Declare variables
             List<TabularParentsComment> tabularParentsComments;
             TabularParentsComment tabularParentsComment = null;
-            List<GopY_YKien> parentsComments = null;
+            List<ParentComment_Comment> parentsComments = null;
 
             // get list GopY_YKien
             if (commentStatus != null)
@@ -42,16 +42,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     pageCurrentIndex, pageSize, out totalRecords);
             }
 
-            // Convert GopY_YKiens to TabularParentsComments
+            // Convert ParentComment_Comments to TabularParentsComments
             tabularParentsComments = new List<TabularParentsComment>();
-            foreach (GopY_YKien parentsComment in parentsComments)
+            foreach (ParentComment_Comment parentsComment in parentsComments)
             {
                 tabularParentsComment = new TabularParentsComment();
-                tabularParentsComment.MaYKien = parentsComment.MaYKien;
-                tabularParentsComment.TieuDe = parentsComment.TieuDe;
-                tabularParentsComment.NoiDung = parentsComment.NoiDung;
-                tabularParentsComment.TinhTrangYKien = parentsComment.CauHinh_TinhTrangYKien.TenTinhTrangYKien;
-                tabularParentsComment.Ngay = parentsComment.Ngay.ToShortDateString();
+                tabularParentsComment.CommentId = parentsComment.CommentId;
+                tabularParentsComment.Title = parentsComment.Title;
+                tabularParentsComment.Content = parentsComment.CommentContent;
+                tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
+                tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
 
                 tabularParentsComments.Add(tabularParentsComment);
             }
@@ -59,19 +59,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularParentsComments;
         }
 
-        public List<CauHinh_TinhTrangYKien> GetCommentStatuses()
+        public List<Configuration_CommentStatus> GetCommentStatuses()
         {
-            List<CauHinh_TinhTrangYKien> commentStatuses;
-            CauHinh_TinhTrangYKien optAll = new CauHinh_TinhTrangYKien();
-            optAll.MaTinhTrangYKien = 0;
-            optAll.TenTinhTrangYKien = "Tất cả";
+            List<Configuration_CommentStatus> commentStatuses;
+            Configuration_CommentStatus optAll = new Configuration_CommentStatus();
+            optAll.CommentStatusId = 0;
+            optAll.CommentStatusName = "Tất cả";
 
             commentStatuses = parentsCommentDA.GetCommentStatuses();
             commentStatuses.Add(optAll);
             return commentStatuses;
         }
 
-        public GopY_YKien GetParentsComments(int commentId)
+        public ParentComment_Comment GetParentsComments(int commentId)
         {
             return parentsCommentDA.GetParentsComments(commentId);
         }

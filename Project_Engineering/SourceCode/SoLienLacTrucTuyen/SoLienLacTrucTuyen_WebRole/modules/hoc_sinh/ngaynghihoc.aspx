@@ -46,16 +46,16 @@
             function validateNgayNghiAdd(ctrl, args) {
                 var maHocSinh = $get('<%=HdfMaHocSinh.ClientID%>').value;
                 var DdlHocKy = $get('<%=DdlHocKyThem.ClientID%>');
-                var maHocKy = DdlHocKy.options[DdlHocKy.selectedIndex].value;
+                var TermId = DdlHocKy.options[DdlHocKy.selectedIndex].value;
                 var ngay = $.trim(args.Value);
                 var DdlBuoi = $get('<%=DdlBuoiThem.ClientID%>');
-                var maBuoi = DdlBuoi.options[DdlBuoi.selectedIndex].value;
+                var SessionId = DdlBuoi.options[DdlBuoi.selectedIndex].value;
                 $.ajax({
                     type: "POST",
                     url: "/modules/hoc_sinh/hocsinhservicepage.aspx/NgayNghiHocExists",
                     data: "{'maNgayNghiHoc':'" + 0 + "','maHocSinh':'" + maHocSinh
-                        + "','maHocKy':'" + maHocKy + "','ngay':'" + ngay
-                        + "','maBuoi':'" + maBuoi + "'}",
+                        + "','TermId':'" + TermId + "','ngay':'" + ngay
+                        + "','SessionId':'" + SessionId + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -73,17 +73,17 @@
                 var maNgayNghiHoc = $get('<%=HdfMaNgayNghiHoc.ClientID%>').value;
                 var maHocSinh = $get('<%=HdfMaHocSinh.ClientID%>').value;
                 var DdlHocKy = $get('<%=DdlHocKySua.ClientID%>');
-                var maHocKy = DdlHocKy.options[DdlHocKy.selectedIndex].value;
+                var TermId = DdlHocKy.options[DdlHocKy.selectedIndex].value;
                 var ngay = $.trim(args.Value);
                 var DdlBuoi = $get('<%=DdlBuoiSua.ClientID%>');
-                var maBuoi = DdlBuoi.options[DdlBuoi.selectedIndex].value;
+                var SessionId = DdlBuoi.options[DdlBuoi.selectedIndex].value;
 
                 $.ajax({
                     type: "POST",
                     url: "/Modules/Hoc_Sinh/HocSinhServicePage.aspx/NgayNghiHocExists",
                     data: "{'maNgayNghiHoc':'" + maNgayNghiHoc + "','maHocSinh':'" + maHocSinh
-                        + "','maHocKy':'" + maHocKy + "','ngay':'" + ngay
-                        + "','maBuoi':'" + maBuoi + "'}",
+                        + "','TermId':'" + TermId + "','ngay':'" + ngay
+                        + "','SessionId':'" + SessionId + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {

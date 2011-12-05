@@ -172,7 +172,7 @@
                     Style="font-size: 15px; font-weight: bold;"></asp:Label>
             </div>
             <table class="repeater ui-corner-all" style="width: 95%;">
-                <asp:HiddenField ID="HdfMaMonHoc" runat="server" Value="0" />
+                <asp:HiddenField ID="HdfSubjectId" runat="server" Value="0" />
                 <asp:Repeater ID="RptMonHoc" runat="server">
                     <HeaderTemplate>
                         <tr class="header">
@@ -191,11 +191,11 @@
                         <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                             <td style="height: 40px; text-align: center">
                                 <%# (DataPageMonHoc.CurrentIndex - 1) * DataPageMonHoc.PageSize + Container.ItemIndex + 1%>
-                                <asp:HiddenField ID="HdfRptMaMonHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaMonHoc")%>' />
-                                <asp:HiddenField ID="HdfRptTenMonHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>' />
+                                <asp:HiddenField ID="HdfRptSubjectId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "SubjectId")%>' />
+                                <asp:HiddenField ID="HdfRptSubjectName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "SubjectName")%>' />
                             </td>
                             <td style="height: 40px;">
-                                <asp:Label ID="LblTenMonHoc" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>'></asp:Label>
+                                <asp:Label ID="LblSubjectName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "SubjectName")%>'></asp:Label>
                             </td>
                             <td style="height: 40px; text-align: right">
                                 <asp:RadioButton ID="RBtnSelect" runat="server" CssClass="radioMonHoc" />
@@ -234,8 +234,8 @@
                 <tr>
                     <td>
                         Mã giáo viên:
-                        <asp:TextBox ID="TxtSearchMaGiaoVien" runat="server" Width="150px"></asp:TextBox>
-                        <ajaxToolkit:TextBoxWatermarkExtender ID="MaGiaoVienWatermark" runat="server" TargetControlID="TxtSearchMaGiaoVien"
+                        <asp:TextBox ID="TxtSearchUserId" runat="server" Width="150px"></asp:TextBox>
+                        <ajaxToolkit:TextBoxWatermarkExtender ID="UserIdWatermark" runat="server" TargetControlID="TxtSearchUserId"
                             WatermarkText="Tất cả">
                         </ajaxToolkit:TextBoxWatermarkExtender>
                     </td>
@@ -261,7 +261,7 @@
                     Style="font-size: 15px; font-weight: bold;"></asp:Label>
             </div>
             <table class="repeater ui-corner-all" style="width: 95%;">
-                <asp:HiddenField ID="HdfMaGiaoVien" runat="server" Value="0" />
+                <asp:HiddenField ID="HdfUserId" runat="server" Value="0" />
                 <asp:Repeater ID="RptGiaoVien" runat="server">
                     <HeaderTemplate>
                         <tr class="header">
@@ -283,7 +283,7 @@
                         <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                             <td style="height: 40px; text-align: center">
                                 <%# (DataPageGiaoVien.CurrentIndex - 1) * DataPageGiaoVien.PageSize + Container.ItemIndex + 1%>
-                                <asp:HiddenField ID="HdfRptMaGiaoVien" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaGiaoVien")%>' />
+                                <asp:HiddenField ID="HdfRptUserId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
                                 <asp:HiddenField ID="HdfRptTenGiaoVien" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "HoTen")%>' />
                             </td>
                             <td style="height: 40px;">

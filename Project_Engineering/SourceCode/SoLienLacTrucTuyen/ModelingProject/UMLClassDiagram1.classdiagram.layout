@@ -3,7 +3,7 @@
   <logicalClassDesignerModelMoniker Id="8520f8e9-3eac-4adf-abfb-4052fafa9177" />
   <nestedChildShapes>
     <classShape Id="1ddbf050-aa92-4168-aeca-8d62711aba7a" absoluteBounds="1.5, 1.5, 1.75, 1.5429687152306237" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-      <classMoniker Id="bbbc1abf-ff08-4db0-acc7-0929611a0c74" LastKnownName="DanhMuc_NganhHoc" />
+      <classMoniker Id="bbbc1abf-ff08-4db0-acc7-0929611a0c74" LastKnownName="Category_Faculty" />
       <nestedChildShapes>
         <AttributeElementListCompartment Id="20a20de4-7a2f-4b43-bb3d-d18b3be0bd18" absoluteBounds="1.5150000000000001, 1.8900000000000001, 1.7200000000000002, 0.84179684768120444" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
         <OperationElementListCompartment Id="56f17ba0-348b-46f6-ae74-70b8c5461370" absoluteBounds="1.5150000000000001, 2.7417968476812042, 1.7200000000000002, 0.20117186754941963" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />

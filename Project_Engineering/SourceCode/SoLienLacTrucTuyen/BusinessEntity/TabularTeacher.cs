@@ -7,7 +7,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularTeacher
     {
-        public Guid MaGiaoVien { get; set; }
+        public Guid UserId { get; set; }
 
         public string MaHienThiGiaoVien { get; set; }
         public string HoTen { get; set; }
@@ -53,25 +53,25 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 
     public class TabularFormering
     {
-        public int MaNamHoc { get; set; }
-        public string TenNamHoc { get; set; }
+        public int YearId { get; set; }
+        public string YearName { get; set; }
 
-        public int MaLopHoc { get; set; }
-        public string TenLopHoc { get; set; }
+        public int ClassId { get; set; }
+        public string ClassName { get; set; }
     }
 
     public class TabularTeaching
     {
-        public int MaNamHoc { get; set; }
-        public string TenNamHoc { get; set; }
+        public int YearId { get; set; }
+        public string YearName { get; set; }
 
-        public int MaHocKy { get; set; }
-        public string TenHocKy { get; set; }
+        public int TermId { get; set; }
+        public string TermName { get; set; }
 
-        public int MaLopHoc { get; set; }
-        public string TenLopHoc { get; set; }
+        public int ClassId { get; set; }
+        public string ClassName { get; set; }
 
-        public int MaMonHoc { get; set; }
-        public string TenMonHoc { get; set; }
+        public int SubjectId { get; set; }
+        public string SubjectName { get; set; }
     }
 }

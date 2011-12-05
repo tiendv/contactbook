@@ -7,55 +7,55 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularTeachingPeriod
     {
-        private int maTiet;
-        public int MaTiet 
+        private int teachingPeriodId;
+        public int TeachingPeriodId
         {
             get
             {
-                return maTiet;
+                return teachingPeriodId;
             }
             set
             {
-                maTiet = value;
+                teachingPeriodId = value;
             }
         }
 
-        public string TenTiet { get; set; }
+        public string TeachingPeriodName { get; set; }
         public string StringTiet { get; set; }
 
-        public int MaBuoi { get; set; }
-        public string TenBuoi { get; set; }
+        public int SessionId { get; set; }
+        public string SessionName { get; set; }
 
-        public int ThuTu { get; set; }
+        public int TeachingPeriodOrder { get; set; }
 
-        private DateTime thoiGianBatDau;
-        public DateTime ThoiGianBatDau 
+        private DateTime beginTime;
+        public DateTime BeginTime
         {
             get
             {
-                return thoiGianBatDau;
+                return beginTime;
             }
             set
             {
-                thoiGianBatDau = value;
-                StringThoiGianBatDau = thoiGianBatDau.ToShortTimeString();
+                beginTime = value;
+                StringBeginTime = beginTime.ToShortTimeString();
             }
         }
-        public string StringThoiGianBatDau { get; set; }
+        public string StringBeginTime { get; set; }
 
-        private DateTime thoiGianKetThuc;
-        public DateTime ThoiGianKetThuc
+        private DateTime endTime;
+        public DateTime EndTime
         {
             get
             {
-                return thoiGianKetThuc;
+                return endTime;
             }
             set
             {
-                thoiGianKetThuc = value;
-                StringThoiGianKetThuc = thoiGianKetThuc.ToShortTimeString();
+                endTime = value;
+                StringEndTime = endTime.ToShortTimeString();
             }
         }
-        public string StringThoiGianKetThuc { get; set; }
+        public string StringEndTime { get; set; }
     }
 }

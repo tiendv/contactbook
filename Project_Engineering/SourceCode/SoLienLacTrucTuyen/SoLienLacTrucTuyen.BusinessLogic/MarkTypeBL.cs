@@ -10,7 +10,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         MarkTypeDA markTypeDA;
 
-        public MarkTypeBL(School school)
+        public MarkTypeBL(School_School school)
             : base(school)
         {
             markTypeDA = new MarkTypeDA(school);
@@ -18,52 +18,52 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void InsertLoaiDiem(string markTypeName, double markRatio, short maxMarksPerTerm, bool calAverageMark)
         {
-            DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem
+            Category_MarkType markType = new Category_MarkType
             {
-                TenLoaiDiem = markTypeName,
-                HeSoDiem = markRatio,
-                SoCotToiDa = maxMarksPerTerm,
-                TinhDTB = calAverageMark
+                MarkTypeName = markTypeName,
+                MarkRatio = markRatio,
+                MaxQuantity = maxMarksPerTerm,
+                IsUsedForCalculatingAvg = calAverageMark
             };
 
             markTypeDA.InsertMarkType(markType);
         }
 
-        public void DeleteMarkType(DanhMuc_LoaiDiem markType)
+        public void DeleteMarkType(Category_MarkType markType)
         {
             markTypeDA.DeleteMarkType(markType);
         }
 
         public void UpdateMarkType(string editedMarkTypeName, string newMarkTypeName, double newMarkRatio, short maxMarksPerTerm, bool calAverageMark)
         {
-            DanhMuc_LoaiDiem markType = GetMarkType(editedMarkTypeName);
+            Category_MarkType markType = GetMarkType(editedMarkTypeName);
 
-            markType.TenLoaiDiem = newMarkTypeName;
-            markType.HeSoDiem = newMarkRatio;
-            markType.SoCotToiDa = maxMarksPerTerm;
-            markType.TinhDTB = calAverageMark;
+            markType.MarkTypeName = newMarkTypeName;
+            markType.MarkRatio = newMarkRatio;
+            markType.MaxQuantity = maxMarksPerTerm;
+            markType.IsUsedForCalculatingAvg = calAverageMark;
 
             markTypeDA.UpdateMarkType(markType);
         }
 
-        public DanhMuc_LoaiDiem GetMarkType(string markTypeName)
+        public Category_MarkType GetMarkType(string markTypeName)
         {
             return markTypeDA.GetMarkType(markTypeName);
         }
 
-        public DanhMuc_LoaiDiem GetMarkType(int markTypeId)
+        public Category_MarkType GetMarkType(int markTypeId)
         {
             return markTypeDA.GetMarkType(markTypeId);
         }
 
-        public List<DanhMuc_LoaiDiem> GetListMarkTypes()
+        public List<Category_MarkType> GetListMarkTypes()
         {
             return markTypeDA.GetListMarkTypes();
         }
 
-        public List<DanhMuc_LoaiDiem> GetListMarkTypes(string markTypeName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_MarkType> GetListMarkTypes(string markTypeName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
+            List<Category_MarkType> lMarkTypes = new List<Category_MarkType>();
 
             if (String.Compare(markTypeName, "tất cả", true) == 0 || markTypeName == "")
             {
@@ -71,7 +71,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                DanhMuc_LoaiDiem markType = GetMarkType(markTypeName);
+                Category_MarkType markType = GetMarkType(markTypeName);
                 lMarkTypes.Add(markType);
                 totalRecords = 1;
             }
@@ -102,11 +102,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool IsDeletable(string markTypeName)
         {
-            DanhMuc_LoaiDiem markType = GetMarkType(markTypeName);
+            Category_MarkType markType = GetMarkType(markTypeName);
             return markTypeDA.IsDeletable(markType);
         }
 
-        public DanhMuc_LoaiDiem GetAppliedCalAvgMarkType()
+        public Category_MarkType GetAppliedCalAvgMarkType()
         {
             return markTypeDA.GetAppliedCalAvgMarkType();
         }

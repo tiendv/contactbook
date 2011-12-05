@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private UserDA userDA;
 
-        public UserBL(School school)
+        public UserBL(School_School school)
             : base(school)
         {
             userDA = new UserDA(school);

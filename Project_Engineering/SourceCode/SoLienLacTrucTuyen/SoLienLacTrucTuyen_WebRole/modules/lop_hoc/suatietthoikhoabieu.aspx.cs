@@ -28,41 +28,41 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // Init variables
             scheduleBL = new ScheduleBL(UserSchool);
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            LopHoc_Lop Class = null;
+            Class_Class Class = null;
 
             if (!Page.IsPostBack)
             {
                 Dictionary<string, int> dicQueryStrings = GetQueryStrings();
                 if (dicQueryStrings != null)
                 {
-                    int maMonHocTKB = dicQueryStrings["MaMonHocTKB"];
-                    LopHoc_MonHocTKB schedule = scheduleBL.GetSchedule(maMonHocTKB);
+                    int SubjectIdTKB = dicQueryStrings["SubjectIdTKB"];
+                    Class_Schedule schedule = scheduleBL.GetSchedule(SubjectIdTKB);
                     TeachingPeriodSchedule tkbTheoTiet = scheduleBL.GetTeachingPeriodSchedule(schedule);
-                    HdfMaMonHoc.Value = tkbTheoTiet.MaMonHoc.ToString();
-                    LblMonHoc.Text = tkbTheoTiet.TenMonHoc;
-                    HdfMaGiaoVien.Value = tkbTheoTiet.MaGiaoVien.ToString();
-                    LblGiaoVien.Text = tkbTheoTiet.TenGiaoVien;
+                    HdfSubjectId.Value = tkbTheoTiet.SubjectId.ToString();
+                    LblMonHoc.Text = tkbTheoTiet.SubjectName;
+                    HdfUserId.Value = tkbTheoTiet.UserId.ToString();
+                    LblGiaoVien.Text = tkbTheoTiet.TeacherName;
 
-                    int maLopHoc = dicQueryStrings["MaLop"];
-                    int maHocKy = dicQueryStrings["MaHocKy"];
-                    int maThu = dicQueryStrings["MaThu"];
-                    int maTiet = dicQueryStrings["MaTiet"];
+                    int ClassId = dicQueryStrings["MaLop"];
+                    int TermId = dicQueryStrings["TermId"];
+                    int DayInWeekId = dicQueryStrings["DayInWeekId"];
+                    int TeachingPeriodId = dicQueryStrings["TeachingPeriodId"];
 
 
-                    Class = new LopHoc_Lop();
-                    Class.MaLopHoc = maLopHoc;
+                    Class = new Class_Class();
+                    Class.ClassId = ClassId;
                     TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(Class);
-                    CauHinh_HocKy hocKy = systemConfigBL.GetTerm(maHocKy);
-                    CauHinh_Thu dayInWeek = systemConfigBL.GetDayInWeek(maThu);
-                    DanhMuc_Tiet tiet = (new TeachingPeriodBL(UserSchool)).GetTeachingPeriod(maTiet);
-                    LblTenLop.Text = lopHoc.TenLopHoc;
-                    LblNamHoc.Text = lopHoc.TenNamHoc;
-                    LblHocKy.Text = hocKy.TenHocKy;
-                    LblThu.Text = dayInWeek.TenThu;
+                    Configuration_Term hocKy = systemConfigBL.GetTerm(TermId);
+                    Configuration_DayInWeek dayInWeek = systemConfigBL.GetDayInWeek(DayInWeekId);
+                    Category_TeachingPeriod tiet = (new TeachingPeriodBL(UserSchool)).GetTeachingPeriod(TeachingPeriodId);
+                    LblTenLop.Text = lopHoc.ClassName;
+                    LblNamHoc.Text = lopHoc.YearName;
+                    LblHocKy.Text = hocKy.TermName;
+                    LblThu.Text = dayInWeek.DayInWeekName;
                     LblTiet.Text = string.Format("{0} ({1} - {2})",
-                        tiet.TenTiet,
-                        tiet.ThoiGianBatDau.ToShortTimeString(),
-                        tiet.ThoiDiemKetThu.ToShortTimeString());
+                        tiet.TeachingPeriodName,
+                        tiet.BeginTime.ToShortTimeString(),
+                        tiet.EndTime.ToShortTimeString());
 
                     FillDDLNganh();
                     FillDDLKhoi();
@@ -97,11 +97,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RadioButton rBtnSelect = (RadioButton)control;
                         if (rBtnSelect.Checked)
                         {
-                            HiddenField hdfRptMaMonHoc = (HiddenField)item.FindControl("HdfRptMaMonHoc");
-                            HdfMaMonHoc.Value = hdfRptMaMonHoc.Value;
+                            HiddenField hdfRptSubjectId = (HiddenField)item.FindControl("HdfRptSubjectId");
+                            HdfSubjectId.Value = hdfRptSubjectId.Value;
 
-                            Label lblTenMonHoc = (Label)item.FindControl("LblTenMonHoc");
-                            LblMonHoc.Text = lblTenMonHoc.Text;
+                            Label lblSubjectName = (Label)item.FindControl("LblSubjectName");
+                            LblMonHoc.Text = lblSubjectName.Text;
                         }
                     }
                 }
@@ -133,8 +133,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RadioButton rBtnSelect = (RadioButton)control;
                         if (rBtnSelect.Checked)
                         {
-                            HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
-                            HdfMaGiaoVien.Value = hdfRptMaGiaoVien.Value;
+                            HiddenField hdfRptUserId = (HiddenField)item.FindControl("HdfRptUserId");
+                            HdfUserId.Value = hdfRptUserId.Value;
 
                             Label lblTenGiaoVien = (Label)item.FindControl("LblTenGiaoVien");
                             LblGiaoVien.Text = lblTenGiaoVien.Text;
@@ -147,8 +147,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             ScheduleBL thoiKhoaBieuBL = new ScheduleBL(UserSchool);
-            LopHoc_MonHocTKB schedule = null;
-            DanhMuc_MonHoc subject = null;
+            Class_Schedule schedule = null;
+            Category_Subject subject = null;
             aspnet_User teacher = null;
 
             if (!validateInput())
@@ -159,20 +159,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Dictionary<string, int> dicQueryStrings = GetQueryStrings();
             if (dicQueryStrings != null)
             {
-                int maTKBTiet = dicQueryStrings["MaMonHocTKB"];
-                int maLopHoc = dicQueryStrings["MaLop"];
-                int maHocKy = dicQueryStrings["MaHocKy"];
-                int maThu = dicQueryStrings["MaThu"];
-                int maTiet = dicQueryStrings["MaTiet"];
-                int maMonHoc = Int32.Parse(HdfMaMonHoc.Value);
-                Guid maGiaoVien = new Guid(HdfMaGiaoVien.Value);
+                int maTKBTiet = dicQueryStrings["SubjectIdTKB"];
+                int ClassId = dicQueryStrings["MaLop"];
+                int TermId = dicQueryStrings["TermId"];
+                int DayInWeekId = dicQueryStrings["DayInWeekId"];
+                int TeachingPeriodId = dicQueryStrings["TeachingPeriodId"];
+                int SubjectId = Int32.Parse(HdfSubjectId.Value);
+                Guid UserId = new Guid(HdfUserId.Value);
 
-                schedule = new LopHoc_MonHocTKB();
-                schedule.MaMonHocTKB = maTKBTiet;
-                subject = new DanhMuc_MonHoc();
-                subject.MaMonHoc = maMonHoc;
+                schedule = new Class_Schedule();
+                schedule.ScheduleId = maTKBTiet;
+                subject = new Category_Subject();
+                subject.SubjectId = SubjectId;
                 teacher = new aspnet_User();
-                teacher.UserId = maGiaoVien;
+                teacher.UserId = UserId;
                 thoiKhoaBieuBL.UpdateSchedule(schedule, subject, teacher);
 
                 Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",
@@ -214,10 +214,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 && Request.QueryString["hocky"] != null && Request.QueryString["thu"] != null 
                 && Request.QueryString["tiet"] != null)
             {
-                int maMonHocTKB;
-                if (Int32.TryParse(Request.QueryString["id"], out maMonHocTKB))
+                int SubjectIdTKB;
+                if (Int32.TryParse(Request.QueryString["id"], out SubjectIdTKB))
                 {
-                    dicQueryStrings.Add("MaMonHocTKB", maMonHocTKB);
+                    dicQueryStrings.Add("SubjectIdTKB", SubjectIdTKB);
                 }
                 else
                 {
@@ -234,30 +234,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     return null;
                 }
 
-                int maHocKy;
-                if (Int32.TryParse(Request.QueryString["hocky"], out maHocKy))
+                int TermId;
+                if (Int32.TryParse(Request.QueryString["hocky"], out TermId))
                 {
-                    dicQueryStrings.Add("MaHocKy", maHocKy);
+                    dicQueryStrings.Add("TermId", TermId);
                 }
                 else
                 {
                     return null;
                 }
 
-                int maThu;
-                if (Int32.TryParse(Request.QueryString["thu"], out maThu))
+                int DayInWeekId;
+                if (Int32.TryParse(Request.QueryString["thu"], out DayInWeekId))
                 {
-                    dicQueryStrings.Add("MaThu", maThu);
+                    dicQueryStrings.Add("DayInWeekId", DayInWeekId);
                 }
                 else
                 {
                     return null;
                 }
 
-                int maTiet;
-                if (Int32.TryParse(Request.QueryString["tiet"], out maTiet))
+                int TeachingPeriodId;
+                if (Int32.TryParse(Request.QueryString["tiet"], out TeachingPeriodId))
                 {
-                    dicQueryStrings.Add("MaTiet", maTiet);
+                    dicQueryStrings.Add("TeachingPeriodId", TeachingPeriodId);
                 }
                 else
                 {
@@ -271,32 +271,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void FillDDLKhoi()
         {
             GradeBL grades = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
+            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
 
             DdlKhoi.DataSource = lstKhoiLop;
-            DdlKhoi.DataValueField = "TenKhoiLop";
-            DdlKhoi.DataTextField = "TenKhoiLop";
+            DdlKhoi.DataValueField = "GradeName";
+            DdlKhoi.DataTextField = "GradeName";
             DdlKhoi.DataBind();
         }
 
         private void FillDDLNganh()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> lstNganhs = facultyBL.GetFaculties();
+            List<Category_Faculty> lstNganhs = facultyBL.GetFaculties();
 
             DdlNganh.DataSource = lstNganhs;
-            DdlNganh.DataValueField = "TenNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyName";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
         }
 
         private void BindRepeaterMonHoc()
         {
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
             string subjectName = TxtMonHoc.Text.Trim();
 
-            if (DdlNganh.SelectedIndex > 0)
+            if (DdlNganh.SelectedIndex >= 0)
             {
                 faculty = (new FacultyBL(UserSchool)).GetFaculty(DdlNganh.SelectedValue);
             }
@@ -307,7 +307,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            if (DdlKhoi.SelectedIndex > 0)
+            if (DdlKhoi.SelectedIndex >= 0)
             {
                 grade = (new GradeBL(UserSchool)).GetGrade(DdlKhoi.SelectedValue);
             }
@@ -354,7 +354,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             TeacherBL giaoVienBL = new TeacherBL(UserSchool);
 
-            string maHienThiGiaoVien = TxtSearchMaGiaoVien.Text.Trim();
+            string maHienThiGiaoVien = TxtSearchUserId.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 
             double dTotalRecords;
@@ -393,7 +393,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             bool bValid;
 
-            if (HdfMaMonHoc.Value == "0" || HdfMaGiaoVien.Value == "0")
+            if (HdfSubjectId.Value == "0" || HdfUserId.Value == "0")
             {
                 bValid = false;
             }
@@ -402,7 +402,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 bValid = true;
             }
 
-            if (HdfMaMonHoc.Value == "0")
+            if (HdfSubjectId.Value == "0")
             {
                 LblMonHocError.Visible = true;
             }
@@ -411,7 +411,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 LblMonHocError.Visible = false;
             }
 
-            if (HdfMaGiaoVien.Value == "0")
+            if (HdfUserId.Value == "0")
             {
                 LblGiaoVienError.Visible = true;
             }

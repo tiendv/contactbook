@@ -9,7 +9,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     {
         public int MaThongBaoLop { get; set; }
         public DateTime Ngay { get; set; }
-        public int MaLopHoc { get; set; }
+        public int ClassId { get; set; }
 
         public string TieuDe { get; set; }
         public string StrNgay { get; set; }

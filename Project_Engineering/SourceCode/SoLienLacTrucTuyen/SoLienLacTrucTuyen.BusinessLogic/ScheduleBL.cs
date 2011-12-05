@@ -11,39 +11,39 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private ScheduleDA scheduleDA;
 
-        public ScheduleBL(School school)
+        public ScheduleBL(School_School school)
             : base(school)
         {
             scheduleDA = new ScheduleDA(school);
         }
 
-        public void InsertSchedule(LopHoc_Lop Class, DanhMuc_MonHoc subject, aspnet_User teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
+        public void InsertSchedule(Class_Class Class, Category_Subject subject, aspnet_User teacher, Configuration_Term term, Configuration_DayInWeek dayInWeek, Category_TeachingPeriod teachingPeriod)
         {
-            LopHoc_MonHocTKB schedule = new LopHoc_MonHocTKB();
-            schedule.MaLopHoc = Class.MaLopHoc;
-            schedule.MaMonHoc = subject.MaMonHoc;
+            Class_Schedule schedule = new Class_Schedule();
+            schedule.ClassId = Class.ClassId;
+            schedule.SubjectId = subject.SubjectId;
             schedule.TeacherId = teacher.UserId;
-            schedule.MaHocKy = term.MaHocKy;
-            schedule.MaThu = dayInWeek.MaThu;
-            schedule.MaBuoi = teachingPeriod.MaBuoi;
-            schedule.MaTiet = teachingPeriod.MaTiet;
+            schedule.TermId = term.TermId;
+            schedule.DayInWeekId = dayInWeek.DayInWeekId;
+            schedule.SessionId = teachingPeriod.SessionId;
+            schedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
 
             scheduleDA.InsertSchedule(schedule);
         }
 
-        public void UpdateSchedule(LopHoc_MonHocTKB editedSchedule, DanhMuc_MonHoc subject, aspnet_User teacher)
+        public void UpdateSchedule(Class_Schedule editedSchedule, Category_Subject subject, aspnet_User teacher)
         {
-            editedSchedule.MaMonHoc = subject.MaMonHoc;
+            editedSchedule.SubjectId = subject.SubjectId;
             editedSchedule.TeacherId = teacher.UserId;
             scheduleDA.UpdateSchedule(editedSchedule, subject, teacher);
         }
 
-        public void DeleteSchedule(LopHoc_MonHocTKB deletedSchedule)
+        public void DeleteSchedule(Class_Schedule deletedSchedule)
         {
             scheduleDA.DeleteSchedule(deletedSchedule);
         }
 
-        public bool ScheduleExists(LopHoc_Lop Class, DanhMuc_MonHoc subject, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
+        public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
             return scheduleDA.ScheduleExists(Class, subject, term, dayInweek, session);
         }
@@ -53,20 +53,20 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return scheduleDA.ScheduleExists(teacher);
         }
 
-        public List<LopHoc_MonHocTKB> GetSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
+        public List<Class_Schedule> GetSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
             return scheduleDA.GetSchedules(Class, term, dayInweek, session);
         }
 
-        public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek)
+        public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek)
         {
             TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(school);
             List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
             TeachingPeriodSchedule teachingPeriodSchedule = null;
-            LopHoc_MonHocTKB schedule = null;
-            List<DanhMuc_Tiet> teachingPeriods = teachingPeriodBL.GetTeachingPeriods();
+            Class_Schedule schedule = null;
+            List<Category_TeachingPeriod> teachingPeriods = teachingPeriodBL.GetTeachingPeriods();
 
-            foreach (DanhMuc_Tiet teachingPeriod in teachingPeriods)
+            foreach (Category_TeachingPeriod teachingPeriod in teachingPeriods)
             {
                 schedule = scheduleDA.GetSchedule(Class, term, dayInweek, teachingPeriod);
                 if (schedule != null)
@@ -76,71 +76,71 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 else
                 {
                     teachingPeriodSchedule = new TeachingPeriodSchedule();
-                    teachingPeriodSchedule.MaMonHoc = 0;
-                    teachingPeriodSchedule.MaMonHocTKB = 0;
+                    teachingPeriodSchedule.SubjectId = 0;
+                    teachingPeriodSchedule.ScheduleId = 0;
                 }
 
-                teachingPeriodSchedule.Tiet = teachingPeriod.MaTiet;
-                teachingPeriodSchedule.ChiTietTiet = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
+                teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
+                teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
                 teachingPeriodSchedules.Add(teachingPeriodSchedule);
             }
 
             return teachingPeriodSchedules;
         }
 
-        public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek, CauHinh_Buoi session)
+        public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
             TeachingPeriodBL tietBL = new TeachingPeriodBL(school);
             List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
-            List<LopHoc_MonHocTKB> schedules = scheduleDA.GetSchedules(Class, term, dayInweek, session);
+            List<Class_Schedule> schedules = scheduleDA.GetSchedules(Class, term, dayInweek, session);
             TeachingPeriodSchedule teachingPeriodSchedule = null;
-            DanhMuc_Tiet teachingPeriod = null;
+            Category_TeachingPeriod teachingPeriod = null;
 
-            foreach (LopHoc_MonHocTKB schedule in schedules)
+            foreach (Class_Schedule schedule in schedules)
             {
                 teachingPeriodSchedule = GetTeachingPeriodSchedule(schedule);
 
-                teachingPeriod = schedule.DanhMuc_Tiet;
-                teachingPeriodSchedule.ChiTietTiet = string.Format("{0}({1}-{2})",
-                    teachingPeriod.TenTiet,
-                    teachingPeriod.ThoiDiemKetThu.ToShortTimeString(),
-                    teachingPeriod.ThoiDiemKetThu.ToShortTimeString());
+                teachingPeriod = schedule.Category_TeachingPeriod;
+                teachingPeriodSchedule.StringDetailTeachingPeriod = string.Format("{0}({1}-{2})",
+                    teachingPeriod.TeachingPeriodName,
+                    teachingPeriod.EndTime.ToShortTimeString(),
+                    teachingPeriod.EndTime.ToShortTimeString());
             }
 
             return teachingPeriodSchedules;
         }
 
-        public List<SessionedSchedule> GetSessionedSchedules(LopHoc_Lop Class, CauHinh_HocKy term, CauHinh_Thu dayInweek)
+        public List<SessionedSchedule> GetSessionedSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek)
         {
             List<SessionedSchedule> sessionedSchedules = new List<SessionedSchedule>();
             List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
-            List<LopHoc_MonHocTKB> schedules = new List<LopHoc_MonHocTKB>();
+            List<Class_Schedule> schedules = new List<Class_Schedule>();
             SessionedSchedule sessionedSchedule = null;
-            DanhMuc_Tiet teachingPeriod = null;
+            Category_TeachingPeriod teachingPeriod = null;
             SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(school);
-            List<CauHinh_Buoi> sessions = systemConfigBL.GetSessions();
+            List<Configuration_Session> sessions = systemConfigBL.GetSessions();
 
-            foreach (CauHinh_Buoi session in sessions)
+            foreach (Configuration_Session session in sessions)
             {
                 sessionedSchedule = new SessionedSchedule();
-                sessionedSchedule.MaBuoi = session.MaBuoi;
+                sessionedSchedule.SessionId = session.SessionId;
                 schedules = GetSchedules(Class, term, dayInweek, session);
                 teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
-                foreach (LopHoc_MonHocTKB schedule in schedules)
+                foreach (Class_Schedule schedule in schedules)
                 {
                     TeachingPeriodSchedule teachingPeriodSchedule = new TeachingPeriodSchedule();
-                    teachingPeriodSchedule.MaMonHocTKB = schedule.MaMonHocTKB;
-                    teachingPeriodSchedule.MaMonHoc = schedule.MaMonHoc;
-                    teachingPeriodSchedule.TenMonHoc = schedule.DanhMuc_MonHoc.TenMonHoc;
-                    teachingPeriodSchedule.MaGiaoVien = schedule.TeacherId;
-                    teachingPeriodSchedule.TenGiaoVien = schedule.aspnet_User.aspnet_Membership.RealName;
-                    teachingPeriodSchedule.MaLopHoc = schedule.MaLopHoc;
-                    teachingPeriodSchedule.MaHocKy = schedule.MaHocKy;
-                    teachingPeriodSchedule.MaThu = schedule.MaThu;
-                    teachingPeriodSchedule.Tiet = schedule.MaTiet;
-                    teachingPeriod = teachingPeriodBL.GetTeachingPeriod(schedule.MaTiet);
-                    teachingPeriodSchedule.ChiTietTiet = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
+                    teachingPeriodSchedule.ScheduleId = schedule.ScheduleId;
+                    teachingPeriodSchedule.SubjectId = schedule.SubjectId;
+                    teachingPeriodSchedule.SubjectName = schedule.Category_Subject.SubjectName;
+                    teachingPeriodSchedule.UserId = schedule.TeacherId;
+                    teachingPeriodSchedule.TeacherName = schedule.aspnet_User.aspnet_Membership.FullName;
+                    teachingPeriodSchedule.ClassId = schedule.ClassId;
+                    teachingPeriodSchedule.TermId = schedule.TermId;
+                    teachingPeriodSchedule.DayInWeekId = schedule.DayInWeekId;
+                    teachingPeriodSchedule.TeachingPeriodId = schedule.TeachingPeriodId;
+                    teachingPeriod = teachingPeriodBL.GetTeachingPeriod(schedule.TeachingPeriodId);
+                    teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
 
                     teachingPeriodSchedules.Add(teachingPeriodSchedule);
                 }
@@ -151,20 +151,20 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return sessionedSchedules;
         }
 
-        public List<DailySchedule> GetDailySchedules(LopHoc_Lop Class, CauHinh_HocKy term)
+        public List<DailySchedule> GetDailySchedules(Class_Class Class, Configuration_Term term)
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             List<DailySchedule> dailySchedules = new List<DailySchedule>();
-            List<CauHinh_Thu> dayInWeeks = systemConfigBL.GetDayInWeeks();
+            List<Configuration_DayInWeek> dayInWeeks = systemConfigBL.GetDayInWeeks();
             DailySchedule dailySchedule = null;
 
-            foreach (CauHinh_Thu dayInWeek in dayInWeeks)
+            foreach (Configuration_DayInWeek dayInWeek in dayInWeeks)
             {
                 dailySchedule = new DailySchedule();
-                dailySchedule.MaLopHoc = Class.MaLopHoc;
-                dailySchedule.MaHocKy = term.MaHocKy;
-                dailySchedule.MaThu = dayInWeek.MaThu;
-                dailySchedule.TenThu = dayInWeek.TenThu;
+                dailySchedule.ClassId = Class.ClassId;
+                dailySchedule.TermId = term.TermId;
+                dailySchedule.DayInWeekId = dayInWeek.DayInWeekId;
+                dailySchedule.DayInWeekName = dayInWeek.DayInWeekName;
                 dailySchedule.SessionedSchedules = GetSessionedSchedules(Class, term, dayInWeek);
                 dailySchedules.Add(dailySchedule);
             }
@@ -172,28 +172,28 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return dailySchedules;
         }
 
-        public List<DanhMuc_MonHoc> GetScheduledSubjects(LopHoc_Lop Class, CauHinh_HocKy term)
+        public List<Category_Subject> GetScheduledSubjects(Class_Class Class, Configuration_Term term)
         {
             return scheduleDA.GetScheduledSubjects(Class, term);
         }
 
-        public TeachingPeriodSchedule GetTeachingPeriodSchedule(LopHoc_MonHocTKB schedule)
+        public TeachingPeriodSchedule GetTeachingPeriodSchedule(Class_Schedule schedule)
         {
             TeachingPeriodSchedule teachingPeriodSchedule = new TeachingPeriodSchedule();
 
-            teachingPeriodSchedule.MaMonHocTKB = schedule.MaMonHocTKB;
-            teachingPeriodSchedule.MaLopHoc = schedule.MaLopHoc;
-            teachingPeriodSchedule.MaMonHoc = schedule.MaMonHoc;
-            teachingPeriodSchedule.TenMonHoc = schedule.DanhMuc_MonHoc.TenMonHoc;
-            teachingPeriodSchedule.MaGiaoVien = schedule.TeacherId;
-            teachingPeriodSchedule.TenGiaoVien = schedule.aspnet_User.aspnet_Membership.RealName;
-            teachingPeriodSchedule.Tiet = schedule.DanhMuc_Tiet.MaTiet;
-            teachingPeriodSchedule.MaThu = schedule.CauHinh_Thu.MaThu;
+            teachingPeriodSchedule.ScheduleId = schedule.ScheduleId;
+            teachingPeriodSchedule.ClassId = schedule.ClassId;
+            teachingPeriodSchedule.SubjectId = schedule.SubjectId;
+            teachingPeriodSchedule.SubjectName = schedule.Category_Subject.SubjectName;
+            teachingPeriodSchedule.UserId = schedule.TeacherId;
+            teachingPeriodSchedule.TeacherName = schedule.aspnet_User.aspnet_Membership.FullName;
+            teachingPeriodSchedule.TeachingPeriodId = schedule.Category_TeachingPeriod.TeachingPeriodId;
+            teachingPeriodSchedule.DayInWeekId = schedule.Configuration_DayInWeek.DayInWeekId;
 
             return teachingPeriodSchedule;
         }
 
-        public LopHoc_MonHocTKB GetSchedule(int scheduleId)
+        public Class_Schedule GetSchedule(int scheduleId)
         {
             return scheduleDA.GetSchedule(scheduleId);
         }

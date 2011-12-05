@@ -19,7 +19,7 @@
                     Mã giáo viên:
                 </td>
                 <td>
-                    <asp:Label ID="LblMaGiaoVienHienThi" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblUserIdHienThi" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -98,10 +98,10 @@
                             <%# (DataPagerChuNhiem.CurrentIndex - 1) * DataPagerChuNhiem.PageSize + Container.ItemIndex + 1%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenNamHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "YearName")%>
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%></asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "ClassName")%></asp:HyperLink>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -157,16 +157,16 @@
                             <%# (DataPagerChuNhiem.CurrentIndex - 1) * DataPagerChuNhiem.PageSize + Container.ItemIndex + 1%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenNamHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "YearName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHocKy")%>
+                            <%#DataBinder.Eval(Container.DataItem, "TermName")%>
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%></asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "ClassName")%></asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink2" runat="server"><%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink2" runat="server"><%#DataBinder.Eval(Container.DataItem, "SubjectName")%></asp:HyperLink>
                         </td>
                     </tr>
                 </ItemTemplate>

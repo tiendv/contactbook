@@ -14,7 +14,7 @@
                     <asp:Label ID="Label2" runat="server" Text="Mã giáo viên:"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="LblMaGiaoVienHienThi" runat="server"  Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblUserIdHienThi" runat="server"  Width="293px" CssClass="readOnlyTextBox"></asp:Label>
                 </td>
             </tr>
             <tr>

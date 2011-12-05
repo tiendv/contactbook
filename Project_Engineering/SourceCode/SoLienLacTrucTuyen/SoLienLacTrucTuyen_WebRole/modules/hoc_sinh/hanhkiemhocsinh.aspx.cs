@@ -69,10 +69,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNamHoc()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
 
             if (DdlNamHoc.Items.Count != 0)
@@ -85,20 +85,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLHocKy()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
+            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
-            DdlHocKy.DataValueField = "MaHocKy";
-            DdlHocKy.DataTextField = "TenHocKy";
+            DdlHocKy.DataValueField = "TermId";
+            DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
         }
 
         private void BindDDLNganhHoc()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "MaNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyId";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
             if (faculties.Count > 1)
             {
@@ -109,10 +109,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLKhoiLop()
         {
             GradeBL grades = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
+            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
-            DdlKhoiLop.DataValueField = "MaKhoiLop";
-            DdlKhoiLop.DataTextField = "TenKhoiLop";
+            DdlKhoiLop.DataValueField = "GradeId";
+            DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
             if (lstKhoiLop.Count > 1)
             {
@@ -122,9 +122,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLLopHoc()
         {
-            CauHinh_NamHoc year = null;
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
@@ -145,15 +145,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             try
             {
                 if (DdlNganh.SelectedIndex > 0)
                 {
-                    faculty = new DanhMuc_NganhHoc();
-                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -162,17 +162,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    grade = new DanhMuc_KhoiLop();
-                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade = new Category_Grade();
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }
             }
             catch (Exception) { }
 
             ClassBL lopHocBL = new ClassBL(UserSchool);
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
+            List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
-            DdlLopHoc.DataValueField = "MaLopHoc";
-            DdlLopHoc.DataTextField = "TenLopHoc";
+            DdlLopHoc.DataValueField = "ClassId";
+            DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
         }
 
@@ -184,14 +184,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
-            int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            //int maHanhKiem = Int32.Parse(DdlHanhKiem.SelectedValue);
+            int ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            int TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            //int ConductId = Int32.Parse(DdlHanhKiem.SelectedValue);
 
             double dTotalRecords = 0;
             List<TabularHanhKiemHocSinh> lstTbHanhKiemHocSinh;
             lstTbHanhKiemHocSinh = hocSinhBL.GetListHanhKiemHocSinh(
-                maLopHoc, maHocKy,
+                ClassId, TermId,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             this.RptHanhKiemHocSinh.DataSource = lstTbHanhKiemHocSinh;
@@ -227,20 +227,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            LopHoc_Lop Class = null;
-            HocSinh_ThongTinCaNhan student = null;
-            CauHinh_HocKy term = null;
-            DanhMuc_HanhKiem conduct = null;
+            Class_Class Class = null;
+            Student_Student student = null;
+            Configuration_Term term = null;
+            Category_Conduct conduct = null;
 
             Dictionary<int, int?> dicHocSinhHanhKiem = new Dictionary<int, int?>();
             foreach (RepeaterItem rptItem in RptHanhKiemHocSinh.Items)
             {
                 HiddenField hdfMaHocSinh = (HiddenField)rptItem.FindControl("HdfMaHocSinh");
-                HiddenField hdfMaHanhKiemHocSinh = (HiddenField)rptItem.FindControl("HdfMaHanhKiemHocSinh");
-                int? orgMaHanhKiemHocSinh = null;
+                HiddenField hdfConductIdHocSinh = (HiddenField)rptItem.FindControl("HdfConductIdHocSinh");
+                int? orgConductIdHocSinh = null;
                 try
                 {
-                    orgMaHanhKiemHocSinh = Int32.Parse(hdfMaHanhKiemHocSinh.Value);
+                    orgConductIdHocSinh = Int32.Parse(hdfConductIdHocSinh.Value);
                 }
                 catch (Exception ex) { }
                 Repeater rptHanhKiem = (Repeater)rptItem.FindControl("RptHanhKiem");
@@ -250,37 +250,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     RadioButton rbtnHanhKiem = (RadioButton)item.FindControl("RbtnHanhKiem");
                     if (rbtnHanhKiem.Checked)
                     {
-                        HiddenField selectedHdfMaHanhKiem = (HiddenField)item.FindControl("HdfMaHanhKiem");
-                        if (((orgMaHanhKiemHocSinh == null) && (selectedHdfMaHanhKiem.Value != "0"))
-                        || ((orgMaHanhKiemHocSinh != null) && (selectedHdfMaHanhKiem.Value != orgMaHanhKiemHocSinh.ToString())))
+                        HiddenField selectedHdfConductId = (HiddenField)item.FindControl("HdfConductId");
+                        if (((orgConductIdHocSinh == null) && (selectedHdfConductId.Value != "0"))
+                        || ((orgConductIdHocSinh != null) && (selectedHdfConductId.Value != orgConductIdHocSinh.ToString())))
                         {
-                            int? iSelectedMaHanhKiem = null;
-                            if (selectedHdfMaHanhKiem.Value != "0")
+                            int? iSelectedConductId = null;
+                            if (selectedHdfConductId.Value != "0")
                             {
-                                iSelectedMaHanhKiem = Int32.Parse(selectedHdfMaHanhKiem.Value);
+                                iSelectedConductId = Int32.Parse(selectedHdfConductId.Value);
                             }
                             int maHocSinh = Int32.Parse(hdfMaHocSinh.Value);
-                            dicHocSinhHanhKiem.Add(maHocSinh, iSelectedMaHanhKiem);
+                            dicHocSinhHanhKiem.Add(maHocSinh, iSelectedConductId);
                         }
                     }
                 }
             }
 
-            term = new CauHinh_HocKy();
-            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
 
-            Class = new LopHoc_Lop();
-            Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+            Class = new Class_Class();
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
 
             foreach (KeyValuePair<int, int?> pair in dicHocSinhHanhKiem)
             {
-                student = new HocSinh_ThongTinCaNhan();
-                student.MaHocSinh = pair.Key;
+                student = new Student_Student();
+                student.StudentId = pair.Key;
 
                 if (pair.Value != null)
                 {
-                    conduct = new DanhMuc_HanhKiem();
-                    conduct.MaHanhKiem = (int)pair.Value;
+                    conduct = new Category_Conduct();
+                    conduct.ConductId = (int)pair.Value;
                 }
                 else
                 {
@@ -299,24 +299,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Repeater event handlers
-        int? maHanhKiem;
+        int? ConductId;
         protected void RptHanhKiemHocSinh_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             RepeaterItem rptItem = e.Item;
             if (rptItem.ItemType == ListItemType.Item
                 || rptItem.ItemType == ListItemType.AlternatingItem)
             {
-                HiddenField hdfMaHanhKiemHocSinh = (HiddenField)rptItem.FindControl("HdfMaHanhKiemHocSinh");
-                int? maHanhKiemHocSinh = null;
+                HiddenField hdfConductIdHocSinh = (HiddenField)rptItem.FindControl("HdfConductIdHocSinh");
+                int? ConductIdHocSinh = null;
                 try
                 {
-                    maHanhKiemHocSinh = Int32.Parse(hdfMaHanhKiemHocSinh.Value);
+                    ConductIdHocSinh = Int32.Parse(hdfConductIdHocSinh.Value);
                 }
                 catch (Exception ex) { }
-                maHanhKiem = maHanhKiemHocSinh;
+                ConductId = ConductIdHocSinh;
 
                 Repeater RptHanhKiem = (Repeater)e.Item.FindControl("RptHanhKiem");
-                List<DanhMuc_HanhKiem> lstHanhKiem = hanhKiemBL.GetListConducts(true);
+                List<Category_Conduct> lstHanhKiem = hanhKiemBL.GetListConducts(true);
                 RptHanhKiem.DataSource = lstHanhKiem;
                 RptHanhKiem.DataBind();
             }
@@ -328,10 +328,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (rptItem.ItemType == ListItemType.Item
                 || rptItem.ItemType == ListItemType.AlternatingItem)
             {
-                HiddenField hdfMaHanhKiem = (HiddenField)rptItem.FindControl("HdfMaHanhKiem");
+                HiddenField hdfConductId = (HiddenField)rptItem.FindControl("HdfConductId");
                 RadioButton rbtnHanhKiem = (RadioButton)rptItem.FindControl("RbtnHanhKiem");
-                if (((maHanhKiem == null) && (hdfMaHanhKiem.Value == "0"))
-                    || ((maHanhKiem != null) && (hdfMaHanhKiem.Value == maHanhKiem.ToString())))
+                if (((ConductId == null) && (hdfConductId.Value == "0"))
+                    || ((ConductId != null) && (hdfConductId.Value == ConductId.ToString())))
                 {
                     rbtnHanhKiem.Checked = true;
                 }

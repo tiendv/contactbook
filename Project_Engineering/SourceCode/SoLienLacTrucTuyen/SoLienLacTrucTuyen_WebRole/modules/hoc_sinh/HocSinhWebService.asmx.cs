@@ -24,11 +24,11 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ExistMaHocSinhHienThi(string maHocSinh, string maHocSinhHienThi)
         {
-            StudentBL hocSinhBL = new StudentBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-            HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(maHocSinhHienThi);
+            StudentBL hocSinhBL = new StudentBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
+            Student_Student student = hocSinhBL.GetStudent(maHocSinhHienThi);
             if (student != null)
             {
-                if (student.MaHocSinh.ToString() != maHocSinh)
+                if (student.StudentId.ToString() != maHocSinh)
                 {
                     return true;
                 }

@@ -51,7 +51,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // Validate custom information
                 // ...
                 //
-                UserBL userBL = new UserBL((School)Session[AppConstant.SCHOOL]);
+                UserBL userBL = new UserBL((School_School)Session[AppConstant.SCHOOL]);
                 return userBL.ValidateUser(User.Identity.Name);
             }
             else

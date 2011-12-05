@@ -9,7 +9,7 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ChiTietLopHoc : BaseContentPage
+    public partial class DetailedClassPage : BaseContentPage
     {
         #region Fields
         private ClassBL lopHocBL;
@@ -29,16 +29,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
-                int? maLopHoc = GetQueryString();
-                if (maLopHoc != null)
+                int? ClassId = GetQueryString();
+                if (ClassId != null)
                 {
-                    LopHoc_Lop lophoc = lopHocBL.GetClass((int)maLopHoc);
+                    Class_Class lophoc = lopHocBL.GetClass((int)ClassId);
                     if (lophoc != null)
                     {                        
-                        LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;
-                        LblTenNganhHocChiTiet.Text = lophoc.DanhMuc_NganhHoc.TenNganhHoc;
-                        LblTenKhoiLopChiTiet.Text = lophoc.DanhMuc_KhoiLop.TenKhoiLop;
-                        LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
+                        LblClassNameChiTiet.Text = lophoc.ClassName;
+                        LblFacultyNameChiTiet.Text = lophoc.Category_Faculty.FacultyName;
+                        LblGradeNameChiTiet.Text = lophoc.Category_Grade.GradeName;
+                        LblSiSoChiTiet.Text = lophoc.StudentQuantity.ToString();
+                        Class_FormerTeacher formerTeacher = (new FormerTeacherBL(UserSchool)).GetFormerTeacher(lophoc);
+                        if(formerTeacher != null)
+                        {
+                            LblTenGVCNChiTiet.Text = formerTeacher.aspnet_User.aspnet_Membership.FullName;
+                        }
+                        
                     }
                 }
             }
@@ -61,11 +67,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (Request.QueryString["malop"] != null)
             {
-                int iMaLopHoc;
-                bool bParseSuccess = Int32.TryParse(Request.QueryString["malop"], out iMaLopHoc);
+                int iClassId;
+                bool bParseSuccess = Int32.TryParse(Request.QueryString["malop"], out iClassId);
                 if (bParseSuccess == true)
                 {
-                    return iMaLopHoc;
+                    return iClassId;
                 }
                 else
                 {

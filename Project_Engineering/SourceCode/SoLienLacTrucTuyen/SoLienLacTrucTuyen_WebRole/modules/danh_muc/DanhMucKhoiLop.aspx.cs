@@ -50,23 +50,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string tenKhoiLop = this.TxtTenKhoiLop.Text.Trim();
+            string GradeName = this.TxtGradeName.Text.Trim();
             string thuTuHienThi = this.TxtOrderAdd.Text.Trim();
 
             // validate input
-            bool bValidInput = ValidateForAdd(tenKhoiLop, thuTuHienThi);
+            bool bValidInput = ValidateForAdd(GradeName, thuTuHienThi);
 
             if (bValidInput)
             {
                 // insert new KhoiLop to DB
-                gradeBL.InsertGrade(tenKhoiLop, short.Parse(thuTuHienThi));
+                gradeBL.InsertGrade(GradeName, short.Parse(thuTuHienThi));
 
                 // Re-bind Repeater
                 MainDataPager.CurrentIndex = 1;
                 BindRptKhoiLop();
 
                 // Reset GUI values
-                this.TxtTenKhoiLop.Text = "";
+                this.TxtGradeName.Text = "";
                 this.TxtOrderAdd.Text = "";
 
                 // Process continue add KhoiLop
@@ -93,7 +93,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string editedGradeName = this.HdfSeletedGradeName.Value;
-            string newGradeName = TxtSuaTenKhoiLop.Text.Trim();
+            string newGradeName = TxtSuaGradeName.Text.Trim();
             string newDisplayOrder = TxtOrderEdit.Text.Trim();
 
             bool bValidInput = ValidateForEdit(editedGradeName, newGradeName, newDisplayOrder);
@@ -135,8 +135,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)e.Item.DataItem;
-                    if (!gradeBL.IsDeletable(grade.TenKhoiLop))
+                    Category_Grade grade = (Category_Grade)e.Item.DataItem;
+                    if (!gradeBL.IsDeletable(grade.GradeName))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -171,8 +171,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        HiddenField hdfRptMaKhoiLop = (HiddenField)e.Item.FindControl("HdfRptMaKhoiLop");
-                        this.HdfMaKhoiLop.Value = hdfRptMaKhoiLop.Value;
+                        HiddenField hdfRptGradeId = (HiddenField)e.Item.FindControl("HdfRptGradeId");
+                        this.HdfGradeId.Value = hdfRptGradeId.Value;
                         this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
                         this.HdfRptKhoiLopMPEDelete.Value = mPEDelete.ClientID;
 
@@ -183,10 +183,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
                         string gradeName = (string)e.CommandArgument;
 
-                        DanhMuc_KhoiLop grade = gradeBL.GetGrade(gradeName);
+                        Category_Grade grade = gradeBL.GetGrade(gradeName);
 
-                        TxtSuaTenKhoiLop.Text = grade.TenKhoiLop;
-                        TxtOrderEdit.Text = grade.ThuTuHienThi.ToString();
+                        TxtSuaGradeName.Text = grade.GradeName;
+                        TxtOrderEdit.Text = grade.DisplayedOrder.ToString();
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
@@ -230,10 +230,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void BindRptKhoiLop()
         {
-            string tenKhoiLop = TxtSearchKhoiLop.Text.Trim();
+            string GradeName = TxtSearchKhoiLop.Text.Trim();
 
             double dTotalRecords;
-            List<DanhMuc_KhoiLop> lstKhoiLop = gradeBL.GetListGrades(tenKhoiLop, 
+            List<Category_Grade> lstKhoiLop = gradeBL.GetListGrades(GradeName, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             MainDataPager.ItemCount = dTotalRecords;
 
@@ -275,24 +275,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptKhoiLop.DataBind();
         }
 
-        private bool ValidateForAdd(string tenKhoiLop, string thuTuHienThi)
+        private bool ValidateForAdd(string GradeName, string thuTuHienThi)
         {
             if (!Page.IsValid)
             {
                 return false;
             }
 
-            if (tenKhoiLop == "")
+            if (GradeName == "")
             {
-                TenKhoiLopRequiredAdd.IsValid = false;
+                GradeNameRequiredAdd.IsValid = false;
                 MPEAdd.Show();
                 return false;
             }
             else
             {
-                if (gradeBL.GradeNameExists(tenKhoiLop))
+                if (gradeBL.GradeNameExists(GradeName))
                 {
-                    TenKhoiLopValidatorAdd.IsValid = false;
+                    GradeNameValidatorAdd.IsValid = false;
                     MPEAdd.Show();
                     return false;
                 }
@@ -337,7 +337,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (newGradeName == "")
             {
-                TenKhoiLopRequiredEdit.IsValid = false;
+                GradeNameRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
                 return false;
             }
@@ -345,7 +345,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (gradeBL.GradeNameExists(editedGradeName, newGradeName))
                 {
-                    TenKhoiLopValidatorEdit.IsValid = false;
+                    GradeNameValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
                     return false;
                 }

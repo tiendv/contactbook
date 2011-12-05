@@ -27,7 +27,7 @@
     </div>
     <div class="table_data ui-corner-all">
         <table class="repeater">
-            <asp:HiddenField ID="HdfMaMonHocTKB" runat="server" />
+            <asp:HiddenField ID="HdfSubjectIdTKB" runat="server" />
             <asp:HiddenField ID="HdfRptThoiKhoaBieuMPEDelete" runat="server" />
             <asp:Repeater ID="RptThoiKhoaBieu" runat="server" OnItemDataBound="RptThoiKhoaBieu_ItemDataBound"
                 OnItemCommand="RptThoiKhoaBieu_ItemCommand">
@@ -60,30 +60,30 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfMaMonHocTKB" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaMonHocTKB")%>' />
+                            <asp:HiddenField ID="HdfSubjectIdTKB" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ScheduleId")%>' />
                         </td>
                         <td style="height: 40px; width: 200px">
-                            <%#DataBinder.Eval(Container.DataItem, "ChiTietTiet")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringDetailTeachingPeriod")%>
                         </td>
                         <td style="height: 40px;">
                             <asp:Label ID="LblNghi" runat="server" Text="Nghỉ" Visible="false"></asp:Label>
-                            <%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "SubjectName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenGiaoVien")%>
+                            <%#DataBinder.Eval(Container.DataItem, "TeacherName")%>
                         </td>
                         <td id="tdAdd" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnAddItem" runat="server" ImageUrl="~/Styles/Icons/icon_add.png"
-                                CommandName="CmdAddItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Tiet")%>' />
+                                CommandName="CmdAddItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TeachingPeriodId")%>' />
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaMonHocTKB")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ScheduleId")%>' />
                         </td>
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaMonHocTKB")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ScheduleId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">

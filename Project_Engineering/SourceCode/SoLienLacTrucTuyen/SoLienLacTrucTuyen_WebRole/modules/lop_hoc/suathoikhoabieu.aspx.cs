@@ -14,77 +14,77 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class SuaThoiKhoaBieuPage : BaseContentPage
     {
         #region Fields, Properties
-        public int MaLopHoc
+        public int ClassId
         {
             get
             {
-                int maLopHoc;
+                int ClassId;
                 if (Request.QueryString["lop"] != null)
                 {
-                    maLopHoc = Int32.Parse(Request.QueryString["lop"]);
-                    ViewState["MaLopHoc"] = maLopHoc;
+                    ClassId = Int32.Parse(Request.QueryString["lop"]);
+                    ViewState["ClassId"] = ClassId;
                 }
                 else
                 {
-                    if (ViewState["MaLopHoc"] != null)
+                    if (ViewState["ClassId"] != null)
                     {
-                        maLopHoc = (int)ViewState["MaLopHoc"];
+                        ClassId = (int)ViewState["ClassId"];
                     }
                     else
                     {
-                        maLopHoc = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaLop"];
+                        ClassId = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaLop"];
                         Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaLop");
                     }
                 }
-                return maLopHoc;
+                return ClassId;
             }
         }
-        public int MaHocKy
+        public int TermId
         {
             get
             {
                 if (Request.QueryString["hocky"] != null)
                 {
-                    int maHocKy = Int32.Parse(Request.QueryString["hocky"]);
-                    ViewState["MaHocKy"] = maHocKy;
-                    return maHocKy;
+                    int TermId = Int32.Parse(Request.QueryString["hocky"]);
+                    ViewState["TermId"] = TermId;
+                    return TermId;
                 }
                 else
                 {
-                    if (ViewState["MaHocKy"] != null)
+                    if (ViewState["TermId"] != null)
                     {
-                        return (int)ViewState["MaHocKy"];
+                        return (int)ViewState["TermId"];
                     }
                     else
                     {
-                        int maHocKy = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaHocKy"];
+                        int TermId = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_TermId"];
                         Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_HocKy");
-                        return maHocKy;
+                        return TermId;
                     }
                 }
             }
         }
-        public int OriginalMaThu
+        public int OriginalDayInWeekId
         {
             get
             {
                 if (Request.QueryString["thu"] != null)
                 {
-                    int maThu = Int32.Parse(Request.QueryString["thu"]);
-                    ViewState["MaThu"] = maThu;
-                    return maThu;
+                    int DayInWeekId = Int32.Parse(Request.QueryString["thu"]);
+                    ViewState["DayInWeekId"] = DayInWeekId;
+                    return DayInWeekId;
                 }
                 else
                 {
-                    if (ViewState["MaThu"] != null)
+                    if (ViewState["DayInWeekId"] != null)
                     {
-                        return (int)ViewState["MaThu"];
+                        return (int)ViewState["DayInWeekId"];
                     }
                     else
                     {
-                        int maThu = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaThu"];
-                        Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_MaThu");
-                        return maThu;
+                        int DayInWeekId = (int)Session[User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_DayInWeekId"];
+                        Session.Remove(User.Identity.Name + "_Fr_ThemTiet_To_SuaTKB_DayInWeekId");
+                        return DayInWeekId;
 
                     }
                 }
@@ -120,37 +120,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             ClassBL classBL = new ClassBL(UserSchool);
-            LopHoc_Lop Class = new LopHoc_Lop();
+            Class_Class Class = new Class_Class();
 
-            Class.MaLopHoc = MaLopHoc;
+            Class.ClassId = ClassId;
 
             TabularClass lopHoc = classBL.GetTabularClass(Class);
-            CauHinh_HocKy hocKy = systemConfigBL.GetTerm(MaHocKy);
+            Configuration_Term hocKy = systemConfigBL.GetTerm(TermId);
 
             LblTitle.Text = string.Format("THỜI KHÓA BIỂU LỚP {0} ({1} - {2} - NĂM HỌC {3})",
-                lopHoc.TenLopHoc, DdlThu.SelectedItem.Text, hocKy.TenHocKy, lopHoc.TenNamHoc);
+                lopHoc.ClassName, DdlThu.SelectedItem.Text, hocKy.TermName, lopHoc.YearName);
         }
 
         public void FillDDLThu()
         {
             SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_Thu> listThu = cauHinhBL.GetDayInWeeks();
+            List<Configuration_DayInWeek> listThu = cauHinhBL.GetDayInWeeks();
             DdlThu.DataSource = listThu;
-            DdlThu.DataValueField = "MaThu";
-            DdlThu.DataTextField = "TenThu";
+            DdlThu.DataValueField = "DayInWeekId";
+            DdlThu.DataTextField = "DayInWeekName";
             DdlThu.DataBind();
 
-            //DdlThu.SelectedValue = OriginalMaThu.ToString();
+            //DdlThu.SelectedValue = OriginalDayInWeekId.ToString();
         }
 
         private void BindRptThoiKhoaBieu()
         {
-            LopHoc_Lop Class = new LopHoc_Lop();
-            Class.MaLopHoc = MaLopHoc;
-            CauHinh_HocKy term = new CauHinh_HocKy();
-            term.MaHocKy = MaHocKy;
-            CauHinh_Thu dayInWeek = new CauHinh_Thu();
-            dayInWeek.MaThu = Int32.Parse(DdlThu.SelectedValue);
+            Class_Class Class = new Class_Class();
+            Class.ClassId = ClassId;
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = TermId;
+            Configuration_DayInWeek dayInWeek = new Configuration_DayInWeek();
+            dayInWeek.DayInWeekId = Int32.Parse(DdlThu.SelectedValue);
 
             List<TeachingPeriodSchedule> lTKBTheoTiets = scheduleBL.GetTeachingPeriodSchedules(Class, term, dayInWeek);
             MainDataPager.ItemCount = lTKBTheoTiets.Count;
@@ -175,8 +175,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            LopHoc_MonHocTKB schedule = new LopHoc_MonHocTKB();
-            schedule.MaMonHocTKB = Int32.Parse(this.HdfMaMonHocTKB.Value);
+            Class_Schedule schedule = new Class_Schedule();
+            schedule.ScheduleId = Int32.Parse(this.HdfSubjectIdTKB.Value);
             scheduleBL.DeleteSchedule(schedule);
             BindRptThoiKhoaBieu();
         }
@@ -191,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.DataItem != null)
                 {
                     TeachingPeriodSchedule tkbTheoTiet = (TeachingPeriodSchedule)e.Item.DataItem;
-                    if (tkbTheoTiet.MaMonHoc == 0)
+                    if (tkbTheoTiet.SubjectId == 0)
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                         btnDeleteItem.ImageUrl = "~/Styles/Icons/icon_delete_disabled.png";
@@ -220,17 +220,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
                         TeachingPeriodBL tietBL = new TeachingPeriodBL(UserSchool);
                         ClassBL classBL = new ClassBL(UserSchool);
-                        LopHoc_Lop Class = new LopHoc_Lop();
-                        Class.MaLopHoc = MaLopHoc;
+                        Class_Class Class = new Class_Class();
+                        Class.ClassId = ClassId;
 
-                        int maTiet = Int32.Parse(e.CommandArgument.ToString());
-                        ViewState["MaTiet_Add"] = maTiet;
+                        int TeachingPeriodId = Int32.Parse(e.CommandArgument.ToString());
+                        ViewState["TeachingPeriodId_Add"] = TeachingPeriodId;
 
                         TabularClass lopHoc = classBL.GetTabularClass(Class);
-                        CauHinh_HocKy hocKy = systemConfigBL.GetTerm(MaHocKy);
+                        Configuration_Term hocKy = systemConfigBL.GetTerm(TermId);
 
                         Response.Redirect(string.Format("themtietthoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}&tiet={3}",
-                            MaLopHoc, MaHocKy, DdlThu.SelectedValue, maTiet));
+                            ClassId, TermId, DdlThu.SelectedValue, TeachingPeriodId));
                         break;
                     }
                 case "CmdDeleteItem":
@@ -241,10 +241,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        // Save current MaLopHoc to global
-                        HiddenField hdfMaMonHocTKB = (HiddenField)e.Item.FindControl("HdfMaMonHocTKB");
+                        // Save current ClassId to global
+                        HiddenField hdfSubjectIdTKB = (HiddenField)e.Item.FindControl("HdfSubjectIdTKB");
 
-                        this.HdfMaMonHocTKB.Value = hdfMaMonHocTKB.Value;
+                        this.HdfSubjectIdTKB.Value = hdfSubjectIdTKB.Value;
 
                         // Save modal popup ClientID
                         this.HdfRptThoiKhoaBieuMPEDelete.Value = mPEDelete.ClientID;
@@ -253,16 +253,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        int maMonHocTKB = Int32.Parse(e.CommandArgument.ToString());
-                        LopHoc_MonHocTKB schedule = scheduleBL.GetSchedule(maMonHocTKB);
+                        int SubjectIdTKB = Int32.Parse(e.CommandArgument.ToString());
+                        Class_Schedule schedule = scheduleBL.GetSchedule(SubjectIdTKB);
                         TeachingPeriodSchedule tKBTheoTiet = scheduleBL.GetTeachingPeriodSchedule(schedule);
-                        int maTiet = tKBTheoTiet.Tiet;
-                        int maMonHoc = tKBTheoTiet.MaMonHoc;
-                        ViewState["MaMonHocTKB_Edit"] = maMonHocTKB;
-                        ViewState["MaMonHoc_Edit"] = maMonHoc;
+                        int TeachingPeriodId = tKBTheoTiet.TeachingPeriodId;
+                        int SubjectId = tKBTheoTiet.SubjectId;
+                        ViewState["SubjectIdTKB_Edit"] = SubjectIdTKB;
+                        ViewState["SubjectId_Edit"] = SubjectId;
 
                         Response.Redirect(string.Format("suatietthoikhoabieu.aspx?id={0}&lop={1}&hocky={2}&thu={3}&tiet={4}",
-                            maMonHocTKB, MaLopHoc, MaHocKy, DdlThu.SelectedValue, maTiet));
+                            SubjectIdTKB, ClassId, TermId, DdlThu.SelectedValue, TeachingPeriodId));
                         break;
                     }
                 default:

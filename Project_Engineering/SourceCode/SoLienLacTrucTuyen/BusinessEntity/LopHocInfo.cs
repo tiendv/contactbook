@@ -7,20 +7,20 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularClass
     {
-        public int MaLopHoc { get; set; }
-        public string TenLopHoc { get; set; }
+        public int ClassId { get; set; }
+        public string ClassName { get; set; }
 
-        public int MaNganhHoc { get; set; }
-        public string TenNganhHoc { get; set; }
+        public int FacultyId { get; set; }
+        public string FacultyName { get; set; }
 
-        public int MaKhoiLop { get; set; }
-        public string TenKhoiLop { get; set; }
+        public int GradeId { get; set; }
+        public string GradeName { get; set; }
 
         public Guid HomeroomTeacherCode { get; set; }
         public string TenGVCN { get; set; }
         public int SiSo { get; set; }
 
-        public int MaNamHoc { get; set; }
-        public string TenNamHoc { get; set; }
+        public int YearId { get; set; }
+        public string YearName { get; set; }
     }
 }

@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DanhSachLop {
+    public partial class ClassesPage {
         
         /// <summary>
         /// UpdatePanel1 control.
@@ -103,13 +103,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfSltClassName;
         
         /// <summary>
-        /// HdfMaLopHoc control.
+        /// HdfClassId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaLopHoc;
+        protected global::System.Web.UI.WebControls.HiddenField HdfClassId;
         
         /// <summary>
         /// HdfRptLopHocMPEDelete control.
@@ -256,31 +256,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// TxtTenLopHocThem control.
+        /// TxtClassNameThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenLopHocThem;
+        protected global::System.Web.UI.WebControls.TextBox TxtClassNameThem;
         
         /// <summary>
-        /// TenLopHocRequiredAdd control.
+        /// ClassNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenLopHocRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ClassNameRequiredAdd;
         
         /// <summary>
-        /// TenLopHocValidatorAdd control.
+        /// ClassNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenLopHocValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator ClassNameValidatorAdd;
         
         /// <summary>
         /// hfOutputAdd control.
@@ -391,31 +391,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label9;
         
         /// <summary>
-        /// TxtTenLopHocSua control.
+        /// TxtClassNameSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenLopHocSua;
+        protected global::System.Web.UI.WebControls.TextBox TxtClassNameSua;
         
         /// <summary>
-        /// TenLopHocRequiredEdit control.
+        /// ClassNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenLopHocRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ClassNameRequiredEdit;
         
         /// <summary>
-        /// TenLopHocValidatorEdit control.
+        /// ClassNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenLopHocValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator ClassNameValidatorEdit;
         
         /// <summary>
         /// hfOutputEdit control.

@@ -16,8 +16,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private FormerTeacherBL giaoVienChuNhiemBL;
         private TeacherBL teacherBL;
         private int maGVCN;
-        private int maNamHoc;
-        private Guid maGiaoVienHienHanh;
+        private int YearId;
+        private Guid UserIdHienHanh;
         private bool isSearch;
         #endregion
 
@@ -43,17 +43,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 maGVCN = (int)ViewState["maGVCN"];
             }
 
-            LopHoc_GVCN giaoVienChuNhiem = giaoVienChuNhiemBL.GetFormerTeacher(maGVCN);
-            TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(giaoVienChuNhiem.LopHoc_Lop);
-            maNamHoc = lopHoc.MaNamHoc;
+            Class_FormerTeacher giaoVienChuNhiem = giaoVienChuNhiemBL.GetFormerTeacher(maGVCN);
+            TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(giaoVienChuNhiem.Class_Class);
+            YearId = lopHoc.YearId;
 
             if (!Page.IsPostBack)
             {
-                LblLopHoc.Text = lopHoc.TenLopHoc;
-                maGiaoVienHienHanh = giaoVienChuNhiem.TeacherId;
+                LblLopHoc.Text = lopHoc.ClassName;
+                UserIdHienHanh = giaoVienChuNhiem.TeacherId;
                 LblCurrentGiaoVienChuNhiem.Text = lopHoc.TenGVCN;
                 LblTitleTeacherList.Text = string.Format("DANH SÁCH GIÁO VIÊN CHƯA PHÂN CÔNG CHỦ NHIỆM (NĂM HỌC {0})",
-                    lopHoc.TenNamHoc);
+                    lopHoc.YearName);
                 BindRepeater();
             }
         }
@@ -98,10 +98,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RadioButton rBtnSelect = (RadioButton)control;
                         if (rBtnSelect.Checked)
                         {
-                            HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
-                            Guid maGiaoVien = new Guid(hdfRptMaGiaoVien.Value);
+                            HiddenField hdfRptUserId = (HiddenField)item.FindControl("HdfRptUserId");
+                            Guid UserId = new Guid(hdfRptUserId.Value);
                             aspnet_User teacher = new aspnet_User();
-                            teacher.UserId = maGiaoVien;
+                            teacher.UserId = UserId;
                             giaoVienChuNhiemBL.Update(maGVCN, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }
@@ -128,8 +128,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRepeater()
         {
-            CauHinh_NamHoc year = new CauHinh_NamHoc();
-            year.MaNamHoc = maNamHoc;
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = YearId;
 
             string teacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
             string teacherName = TxtSearchTenGiaoVien.Text.Trim();

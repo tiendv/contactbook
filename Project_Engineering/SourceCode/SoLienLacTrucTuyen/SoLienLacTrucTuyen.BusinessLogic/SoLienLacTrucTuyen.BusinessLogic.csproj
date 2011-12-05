@@ -63,12 +63,11 @@
     <Compile Include="SystemConfigBL.cs" />
     <Compile Include="DanhHieuBL.cs" />
     <Compile Include="FunctionsBL.cs" />
-    <Compile Include="FunctionTypeBL.cs" />
     <Compile Include="TeacherBL.cs" />
     <Compile Include="FormerTeacherBL.cs" />
     <Compile Include="ConductBL.cs" />
     <Compile Include="StudentActivityBL.cs" />
-    <Compile Include="HocLucBL.cs" />
+    <Compile Include="LearningAptitudeBL.cs" />
     <Compile Include="StudentBL.cs" />
     <Compile Include="StudyingResultBL.cs" />
     <Compile Include="GradeBL.cs" />
@@ -120,10 +119,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

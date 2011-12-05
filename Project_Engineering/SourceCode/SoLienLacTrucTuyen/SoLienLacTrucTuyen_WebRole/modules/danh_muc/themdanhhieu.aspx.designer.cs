@@ -22,13 +22,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenDanhHieu control.
+        /// TxtLearningResultName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenDanhHieu;
+        protected global::System.Web.UI.WebControls.TextBox TxtLearningResultName;
         
         /// <summary>
         /// hfOutputAdd control.
@@ -40,22 +40,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField hfOutputAdd;
         
         /// <summary>
-        /// TenDanhHieuRequiredAdd control.
+        /// LearningResultNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenDanhHieuRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LearningResultNameRequiredAdd;
         
         /// <summary>
-        /// TenDanhHieuValidatorAdd control.
+        /// LearningResultNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenDanhHieuValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator LearningResultNameValidatorAdd;
         
         /// <summary>
         /// BtnAdd control.
@@ -94,13 +94,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfThuTu;
         
         /// <summary>
-        /// HdfRptMoTaDanhHieuMPEDelete control.
+        /// HdfRptDescriptionDanhHieuMPEDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptMoTaDanhHieuMPEDelete;
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptDescriptionDanhHieuMPEDelete;
         
         /// <summary>
         /// HdfRptDanhHieuMPEEdit control.
@@ -112,13 +112,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfRptDanhHieuMPEEdit;
         
         /// <summary>
-        /// RptMoTaDanhHieu control.
+        /// RptDescriptionDanhHieu control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RptMoTaDanhHieu;
+        protected global::System.Web.UI.WebControls.Repeater RptDescriptionDanhHieu;
         
         /// <summary>
         /// MainDataPager control.

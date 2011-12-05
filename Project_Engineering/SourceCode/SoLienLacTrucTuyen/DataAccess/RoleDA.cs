@@ -9,7 +9,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class RoleDA : BaseDA
     {
-        public RoleDA(School school)
+        public RoleDA(School_School school)
             : base(school)
         {
 
@@ -65,7 +65,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             Guid roleId = role.RoleId;
             db.SubmitChanges();
 
-            role.UserManagement_RoleDetail.Description = description;
             role.UserManagement_RoleDetail.DisplayedName = newRoleName.Split('_')[1];
             db.SubmitChanges();
         }
@@ -80,12 +79,10 @@ namespace SoLienLacTrucTuyen.DataAccess
             UserManagement_RoleDetail roleDetail = new UserManagement_RoleDetail
             {
                 RoleId = roleId,
-                Description = description,
-                Expired = false,
-                CanBeDeleted = true,
-                Actived = true,
+                IsDeletable = true,
                 SchoolId = school.SchoolId,
-                DisplayedName = roleName.Split('_')[1]
+                DisplayedName = roleName.Split('_')[1],
+                RoleCategoryId = "USERDEFINED"
             };
             db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
             db.SubmitChanges();
@@ -100,7 +97,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             db.SubmitChanges();
         }
 
-        public void UpdateRoleDetail(string roleName, string description, bool expired, bool canBeDeleted, bool actived)
+        public void UpdateRoleDetail(string roleName, string description, bool expired, bool IsDeletable, bool actived)
         {
             // get RoleDetail
             UserManagement_RoleDetail roleDetail;
@@ -110,9 +107,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                           select roleDetails).First();
 
             // change RoleDetail of properties
-            roleDetail.Expired = expired;
-            roleDetail.CanBeDeleted = canBeDeleted;
-            roleDetail.Actived = actived;
+            roleDetail.IsDeletable = IsDeletable;
 
             db.SubmitChanges();
         }
@@ -139,7 +134,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                 where rl.RoleName == roleName
                                 select rl).First();
 
-            if (role.UserManagement_RoleDetail.CanBeDeleted)
+            if (role.UserManagement_RoleDetail.IsDeletable)
             {
                 if (role.aspnet_UsersInRoles.Count == 0)
                 {
@@ -148,16 +143,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return false;
-        }
-
-        public bool IsExpirable(Guid roleId)
-        {
-            bool bExpired = (from role in db.aspnet_Roles
-                             join roleDetail in db.UserManagement_RoleDetails
-                                on role.RoleId equals roleDetail.RoleId
-                             where role.RoleId == roleId
-                             select roleDetail.Expired).First();
-            return bExpired;
         }
 
         public aspnet_Role GetRole(string roleName)
@@ -346,7 +331,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             // Xác định xem giáo viên này có chủ nhiệm lớp nào không?
             IQueryable<aspnet_User> iqGiaoVien;
             iqGiaoVien = from giaoVien in db.aspnet_Users
-                         join GVNCN in db.LopHoc_GVCNs on giaoVien.UserId equals GVNCN.TeacherId
+                         join GVNCN in db.Class_FormerTeachers on giaoVien.UserId equals GVNCN.TeacherId
                          where giaoVien.UserName == teacherCode
                          select giaoVien;
             if (iqGiaoVien.Count() != 0)
@@ -363,7 +348,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             // Xác định xem giáo viên này có day lớp nào không?
             iqGiaoVien = from giaoVien in db.aspnet_Users
-                         join tkb in db.LopHoc_MonHocTKBs on giaoVien.UserId equals tkb.TeacherId
+                         join tkb in db.Class_Schedules on giaoVien.UserId equals tkb.TeacherId
                          where giaoVien.UserName == teacherCode
                          select giaoVien;
 

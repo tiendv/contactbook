@@ -170,7 +170,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string roleName = this.hdfEditingRoleName.Value;
             string newRoleName = this.TxtRoleNameEdit.Text;
-            string description = this.TxtMoTaNhomNguoiDungSua.Text;
+            string description = this.TxtDescriptionNhomNguoiDungSua.Text;
 
             ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
             foreach (RepeaterItem rptItem in RptRoles.Items)
@@ -283,7 +283,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         if (tabularRole != null)
                         {
                             TxtRoleNameEdit.Text = tabularRole.DisplayedName;
-                            TxtMoTaNhomNguoiDungSua.Text = tabularRole.Description;
+                            TxtDescriptionNhomNguoiDungSua.Text = tabularRole.Description;
                             ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                             mPEEdit.Show();
 

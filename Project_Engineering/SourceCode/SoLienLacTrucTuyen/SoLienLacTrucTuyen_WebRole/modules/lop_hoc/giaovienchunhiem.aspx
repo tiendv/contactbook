@@ -94,7 +94,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaGVCN" runat="server" />
-            <asp:HiddenField ID="HdfMaLopHoc" runat="server" />
+            <asp:HiddenField ID="HdfClassId" runat="server" />
             <asp:HiddenField ID="HdfRptGVCNMPEDelete" runat="server" />
             <asp:Repeater ID="RptGVCN" runat="server" OnItemCommand="RptGVCN_ItemCommand" OnItemDataBound="RptGVCN_ItemDataBound">
                 <HeaderTemplate>
@@ -126,7 +126,7 @@
                             <asp:HyperLink ID="HlkTenGVCN" runat="server" Target="_blank"><%#DataBinder.Eval(Container.DataItem, "TenGiaoVien")%></asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HlkTenLopHoc" runat="server" Target="_blank"><%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkClassName" runat="server" Target="_blank"><%#DataBinder.Eval(Container.DataItem, "ClassName")%></asp:HyperLink>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"

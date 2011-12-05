@@ -9,57 +9,56 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class SubjectDA : BaseDA
     {
-        public SubjectDA(School school)
+        public SubjectDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertSubject(DanhMuc_MonHoc subject)
+        public void InsertSubject(Category_Subject subject)
         {
-            subject.SchoolId = school.SchoolId;
-            db.DanhMuc_MonHocs.InsertOnSubmit(subject);
+            db.Category_Subjects.InsertOnSubmit(subject);
             db.SubmitChanges();
         }
 
-        public void UpdateSubject(DanhMuc_MonHoc editedSubject)
+        public void UpdateSubject(Category_Subject editedSubject)
         {
-            DanhMuc_MonHoc subject = null;
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.MaMonHoc == editedSubject.MaMonHoc
-                                                   && subj.SchoolId == school.SchoolId
+            Category_Subject subject = null;
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.SubjectId== editedSubject.SubjectId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
                 subject = iqSubject.First();
-                subject.TenMonHoc = editedSubject.TenMonHoc;
-                subject.HeSoDiem = editedSubject.HeSoDiem;
+                subject.SubjectName = editedSubject.SubjectName;
+                subject.MarkRatio = editedSubject.MarkRatio;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteSubject(DanhMuc_MonHoc deletedSubject)
+        public void DeleteSubject(Category_Subject deletedSubject)
         {
-            DanhMuc_MonHoc subject = null;
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.MaMonHoc == deletedSubject.MaMonHoc
-                                                   && subj.SchoolId == school.SchoolId
+            Category_Subject subject = null;
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.SubjectId== deletedSubject.SubjectId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
                 subject = iqSubject.First();
-                db.DanhMuc_MonHocs.DeleteOnSubmit(subject);
+                db.Category_Subjects.DeleteOnSubmit(subject);
                 db.SubmitChanges();
             }
         }
 
-        public DanhMuc_MonHoc GetSubject(string subjectName, string facultyName, string gradeName)
+        public Category_Subject GetSubject(string subjectName, string facultyName, string gradeName)
         {
-            DanhMuc_MonHoc subject = null;
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.TenMonHoc == subjectName
-                                                        && subj.DanhMuc_NganhHoc.TenNganhHoc == facultyName
-                                                        && subj.DanhMuc_KhoiLop.TenKhoiLop == gradeName
-                                                        && subj.SchoolId == school.SchoolId
+            Category_Subject subject = null;
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.SubjectName == subjectName
+                                                        && subj.Category_Faculty.FacultyName == facultyName
+                                                        && subj.Category_Grade.GradeName == gradeName
+                                                        && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             if (iqSubject.Count() != 0)
@@ -70,145 +69,145 @@ namespace SoLienLacTrucTuyen.DataAccess
             return subject;
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects()
+        public List<Category_Subject> GetListSubjects()
         {
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
-                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
-                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                    .ThenBy(subj => subj.Category_Faculty.FacultyName)
+                    .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
             return lSubjects;
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade)
         {
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.MaNganhHoc == faculty.MaNganhHoc
-                                                   && subj.MaKhoiLop == grade.MaKhoiLop
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.FacultyId == faculty.FacultyId
+                                                   && subj.GradeId == grade.GradeId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
-                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
-                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                    .ThenBy(subj => subj.Category_Faculty.FacultyName)
+                    .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
             return lSubjects;
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty)
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty)
         {
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.MaNganhHoc == faculty.MaNganhHoc
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.FacultyId == faculty.FacultyId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
-                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
-                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                    .ThenBy(subj => subj.Category_Faculty.FacultyName)
+                    .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
             return lSubjects;
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_KhoiLop grade)
+        public List<Category_Subject> GetListSubjects(Category_Grade grade)
         {
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.MaKhoiLop == grade.MaKhoiLop
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.GradeId == grade.GradeId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.TenMonHoc)
-                    .ThenBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
-                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop).ToList();
+                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                    .ThenBy(subj => subj.Category_Faculty.FacultyName)
+                    .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
             return lSubjects;
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
-                                                   && subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.Category_Faculty.FacultyId == faculty.FacultyId
+                                                   && subj.Category_Grade.GradeId == grade.GradeId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, DanhMuc_MonHoc exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade, Category_Subject exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
-                                                   && subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
-                                                   && subj.MaMonHoc != exceptedSubject.MaMonHoc
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.Category_Faculty.FacultyId == faculty.FacultyId
+                                                   && subj.Category_Grade.GradeId == grade.GradeId
+                                                   && subj.SubjectId!= exceptedSubject.SubjectId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.DanhMuc_NganhHoc.MaNganhHoc == faculty.MaNganhHoc
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.Category_Faculty.FacultyId == faculty.FacultyId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.DanhMuc_KhoiLop.MaKhoiLop == grade.MaKhoiLop
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.Category_Grade.GradeId == grade.GradeId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(string subjectName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(string subjectName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.TenMonHoc == subjectName
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.SubjectName == subjectName
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(string subjectName, DanhMuc_MonHoc exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Subject> GetListSubjects(string subjectName, Category_Subject exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject = from subj in db.DanhMuc_MonHocs
-                                                   where subj.TenMonHoc == subjectName && subj.MaMonHoc != exceptedSubject.MaMonHoc
-                                                   && subj.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                   where subj.SubjectName == subjectName && subj.SubjectId!= exceptedSubject.SubjectId
+                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
                                                    select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
@@ -216,12 +215,12 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool SubjectNameExists(string subjectName, string facultyName, string gradeName)
         {
-            IQueryable<DanhMuc_MonHoc> iqSubject;
-            iqSubject = from subject in db.DanhMuc_MonHocs
-                        where subject.TenMonHoc == subjectName
-                          && subject.DanhMuc_NganhHoc.TenNganhHoc == facultyName
-                          && subject.DanhMuc_KhoiLop.TenKhoiLop == gradeName
-                          && subject.SchoolId == school.SchoolId
+            IQueryable<Category_Subject> iqSubject;
+            iqSubject = from subject in db.Category_Subjects
+                        where subject.SubjectName == subjectName
+                          && subject.Category_Faculty.FacultyName == facultyName
+                          && subject.Category_Grade.GradeName == gradeName
+                          && subject.Category_Faculty.SchoolId == school.SchoolId
                         select subject;
             if (iqSubject.Count() != 0)
             {
@@ -233,10 +232,10 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(DanhMuc_MonHoc subject)
+        public bool IsDeletable(Category_Subject subject)
         {
-            IQueryable<LopHoc_MonHocTKB> iqScheduledSubjects = from scheduledSubject in db.LopHoc_MonHocTKBs
-                                                               where scheduledSubject.MaMonHoc == subject.MaMonHoc
+            IQueryable<Class_Schedule> iqScheduledSubjects = from scheduledSubject in db.Class_Schedules
+                                                               where scheduledSubject.SubjectId== subject.SubjectId
                                                                && scheduledSubject.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                                                select scheduledSubject;
 
@@ -250,16 +249,16 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        private List<DanhMuc_MonHoc> GetListSubjects(ref IQueryable<DanhMuc_MonHoc> iqSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Category_Subject> GetListSubjects(ref IQueryable<Category_Subject> iqSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
             totalRecords = iqSubject.Count();
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.DanhMuc_NganhHoc.TenNganhHoc)
-                    .ThenBy(subj => subj.DanhMuc_KhoiLop.TenKhoiLop)
-                    .ThenBy(subj => subj.TenMonHoc)
+                lSubjects = iqSubject.OrderBy(subj => subj.Category_Faculty.FacultyName)
+                    .ThenBy(subj => subj.Category_Grade.GradeName)
+                    .ThenBy(subj => subj.SubjectName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 

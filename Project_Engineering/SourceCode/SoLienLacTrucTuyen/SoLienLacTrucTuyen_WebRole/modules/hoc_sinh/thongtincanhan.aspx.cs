@@ -33,29 +33,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (CheckSessionKey(AppConstant.SESSION_STUDENT))
                 {
-                    HocSinh_ThongTinCaNhan student = (HocSinh_ThongTinCaNhan)GetSession(AppConstant.SESSION_STUDENT);
+                    Student_Student student = (Student_Student)GetSession(AppConstant.SESSION_STUDENT);
                     RemoveSession(AppConstant.SESSION_STUDENT);
-                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
 
-                    LopHoc_Lop studentClass = (LopHoc_Lop)GetSession(AppConstant.SESSION_STUDENTCLASS);
+                    Class_Class studentClass = (Class_Class)GetSession(AppConstant.SESSION_STUDENTCLASS);
                     RemoveSession(AppConstant.SESSION_STUDENTCLASS);
-                    ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID] = studentClass.MaLopHoc;
+                    ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID] = studentClass.ClassId;
 
-                    CauHinh_NamHoc year = (CauHinh_NamHoc)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                    Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                     RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
-                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
 
-                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
+                    Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                     RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.MaNganhHoc;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.FacultyId;
 
-                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)GetSession(AppConstant.SESSION_SELECTED_GRADE);
+                    Category_Grade grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
                     RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.MaKhoiLop;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.GradeId;
 
-                    LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                    Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
                     RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.MaLopHoc;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.ClassId;
 
                     String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
                     RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     RemoveSession(AppConstant.SESSION_SELECTED_STUDENTCODE);
                     ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE] = strStudentCode;
 
-                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.MaHocSinh;
+                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
 
                     BindDDLYears(student);
                     FillPersonalInformation(student);
@@ -85,62 +85,62 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void BindDDLYears(HocSinh_ThongTinCaNhan student)
+        private void BindDDLYears(Student_Student student)
         {
-            List<CauHinh_NamHoc> years = studentBL.GetYears(student);
+            List<Configuration_Year> years = studentBL.GetYears(student);
             DdlNamHoc.DataSource = years;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
         }
 
         private void FillLopHoc()
         {
-            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
-            student.MaHocSinh = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
-            CauHinh_NamHoc year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            Student_Student student = new Student_Student();
+            student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             TabularClass tabularClass = studentBL.GetTabularClass(year, student);
-            LblLopHoc.Text = tabularClass.TenLopHoc;
+            LblLopHoc.Text = tabularClass.ClassName;
         }
 
-        private void FillPersonalInformation(HocSinh_ThongTinCaNhan student)
+        private void FillPersonalInformation(Student_Student student)
         {
-            student = studentBL.GetStudent(student.MaHocSinh);
+            student = studentBL.GetStudent(student.StudentId);
 
-            this.LblMaHocSinhHienThi.Text = student.MaHocSinhHienThi;
-            this.LblHoTenHocSinh.Text = student.HoTen;
-            this.LblGioiTinh.Text = (student.GioiTinh == true) ? "Nam" : "Nữ";
-            this.LblNgaySinhHocSinh.Text = student.NgaySinh.Day.ToString()
-                + "/" + student.NgaySinh.Month.ToString()
-                + "/" + student.NgaySinh.Year.ToString();
-            this.LblNoiSinh.Text = student.NoiSinh;
-            this.LblDiaChi.Text = student.DiaChi;
-            this.LblDienThoai.Text = student.DienThoai;
-            this.LblHoTenBo.Text = student.HoTenBo;
-            if (student.NgaySinhBo != null)
+            this.LblMaHocSinhHienThi.Text = student.StudentCode;
+            this.LblHoTenHocSinh.Text = student.FullName;
+            this.LblGioiTinh.Text = (student.Gender == true) ? "Nam" : "Nữ";
+            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.Day.ToString()
+                + "/" + student.StudentBirthday.Month.ToString()
+                + "/" + student.StudentBirthday.Year.ToString();
+            this.LblNoiSinh.Text = student.Birthplace;
+            this.LblDiaChi.Text = student.Address;
+            this.LblDienThoai.Text = student.ContactPhone;
+            this.LblHoTenBo.Text = student.FatherName;
+            if (student.FatherBirthday != null)
             {
-                DateTime ngaySinhBo = (DateTime)student.NgaySinhBo;
+                DateTime ngaySinhBo = (DateTime)student.FatherBirthday;
                 this.LblNgaySinhBo.Text = ngaySinhBo.Day.ToString() + "/" + ngaySinhBo.Month.ToString()
                     + "/" + ngaySinhBo.Year.ToString();
             }
-            this.LblNgheNghiepBo.Text = student.NgheNghiepBo;
-            this.LblHoTenMe.Text = student.HoTenMe;
-            if (student.NgaySinhMe != null)
+            this.LblNgheNghiepBo.Text = student.FatherJob;
+            this.LblHoTenMe.Text = student.MotherName;
+            if (student.MotherBirthday != null)
             {
-                DateTime ngaySinhMe = (DateTime)student.NgaySinhMe;
+                DateTime ngaySinhMe = (DateTime)student.MotherBirthday;
                 this.LblNgaySinhMe.Text = ngaySinhMe.Day.ToString() + "/" + ngaySinhMe.Month.ToString()
                     + "/" + ngaySinhMe.Year.ToString();
             }
-            this.LblNgheNghiepMe.Text = student.NgheNghiepMe;
-            if (student.NgaySinhNguoiDoDau != null)
+            this.LblNgheNghiepMe.Text = student.MotherJob;
+            if (student.PatronBirthday != null)
             {
-                DateTime ngaySinhNguoiDoDau = (DateTime)student.NgaySinhNguoiDoDau;
+                DateTime ngaySinhNguoiDoDau = (DateTime)student.PatronBirthday;
                 this.LblNgaySinhNguoiDoDau.Text = ngaySinhNguoiDoDau.Day.ToString() + "/" + ngaySinhNguoiDoDau.Month.ToString()
                     + "/" + ngaySinhNguoiDoDau.Year.ToString();
             }
-            this.LblNgheNghiepNguoiDoDau.Text = student.NgheNghiepNguoiDoDau;
+            this.LblNgheNghiepNguoiDoDau.Text = student.PatronJob;
 
             FillLopHoc();
         }
@@ -149,24 +149,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSua_Click(object sender, ImageClickEventArgs e)
         {
-            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
-            student.MaHocSinh = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+            Student_Student student = new Student_Student();
+            student.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
             AddSession(AppConstant.SESSION_STUDENT, student);
 
-            CauHinh_NamHoc year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
-            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
-            faculty.MaNganhHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
-            DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
-            grade.MaKhoiLop = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
-            LopHoc_Lop Class = new LopHoc_Lop();
-            Class.MaLopHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+            Class_Class Class = new Class_Class();
+            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
             String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -175,8 +175,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             String strStudentCode = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE].ToString();
             AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
-            LopHoc_Lop studentClass = new LopHoc_Lop();
-            studentClass.MaLopHoc = (int)ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID];
+            Class_Class studentClass = new Class_Class();
+            studentClass.ClassId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID];
             AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
 
             AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
@@ -186,20 +186,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
-            CauHinh_NamHoc year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
-            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
-            faculty.MaNganhHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
-            DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
-            grade.MaKhoiLop = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
-            LopHoc_Lop Class = new LopHoc_Lop();
-            Class.MaLopHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+            Class_Class Class = new Class_Class();
+            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
             String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -239,24 +239,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "Redirect":
                     {
-                        HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
-                        student.MaHocSinh = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+                        Student_Student student = new Student_Student();
+                        student.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
-                        CauHinh_NamHoc year = new CauHinh_NamHoc();
-                        year.MaNamHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+                        Configuration_Year year = new Configuration_Year();
+                        year.YearId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
-                        DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
-                        faculty.MaNganhHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+                        Category_Faculty faculty = new Category_Faculty();
+                        faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
-                        DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
-                        grade.MaKhoiLop = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+                        Category_Grade grade = new Category_Grade();
+                        grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
-                        LopHoc_Lop Class = new LopHoc_Lop();
-                        Class.MaLopHoc = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+                        Class_Class Class = new Class_Class();
+                        Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
                         String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -265,8 +265,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         String strStudentCode = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE].ToString();
                         AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
-                        LopHoc_Lop studentClass = new LopHoc_Lop();
-                        studentClass.MaLopHoc = (int)ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID];
+                        Class_Class studentClass = new Class_Class();
+                        studentClass.ClassId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID];
                         AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
 
                         Response.Redirect((string)e.CommandArgument);

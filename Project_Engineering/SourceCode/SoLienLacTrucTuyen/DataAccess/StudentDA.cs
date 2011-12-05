@@ -8,82 +8,82 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class StudentDA : BaseDA
     {
-        public StudentDA(School school)
+        public StudentDA(School_School school)
             : base(school)
         {
 
         }
 
         #region Student
-        public void InsertStudent(HocSinh_ThongTinCaNhan student)
+        public void InsertStudent(Student_Student student)
         {
-            db.HocSinh_ThongTinCaNhans.InsertOnSubmit(student);
+            db.Student_Students.InsertOnSubmit(student);
             db.SubmitChanges();
         }
 
-        public void UpdateStudent(HocSinh_ThongTinCaNhan editedStudent)
+        public void UpdateStudent(Student_Student editedStudent)
         {
-            HocSinh_ThongTinCaNhan student = null;
-            IQueryable<HocSinh_ThongTinCaNhan> iqStudent = from std in db.HocSinh_ThongTinCaNhans
-                                                           where std.MaHocSinh == editedStudent.MaHocSinh
+            Student_Student student = null;
+            IQueryable<Student_Student> iqStudent = from std in db.Student_Students
+                                                           where std.StudentId == editedStudent.StudentId
                                                            select std;
             if (iqStudent.Count() != 0)
             {
                 student = iqStudent.First();
-                student.MaHocSinhHienThi = editedStudent.MaHocSinhHienThi;
-                student.HoTen = editedStudent.HoTen;
-                student.GioiTinh = editedStudent.GioiTinh;
-                student.NgaySinh = editedStudent.NgaySinh;
-                student.NoiSinh = editedStudent.NoiSinh;
-                student.DiaChi = editedStudent.DiaChi;
-                student.DienThoai = editedStudent.DienThoai;
-                student.HoTenBo = editedStudent.HoTenBo;
-                student.NgheNghiepBo = editedStudent.NgheNghiepBo;
-                student.NgaySinhBo = editedStudent.NgaySinhBo;
-                student.HoTenMe = editedStudent.HoTenMe;
-                student.NgheNghiepMe = editedStudent.NgheNghiepMe;
-                student.NgaySinhMe = editedStudent.NgaySinhMe;
+                student.StudentCode = editedStudent.StudentCode;
+                student.FullName = editedStudent.FullName;
+                student.Gender = editedStudent.Gender;
+                student.StudentBirthday = editedStudent.StudentBirthday;
+                student.Birthplace = editedStudent.Birthplace;
+                student.Address = editedStudent.Address;
+                student.ContactPhone = editedStudent.ContactPhone;
+                student.FatherName = editedStudent.FatherName;
+                student.FatherBirthday = editedStudent.FatherBirthday;
+                student.FatherJob = editedStudent.FatherJob;                
+                student.MotherName = editedStudent.MotherName;
+                student.MotherBirthday = editedStudent.MotherBirthday;
+                student.MotherJob = editedStudent.MotherJob;                
 
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteStudent(HocSinh_ThongTinCaNhan deletedStudent)
+        public void DeleteStudent(Student_Student deletedStudent)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.MaHocSinh == deletedStudent.MaHocSinh
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.StudentId == deletedStudent.StudentId
                                select stdInCls;
-            foreach (HocSinh_HocSinhLopHoc studentInClass in iqStudentInClass)
+            foreach (Student_StudentInClass studentInClass in iqStudentInClass)
             {
-                IQueryable<HocSinh_DanhHieuHocKy> iqStudentTermResult;
-                iqStudentTermResult = from stdTermRst in db.HocSinh_DanhHieuHocKies
-                                      where stdTermRst.MaHocSinhLopHoc == studentInClass.MaHocSinhLopHoc
+                IQueryable<Student_TermLearningResult> iqStudentTermResult;
+                iqStudentTermResult = from stdTermRst in db.Student_TermLearningResults
+                                      where stdTermRst.StudentInClassId == studentInClass.StudentInClassId
                                       select stdTermRst;
-                foreach (HocSinh_DanhHieuHocKy studentTermResult in iqStudentTermResult)
+                foreach (Student_TermLearningResult studentTermResult in iqStudentTermResult)
                 {
-                    db.HocSinh_DanhHieuHocKies.DeleteOnSubmit(studentTermResult);
+                    db.Student_TermLearningResults.DeleteOnSubmit(studentTermResult);
                 }
 
-                db.HocSinh_HocSinhLopHocs.DeleteOnSubmit(studentInClass);
+                db.Student_StudentInClasses.DeleteOnSubmit(studentInClass);
             }
 
-            IQueryable<HocSinh_ThongTinCaNhan> iqStudent;
-            iqStudent = from std in db.HocSinh_ThongTinCaNhans
-                        where std.MaHocSinh == deletedStudent.MaHocSinh
+            IQueryable<Student_Student> iqStudent;
+            iqStudent = from std in db.Student_Students
+                        where std.StudentId == deletedStudent.StudentId
                         select std;
             if (iqStudent.Count() != 0)
             {
-                db.HocSinh_ThongTinCaNhans.DeleteOnSubmit(iqStudent.First());
+                db.Student_Students.DeleteOnSubmit(iqStudent.First());
                 db.SubmitChanges();
             }
         }
 
-        public HocSinh_ThongTinCaNhan GetStudent(string studentCode)
+        public Student_Student GetStudent(string studentCode)
         {
-            HocSinh_ThongTinCaNhan student = null;
-            IQueryable<HocSinh_ThongTinCaNhan> iqStudent = from std in db.HocSinh_ThongTinCaNhans
-                                                           where std.MaHocSinhHienThi == studentCode
+            Student_Student student = null;
+            IQueryable<Student_Student> iqStudent = from std in db.Student_Students
+                                                           where std.StudentCode == studentCode
                                                            select std;
             if (iqStudent.Count() != 0)
             {
@@ -93,11 +93,11 @@ namespace SoLienLacTrucTuyen.DataAccess
             return student;
         }
 
-        public HocSinh_ThongTinCaNhan GetStudent(int studentId)
+        public Student_Student GetStudent(int studentId)
         {
-            HocSinh_ThongTinCaNhan student = null;
-            IQueryable<HocSinh_ThongTinCaNhan> iqStudent = from std in db.HocSinh_ThongTinCaNhans
-                                                           where std.MaHocSinh == studentId
+            Student_Student student = null;
+            IQueryable<Student_Student> iqStudent = from std in db.Student_Students
+                                                           where std.StudentId == studentId
                                                            select std;
             if (iqStudent.Count() != 0)
             {
@@ -114,8 +114,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool StudentCodeExists(string maHocSinhHienThi)
         {
-            IQueryable<HocSinh_ThongTinCaNhan> hocSinhs = from hocSinh in db.HocSinh_ThongTinCaNhans
-                                                          where hocSinh.MaHocSinhHienThi == maHocSinhHienThi
+            IQueryable<Student_Student> hocSinhs = from hocSinh in db.Student_Students
+                                                          where hocSinh.StudentCode == maHocSinhHienThi
                                                           select hocSinh;
             if (hocSinhs.Count() != 0)
             {
@@ -127,14 +127,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public LopHoc_Lop GetClass(CauHinh_NamHoc year, HocSinh_ThongTinCaNhan student)
+        public Class_Class GetClass(Configuration_Year year, Student_Student student)
         {
-            LopHoc_Lop Class = null;
+            Class_Class Class = null;
 
-            IQueryable<LopHoc_Lop> iqClass = from studentsInClass in db.HocSinh_HocSinhLopHocs
-                                             join cls in db.LopHoc_Lops on studentsInClass.MaLopHoc equals cls.MaLopHoc
-                                             where studentsInClass.MaHocSinh == student.MaHocSinh
-                                               && studentsInClass.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+            IQueryable<Class_Class> iqClass = from studentsInClass in db.Student_StudentInClasses
+                                             join cls in db.Class_Classes on studentsInClass.ClassId equals cls.ClassId
+                                             where studentsInClass.StudentId == student.StudentId
+                                               && studentsInClass.Class_Class.YearId == year.YearId
                                              select cls;
             if (iqClass.Count() != 0)
             {
@@ -144,34 +144,34 @@ namespace SoLienLacTrucTuyen.DataAccess
             return Class;
         }
 
-        public LopHoc_Lop GetLastedClass(HocSinh_ThongTinCaNhan student)
+        public Class_Class GetLastedClass(Student_Student student)
         {
-            LopHoc_Lop Class = null;
+            Class_Class Class = null;
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentsInClass = from studentsInClass in db.HocSinh_HocSinhLopHocs
-                                                                  where studentsInClass.MaHocSinh == student.MaHocSinh
+            IQueryable<Student_StudentInClass> iqStudentsInClass = from studentsInClass in db.Student_StudentInClasses
+                                                                  where studentsInClass.StudentId == student.StudentId
                                                                   select studentsInClass;
             if (iqStudentsInClass.Count() != 0)
             {
-                Class = iqStudentsInClass.OrderByDescending(studentsInClass => studentsInClass.MaHocSinhLopHoc).First().LopHoc_Lop;
+                Class = iqStudentsInClass.OrderByDescending(studentsInClass => studentsInClass.StudentInClassId).First().Class_Class;
             }
 
             return Class;
         }
 
-        public List<CauHinh_NamHoc> GetYears(HocSinh_ThongTinCaNhan student)
+        public List<Configuration_Year> GetYears(Student_Student student)
         {
-            List<CauHinh_NamHoc> years = new List<CauHinh_NamHoc>();
-            IQueryable<CauHinh_NamHoc> iqYear = from year in db.CauHinh_NamHocs
-                                                join cls in db.LopHoc_Lops
-                                                   on year.MaNamHoc equals cls.MaNamHoc
-                                                join stdInCls in db.HocSinh_HocSinhLopHocs
-                                                   on cls.MaLopHoc equals stdInCls.MaLopHoc
-                                                where stdInCls.MaHocSinh == student.MaHocSinh
+            List<Configuration_Year> years = new List<Configuration_Year>();
+            IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
+                                                join cls in db.Class_Classes
+                                                   on year.YearId equals cls.YearId
+                                                join stdInCls in db.Student_StudentInClasses
+                                                   on cls.ClassId equals stdInCls.ClassId
+                                                where stdInCls.StudentId == student.StudentId
                                                 select year;
             if (iqYear.Count() != 0)
             {
-                years = iqYear.OrderByDescending(year => year.NamBatDau).ToList();
+                years = iqYear.OrderByDescending(year => year.BeginYear).ToList();
             }
 
             return years;
@@ -179,67 +179,67 @@ namespace SoLienLacTrucTuyen.DataAccess
         #endregion
 
         #region StudentInClass
-        public HocSinh_HocSinhLopHoc InsertStudentInClass(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class)
+        public Student_StudentInClass InsertStudentInClass(Student_Student student, Class_Class Class)
         {
-            HocSinh_HocSinhLopHoc studentInClass = new HocSinh_HocSinhLopHoc();
-            studentInClass.MaLopHoc = Class.MaLopHoc;
-            studentInClass.MaHocSinh = student.MaHocSinh;
+            Student_StudentInClass studentInClass = new Student_StudentInClass();
+            studentInClass.ClassId = Class.ClassId;
+            studentInClass.StudentId = student.StudentId;
             db.SubmitChanges();
 
             return GetLastedStudentInClass();
         }
 
-        public void UpdateStudentInClass(HocSinh_HocSinhLopHoc editedStudentInClass, LopHoc_Lop Class)
+        public void UpdateStudentInClass(Student_StudentInClass editedStudentInClass, Class_Class Class)
         {
-            HocSinh_HocSinhLopHoc studentInClass = null;
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                                                                 where stdInCls.MaHocSinhLopHoc == editedStudentInClass.MaHocSinhLopHoc
+            Student_StudentInClass studentInClass = null;
+            IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                                                                 where stdInCls.StudentInClassId == editedStudentInClass.StudentInClassId
                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
                 studentInClass = iqStudentInClass.First();
-                studentInClass.MaLopHoc = Class.MaLopHoc;
+                studentInClass.ClassId = Class.ClassId;
                 db.SubmitChanges();
             }
         }
 
-        public HocSinh_HocSinhLopHoc GetLastedStudentInClass()
+        public Student_StudentInClass GetLastedStudentInClass()
         {
-            HocSinh_HocSinhLopHoc lastedStudentInClass = null;
+            Student_StudentInClass lastedStudentInClass = null;
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
+            IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
                                                                  select stdInCls;
             if (iqStudentInClass.Count() != 0)
             {
-                lastedStudentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.MaHocSinhLopHoc).First();
+                lastedStudentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.StudentInClassId).First();
             }
 
             return lastedStudentInClass;
         }
 
-        public HocSinh_HocSinhLopHoc GetLastedStudentInClass(HocSinh_ThongTinCaNhan student)
+        public Student_StudentInClass GetLastedStudentInClass(Student_Student student)
         {
-            HocSinh_HocSinhLopHoc studentInClass = null;
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                                                                 where stdInCls.MaHocSinh == student.MaHocSinh
+            Student_StudentInClass studentInClass = null;
+            IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                                                                 where stdInCls.StudentId == student.StudentId
                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.MaHocSinhLopHoc).First();
+                studentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.StudentInClassId).First();
             }
 
             return studentInClass;
         }
 
-        public HocSinh_HocSinhLopHoc GetStudentInClass(int studentInClassId)
+        public Student_StudentInClass GetStudentInClass(int studentInClassId)
         {
-            HocSinh_HocSinhLopHoc studentInClass = null;
+            Student_StudentInClass studentInClass = null;
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.MaHocSinhLopHoc == studentInClassId
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.StudentInClassId == studentInClassId
                                select stdInCls;
             if (iqStudentInClass.Count() != 0)
             {
@@ -249,28 +249,28 @@ namespace SoLienLacTrucTuyen.DataAccess
             return studentInClass;
         }
 
-        public HocSinh_HocSinhLopHoc GetStudentInClass(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year)
+        public Student_StudentInClass GetStudentInClass(Student_Student student, Configuration_Year year)
         {
-            HocSinh_HocSinhLopHoc studentInClass = null;
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                                                                 where stdInCls.MaHocSinh == student.MaHocSinh
-                                                                 && stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+            Student_StudentInClass studentInClass = null;
+            IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                                                                 where stdInCls.StudentId == student.StudentId
+                                                                 && stdInCls.Class_Class.YearId == year.YearId
                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.MaHocSinhLopHoc).First();
+                studentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.StudentInClassId).First();
             }
 
             return studentInClass;
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(LopHoc_Lop Class)
+        public List<Student_StudentInClass> GetStudentInClasses(Class_Class Class)
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.ClassId == Class.ClassId
                                select stdInCls;
             if (iqStudentInClass.Count() != 0)
             {
@@ -280,210 +280,210 @@ namespace SoLienLacTrucTuyen.DataAccess
             return studentInClasses;
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses()
+        public List<Student_StudentInClass> GetStudentInClasses()
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == currentYear.MaNamHoc
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == currentYear.YearId
                                select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClasses = iqStudentInClass.OrderBy(std => std.HocSinh_ThongTinCaNhan.MaHocSinhHienThi)
-                    .ThenBy(std => std.HocSinh_ThongTinCaNhan.HoTen).ToList();
+                studentInClasses = iqStudentInClass.OrderBy(std => std.Student_Student.StudentCode)
+                    .ThenBy(std => std.Student_Student.FullName).ToList();
             }
 
             return studentInClasses;
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(DanhMuc_KhoiLop grade)
+        public List<Student_StudentInClass> GetStudentInClasses(Category_Grade grade)
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == currentYear.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == currentYear.YearId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
                                select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClasses = iqStudentInClass.OrderBy(std => std.HocSinh_ThongTinCaNhan.MaHocSinhHienThi)
-                    .ThenBy(std => std.HocSinh_ThongTinCaNhan.HoTen).ToList();
+                studentInClasses = iqStudentInClass.OrderBy(std => std.Student_Student.StudentCode)
+                    .ThenBy(std => std.Student_Student.FullName).ToList();
             }
 
             return studentInClasses;
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(DanhMuc_NganhHoc faculty)
+        public List<Student_StudentInClass> GetStudentInClasses(Category_Faculty faculty)
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == currentYear.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == currentYear.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
                                select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClasses = iqStudentInClass.OrderBy(std => std.HocSinh_ThongTinCaNhan.MaHocSinhHienThi)
-                    .ThenBy(std => std.HocSinh_ThongTinCaNhan.HoTen).ToList();
+                studentInClasses = iqStudentInClass.OrderBy(std => std.Student_Student.StudentCode)
+                    .ThenBy(std => std.Student_Student.FullName).ToList();
             }
 
             return studentInClasses;
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(DanhMuc_KhoiLop grade, DanhMuc_NganhHoc faculty)
+        public List<Student_StudentInClass> GetStudentInClasses(Category_Grade grade, Category_Faculty faculty)
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            CauHinh_NamHoc currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
 
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == currentYear.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                               && stdInCls.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == currentYear.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
                                select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClasses = iqStudentInClass.OrderBy(std => std.HocSinh_ThongTinCaNhan.MaHocSinhHienThi)
-                    .ThenBy(std => std.HocSinh_ThongTinCaNhan.HoTen).ToList();
+                studentInClasses = iqStudentInClass.OrderBy(std => std.Student_Student.StudentCode)
+                    .ThenBy(std => std.Student_Student.FullName).ToList();
             }
 
             return studentInClasses;
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(LopHoc_Lop Class, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Class_Class Class, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.ClassId == Class.ClassId
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(LopHoc_Lop Class, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Class_Class Class, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
-                                  && stdInCls.HocSinh_ThongTinCaNhan.HoTen == studentName
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.ClassId == Class.ClassId
+                                  && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.HocSinh_ThongTinCaNhan.HoTen == studentName
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, DanhMuc_KhoiLop grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Grade grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                               && stdInCls.HocSinh_ThongTinCaNhan.HoTen == studentName
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                               && stdInCls.HocSinh_ThongTinCaNhan.HoTen == studentName
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                               && stdInCls.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<HocSinh_HocSinhLopHoc> GetStudentInClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.HocSinh_HocSinhLopHocs
-                               where stdInCls.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                               && stdInCls.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                               && stdInCls.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                               && stdInCls.HocSinh_ThongTinCaNhan.HoTen == studentName
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
 
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        private List<HocSinh_HocSinhLopHoc> GetStudentInClasses(ref IQueryable<HocSinh_HocSinhLopHoc> iqStudentInClass, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Student_StudentInClass> GetStudentInClasses(ref IQueryable<Student_StudentInClass> iqStudentInClass, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             totalRecords = iqStudentInClass.Count();
             if (totalRecords != 0)
@@ -495,21 +495,21 @@ namespace SoLienLacTrucTuyen.DataAccess
         }
         #endregion
 
-        public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int maLopHoc, int maHocKy, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<TabularHanhKiemHocSinh> iqDanhHieuHK;
-            iqDanhHieuHK = from danhHieuHK in db.HocSinh_DanhHieuHocKies
-                           join hocSinhLop in db.HocSinh_HocSinhLopHocs
-                                on danhHieuHK.MaHocSinhLopHoc equals hocSinhLop.MaHocSinhLopHoc
-                           join hocSinh in db.HocSinh_ThongTinCaNhans
-                                on hocSinhLop.MaHocSinh equals hocSinh.MaHocSinh
-                           where hocSinhLop.MaLopHoc == maLopHoc && danhHieuHK.MaHocKy == maHocKy
+            iqDanhHieuHK = from danhHieuHK in db.Student_TermLearningResults
+                           join hocSinhLop in db.Student_StudentInClasses
+                                on danhHieuHK.StudentInClassId equals hocSinhLop.StudentInClassId
+                           join hocSinh in db.Student_Students
+                                on hocSinhLop.StudentId equals hocSinh.StudentId
+                           where hocSinhLop.ClassId == ClassId && danhHieuHK.TermId == TermId
                            select new TabularHanhKiemHocSinh
                            {
-                               MaHocSinh = hocSinhLop.MaHocSinh,
-                               MaHocSinhHienThi = hocSinh.MaHocSinhHienThi,
-                               HoTenHocSinh = hocSinh.HoTen,
-                               MaHanhKiem = danhHieuHK.MaHanhKiemHK
+                               MaHocSinh = hocSinhLop.StudentId,
+                               MaHocSinhHienThi = hocSinh.StudentCode,
+                               HoTenHocSinh = hocSinh.FullName,
+                               ConductId = danhHieuHK.TermConductId
                            };
 
             totalRecords = iqDanhHieuHK.Count();
@@ -525,19 +525,19 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void UpdateStudenTermConduct(LopHoc_Lop Class, CauHinh_HocKy term, HocSinh_ThongTinCaNhan student, DanhMuc_HanhKiem conduct)
+        public void UpdateStudenTermConduct(Class_Class Class, Configuration_Term term, Student_Student student, Category_Conduct conduct)
         {
-            HocSinh_DanhHieuHocKy studentTermResult = null;
-            IQueryable<HocSinh_DanhHieuHocKy> iqStudentTermResult;
-            iqStudentTermResult = from stdTermResult in db.HocSinh_DanhHieuHocKies
-                                  where stdTermResult.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && stdTermResult.MaHocKy == term.MaHocKy
-                                    && stdTermResult.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
+            Student_TermLearningResult studentTermResult = null;
+            IQueryable<Student_TermLearningResult> iqStudentTermResult;
+            iqStudentTermResult = from stdTermResult in db.Student_TermLearningResults
+                                  where stdTermResult.Student_StudentInClass.ClassId == Class.ClassId
+                                    && stdTermResult.TermId == term.TermId
+                                    && stdTermResult.Student_StudentInClass.StudentId == student.StudentId
                                   select stdTermResult;
             if (iqStudentTermResult.Count() != null)
             {
                 studentTermResult = iqStudentTermResult.First();
-                studentTermResult.MaHanhKiemHK = conduct.MaHanhKiem;
+                studentTermResult.TermConductId = conduct.ConductId;
                 db.SubmitChanges();
             }
         }

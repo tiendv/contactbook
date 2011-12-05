@@ -112,13 +112,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfGradeName;
         
         /// <summary>
-        /// HdfMaMonHoc control.
+        /// HdfSubjectId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaMonHoc;
+        protected global::System.Web.UI.WebControls.HiddenField HdfSubjectId;
         
         /// <summary>
         /// HdfRptMonHocMPEDelete control.
@@ -265,31 +265,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblAsterisk1;
         
         /// <summary>
-        /// TxtTenMonHocThem control.
+        /// TxtSubjectNameThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenMonHocThem;
+        protected global::System.Web.UI.WebControls.TextBox TxtSubjectNameThem;
         
         /// <summary>
-        /// TenMonHocRequiredAdd control.
+        /// SubjectNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenMonHocRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator SubjectNameRequiredAdd;
         
         /// <summary>
-        /// TenMonHocValidatorAdd control.
+        /// SubjectNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenMonHocValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator SubjectNameValidatorAdd;
         
         /// <summary>
         /// DdlNganhHocThem control.
@@ -319,31 +319,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLopThem;
         
         /// <summary>
-        /// TxtHeSoDiemThem control.
+        /// TxtMarkRatioThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtHeSoDiemThem;
+        protected global::System.Web.UI.WebControls.TextBox TxtMarkRatioThem;
         
         /// <summary>
-        /// HeSoDiemRequiredAdd control.
+        /// MarkRatioRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator HeSoDiemRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkRatioRequiredAdd;
         
         /// <summary>
-        /// HeSoDiemRegExp control.
+        /// MarkRatioRegExp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator HeSoDiemRegExp;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator MarkRatioRegExp;
         
         /// <summary>
         /// Label7 control.
@@ -427,85 +427,85 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label9;
         
         /// <summary>
-        /// TxtTenMonHocSua control.
+        /// TxtSubjectNameSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenMonHocSua;
+        protected global::System.Web.UI.WebControls.TextBox TxtSubjectNameSua;
         
         /// <summary>
-        /// TenMonHocRequiredEdit control.
+        /// SubjectNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenMonHocRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator SubjectNameRequiredEdit;
         
         /// <summary>
-        /// TenMonHocValidatorEdit control.
+        /// SubjectNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenMonHocValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator SubjectNameValidatorEdit;
         
         /// <summary>
-        /// LblTenNganhHocSua control.
+        /// LblFacultyNameSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTenNganhHocSua;
+        protected global::System.Web.UI.WebControls.Label LblFacultyNameSua;
         
         /// <summary>
-        /// HdfMaNganhHocSua control.
+        /// HdfFacultyIdSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaNganhHocSua;
+        protected global::System.Web.UI.WebControls.HiddenField HdfFacultyIdSua;
         
         /// <summary>
-        /// LblTenKhoiLopSua control.
+        /// LblGradeNameSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTenKhoiLopSua;
+        protected global::System.Web.UI.WebControls.Label LblGradeNameSua;
         
         /// <summary>
-        /// HdfMaKhoiLopSua control.
+        /// HdfGradeIdSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaKhoiLopSua;
+        protected global::System.Web.UI.WebControls.HiddenField HdfGradeIdSua;
         
         /// <summary>
-        /// TxtHeSoDiemSua control.
+        /// TxtMarkRatioSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtHeSoDiemSua;
+        protected global::System.Web.UI.WebControls.TextBox TxtMarkRatioSua;
         
         /// <summary>
-        /// HeSoDiemRequiredEdit control.
+        /// MarkRatioRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator HeSoDiemRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkRatioRequiredEdit;
         
         /// <summary>
         /// RegularExpressionValidator1 control.

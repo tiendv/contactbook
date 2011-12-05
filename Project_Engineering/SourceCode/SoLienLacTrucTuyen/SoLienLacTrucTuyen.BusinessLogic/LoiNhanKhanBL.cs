@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private LoiNhanKhanDA loiNhanKhanDA;
 
-        public LoiNhanKhanBL(School school)
+        public LoiNhanKhanBL(School_School school)
             : base(school)
         {
             loiNhanKhanDA = new LoiNhanKhanDA(school);
@@ -37,25 +37,25 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             loiNhanKhanDA.DeleteLoiNhanKhan(maLopNhanKhan);
         }
 
-        public LoiNhanKhan_LoiNhanKhan GetLoiNhanKhan(int maLoiNhanKhan)
+        public MessageToParents_Message GetLoiNhanKhan(int maLoiNhanKhan)
         {
             return loiNhanKhanDA.GetLoiNhanKhan(maLoiNhanKhan);
         }
 
-        public List<TabularLoiNhanKhan> GetListTabularLoiNhanKhan(int maNamHoc, DateTime tuNgay, DateTime denNgay,
+        public List<TabularLoiNhanKhan> GetListTabularLoiNhanKhan(int YearId, DateTime tuNgay, DateTime denNgay,
             string maHocSinhHienThi, int xacNhan, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             if (string.Compare(maHocSinhHienThi, "tất cả", true) == 0 || maHocSinhHienThi == "")
             {
                 if (xacNhan == -1)
                 {
-                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(maNamHoc, tuNgay, denNgay,
+                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(YearId, tuNgay, denNgay,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
                     bool bXacNhan = (xacNhan == 0) ? false : true;
-                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(maNamHoc, tuNgay, denNgay,
+                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(YearId, tuNgay, denNgay,
                         bXacNhan,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
@@ -64,14 +64,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if (xacNhan == -1)
                 {
-                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(maNamHoc, tuNgay, denNgay,
+                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(YearId, tuNgay, denNgay,
                         maHocSinhHienThi,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
                     bool bXacNhan = (xacNhan == 0) ? false : true;
-                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(maNamHoc, tuNgay, denNgay,
+                    return loiNhanKhanDA.GetListTabularLoiNhanKhan(YearId, tuNgay, denNgay,
                         maHocSinhHienThi, bXacNhan,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }

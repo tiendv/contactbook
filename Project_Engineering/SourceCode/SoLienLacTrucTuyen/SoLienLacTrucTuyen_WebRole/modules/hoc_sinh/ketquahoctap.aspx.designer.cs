@@ -139,13 +139,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField RptMPEHanhKiem;
         
         /// <summary>
-        /// HdfMaDanhHieuHSHK control.
+        /// HdfLearningResultIdHSHK control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaDanhHieuHSHK;
+        protected global::System.Web.UI.WebControls.HiddenField HdfLearningResultIdHSHK;
         
         /// <summary>
         /// RptDanhHieu control.

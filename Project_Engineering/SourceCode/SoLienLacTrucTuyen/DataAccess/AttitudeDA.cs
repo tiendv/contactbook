@@ -7,54 +7,54 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class AttitudeDA : BaseDA
     {
-        public AttitudeDA(School school)
+        public AttitudeDA(School_School school)
             : base(school)
         {
 
         }
 
-        public void InsertAttitude(DanhMuc_ThaiDoThamGia attitude)
+        public void InsertAttitude(Category_Attitude attitude)
         {
             attitude.SchoolId = school.SchoolId;
-            db.DanhMuc_ThaiDoThamGias.InsertOnSubmit(attitude);
+            db.Category_Attitudes.InsertOnSubmit(attitude);
             db.SubmitChanges();
         }
 
-        public void UpdateAttitude(DanhMuc_ThaiDoThamGia editedAttitude)
+        public void UpdateAttitude(Category_Attitude editedAttitude)
         {
-            DanhMuc_ThaiDoThamGia attitude = null;
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
-                                                           where att.MaThaiDoThamGia == editedAttitude.MaThaiDoThamGia
+            Category_Attitude attitude = null;
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
+                                                           where att.AttitudeId == editedAttitude.AttitudeId
                                                            && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
                 attitude = iqAttitude.First();
-                attitude.TenThaiDoThamGia = editedAttitude.TenThaiDoThamGia;
+                attitude.AttitudeName = editedAttitude.AttitudeName;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteAttitude(DanhMuc_ThaiDoThamGia deletedAttitude)
+        public void DeleteAttitude(Category_Attitude deletedAttitude)
         {
-            DanhMuc_ThaiDoThamGia attitude = null;
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
-                                                           where att.MaThaiDoThamGia == deletedAttitude.MaThaiDoThamGia
+            Category_Attitude attitude = null;
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
+                                                           where att.AttitudeId == deletedAttitude.AttitudeId
                                                            && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
                 attitude = iqAttitude.First();
-                db.DanhMuc_ThaiDoThamGias.DeleteOnSubmit(attitude);
+                db.Category_Attitudes.DeleteOnSubmit(attitude);
                 db.SubmitChanges();
             }
         }
 
-        public DanhMuc_ThaiDoThamGia GetAttitude(int attitudeId)
+        public Category_Attitude GetAttitude(int attitudeId)
         {
-            DanhMuc_ThaiDoThamGia attitude = null;
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
-                                                           where att.MaThaiDoThamGia == attitudeId
+            Category_Attitude attitude = null;
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
+                                                           where att.AttitudeId == attitudeId
                                                            && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
@@ -65,42 +65,42 @@ namespace SoLienLacTrucTuyen.DataAccess
             return attitude;
         }
 
-        public List<DanhMuc_ThaiDoThamGia> GetAttitudes()
+        public List<Category_Attitude> GetAttitudes()
         {
-            List<DanhMuc_ThaiDoThamGia> lAttitudes = new List<DanhMuc_ThaiDoThamGia>();
+            List<Category_Attitude> lAttitudes = new List<Category_Attitude>();
 
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
-                lAttitudes = iqAttitude.OrderBy(att => att.TenThaiDoThamGia).ToList();
+                lAttitudes = iqAttitude.OrderBy(att => att.AttitudeName).ToList();
             }
 
             return lAttitudes;
         }
 
-        public List<DanhMuc_ThaiDoThamGia> GetAttitudes(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Attitude> GetAttitudes(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.SchoolId == school.SchoolId
                                                            select att;
             return GetAttitudes(ref iqAttitude, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_ThaiDoThamGia> GetAttitudes(string attitudeName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Attitude> GetAttitudes(string attitudeName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
-                                                           where att.TenThaiDoThamGia == attitudeName
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
+                                                           where att.AttitudeName == attitudeName
                                                            && att.SchoolId == school.SchoolId
                                                            select att;
             return GetAttitudes(ref iqAttitude, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public bool IsDeletable(DanhMuc_ThaiDoThamGia attitude)
+        public bool IsDeletable(Category_Attitude attitude)
         {
-            IQueryable<HocSinh_HoatDong> iqStudentActivity = from studAct in db.HocSinh_HoatDongs
-                                                             where studAct.MaThaiDoThamGia == attitude.MaThaiDoThamGia
+            IQueryable<Student_Activity> iqStudentActivity = from studAct in db.Student_Activities
+                                                             where studAct.AttitudeId == attitude.AttitudeId
                                                              select studAct;
             if (iqStudentActivity.Count() != 0)
             {
@@ -114,8 +114,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool AttitudeNameExists(string attitudeName)
         {
-            IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude = from att in db.DanhMuc_ThaiDoThamGias
-                                                           where att.TenThaiDoThamGia == attitudeName
+            IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
+                                                           where att.AttitudeName == attitudeName
                                                            && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
@@ -128,13 +128,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        private List<DanhMuc_ThaiDoThamGia> GetAttitudes(ref IQueryable<DanhMuc_ThaiDoThamGia> iqAttitude, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Category_Attitude> GetAttitudes(ref IQueryable<Category_Attitude> iqAttitude, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_ThaiDoThamGia> lAttitudes = new List<DanhMuc_ThaiDoThamGia>();
+            List<Category_Attitude> lAttitudes = new List<Category_Attitude>();
             totalRecords = iqAttitude.Count();
             if (iqAttitude.Count() != 0)
             {
-                lAttitudes = iqAttitude.OrderBy(att => att.TenThaiDoThamGia)
+                lAttitudes = iqAttitude.OrderBy(att => att.AttitudeName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 

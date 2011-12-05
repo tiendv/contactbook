@@ -10,6 +10,6 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public int MaHocSinh { get; set; }
         public string HoTenHocSinh { get; set; }
         public string MaHocSinhHienThi { get; set; }
-        public int? MaHanhKiem { get; set; }
+        public int? ConductId { get; set; }
     }
 }

@@ -78,10 +78,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNamHoc()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
 
             if (DdlNamHoc.Items.Count != 0)
@@ -94,20 +94,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLHocKy()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
+            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
-            DdlHocKy.DataValueField = "MaHocKy";
-            DdlHocKy.DataTextField = "TenHocKy";
+            DdlHocKy.DataValueField = "TermId";
+            DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
         }
 
         private void BindDDLNganhHoc()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "MaNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyId";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
             if (faculties.Count > 1)
             {
@@ -118,10 +118,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLKhoiLop()
         {
             GradeBL grades = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
+            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
-            DdlKhoiLop.DataValueField = "MaKhoiLop";
-            DdlKhoiLop.DataTextField = "TenKhoiLop";
+            DdlKhoiLop.DataValueField = "GradeId";
+            DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
             if (lstKhoiLop.Count > 1)
             {
@@ -132,10 +132,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLoaiDiem()
         {
             MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
-            List<DanhMuc_LoaiDiem> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
+            List<Category_MarkType> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
             DdlLoaiDiem.DataSource = lstLoaiDiem;
-            DdlLoaiDiem.DataValueField = "TenLoaiDiem";
-            DdlLoaiDiem.DataTextField = "TenLoaiDiem";
+            DdlLoaiDiem.DataValueField = "MarkTypeName";
+            DdlLoaiDiem.DataTextField = "MarkTypeName";
             DdlLoaiDiem.DataBind();
             if (lstLoaiDiem.Count > 1)
             {
@@ -145,9 +145,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLLopHoc()
         {
-            CauHinh_NamHoc year = null;
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
@@ -168,15 +168,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             try
             {
                 if (DdlNganh.SelectedIndex > 0)
                 {
-                    faculty = new DanhMuc_NganhHoc();
-                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -185,24 +185,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    grade = new DanhMuc_KhoiLop();
-                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade = new Category_Grade();
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }
             }
             catch (Exception) { }
 
             ClassBL lopHocBL = new ClassBL(UserSchool);
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
+            List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
-            DdlLopHoc.DataValueField = "MaLopHoc";
-            DdlLopHoc.DataTextField = "TenLopHoc";
+            DdlLopHoc.DataValueField = "ClassId";
+            DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
         }
 
         private void BindDDLMonHoc()
         {
-            LopHoc_Lop Class = null;
-            CauHinh_HocKy term = null;
+            Class_Class Class = null;
+            Configuration_Term term = null;
             ScheduleBL scheduleBL = new ScheduleBL(UserSchool);
 
             if (DdlLopHoc.Items.Count == 0)
@@ -211,15 +211,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                Class = new LopHoc_Lop();
-                Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
-                term = new CauHinh_HocKy();
-                term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+                Class = new Class_Class();
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+                term = new Configuration_Term();
+                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
 
-                List<DanhMuc_MonHoc> scheduledSubjects = scheduleBL.GetScheduledSubjects(Class, term);
+                List<Category_Subject> scheduledSubjects = scheduleBL.GetScheduledSubjects(Class, term);
                 DdlMonHoc.DataSource = scheduledSubjects;
-                DdlMonHoc.DataValueField = "MaMonHoc";
-                DdlMonHoc.DataTextField = "TenMonHoc";
+                DdlMonHoc.DataValueField = "SubjectId";
+                DdlMonHoc.DataTextField = "SubjectName";
                 DdlMonHoc.DataBind();
             }
         }
@@ -227,7 +227,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindRptMarkTypes()
         {
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
 
             if (DdlLoaiDiem.Items.Count != 0)
             {
@@ -249,11 +249,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindRptStudentMarks()
         {
             // declare variables
-            LopHoc_Lop Class = null;
-            DanhMuc_MonHoc subject = null;
-            CauHinh_HocKy term = null;
+            Class_Class Class = null;
+            Category_Subject subject = null;
+            Configuration_Term term = null;
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();            
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();            
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
             double dTotalRecords = 0;
 
@@ -266,12 +266,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             // init object against user selections
-            Class = new LopHoc_Lop();
-            Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
-            subject = new DanhMuc_MonHoc();
-            subject.MaMonHoc = Int32.Parse(DdlMonHoc.SelectedValue);
-            term = new CauHinh_HocKy();
-            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            Class = new Class_Class();
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            subject = new Category_Subject();
+            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+            term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
             if (DdlLoaiDiem.SelectedIndex == 0)
             {
                 markTypes = markTypeBL.GetListMarkTypes();
@@ -324,17 +324,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            Dictionary<HocSinh_ThongTinCaNhan, List<DetailMark>> dicEnteredStudentMarks = new Dictionary<HocSinh_ThongTinCaNhan, List<DetailMark>>();
-            HocSinh_ThongTinCaNhan student = null;
-            LopHoc_Lop Class = new LopHoc_Lop();
-            CauHinh_HocKy term = new CauHinh_HocKy();
-            DanhMuc_MonHoc subject = null;
-            DanhMuc_LoaiDiem markType = null;
+            Dictionary<Student_Student, List<DetailMark>> dicEnteredStudentMarks = new Dictionary<Student_Student, List<DetailMark>>();
+            Student_Student student = null;
+            Class_Class Class = new Class_Class();
+            Configuration_Term term = new Configuration_Term();
+            Category_Subject subject = null;
+            Category_MarkType markType = null;
 
-            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-            Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
-            subject = new DanhMuc_MonHoc();
-            subject.MaMonHoc = Int32.Parse(DdlMonHoc.SelectedValue);
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            subject = new Category_Subject();
+            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
             foreach (RepeaterItem rptItemStudentMark in RptDiemMonHoc.Items)
             {
                 if (rptItemStudentMark.ItemType == ListItemType.Item || rptItemStudentMark.ItemType == ListItemType.AlternatingItem)
@@ -345,9 +345,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         if (rptItemDiem.ItemType == ListItemType.Item || rptItemDiem.ItemType == ListItemType.AlternatingItem)
                         {
-                            HiddenField hdfMaLoaiDiem = (HiddenField)rptItemDiem.FindControl("HdfMaLoaiDiem");
-                            markType = new DanhMuc_LoaiDiem();
-                            markType.MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value);
+                            HiddenField hdfMarkTypeId = (HiddenField)rptItemDiem.FindControl("HdfMarkTypeId");
+                            markType = new Category_MarkType();
+                            markType.MarkTypeId = Int32.Parse(hdfMarkTypeId.Value);
 
                             TextBox txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
                             string marks = txtDiems.Text.Trim();
@@ -362,7 +362,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                         double dMark = double.Parse(strMark.Trim());
                                         detailMarks.Add(new DetailMark
                                         {
-                                            MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value),
+                                            MarkTypeId = Int32.Parse(hdfMarkTypeId.Value),
                                             GiaTri = dMark
                                         });
                                     }
@@ -371,7 +371,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                 {
                                     detailMarks.Add(new DetailMark
                                     {
-                                        MaLoaiDiem = Int32.Parse(hdfMaLoaiDiem.Value),
+                                        MarkTypeId = Int32.Parse(hdfMarkTypeId.Value),
                                         GiaTri = -1
                                     });
                                 }
@@ -385,15 +385,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         }
                     }
 
-                    student = new HocSinh_ThongTinCaNhan();
+                    student = new Student_Student();
                     HiddenField hdfStudentId = (HiddenField)rptItemStudentMark.FindControl("HdfMaHocSinh");
-                    student.MaHocSinh = Int32.Parse(hdfStudentId.Value);
+                    student.StudentId = Int32.Parse(hdfStudentId.Value);
 
                     dicEnteredStudentMarks.Add(student, detailMarks);
                 }
             }
 
-            foreach (KeyValuePair<HocSinh_ThongTinCaNhan, List<DetailMark>> pair in dicEnteredStudentMarks)
+            foreach (KeyValuePair<Student_Student, List<DetailMark>> pair in dicEnteredStudentMarks)
             {
                 studyingResultBL.UpdateDetailedMark(pair.Key, Class, term, subject, pair.Value);
             }

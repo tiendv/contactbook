@@ -8,7 +8,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     public class BaseDA
     {
         protected DbEContactBookDataContext db;
-        protected School school;
+        protected School_School school;
 
         protected const string TEACHER = "TEACHER";
         protected const string SUBJECTTEACHER = "SUBJECTTEACHER";
@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         protected const string PARENTS = "PARENTS";
         protected const string USERDEFINED = "USERDEFINED";        
 
-        public BaseDA(School school)
+        public BaseDA(School_School school)
         {
             this.school = school;
 

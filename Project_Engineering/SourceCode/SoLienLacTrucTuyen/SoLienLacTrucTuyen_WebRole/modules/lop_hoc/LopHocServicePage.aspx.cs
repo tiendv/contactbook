@@ -20,110 +20,110 @@ namespace SoLienLacTrucTuyen_WebRole
         }       
 
         //[WebMethod]
-        //public static List<LopHoc_Lop> GetListLopHoc(int maNganhHoc, int maKhoiLop, int maNamHoc)
+        //public static List<Class_Class> GetListLopHoc(int FacultyId, int GradeId, int YearId)
         //{
         //    ClassBL lophocBL = new ClassBL(UserSchool);
-        //    return lophocBL.GetListLopHoc(maNganhHoc, maKhoiLop, maNamHoc);
+        //    return lophocBL.GetListLopHoc(FacultyId, GradeId, YearId);
         //}
 
         [System.Web.Services.WebMethod]
         [System.Web.Script.Services.ScriptMethod]
-        public static AjaxControlToolkit.CascadingDropDownNameValue[] GetTenLopHoc(string knownCategoryValues, string category) 
+        public static AjaxControlToolkit.CascadingDropDownNameValue[] GetClassName(string knownCategoryValues, string category) 
         {            
             //StringDictionary kv = AjaxControlToolkit.CascadingDropDown.ParseKnownCategoryValuesString(knownCategoryValues);
-            //int maNganhHoc;
-            //if (!kv.ContainsKey("MaNganhHoc") || !Int32.TryParse(kv["MaNganhHoc"], out maNganhHoc))
+            //int FacultyId;
+            //if (!kv.ContainsKey("FacultyId") || !Int32.TryParse(kv["FacultyId"], out FacultyId))
             //{
             //    return null;
             //}
             
             //LopHocBL lophocBL = new LopHocBL(UserSchool);
-            //List<LopHoc_Lop> lstLopHoc = lophocBL.GetListLopHocByNganhHoc(maNganhHoc);
+            //List<Class_Class> lstLopHoc = lophocBL.GetListLopHocByNganhHoc(FacultyId);
 
             List<AjaxControlToolkit.CascadingDropDownNameValue> values = new List<AjaxControlToolkit.CascadingDropDownNameValue>();
-            //foreach (LopHoc_Lop lop in lstLopHoc)
+            //foreach (Class_Class lop in lstLopHoc)
             //{
             //    values.Add(new AjaxControlToolkit.CascadingDropDownNameValue(
-            //        (string)lop.TenLopHoc,
-            //        (lop.MaLopHoc).ToString()));
+            //        (string)lop.ClassName,
+            //        (lop.ClassId).ToString()));
             //}
 
             return values.ToArray();
         }
 
         //[WebMethod]
-        //public static bool LopHocExists(string tenLopHoc, int maNamHoc)
+        //public static bool LopHocExists(string ClassName, int YearId)
         //{
-        //    tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
+        //    ClassName = Uri.UnescapeDataString(ClassName);
         //    ClassBL lopHocBL = new ClassBL(UserSchool);
-        //    CauHinh_NamHoc year = new CauHinh_NamHoc();
-        //    year.MaNamHoc = maNamHoc;
-        //    return lopHocBL.ClassNameExists(tenLopHoc, year);
+        //    Configuration_Year year = new Configuration_Year();
+        //    year.YearId = YearId;
+        //    return lopHocBL.ClassNameExists(ClassName, year);
         //}
 
         //[WebMethod]
-        //public static bool LopHocExists(int maLopHoc, string tenLopHoc)
+        //public static bool LopHocExists(int ClassId, string ClassName)
         //{
-        //    tenLopHoc = Uri.UnescapeDataString(tenLopHoc);
+        //    ClassName = Uri.UnescapeDataString(ClassName);
         //    ClassBL lopHocBL = new ClassBL(UserSchool);
-        //    LopHoc_Lop Class = new LopHoc_Lop();
-        //    Class.MaLopHoc = maLopHoc;
+        //    Class_Class Class = new Class_Class();
+        //    Class.ClassId = ClassId;
         //    return lopHocBL.ClassNameExists(
         //}
 
         [WebMethod(EnableSession=true)]
-        public static void AddCheckedMonHocTKBSang(string maMonHoc)
+        public static void AddCheckedMonHocTKBSang(string SubjectId)
         {
             string userName = HttpContext.Current.Session["username"].ToString();
-            int iMaMonHoc = Int32.Parse(maMonHoc);
+            int iSubjectId = Int32.Parse(SubjectId);
             List<int> lstCheckedMonHocSang = new List<int>();
             if (HttpContext.Current.Session[userName + "LstCheckedMonHocSang"] != null)
             {
                 lstCheckedMonHocSang = (List<int>)HttpContext.Current.Session[userName + "LstCheckedMonHocSang"];
             }
-            lstCheckedMonHocSang.Add(iMaMonHoc);
+            lstCheckedMonHocSang.Add(iSubjectId);
             HttpContext.Current.Session[userName + "LstCheckedMonHocSang"] = lstCheckedMonHocSang;
         }
 
         [WebMethod(EnableSession=true)]
-        public static void RemoveCheckedMonHocTKBSang(string maMonHoc)
+        public static void RemoveCheckedMonHocTKBSang(string SubjectId)
         {
             string userName = HttpContext.Current.Session["username"].ToString();
-            int iMaMonHoc = Int32.Parse(maMonHoc);
+            int iSubjectId = Int32.Parse(SubjectId);
             List<int> lstCheckedMonHocSang = new List<int>();
             if (HttpContext.Current.Session[userName + "LstCheckedMonHocSang"] != null)
             {
                 lstCheckedMonHocSang = (List<int>)HttpContext.Current.Session[userName + "LstCheckedMonHocSang"];
             }
-            lstCheckedMonHocSang.Remove(iMaMonHoc);
+            lstCheckedMonHocSang.Remove(iSubjectId);
             HttpContext.Current.Session[userName + "LstCheckedMonHocSang"] = lstCheckedMonHocSang;
         }
 
         [WebMethod(EnableSession=true)]
-        public static void AddCheckedMonHocTKBChieu(string maMonHoc)
+        public static void AddCheckedMonHocTKBChieu(string SubjectId)
         {
             string userName = HttpContext.Current.Session["username"].ToString();
-            int iMaMonHoc = Int32.Parse(maMonHoc);
+            int iSubjectId = Int32.Parse(SubjectId);
             List<int> lstCheckedMonHocChieu = new List<int>();
             if (HttpContext.Current.Session[userName + "LstCheckedMonHocChieu"] != null)
             {
                 lstCheckedMonHocChieu = (List<int>)HttpContext.Current.Session[userName + "LstCheckedMonHocChieu"];
             }
-            lstCheckedMonHocChieu.Add(iMaMonHoc);
+            lstCheckedMonHocChieu.Add(iSubjectId);
             HttpContext.Current.Session[userName + "LstCheckedMonHocChieu"] = lstCheckedMonHocChieu;
         }
 
         [WebMethod(EnableSession=true)]
-        public static void RemoveCheckedMonHocTKBChieu(string maMonHoc)
+        public static void RemoveCheckedMonHocTKBChieu(string SubjectId)
         {
             string userName = HttpContext.Current.Session["username"].ToString();
-            int iMaMonHoc = Int32.Parse(maMonHoc);
+            int iSubjectId = Int32.Parse(SubjectId);
             List<int> lstCheckedMonHocChieu = new List<int>();
             if (HttpContext.Current.Session[userName + "LstCheckedMonHocChieu"] != null)
             {
                 lstCheckedMonHocChieu = (List<int>)HttpContext.Current.Session[userName + "LstCheckedMonHocChieu"];
             }
-            lstCheckedMonHocChieu.Remove(iMaMonHoc);
+            lstCheckedMonHocChieu.Remove(iSubjectId);
             HttpContext.Current.Session[userName + "LstCheckedMonHocChieu"] = lstCheckedMonHocChieu;
         }
     }

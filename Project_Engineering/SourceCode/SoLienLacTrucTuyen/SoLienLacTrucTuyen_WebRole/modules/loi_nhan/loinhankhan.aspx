@@ -151,7 +151,7 @@
                                     CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLoiNhanKhan")%>'>
                                 </asp:LinkButton>--%>
                             <%--<ajaxToolkit:ModalPopupExtender ID="MPEDetail" runat="server"                                         
-                                    TargetControlID="LblTenLopHoc"
+                                    TargetControlID="LblClassName"
                                     PopupControlID="PnlPopupDetail"
                                     BackgroundCssClass="modalBackground"
                                     CancelControlID="ImgClosePopupDetail"

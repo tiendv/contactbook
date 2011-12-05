@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhmucdanhhieu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DanhMucDanhHieuPage" %>
+    CodeBehind="danhmucdanhhieu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.LearningResultPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
@@ -18,14 +18,14 @@
                 return false;
             }
 
-            function validateTenDanhHieuAdd(ctrl, args) {
+            function validateLearningResultNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var maDanhHieu = 0;
-                var tenDanhHieu = $.trim(args.Value);
+                var LearningResultId = 0;
+                var LearningResultName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenDanhHieu",
-                    data: "{'maDanhHieu':'" + maDanhHieu + "', 'tenDanhHieu':'" + tenDanhHieu + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistLearningResultName",
+                    data: "{'LearningResultId':'" + LearningResultId + "', 'LearningResultName':'" + LearningResultName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -47,14 +47,14 @@
                 }
             }
 
-            function validateTenDanhHieuEdit(ctrl, args) {
+            function validateLearningResultNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maDanhHieu = $('#<%=HdfMaDanhHieu.ClientID%>').val();
-                var tenDanhHieu = $.trim(args.Value);
+                var LearningResultId = $('#<%=HdfLearningResultId.ClientID%>').val();
+                var LearningResultName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenDanhHieu",
-                    data: "{'maDanhHieu':'" + maDanhHieu + "', 'tenDanhHieu':'" + tenDanhHieu + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistLearningResultName",
+                    data: "{'LearningResultId':'" + LearningResultId + "', 'LearningResultName':'" + LearningResultName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -100,7 +100,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:HiddenField ID="HdfMaDanhHieu" runat="server" />
+            <asp:HiddenField ID="HdfLearningResultId" runat="server" />
             <asp:HiddenField ID="HdfRptDanhHieuMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptDanhHieuMPEEdit" runat="server" />
             <asp:Repeater ID="RptDanhHieu" runat="server" OnItemCommand="RptDanhHieu_ItemCommand"
@@ -128,18 +128,18 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaDanhHieu" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaDanhHieu")%>' />
-                            <asp:HiddenField ID="HdfRptTenDanhHieu" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenDanhHieu")%>' />
+                            <asp:HiddenField ID="HdfRptLearningResultId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem,  "LearningResultId")%>' />
+                            <asp:HiddenField ID="HdfRptLearningResultName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "LearningResultName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenDanhHieu")%>
+                            <%#DataBinder.Eval(Container.DataItem, "LearningResultName")%>
                         </td>
                         <td>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaDanhHieu")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "LearningResultId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -148,7 +148,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenDanhHieu")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "LearningResultName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -210,13 +210,13 @@
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenDanhHieu" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:TextBox ID="TxtLearningResultName" runat="server" CssClass="input_textbox"></asp:TextBox>
                         <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
-                        <asp:RequiredFieldValidator ID="TenDanhHieuRequiredAdd" runat="server" ControlToValidate="TxtTenDanhHieu"
+                        <asp:RequiredFieldValidator ID="LearningResultNameRequiredAdd" runat="server" ControlToValidate="TxtLearningResultName"
                             ValidationGroup="AddDanhHieu" ErrorMessage="Tên danh hiệu không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenDanhHieuValidatorAdd" runat="server" ControlToValidate="TxtTenDanhHieu"
-                            ValidationGroup="AddDanhHieu" ClientValidationFunction="validateTenDanhHieuAdd"
+                        <asp:CustomValidator ID="LearningResultNameValidatorAdd" runat="server" ControlToValidate="TxtLearningResultName"
+                            ValidationGroup="AddDanhHieu" ClientValidationFunction="validateLearningResultNameAdd"
                             ErrorMessage="danh hiệu đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
@@ -250,13 +250,13 @@
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaTenDanhHieu" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:TextBox ID="TxtSuaLearningResultName" runat="server" CssClass="input_textbox"></asp:TextBox>
                         <asp:HiddenField ID="hfOutputEdit" runat="server" Value="true" />
-                        <asp:RequiredFieldValidator ID="TenDanhHieuRequiredEdit" runat="server" ControlToValidate="TxtSuaTenDanhHieu"
+                        <asp:RequiredFieldValidator ID="LearningResultNameRequiredEdit" runat="server" ControlToValidate="TxtSuaLearningResultName"
                             ValidationGroup="EditDanhHieu" ErrorMessage="Tên danh hiệu không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenDanhHieuValidatorEdit" runat="server" ControlToValidate="TxtSuaTenDanhHieu"
-                            ValidationGroup="EditDanhHieu" ClientValidationFunction="validateTenDanhHieuEdit"
+                        <asp:CustomValidator ID="LearningResultNameValidatorEdit" runat="server" ControlToValidate="TxtSuaLearningResultName"
+                            ValidationGroup="EditDanhHieu" ClientValidationFunction="validateLearningResultNameEdit"
                             ErrorMessage="danh hiệu đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>

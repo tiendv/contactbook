@@ -111,7 +111,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
-            <asp:HiddenField ID="HdfMaLopHoc" runat="server" />
+            <asp:HiddenField ID="HdfClassId" runat="server" />
             <asp:HiddenField ID="HdfRptHocSinhMPEDelete" runat="server" />
             <asp:Repeater ID="RptHocSinh" runat="server" OnItemCommand="RptHocSinh_ItemCommand"
                 OnItemDataBound="RptHocSinh_ItemDataBound">
@@ -147,37 +147,37 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>' />
-                            <asp:HiddenField ID="HdfRptTenHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%>' />
+                            <asp:HiddenField ID="HdfRptMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>' />
+                            <asp:HiddenField ID="HdfRptTenHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FullName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:LinkButton ID="LbtnMaHocSinhHienThi" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%>'
+                            <asp:LinkButton ID="LbtnStudentCode" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "StudentCode")%>'
                                 Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
-                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>'>
-                            '<%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%>'
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>'>
+                            '<%#DataBinder.Eval(Container.DataItem, "FullName")%>'
                             </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%>
+                            <%#DataBinder.Eval(Container.DataItem, "FullName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenNganh")%>
+                            <%#DataBinder.Eval(Container.DataItem, "FacultyName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenKhoi")%>
+                            <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "ClassName")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>' />
-                            <asp:HiddenField ID="HdfMaLopHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLopHoc")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>' />
+                            <asp:HiddenField ID="HdfClassId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ClassId")%>' />
                         </td>
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                ToolTip="Xóa học sinh" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%>' />
+                                ToolTip="Xóa học sinh" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "FullName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -194,12 +194,7 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG"
-                OnCommand="pager_Command" PageSize="10" ViewStateMode="Enabled" LastClause=">>"
-                GenerateHiddenHyperlinks="False" CompactModePageCount="3" GenerateFirstLastSection="True"
-                GenerateGoToSection="False" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-                BackToPageClause="Trở về trang" GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang"
-                ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="pager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"

@@ -127,7 +127,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             aspnet_User teacher = new aspnet_User();
-            teacher.UserId = new Guid(HdfMaGiaoVien.Value);
+            teacher.UserId = new Guid(HdfUserId.Value);
             //teacherBL.DeleteTeacher(teacher);
 
             isSearch = false;
@@ -144,7 +144,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                    Guid maGiaoVien = giaoVien.MaGiaoVien;
+                    Guid UserId = giaoVien.UserId;
                     ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
                     btnEditItem.Attributes.Add("OnClientClick",
                         "return editGiaoVien();");
@@ -170,7 +170,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     //TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                    //if (!teacherBL.IsDeletable(giaoVien.MaGiaoVien))
+                    //if (!teacherBL.IsDeletable(giaoVien.UserId))
                     //{
                     //    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                     //    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -198,8 +198,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                HyperLink hlkMaGiaoVien = (HyperLink)e.Item.FindControl("HlkMaGiaoVien");
-                hlkMaGiaoVien.NavigateUrl = "chitietgiaovien.aspx?giaovien=" + giaoVien.MaGiaoVien
+                HyperLink hlkUserId = (HyperLink)e.Item.FindControl("HlkUserId");
+                hlkUserId.NavigateUrl = "chitietgiaovien.aspx?giaovien=" + giaoVien.UserId
                     + "&prevpageid=1";
             }
         }
@@ -217,11 +217,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         HdfTeacherCode.Value = strTeacherCode;
 
                         //this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
-                        //    + teacher.aspnet_Membership.RealName + "\"</b> này không?";
+                        //    + teacher.aspnet_Membership.FullName + "\"</b> này không?";
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        this.HdfMaGiaoVien.Value = teacher.UserId.ToString();
+                        this.HdfUserId.Value = teacher.UserId.ToString();
                         this.HdfRptGiaoVienMPEDelete.Value = mPEDelete.ClientID;
 
                         break;

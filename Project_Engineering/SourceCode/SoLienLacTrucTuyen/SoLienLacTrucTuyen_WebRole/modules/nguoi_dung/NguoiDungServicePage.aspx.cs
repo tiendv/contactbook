@@ -45,13 +45,13 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool RoleExists(string roleName)
         {
-            return (new RoleBL((School)HttpContext.Current.Session[AppConstant.SCHOOL])).RoleExists(roleName);
+            return (new RoleBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL])).RoleExists(roleName);
         }
 
         [WebMethod]
         public static bool RoleExists(string roleName, string newRoleName)
         {
-            return (new RoleBL((School)HttpContext.Current.Session[AppConstant.SCHOOL])).RoleExists(roleName, newRoleName);
+            return (new RoleBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL])).RoleExists(roleName, newRoleName);
         }
     }
 }

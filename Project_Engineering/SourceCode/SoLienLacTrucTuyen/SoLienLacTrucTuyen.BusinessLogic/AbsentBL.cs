@@ -11,22 +11,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private AbsentDA absentDA;
 
-        public AbsentBL(School school)
+        public AbsentBL(School_School school)
             : base(school)
         {
             absentDA = new AbsentDA(school);
         }
 
-        public void InsertAbsent(HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, CauHinh_Buoi session, bool permission, string reason)
+        public void InsertAbsent(Student_Student student, Configuration_Term term, DateTime date, Configuration_Session session, bool permission, string reason)
         {
             StudentBL studentBL = new StudentBL(school);
-            LopHoc_Lop Class = studentBL.GetLastedClass(student);
-            HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, Class.CauHinh_NamHoc);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            Student_StudentInClass studentInClass = studentBL.GetStudentInClass(student, Class.Configuration_Year);
 
             absentDA.InsertAbsent(studentInClass, term, date, session, permission, reason);
         }
 
-        public void UpdateAbsent(HocSinh_NgayNghiHoc editedAbsent, CauHinh_HocKy newTerm, DateTime newDate, CauHinh_Buoi newSession, bool newPermission, string newReason)
+        public void UpdateAbsent(Student_Absent editedAbsent, Configuration_Term newTerm, DateTime newDate, Configuration_Session newSession, bool newPermission, string newReason)
         {
             absentDA.UpdateAbsent(editedAbsent);
         }
@@ -36,45 +36,45 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             absentDA.DeleteAbsent(maNgayNghiHoc);
         }
 
-        public HocSinh_NgayNghiHoc GetAbsent(int absentId)
+        public Student_Absent GetAbsent(int absentId)
         {
             return absentDA.GetAbsent(absentId);
         }
 
-        public HocSinh_NgayNghiHoc GetAbsent(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public Student_Absent GetAbsent(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
             StudentBL studentBL = new StudentBL(school);
-            HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, year);
+            Student_StudentInClass studentInClass = studentBL.GetStudentInClass(student, year);
 
             return absentDA.GetAbsent(studentInClass, term, date);
         }
 
-        public HocSinh_NgayNghiHoc GetAbsent(HocSinh_NgayNghiHoc exceptedAbsent, HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public Student_Absent GetAbsent(Student_Absent exceptedAbsent, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
             StudentBL studentBL = new StudentBL(school);
-            HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, year);
+            Student_StudentInClass studentInClass = studentBL.GetStudentInClass(student, year);
 
             return absentDA.GetAbsent(exceptedAbsent, studentInClass, term, date);
         }
 
-        public List<TabularAbsent> GetTabularAbsents(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularAbsent> GetTabularAbsents(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             StudentBL studentBL = new StudentBL(school);
             SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             List<TabularAbsent> tabularAbsents = new List<TabularAbsent>();
             TabularAbsent tabularAbsent = null;
-            HocSinh_HocSinhLopHoc studentInClass = studentBL.GetStudentInClass(student, year);
-            List<HocSinh_NgayNghiHoc> absents = absentDA.GetAbsents(studentInClass, term, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+            Student_StudentInClass studentInClass = studentBL.GetStudentInClass(student, year);
+            List<Student_Absent> absents = absentDA.GetAbsents(studentInClass, term, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
 
-            foreach (HocSinh_NgayNghiHoc absent in absents)
+            foreach (Student_Absent absent in absents)
             {
                 tabularAbsent = new TabularAbsent();
-                tabularAbsent.MaHocSinhLopHoc = absent.MaHocSinhLopHoc;
-                tabularAbsent.Ngay = absent.Ngay.Day + "/" + absent.Ngay.Month + "/" + absent.Ngay.Year;
-                tabularAbsent.Buoi = systemConfigBL.GetSessionName(absent.MaBuoi);
-                tabularAbsent.XinPhep = (absent.XinPhep) ? "Có" : "Không";
-                tabularAbsent.LyDo = absent.LyDo;
-                tabularAbsent.XacNhan = (absent.XacNhan) ? "Có" : "Không";
+                tabularAbsent.MaHocSinhLopHoc = absent.StudentInClass;
+                tabularAbsent.Ngay = absent.Date.Day + "/" + absent.Date.Month + "/" + absent.Date.Year;
+                tabularAbsent.Buoi = systemConfigBL.GetSessionName(absent.SessionId);
+                tabularAbsent.XinPhep = (absent.IsAsked) ? "Có" : "Không";
+                tabularAbsent.LyDo = absent.Reason;
+                tabularAbsent.XacNhan = (absent.IsConfirmed) ? "Có" : "Không";
 
                 tabularAbsents.Add(tabularAbsent);
             }
@@ -82,22 +82,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularAbsents;
         }
 
-        public bool Confirmed(HocSinh_NgayNghiHoc absent)
+        public bool Confirmed(Student_Absent absent)
         {
             return absentDA.IsConfirmed(absent);
         }
 
-        public void ConfirmAbsent(HocSinh_NgayNghiHoc editedAbsent)
+        public void ConfirmAbsent(Student_Absent editedAbsent)
         {
             bool xacNhan = true;
             absentDA.ConfirmAbsent(editedAbsent, xacNhan);
         }
 
-        public bool AbsentExists(HocSinh_NgayNghiHoc exceptedAbsent, HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, CauHinh_Buoi session)
+        public bool AbsentExists(Student_Absent exceptedAbsent, Student_Student student, Configuration_Term term, DateTime date, Configuration_Session session)
         {
             StudentBL studentBL = new StudentBL(school);
-            LopHoc_Lop Class = studentBL.GetLastedClass(student);
-            int maLopHoc = Class.MaLopHoc;
+            Class_Class Class = studentBL.GetLastedClass(student);
+            int ClassId = Class.ClassId;
 
             if (exceptedAbsent == null)
             {

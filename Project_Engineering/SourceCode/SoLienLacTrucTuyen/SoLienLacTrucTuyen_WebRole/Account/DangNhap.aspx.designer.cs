@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DangNhap {
+    public partial class LoginPage {
         
         /// <summary>
         /// LoginCtrl control.

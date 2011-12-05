@@ -16,10 +16,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public struct SelectedHocLucHanhKiem
         {
             public int ThuTu { get; set; }
-            public int MaHocLuc { get; set; }
-            public string TenHocLuc { get; set; }
-            public int MaHanhKiem { get; set; }
-            public string TenHanhKiem { get; set; }
+            public int LearningAptitudeId { get; set; }
+            public string LearningAptitudeName { get; set; }
+            public int ConductId { get; set; }
+            public string ConductName { get; set; }
         }
         private DanhHieuBL danhHieuBL;
         public List<SelectedHocLucHanhKiem> SelectedHocLucHanhKiems 
@@ -58,7 +58,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 Session.Remove("SltHocLucHanhKiems");
 
-                BindRptMoTaDanhHieu();
+                BindRptDescriptionDanhHieu();
                 BindDropdownlists();
             }
         }        
@@ -67,29 +67,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button click event handlers
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string tenDanhHieu = this.TxtTenDanhHieu.Text.Trim();
+            string LearningResultName = this.TxtLearningResultName.Text.Trim();
 
-            if (tenDanhHieu == "")
+            if (LearningResultName == "")
             {
-                TenDanhHieuRequiredAdd.IsValid = false;
-                TxtTenDanhHieu.Focus();
+                LearningResultNameRequiredAdd.IsValid = false;
+                TxtLearningResultName.Focus();
                 return;
             }
             else
             {
-                if (danhHieuBL.DanhHieuExists(tenDanhHieu))
+                if (danhHieuBL.DanhHieuExists(LearningResultName))
                 {
-                    TenDanhHieuValidatorAdd.IsValid = false;
-                    TxtTenDanhHieu.Focus();
+                    LearningResultNameValidatorAdd.IsValid = false;
+                    TxtLearningResultName.Focus();
                     return;
                 }
             }
 
-            danhHieuBL.InsertDanhHieu(tenDanhHieu, new Dictionary<int, int>());
+            danhHieuBL.InsertDanhHieu(LearningResultName, new Dictionary<int, int>());
 
             if (this.CkbAddAfterSave.Checked)
             {
-                this.TxtTenDanhHieu.Text = "";
+                this.TxtLearningResultName.Text = "";
             }
             else
             {
@@ -104,36 +104,36 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSelect_Click(object sender, ImageClickEventArgs e)
         {
-            List<DanhMuc_HocLuc> sltHocLucs = new List<DanhMuc_HocLuc>();
-            int iSltMaHocLuc = Int32.Parse(DdlHocLucAdd.SelectedValue);
-            if(iSltMaHocLuc == 0)
+            List<Category_LearningAptitude> sltHocLucs = new List<Category_LearningAptitude>();
+            int iSltLearningAptitudeId = Int32.Parse(DdlHocLucAdd.SelectedValue);
+            if(iSltLearningAptitudeId == 0)
             {
-                HocLucBL hocLucBL = new HocLucBL(UserSchool);
+                LearningAptitudeBL hocLucBL = new LearningAptitudeBL(UserSchool);
                 sltHocLucs = hocLucBL.GetListHocLuc(false);
             }
             else
             {
-                sltHocLucs.Add(new DanhMuc_HocLuc{
-                    MaHocLuc = iSltMaHocLuc,
-                    TenHocLuc = DdlHocLucAdd.SelectedItem.Text
+                sltHocLucs.Add(new Category_LearningAptitude{
+                    LearningAptitudeId = iSltLearningAptitudeId,
+                    LearningAptitudeName = DdlHocLucAdd.SelectedItem.Text
                 });
             }
 
-            int iSltMaHanhKiem = Int32.Parse(DdlHanhKiemAdd.SelectedValue);
+            int iSltConductId = Int32.Parse(DdlHanhKiemAdd.SelectedValue);
             List<SelectedHocLucHanhKiem> sltHocLucHanhKiems = SelectedHocLucHanhKiems;
-            foreach(DanhMuc_HocLuc sltHocLuc in sltHocLucs)
+            foreach(Category_LearningAptitude sltHocLuc in sltHocLucs)
             {
                 SelectedHocLucHanhKiem sltHocLucHanhKiem = new SelectedHocLucHanhKiem();
                 sltHocLucHanhKiem.ThuTu = sltHocLucHanhKiems.Count;
-                sltHocLucHanhKiem.MaHocLuc = sltHocLuc.MaHocLuc; 
-                sltHocLucHanhKiem.TenHocLuc = sltHocLuc.TenHocLuc;
-                sltHocLucHanhKiem.MaHanhKiem = iSltMaHanhKiem;
-                sltHocLucHanhKiem.TenHanhKiem = DdlHanhKiemAdd.SelectedItem.Text;
+                sltHocLucHanhKiem.LearningAptitudeId = sltHocLuc.LearningAptitudeId; 
+                sltHocLucHanhKiem.LearningAptitudeName = sltHocLuc.LearningAptitudeName;
+                sltHocLucHanhKiem.ConductId = iSltConductId;
+                sltHocLucHanhKiem.ConductName = DdlHanhKiemAdd.SelectedItem.Text;
                 sltHocLucHanhKiems.Add(sltHocLucHanhKiem);
             }
 
             SelectedHocLucHanhKiems = sltHocLucHanhKiems;
-            BindRptMoTaDanhHieu();
+            BindRptDescriptionDanhHieu();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
@@ -152,15 +152,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             SelectedHocLucHanhKiems = sltHocLucHanhKiems;
-            //int maKhoiLop = Int32.Parse(this.HdfMaKhoiLop.Value);
-            //grades.DeleteKhoiLop(maKhoiLop);
-            BindRptMoTaDanhHieu();
+            //int GradeId = Int32.Parse(this.HdfGradeId.Value);
+            //grades.DeleteKhoiLop(GradeId);
+            BindRptDescriptionDanhHieu();
         }
 
         #endregion
 
         #region Repeater event handlers
-        protected void RptMoTaDanhHieu_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void RptDescriptionDanhHieu_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
             {
@@ -173,23 +173,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         HiddenField hdfThuTu = (HiddenField)e.Item.FindControl("HdfThuTu");
                         this.HdfThuTu.Value = hdfThuTu.Value;
 
-                        this.HdfRptMoTaDanhHieuMPEDelete.Value = mPEDelete.ClientID;
+                        this.HdfRptDescriptionDanhHieuMPEDelete.Value = mPEDelete.ClientID;
 
                         break;
                     }
                 case "CmdEditItem":
                     {
-                        //int maKhoiLop = Int32.Parse(e.CommandArgument.ToString());
-                        //DanhMuc_KhoiLop khoiLop = grades.GetKhoiLop(maKhoiLop);
+                        //int GradeId = Int32.Parse(e.CommandArgument.ToString());
+                        //Category_Grade khoiLop = grades.GetKhoiLop(GradeId);
 
-                        //TxtSuaTenKhoiLop.Text = khoiLop.TenKhoiLop;
+                        //TxtSuaGradeName.Text = khoiLop.GradeName;
                         //TxtOrderEdit.Text = khoiLop.ThuTuHienThi.ToString();
 
                         //ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         //mPEEdit.Show();
 
                         //this.HdfRptKhoiLopMPEEdit.Value = mPEEdit.ClientID;
-                        //this.HdfMaKhoiLop.Value = maKhoiLop.ToString();
+                        //this.HdfGradeId.Value = GradeId.ToString();
 
                         break;
                     }
@@ -202,10 +202,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private void BindRptMoTaDanhHieu()
+        private void BindRptDescriptionDanhHieu()
         {
-            RptMoTaDanhHieu.DataSource = SelectedHocLucHanhKiems;
-            RptMoTaDanhHieu.DataBind();
+            RptDescriptionDanhHieu.DataSource = SelectedHocLucHanhKiems;
+            RptDescriptionDanhHieu.DataBind();
 
             bool bDisplayData = (SelectedHocLucHanhKiems.Count != 0);
             PnlPopupConfirmDelete.Visible = bDisplayData;
@@ -219,21 +219,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLHocLuc()
         {
-            HocLucBL hocLucBL = new HocLucBL(UserSchool);
-            List<DanhMuc_HocLuc> hocLucs = hocLucBL.GetListHocLuc(true);
+            LearningAptitudeBL hocLucBL = new LearningAptitudeBL(UserSchool);
+            List<Category_LearningAptitude> hocLucs = hocLucBL.GetListHocLuc(true);
             DdlHocLucAdd.DataSource = hocLucs;
-            DdlHocLucAdd.DataValueField = "MaHocLuc";
-            DdlHocLucAdd.DataTextField = "TenHocLuc";
+            DdlHocLucAdd.DataValueField = "LearningAptitudeId";
+            DdlHocLucAdd.DataTextField = "LearningAptitudeName";
             DdlHocLucAdd.DataBind();
         }
 
         private void BindDDLHanhKiem()
         {
             ConductBL HanhKiemBL = new ConductBL(UserSchool);
-            List<DanhMuc_HanhKiem> HanhKiems = HanhKiemBL.GetListConducts(false);
+            List<Category_Conduct> HanhKiems = HanhKiemBL.GetListConducts(false);
             DdlHanhKiemAdd.DataSource = HanhKiems;
-            DdlHanhKiemAdd.DataValueField = "MaHanhKiem";
-            DdlHanhKiemAdd.DataTextField = "TenHanhKiem";
+            DdlHanhKiemAdd.DataValueField = "ConductId";
+            DdlHanhKiemAdd.DataTextField = "ConductName";
             DdlHanhKiemAdd.DataBind();
         }
 

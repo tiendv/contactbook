@@ -11,32 +11,32 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         FacultyDA facultyDA;
 
-        public FacultyBL(School school)
+        public FacultyBL(School_School school)
             : base(school)
         {
             facultyDA = new FacultyDA(school);
         }
 
-        public void InsertFaculty(DanhMuc_NganhHoc faculty)
+        public void InsertFaculty(Category_Faculty faculty)
         {
             facultyDA.InsertFaculty(faculty);
         }
 
         public void UpdateFaculty(string editedFacultyName, string newFacultyName, string newDescription)
         {
-            DanhMuc_NganhHoc faculty = GetFaculty(editedFacultyName);
-            faculty.TenNganhHoc = newFacultyName;
-            faculty.MoTa = newDescription;
+            Category_Faculty faculty = GetFaculty(editedFacultyName);
+            faculty.FacultyName = newFacultyName;
+            faculty.Description = newDescription;
 
             facultyDA.UpdateFaculty(faculty);
         }
 
-        public void DeleteFaculty(DanhMuc_NganhHoc faculty)
+        public void DeleteFaculty(Category_Faculty faculty)
         {
             facultyDA.DeleteFaculty(faculty);
         }
 
-        public DanhMuc_NganhHoc GetFaculty(string facultyName)
+        public Category_Faculty GetFaculty(string facultyName)
         {
             if ((facultyName == "") || (string.Compare(facultyName, "tất cả", true) == 0))
             {
@@ -48,14 +48,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public List<DanhMuc_NganhHoc> GetFaculties()
+        public List<Category_Faculty> GetFaculties()
         {
             return facultyDA.GetFaculties();
         }
 
-        public List<DanhMuc_NganhHoc> GetFaculties(string facultyName, int pageIndex, int pageSize, out double totalRecords)
+        public List<Category_Faculty> GetFaculties(string facultyName, int pageIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_NganhHoc> lFaculties = new List<DanhMuc_NganhHoc>();
+            List<Category_Faculty> lFaculties = new List<Category_Faculty>();
 
             if (String.Compare(facultyName, "tất cả", true) == 0 || facultyName == "")
             {
@@ -63,7 +63,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                DanhMuc_NganhHoc faculty = GetFaculty(facultyName);
+                Category_Faculty faculty = GetFaculty(facultyName);
                 lFaculties.Add(faculty);
                 totalRecords = 1;
             }
@@ -88,7 +88,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return facultyDA.FacultyExists(facultyName);
         }
 
-        public bool IsDeletable(DanhMuc_NganhHoc faculty)
+        public bool IsDeletable(Category_Faculty faculty)
         {
             return facultyDA.IsDeletable(faculty);
         }

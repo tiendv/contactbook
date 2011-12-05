@@ -7,12 +7,12 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularStudent
     {
-        public int MaHocSinh { get; set; }
-        public int MaLopHoc { get; set; }
-        public string MaHocSinhHienThi { get; set; }
-        public string TenHocSinh { get; set; }
-        public string TenNganh { get; set; }
-        public string TenKhoi { get; set; }
-        public string TenLopHoc { get; set; }
+        public int StudentId { get; set; }
+        public int ClassId { get; set; }
+        public string StudentCode { get; set; }
+        public string FullName { get; set; }
+        public string FacultyName { get; set; }
+        public string GradeName { get; set; }
+        public string ClassName { get; set; }
     }
 }

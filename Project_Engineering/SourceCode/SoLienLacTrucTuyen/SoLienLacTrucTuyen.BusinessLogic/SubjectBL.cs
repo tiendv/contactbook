@@ -11,41 +11,41 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private SubjectDA subjectDA;
 
-        public SubjectBL(School school)
+        public SubjectBL(School_School school)
             : base(school)
         {
             subjectDA = new SubjectDA(school);
         }
 
-        public void InsertSubject(string subjectName, DanhMuc_KhoiLop grade, DanhMuc_NganhHoc faculty, double markRatio)
+        public void InsertSubject(string subjectName, Category_Grade grade, Category_Faculty faculty, double markRatio)
         {
-            subjectDA.InsertSubject(new DanhMuc_MonHoc()
+            subjectDA.InsertSubject(new Category_Subject()
             {
-                TenMonHoc = subjectName,
-                MaNganhHoc = faculty.MaNganhHoc,
-                MaKhoiLop = grade.MaKhoiLop,
-                HeSoDiem = markRatio
+                SubjectName = subjectName,
+                FacultyId = faculty.FacultyId,
+                GradeId = grade.GradeId,
+                MarkRatio = markRatio
             });
         }
 
-        public void UpdateSubject(DanhMuc_MonHoc editedSubject, string newSubjectName, double newMarkRatio)
+        public void UpdateSubject(Category_Subject editedSubject, string newSubjectName, double newMarkRatio)
         {
-            editedSubject.TenMonHoc = newSubjectName;
-            editedSubject.HeSoDiem = newMarkRatio;
+            editedSubject.SubjectName = newSubjectName;
+            editedSubject.MarkRatio = newMarkRatio;
             subjectDA.UpdateSubject(editedSubject);
         }
 
-        public void DeleteSubject(DanhMuc_MonHoc subject)
+        public void DeleteSubject(Category_Subject subject)
         {
             subjectDA.DeleteSubject(subject);
         }
 
-        public DanhMuc_MonHoc GetSubject(string subjectName, string facultyName, string gradeName)
+        public Category_Subject GetSubject(string subjectName, string facultyName, string gradeName)
         {
             return subjectDA.GetSubject(subjectName, facultyName, gradeName);
         }
 
-        public List<DanhMuc_MonHoc> GetListSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade)
         {
             if (faculty == null)
             {
@@ -71,22 +71,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public TabularSubject GetTabularSubject(DanhMuc_MonHoc subject)
+        public TabularSubject GetTabularSubject(Category_Subject subject)
         {
             TabularSubject tabularSubject = new TabularSubject();
-            tabularSubject.MaMonHoc = subject.MaMonHoc;
-            tabularSubject.TenMonHoc = subject.TenMonHoc;
-            tabularSubject.HeSoDiem = subject.HeSoDiem;
-            tabularSubject.TenNganhHoc = subject.DanhMuc_NganhHoc.TenNganhHoc;
-            tabularSubject.TenKhoiLop = subject.DanhMuc_KhoiLop.TenKhoiLop;
+            tabularSubject.SubjectId = subject.SubjectId;
+            tabularSubject.SubjectName = subject.SubjectName;
+            tabularSubject.MarkRatio = subject.MarkRatio;
+            tabularSubject.FacultyName = subject.Category_Faculty.FacultyName;
+            tabularSubject.GradeName = subject.Category_Grade.GradeName;
 
             return tabularSubject;
         }
 
-        public List<TabularSubject> GetListTabularSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularSubject> GetListTabularSubjects(Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularSubject> lTabularSubjects = new List<TabularSubject>();
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
             if (faculty == null)
             {
@@ -113,7 +113,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             if (lSubjects.Count != 0)
             {
-                foreach (DanhMuc_MonHoc subject in lSubjects)
+                foreach (Category_Subject subject in lSubjects)
                 {
                     lTabularSubjects.Add(GetTabularSubject(subject));
                 }
@@ -122,7 +122,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTabularSubjects;
         }
 
-        public List<TabularSubject> GetListTabularSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, string subjectName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularSubject> GetListTabularSubjects(Category_Faculty faculty, Category_Grade grade, string subjectName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularSubject> lTabularSubjects = new List<TabularSubject>();
 
@@ -132,10 +132,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                List<DanhMuc_MonHoc> lSubjects = subjectDA.GetListSubjects(subjectName, pageCurrentIndex, pageSize, out totalRecords);
+                List<Category_Subject> lSubjects = subjectDA.GetListSubjects(subjectName, pageCurrentIndex, pageSize, out totalRecords);
                 if (lSubjects.Count != 0)
                 {
-                    foreach (DanhMuc_MonHoc subject in lSubjects)
+                    foreach (Category_Subject subject in lSubjects)
                     {
                         lTabularSubjects.Add(GetTabularSubject(subject));
                     }
@@ -145,10 +145,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTabularSubjects;
         }
 
-        public List<TabularSubject> GetListTabularSubjects(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, string subjectName, DanhMuc_MonHoc exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularSubject> GetListTabularSubjects(Category_Faculty faculty, Category_Grade grade, string subjectName, Category_Subject exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularSubject> lTabularSubjects = new List<TabularSubject>();
-            List<DanhMuc_MonHoc> lSubjects = new List<DanhMuc_MonHoc>();
+            List<Category_Subject> lSubjects = new List<Category_Subject>();
 
             if ((subjectName == "") || (string.Compare(subjectName, "tất cả", true) == 0))
             {
@@ -162,7 +162,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             if (lSubjects.Count != 0)
             {
-                foreach (DanhMuc_MonHoc subject in lSubjects)
+                foreach (Category_Subject subject in lSubjects)
                 {
                     lTabularSubjects.Add(GetTabularSubject(subject));
                 }
@@ -176,21 +176,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return subjectDA.SubjectNameExists(subjectName, facultyName, gradeName);
         }
 
-        public bool SubjectNameExists(DanhMuc_MonHoc editedSubject, string newSubjectName)
+        public bool SubjectNameExists(Category_Subject editedSubject, string newSubjectName)
         {
-            if (editedSubject.TenMonHoc == newSubjectName)
+            if (editedSubject.SubjectName == newSubjectName)
             {
                 return false;
             }
             else
             {
                 return subjectDA.SubjectNameExists(newSubjectName,
-                    editedSubject.DanhMuc_NganhHoc.TenNganhHoc,
-                    editedSubject.DanhMuc_KhoiLop.TenKhoiLop);
+                    editedSubject.Category_Faculty.FacultyName,
+                    editedSubject.Category_Grade.GradeName);
             }
         }
 
-        public bool IsDeletable(DanhMuc_MonHoc subject)
+        public bool IsDeletable(Category_Subject subject)
         {
             return subjectDA.IsDeletable(subject);
         }

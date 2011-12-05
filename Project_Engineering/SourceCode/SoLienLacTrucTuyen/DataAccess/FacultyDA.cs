@@ -8,58 +8,58 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class FacultyDA : BaseDA
     {
-        public FacultyDA(School school)
+        public FacultyDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertFaculty(DanhMuc_NganhHoc faculty)
+        public void InsertFaculty(Category_Faculty faculty)
         {
             faculty.SchoolId = school.SchoolId;
-            db.DanhMuc_NganhHocs.InsertOnSubmit(faculty);
+            db.Category_Faculties.InsertOnSubmit(faculty);
             db.SubmitChanges();
         }
 
-        public void UpdateFaculty(DanhMuc_NganhHoc editedFaculty)
+        public void UpdateFaculty(Category_Faculty editedFaculty)
         {
-            IQueryable<DanhMuc_NganhHoc> iqFaculty;
-            iqFaculty = from fac in db.DanhMuc_NganhHocs
-                        where fac.MaNganhHoc == editedFaculty.MaNganhHoc
+            IQueryable<Category_Faculty> iqFaculty;
+            iqFaculty = from fac in db.Category_Faculties
+                        where fac.FacultyId == editedFaculty.FacultyId
                         && fac.SchoolId == school.SchoolId
                         select fac;
 
             if (iqFaculty.Count() != 0)
             {
-                DanhMuc_NganhHoc faculty = iqFaculty.First();
-                faculty.TenNganhHoc = editedFaculty.TenNganhHoc;
-                faculty.MoTa = editedFaculty.MoTa;
+                Category_Faculty faculty = iqFaculty.First();
+                faculty.FacultyName = editedFaculty.FacultyName;
+                faculty.Description = editedFaculty.Description;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteFaculty(DanhMuc_NganhHoc deletedFaculty)
+        public void DeleteFaculty(Category_Faculty deletedFaculty)
         {
-            IQueryable<DanhMuc_NganhHoc> iqFaculty;
-            iqFaculty = from fac in db.DanhMuc_NganhHocs
-                        where fac.MaNganhHoc == deletedFaculty.MaNganhHoc
+            IQueryable<Category_Faculty> iqFaculty;
+            iqFaculty = from fac in db.Category_Faculties
+                        where fac.FacultyId == deletedFaculty.FacultyId
                         && fac.SchoolId == school.SchoolId
                         select fac;
 
             if (iqFaculty.Count() != 0)
             {
-                DanhMuc_NganhHoc faculty = iqFaculty.First();
-                db.DanhMuc_NganhHocs.DeleteOnSubmit(faculty);
+                Category_Faculty faculty = iqFaculty.First();
+                db.Category_Faculties.DeleteOnSubmit(faculty);
                 db.SubmitChanges();
             }
         }
 
-        public DanhMuc_NganhHoc GetFaculty(string facultyName)
+        public Category_Faculty GetFaculty(string facultyName)
         {
-            DanhMuc_NganhHoc faculty = null;
+            Category_Faculty faculty = null;
 
-            IQueryable<DanhMuc_NganhHoc> iqFaculty;
-            iqFaculty = from fac in db.DanhMuc_NganhHocs
-                        where fac.TenNganhHoc == facultyName && fac.SchoolId == school.SchoolId
+            IQueryable<Category_Faculty> iqFaculty;
+            iqFaculty = from fac in db.Category_Faculties
+                        where fac.FacultyName == facultyName && fac.SchoolId == school.SchoolId
                         select fac;
 
             if (iqFaculty.Count() != 0)
@@ -70,42 +70,43 @@ namespace SoLienLacTrucTuyen.DataAccess
             return faculty;
         }
 
-        public List<DanhMuc_NganhHoc> GetFaculties()
+        public List<Category_Faculty> GetFaculties()
         {
-            IQueryable<DanhMuc_NganhHoc> iqFaculties = from faculty in db.DanhMuc_NganhHocs
-                                                       select faculty;
-            if (iqFaculties.Count() != 0)
+            IQueryable<Category_Faculty> iqFaculty = from faculty in db.Category_Faculties
+                                                     where faculty.SchoolId == school.SchoolId
+                                                     select faculty;
+            if (iqFaculty.Count() != 0)
             {
-                return iqFaculties.OrderBy(fac => fac.TenNganhHoc).ToList();
+                return iqFaculty.OrderBy(fac => fac.FacultyName).ToList();
             }
             else
             {
-                return new List<DanhMuc_NganhHoc>();
+                return new List<Category_Faculty>();
             }
         }
 
-        public List<DanhMuc_NganhHoc> GetFaculties(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Faculty> GetFaculties(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_NganhHoc> iqFaculty = from faculty in db.DanhMuc_NganhHocs
+            IQueryable<Category_Faculty> iqFaculty = from faculty in db.Category_Faculties
                                                      where faculty.SchoolId == school.SchoolId
                                                      select faculty;
             totalRecords = iqFaculty.Count();
             if (totalRecords != 0)
             {
-                return iqFaculty.OrderBy(fac => fac.TenNganhHoc)
+                return iqFaculty.OrderBy(fac => fac.FacultyName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize)
                     .ToList();
             }
             else
             {
-                return new List<DanhMuc_NganhHoc>();
+                return new List<Category_Faculty>();
             }
         }
 
         public bool FacultyExists(string facultyName)
         {
-            IQueryable<DanhMuc_NganhHoc> iqFaculty = from faculty in db.DanhMuc_NganhHocs
-                                                     where faculty.TenNganhHoc == facultyName
+            IQueryable<Category_Faculty> iqFaculty = from faculty in db.Category_Faculties
+                                                     where faculty.FacultyName == facultyName
                                                      && faculty.SchoolId == school.SchoolId
                                                      select faculty;
             if (iqFaculty.Count() != 0)
@@ -118,11 +119,11 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(DanhMuc_NganhHoc faculty)
+        public bool IsDeletable(Category_Faculty faculty)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             join fac in db.DanhMuc_NganhHocs on cls.MaNganhHoc equals fac.MaNganhHoc
-                                             where fac.TenNganhHoc == faculty.TenNganhHoc
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                             join fac in db.Category_Faculties on cls.FacultyId equals fac.FacultyId
+                                             where fac.FacultyName == faculty.FacultyName
                                              && fac.SchoolId == school.SchoolId
                                              select cls;
 
@@ -132,9 +133,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
             else
             {
-                IQueryable<DanhMuc_MonHoc> iqSubject = from subject in db.DanhMuc_MonHocs
-                                                       join fac in db.DanhMuc_NganhHocs on subject.MaNganhHoc equals fac.MaNganhHoc
-                                                       where fac.TenNganhHoc == faculty.TenNganhHoc
+                IQueryable<Category_Subject> iqSubject = from subject in db.Category_Subjects
+                                                       join fac in db.Category_Faculties on subject.FacultyId equals fac.FacultyId
+                                                       where fac.FacultyName == faculty.FacultyName
                                                        && fac.SchoolId == school.SchoolId
                                                        select subject;
 

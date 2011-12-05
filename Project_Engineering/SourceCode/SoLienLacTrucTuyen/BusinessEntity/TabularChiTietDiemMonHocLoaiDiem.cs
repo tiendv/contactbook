@@ -8,7 +8,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     public class TabularChiTietDiemMonHocLoaiDiem
     {
         public int MaChiTietDiem { get; set; }
-        public string TenLoaiDiem { get; set; }
+        public string MarkTypeName { get; set; }
         public double Diem { get; set; }
     }
 }

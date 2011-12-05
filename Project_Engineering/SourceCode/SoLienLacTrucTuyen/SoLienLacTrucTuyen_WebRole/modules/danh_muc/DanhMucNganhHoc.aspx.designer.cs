@@ -85,13 +85,13 @@ namespace SoLienLacTrucTuyen_WebRole {
         protected global::System.Web.UI.WebControls.HiddenField HdfDeletedFacultyName;
         
         /// <summary>
-        /// HdfMaNganhHoc control.
+        /// HdfFacultyId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaNganhHoc;
+        protected global::System.Web.UI.WebControls.HiddenField HdfFacultyId;
         
         /// <summary>
         /// HdfRptNganhHocMPEDelete control.
@@ -229,40 +229,40 @@ namespace SoLienLacTrucTuyen_WebRole {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenNganhHoc control.
+        /// TxtFacultyName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenNganhHoc;
+        protected global::System.Web.UI.WebControls.TextBox TxtFacultyName;
         
         /// <summary>
-        /// TenNganhHocRequiredAdd control.
+        /// FacultyNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenNganhHocRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator FacultyNameRequiredAdd;
         
         /// <summary>
-        /// TenNganhHocValidatorAdd control.
+        /// FacultyNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenNganhHocValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator FacultyNameValidatorAdd;
         
         /// <summary>
-        /// TxtMoTaNganhHoc control.
+        /// TxtDescriptionNganhHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMoTaNganhHoc;
+        protected global::System.Web.UI.WebControls.TextBox TxtDescriptionNganhHoc;
         
         /// <summary>
         /// Label5 control.
@@ -346,40 +346,40 @@ namespace SoLienLacTrucTuyen_WebRole {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtTenNganhHocEdit control.
+        /// TxtFacultyNameEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenNganhHocEdit;
+        protected global::System.Web.UI.WebControls.TextBox TxtFacultyNameEdit;
         
         /// <summary>
-        /// TenNganhHocRequiredEdit control.
+        /// FacultyNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenNganhHocRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator FacultyNameRequiredEdit;
         
         /// <summary>
-        /// TenNganhHocValidatorEdit control.
+        /// FacultyNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenNganhHocValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator FacultyNameValidatorEdit;
         
         /// <summary>
-        /// TxtSuaMoTaNganhHoc control.
+        /// TxtSuaDescriptionNganhHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaMoTaNganhHoc;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaDescriptionNganhHoc;
         
         /// <summary>
         /// Label11 control.

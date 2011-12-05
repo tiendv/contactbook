@@ -43,7 +43,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptLoiNhanKhan()
         {
-            int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            int YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
             DateTime denNgay = DateTime.Parse(TxtDenNgay.Text);
             string maHocSinhHienThi = TxtMaHS.Text;
@@ -51,7 +51,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             double dTotalRecords;
             List<TabularLoiNhanKhan> lstTabularLoiNhanKhan = loiNhanKhanBL.GetListTabularLoiNhanKhan(
-                maNamHoc, tuNgay, denNgay,
+                YearId, tuNgay, denNgay,
                 maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (lstTabularLoiNhanKhan.Count == 0 && dTotalRecords != 0)
@@ -107,10 +107,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNamHoc()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
             DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
         }
@@ -125,10 +125,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLKhoiLop()
         {
             GradeBL gradeBL = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lGrades = gradeBL.GetListGrades();
+            List<Category_Grade> lGrades = gradeBL.GetListGrades();
             DdlKhoiLopThem.DataSource = lGrades;
-            DdlKhoiLopThem.DataValueField = "TenKhoiLop";
-            DdlKhoiLopThem.DataTextField = "TenKhoiLop";
+            DdlKhoiLopThem.DataValueField = "GradeName";
+            DdlKhoiLopThem.DataTextField = "GradeName";
             DdlKhoiLopThem.DataBind();
             if (lGrades.Count > 1)
             {
@@ -139,10 +139,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNganhHoc()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganhHocThem.DataSource = faculties;
-            DdlNganhHocThem.DataValueField = "MaNganhHoc";
-            DdlNganhHocThem.DataTextField = "TenNganhHoc";
+            DdlNganhHocThem.DataValueField = "FacultyId";
+            DdlNganhHocThem.DataTextField = "FacultyName";
             DdlNganhHocThem.DataBind();
             if (faculties.Count > 1)
             {
@@ -154,18 +154,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             ClassBL lopHocBL = new ClassBL(UserSchool);
             GradeBL gradeBL = new GradeBL(UserSchool);
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
-            CauHinh_NamHoc currentYear = (new SystemConfigBL(UserSchool)).GetCurrentYear();
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
+            Configuration_Year currentYear = (new SystemConfigBL(UserSchool)).GetCurrentYear();
 
-            int maNamHoc = currentYear.MaNamHoc;
+            int YearId = currentYear.YearId;
 
             try
             {
                 if (DdlNganhHocThem.SelectedIndex > 0)
                 {
-                    faculty = new DanhMuc_NganhHoc();
-                    faculty.MaNganhHoc = Int32.Parse(DdlNganhHocThem.SelectedValue);
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganhHocThem.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -181,10 +181,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             catch (Exception) { }
 
 
-            List<LopHoc_Lop> lstLop = lopHocBL.GetListClasses(currentYear, faculty, grade);
+            List<Class_Class> lstLop = lopHocBL.GetListClasses(currentYear, faculty, grade);
             DdlLopThem.DataSource = lstLop;
-            DdlLopThem.DataValueField = "MaLopHoc";
-            DdlLopThem.DataTextField = "TenLopHoc";
+            DdlLopThem.DataValueField = "ClassId";
+            DdlLopThem.DataTextField = "ClassName";
             DdlLopThem.DataBind();
 
             if (lstLop.Count > 1)
@@ -201,13 +201,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (DdlLopThem.Items.Count != 0)
             {
                 string facultyName = DdlNganhHocThem.SelectedItem.Text;
-                DanhMuc_NganhHoc faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
+                Category_Faculty faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
 
                 string strGradeName = DdlKhoiLopThem.SelectedValue;
-                DanhMuc_KhoiLop grade = (new GradeBL(UserSchool)).GetGrade(strGradeName);
+                Category_Grade grade = (new GradeBL(UserSchool)).GetGrade(strGradeName);
 
                 int iClassId = Int32.Parse(DdlLopThem.SelectedValue);
-                LopHoc_Lop cls = (new ClassBL(UserSchool)).GetClass(iClassId);
+                Class_Class cls = (new ClassBL(UserSchool)).GetClass(iClassId);
 
                 lStudents = (new StudentBL(UserSchool)).GetStudents(faculty, grade, cls);
             }
@@ -262,8 +262,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 //LopHocInfo lopHoc = (LopHocInfo)e.Item.DataItem;
                 //if (lopHoc != null)
                 //{
-                //    int maLopHoc = lopHoc.MaLopHoc;
-                //    if (!lopHocBL.CheckCanDeleteLopHoc(maLopHoc))
+                //    int ClassId = lopHoc.ClassId;
+                //    if (!lopHocBL.CheckCanDeleteLopHoc(ClassId))
                 //    {
                 //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                 //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -293,17 +293,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maLoiNhanKhan = Int32.Parse(e.CommandArgument.ToString());
-                        LoiNhanKhan_LoiNhanKhan loiNhanKhan = loiNhanKhanBL.GetLoiNhanKhan(maLoiNhanKhan);
+                        MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetLoiNhanKhan(maLoiNhanKhan);
 
-                        LblTieuDeSua.Text = loiNhanKhan.TieuDe;
+                        LblTieuDeSua.Text = loiNhanKhan.Title;
                         TxtNoiDungSua.Text = TxtNoiDungSua.Text;
-                        TxtNgaySua.Text = loiNhanKhan.Ngay.ToShortDateString();
+                        TxtNgaySua.Text = loiNhanKhan.Date.ToShortDateString();
 
-                        HocSinh_HocSinhLopHoc hocSinhLopHoc = (new StudentBL(UserSchool)).GetStudentInClass(loiNhanKhan.MaHocSinhLopHoc);
-                        LblMaHocSinhSua.Text = (new StudentBL(UserSchool)).GetStudent(hocSinhLopHoc.MaHocSinh).MaHocSinhHienThi;                        
-                        LblNganhHocSua.Text = hocSinhLopHoc.LopHoc_Lop.DanhMuc_NganhHoc.TenNganhHoc;
-                        LblKhoiSua.Text = hocSinhLopHoc.LopHoc_Lop.DanhMuc_KhoiLop.TenKhoiLop;
-                        LblLopSua.Text = hocSinhLopHoc.LopHoc_Lop.TenLopHoc;
+                        Student_StudentInClass hocSinhLopHoc = (new StudentBL(UserSchool)).GetStudentInClass(loiNhanKhan.StudentInClassId);
+                        LblMaHocSinhSua.Text = (new StudentBL(UserSchool)).GetStudent(hocSinhLopHoc.StudentId).StudentCode;                        
+                        LblNganhHocSua.Text = hocSinhLopHoc.Class_Class.Category_Faculty.FacultyName;
+                        LblKhoiSua.Text = hocSinhLopHoc.Class_Class.Category_Grade.GradeName;
+                        LblLopSua.Text = hocSinhLopHoc.Class_Class.ClassName;
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
@@ -315,17 +315,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdDetailItem":
                     {
-                        //int maLopHoc = Int32.Parse(e.CommandArgument.ToString());
-                        //LopHoc_Lop lophoc = lopHocBL.GetLopHoc(maLopHoc);
+                        //int ClassId = Int32.Parse(e.CommandArgument.ToString());
+                        //Class_Class lophoc = lopHocBL.GetLopHoc(ClassId);
 
-                        //LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;
-                        //LblTenNganhHocChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
-                        //LblTenKhoiLopChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
+                        //LblClassNameChiTiet.Text = lophoc.ClassName;
+                        //LblFacultyNameChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.FacultyId).FacultyName;
+                        //LblGradeNameChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.GradeId).GradeName;
                         //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
                         //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
                         //mPEDetail.Show();
 
-                        //this.HdfMaLopHoc.Value = maLopHoc.ToString();
+                        //this.HdfClassId.Value = ClassId.ToString();
                         //this.HdfRptLopHocMPEDetail.Value = mPEDetail.ClientID;
                         break;
                     }

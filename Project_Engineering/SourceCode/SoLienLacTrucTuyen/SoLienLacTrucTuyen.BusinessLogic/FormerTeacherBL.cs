@@ -11,13 +11,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private FormerTeacherDA formerTeacherDA;
 
-        public FormerTeacherBL(School school)
+        public FormerTeacherBL(School_School school)
             : base(school)
         {
             formerTeacherDA = new FormerTeacherDA(school);
         }
 
-        public void Insert(LopHoc_Lop Class, aspnet_User teacher)
+        public void Insert(Class_Class Class, aspnet_User teacher)
         {
             formerTeacherDA.InsertFormerTeacher(Class, teacher);
         }
@@ -27,24 +27,24 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             formerTeacherDA.UpdateFormerTeacher(formerTeacherId, teacher);
         }
 
-        public void Delete(LopHoc_GVCN frmrTeacher)
+        public void Delete(Class_FormerTeacher frmrTeacher)
         {
             formerTeacherDA.DeleteFormerTeacher(frmrTeacher);
         }
 
-        public LopHoc_GVCN GetFormerTeacher(int formerTeacherId)
+        public Class_FormerTeacher GetFormerTeacher(int formerTeacherId)
         {
             return formerTeacherDA.GetFormerTeacher(formerTeacherId);
         }
 
-        public LopHoc_GVCN GetFormerTeacher(LopHoc_Lop Class)
+        public Class_FormerTeacher GetFormerTeacher(Class_Class Class)
         {
             return formerTeacherDA.GetFormerTeacher(Class);
         }
 
-        private List<LopHoc_GVCN> GetListFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Class_FormerTeacher> GetListFormerTeachers(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, Class_Class Class, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
+            List<Class_FormerTeacher> lFormerTeachers = new List<Class_FormerTeacher>();
             if (Class != null)
             {
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
@@ -60,7 +60,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if (faculty == null)
                 {
-                    if (grade == null) // maNganhHoc == 0 + maKhoiLop == 0
+                    if (grade == null) // FacultyId == 0 + GradeId == 0
                     {
                         if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                         {
@@ -71,7 +71,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                             lFormerTeachers = formerTeacherDA.GetFormerTeachers(year, teacherName, pageCurrentIndex, pageSize, out totalRecords);
                         }
                     }
-                    else //maNganhHoc == 0 + maKhoiLop != 0
+                    else //FacultyId == 0 + GradeId != 0
                     {
                         if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                         {
@@ -83,9 +83,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         }
                     }
                 }
-                else //maNganhHoc != 0
+                else //FacultyId != 0
                 {
-                    if (grade == null) //maNganhHoc != 0 + maKhoiLop = 0
+                    if (grade == null) //FacultyId != 0 + GradeId = 0
                     {
                         if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                         {
@@ -97,7 +97,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         }
 
                     }
-                    else //maNganhHoc != 0 + maKhoiLop != 0
+                    else //FacultyId != 0 + GradeId != 0
                     {
                         if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                         {
@@ -115,9 +115,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lFormerTeachers;
         }
 
-        private List<LopHoc_GVCN> GetListFormerTeachersByCode(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Class_FormerTeacher> GetListFormerTeachersByCode(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, Class_Class Class, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
+            List<Class_FormerTeacher> lFormerTeachers = new List<Class_FormerTeacher>();
             if (Class != null)
             {
                 if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
@@ -133,7 +133,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if (faculty == null)
                 {
-                    if (grade == null) // maNganhHoc == 0 + maKhoiLop == 0
+                    if (grade == null) // FacultyId == 0 + GradeId == 0
                     {
                         if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
                         {
@@ -144,7 +144,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                             lFormerTeachers = formerTeacherDA.GetFormerTeachersByCode(year, teacherCode, pageCurrentIndex, pageSize, out totalRecords);
                         }
                     }
-                    else //maNganhHoc == 0 + maKhoiLop != 0
+                    else //FacultyId == 0 + GradeId != 0
                     {
                         if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
                         {
@@ -156,9 +156,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         }
                     }
                 }
-                else //maNganhHoc != 0
+                else //FacultyId != 0
                 {
-                    if (grade == null) //maNganhHoc != 0 + maKhoiLop = 0
+                    if (grade == null) //FacultyId != 0 + GradeId = 0
                     {
                         if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
                         {
@@ -170,7 +170,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         }
 
                     }
-                    else //maNganhHoc != 0 + maKhoiLop != 0
+                    else //FacultyId != 0 + GradeId != 0
                     {
                         if ((teacherCode == "") || (string.Compare(teacherCode, "tất cả", true) == 0))
                         {
@@ -188,10 +188,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lFormerTeachers;
         }
 
-        public List<TabularFormerTeacher> GetListFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularFormerTeacher> GetListFormerTeachers(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, Class_Class Class, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularFormerTeacher> lTbFormerTeachers = new List<TabularFormerTeacher>();
-            List<LopHoc_GVCN> lFormerTeachers = new List<LopHoc_GVCN>();
+            List<Class_FormerTeacher> lFormerTeachers = new List<Class_FormerTeacher>();
             TeacherBL teacherBL = new TeacherBL(school);
             aspnet_User teacher = null;
 
@@ -205,7 +205,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    if (teacher.aspnet_Membership.RealName != teacherName && (teacherName != "") 
+                    if (teacher.aspnet_Membership.FullName != teacherName && (teacherName != "") 
                         && (string.Compare(teacherName, "tất cả", true) != 0))
                     {
                         totalRecords = 0;
@@ -225,15 +225,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             
 
-            foreach (LopHoc_GVCN formerTeacher in lFormerTeachers)
+            foreach (Class_FormerTeacher formerTeacher in lFormerTeachers)
             {
                 lTbFormerTeachers.Add(new TabularFormerTeacher
                 {
-                    MaGVCN = formerTeacher.MaGVCN,
-                    MaGiaoVien = formerTeacher.TeacherId,
-                    TenGiaoVien = formerTeacher.aspnet_User.aspnet_Membership.RealName,
-                    MaLopHoc = formerTeacher.MaLopHoc,
-                    TenLopHoc = formerTeacher.LopHoc_Lop.TenLopHoc
+                    MaGVCN = formerTeacher.FormerTeacherId,
+                    UserId = formerTeacher.TeacherId,
+                    TenGiaoVien = formerTeacher.aspnet_User.aspnet_Membership.FullName,
+                    ClassId = formerTeacher.ClassId,
+                    ClassName = formerTeacher.Class_Class.ClassName
                 });
             }
 

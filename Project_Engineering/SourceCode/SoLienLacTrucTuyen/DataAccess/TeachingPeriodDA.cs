@@ -8,63 +8,60 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class TeachingPeriodDA : BaseDA
     {
-        public TeachingPeriodDA(School school)
+        public TeachingPeriodDA(School_School school)
             : base(school)
         {
         }
 
-        public void DeleteTeachingPeriod(DanhMuc_Tiet deleteTeachingPeriod)
+        public void DeleteTeachingPeriod(Category_TeachingPeriod deleteTeachingPeriod)
         {
-            DanhMuc_Tiet teachingPeriod = null;
+            Category_TeachingPeriod teachingPeriod = null;
 
-            IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                       where tchPeriod.MaTiet == teachingPeriod.MaTiet
-                                                       && tchPeriod.SchoolId == school.SchoolId
-                                                       select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                  where tchPeriod.TeachingPeriodId == deleteTeachingPeriod.TeachingPeriodId
+                                                                  select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
                 teachingPeriod = iTeachingPeriod.First();
-                db.DanhMuc_Tiets.DeleteOnSubmit(teachingPeriod);
+                db.Category_TeachingPeriods.DeleteOnSubmit(teachingPeriod);
                 db.SubmitChanges();
             }
         }
 
-        public void InsertTeachingPeriod(DanhMuc_Tiet newTeachingPeriod)
+        public void InsertTeachingPeriod(Category_TeachingPeriod newTeachingPeriod)
         {
             newTeachingPeriod.SchoolId = school.SchoolId;
-            db.DanhMuc_Tiets.InsertOnSubmit(newTeachingPeriod);
+            db.Category_TeachingPeriods.InsertOnSubmit(newTeachingPeriod);
             db.SubmitChanges();
         }
 
-        public void UpdateTeachingPeriod(DanhMuc_Tiet editedTeachingPeriod)
+        public void UpdateTeachingPeriod(Category_TeachingPeriod editedTeachingPeriod)
         {
-            DanhMuc_Tiet teachingPeriod = null;
+            Category_TeachingPeriod teachingPeriod = null;
 
-            IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                       where tchPeriod.MaTiet == editedTeachingPeriod.MaTiet
-                                                       && tchPeriod.SchoolId == school.SchoolId
-                                                       select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                  where tchPeriod.TeachingPeriodId == editedTeachingPeriod.TeachingPeriodId
+                                                                  select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
                 teachingPeriod = iTeachingPeriod.First();
-                teachingPeriod.TenTiet = editedTeachingPeriod.TenTiet;
-                teachingPeriod.MaBuoi = editedTeachingPeriod.MaBuoi;
-                teachingPeriod.ThuTu = editedTeachingPeriod.ThuTu;
-                teachingPeriod.ThoiGianBatDau = editedTeachingPeriod.ThoiGianBatDau;
-                teachingPeriod.ThoiDiemKetThu = editedTeachingPeriod.ThoiDiemKetThu;
+                teachingPeriod.TeachingPeriodName = editedTeachingPeriod.TeachingPeriodName;
+                teachingPeriod.SessionId = editedTeachingPeriod.SessionId;
+                teachingPeriod.TeachingPeriodOrder = editedTeachingPeriod.TeachingPeriodOrder;
+                teachingPeriod.BeginTime = editedTeachingPeriod.BeginTime;
+                teachingPeriod.EndTime = editedTeachingPeriod.EndTime;
 
                 db.SubmitChanges();
             }
         }
 
-        public DanhMuc_Tiet GetTeachingPeriod(int teachingPeriodId)
+        public Category_TeachingPeriod GetTeachingPeriod(int teachingPeriodId)
         {
-            DanhMuc_Tiet teachingPeriod = null;
+            Category_TeachingPeriod teachingPeriod = null;
 
-            IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                       where tchPeriod.MaTiet == teachingPeriodId
-                                                       && tchPeriod.SchoolId == school.SchoolId
-                                                       select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                  where tchPeriod.TeachingPeriodId == teachingPeriodId
+                                                                  select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
                 teachingPeriod = iTeachingPeriod.First();
@@ -73,64 +70,63 @@ namespace SoLienLacTrucTuyen.DataAccess
             return teachingPeriod;
         }
 
-        public List<DanhMuc_Tiet> GetTeachingPeriods()
+        public List<Category_TeachingPeriod> GetTeachingPeriods()
         {
-            List<DanhMuc_Tiet> lTeachingPeriods = new List<DanhMuc_Tiet>();
+            List<Category_TeachingPeriod> lTeachingPeriods = new List<Category_TeachingPeriod>();
 
-            IQueryable<DanhMuc_Tiet> iTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                       where tchPeriod.SchoolId == school.SchoolId
-                                                       select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                  where tchPeriod.SchoolId == school.SchoolId
+                                                                  select tchPeriod;
             if (iTeachingPeriod.Count() != 0)
             {
-                lTeachingPeriods = iTeachingPeriod.OrderBy(tchPeriod => tchPeriod.ThoiGianBatDau).ThenBy(tchPeriod => tchPeriod.ThuTu).ToList();
+                lTeachingPeriods = iTeachingPeriod.OrderBy(tchPeriod => tchPeriod.BeginTime).ThenBy(tchPeriod => tchPeriod.TeachingPeriodOrder).ToList();
             }
 
             return lTeachingPeriods;
         }
 
-        public List<DanhMuc_Tiet> GetTeachingPeriods(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_TeachingPeriod> GetTeachingPeriods(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                        where tchPeriod.SchoolId == school.SchoolId
-                                                        select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                   where tchPeriod.SchoolId == school.SchoolId
+                                                                   select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_Tiet> GetTeachingPeriods(string teachingPeriodName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_TeachingPeriod> GetTeachingPeriods(string teachingPeriodName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                        where tchPeriod.TenTiet == teachingPeriodName
-                                                        && tchPeriod.SchoolId == school.SchoolId
-                                                        select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                   where tchPeriod.TeachingPeriodName == teachingPeriodName
+                                                                   && tchPeriod.SchoolId == school.SchoolId
+                                                                   select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_Tiet> GetTeachingPeriods(CauHinh_Buoi session, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_TeachingPeriod> GetTeachingPeriods(Configuration_Session session, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                        where tchPeriod.CauHinh_Buoi.MaBuoi == session.MaBuoi
-                                                        && tchPeriod.SchoolId == school.SchoolId
-                                                        select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                   where tchPeriod.SessionId == session.SessionId
+                                                                   && tchPeriod.SchoolId == school.SchoolId
+                                                                   select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_Tiet> GetTeachingPeriods(string teachingPeriodName, CauHinh_Buoi session, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_TeachingPeriod> GetTeachingPeriods(string teachingPeriodName, Configuration_Session session, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                        where tchPeriod.TenTiet == teachingPeriodName
-                                                            && tchPeriod.MaBuoi == session.MaBuoi
-                                                            && tchPeriod.SchoolId == school.SchoolId
+            IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                   where tchPeriod.TeachingPeriodName == teachingPeriodName
+                                                                       && tchPeriod.SessionId == session.SessionId
+                                                                       && tchPeriod.SchoolId == school.SchoolId
 
-                                                        select tchPeriod;
+                                                                   select tchPeriod;
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public bool IsDeletable(DanhMuc_Tiet teachingPeriod)
+        public bool IsDeletable(Category_TeachingPeriod teachingPeriod)
         {
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schedule in db.LopHoc_MonHocTKBs
-                                                      where schedule.MaTiet == teachingPeriod.MaTiet
-                                                      && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
-                                                      select schedule;
+            IQueryable<Class_Schedule> iqSchedule = from schedule in db.Class_Schedules
+                                                    where schedule.TeachingPeriodId == teachingPeriod.TeachingPeriodId
+                                                    select schedule;
             if (iqSchedule.Count() != 0)
             {
                 return false;
@@ -143,10 +139,10 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool TeachingPeriodNameExists(string teachingPeriodName)
         {
-            IQueryable<DanhMuc_Tiet> iqTeachingPeriod = from tchPeriod in db.DanhMuc_Tiets
-                                                        where tchPeriod.TenTiet == teachingPeriodName
-                                                        && tchPeriod.SchoolId == school.SchoolId
-                                                        select tchPeriod;
+            IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
+                                                                   where tchPeriod.TeachingPeriodName == teachingPeriodName
+                                                                   && tchPeriod.SchoolId == school.SchoolId
+                                                                   select tchPeriod;
             if (iqTeachingPeriod.Count() != 0)
             {
                 return true;
@@ -157,15 +153,15 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        private List<DanhMuc_Tiet> GetTeachingPeriods(ref IQueryable<DanhMuc_Tiet> iqTeachingPeriod, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Category_TeachingPeriod> GetTeachingPeriods(ref IQueryable<Category_TeachingPeriod> iqTeachingPeriod, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_Tiet> lTeachingPeriods = new List<DanhMuc_Tiet>();
+            List<Category_TeachingPeriod> lTeachingPeriods = new List<Category_TeachingPeriod>();
 
             totalRecords = iqTeachingPeriod.Count();
             if (totalRecords != 0)
             {
-                lTeachingPeriods = iqTeachingPeriod.OrderBy(tchPeriod => tchPeriod.ThoiGianBatDau)
-                    .ThenBy(tiet => tiet.ThuTu).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                lTeachingPeriods = iqTeachingPeriod.OrderBy(tchPeriod => tchPeriod.BeginTime)
+                    .ThenBy(tiet => tiet.TeachingPeriodOrder).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return lTeachingPeriods;

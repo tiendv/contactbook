@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DanhMucDanhHieuPage {
+    public partial class LearningResultPage {
         
         /// <summary>
         /// Label9 control.
@@ -67,13 +67,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// HdfMaDanhHieu control.
+        /// HdfLearningResultId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaDanhHieu;
+        protected global::System.Web.UI.WebControls.HiddenField HdfLearningResultId;
         
         /// <summary>
         /// HdfRptDanhHieuMPEDelete control.
@@ -220,13 +220,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenDanhHieu control.
+        /// TxtLearningResultName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenDanhHieu;
+        protected global::System.Web.UI.WebControls.TextBox TxtLearningResultName;
         
         /// <summary>
         /// hfOutputAdd control.
@@ -238,22 +238,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField hfOutputAdd;
         
         /// <summary>
-        /// TenDanhHieuRequiredAdd control.
+        /// LearningResultNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenDanhHieuRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LearningResultNameRequiredAdd;
         
         /// <summary>
-        /// TenDanhHieuValidatorAdd control.
+        /// LearningResultNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenDanhHieuValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator LearningResultNameValidatorAdd;
         
         /// <summary>
         /// Label5 control.
@@ -355,13 +355,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtSuaTenDanhHieu control.
+        /// TxtSuaLearningResultName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaTenDanhHieu;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaLearningResultName;
         
         /// <summary>
         /// hfOutputEdit control.
@@ -373,22 +373,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField hfOutputEdit;
         
         /// <summary>
-        /// TenDanhHieuRequiredEdit control.
+        /// LearningResultNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenDanhHieuRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LearningResultNameRequiredEdit;
         
         /// <summary>
-        /// TenDanhHieuValidatorEdit control.
+        /// LearningResultNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenDanhHieuValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator LearningResultNameValidatorEdit;
         
         /// <summary>
         /// Label11 control.

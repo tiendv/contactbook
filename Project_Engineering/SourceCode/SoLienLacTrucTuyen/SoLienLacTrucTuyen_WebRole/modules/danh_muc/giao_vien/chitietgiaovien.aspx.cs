@@ -31,9 +31,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 ViewState["prevpageid"] = Request.QueryString["prevpageid"];
 
-                string maGiaoVien = Request.QueryString["giaovien"];
-                ViewState["magiaovien"] = maGiaoVien;                
-                FillGiaoVien(new Guid(maGiaoVien));
+                string UserId = Request.QueryString["giaovien"];
+                ViewState["UserId"] = UserId;                
+                FillGiaoVien(new Guid(UserId));
                 BindDataChuNhiem();
                 BindDataGiangDay();
                 ProcPermissions();
@@ -45,7 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSua_Click(object sender, ImageClickEventArgs e)
         {
             Response.Redirect(string.Format("suagiaovien.aspx?giaovien={0}&prevpageid={1}",
-                ViewState["magiaovien"], 4));
+                ViewState["UserId"], 4));
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
@@ -58,8 +58,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void FillGiaoVien(Guid teacherId)
         {
             aspnet_User teacher = teacherBL.GetTeacher(teacherId);
-            LblMaGiaoVienHienThi.Text = teacher.UserName.Split('_')[1];
-            LblTenGiaoVien.Text = teacher.aspnet_Membership.RealName;
+            LblUserIdHienThi.Text = teacher.UserName.Split('_')[1];
+            LblTenGiaoVien.Text = teacher.aspnet_Membership.FullName;
             if (teacher.aspnet_Membership.Birthday != null)
             {
                 LblNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToShortDateString();
@@ -104,8 +104,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDataGiangDay()
         {
             aspnet_User teacher = new aspnet_User();
-            Guid maGiaoVien = new Guid(ViewState["magiaovien"].ToString());            
-            teacher.UserId = maGiaoVien;
+            Guid UserId = new Guid(ViewState["UserId"].ToString());            
+            teacher.UserId = UserId;
             double dTotalRecords;
             List<TabularTeaching> lstTbGiangDays = teacherBL.GetListTeachings(
                 teacher, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out dTotalRecords);
@@ -123,7 +123,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDataChuNhiem()
         {
             aspnet_User teacher = new aspnet_User();
-            teacher.UserId = new Guid(ViewState["magiaovien"].ToString());
+            teacher.UserId = new Guid(ViewState["UserId"].ToString());
             double dTotalRecords;
             List<TabularFormering> lstTbChuNhiems = teacherBL.GetListFormerings(
                 teacher, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out dTotalRecords);

@@ -9,7 +9,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     {
         public int MaMenu { get; set; }
         public string TieuDe { get; set; }
-        public string MoTa { get; set; }
+        public string Description { get; set; }
         public string Url { get; set; }        
         public int ThuTuHienThi { get; set; }
         public bool HienHanh { get; set; }

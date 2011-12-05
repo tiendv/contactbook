@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DanhMucHocLuc {
+    public partial class CategoryLearningAptitudePage {
         
         /// <summary>
         /// LblNganhTitle control.
@@ -67,22 +67,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// HdfEditedTenHanhKiem control.
+        /// HdfEditedConductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfEditedTenHanhKiem;
+        protected global::System.Web.UI.WebControls.HiddenField HdfEditedConductName;
         
         /// <summary>
-        /// HdfMaHocLuc control.
+        /// HdfLearningAptitudeId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaHocLuc;
+        protected global::System.Web.UI.WebControls.HiddenField HdfLearningAptitudeId;
         
         /// <summary>
         /// HdfRptHocLucMPEDelete control.
@@ -220,40 +220,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenHocLucThem control.
+        /// TxtLearningAptitudeNameThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenHocLucThem;
+        protected global::System.Web.UI.WebControls.TextBox TxtLearningAptitudeNameThem;
         
         /// <summary>
-        /// LblErrorTenHocLucThem control.
+        /// LblErrorLearningAptitudeNameThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblErrorTenHocLucThem;
+        protected global::System.Web.UI.WebControls.Label LblErrorLearningAptitudeNameThem;
         
         /// <summary>
-        /// TenHocLucRequiredAdd control.
+        /// LearningAptitudeNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenHocLucRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LearningAptitudeNameRequiredAdd;
         
         /// <summary>
-        /// TenHocLucValidatorAdd control.
+        /// LearningAptitudeNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenHocLucValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator LearningAptitudeNameValidatorAdd;
         
         /// <summary>
         /// Label8 control.
@@ -445,40 +445,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtSuaTenHocLuc control.
+        /// TxtSuaLearningAptitudeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaTenHocLuc;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaLearningAptitudeName;
         
         /// <summary>
-        /// TxtErrorSuaTenHocLuc control.
+        /// TxtErrorSuaLearningAptitudeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TxtErrorSuaTenHocLuc;
+        protected global::System.Web.UI.WebControls.Label TxtErrorSuaLearningAptitudeName;
         
         /// <summary>
-        /// TenHocLucRequiredEdit control.
+        /// LearningAptitudeNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenHocLucRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator LearningAptitudeNameRequiredEdit;
         
         /// <summary>
-        /// TenHocLucValidatorEdit control.
+        /// LearningAptitudeNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenHocLucValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator LearningAptitudeNameValidatorEdit;
         
         /// <summary>
         /// Label10 control.

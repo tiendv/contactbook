@@ -12,18 +12,18 @@
             }
 
             function popopConfirmDelete_CancelDelete_Click() {
-                var mPEDeleteID = $get('<%=HdfRptMoTaDanhHieuMPEDelete.ClientID%>').value;
+                var mPEDeleteID = $get('<%=HdfRptDescriptionDanhHieuMPEDelete.ClientID%>').value;
                 $find(mPEDeleteID).hide();
                 return false;
             }
 
-            function validateTenDanhHieuAdd(ctrl, args) {
+            function validateLearningResultNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var tenDanhHieu = $.trim(args.Value);
+                var LearningResultName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenDanhHieu",
-                    data: "{'tenDanhHieu':'" + tenDanhHieu + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistLearningResultName",
+                    data: "{'LearningResultName':'" + LearningResultName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -48,13 +48,13 @@
     <div style="width: 500px; padding: 15px 5px 15px 5px" class="loginBox ui-corner-all table_data">
         Tên:
         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
-        <asp:TextBox ID="TxtTenDanhHieu" runat="server"></asp:TextBox>
+        <asp:TextBox ID="TxtLearningResultName" runat="server"></asp:TextBox>
         <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
-        <asp:RequiredFieldValidator ID="TenDanhHieuRequiredAdd" runat="server" ControlToValidate="TxtTenDanhHieu"
+        <asp:RequiredFieldValidator ID="LearningResultNameRequiredAdd" runat="server" ControlToValidate="TxtLearningResultName"
             ValidationGroup="AddDanhHieu" ErrorMessage="Tên danh hiệu không được để trống"
             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-        <asp:CustomValidator ID="TenDanhHieuValidatorAdd" runat="server" ControlToValidate="TxtTenDanhHieu"
-            ValidationGroup="AddDanhHieu" ClientValidationFunction="validateTenDanhHieuAdd"
+        <asp:CustomValidator ID="LearningResultNameValidatorAdd" runat="server" ControlToValidate="TxtLearningResultName"
+            ValidationGroup="AddDanhHieu" ClientValidationFunction="validateLearningResultNameAdd"
             ErrorMessage="Danh hiệu đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
         <div class="add">
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
@@ -69,9 +69,9 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfThuTu" runat="server" />
-            <asp:HiddenField ID="HdfRptMoTaDanhHieuMPEDelete" runat="server" />
+            <asp:HiddenField ID="HdfRptDescriptionDanhHieuMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptDanhHieuMPEEdit" runat="server" />
-            <asp:Repeater ID="RptMoTaDanhHieu" runat="server" OnItemCommand="RptMoTaDanhHieu_ItemCommand">
+            <asp:Repeater ID="RptDescriptionDanhHieu" runat="server" OnItemCommand="RptDescriptionDanhHieu_ItemCommand">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
@@ -98,10 +98,10 @@
                             <asp:HiddenField ID="HdfThuTu" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ThuTu")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHocLuc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "LearningAptitudeName")%>
                         </td>
                         <td>
-                            <%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>
+                            <%#DataBinder.Eval(Container.DataItem, "ConductName")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />

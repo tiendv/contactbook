@@ -7,54 +7,52 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class ParentsCommentDA : BaseDA
     {
-        public ParentsCommentDA(School school)
+        public ParentsCommentDA(School_School school)
             : base(school)
         {
 
         }
 
-        public void UpdateParentsComments(GopY_YKien editedParentsComment, string reply)
+        public void UpdateParentsComments(ParentComment_Comment editedParentsComment, string reply)
         {
-            GopY_YKien parentsComment = null;
+            ParentComment_Comment parentsComment = null;
 
-            IQueryable<GopY_YKien> iqParentsComments = from cmt in db.GopY_YKiens
-                                                       where cmt.MaYKien == editedParentsComment.MaYKien
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                       where cmt.CommentId == editedParentsComment.CommentId
                                                        select cmt;
             if (iqParentsComments.Count() != 0)
             {
                 parentsComment = iqParentsComments.First();
-                parentsComment.PhanHoi = reply;
+                parentsComment.Feedback = reply;
                 db.SubmitChanges();
             }
         }
 
-        public List<GopY_YKien> GetParentsComments(CauHinh_NamHoc year, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<ParentComment_Comment> GetParentsComments(Configuration_Year year, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<GopY_YKien> iqParentsComments = from cmt in db.GopY_YKiens
-                                                       where cmt.HocSinh_HocSinhLopHoc.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                       && cmt.Ngay >= beginDate && cmt.Ngay <= endDate
-                                                       && cmt.SchoolId == school.SchoolId
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                       where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                       && cmt.Date >= beginDate && cmt.Date <= endDate
                                                        select cmt;
 
             return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<GopY_YKien> GetParentsComments(CauHinh_NamHoc year, CauHinh_TinhTrangYKien commentStatus, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<ParentComment_Comment> GetParentsComments(Configuration_Year year, Configuration_CommentStatus commentStatus, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<GopY_YKien> iqParentsComments = from cmt in db.GopY_YKiens
-                                                       where cmt.HocSinh_HocSinhLopHoc.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                       && cmt.MaTinhTrangYKien == commentStatus.MaTinhTrangYKien
-                                                       && cmt.Ngay >= beginDate && cmt.Ngay <= endDate
-                                                       && cmt.SchoolId == school.SchoolId
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                       where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                       && cmt.CommentStatusId == commentStatus.CommentStatusId
+                                                       && cmt.Date >= beginDate && cmt.Date <= endDate
                                                        select cmt;
 
             return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<CauHinh_TinhTrangYKien> GetCommentStatuses()
+        public List<Configuration_CommentStatus> GetCommentStatuses()
         {
-            List<CauHinh_TinhTrangYKien> commentStatuses = new List<CauHinh_TinhTrangYKien>();
-            IQueryable<CauHinh_TinhTrangYKien> iqCommentStatus = from cmtStt in db.CauHinh_TinhTrangYKiens
+            List<Configuration_CommentStatus> commentStatuses = new List<Configuration_CommentStatus>();
+            IQueryable<Configuration_CommentStatus> iqCommentStatus = from cmtStt in db.Configuration_CommentStatus
                                                                  select cmtStt;
             if (iqCommentStatus.Count() != 0)
             {
@@ -65,26 +63,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         }
 
-        private List<GopY_YKien> GetParentsComments(ref IQueryable<GopY_YKien> iqParentsComment, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<ParentComment_Comment> GetParentsComments(ref IQueryable<ParentComment_Comment> iqParentsComment, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<GopY_YKien> parentsComments = new List<GopY_YKien>();
+            List<ParentComment_Comment> parentsComments = new List<ParentComment_Comment>();
 
             totalRecords = iqParentsComment.Count();
             if (totalRecords != 0)
             {
-                parentsComments = iqParentsComment.OrderByDescending(cmt => cmt.MaTinhTrangYKien)
-                    .ThenByDescending(cmt => cmt.Ngay).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                parentsComments = iqParentsComment.OrderByDescending(cmt => cmt.CommentStatusId)
+                    .ThenByDescending(cmt => cmt.Date).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return parentsComments;
         }
 
-        public GopY_YKien GetParentsComments(int commentId)
+        public ParentComment_Comment GetParentsComments(int commentId)
         {
-            GopY_YKien parentsComment = null;
+            ParentComment_Comment parentsComment = null;
 
-            IQueryable<GopY_YKien> iqParentsComments = from cmt in db.GopY_YKiens
-                                                       where cmt.MaYKien == commentId
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                       where cmt.CommentId == commentId
                                                        select cmt;
             if (iqParentsComments.Count() != 0)
             {

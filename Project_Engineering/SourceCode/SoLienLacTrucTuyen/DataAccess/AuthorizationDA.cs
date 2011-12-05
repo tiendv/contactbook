@@ -27,7 +27,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public const string FUNCTIONFLAG_OTHERS = "OTHERS";
 
-        public AuthorizationDA(School school)
+        public AuthorizationDA(School_School school)
             : base(school)
         {
         }
@@ -101,7 +101,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 {
                     roleParentsAuthorization = new UserManagement_RoleParentsAuthorization();
                     roleParentsAuthorization.RoleParentAuthorizationId = authorization.AuthorizationId;
-                    roleParentsAuthorization.UserId = userParents.UserId;
+                    roleParentsAuthorization.UserParentId = userParents.UserId;
 
                     db.UserManagement_RoleParentsAuthorizations.InsertOnSubmit(roleParentsAuthorization);
                 }

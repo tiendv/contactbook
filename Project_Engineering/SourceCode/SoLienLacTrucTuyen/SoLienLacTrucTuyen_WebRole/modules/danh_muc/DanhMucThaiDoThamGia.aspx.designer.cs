@@ -76,13 +76,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfSltAttitudeName;
         
         /// <summary>
-        /// HdfMaThaiDoThamGia control.
+        /// HdfAttitudeId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaThaiDoThamGia;
+        protected global::System.Web.UI.WebControls.HiddenField HdfAttitudeId;
         
         /// <summary>
         /// HdfRptThaiDoThamGiaMPEDelete control.
@@ -220,13 +220,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenThaiDoThamGia control.
+        /// TxtAttitudeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenThaiDoThamGia;
+        protected global::System.Web.UI.WebControls.TextBox TxtAttitudeName;
         
         /// <summary>
         /// hfOutputAdd control.
@@ -238,22 +238,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField hfOutputAdd;
         
         /// <summary>
-        /// TenThaiDoThamGiaRequiredAdd control.
+        /// AttitudeNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenThaiDoThamGiaRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator AttitudeNameRequiredAdd;
         
         /// <summary>
-        /// TenThaiDoThamGiaValidatorAdd control.
+        /// AttitudeNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenThaiDoThamGiaValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator AttitudeNameValidatorAdd;
         
         /// <summary>
         /// Label5 control.
@@ -328,13 +328,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtSuaTenThaiDoThamGia control.
+        /// TxtSuaAttitudeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaTenThaiDoThamGia;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaAttitudeName;
         
         /// <summary>
         /// hfOutputEdit control.
@@ -346,22 +346,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField hfOutputEdit;
         
         /// <summary>
-        /// TenThaiDoThamGiaRequiredEdit control.
+        /// AttitudeNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenThaiDoThamGiaRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator AttitudeNameRequiredEdit;
         
         /// <summary>
-        /// TenThaiDoThamGiaValidatorEdit control.
+        /// AttitudeNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenThaiDoThamGiaValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator AttitudeNameValidatorEdit;
         
         /// <summary>
         /// Label11 control.

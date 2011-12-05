@@ -78,12 +78,9 @@
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
     <Content Include="modules\hoc_sinh\HocSinhServicePage.aspx" />
     <Content Include="modules\hoc_sinh\ketquahoctap.aspx" />
-    <Content Include="modules\hoc_sinh\KetQuaHocTap_User.aspx" />
     <Content Include="modules\hoc_sinh\ngaynghihoc.aspx" />
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
-    <Content Include="modules\hoc_sinh\ThongTinCaNhan_User.aspx" />
-    <Content Include="modules\hoc_sinh\TinhHinhNghiHoc_User.aspx" />
     <Content Include="modules\loi_nhan\loinhankhan.aspx" />
     <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
     <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
@@ -110,7 +107,6 @@
     <Content Include="modules\lop_hoc\thongbaolop.aspx" />
     <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\themhocsinh.aspx" />
-    <Content Include="modules\hoc_sinh\DiemMonHoc.aspx" />
     <Content Include="Account\DangNhap.aspx" />
     <Content Include="modules\ErrorPage\errorpage.aspx" />
     <Content Include="modules\nguoi_dung\phanquyen.aspx" />
@@ -346,13 +342,6 @@
     <Compile Include="modules\hoc_sinh\ketquahoctap.aspx.designer.cs">
       <DependentUpon>ketquahoctap.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\hoc_sinh\KetQuaHocTap_User.aspx.cs">
-      <DependentUpon>KetQuaHocTap_User.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\KetQuaHocTap_User.aspx.designer.cs">
-      <DependentUpon>KetQuaHocTap_User.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\hoc_sinh\ngaynghihoc.aspx.cs">
       <DependentUpon>ngaynghihoc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -373,20 +362,6 @@
     </Compile>
     <Compile Include="modules\hoc_sinh\thongtincanhan.aspx.designer.cs">
       <DependentUpon>thongtincanhan.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\ThongTinCaNhan_User.aspx.cs">
-      <DependentUpon>ThongTinCaNhan_User.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\ThongTinCaNhan_User.aspx.designer.cs">
-      <DependentUpon>ThongTinCaNhan_User.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\TinhHinhNghiHoc_User.aspx.cs">
-      <DependentUpon>TinhHinhNghiHoc_User.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\TinhHinhNghiHoc_User.aspx.designer.cs">
-      <DependentUpon>TinhHinhNghiHoc_User.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\loi_nhan\loinhankhan.aspx.cs">
       <DependentUpon>loinhankhan.aspx</DependentUpon>
@@ -547,13 +522,6 @@
     </Compile>
     <Compile Include="modules\hoc_sinh\themhocsinh.aspx.designer.cs">
       <DependentUpon>themhocsinh.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\DiemMonHoc.aspx.cs">
-      <DependentUpon>DiemMonHoc.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\DiemMonHoc.aspx.designer.cs">
-      <DependentUpon>DiemMonHoc.aspx</DependentUpon>
     </Compile>
     <Compile Include="Account\DangNhap.aspx.cs">
       <DependentUpon>DangNhap.aspx</DependentUpon>
@@ -749,17 +717,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="modules\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="modules\hoc_sinh\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="App_GlobalResources\MainResource.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>MainResource.Designer.cs</LastGenOutput>
     </Content>
     <Content Include="App_GlobalResources\AccountResource.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="modules\Web.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

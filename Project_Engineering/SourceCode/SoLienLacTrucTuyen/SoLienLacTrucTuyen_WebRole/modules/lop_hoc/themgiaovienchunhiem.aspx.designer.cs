@@ -76,13 +76,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.TextBox TxtSearchMaHienThiGiaoVien;
         
         /// <summary>
-        /// MaGiaoVienWatermark control.
+        /// UserIdWatermark control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TextBoxWatermarkExtender MaGiaoVienWatermark;
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender UserIdWatermark;
         
         /// <summary>
         /// TxtSearchTenGiaoVien control.
@@ -121,13 +121,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// HdfMaGiaoVien control.
+        /// HdfUserId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaGiaoVien;
+        protected global::System.Web.UI.WebControls.HiddenField HdfUserId;
         
         /// <summary>
         /// RptGiaoVien control.

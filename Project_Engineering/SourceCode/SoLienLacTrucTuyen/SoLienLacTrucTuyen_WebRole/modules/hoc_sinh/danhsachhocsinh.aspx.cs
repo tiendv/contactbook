@@ -42,21 +42,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTCODE)
                         && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTNAME))
                 {
-                    CauHinh_NamHoc year = (CauHinh_NamHoc)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                    Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                     RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
-                    DdlNamHoc.SelectedValue = year.MaNamHoc.ToString();
+                    DdlNamHoc.SelectedValue = year.YearId.ToString();
 
-                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
+                    Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                     RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
-                    DdlNganh.SelectedValue = faculty.MaNganhHoc.ToString();
+                    DdlNganh.SelectedValue = faculty.FacultyId.ToString();
 
-                    DanhMuc_KhoiLop grade = (DanhMuc_KhoiLop)GetSession(AppConstant.SESSION_SELECTED_GRADE);
+                    Category_Grade grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
                     RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
-                    DdlKhoiLop.SelectedValue = grade.MaKhoiLop.ToString();
+                    DdlKhoiLop.SelectedValue = grade.GradeId.ToString();
 
-                    LopHoc_Lop Class = (LopHoc_Lop)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                    Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
                     RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
-                    DdlLopHoc.SelectedValue = Class.MaLopHoc.ToString();
+                    DdlLopHoc.SelectedValue = Class.ClassId.ToString();
 
                     String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
                     RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
@@ -162,20 +162,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDetailItem":
                     {
-                        CauHinh_NamHoc year = new CauHinh_NamHoc();
-                        year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                        Configuration_Year year = new Configuration_Year();
+                        year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
-                        DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
-                        faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                        Category_Faculty faculty = new Category_Faculty();
+                        faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
-                        DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
-                        grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                        Category_Grade grade = new Category_Grade();
+                        grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
-                        LopHoc_Lop Class = new LopHoc_Lop();
-                        Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                        Class_Class Class = new Class_Class();
+                        Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
                         String strStudentName = TxtTenHocSinh.Text;
@@ -184,12 +184,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         String strStudentCode = TxtMaHocSinh.Text;
                         AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
-                        HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
-                        student.MaHocSinh = Int32.Parse(e.CommandArgument.ToString());
+                        Student_Student student = new Student_Student();
+                        student.StudentId = Int32.Parse(e.CommandArgument.ToString());
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
-                        LopHoc_Lop studentClass = new LopHoc_Lop();
-                        studentClass.MaLopHoc = Int32.Parse(((HiddenField)e.Item.FindControl("HdfMaLopHoc")).Value);
+                        Class_Class studentClass = new Class_Class();
+                        studentClass.ClassId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfClassId")).Value);
                         AddSession(AppConstant.SESSION_STUDENTCLASS, Class);
 
                         Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
@@ -197,20 +197,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        CauHinh_NamHoc year = new CauHinh_NamHoc();
-                        year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                        Configuration_Year year = new Configuration_Year();
+                        year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
-                        DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc();
-                        faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                        Category_Faculty faculty = new Category_Faculty();
+                        faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
-                        DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop();
-                        grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                        Category_Grade grade = new Category_Grade();
+                        grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
-                        LopHoc_Lop Class = new LopHoc_Lop();
-                        Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                        Class_Class Class = new Class_Class();
+                        Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
                         String strStudentName = TxtTenHocSinh.Text;
@@ -220,13 +220,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
                         // Get seleteced student and set to session
-                        HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
-                        student.MaHocSinh = Int32.Parse(e.CommandArgument.ToString());
+                        Student_Student student = new Student_Student();
+                        student.StudentId = Int32.Parse(e.CommandArgument.ToString());
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
                         // Get seleteced class and set to session
-                        LopHoc_Lop studentClass = new LopHoc_Lop();
-                        studentClass.MaLopHoc = Int32.Parse(((HiddenField)e.Item.FindControl("HdfMaLopHoc")).Value);
+                        Class_Class studentClass = new Class_Class();
+                        studentClass.ClassId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfClassId")).Value);
                         AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
 
                         AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
@@ -283,8 +283,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan();
-            student.MaHocSinh = Int32.Parse(this.HdfMaHocSinh.Value);
+            Student_Student student = new Student_Student();
+            student.StudentId = Int32.Parse(this.HdfMaHocSinh.Value);
             studentBL.DeleteStudent(student);
 
             isSearch = false;
@@ -320,22 +320,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
             double dTotalRecords;
-            CauHinh_NamHoc year = null;
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
-            LopHoc_Lop Class = null;
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
+            Class_Class Class = null;
             string studentName = this.TxtTenHocSinh.Text;
             string studentCode = this.TxtMaHocSinh.Text;
 
-            year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             try
             {
                 if (DdlNganh.SelectedIndex > 0)
                 {
-                    faculty = new DanhMuc_NganhHoc();
-                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -344,8 +344,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    grade = new DanhMuc_KhoiLop();
-                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade = new Category_Grade();
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -354,8 +354,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (DdlLopHoc.SelectedIndex > 0)
                 {
-                    Class = new LopHoc_Lop();
-                    Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                    Class = new Class_Class();
+                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -417,10 +417,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownListNganhHoc()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "MaNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyId";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
             if (faculties.Count > 1)
             {
@@ -431,10 +431,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLGrades()
         {
             GradeBL grades = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
+            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
-            DdlKhoiLop.DataValueField = "MaKhoiLop";
-            DdlKhoiLop.DataTextField = "TenKhoiLop";
+            DdlKhoiLop.DataValueField = "GradeId";
+            DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
             if (lstKhoiLop.Count > 1)
             {
@@ -445,10 +445,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownListNamHoc()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
 
             if (DdlNamHoc.Items.Count != 0)
@@ -461,10 +461,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLClasses()
         {
             ClassBL classBL = new ClassBL(UserSchool);
-            List<LopHoc_Lop> classes = null;
-            CauHinh_NamHoc year = null;
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
+            List<Class_Class> classes = null;
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
@@ -484,25 +484,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             if ((DdlNganh.Items.Count == 1) || (DdlNganh.Items.Count > 1 && DdlNganh.SelectedIndex > 0))
             {
-                faculty = new DanhMuc_NganhHoc();
-                faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                faculty = new Category_Faculty();
+                faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
             }
 
             if ((DdlKhoiLop.Items.Count == 1) || (DdlKhoiLop.Items.Count > 1 && DdlKhoiLop.SelectedIndex > 0))
             {
-                grade = new DanhMuc_KhoiLop();
-                grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
 
             classes = classBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = classes;
-            DdlLopHoc.DataValueField = "MaLopHoc";
-            DdlLopHoc.DataTextField = "TenLopHoc";
+            DdlLopHoc.DataValueField = "ClassId";
+            DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
             if (classes.Count > 1)
             {

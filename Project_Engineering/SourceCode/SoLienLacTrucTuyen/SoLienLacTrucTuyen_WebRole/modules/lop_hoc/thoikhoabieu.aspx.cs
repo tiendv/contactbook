@@ -81,13 +81,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.DataItem != null)
                 {
                     DailySchedule dailySchedule = (DailySchedule)e.Item.DataItem;
-                    int maNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
-                    int maHocKy = Int32.Parse(DdlHocKy.SelectedValue);
-                    int maThu = dailySchedule.MaThu;
-                    int maLopHoc = 0;
+                    int YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+                    int TermId = Int32.Parse(DdlHocKy.SelectedValue);
+                    int DayInWeekId = dailySchedule.DayInWeekId;
+                    int ClassId = 0;
                     try
                     {
-                        maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                        ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                     }
                     catch (Exception) { return; }
                     
@@ -130,12 +130,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdEditItem":
                     {
-                        string maLopHoc = ((HiddenField)e.Item.FindControl("HdfRptMaLopHoc")).Value;
-                        string maHocKy = ((HiddenField)e.Item.FindControl("HdfRptMaHocKy")).Value;
-                        string maThu = ((HiddenField)e.Item.FindControl("HdfRptMaThu")).Value;
+                        string ClassId = ((HiddenField)e.Item.FindControl("HdfRptClassId")).Value;
+                        string TermId = ((HiddenField)e.Item.FindControl("HdfRptTermId")).Value;
+                        string DayInWeekId = ((HiddenField)e.Item.FindControl("HdfRptDayInWeekId")).Value;
 
                         Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}", 
-                            maLopHoc, maHocKy, maThu));
+                            ClassId, TermId, DayInWeekId));
                         break;
                     }
                 default:
@@ -156,18 +156,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptSchedule()
         {
-            CauHinh_HocKy term = null;
-            LopHoc_Lop Class = null;
+            Configuration_Term term = null;
+            Class_Class Class = null;
             List<DailySchedule> dailySchedules;
 
             // Get search criterias
-            term = new CauHinh_HocKy();
-            term.MaHocKy = Int32.Parse(DdlHocKy.SelectedValue);
+            term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
             
             if (DdlLopHoc.Items.Count != 0)
             {
-                Class = new LopHoc_Lop();
-                Class.MaLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                Class = new Class_Class();
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                 dailySchedules = scheduleBL.GetDailySchedules(Class, term);
                 this.LblSearchResult.Visible = false;
                 this.RptMonHocTKB.Visible = true;
@@ -182,9 +182,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptMonHocTKB.DataSource = dailySchedules;
             RptMonHocTKB.DataBind();
 
-            //Session["ThoiKhoaBieu_MaNamHoc"] = maNamHoc;
-            //Session["ThoiKhoaBieu_MaHocKy"] = maHocKy;
-            //Session["ThoiKhoaBieu_MaLopHoc"] = maLopHoc;
+            //Session["ThoiKhoaBieu_YearId"] = YearId;
+            //Session["ThoiKhoaBieu_TermId"] = TermId;
+            //Session["ThoiKhoaBieu_ClassId"] = ClassId;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -204,16 +204,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDlYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();            
             
-            if (Session["ThoiKhoaBieu_MaNamHoc"] != null)
+            if (Session["ThoiKhoaBieu_YearId"] != null)
             {
-                DdlNamHoc.SelectedValue = Session["ThoiKhoaBieu_MaNamHoc"].ToString();
-                Session.Remove("ThoiKhoaBieu_MaNamHoc");
+                DdlNamHoc.SelectedValue = Session["ThoiKhoaBieu_YearId"].ToString();
+                Session.Remove("ThoiKhoaBieu_YearId");
             }
             else
             {
@@ -224,10 +224,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDlFaculties()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "MaNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyId";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
             if (faculties.Count > 1)
             {
@@ -238,10 +238,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDlGrades()
         {
             GradeBL grades = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
+            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
-            DdlKhoiLop.DataValueField = "MaKhoiLop";
-            DdlKhoiLop.DataTextField = "TenKhoiLop";
+            DdlKhoiLop.DataValueField = "GradeId";
+            DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
             if (lstKhoiLop.Count > 1)
             {
@@ -252,16 +252,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLTerms()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_HocKy> lstHocKy = systemConfigBL.GetListTerms();
+            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
             DdlHocKy.DataSource = lstHocKy;
-            DdlHocKy.DataValueField = "MaHocKy";
-            DdlHocKy.DataTextField = "TenHocKy";
+            DdlHocKy.DataValueField = "TermId";
+            DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
 
-            if (Session["ThoiKhoaBieu_MaHocKy"] != null)
+            if (Session["ThoiKhoaBieu_TermId"] != null)
             {
-                DdlHocKy.SelectedValue = Session["ThoiKhoaBieu_MaHocKy"].ToString();
-                Session.Remove("ThoiKhoaBieu_MaHocKy");
+                DdlHocKy.SelectedValue = Session["ThoiKhoaBieu_TermId"].ToString();
+                Session.Remove("ThoiKhoaBieu_TermId");
             }
             else
             {
@@ -271,9 +271,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLClasses()
         {
-            CauHinh_NamHoc year = null;
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
@@ -282,15 +282,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            year = new CauHinh_NamHoc();
-            year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             try
             {
                 if (DdlNganh.SelectedIndex > 0)
                 {
-                    faculty = new DanhMuc_NganhHoc();
-                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                 }
             }
             catch (Exception) { }
@@ -299,22 +299,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    grade = new DanhMuc_KhoiLop();
-                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade = new Category_Grade();
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }
             }
             catch (Exception) { }
 
-            List<LopHoc_Lop> lstLop = classBL.GetListClasses(year, faculty, grade);
+            List<Class_Class> lstLop = classBL.GetListClasses(year, faculty, grade);
             DdlLopHoc.DataSource = lstLop;
-            DdlLopHoc.DataValueField = "MaLopHoc";
-            DdlLopHoc.DataTextField = "TenLopHoc";
+            DdlLopHoc.DataValueField = "ClassId";
+            DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
 
-            if (Session["ThoiKhoaBieu_MaLopHoc"] != null)
+            if (Session["ThoiKhoaBieu_ClassId"] != null)
             {
-                DdlLopHoc.SelectedValue = Session["ThoiKhoaBieu_MaLopHoc"].ToString();
-                Session.Remove("ThoiKhoaBieu_MaLopHoc");
+                DdlLopHoc.SelectedValue = Session["ThoiKhoaBieu_ClassId"].ToString();
+                Session.Remove("ThoiKhoaBieu_ClassId");
             }
         }
         #endregion   

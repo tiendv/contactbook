@@ -75,16 +75,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RadioButton rBtnSelect = (RadioButton)control;
                         if (rBtnSelect.Checked)
                         {
-                            LopHoc_Lop Class = new LopHoc_Lop();
+                            Class_Class Class = new Class_Class();
                             aspnet_User teacher = new aspnet_User();
                             FormerTeacherBL gvcnBL = new FormerTeacherBL(UserSchool);
 
-                            HiddenField hdfRptMaGiaoVien = (HiddenField)item.FindControl("HdfRptMaGiaoVien");
-                            Guid maGiaoVien = new Guid(hdfRptMaGiaoVien.Value);
-                            int maLopHoc = Int32.Parse(DdlLopHoc.SelectedValue);
+                            HiddenField hdfRptUserId = (HiddenField)item.FindControl("HdfRptUserId");
+                            Guid UserId = new Guid(hdfRptUserId.Value);
+                            int ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                             
-                            Class.MaLopHoc = maLopHoc;                            
-                            teacher.UserId = maGiaoVien;                            
+                            Class.ClassId = ClassId;                            
+                            teacher.UserId = UserId;                            
                             gvcnBL.Insert(Class, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }
@@ -140,10 +140,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLGrades()
         {
             GradeBL grades = new GradeBL(UserSchool);
-            List<DanhMuc_KhoiLop> lstKhoiLop = grades.GetListGrades();
+            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
             DdlKhoiLop.DataSource = lstKhoiLop;
-            DdlKhoiLop.DataValueField = "MaKhoiLop";
-            DdlKhoiLop.DataTextField = "TenKhoiLop";
+            DdlKhoiLop.DataValueField = "GradeId";
+            DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
             if (lstKhoiLop.Count > 1)
             {
@@ -154,10 +154,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownListNganhHoc()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "MaNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyId";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
             if (faculties.Count > 1)
             {
@@ -168,10 +168,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownListNamHoc()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<CauHinh_NamHoc> lstNamHoc = systemConfigBL.GetListYears();
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
             DdlNamHoc.DataSource = lstNamHoc;
-            DdlNamHoc.DataValueField = "MaNamHoc";
-            DdlNamHoc.DataTextField = "TenNamHoc";
+            DdlNamHoc.DataValueField = "YearId";
+            DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
 
             if (DdlNamHoc.Items.Count != 0)
@@ -187,9 +187,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLClasses()
         {
-            CauHinh_NamHoc year = null;
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
 
             bool bEnabled;
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
@@ -198,25 +198,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                year = new CauHinh_NamHoc();
-                year.MaNamHoc = Int32.Parse(DdlNamHoc.SelectedValue);
+                year = new Configuration_Year();
+                year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
                 if (DdlNganh.SelectedIndex > 0)
                 {
-                    faculty = new DanhMuc_NganhHoc();
-                    faculty.MaNganhHoc = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                 }
 
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    grade = new DanhMuc_KhoiLop();
-                    grade.MaKhoiLop = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade = new Category_Grade();
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }                
 
-                List<LopHoc_Lop> lstLop = (new ClassBL(UserSchool)).GetUnformeredClasses(year, faculty, grade);
+                List<Class_Class> lstLop = (new ClassBL(UserSchool)).GetUnformeredClasses(year, faculty, grade);
                 DdlLopHoc.DataSource = lstLop;
-                DdlLopHoc.DataValueField = "MaLopHoc";
-                DdlLopHoc.DataTextField = "TenLopHoc";
+                DdlLopHoc.DataValueField = "ClassId";
+                DdlLopHoc.DataTextField = "ClassName";
                 DdlLopHoc.DataBind();
 
                 if (DdlLopHoc.Items.Count == 0)
@@ -235,9 +235,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
-            CauHinh_NamHoc year = new CauHinh_NamHoc();
+            Configuration_Year year = new Configuration_Year();
             int yearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            year.MaNamHoc = yearId;
+            year.YearId = yearId;
             string maHienThiGiaoVien = TxtSearchMaHienThiGiaoVien.Text.Trim();
             string hoTen = TxtSearchTenGiaoVien.Text.Trim();
 

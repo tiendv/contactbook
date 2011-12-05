@@ -49,10 +49,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string strAttitudeName = this.TxtTenThaiDoThamGia.Text.Trim();
+            string strAttitudeName = this.TxtAttitudeName.Text.Trim();
             if (strAttitudeName == "")
             {
-                TenThaiDoThamGiaRequiredAdd.IsValid = false;
+                AttitudeNameRequiredAdd.IsValid = false;
                 MPEAdd.Show();
                 return;
             }
@@ -60,21 +60,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (attitudeBL.AttitudeNameExists(strAttitudeName))
                 {
-                    TenThaiDoThamGiaValidatorAdd.IsValid = false;
+                    AttitudeNameValidatorAdd.IsValid = false;
                     MPEAdd.Show();
                     return;
                 }
             }
 
-            attitudeBL.InsertThaiDoThamGia(new DanhMuc_ThaiDoThamGia
+            attitudeBL.InsertThaiDoThamGia(new Category_Attitude
             {
-                TenThaiDoThamGia = strAttitudeName
+                AttitudeName = strAttitudeName
             });
 
             MainDataPager.CurrentIndex = 1;
             BindRepeater();
 
-            this.TxtTenThaiDoThamGia.Text = "";
+            this.TxtAttitudeName.Text = "";
 
             if (this.CkbAddAfterSave.Checked)
             {
@@ -84,9 +84,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int attitudeId = Int32.Parse(this.HdfMaThaiDoThamGia.Value);
-            DanhMuc_ThaiDoThamGia attitude = new DanhMuc_ThaiDoThamGia();
-            attitude.MaThaiDoThamGia = attitudeId;
+            int attitudeId = Int32.Parse(this.HdfAttitudeId.Value);
+            Category_Attitude attitude = new Category_Attitude();
+            attitude.AttitudeId = attitudeId;
             attitudeBL.DeleteAttitude(attitude);
             isSearch = false;
             BindRepeater();
@@ -107,12 +107,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            int attitudeId = Int32.Parse(this.HdfMaThaiDoThamGia.Value);
+            int attitudeId = Int32.Parse(this.HdfAttitudeId.Value);
             string oldAttitudeName = this.HdfSltAttitudeName.Value;
-            string newAttitudeName = this.TxtSuaTenThaiDoThamGia.Text.Trim();
+            string newAttitudeName = this.TxtSuaAttitudeName.Text.Trim();
             if (newAttitudeName == "")
             {
-                TenThaiDoThamGiaRequiredEdit.IsValid = false;
+                AttitudeNameRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
                 return;
             }
@@ -120,14 +120,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (attitudeBL.AttitudeNameExists(oldAttitudeName, newAttitudeName))
                 {
-                    TenThaiDoThamGiaValidatorEdit.IsValid = false;
+                    AttitudeNameValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
                     return;
                 }
             }
 
-            DanhMuc_ThaiDoThamGia attitude = new DanhMuc_ThaiDoThamGia();
-            attitude.MaThaiDoThamGia = attitudeId;
+            Category_Attitude attitude = new Category_Attitude();
+            attitude.AttitudeId = attitudeId;
             attitudeBL.UpdateAttitude(attitude, newAttitudeName);
             BindRepeater();
         }
@@ -163,7 +163,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        DanhMuc_ThaiDoThamGia attitude = (DanhMuc_ThaiDoThamGia)e.Item.DataItem;
+                        Category_Attitude attitude = (Category_Attitude)e.Item.DataItem;
                         if (!attitudeBL.IsDeletable(attitude))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
@@ -200,8 +200,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        HiddenField hdfRptMaThaiDoThamGia = (HiddenField)e.Item.FindControl("HdfRptMaThaiDoThamGia");
-                        this.HdfMaThaiDoThamGia.Value = hdfRptMaThaiDoThamGia.Value;
+                        HiddenField hdfRptAttitudeId = (HiddenField)e.Item.FindControl("HdfRptAttitudeId");
+                        this.HdfAttitudeId.Value = hdfRptAttitudeId.Value;
 
                         this.HdfRptThaiDoThamGiaMPEDelete.Value = mPEDelete.ClientID;
 
@@ -210,15 +210,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int attitudeId = Int32.Parse(e.CommandArgument.ToString());
-                        DanhMuc_ThaiDoThamGia attitude = attitudeBL.GetAttitude(attitudeId);
+                        Category_Attitude attitude = attitudeBL.GetAttitude(attitudeId);
 
-                        TxtSuaTenThaiDoThamGia.Text = attitude.TenThaiDoThamGia;
+                        TxtSuaAttitudeName.Text = attitude.AttitudeName;
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptThaiDoThamGiaMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaThaiDoThamGia.Value = attitudeId.ToString();
-                        this.HdfSltAttitudeName.Value = attitude.TenThaiDoThamGia;
+                        this.HdfAttitudeId.Value = attitudeId.ToString();
+                        this.HdfSltAttitudeName.Value = attitude.AttitudeName;
                         break;
                     }
                 default:
@@ -256,15 +256,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void BindRepeater()
         {
-            string tenThaiDoThamGia = TxtSearchThaiDoThamGia.Text.Trim();
+            string strAttitudeName = TxtSearchThaiDoThamGia.Text.Trim();
 
             double dTotalRecords = 0;
-            List<DanhMuc_ThaiDoThamGia> lstThaiDoThamGia;
-            lstThaiDoThamGia = attitudeBL.GetListAttitudes(tenThaiDoThamGia,
+            List<Category_Attitude> attitudes;
+            attitudes = attitudeBL.GetAttitudes(strAttitudeName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstThaiDoThamGia.Count == 0 && MainDataPager.ItemCount != 0)
+            if (attitudes.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
@@ -273,7 +273,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             MainDataPager.ItemCount = dTotalRecords;
 
-            bool bDisplayData = (lstThaiDoThamGia.Count != 0) ? true : false;
+            bool bDisplayData = (attitudes.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             PnlPopupEdit.Visible = bDisplayData;
             RptThaiDoThamGia.Visible = bDisplayData;
@@ -299,7 +299,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }
 
-            RptThaiDoThamGia.DataSource = lstThaiDoThamGia;
+            RptThaiDoThamGia.DataSource = attitudes;
             RptThaiDoThamGia.DataBind();
         }
         #endregion

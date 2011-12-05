@@ -20,14 +20,14 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 
     public struct DetailMark
     {
-        public int MaLoaiDiem { get; set; }
+        public int MarkTypeId { get; set; }
         public double GiaTri { get; set; }
     }
 
     public class MarkTypedMark
     {
-        public int MaLoaiDiem { get; set; }
+        public int MarkTypeId { get; set; }
         public string StringDiems { get; set; }
-        public string TenLoaiDiem { get; set; }
+        public string MarkTypeName { get; set; }
     }
 }

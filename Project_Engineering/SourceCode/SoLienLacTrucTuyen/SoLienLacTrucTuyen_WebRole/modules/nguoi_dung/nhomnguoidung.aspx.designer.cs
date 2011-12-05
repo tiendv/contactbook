@@ -382,13 +382,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected global::System.Web.UI.WebControls.HiddenField hdfOutputEdit;
         
         /// <summary>
-        /// TxtMoTaNhomNguoiDungSua control.
+        /// TxtDescriptionNhomNguoiDungSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMoTaNhomNguoiDungSua;
+        protected global::System.Web.UI.WebControls.TextBox TxtDescriptionNhomNguoiDungSua;
         
         /// <summary>
         /// Label11 control.
