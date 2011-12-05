@@ -29,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            subjectBL = new SubjectBL(UserSchool);            
+            subjectBL = new SubjectBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -73,7 +73,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     if (e.Item.DataItem != null)
                     {
                         TabularSubject tabularSubject = (TabularSubject)e.Item.DataItem;
-                        DanhMuc_MonHoc subject = subjectBL.GetSubject(tabularSubject.TenMonHoc, tabularSubject.TenNganhHoc, tabularSubject.TenKhoiLop);
+                        Category_Subject subject = subjectBL.GetSubject(tabularSubject.SubjectName, tabularSubject.FacultyName, tabularSubject.GradeName);
                         if (!subjectBL.IsDeletable(subject))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
@@ -113,9 +113,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        // Save current MaMonHoc to global
-                        HiddenField hdfRptMaMonHoc = (HiddenField)e.Item.FindControl("HdfRptMaMonHoc");
-                        this.HdfMaMonHoc.Value = hdfRptMaMonHoc.Value;
+                        // Save current SubjectId to global
+                        HiddenField hdfRptSubjectId = (HiddenField)e.Item.FindControl("HdfRptSubjectId");
+                        this.HdfSubjectId.Value = hdfRptSubjectId.Value;
 
                         // Save modal popup ClientID
                         this.HdfRptMonHocMPEDelete.Value = mPEDelete.ClientID;
@@ -127,23 +127,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         string facultyName = ((Label)e.Item.FindControl("LblFacultyName")).Text;
                         string gradeName = ((Label)e.Item.FindControl("LblGradeName")).Text;
 
-                        DanhMuc_MonHoc subject = subjectBL.GetSubject(strSubjectName, facultyName, gradeName);
+                        Category_Subject subject = subjectBL.GetSubject(strSubjectName, facultyName, gradeName);
 
-                        TxtTenMonHocSua.Text = subject.TenMonHoc;
-                        LblTenNganhHocSua.Text = subject.DanhMuc_NganhHoc.TenNganhHoc;
-                        HdfMaNganhHocSua.Value = subject.MaNganhHoc.ToString();
-                        LblTenKhoiLopSua.Text = subject.DanhMuc_KhoiLop.TenKhoiLop;
-                        HdfMaKhoiLopSua.Value = subject.MaKhoiLop.ToString();
-                        TxtHeSoDiemSua.Text = subject.HeSoDiem.ToString();
+                        TxtSubjectNameSua.Text = subject.SubjectName;
+                        LblFacultyNameSua.Text = subject.Category_Faculty.FacultyName;
+                        HdfFacultyIdSua.Value = subject.FacultyId.ToString();
+                        LblGradeNameSua.Text = subject.Category_Grade.GradeName;
+                        HdfGradeIdSua.Value = subject.GradeId.ToString();
+                        TxtMarkRatioSua.Text = subject.MarkRatio.ToString();
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
-                        this.HdfMaMonHoc.Value = subject.MaMonHoc.ToString();
+                        this.HdfSubjectId.Value = subject.SubjectId.ToString();
                         this.HdfRptMonHocMPEEdit.Value = mPEEdit.ClientID;
 
-                        this.HdfFacultyName.Value = subject.DanhMuc_NganhHoc.TenNganhHoc;
-                        this.HdfGradeName.Value = subject.DanhMuc_KhoiLop.TenKhoiLop;
+                        this.HdfFacultyName.Value = subject.Category_Faculty.FacultyName;
+                        this.HdfGradeName.Value = subject.Category_Grade.GradeName;
 
                         break;
                     }
@@ -165,25 +165,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string subjectName = this.TxtTenMonHocThem.Text.Trim();
+            string subjectName = this.TxtSubjectNameThem.Text.Trim();
             string facultyName = this.DdlNganhHocThem.SelectedValue;
             string gradeName = this.DdlKhoiLopThem.SelectedValue;
-            string markRatio = this.TxtHeSoDiemThem.Text.Trim();            
+            string markRatio = this.TxtMarkRatioThem.Text.Trim();
 
             bool bValidAdd = ValidateForAdd(subjectName, facultyName, gradeName, markRatio);
 
             if (bValidAdd)
             {
-                DanhMuc_NganhHoc faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
-                DanhMuc_KhoiLop grade = (new GradeBL(UserSchool)).GetGrade(gradeName);
+                Category_Faculty faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
+                Category_Grade grade = (new GradeBL(UserSchool)).GetGrade(gradeName);
 
                 subjectBL.InsertSubject(subjectName, grade, faculty, Double.Parse(markRatio));
 
                 MainDataPager.CurrentIndex = 1;
                 BindRepeater();
 
-                this.TxtTenMonHocThem.Text = "";
-                this.TxtHeSoDiemThem.Text = "";
+                this.TxtSubjectNameThem.Text = "";
+                this.TxtMarkRatioThem.Text = "";
 
                 if (this.CkbAddAfterSave.Checked)
                 {
@@ -202,11 +202,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsValid)
             {
                 return false;
-            } 
-            
+            }
+
             if (subjectName == "")
             {
-                TenMonHocRequiredAdd.IsValid = false;
+                SubjectNameRequiredAdd.IsValid = false;
                 MPEAdd.Show();
                 return false;
             }
@@ -214,18 +214,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (subjectBL.SubjectNameExists(subjectName, facultyName, gradeName))
                 {
-                    TenMonHocValidatorAdd.IsValid = false;
+                    SubjectNameValidatorAdd.IsValid = false;
                     MPEAdd.Show();
                     return false;
                 }
             }
 
-            if (!Regex.IsMatch(markRatio, HeSoDiemRegExp.ValidationExpression))
+            if (!Regex.IsMatch(markRatio, MarkRatioRegExp.ValidationExpression))
             {
-                HeSoDiemRegExp.IsValid = false;
+                MarkRatioRegExp.IsValid = false;
                 MPEAdd.Show();
                 return false;
-            }            
+            }
 
             return true;
         }
@@ -250,26 +250,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maMonHoc = Int32.Parse(this.HdfMaMonHoc.Value);
+            int SubjectId = Int32.Parse(this.HdfSubjectId.Value);
             string editedSubjectName = this.HfdSelectedSubjectName.Value;
             string facultyName = this.HdfFacultyName.Value;
             string gradeName = this.HdfGradeName.Value;
 
-            string newSubjectName = this.TxtTenMonHocSua.Text.Trim();
-            double newMarkRatio = double.Parse(this.TxtHeSoDiemSua.Text.Trim());
-            DanhMuc_MonHoc editedSubject = subjectBL.GetSubject(editedSubjectName, facultyName, gradeName);
+            string newSubjectName = this.TxtSubjectNameSua.Text.Trim();
+            double newMarkRatio = double.Parse(this.TxtMarkRatioSua.Text.Trim());
+            Category_Subject editedSubject = subjectBL.GetSubject(editedSubjectName, facultyName, gradeName);
 
             if (newSubjectName == "")
             {
-                TenMonHocRequiredEdit.IsValid = false;
+                SubjectNameRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
                 return;
             }
             else
-            {   
+            {
                 if (subjectBL.SubjectNameExists(editedSubject, newSubjectName))
                 {
-                    TenMonHocValidatorEdit.IsValid = false;
+                    SubjectNameValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
                     return;
                 }
@@ -285,7 +285,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string facultyName = this.HdfFacultyName.Value;
             string gradeName = this.HdfGradeName.Value;
 
-            DanhMuc_MonHoc subject = subjectBL.GetSubject(subjectName, facultyName, gradeName);
+            Category_Subject subject = subjectBL.GetSubject(subjectName, facultyName, gradeName);
             subjectBL.DeleteSubject(subject);
 
             isSearch = false;
@@ -320,8 +320,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRepeater()
         {
-            DanhMuc_NganhHoc faculty = null;
-            DanhMuc_KhoiLop grade = null;;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null; ;
             FacultyBL facultyBL = new FacultyBL(UserSchool);
             GradeBL gradeBL = new GradeBL(UserSchool);
             string subjectName = this.TxtSearchedSubject.Text.Trim();
@@ -388,10 +388,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             GradeBL gradeBL = new GradeBL(UserSchool);
 
-            List<DanhMuc_KhoiLop> lGrades = gradeBL.GetListGrades();
+            List<Category_Grade> lGrades = gradeBL.GetListGrades();
             DdlKhoiLop.DataSource = lGrades;
-            DdlKhoiLop.DataValueField = "TenKhoiLop";
-            DdlKhoiLop.DataTextField = "TenKhoiLop";
+            DdlKhoiLop.DataValueField = "GradeName";
+            DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
             if (lGrades.Count > 1)
             {
@@ -399,8 +399,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             DdlKhoiLopThem.DataSource = lGrades;
-            DdlKhoiLopThem.DataValueField = "TenKhoiLop";
-            DdlKhoiLopThem.DataTextField = "TenKhoiLop";
+            DdlKhoiLopThem.DataValueField = "GradeName";
+            DdlKhoiLopThem.DataTextField = "GradeName";
             DdlKhoiLopThem.DataBind();
         }
 
@@ -408,10 +408,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
 
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
             DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "TenNganhHoc";
-            DdlNganh.DataTextField = "TenNganhHoc";
+            DdlNganh.DataValueField = "FacultyName";
+            DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
             if (faculties.Count > 1)
             {
@@ -419,10 +419,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             DdlNganhHocThem.DataSource = faculties;
-            DdlNganhHocThem.DataValueField = "TenNganhHoc";
-            DdlNganhHocThem.DataTextField = "TenNganhHoc";
+            DdlNganhHocThem.DataValueField = "FacultyName";
+            DdlNganhHocThem.DataTextField = "FacultyName";
             DdlNganhHocThem.DataBind();
-        }       
+        }
         #endregion
     }
 }

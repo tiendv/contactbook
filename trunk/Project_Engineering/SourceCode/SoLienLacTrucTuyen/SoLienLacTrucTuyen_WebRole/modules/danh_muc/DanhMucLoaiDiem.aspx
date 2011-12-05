@@ -10,9 +10,9 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     $find('<%=MPEAdd.ClientID%>').add_showing(function () {
-                        $get('<%=TxtTenLoaiDiem.ClientID%>').value = "";
-                        $get('<%=TxtTenLoaiDiem.ClientID%>').focus();
-                        $get('<%=TxtHeSoDiemLoaiDiemAdd.ClientID%>').value = "";
+                        $get('<%=TxtMarkTypeName.ClientID%>').value = "";
+                        $get('<%=TxtMarkTypeName.ClientID%>').focus();
+                        $get('<%=TxtMarkRatioLoaiDiemAdd.ClientID%>').value = "";
                     });
                 }
             }
@@ -34,7 +34,7 @@
                 return false;
             }
 
-            function validateTenLoaiDiemAdd(ctrl, args) {
+            function validateMarkTypeNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
                 var markTypeName = $.trim(args.Value);
                 alert("{'markTypeName':'" + markTypeName + "'}");
@@ -63,7 +63,7 @@
                 }
             }
 
-            function validateTenLoaiDiemEdit(ctrl, args) {
+            function validateMarkTypeNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
                 var oldMarkTypeName = $('#<%=HdfEditedMarkTypeName.ClientID%>');
                 var newMarkTypeName = $.trim(args.Value);
@@ -108,7 +108,7 @@
                     }
                 });
 
-                $("#<%=TxtHeSoDiemLoaiDiemAdd.ClientID%>").keydown(function (event) {
+                $("#<%=TxtMarkRatioLoaiDiemAdd.ClientID%>").keydown(function (event) {
                     // Allow only backspace and delete
                     if (event.keyCode == 46 || event.keyCode == 8) {
                         // let it happen, don't do anything
@@ -187,25 +187,25 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (PagerMain.CurrentIndex - 1) * PagerMain.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaLoaiDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLoaiDiem")%>' />
-                            <asp:HiddenField ID="HdfRptTenLoaiDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>' />
+                            <asp:HiddenField ID="HdfRptMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>' />
+                            <asp:HiddenField ID="HdfRptMarkTypeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>
+                            <%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>
                         </td>
                         <td style="height: 40px; text-align: right">
-                            <%#DataBinder.Eval(Container.DataItem, "HeSoDiem")%>
+                            <%#DataBinder.Eval(Container.DataItem, "MarkRatio")%>
                         </td>
                         <td style="height: 40px; text-align: right">
-                            <%#DataBinder.Eval(Container.DataItem, "SoCotToiDa")%>
+                            <%#DataBinder.Eval(Container.DataItem, "MaxQuantity")%>
                         </td>
                         <td style="height: 40px; text-align: right">
-                            <%#((bool)DataBinder.Eval(Container.DataItem, "TinhDTB") == true)? "Có": "Không" %>
+                            <%#((bool)DataBinder.Eval(Container.DataItem, "IsUsedForCalculatingAvg") == true)? "Có": "Không" %>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -214,7 +214,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -276,13 +276,13 @@
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenLoaiDiem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenLoaiDiemRequiredAdd" runat="server" ControlToValidate="TxtTenLoaiDiem"
+                        <asp:TextBox ID="TxtMarkTypeName" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="MarkTypeNameRequiredAdd" runat="server" ControlToValidate="TxtMarkTypeName"
                             ValidationGroup="AddLoaiDiem" ErrorMessage="Tên loại điểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenLoaiDiemValidatorAdd" runat="server" ControlToValidate="TxtTenLoaiDiem"
-                            ValidationGroup="AddLoaiDiem"
-                            ErrorMessage="Loại điểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                        <asp:CustomValidator ID="MarkTypeNameValidatorAdd" runat="server" ControlToValidate="TxtMarkTypeName"
+                            ValidationGroup="AddLoaiDiem" ErrorMessage="Loại điểm đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                     <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
                 </tr>
@@ -291,13 +291,13 @@
                         <asp:Label ID="Label8" runat="server" Text="Hệ số điểm:"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtHeSoDiemLoaiDiemAdd" runat="server" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtMarkRatioLoaiDiemAdd" runat="server" CssClass="input_textbox"
                             Style="font-family: arial; text-align: right">
                         </asp:TextBox>
-                        <asp:RequiredFieldValidator ID="HeSoDiemRequiredAdd" runat="server" ControlToValidate="TxtHeSoDiemLoaiDiemAdd"
+                        <asp:RequiredFieldValidator ID="MarkRatioRequiredAdd" runat="server" ControlToValidate="TxtMarkRatioLoaiDiemAdd"
                             ValidationGroup="AddLoaiDiem" ErrorMessage="Hệ số điểm không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="HeSoDiemRegExpAdd" runat="server" ControlToValidate="TxtHeSoDiemLoaiDiemAdd"
+                        <asp:RegularExpressionValidator ID="MarkRatioRegExpAdd" runat="server" ControlToValidate="TxtMarkRatioLoaiDiemAdd"
                             ValidationGroup="AddLoaiDiem" ValidationExpression="\d{1}" Display="Dynamic"
                             ForeColor="Red" ErrorMessage="Hệ số điểm phải là số tự nhiên trong khoảng 1 đến 9"></asp:RegularExpressionValidator>
                     </td>
@@ -357,14 +357,14 @@
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaTenLoaiDiem" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:TextBox ID="TxtSuaMarkTypeName" runat="server" CssClass="input_textbox"></asp:TextBox>
                         <asp:HiddenField ID="hfOutputEdit" runat="server" Value="true" />
-                        <asp:RequiredFieldValidator ID="TenLoaiDiemRequiredEdit" runat="server" ControlToValidate="TxtSuaTenLoaiDiem"
+                        <asp:RequiredFieldValidator ID="MarkTypeNameRequiredEdit" runat="server" ControlToValidate="TxtSuaMarkTypeName"
                             ValidationGroup="EditLoaiDiem" ErrorMessage="Tên loại điểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenLoaiDiemValidatorEdit" runat="server" ControlToValidate="TxtSuaTenLoaiDiem"
-                            ValidationGroup="EditLoaiDiem"
-                            ErrorMessage="Loại điểm đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                        <asp:CustomValidator ID="MarkTypeNameValidatorEdit" runat="server" ControlToValidate="TxtSuaMarkTypeName"
+                            ValidationGroup="EditLoaiDiem" ErrorMessage="Loại điểm đã tồn tại" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -372,13 +372,13 @@
                         <asp:Label ID="Label10" runat="server" Text="Hệ số điểm:"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtHeSoDiemLoaiDiemSua" runat="server" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtMarkRatioLoaiDiemSua" runat="server" CssClass="input_textbox"
                             Style="font-family: arial; text-align: right">
                         </asp:TextBox>
-                        <asp:RequiredFieldValidator ID="HeSoDiemRequiredEdit" runat="server" ControlToValidate="TxtHeSoDiemLoaiDiemSua"
+                        <asp:RequiredFieldValidator ID="MarkRatioRequiredEdit" runat="server" ControlToValidate="TxtMarkRatioLoaiDiemSua"
                             ValidationGroup="EditLoaiDiem" ErrorMessage="Hệ số điểm không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="HeSoDiemRegExpEdit" runat="server" ControlToValidate="TxtHeSoDiemLoaiDiemSua"
+                        <asp:RegularExpressionValidator ID="MarkRatioRegExpEdit" runat="server" ControlToValidate="TxtMarkRatioLoaiDiemSua"
                             ValidationGroup="EditLoaiDiem" ValidationExpression="\d{1}" Display="Dynamic"
                             ForeColor="Red" ErrorMessage="Hệ số điểm phải là số tự nhiên trong khoảng 1 đến 9"></asp:RegularExpressionValidator>
                     </td>
@@ -388,8 +388,8 @@
                         Tối đa điểm/Học kì:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtMaxMarksPerTermEdit" runat="server" CssClass="input_textbox" Style="font-family: arial;
-                            text-align: right"></asp:TextBox>
+                        <asp:TextBox ID="TxtMaxMarksPerTermEdit" runat="server" CssClass="input_textbox"
+                            Style="font-family: arial; text-align: right"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="MaxMarksPerTermRequiredEdit" runat="server" ControlToValidate="TxtMaxMarksPerTermEdit"
                             ValidationGroup="EditLoaiDiem" ErrorMessage="Tối đa điểm/Học kì không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>

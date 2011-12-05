@@ -8,7 +8,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class TeacherDA : BaseDA
     {
-        public TeacherDA(School school)
+        public TeacherDA(School_School school)
             : base(school)
         { }
 
@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             if (iqTeacher.Count() != 0)
             {
                 aspnet_Membership teacher = iqTeacher.First();
-                teacher.RealName = editedTeacher.RealName;
+                teacher.FullName = editedTeacher.FullName;
                 teacher.Gender = editedTeacher.Gender;
                 teacher.Birthday = editedTeacher.Birthday;
                 teacher.Photo = editedTeacher.Photo;
@@ -42,7 +42,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         //public void DeleteTeacher(aspnet_User deletedTeacher)
         //{
         //    IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
-        //                                             where tchr.MaGiaoVien == deletedTeacher.MaGiaoVien
+        //                                             where tchr.UserId == deletedTeacher.UserId
         //                                             && tchr.SchoolId == school.SchoolId
         //                                             select tchr;
 
@@ -106,7 +106,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.UserName == teacherCode
-                                                  && tchr.aspnet_Membership.RealName == teacherName
+                                                  && tchr.aspnet_Membership.FullName == teacherName
                                                   && tchr.aspnet_Membership.SchoolId == school.SchoolId
                                                 select tchr;
 
@@ -138,19 +138,19 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.aspnet_Membership.IsTeacher == true
-                                                && tchr.aspnet_Membership.RealName == teacherName
+                                                && tchr.aspnet_Membership.FullName == teacherName
                                                 && tchr.aspnet_Membership.SchoolId == school.SchoolId
                                                 select tchr;
 
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<aspnet_User> GetListUnformedTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachers(Configuration_Year year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.aspnet_Membership.IsTeacher == true
-                                                && tchr.aspnet_Membership.RealName == teacherName
+                                                && tchr.aspnet_Membership.FullName == teacherName
                                                 && tchr.UserName == teacherCode
                                                 && tchr.aspnet_Membership.SchoolId == school.SchoolId
                                                 select tchr;
@@ -162,12 +162,12 @@ namespace SoLienLacTrucTuyen.DataAccess
                 int i = 0;
                 while (i < lTeachers.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher;
-                    iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher;
+                    iqFormerTeacher = from fTchr in db.Class_FormerTeachers
                                       where fTchr.TeacherId == lTeachers[i].UserId
                                         && fTchr.aspnet_User.UserName == teacherCode
-                                        && fTchr.aspnet_User.aspnet_Membership.RealName == teacherName
-                                        && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.aspnet_User.aspnet_Membership.FullName == teacherName
+                                        && fTchr.Class_Class.YearId == year.YearId
                                         && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
@@ -186,7 +186,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListUnformedTeachers(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachers(Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
@@ -201,10 +201,10 @@ namespace SoLienLacTrucTuyen.DataAccess
                 int i = 0;
                 while (i < lTeachers.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher;
-                    iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher;
+                    iqFormerTeacher = from fTchr in db.Class_FormerTeachers
                                       where fTchr.TeacherId == lTeachers[i].UserId
-                                        && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.Class_Class.YearId == year.YearId
                                         && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
@@ -223,12 +223,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListUnformedTeachersByName(CauHinh_NamHoc year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachersByName(Configuration_Year year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.aspnet_Membership.IsTeacher == true
-                                                && tchr.aspnet_Membership.RealName == teacherName
+                                                && tchr.aspnet_Membership.FullName == teacherName
                                                 && tchr.aspnet_Membership.SchoolId == school.SchoolId
                                                 select tchr;
 
@@ -239,11 +239,11 @@ namespace SoLienLacTrucTuyen.DataAccess
                 int i = 0;
                 while (i < lTeachers.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher;
-                    iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher;
+                    iqFormerTeacher = from fTchr in db.Class_FormerTeachers
                                       where fTchr.TeacherId == lTeachers[i].UserId
-                                        && fTchr.aspnet_User.aspnet_Membership.RealName == teacherName
-                                        && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.aspnet_User.aspnet_Membership.FullName == teacherName
+                                        && fTchr.Class_Class.YearId == year.YearId
                                         && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
@@ -262,7 +262,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListUnformedTeachersByCode(CauHinh_NamHoc year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetListUnformedTeachersByCode(Configuration_Year year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
@@ -278,11 +278,11 @@ namespace SoLienLacTrucTuyen.DataAccess
                 int i = 0;
                 while (i < lTeachers.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher;
-                    iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher;
+                    iqFormerTeacher = from fTchr in db.Class_FormerTeachers
                                       where fTchr.TeacherId == lTeachers[i].UserId
                                         && fTchr.aspnet_User.UserName == teacherCode
-                                        && fTchr.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+                                        && fTchr.Class_Class.YearId == year.YearId
                                         && fTchr.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                                       select fTchr;
                     if (iqFormerTeacher.Count() != 0)
@@ -319,14 +319,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsTeaching(aspnet_User teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
+        public bool IsTeaching(aspnet_User teacher, Configuration_Term term, Configuration_DayInWeek dayInWeek, Category_TeachingPeriod teachingPeriod)
         {
-            IQueryable<LopHoc_MonHocTKB> iqThoiKhoaBieu;
-            iqThoiKhoaBieu = from tkb in db.LopHoc_MonHocTKBs
+            IQueryable<Class_Schedule> iqThoiKhoaBieu;
+            iqThoiKhoaBieu = from tkb in db.Class_Schedules
                              where tkb.TeacherId == teacher.UserId
-                                && tkb.MaHocKy == term.MaHocKy
-                                && tkb.MaThu == dayInWeek.MaThu
-                                && tkb.MaTiet == teachingPeriod.MaTiet
+                                && tkb.TermId == term.TermId
+                                && tkb.DayInWeekId == dayInWeek.DayInWeekId
+                                && tkb.SessionId == teachingPeriod.SessionId
                                 && tkb.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                              select tkb;
             if (iqThoiKhoaBieu.Count() != 0)
@@ -339,12 +339,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public List<LopHoc_GVCN> GetFormering(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormering(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<LopHoc_GVCN> lFormering = new List<LopHoc_GVCN>();
+            List<Class_FormerTeacher> lFormering = new List<Class_FormerTeacher>();
 
-            IQueryable<LopHoc_GVCN> iqFormering;
-            iqFormering = from formering in db.LopHoc_GVCNs
+            IQueryable<Class_FormerTeacher> iqFormering;
+            iqFormering = from formering in db.Class_FormerTeachers
                           where formering.TeacherId == teacher.UserId
                           && formering.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                           select formering;
@@ -352,19 +352,19 @@ namespace SoLienLacTrucTuyen.DataAccess
             totalRecords = iqFormering.Count();
             if (totalRecords != 0)
             {
-                lFormering = iqFormering.OrderByDescending(formering => formering.LopHoc_Lop.MaNamHoc)
+                lFormering = iqFormering.OrderByDescending(formering => formering.Class_Class.YearId)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return lFormering;
         }
 
-        public List<LopHoc_MonHocTKB> GetTeaching(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_Schedule> GetTeaching(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<LopHoc_MonHocTKB> lShedules = new List<LopHoc_MonHocTKB>();
+            List<Class_Schedule> lShedules = new List<Class_Schedule>();
 
-            IQueryable<LopHoc_MonHocTKB> iqSchedule;
-            iqSchedule = from schedule in db.LopHoc_MonHocTKBs
+            IQueryable<Class_Schedule> iqSchedule;
+            iqSchedule = from schedule in db.Class_Schedules
                          where schedule.TeacherId == teacher.UserId
                          && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
                          select schedule;
@@ -372,7 +372,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             totalRecords = iqSchedule.Count();
             if (totalRecords != 0)
             {
-                lShedules = iqSchedule.OrderByDescending(schedule => schedule.LopHoc_Lop.CauHinh_NamHoc.TenNamHoc)
+                lShedules = iqSchedule.OrderByDescending(schedule => schedule.Class_Class.Configuration_Year.YearName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).Distinct().ToList();
             }
 

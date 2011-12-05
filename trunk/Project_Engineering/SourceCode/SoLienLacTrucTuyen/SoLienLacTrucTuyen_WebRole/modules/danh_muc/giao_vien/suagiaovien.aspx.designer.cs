@@ -22,13 +22,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label2;
         
         /// <summary>
-        /// LblMaGiaoVienHienThi control.
+        /// LblUserIdHienThi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblMaGiaoVienHienThi;
+        protected global::System.Web.UI.WebControls.Label LblUserIdHienThi;
         
         /// <summary>
         /// Label12 control.

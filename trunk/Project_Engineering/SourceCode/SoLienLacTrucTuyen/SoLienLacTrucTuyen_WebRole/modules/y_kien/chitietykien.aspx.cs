@@ -37,12 +37,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void FillDetailedParentsComment(int commentId)
         {
-            GopY_YKien parentComment = parentsCommentBL.GetParentsComments(commentId);
+            ParentComment_Comment parentComment = parentsCommentBL.GetParentsComments(commentId);
             if (parentComment != null)
             {
-                LblTitle.Text = parentComment.TieuDe;
-                LblContent.Text = parentComment.NoiDung;
-                TxtReply.Text = parentComment.PhanHoi;
+                LblTitle.Text = parentComment.Title;
+                LblContent.Text = parentComment.CommentContent;
+                TxtReply.Text = parentComment.Feedback;
             }
         }
         #endregion
@@ -59,8 +59,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 //LopHocInfo lopHoc = (LopHocInfo)e.Item.DataItem;
                 //if (lopHoc != null)
                 //{
-                //    int maLopHoc = lopHoc.MaLopHoc;
-                //    if (!lopHocBL.CheckCanDeleteLopHoc(maLopHoc))
+                //    int ClassId = lopHoc.ClassId;
+                //    if (!lopHocBL.CheckCanDeleteLopHoc(ClassId))
                 //    {
                 //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                 //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -76,17 +76,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDetailItem":
                     {
-                        //int maLopHoc = Int32.Parse(e.CommandArgument.ToString());
-                        //LopHoc_Lop lophoc = lopHocBL.GetLopHoc(maLopHoc);
+                        //int ClassId = Int32.Parse(e.CommandArgument.ToString());
+                        //Class_Class lophoc = lopHocBL.GetLopHoc(ClassId);
 
-                        //LblTenLopHocChiTiet.Text = lophoc.TenLopHoc;
-                        //LblTenNganhHocChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.MaNganhHoc).TenNganhHoc;
-                        //LblTenKhoiLopChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.MaKhoiLop).TenKhoiLop;
+                        //LblClassNameChiTiet.Text = lophoc.ClassName;
+                        //LblFacultyNameChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.FacultyId).FacultyName;
+                        //LblGradeNameChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.GradeId).GradeName;
                         //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
                         //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
                         //mPEDetail.Show();
 
-                        //this.HdfMaLopHoc.Value = maLopHoc.ToString();
+                        //this.HdfClassId.Value = ClassId.ToString();
                         //this.HdfRptLopHocMPEDetail.Value = mPEDetail.ClientID;
                         break;
                     }
@@ -101,8 +101,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnReply_Click(object sender, ImageClickEventArgs e)
         {
-            GopY_YKien parentsComment = new GopY_YKien();
-            parentsComment.MaYKien = Int32.Parse(Request.QueryString[AppConstant.QUERY_PARENTSCOMMENT]);
+            ParentComment_Comment parentsComment = new ParentComment_Comment();
+            parentsComment.CommentId = Int32.Parse(Request.QueryString[AppConstant.QUERY_PARENTSCOMMENT]);
 
             string strReply = TxtReply.Text;
             parentsCommentBL.Reply(parentsComment, strReply);

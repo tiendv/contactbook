@@ -11,17 +11,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private TeachingPeriodDA teachingPeriodDA;
 
-        public TeachingPeriodBL(School school): base(school)
+        public TeachingPeriodBL(School_School school): base(school)
         {
             teachingPeriodDA = new TeachingPeriodDA(school);
         }
 
-        public void DeleteTeachingPeriod(DanhMuc_Tiet teachingPeriod)
+        public void DeleteTeachingPeriod(Category_TeachingPeriod teachingPeriod)
         {
             teachingPeriodDA.DeleteTeachingPeriod(teachingPeriod);
         }
 
-        public void InsertTeachingPeriod(string teachingPeriodName, CauHinh_Buoi session, string order, string beginTime, string endTime)
+        public void InsertTeachingPeriod(string teachingPeriodName, Configuration_Session session, string order, string beginTime, string endTime)
         {
             string[] strBeginTimes = beginTime.Split(':');
             int iBeginHour = Int32.Parse(strBeginTimes[0]);
@@ -35,16 +35,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             int iOrder = Int32.Parse(order);
 
-            DanhMuc_Tiet teachingPeriod = new DanhMuc_Tiet();
-            teachingPeriod.TenTiet = teachingPeriodName;
-            teachingPeriod.MaBuoi = session.MaBuoi;
-            teachingPeriod.ThoiGianBatDau = dtBeginTime;
-            teachingPeriod.ThoiDiemKetThu = dtEndTime;
+            Category_TeachingPeriod teachingPeriod = new Category_TeachingPeriod();
+            teachingPeriod.TeachingPeriodName = teachingPeriodName;
+            teachingPeriod.SessionId = session.SessionId;
+            teachingPeriod.BeginTime = dtBeginTime;
+            teachingPeriod.EndTime = dtEndTime;
 
             teachingPeriodDA.InsertTeachingPeriod(teachingPeriod);
         }
 
-        public void UpdateTiet(DanhMuc_Tiet editedTeachingPeriod, string newTeachingPeriodName, CauHinh_Buoi newSession, string newOrder, string newBeginTime, string newEndTime)
+        public void UpdateTiet(Category_TeachingPeriod editedTeachingPeriod, string newTeachingPeriodName, Configuration_Session newSession, string newOrder, string newBeginTime, string newEndTime)
         {
             string[] strBeginTimes = newBeginTime.Split(':');
             int iBeginHour = Int32.Parse(strBeginTimes[0]);
@@ -58,28 +58,27 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             int iOrder = Int32.Parse(newOrder);
 
-            DanhMuc_Tiet teachingPeriod = new DanhMuc_Tiet();
-            teachingPeriod.TenTiet = newTeachingPeriodName;
-            teachingPeriod.MaBuoi = newSession.MaBuoi;
-            teachingPeriod.ThoiGianBatDau = dtBeginTime;
-            teachingPeriod.ThoiDiemKetThu = dtEndTime;
+            editedTeachingPeriod.TeachingPeriodName = newTeachingPeriodName;
+            editedTeachingPeriod.SessionId = newSession.SessionId;
+            editedTeachingPeriod.BeginTime = dtBeginTime;
+            editedTeachingPeriod.EndTime = dtEndTime;
 
             teachingPeriodDA.UpdateTeachingPeriod(editedTeachingPeriod);
         }
 
-        public DanhMuc_Tiet GetTeachingPeriod(int teachingPeriodId)
+        public Category_TeachingPeriod GetTeachingPeriod(int teachingPeriodId)
         {
             return teachingPeriodDA.GetTeachingPeriod(teachingPeriodId);
         }
 
-        public List<DanhMuc_Tiet> GetTeachingPeriods()
+        public List<Category_TeachingPeriod> GetTeachingPeriods()
         {
             return teachingPeriodDA.GetTeachingPeriods();
         }
 
-        public List<TabularTeachingPeriod> GetTabularTeachingPeriods(string teachingPeriodName, CauHinh_Buoi session, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTeachingPeriod> GetTabularTeachingPeriods(string teachingPeriodName, Configuration_Session session, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_Tiet> lTeachingPeriods = new List<DanhMuc_Tiet>();
+            List<Category_TeachingPeriod> lTeachingPeriods = new List<Category_TeachingPeriod>();
             List<TabularTeachingPeriod> lTbTeachingPeriods = new List<TabularTeachingPeriod>();
 
             if ((teachingPeriodName == "") || (string.Compare(teachingPeriodName, "tất cả", 0) == 0))
@@ -106,18 +105,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             TabularTeachingPeriod tbTeachingPeriod = null;
-            foreach (DanhMuc_Tiet teachingPeriod in lTeachingPeriods)
+            foreach (Category_TeachingPeriod teachingPeriod in lTeachingPeriods)
             {
                 tbTeachingPeriod = new TabularTeachingPeriod();
-                tbTeachingPeriod.MaTiet = teachingPeriod.MaTiet;
-                tbTeachingPeriod.TenTiet = teachingPeriod.TenTiet;
-                tbTeachingPeriod.MaBuoi = teachingPeriod.CauHinh_Buoi.MaBuoi;
-                tbTeachingPeriod.TenBuoi = teachingPeriod.CauHinh_Buoi.TenBuoi;
-                tbTeachingPeriod.ThuTu = teachingPeriod.ThuTu;
-                tbTeachingPeriod.ThoiGianBatDau = teachingPeriod.ThoiGianBatDau;
-                tbTeachingPeriod.StringThoiGianBatDau = teachingPeriod.ThoiGianBatDau.ToShortTimeString();
-                tbTeachingPeriod.ThoiGianKetThuc = teachingPeriod.ThoiDiemKetThu;
-                tbTeachingPeriod.StringThoiGianKetThuc = teachingPeriod.ThoiDiemKetThu.ToShortTimeString();
+                tbTeachingPeriod.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
+                tbTeachingPeriod.TeachingPeriodName = teachingPeriod.TeachingPeriodName;
+                tbTeachingPeriod.SessionId = teachingPeriod.Configuration_Session.SessionId;
+                tbTeachingPeriod.SessionName = teachingPeriod.Configuration_Session.SessionName;
+                tbTeachingPeriod.TeachingPeriodOrder = teachingPeriod.TeachingPeriodOrder;
+                tbTeachingPeriod.BeginTime = teachingPeriod.BeginTime;
+                tbTeachingPeriod.StringBeginTime = teachingPeriod.BeginTime.ToShortTimeString();
+                tbTeachingPeriod.EndTime = teachingPeriod.EndTime;
+                tbTeachingPeriod.StringEndTime = teachingPeriod.EndTime.ToShortTimeString();
 
                 lTbTeachingPeriods.Add(tbTeachingPeriod);
             }
@@ -125,17 +124,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTbTeachingPeriods;
         }
 
-        public bool IsDeletable(DanhMuc_Tiet teachingPeriod)
+        public bool IsDeletable(Category_TeachingPeriod teachingPeriod)
         {
             return teachingPeriodDA.IsDeletable(teachingPeriod);
         }
 
-        public string GetDetailedTeachingPeriod(DanhMuc_Tiet teachingPeriod)
+        public string GetDetailedTeachingPeriod(Category_TeachingPeriod teachingPeriod)
         {
             string chiTietTiet = string.Format("<b>{0}</b><br/>({1}-{2})",
-                    teachingPeriod.TenTiet,
-                    teachingPeriod.ThoiDiemKetThu.ToShortTimeString(),
-                    teachingPeriod.ThoiDiemKetThu.ToShortTimeString());
+                    teachingPeriod.TeachingPeriodName,
+                    teachingPeriod.BeginTime.ToShortTimeString(),
+                    teachingPeriod.EndTime.ToShortTimeString());
             return chiTietTiet;
         }
 
@@ -156,7 +155,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public void SetSession(School school)
+        public void SetSession(School_School school)
         {
             this.school = school;
         }

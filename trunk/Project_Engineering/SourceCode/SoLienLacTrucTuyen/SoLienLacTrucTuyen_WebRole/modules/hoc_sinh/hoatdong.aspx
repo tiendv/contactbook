@@ -46,7 +46,7 @@
                 var tieuDe = $.trim(args.Value);
                 var maHocSinh = $get('<%=HdfMaHocSinh.ClientID%>').value;
                 var DdlHocKy = $get('<%=DdlHocKyThem.ClientID%>');
-                var maHocKy = DdlHocKy.options[DdlHocKy.selectedIndex].value;
+                var TermId = DdlHocKy.options[DdlHocKy.selectedIndex].value;
                 var ngay = $get('<%=TxtNgayThem.ClientID%>').value;
 
                 $.ajax({
@@ -54,7 +54,7 @@
                     url: "/Modules/Hoc_Sinh/HocSinhServicePage.aspx/HoatDongExists",
                     data: "{'maHoatDong':'" + 0 + "','tieuDe':'" + tieuDe
                         + "','maHocSinh':'" + maHocSinh
-                        + "','maHocKy':'" + maHocKy + "','ngay':'" + ngay + "'}",
+                        + "','TermId':'" + TermId + "','ngay':'" + ngay + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -72,14 +72,14 @@
                 var maHoatDong = $get('<%=HdfMaHoatDong.ClientID%>').value;
                 var tieuDe = $get('<%=HdfTieuDe.ClientID%>').value;
                 var maHocSinh = $get('<%=HdfMaHocSinh.ClientID%>').value;
-                var maHocKy = $get('<%=HdfMaHocSinh.ClientID%>').value;
+                var TermId = $get('<%=HdfMaHocSinh.ClientID%>').value;
                 var ngay = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
                     url: "/Modules/Hoc_Sinh/HocSinhServicePage.aspx/HoatDongExists",
                     data: "{'maHoatDong':'" + maHoatDong + "','tieuDe':'" + tieuDe
                         + "','maHocSinh':'" + maHocSinh
-                        + "','maHocKy':'" + maHocKy + "','ngay':'" + ngay + "'}",
+                        + "','TermId':'" + TermId + "','ngay':'" + ngay + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -282,7 +282,7 @@
                         Mô tả:
                     </td>
                     <td>
-                        <asp:TextBox ID="TxtMoTaThem" runat="server" TextMode="MultiLine" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtDescriptionThem" runat="server" TextMode="MultiLine" CssClass="input_textbox"
                             Style="font-family: arial;">
                         </asp:TextBox>
                     </td>
@@ -378,7 +378,7 @@
                         Mô tả:
                     </td>
                     <td>
-                        <asp:TextBox ID="TxtMoTaSua" runat="server" TextMode="MultiLine" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtDescriptionSua" runat="server" TextMode="MultiLine" CssClass="input_textbox"
                             Style="font-family: arial;">
                         </asp:TextBox>
                     </td>
@@ -484,7 +484,7 @@
             OnClick="BtnBackPrevPage_Click" />
     </div>
     <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
-    <asp:HiddenField ID="HdfMaHocKy" runat="server" />
+    <asp:HiddenField ID="HdfTermId" runat="server" />
     <asp:HiddenField ID="HdfTieuDe" runat="server" />
     <asp:HiddenField ID="HdfNgay" runat="server" />
 </asp:Content>

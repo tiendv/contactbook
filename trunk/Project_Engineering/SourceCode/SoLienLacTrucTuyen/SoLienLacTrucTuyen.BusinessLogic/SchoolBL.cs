@@ -15,7 +15,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             schoolDA = new SchoolDA();
         }
 
-        public List<School> GetSchools()
+        public List<School_School> GetSchools()
         {
             return schoolDA.GetSchools();
         }        

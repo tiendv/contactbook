@@ -45,7 +45,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                              ParentMenuId = menu.ParentMenuId,
                                              CapDo = menu.MenuLevel,
                                              ThuTuHienThi = menu.DisplayOrder,
-                                             HienThi = (bool)menu.Displayed
+                                             HienThi = (bool)menu.IsDisplayed
                                          };
                     if (roleBasedMenuItems.Count() != 0)
                     {
@@ -135,9 +135,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             return UrlBasedMenuIds.First();
         }
 
-        public UserManagement_Menus GetMenu(int menuId)
+        public UserManagement_Menu GetMenu(int menuId)
         {
-            UserManagement_Menus menu = (from menus in db.UserManagement_Menus
+            UserManagement_Menu menu = (from menus in db.UserManagement_Menus
                                          where menus.MenuId == menuId
                                          select menus).First();
             return menu;

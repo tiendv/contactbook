@@ -11,14 +11,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public abstract class BaseContentPage : System.Web.UI.Page
     {
-        public School UserSchool
+        public School_School UserSchool
         {
             get
             {
-                School school = null;
+                School_School school = null;
                 if (Session[AppConstant.SCHOOL] != null)
                 {
-                    school = (School)Session[AppConstant.SCHOOL];
+                    school = (School_School)Session[AppConstant.SCHOOL];
                 }
 
                 return school;
@@ -38,7 +38,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected virtual void Page_Load(object sender, EventArgs e)
         {
-            UserSchool = (School)Session[AppConstant.SCHOOL];
+            UserSchool = (School_School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);
             RoleBL roleBL = new RoleBL(UserSchool);
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
@@ -63,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (Session[AppConstant.SCHOOL] != null)
             {
-                UserSchool = (School)Session[AppConstant.SCHOOL];
+                UserSchool = (School_School)Session[AppConstant.SCHOOL];
             }
         }
         #endregion

@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private RoleDA roleDA;
 
-        public RoleBL(School school)
+        public RoleBL(School_School school)
             : base(school)
         {
             roleDA = new RoleDA(school);
@@ -124,10 +124,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             tabularRole.RoleId = role.RoleId;
             tabularRole.RoleName = role.RoleName;
             tabularRole.DisplayedName = role.UserManagement_RoleDetail.DisplayedName;
-            tabularRole.Description = role.UserManagement_RoleDetail.Description;
-            tabularRole.Expired = role.UserManagement_RoleDetail.Expired;
-            tabularRole.CanBeDeleted = role.UserManagement_RoleDetail.CanBeDeleted;
-            tabularRole.Actived = role.UserManagement_RoleDetail.Actived;
+            tabularRole.Description = role.Description;
+            tabularRole.IsDeletable = role.UserManagement_RoleDetail.IsDeletable;
 
             return tabularRole;
         }

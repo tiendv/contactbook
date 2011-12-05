@@ -75,7 +75,7 @@
     <Compile Include="TeacherDA.cs" />
     <Compile Include="ConductDA.cs" />
     <Compile Include="StudentActivityDA.cs" />
-    <Compile Include="HocLucDA.cs" />
+    <Compile Include="LearningAptitudeDA.cs" />
     <Compile Include="StudentDA.cs" />
     <Compile Include="StudyingResultDA.cs" />
     <Compile Include="GradeDA.cs" />
@@ -106,7 +106,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ClassDiagram1.cd" />
     <None Include="DbEContactBook.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DbEContactBook.designer.cs</LastGenOutput>

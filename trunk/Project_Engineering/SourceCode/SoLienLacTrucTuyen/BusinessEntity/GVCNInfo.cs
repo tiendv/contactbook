@@ -14,8 +14,8 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public bool GioiTinh { get; set; }
         public string DiaChi { get; set; }
         public string DienThoai { get; set; }
-        public int MaLopHoc { get; set; }
-        public string TenLopHoc { get; set; }
+        public int ClassId { get; set; }
+        public string ClassName { get; set; }
         //public byte[] HinhAnh { get; set; 
     }
 }

@@ -10,65 +10,64 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private ConductDA conductDA;
 
-        public ConductBL(School school)
+        public ConductBL(School_School school)
             : base(school)
         {
             conductDA = new ConductDA(school);
         }
 
-        public void InsertConduct(DanhMuc_HanhKiem conduct)
+        public void InsertConduct(Category_Conduct conduct)
         {
             conductDA.InsertConduct(conduct);
         }
 
         public void UpdateConduct(string editedConductName, string newConductName)
         {
-            DanhMuc_HanhKiem conduct = GetConduct(editedConductName);
-            
-            conduct.TenHanhKiem = newConductName;
+            Category_Conduct conduct = GetConduct(editedConductName);            
+            conduct.ConductName = newConductName;
 
             conductDA.UpdateConduct(conduct);
         }
 
-        public void DeleteConduct(DanhMuc_HanhKiem conduct)
+        public void DeleteConduct(Category_Conduct conduct)
         {
             conductDA.DeleteConduct(conduct);
         }
 
-        public DanhMuc_HanhKiem GetConduct(int conductId)
+        public Category_Conduct GetConduct(int conductId)
         {
             return conductDA.GetConduct(conductId);
         }
 
-        public DanhMuc_HanhKiem GetConduct(string conductName)
+        public Category_Conduct GetConduct(string conductName)
         {
             return conductDA.GetConduct(conductName);
         }
         
-        public List<DanhMuc_HanhKiem> GetListConducts(bool hasUndefinedOption)
+        public List<Category_Conduct> GetListConducts(bool hasUndefinedOption)
         {
-            List<DanhMuc_HanhKiem> lConducts = conductDA.GetConducts();
+            List<Category_Conduct> lConducts = conductDA.GetConducts();
 
             if (hasUndefinedOption)
             {
-                lConducts.Add(new DanhMuc_HanhKiem
+                lConducts.Add(new Category_Conduct
                 {
-                    TenHanhKiem = "Chưa xác định",
-                    MaHanhKiem = -1
+                    ConductName = "Chưa xác định",
+                    ConductId = -1
                 });
             }
 
             return lConducts;
         }
 
-        public List<DanhMuc_HanhKiem> GetListConducts(int currentIndex, int pageSize, out double totalRecords)
+        public List<Category_Conduct> GetListConducts(int currentIndex, int pageSize, out double totalRecords)
         {
             return conductDA.GetConducts(currentIndex, pageSize, out totalRecords);
         }
 
-        public List<DanhMuc_HanhKiem> GetListConducts(string conductName, int pageIndex, int pageSize, out double totalRecords)
+        public List<Category_Conduct> GetListConducts(string conductName, int pageIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
+            List<Category_Conduct> lConducts = new List<Category_Conduct>();
 
             if ((conductName == "") || (string.Compare(conductName, "tất cả", true) == 0))
             {
@@ -76,9 +75,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                DanhMuc_HanhKiem conduct = GetConduct(conductName);
-                lConducts.Add(conduct);
-                totalRecords = 1;
+                Category_Conduct conduct = GetConduct(conductName);
+                if (conduct != null)
+                {
+                    lConducts.Add(conduct);
+                }
+                totalRecords = lConducts.Count;
             }
 
             return lConducts;

@@ -10,7 +10,7 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     modalPopupAdd.add_showing(function () {
-                        $get('<%=TxtTenMonHocThem.ClientID%>').value = "";
+                        $get('<%=TxtSubjectNameThem.ClientID%>').value = "";
                         var DdlNganh = $get('<%=DdlNganh.ClientID%>');
                         DdlNganh.options[DdlNganh.selectedIndex].value = DdlNganh.options[0].value;
                         var DdlKhoiLop = $get('<%=DdlKhoiLop.ClientID%>');
@@ -42,19 +42,19 @@
                 return false;
             }
 
-            function validateTenMonHocAdd(ctrl, args) {
+            function validateSubjectNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var maMonHoc = 0;
-                var tenMonHoc = $.trim($('#<%=TxtTenMonHocThem.ClientID%>').val());
+                var SubjectId = 0;
+                var SubjectName = $.trim($('#<%=TxtSubjectNameThem.ClientID%>').val());
                 var DdlNganhHoc = $get('<%=DdlNganhHocThem.ClientID%>');
-                var maNganhHoc = DdlNganhHoc.options[DdlNganhHoc.selectedIndex].value;
+                var FacultyId = DdlNganhHoc.options[DdlNganhHoc.selectedIndex].value;
                 var DdlKhoiLop = $get('<%=DdlKhoiLopThem.ClientID%>');
-                var maKhoiLop = DdlKhoiLop.options[DdlKhoiLop.selectedIndex].value;
+                var GradeId = DdlKhoiLop.options[DdlKhoiLop.selectedIndex].value;
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenMonHoc",
-                    data: "{'maMonHoc':'" + maMonHoc + "', 'tenMonHoc':'" + tenMonHoc + "'"
-                                        + ", 'maNganhHoc':'" + maNganhHoc + "', 'maKhoiLop':'" + maKhoiLop + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistSubjectName",
+                    data: "{'SubjectId':'" + SubjectId + "', 'SubjectName':'" + SubjectName + "'"
+                                        + ", 'FacultyId':'" + FacultyId + "', 'GradeId':'" + GradeId + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -76,17 +76,17 @@
                 }
             }
 
-            function validateTenMonHocEdit(ctrl, args) {
+            function validateSubjectNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maMonHoc = $('#<%=HdfMaMonHoc.ClientID%>').val();
-                var tenMonHoc = $.trim($('#<%=TxtTenMonHocSua.ClientID%>').val());
-                var maNganhHoc = $get('<%=HdfMaNganhHocSua.ClientID%>').value;
-                var maKhoiLop = $get('<%=HdfMaKhoiLopSua.ClientID%>').value;
+                var SubjectId = $('#<%=HdfSubjectId.ClientID%>').val();
+                var SubjectName = $.trim($('#<%=TxtSubjectNameSua.ClientID%>').val());
+                var FacultyId = $get('<%=HdfFacultyIdSua.ClientID%>').value;
+                var GradeId = $get('<%=HdfGradeIdSua.ClientID%>').value;
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenMonHoc",
-                    data: "{'maMonHoc':'" + maMonHoc + "', 'tenMonHoc':'" + tenMonHoc + "'"
-                                        + ", 'maNganhHoc':'" + maNganhHoc + "', 'maKhoiLop':'" + maKhoiLop + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistSubjectName",
+                    data: "{'SubjectId':'" + SubjectId + "', 'SubjectName':'" + SubjectName + "'"
+                                        + ", 'FacultyId':'" + FacultyId + "', 'GradeId':'" + GradeId + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -146,7 +146,7 @@
             <asp:HiddenField ID="HfdSelectedSubjectName" runat="server" />
             <asp:HiddenField ID="HdfFacultyName" runat="server" />
             <asp:HiddenField ID="HdfGradeName" runat="server" />
-            <asp:HiddenField ID="HdfMaMonHoc" runat="server" />
+            <asp:HiddenField ID="HdfSubjectId" runat="server" />
             <asp:HiddenField ID="HdfRptMonHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptMonHocMPEEdit" runat="server" />
             <asp:HiddenField ID="HdfRptMonHocMPEDetail" runat="server" />
@@ -181,28 +181,28 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaMonHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaMonHoc")%>' />
-                            <asp:HiddenField ID="HdfRptTenMonHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>' />
+                            <asp:HiddenField ID="HdfRptSubjectId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "SubjectId")%>' />
+                            <asp:HiddenField ID="HdfRptSubjectName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "SubjectName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="LblTenMonHoc" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>'></asp:Label>
+                            <asp:Label ID="LblSubjectName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "SubjectName")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="LblFacultyName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>'></asp:Label>
-                            <asp:HiddenField ID="HdfFacultyName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>' />
+                            <asp:Label ID="LblFacultyName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>'></asp:Label>
+                            <asp:HiddenField ID="HdfFacultyName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="LblGradeName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>'></asp:Label>
-                            <asp:HiddenField ID="HdfGradeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>' />
+                            <asp:Label ID="LblGradeName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "GradeName")%>'></asp:Label>
+                            <asp:HiddenField ID="HdfGradeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "GradeName")%>' />
                         </td>
                         <td style="height: 40px; text-align: right">
-                            <asp:Label ID="Label15" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "HeSoDiem")%>'>
+                            <asp:Label ID="Label15" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "MarkRatio")%>'>
                             </asp:Label>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "SubjectName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -211,7 +211,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "SubjectName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -268,11 +268,11 @@
                         <asp:Label ID="LblAsterisk1" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenMonHocThem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenMonHocRequiredAdd" runat="server" ControlToValidate="TxtTenMonHocThem"
+                        <asp:TextBox ID="TxtSubjectNameThem" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="SubjectNameRequiredAdd" runat="server" ControlToValidate="TxtSubjectNameThem"
                             ValidationGroup="AddMonHoc" ErrorMessage="Tên môn học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenMonHocValidatorAdd" runat="server" ControlToValidate="TxtTenMonHocThem"
+                        <asp:CustomValidator ID="SubjectNameValidatorAdd" runat="server" ControlToValidate="TxtSubjectNameThem"
                             ValidationGroup="AddMonHoc" ErrorMessage="Môn học đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -300,12 +300,12 @@
                         Hệ số điểm:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtHeSoDiemThem" runat="server" CssClass="input_textbox" Style="font-family: arial;
+                        <asp:TextBox ID="TxtMarkRatioThem" runat="server" CssClass="input_textbox" Style="font-family: arial;
                             text-align: right"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="HeSoDiemRequiredAdd" runat="server" ControlToValidate="TxtHeSoDiemThem"
+                        <asp:RequiredFieldValidator ID="MarkRatioRequiredAdd" runat="server" ControlToValidate="TxtMarkRatioThem"
                             ValidationGroup="AddMonHoc" ErrorMessage="Hệ số điểm không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="HeSoDiemRegExp" runat="server" ControlToValidate="TxtHeSoDiemThem"
+                        <asp:RegularExpressionValidator ID="MarkRatioRegExp" runat="server" ControlToValidate="TxtMarkRatioThem"
                             ValidationGroup="AddMonHoc" ValidationExpression="\d{1}" Display="Dynamic" ForeColor="Red"
                             ErrorMessage="Hệ số điểm phải là số tự nhiên trong khoảng 1 đến 9"></asp:RegularExpressionValidator>
                     </td>
@@ -341,11 +341,11 @@
                         <asp:Label ID="Label9" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenMonHocSua" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenMonHocRequiredEdit" runat="server" ControlToValidate="TxtTenMonHocSua"
+                        <asp:TextBox ID="TxtSubjectNameSua" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="SubjectNameRequiredEdit" runat="server" ControlToValidate="TxtSubjectNameSua"
                             ValidationGroup="EditMonHoc" ErrorMessage="Tên môn học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenMonHocValidatorEdit" runat="server" ControlToValidate="TxtTenMonHocSua"
+                        <asp:CustomValidator ID="SubjectNameValidatorEdit" runat="server" ControlToValidate="TxtSubjectNameSua"
                             ValidationGroup="EditMonHoc" ErrorMessage="Môn học đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -355,8 +355,8 @@
                         Ngành:
                     </td>
                     <td style="width: auto;">
-                        <asp:Label ID="LblTenNganhHocSua" runat="server" Text="Label" Width="230px" CssClass="readOnlyTextBox"></asp:Label>
-                        <asp:HiddenField ID="HdfMaNganhHocSua" runat="server" />
+                        <asp:Label ID="LblFacultyNameSua" runat="server" Text="Label" Width="230px" CssClass="readOnlyTextBox"></asp:Label>
+                        <asp:HiddenField ID="HdfFacultyIdSua" runat="server" />
                     </td>
                 </tr>
                 <tr>
@@ -364,8 +364,8 @@
                         Khối:
                     </td>
                     <td style="width: auto;">
-                        <asp:Label ID="LblTenKhoiLopSua" runat="server" Text="Label" Width="230px" CssClass="readOnlyTextBox"></asp:Label>
-                        <asp:HiddenField ID="HdfMaKhoiLopSua" runat="server" />
+                        <asp:Label ID="LblGradeNameSua" runat="server" Text="Label" Width="230px" CssClass="readOnlyTextBox"></asp:Label>
+                        <asp:HiddenField ID="HdfGradeIdSua" runat="server" />
                     </td>
                 </tr>
                 <tr>
@@ -373,12 +373,12 @@
                         Hệ số điểm:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtHeSoDiemSua" runat="server" CssClass="input_textbox" Style="font-family: arial;
+                        <asp:TextBox ID="TxtMarkRatioSua" runat="server" CssClass="input_textbox" Style="font-family: arial;
                             text-align: right"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="HeSoDiemRequiredEdit" runat="server" ControlToValidate="TxtHeSoDiemSua"
+                        <asp:RequiredFieldValidator ID="MarkRatioRequiredEdit" runat="server" ControlToValidate="TxtMarkRatioSua"
                             ValidationGroup="EditMonHoc" ErrorMessage="Hệ số điểm không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TxtHeSoDiemSua"
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TxtMarkRatioSua"
                             ValidationGroup="EditMonHoc" ValidationExpression="\d{1}" Display="Dynamic" ForeColor="Red"
                             ErrorMessage="Hệ số điểm phải là số tự nhiên trong khoảng 1 đến 9"></asp:RegularExpressionValidator>
                     </td>

@@ -36,9 +36,9 @@ namespace SoLienLacTrucTuyen_WebRole
         [WebMethod]
         public static bool ExistMaHocSinhHienThi(string maHocSinh, string maHocSinhHienThi)
         {
-            StudentBL hocSinhBL = new StudentBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-            HocSinh_ThongTinCaNhan student = hocSinhBL.GetStudent(maHocSinhHienThi);
-            int iMaHocSinh = student.MaHocSinh;
+            StudentBL hocSinhBL = new StudentBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
+            Student_Student student = hocSinhBL.GetStudent(maHocSinhHienThi);
+            int iMaHocSinh = student.StudentId;
             if (iMaHocSinh.ToString() != maHocSinh)
             {
                 return true;
@@ -51,17 +51,17 @@ namespace SoLienLacTrucTuyen_WebRole
 
         //[WebMethod]
         //public static bool NgayNghiHocExists(int maNgayNghiHoc, int maHocSinh,
-        //    int maHocKy, DateTime ngay, int maBuoi)
+        //    int TermId, DateTime ngay, int SessionId)
         //{
         //    bool bResult = false;
         //    AbsentBL ngayNghiHocBL = new AbsentBL(UserSchool);
         //    if (maNgayNghiHoc == 0)
         //    {
-        //        bResult = ngayNghiHocBL.AbsentExists(null, maHocSinh, maHocKy, ngay, maBuoi);
+        //        bResult = ngayNghiHocBL.AbsentExists(null, maHocSinh, TermId, ngay, SessionId);
         //    }
         //    else
         //    {
-        //        bResult = ngayNghiHocBL.AbsentExists(maNgayNghiHoc, maHocSinh, maHocKy, ngay, maBuoi);
+        //        bResult = ngayNghiHocBL.AbsentExists(maNgayNghiHoc, maHocSinh, TermId, ngay, SessionId);
         //    }
         //    return bResult;
         //}
@@ -70,35 +70,35 @@ namespace SoLienLacTrucTuyen_WebRole
         public static void CheckedHanhKiem(string radioButtonName)
         {
             int i = "TbPnlKetQuaHocTap_PnlPopupHanhKiem_Rbtn".Length;
-            string maHanhKiem = radioButtonName.Substring(i);
+            string ConductId = radioButtonName.Substring(i);
 
             string userName = HttpContext.Current.Session["username"].ToString();
-            HttpContext.Current.Session[userName + "CheckHanhKiem"] = maHanhKiem;
+            HttpContext.Current.Session[userName + "CheckHanhKiem"] = ConductId;
         }
 
         //[WebMethod]
         //public static bool HoatDongExists(int maHoatDong, string tieuDe, int maHocSinh,
-        //    int maHocKy, DateTime ngay)
+        //    int TermId, DateTime ngay)
         //{
         //    StudentActivityBL hoatDongBL = new StudentActivityBL(UserSchool);
         //    if (maHoatDong == 0)
         //    {
         //        return hoatDongBL.HoatDongExists(null, tieuDe,
-        //        maHocSinh, maHocKy, ngay);
+        //        maHocSinh, TermId, ngay);
         //    }
         //    else
         //    {
         //        return hoatDongBL.HoatDongExists(maHoatDong, tieuDe,
-        //            maHocSinh, maHocKy, ngay);
+        //            maHocSinh, TermId, ngay);
         //    }
         //}
 
         [WebMethod]
         public static bool ValidateMark(string marks, int markTypeId)
         {
-            StudyingResultBL kqhtBL = new StudyingResultBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-            DanhMuc_LoaiDiem markType = new DanhMuc_LoaiDiem();
-            markType.MaLoaiDiem = markTypeId;
+            StudyingResultBL kqhtBL = new StudyingResultBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
+            Category_MarkType markType = new Category_MarkType();
+            markType.MarkTypeId = markTypeId;
             return kqhtBL.ValidateMark(marks, markType);
         }
     }

@@ -18,19 +18,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
 
         [WebMethod]
-        public static bool MaGiaoVienExists(string maGiaoVienHienThi)
+        public static bool UserIdExists(string UserIdHienThi)
         {
-            maGiaoVienHienThi = Uri.UnescapeDataString(maGiaoVienHienThi);
-            TeacherBL giaoVienBL = new TeacherBL((School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-            return giaoVienBL.TeacherCodeExists(maGiaoVienHienThi);
+            UserIdHienThi = Uri.UnescapeDataString(UserIdHienThi);
+            TeacherBL giaoVienBL = new TeacherBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
+            return giaoVienBL.TeacherCodeExists(UserIdHienThi);
         }
 
         //[WebMethod]
-        //public static bool ExistGiaoVien(string maGiaoVienHienThi)
+        //public static bool ExistGiaoVien(string UserIdHienThi)
         //{
-        //    maGiaoVienHienThi = Uri.UnescapeDataString(maGiaoVienHienThi);
+        //    UserIdHienThi = Uri.UnescapeDataString(UserIdHienThi);
         //    GiaoVienBL giaoVienBL = new GiaoVienBL(UserSchool);
-        //    return giaoVienBL.MaGiaoVienExists(maGiaoVienHienThi);
+        //    return giaoVienBL.UserIdExists(UserIdHienThi);
         //}
     }
 }

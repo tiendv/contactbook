@@ -14,7 +14,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public string TenHoatDong { get; set; }
         public string StrNgay { get; set; }
 
-        public int? MaThaiDoThamGia;
+        public int? AttitudeId;
         public string ThaiDoThamGia { get; set; }
     }
 }

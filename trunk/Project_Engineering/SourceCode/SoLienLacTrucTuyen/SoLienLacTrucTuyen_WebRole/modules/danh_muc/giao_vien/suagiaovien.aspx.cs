@@ -30,9 +30,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 ViewState["prevpageid"] = Request.QueryString["prevpageid"];
 
-                string maGiaoVien = Request.QueryString["giaovien"];
-                ViewState["giaovien"] = maGiaoVien;
-                FillGiaoVien(new Guid(maGiaoVien));
+                string UserId = Request.QueryString["giaovien"];
+                ViewState["giaovien"] = UserId;
+                FillGiaoVien(new Guid(UserId));
             }
         }
         #endregion
@@ -40,7 +40,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button click event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            string maGiaoVien = LblMaGiaoVienHienThi.Text.Trim();
+            string UserId = LblUserIdHienThi.Text.Trim();
             string tenGiaoVien = TxtTenGiaoVien.Text.Trim();
             string strNgaySinh = TxtNgaySinh.Text.Trim();
             DateTime ngaySinh = new DateTime();
@@ -73,7 +73,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ngaySinh = DateTime.Parse(strNgaySinh);
 
             aspnet_Membership editedTeacher = new aspnet_Membership();
-            editedTeacher.UserId = giaoVienBL.GetTeacher(maGiaoVien).UserId;
+            editedTeacher.UserId = giaoVienBL.GetTeacher(UserId).UserId;
             giaoVienBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
 
             if ((string)ViewState["prevpageid"] == "1")
@@ -105,8 +105,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void FillGiaoVien(Guid teacherId)
         {
             aspnet_User teacher = giaoVienBL.GetTeacher(teacherId);
-            LblMaGiaoVienHienThi.Text = teacher.UserName.Split('_')[1];
-            TxtTenGiaoVien.Text = teacher.aspnet_Membership.RealName;
+            LblUserIdHienThi.Text = teacher.UserName.Split('_')[1];
+            TxtTenGiaoVien.Text = teacher.aspnet_Membership.FullName;
             if (teacher.aspnet_Membership.Birthday != null)
             {
                 TxtNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToShortDateString();

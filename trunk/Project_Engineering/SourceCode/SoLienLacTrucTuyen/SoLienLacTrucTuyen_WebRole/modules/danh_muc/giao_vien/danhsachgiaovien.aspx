@@ -17,7 +17,7 @@
         <div id="divSearchCriteria">
             Mã giáo viên:&nbsp;
             <asp:TextBox ID="TxtSearchMaHienThiGiaoVien" runat="server" Width="150px"></asp:TextBox>
-            <ajaxToolkit:TextBoxWatermarkExtender ID="MaGiaoVienWatermark" runat="server" TargetControlID="TxtSearchMaHienThiGiaoVien"
+            <ajaxToolkit:TextBoxWatermarkExtender ID="UserIdWatermark" runat="server" TargetControlID="TxtSearchMaHienThiGiaoVien"
                 WatermarkText="Tất cả">
             </ajaxToolkit:TextBoxWatermarkExtender>
             &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; Tên giáo viên:
@@ -43,7 +43,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfTeacherCode" runat="server" />
-            <asp:HiddenField ID="HdfMaGiaoVien" runat="server" />
+            <asp:HiddenField ID="HdfUserId" runat="server" />
             <asp:HiddenField ID="HdfRptGiaoVienMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptGiaoVienMPEEdit" runat="server" />
             <asp:Repeater ID="RptGiaoVien" runat="server" OnItemCommand="RptGiaoVien_ItemCommand"
@@ -72,17 +72,17 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaGiaoVien" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaGiaoVien")%>' />
+                            <asp:HiddenField ID="HdfRptUserId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HlkMaGiaoVien" runat="server"><%#DataBinder.Eval(Container.DataItem, "MaHienThiGiaoVien")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkUserId" runat="server"><%#DataBinder.Eval(Container.DataItem, "MaHienThiGiaoVien")%></asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
                             <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "HoTen")%></asp:HyperLink>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CssClass="EditItemButton" CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaGiaoVien")%>' />
+                                CssClass="EditItemButton" CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
                         </td>
                         <%--<td id="tdDelete" runat="server" class="icon" style="height: 40px">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />

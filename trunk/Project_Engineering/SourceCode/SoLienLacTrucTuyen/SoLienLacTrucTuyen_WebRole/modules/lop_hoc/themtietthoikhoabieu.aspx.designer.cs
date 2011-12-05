@@ -247,13 +247,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResultMonHoc;
         
         /// <summary>
-        /// HdfMaMonHoc control.
+        /// HdfSubjectId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaMonHoc;
+        protected global::System.Web.UI.WebControls.HiddenField HdfSubjectId;
         
         /// <summary>
         /// RptMonHoc control.
@@ -319,22 +319,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblPnlPopupGiaoVienTitle;
         
         /// <summary>
-        /// TxtSearchMaGiaoVien control.
+        /// TxtSearchUserId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSearchMaGiaoVien;
+        protected global::System.Web.UI.WebControls.TextBox TxtSearchUserId;
         
         /// <summary>
-        /// MaGiaoVienWatermark control.
+        /// UserIdWatermark control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.TextBoxWatermarkExtender MaGiaoVienWatermark;
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender UserIdWatermark;
         
         /// <summary>
         /// TxtSearchTenGiaoVien control.
@@ -373,13 +373,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResultGiaoVien;
         
         /// <summary>
-        /// HdfMaGiaoVien control.
+        /// HdfUserId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaGiaoVien;
+        protected global::System.Web.UI.WebControls.HiddenField HdfUserId;
         
         /// <summary>
         /// RptGiaoVien control.

@@ -7,56 +7,56 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class MarkTypeDA : BaseDA
     {
-        public MarkTypeDA(School school)
+        public MarkTypeDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertMarkType(DanhMuc_LoaiDiem markType)
+        public void InsertMarkType(Category_MarkType markType)
         {
             markType.SchoolId = school.SchoolId;
-            db.DanhMuc_LoaiDiems.InsertOnSubmit(markType);
+            db.Category_MarkTypes.InsertOnSubmit(markType);
             db.SubmitChanges();
         }
 
-        public void DeleteMarkType(DanhMuc_LoaiDiem markType)
+        public void DeleteMarkType(Category_MarkType markType)
         {
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
-                                                      where markTp.MaLoaiDiem == markType.MaLoaiDiem
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
+                                                      where markTp.MarkTypeId == markType.MarkTypeId
                                                       && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
-                db.DanhMuc_LoaiDiems.DeleteOnSubmit(iqMarkType.First());
+                db.Category_MarkTypes.DeleteOnSubmit(iqMarkType.First());
             }
             db.SubmitChanges();
         }
 
-        public void UpdateMarkType(DanhMuc_LoaiDiem newMarkType)
+        public void UpdateMarkType(Category_MarkType newMarkType)
         {
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
-                                                      where markTp.MaLoaiDiem == newMarkType.MaLoaiDiem
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
+                                                      where markTp.MarkTypeId == newMarkType.MarkTypeId
                                                       && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
             {
-                DanhMuc_LoaiDiem markType = iqMarkType.First();
+                Category_MarkType markType = iqMarkType.First();
 
-                markType.TenLoaiDiem = newMarkType.TenLoaiDiem;
-                markType.HeSoDiem = newMarkType.HeSoDiem;
-                markType.SoCotToiDa = newMarkType.SoCotToiDa;
-                markType.TinhDTB = newMarkType.TinhDTB;
+                markType.MarkTypeName = newMarkType.MarkTypeName;
+                markType.MarkRatio = newMarkType.MarkRatio;
+                markType.MaxQuantity = newMarkType.MaxQuantity;
+                markType.IsUsedForCalculatingAvg = newMarkType.IsUsedForCalculatingAvg;
             }
 
             db.SubmitChanges();
         }
 
-        public DanhMuc_LoaiDiem GetMarkType(int markTypeId)
+        public Category_MarkType GetMarkType(int markTypeId)
         {
-            DanhMuc_LoaiDiem markType = null;
+            Category_MarkType markType = null;
 
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
-                                                      where markTp.MaLoaiDiem == markTypeId
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
+                                                      where markTp.MarkTypeId == markTypeId
                                                       && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
@@ -67,12 +67,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             return markType;
         }
 
-        public DanhMuc_LoaiDiem GetMarkType(string markTypeName)
+        public Category_MarkType GetMarkType(string markTypeName)
         {
-            DanhMuc_LoaiDiem markType = null;
+            Category_MarkType markType = null;
 
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
-                                                      where markTp.TenLoaiDiem == markTypeName
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
+                                                      where markTp.MarkTypeName == markTypeName
                                                       && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
@@ -83,36 +83,36 @@ namespace SoLienLacTrucTuyen.DataAccess
             return markType;
         }
 
-        public List<DanhMuc_LoaiDiem> GetListMarkTypes()
+        public List<Category_MarkType> GetListMarkTypes()
         {
-            List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
+            List<Category_MarkType> lMarkTypes = new List<Category_MarkType>();
 
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
                                                       where markTp.SchoolId == school.SchoolId
                                                       select markTp;
 
             if (iqMarkType.Count() != 0)
             {
-                lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
-                    .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem).ToList();
+                lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.MarkRatio)
+                    .ThenBy(loaiDiem => loaiDiem.MarkTypeName).ToList();
             }
 
             return lMarkTypes;
         }
 
-        public List<DanhMuc_LoaiDiem> GetListMarkTypes(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_MarkType> GetListMarkTypes(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_LoaiDiem> lMarkTypes = new List<DanhMuc_LoaiDiem>();
+            List<Category_MarkType> lMarkTypes = new List<Category_MarkType>();
 
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
                                                       where markTp.SchoolId == school.SchoolId
                                                       select markTp;
 
             totalRecords = iqMarkType.Count();
             if (totalRecords != 0)
             {
-                lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.HeSoDiem)
-                    .ThenBy(loaiDiem => loaiDiem.TenLoaiDiem)
+                lMarkTypes = iqMarkType.OrderBy(loaiDiem => loaiDiem.MarkRatio)
+                    .ThenBy(loaiDiem => loaiDiem.MarkTypeName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
@@ -121,8 +121,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool MarkTypeExists(string markTypeName)
         {
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
-                                                      where markTp.TenLoaiDiem == markTypeName
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
+                                                      where markTp.MarkTypeName == markTypeName
                                                       && markTp.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)
@@ -135,12 +135,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(DanhMuc_LoaiDiem markType)
+        public bool IsDeletable(Category_MarkType markType)
         {
-            IQueryable<HocSinh_ChiTietDiem> iqHocSinhChiTietDiem;
-            iqHocSinhChiTietDiem = from hsChiTietDiem in db.HocSinh_ChiTietDiems
-                                   where hsChiTietDiem.MaLoaiDiem == markType.MaLoaiDiem
-                                   && hsChiTietDiem.DanhMuc_LoaiDiem.SchoolId == school.SchoolId
+            IQueryable<Student_DetailedTermSubjectMark> iqHocSinhChiTietDiem;
+            iqHocSinhChiTietDiem = from hsChiTietDiem in db.Student_DetailedTermSubjectMarks
+                                   where hsChiTietDiem.MarkType == markType.MarkTypeId
+                                   && hsChiTietDiem.Category_MarkType.SchoolId == school.SchoolId
                                    select hsChiTietDiem;
 
             if (iqHocSinhChiTietDiem.Count() != 0)
@@ -153,12 +153,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public DanhMuc_LoaiDiem GetAppliedCalAvgMarkType()
+        public Category_MarkType GetAppliedCalAvgMarkType()
         {
-            DanhMuc_LoaiDiem markType = null;
+            Category_MarkType markType = null;
 
-            IQueryable<DanhMuc_LoaiDiem> iqMarkType = from markTp in db.DanhMuc_LoaiDiems
-                                                      where markTp.TinhDTB == true
+            IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
+                                                      where markTp.IsUsedForCalculatingAvg == true
                                                       && markType.SchoolId == school.SchoolId
                                                       select markTp;
             if (iqMarkType.Count() != 0)

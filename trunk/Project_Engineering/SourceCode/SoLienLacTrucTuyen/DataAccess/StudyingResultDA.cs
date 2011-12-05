@@ -8,38 +8,38 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class StudyingResultDA : BaseDA
     {
-        public StudyingResultDA(School school)
+        public StudyingResultDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertTermStudyingResult(HocSinh_DanhHieuHocKy termStudyingResult)
+        public void InsertTermStudyingResult(Student_TermLearningResult termStudyingResult)
         {
-            db.HocSinh_DanhHieuHocKies.InsertOnSubmit(termStudyingResult);
+            db.Student_TermLearningResults.InsertOnSubmit(termStudyingResult);
             db.SubmitChanges();
         }
 
-        public void InsertDetailedMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject, DanhMuc_LoaiDiem markType, double mark)
+        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, Category_MarkType markType, double mark)
         {
-            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
-            HocSinh_ChiTietDiem detailedMark = null;
+            Student_TermSubjectMark termSubjectedMark = null;
+            Student_DetailedTermSubjectMark detailedMark = null;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-            iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                  where termSubjMark.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                    && termSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && termSubjMark.MaHocKy == term.MaHocKy && termSubjMark.MaMonHoc == subject.MaMonHoc
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId && termSubjMark.SubjectId == subject.SubjectId
                                   select termSubjMark;
 
             if (iqTermSubjectedMark.Count() != 0)
             {
                 termSubjectedMark = iqTermSubjectedMark.First();
-                detailedMark = new HocSinh_ChiTietDiem();
-                detailedMark.MaDiemMonHK = termSubjectedMark.MaDiemMonHK;
-                detailedMark.MaLoaiDiem = markType.MaLoaiDiem;
-                detailedMark.Diem = mark;
+                detailedMark = new Student_DetailedTermSubjectMark();
+                detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
+                detailedMark.MarkType = markType.MarkTypeId;
+                detailedMark.MarkValue = mark;
 
-                db.HocSinh_ChiTietDiems.InsertOnSubmit(detailedMark);
+                db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);
                 db.SubmitChanges();
             }
         }
@@ -52,17 +52,17 @@ namespace SoLienLacTrucTuyen.DataAccess
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <param name="marks"></param>
-        public void InsertDetailedMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject, List<DetailMark> marks)
+        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks)
         {
-            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
-            HocSinh_ChiTietDiem detailedMark = null;
+            Student_TermSubjectMark termSubjectedMark = null;
+            Student_DetailedTermSubjectMark detailedMark = null;
             bool bCalAvg = false;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-            iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                  where termSubjMark.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                    && termSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && termSubjMark.MaHocKy == term.MaHocKy && termSubjMark.MaMonHoc == subject.MaMonHoc
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId && termSubjMark.SubjectId == subject.SubjectId
                                   select termSubjMark;
 
             if (iqTermSubjectedMark.Count() != 0)
@@ -72,11 +72,11 @@ namespace SoLienLacTrucTuyen.DataAccess
                 {
                     foreach (DetailMark mark in marks)
                     {
-                        detailedMark = new HocSinh_ChiTietDiem();
-                        detailedMark.MaDiemMonHK = termSubjectedMark.MaDiemMonHK;
-                        detailedMark.MaLoaiDiem = mark.MaLoaiDiem;
-                        detailedMark.Diem = mark.GiaTri;
-                        db.HocSinh_ChiTietDiems.InsertOnSubmit(detailedMark);
+                        detailedMark = new Student_DetailedTermSubjectMark();
+                        detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
+                        detailedMark.MarkType = mark.MarkTypeId;
+                        detailedMark.MarkValue = mark.GiaTri;
+                        db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);
 
                     }
                     db.SubmitChanges();
@@ -84,70 +84,70 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public void InsertDetailMark(HocSinh_ChiTietDiem detailedMark)
+        public void InsertDetailMark(Student_DetailedTermSubjectMark detailedMark)
         {
-            db.HocSinh_ChiTietDiems.InsertOnSubmit(detailedMark);
+            db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);
             db.SubmitChanges();
         }
 
-        public void UpdateDetailedMark(HocSinh_ChiTietDiem editedDetailedMark)
+        public void UpdateDetailedMark(Student_DetailedTermSubjectMark editedDetailedMark)
         {
-            HocSinh_ChiTietDiem detailedMark = null;
-            IQueryable<HocSinh_ChiTietDiem> iqDetailedMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                                             where dtlMark.MaChiTietDiem == editedDetailedMark.MaChiTietDiem
-                                                             select dtlMark;
+            Student_DetailedTermSubjectMark detailedMark = null;
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                         where dtlMark.DetailedTermSubjectMark == editedDetailedMark.DetailedTermSubjectMark
+                                                                         select dtlMark;
             if (iqDetailedMark.Count() != 0)
             {
                 detailedMark = iqDetailedMark.First();
-                detailedMark.Diem = editedDetailedMark.Diem;
+                detailedMark.MarkValue = editedDetailedMark.MarkValue;
                 db.SubmitChanges();
 
-                CalAvgMark(detailedMark.HocSinh_DiemMonHocHocKy);
+                CalAvgMark(detailedMark.Student_TermSubjectMark);
             }
         }
 
-        public void UpdateStudentTermResult(HocSinh_DanhHieuHocKy editedTermResult)
+        public void UpdateStudentTermResult(Student_TermLearningResult editedTermResult)
         {
-            HocSinh_DanhHieuHocKy termResult = null;
-            IQueryable<HocSinh_DanhHieuHocKy> iqTermResult = from trmRes in db.HocSinh_DanhHieuHocKies
-                                                             where trmRes.MaDanhHieuHSHK == termResult.MaDanhHieuHSHK
-                                                             select trmRes;
+            Student_TermLearningResult termResult = null;
+            IQueryable<Student_TermLearningResult> iqTermResult = from trmRes in db.Student_TermLearningResults
+                                                                  where trmRes.TermLearningResultId == termResult.TermLearningResultId
+                                                                  select trmRes;
             if (iqTermResult.Count() != 0)
             {
                 termResult = iqTermResult.First();
-                termResult.MaHanhKiemHK = editedTermResult.MaHanhKiemHK;
+                termResult.TermConductId = editedTermResult.TermConductId;
                 db.SubmitChanges();
             }
         }
 
-        public void CalAvgMark(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public void CalAvgMark(Student_TermSubjectMark termSubjectedMark)
         {
             //Tính điểm trung bình của môn học trong học kỳ
             // Xác định loại điểm cuối kỳ
-            //int maLoaiDiemCuoiKy = (from loaiDiem in db.DanhMuc_LoaiDiems
-            //                        where loaiDiem.TenLoaiDiem == "Thi cuối học kỳ"
-            //                        select loaiDiem.MaLoaiDiem).First();
+            //int MarkTypeIdCuoiKy = (from loaiDiem in db.Category_MarkTypes
+            //                        where loaiDiem.MarkTypeName == "Thi cuối học kỳ"
+            //                        select loaiDiem.MarkType).First();
             //double diemTBMonHocHocKy = 0;
             //double totalHeSoLoaiDiem = 0;
             //bool bUpdateDiemTBMonHocHocKy = false;
-            //IQueryable<HocSinh_ChiTietDiem> chiTietDiems = from ctDiem in db.HocSinh_ChiTietDiems
-            //                                               where ctDiem.MaDiemMonHK == maDiemMonHK
+            //IQueryable<Student_DetailedTermSubjectMark> chiTietDiems = from ctDiem in db.Student_DetailedTermSubjectMarks
+            //                                               where ctDiem.TermSubjectMarkId == maDiemMonHK
             //                                               select ctDiem;
             //LoaiDiemDA loaiDiemDA = new LoaiDiemDA();            
-            //foreach (HocSinh_ChiTietDiem ctDiem in chiTietDiems)
+            //foreach (Student_DetailedTermSubjectMark ctDiem in chiTietDiems)
             //{   
-            //    double heSoLoaiDiem = loaiDiemDA.GetLoaiDiem(ctDiem.MaLoaiDiem).HeSoDiem;
+            //    double heSoLoaiDiem = loaiDiemDA.GetLoaiDiem(ctDiem.MarkType).MarkRatio;
             //    diemTBMonHocHocKy += (ctDiem.Diem * heSoLoaiDiem);
             //    totalHeSoLoaiDiem += heSoLoaiDiem;
 
             //    // Nếu tồn tại loại điểm cuối kỳ thì sẽ tính điểm tb môn học học kỳ
-            //    if (ctDiem.MaLoaiDiem == maLoaiDiemCuoiKy)
+            //    if (ctDiem.MarkType == MarkTypeIdCuoiKy)
             //    {
             //        bUpdateDiemTBMonHocHocKy = true;
             //    }
             //}
-            //HocSinh_DiemMonHocHocKy diemMonHocHK = (from diemMonHK in db.HocSinh_DiemMonHocHocKies
-            //                                        where diemMonHK.MaDiemMonHK == maDiemMonHK
+            //Student_TermSubjectMark diemMonHocHK = (from diemMonHK in db.Student_TermSubjectMarks
+            //                                        where diemMonHK.TermSubjectMarkId == maDiemMonHK
             //                                        select diemMonHK).First();
             //if (bUpdateDiemTBMonHocHocKy)
             //{   
@@ -160,14 +160,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             //db.SubmitChanges();
 
             //// Tính điểm trung bình cả học kỳ (bao gồm tất cả các môn)
-            //int maHocSinhLopHoc = diemMonHocHK.MaHocSinhLopHoc;
+            //int maHocSinhLopHoc = diemMonHocHK.StudentInClassId;
             //double diemTBHocKy = 0;
             //double totalHeSoMonHoc = 0;
             //bool bUpdateDiemTBHocKy = true;
-            //IQueryable<HocSinh_DiemMonHocHocKy> diemMonHocHocKies = from diemMonHK in db.HocSinh_DiemMonHocHocKies
-            //                                                        where diemMonHK.MaHocSinhLopHoc == maHocSinhLopHoc
+            //IQueryable<Student_TermSubjectMark> diemMonHocHocKies = from diemMonHK in db.Student_TermSubjectMarks
+            //                                                        where diemMonHK.StudentInClassId == maHocSinhLopHoc
             //                                                        select diemMonHK;
-            //foreach (HocSinh_DiemMonHocHocKy diemMonHocHocKy in diemMonHocHocKies)
+            //foreach (Student_TermSubjectMark diemMonHocHocKy in diemMonHocHocKies)
             //{
             //    if (diemMonHocHocKy.DiemTB == -1) // Chưa tính hết
             //    {
@@ -176,66 +176,66 @@ namespace SoLienLacTrucTuyen.DataAccess
             //    }
             //    else
             //    {
-            //        double heSoDiemMon = (from mon in db.DanhMuc_MonHocs
-            //                          join monTKB in db.LopHoc_MonHocTKBs on mon.MaMonHoc equals monTKB.MaMonHoc
-            //                          where monTKB.MaMonHocTKB == diemMonHocHocKy.MaMonHocTKB
-            //                          select mon).First().HeSoDiem;
-            //        totalHeSoMonHoc += heSoDiemMon;
-            //        diemTBHocKy += heSoDiemMon * diemMonHocHocKy.DiemTB;
+            //        double MarkRatioMon = (from mon in db.Category_Subjects
+            //                          join monTKB in db.Class_Schedules on mon.SubjectId equals monTKB.SubjectId
+            //                          where monTKB.SubjectIdTKB == diemMonHocHocKy.SubjectIdTKB
+            //                          select mon).First().MarkRatio;
+            //        totalHeSoMonHoc += MarkRatioMon;
+            //        diemTBHocKy += MarkRatioMon * diemMonHocHocKy.DiemTB;
             //    }
             //}
 
-            //int maHocKy = (from monTKB in db.LopHoc_MonHocTKBs
-            //               where monTKB.MaMonHocTKB == diemMonHocHK.MaMonHocTKB
-            //               select monTKB).First().MaHocKy;
-            //HocSinh_DanhHieuHocKy danhHieuHocKy = (from danhHieu in db.HocSinh_DanhHieuHocKies
-            //                                       where danhHieu.MaHocSinhLopHoc == maHocSinhLopHoc && danhHieu.MaHocKy == maHocKy
+            //int TermId = (from monTKB in db.Class_Schedules
+            //               where monTKB.SubjectIdTKB == diemMonHocHK.SubjectIdTKB
+            //               select monTKB).First().TermId;
+            //Student_TermLearningResult danhHieuHocKy = (from danhHieu in db.Student_TermLearningResults
+            //                                       where danhHieu.StudentInClassId == maHocSinhLopHoc && danhHieu.TermId == TermId
             //                                       select danhHieu).First();
             //if (bUpdateDiemTBHocKy)
             //{
             //    danhHieuHocKy.DiemTBHK = Math.Round(diemTBHocKy / totalHeSoMonHoc, 1);
             //    HocLucDA hocLucDA = new HocLucDA();
-            //    DanhMuc_HocLuc hocLuc = hocLucDA.GetHocLuc((double)danhHieuHocKy.DiemTBHK);
+            //    Category_LearningAptitude hocLuc = hocLucDA.GetHocLuc((double)danhHieuHocKy.DiemTBHK);
             //    if (hocLuc != null)
             //    {
-            //        danhHieuHocKy.MaHocLucHK = hocLuc.MaHocLuc;
+            //        danhHieuHocKy.LearningAptitudeIdHK = hocLuc.LearningAptitudeId;
             //    }
             //    else
             //    {
-            //        danhHieuHocKy.MaHocLucHK = -1;
+            //        danhHieuHocKy.LearningAptitudeIdHK = -1;
             //    }
             //}
             //else
             //{
             //    danhHieuHocKy.DiemTBHK = -1;
-            //    danhHieuHocKy.MaHocLucHK = -1;
+            //    danhHieuHocKy.LearningAptitudeIdHK = -1;
             //}
             //db.SubmitChanges();
 
         }
 
-        public bool NeedResetAvgMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject)
+        public bool NeedResetAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             bool bResult = true;
-            List<HocSinh_ChiTietDiem> detailedMarks;
-            IQueryable<HocSinh_ChiTietDiem> iqDetailedMark;
-            iqDetailedMark = from dtlMark in db.HocSinh_ChiTietDiems 
-                                  where dtlMark.HocSinh_DiemMonHocHocKy.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                    && dtlMark.HocSinh_DiemMonHocHocKy.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && dtlMark.HocSinh_DiemMonHocHocKy.MaHocKy == term.MaHocKy 
-                                    && dtlMark.HocSinh_DiemMonHocHocKy.MaMonHoc == subject.MaMonHoc
-                                  select dtlMark;
-            
+            List<Student_DetailedTermSubjectMark> detailedMarks;
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark;
+            iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                             where dtlMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                               && dtlMark.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                               && dtlMark.Student_TermSubjectMark.TermId == term.TermId
+                               && dtlMark.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                             select dtlMark;
+
             if (iqDetailedMark.Count() != 0)
             {
                 detailedMarks = iqDetailedMark.ToList();
                 int length = detailedMarks.Count;
                 for (int i = 0; i < length; i++)
                 {
-                    if (detailedMarks[i].DanhMuc_LoaiDiem.TinhDTB)
+                    if (detailedMarks[i].Category_MarkType.IsUsedForCalculatingAvg)
                     {
                         bResult = false;
-                        break;                        
+                        break;
                     }
                 }
             }
@@ -243,84 +243,84 @@ namespace SoLienLacTrucTuyen.DataAccess
             return bResult;
         }
 
-        public void CalAvgMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject)
+        public void CalAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             double dAvgMark = -1;
-            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
+            Student_TermSubjectMark termSubjectedMark = null;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-            iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                  where termSubjMark.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                    && termSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && termSubjMark.MaHocKy == term.MaHocKy && termSubjMark.MaMonHoc == subject.MaMonHoc
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId && termSubjMark.SubjectId == subject.SubjectId
                                   select termSubjMark;
 
             if (iqTermSubjectedMark.Count() != 0)
             {
                 termSubjectedMark = iqTermSubjectedMark.First();
-                IQueryable<HocSinh_ChiTietDiem> iqDetailedMark;
-                iqDetailedMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                 where dtlMark.MaDiemMonHK == termSubjectedMark.MaDiemMonHK
+                IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark;
+                iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                 where dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
                                  select dtlMark;
                 if (iqDetailedMark.Count() != 0)
                 {
-                    double dTotalHeSoDiemLoai = 0;
+                    double dTotalMarkRatioLoai = 0;
                     double dTotalMarks = 0;
-                    foreach (HocSinh_ChiTietDiem detailedMark in iqDetailedMark)
-                    {   
-                        dTotalHeSoDiemLoai += detailedMark.DanhMuc_LoaiDiem.HeSoDiem;
-                        dTotalMarks += detailedMark.Diem * detailedMark.DanhMuc_LoaiDiem.HeSoDiem;
+                    foreach (Student_DetailedTermSubjectMark detailedMark in iqDetailedMark)
+                    {
+                        dTotalMarkRatioLoai += detailedMark.Category_MarkType.MarkRatio;
+                        dTotalMarks += detailedMark.MarkValue * detailedMark.Category_MarkType.MarkRatio;
                     }
 
-                    dAvgMark = dTotalMarks / dTotalHeSoDiemLoai;
+                    dAvgMark = dTotalMarks / dTotalMarkRatioLoai;
                     dAvgMark = Math.Round(dAvgMark, 1, MidpointRounding.AwayFromZero);
-                }                
+                }
             }
 
-            termSubjectedMark.DiemTB = dAvgMark;
+            termSubjectedMark.AverageMark = dAvgMark;
             db.SubmitChanges();
         }
 
-        public void ResetAvgMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject)
+        public void ResetAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
-            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
+            Student_TermSubjectMark termSubjectedMark = null;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-            iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                  where termSubjMark.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                    && termSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && termSubjMark.MaHocKy == term.MaHocKy && termSubjMark.MaMonHoc == subject.MaMonHoc
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId && termSubjMark.SubjectId == subject.SubjectId
                                   select termSubjMark;
 
             if (iqTermSubjectedMark.Count() != 0)
             {
                 termSubjectedMark = iqTermSubjectedMark.First();
-                termSubjectedMark.DiemTB = -1;
+                termSubjectedMark.AverageMark = -1;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteDetailedMark(HocSinh_ChiTietDiem deletedDetailedMark)
+        public void DeleteDetailedMark(Student_DetailedTermSubjectMark deletedDetailedMark)
         {
-            HocSinh_ChiTietDiem detailedMark = null;
-            IQueryable<HocSinh_ChiTietDiem> iqDetailedMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                                             where dtlMark.MaChiTietDiem == deletedDetailedMark.MaChiTietDiem
-                                                             select dtlMark;
+            Student_DetailedTermSubjectMark detailedMark = null;
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                         where dtlMark.DetailedTermSubjectMark == deletedDetailedMark.DetailedTermSubjectMark
+                                                                         select dtlMark;
             if (iqDetailedMark.Count() != 0)
             {
                 detailedMark = iqDetailedMark.First();
 
-                HocSinh_DiemMonHocHocKy termSubjectedMark = null;
-                IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-                iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                      where termSubjMark.MaDiemMonHK == deletedDetailedMark.MaDiemMonHK
+                Student_TermSubjectMark termSubjectedMark = null;
+                IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+                iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                      where termSubjMark.TermSubjectMarkId == deletedDetailedMark.TermSubjectMarkId
                                       select termSubjMark;
                 if (iqTermSubjectedMark.Count() != 0)
                 {
                     termSubjectedMark = iqTermSubjectedMark.First();
                 }
 
-                db.HocSinh_ChiTietDiems.DeleteOnSubmit(detailedMark);
+                db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedMark);
                 db.SubmitChanges();
 
                 CalAvgMark(termSubjectedMark);
@@ -335,105 +335,105 @@ namespace SoLienLacTrucTuyen.DataAccess
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <param name="markTypes"></param>
-        public void DeleteDetailedMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject, List<DanhMuc_LoaiDiem> markTypes)
+        public void DeleteDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<Category_MarkType> markTypes)
         {
-            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
+            Student_TermSubjectMark termSubjectedMark = null;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-            iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                  where termSubjMark.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                    && termSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                    && termSubjMark.MaHocKy == term.MaHocKy && termSubjMark.MaMonHoc == subject.MaMonHoc
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId && termSubjMark.SubjectId == subject.SubjectId
                                   select termSubjMark;
 
             if (iqTermSubjectedMark.Count() != 0)
             {
                 termSubjectedMark = iqTermSubjectedMark.First();
-                foreach (DanhMuc_LoaiDiem markType in markTypes)
+                foreach (Category_MarkType markType in markTypes)
                 {
-                    IQueryable<HocSinh_ChiTietDiem> iqDetailedMark;
-                    iqDetailedMark = from mark in db.HocSinh_ChiTietDiems
-                                     where mark.MaDiemMonHK == termSubjectedMark.MaDiemMonHK && mark.MaLoaiDiem == markType.MaLoaiDiem
+                    IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark;
+                    iqDetailedMark = from mark in db.Student_DetailedTermSubjectMarks
+                                     where mark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId && mark.MarkType == markType.MarkTypeId
                                      select mark;
                     if (iqDetailedMark.Count() != 0)
                     {
-                        foreach (HocSinh_ChiTietDiem detailedMark in iqDetailedMark)
+                        foreach (Student_DetailedTermSubjectMark detailedMark in iqDetailedMark)
                         {
-                            // Xoa diem hoc sinh theo MaLoaiDiem
-                            db.HocSinh_ChiTietDiems.DeleteOnSubmit(detailedMark);
+                            // Xoa diem hoc sinh theo MarkTypeId
+                            db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedMark);
                         }
                         db.SubmitChanges();
                     }
 
                     // re calculate avg mark
-                    if (markType.TinhDTB)
+                    if (markType.IsUsedForCalculatingAvg)
                     {
-                        termSubjectedMark.DiemTB = -1;
+                        termSubjectedMark.AverageMark = -1;
                         db.SubmitChanges();
                     }
                 }
             }
         }
 
-        public void DeleteDetailedMarks(HocSinh_DiemMonHocHocKy termSubjectedMark, DanhMuc_LoaiDiem markType)
+        public void DeleteDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType)
         {
-            IQueryable<HocSinh_ChiTietDiem> iqDetailedMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                                             where dtlMark.MaDiemMonHK == termSubjectedMark.MaDiemMonHK
-                                                                && dtlMark.MaLoaiDiem == markType.MaLoaiDiem
-                                                             select dtlMark;
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                         where dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                            && dtlMark.MarkType == markType.MarkTypeId
+                                                                         select dtlMark;
             if (iqDetailedMark.Count() != 0)
             {
-                foreach (HocSinh_ChiTietDiem detailedMark in iqDetailedMark)
+                foreach (Student_DetailedTermSubjectMark detailedMark in iqDetailedMark)
                 {
-                    db.HocSinh_ChiTietDiems.DeleteOnSubmit(detailedMark);
+                    db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedMark);
                 }
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteDetailedMarks(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public void DeleteDetailedMarks(Student_TermSubjectMark termSubjectedMark)
         {
-            List<HocSinh_ChiTietDiem> detailedMarks;
-            IQueryable<HocSinh_ChiTietDiem> iqDetailedMark;
-            iqDetailedMark = from mark in db.HocSinh_ChiTietDiems
-                             where mark.MaDiemMonHK == termSubjectedMark.MaDiemMonHK
+            List<Student_DetailedTermSubjectMark> detailedMarks;
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark;
+            iqDetailedMark = from mark in db.Student_DetailedTermSubjectMarks
+                             where mark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
                              select mark;
             if (iqDetailedMark.Count() != 0)
             {
                 detailedMarks = iqDetailedMark.ToList();
 
-                foreach (HocSinh_ChiTietDiem detailedMark in detailedMarks)
+                foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
                 {
-                    db.HocSinh_ChiTietDiems.DeleteOnSubmit(detailedMark);
+                    db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedMark);
                 }
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteTermSubjectMarks(LopHoc_MonHocTKB schedule)
+        public void DeleteTermSubjectMarks(Class_Schedule schedule)
         {
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectMark = from termSubjectMark in db.HocSinh_DiemMonHocHocKies
-                                                                    join schd in db.LopHoc_MonHocTKBs on termSubjectMark.MaMonHoc equals schedule.MaMonHoc
-                                                                    where termSubjectMark.MaMonHoc == schedule.MaMonHoc
-                                                                    && schd.MaMonHocTKB == schedule.MaMonHocTKB
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark = from termSubjectMark in db.Student_TermSubjectMarks
+                                                                    join schd in db.Class_Schedules on termSubjectMark.SubjectId equals schedule.SubjectId
+                                                                    where termSubjectMark.SubjectId == schedule.SubjectId
+                                                                    && schd.ScheduleId == schedule.ScheduleId
                                                                     select termSubjectMark;
             if (iqTermSubjectMark.Count() != 0)
             {
-                foreach (HocSinh_DiemMonHocHocKy termSubjectMark in iqTermSubjectMark)
+                foreach (Student_TermSubjectMark termSubjectMark in iqTermSubjectMark)
                 {
                     DeleteDetailedMarks(termSubjectMark);
-                    db.HocSinh_DiemMonHocHocKies.DeleteOnSubmit(termSubjectMark);
+                    db.Student_TermSubjectMarks.DeleteOnSubmit(termSubjectMark);
                     db.SubmitChanges();
                 }
             }
         }
 
-        public HocSinh_ChiTietDiem GetDetailedMark(int detailedMarkId)
+        public Student_DetailedTermSubjectMark GetDetailedMark(int detailedMarkId)
         {
-            HocSinh_ChiTietDiem detailedMark = null;
-            IQueryable<HocSinh_ChiTietDiem> iqDetailedMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                                             where dtlMark.MaChiTietDiem == detailedMarkId
-                                                             select dtlMark;
+            Student_DetailedTermSubjectMark detailedMark = null;
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                         where dtlMark.DetailedTermSubjectMark == detailedMarkId
+                                                                         select dtlMark;
             if (iqDetailedMark.Count() != 0)
             {
                 detailedMark = iqDetailedMark.First();
@@ -442,13 +442,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             return detailedMark;
         }
 
-        public List<HocSinh_ChiTietDiem> GetDetailedMarks(HocSinh_DiemMonHocHocKy termSubjectedMark, DanhMuc_LoaiDiem markType)
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType)
         {
-            List<HocSinh_ChiTietDiem> detailMarks = new List<HocSinh_ChiTietDiem>();
-            IQueryable<HocSinh_ChiTietDiem> iqDetailMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                                           where dtlMark.MaLoaiDiem == markType.MaLoaiDiem
-                                                           && dtlMark.MaDiemMonHK == termSubjectedMark.MaDiemMonHK
-                                                           select dtlMark;
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                       where dtlMark.MarkType == markType.MarkTypeId
+                                                                       && dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       select dtlMark;
             if (iqDetailMark.Count() != 0)
             {
                 detailMarks = iqDetailMark.ToList();
@@ -457,12 +457,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             return detailMarks;
         }
 
-        public List<HocSinh_ChiTietDiem> GetDetailedMarks(HocSinh_DiemMonHocHocKy termSubjectedMark, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<HocSinh_ChiTietDiem> detailMarks = new List<HocSinh_ChiTietDiem>();
-            IQueryable<HocSinh_ChiTietDiem> iqDetailMark = from dtlMark in db.HocSinh_ChiTietDiems
-                                                           where dtlMark.MaDiemMonHK == termSubjectedMark.MaDiemMonHK
-                                                           select dtlMark;
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                       where dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       select dtlMark;
             totalRecords = iqDetailMark.Count();
             if (totalRecords != 0)
             {
@@ -472,16 +472,16 @@ namespace SoLienLacTrucTuyen.DataAccess
             return detailMarks;
         }
 
-        public List<DanhMuc_MonHoc> GetScheduledSubjects(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term)
+        public List<Category_Subject> GetScheduledSubjects(Student_Student student, Configuration_Year year, Configuration_Term term)
         {
-            // Get list of MaMonHoc based on schedule
-            List<DanhMuc_MonHoc> scheduledSubjects = new List<DanhMuc_MonHoc>();
-            IQueryable<DanhMuc_MonHoc> iqScheduledSubjects = from schedule in db.LopHoc_MonHocTKBs
-                                                             join studentInClass in db.HocSinh_HocSinhLopHocs on schedule.MaLopHoc equals studentInClass.MaLopHoc
-                                                             where schedule.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                             && schedule.MaHocKy == term.MaHocKy
-                                                             && studentInClass.MaHocSinh == student.MaHocSinh
-                                                             select schedule.DanhMuc_MonHoc;
+            // Get list of SubjectId based on schedule
+            List<Category_Subject> scheduledSubjects = new List<Category_Subject>();
+            IQueryable<Category_Subject> iqScheduledSubjects = from schedule in db.Class_Schedules
+                                                               join studentInClass in db.Student_StudentInClasses on schedule.ClassId equals studentInClass.ClassId
+                                                               where schedule.Class_Class.YearId == year.YearId
+                                                               && schedule.TermId == term.TermId
+                                                               && studentInClass.StudentId == student.StudentId
+                                                               select schedule.Category_Subject;
             if (iqScheduledSubjects.Count() != 0)
             {
                 scheduledSubjects = iqScheduledSubjects.Distinct().ToList();
@@ -490,13 +490,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             return scheduledSubjects;
         }
 
-        public HocSinh_DiemMonHocHocKy GetTermSubjectedMark(int termSubjectedMarkId)
+        public Student_TermSubjectMark GetTermSubjectedMark(int termSubjectedMarkId)
         {
-            HocSinh_DiemMonHocHocKy termSubjectedMark = null;
+            Student_TermSubjectMark termSubjectedMark = null;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectedMark;
-            iqTermSubjectedMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                  where termSubjMark.MaDiemMonHK == termSubjectedMarkId
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.TermSubjectMarkId == termSubjectedMarkId
                                   select termSubjMark;
 
             if (iqTermSubjectedMark.Count() != 0)
@@ -507,15 +507,15 @@ namespace SoLienLacTrucTuyen.DataAccess
             return termSubjectedMark;
         }
 
-        public HocSinh_DiemMonHocHocKy GetTermSubjectedMark(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DanhMuc_MonHoc subject)
+        public Student_TermSubjectMark GetTermSubjectedMark(Student_Student student, Configuration_Year year, Configuration_Term term, Category_Subject subject)
         {
-            HocSinh_DiemMonHocHocKy termSubjectMark = null;
+            Student_TermSubjectMark termSubjectMark = null;
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectMark;
-            iqTermSubjectMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                where termSubjMark.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                && termSubjMark.HocSinh_HocSinhLopHoc.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                && termSubjMark.MaMonHoc == subject.MaMonHoc && termSubjMark.MaHocKy == term.MaHocKy
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
+            iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
+                                where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                && termSubjMark.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                && termSubjMark.SubjectId == subject.SubjectId && termSubjMark.TermId == term.TermId
                                 select termSubjMark;
             if (iqTermSubjectMark.Count() != 0)
             {
@@ -525,33 +525,33 @@ namespace SoLienLacTrucTuyen.DataAccess
             return termSubjectMark;
         }
 
-        public List<HocSinh_DiemMonHocHocKy> GetTermSubjectedMarks(LopHoc_Lop Class, DanhMuc_MonHoc subject, CauHinh_HocKy term, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
-            List<HocSinh_DiemMonHocHocKy> termSubjectMarks = new List<HocSinh_DiemMonHocHocKy>();
+            List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
 
-            IQueryable<HocSinh_DiemMonHocHocKy> iqTermSubjectMark;
-            iqTermSubjectMark = from termSubjMark in db.HocSinh_DiemMonHocHocKies
-                                where termSubjMark.HocSinh_HocSinhLopHoc.MaLopHoc == Class.MaLopHoc
-                                && termSubjMark.MaMonHoc == subject.MaMonHoc && termSubjMark.MaHocKy == term.MaHocKy
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
+            iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
+                                where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                && termSubjMark.SubjectId == subject.SubjectId && termSubjMark.TermId == term.TermId
                                 select termSubjMark;
 
             totalRecord = iqTermSubjectMark.Count();
             if (totalRecord != 0)
             {
-                termSubjectMarks = iqTermSubjectMark.OrderBy(termSubjMark => termSubjMark.HocSinh_HocSinhLopHoc.HocSinh_ThongTinCaNhan.MaHocSinhHienThi)
+                termSubjectMarks = iqTermSubjectMark.OrderBy(termSubjMark => termSubjMark.Student_StudentInClass.Student_Student.StudentCode)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return termSubjectMarks;
-        }        
+        }
 
-        public List<HocSinh_DanhHieuHocKy> GetStudentTermResults(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_TermLearningResult> GetStudentTermResults(Student_Student student, Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<HocSinh_DanhHieuHocKy> studentTermResults = new List<HocSinh_DanhHieuHocKy>();
-            IQueryable<HocSinh_DanhHieuHocKy> iqStudentTermResult = from danhHieu in db.HocSinh_DanhHieuHocKies
-                                                                    where danhHieu.HocSinh_HocSinhLopHoc.MaHocSinh == student.MaHocSinh
-                                                                    && danhHieu.HocSinh_HocSinhLopHoc.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                                                                    select danhHieu;
+            List<Student_TermLearningResult> studentTermResults = new List<Student_TermLearningResult>();
+            IQueryable<Student_TermLearningResult> iqStudentTermResult = from danhHieu in db.Student_TermLearningResults
+                                                                         where danhHieu.Student_StudentInClass.StudentId == student.StudentId
+                                                                         && danhHieu.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                         select danhHieu;
 
             totalRecords = iqStudentTermResult.Count();
             if (totalRecords != 0)

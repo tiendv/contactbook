@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private StudyingResultDA studyingResultDA;
 
-        public StudyingResultBL(School school)
+        public StudyingResultBL(School_School school)
             : base(school)
         {
             studyingResultDA = new StudyingResultDA(school);
@@ -25,31 +25,31 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         /// <param name="termAvgMark"></param>
         /// <param name="termConduct"></param>
         /// <param name="termStudyingAptitude"></param>
-        public void InsertTermStudyingResult(CauHinh_HocKy term, HocSinh_HocSinhLopHoc studentInClass, double termAvgMark, DanhMuc_HanhKiem termConduct, DanhMuc_HocLuc termStudyingAptitude)
+        public void InsertTermStudyingResult(Configuration_Term term, Student_StudentInClass studentInClass, double termAvgMark, Category_Conduct termConduct, Category_LearningAptitude termStudyingAptitude)
         {
-            HocSinh_DanhHieuHocKy termStudyingResult = new HocSinh_DanhHieuHocKy
+            Student_TermLearningResult termStudyingResult = new Student_TermLearningResult
             {
-                MaHocKy = term.MaHocKy,
-                MaHocSinhLopHoc = studentInClass.MaHocSinhLopHoc,
-                DiemTBHK = termAvgMark,
-                MaHanhKiemHK = termConduct.MaHanhKiem,
-                MaHocLucHK = termStudyingAptitude.MaHocLuc
+                TermId = term.TermId,
+                StudentInClassId = studentInClass.StudentInClassId,
+                TermAverageMark = termAvgMark,
+                TermConductId = termConduct.ConductId,
+                TermLearningAptitudeId = termStudyingAptitude.LearningAptitudeId
             };
 
             studyingResultDA.InsertTermStudyingResult(termStudyingResult);
         }
 
-        //public void InsertDetailedMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject, DanhMuc_LoaiDiem markType, double mark)
+        //public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term, Category_Subject subject, Category_MarkType markType, double mark)
         //{
         //    studyingResultDA.InsertDetailedMark(student, Class, term, subject, markType, mark);
         //}
 
-        public void InsertDetailedMark(HocSinh_DiemMonHocHocKy termSubjectedMark, DanhMuc_LoaiDiem markType, double mark)
+        public void InsertDetailedMark(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, double mark)
         {
-            HocSinh_ChiTietDiem detailedMark = new HocSinh_ChiTietDiem();
-            detailedMark.MaDiemMonHK = termSubjectedMark.MaDiemMonHK;
-            detailedMark.MaLoaiDiem = markType.MaLoaiDiem;
-            detailedMark.Diem = mark;
+            Student_DetailedTermSubjectMark detailedMark = new Student_DetailedTermSubjectMark();
+            detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
+            detailedMark.MarkType = markType.MarkTypeId;
+            detailedMark.MarkValue = mark;
 
             studyingResultDA.InsertDetailMark(detailedMark);
             studyingResultDA.CalAvgMark(termSubjectedMark);
@@ -63,22 +63,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <param name="marks"></param>
-        public void UpdateDetailedMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject, List<DetailMark> marks)
+        public void UpdateDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks)
         {
-            List<DanhMuc_LoaiDiem> markTypes = new List<DanhMuc_LoaiDiem>();
-            DanhMuc_LoaiDiem markType = null;
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
+            Category_MarkType markType = null;
             List<int> markTypeIds = new List<int>();
 
             // Lấy danh sách phân biệt LoaiDiem
             foreach (DetailMark mark in marks)
             {
-                markType = new DanhMuc_LoaiDiem();
-                markType.MaLoaiDiem = mark.MaLoaiDiem;
+                markType = new Category_MarkType();
+                markType.MarkTypeId = mark.MarkTypeId;
                 markTypes.Add(markType);
             }
-            markTypes = markTypes.GroupBy(c => c.MaLoaiDiem).Select(g => g.First()).ToList();
+            markTypes = markTypes.GroupBy(c => c.MarkTypeId).Select(g => g.First()).ToList();
 
-            // Xoa cac diem cua hoc sinh theo MaLoaiDiem
+            // Xoa cac diem cua hoc sinh theo MarkTypeId
             studyingResultDA.DeleteDetailedMark(student, Class, term, subject, markTypes);
 
             int i = 0;
@@ -113,46 +113,46 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <returns></returns>
-        private bool NeedResetAvgMark(HocSinh_ThongTinCaNhan student, LopHoc_Lop Class, CauHinh_HocKy term, DanhMuc_MonHoc subject)
+        private bool NeedResetAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             return studyingResultDA.NeedResetAvgMark(student, Class, term, subject);
         }
 
-        public void UpdateDetailedMark(HocSinh_ChiTietDiem editedDetailedMark, double mark)
+        public void UpdateDetailedMark(Student_DetailedTermSubjectMark editedDetailedMark, double mark)
         {
-            editedDetailedMark.Diem = mark;
+            editedDetailedMark.MarkValue = mark;
             studyingResultDA.UpdateDetailedMark(editedDetailedMark);
         }
 
-        public void UpdateStudentTermResult(HocSinh_DanhHieuHocKy editedTermResult, DanhMuc_HanhKiem conduct)
+        public void UpdateStudentTermResult(Student_TermLearningResult editedTermResult, Category_Conduct conduct)
         {
-            editedTermResult.MaHanhKiemHK = conduct.MaHanhKiem;
+            editedTermResult.TermConductId = conduct.ConductId;
             studyingResultDA.UpdateStudentTermResult(editedTermResult);
         }
 
-        public void DeleteDetailedMark(HocSinh_ChiTietDiem deletedDetailedMark)
+        public void DeleteDetailedMark(Student_DetailedTermSubjectMark deletedDetailedMark)
         {
             studyingResultDA.DeleteDetailedMark(deletedDetailedMark);
         }
 
-        public HocSinh_ChiTietDiem GetDetailedMark(int detailedMarkId)
+        public Student_DetailedTermSubjectMark GetDetailedMark(int detailedMarkId)
         {
             return studyingResultDA.GetDetailedMark(detailedMarkId);
         }
 
-        public List<TabularSubjectTermResult> GetTabularSubjectTermResults(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularSubjectTermResult> GetTabularSubjectTermResults(Student_Student student, Configuration_Year year, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularSubjectTermResult> tabularSubjectTermResults = new List<TabularSubjectTermResult>();
             TabularSubjectTermResult tabularSubjectTermResult = null;
-            List<DanhMuc_MonHoc> scheduledSubjects = studyingResultDA.GetScheduledSubjects(student, year, term);
-            HocSinh_DiemMonHocHocKy termSubjectedMark;
-            foreach (DanhMuc_MonHoc scheduledSubject in scheduledSubjects)
+            List<Category_Subject> scheduledSubjects = studyingResultDA.GetScheduledSubjects(student, year, term);
+            Student_TermSubjectMark termSubjectedMark;
+            foreach (Category_Subject scheduledSubject in scheduledSubjects)
             {
                 termSubjectedMark = studyingResultDA.GetTermSubjectedMark(student, year, term, scheduledSubject);
                 tabularSubjectTermResult = new TabularSubjectTermResult();
-                tabularSubjectTermResult.TenMonHoc = scheduledSubject.TenMonHoc;
-                tabularSubjectTermResult.MaDiemMonHK = termSubjectedMark.MaDiemMonHK;
-                tabularSubjectTermResult.DiemTB = termSubjectedMark.DiemTB;
+                tabularSubjectTermResult.SubjectName = scheduledSubject.SubjectName;
+                tabularSubjectTermResult.MaDiemMonHK = termSubjectedMark.TermSubjectMarkId;
+                tabularSubjectTermResult.DiemTB = termSubjectedMark.AverageMark;
 
                 tabularSubjectTermResults.Add(tabularSubjectTermResult);
             }
@@ -160,7 +160,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             totalRecords = tabularSubjectTermResults.Count();
             if (totalRecords != 0)
             {
-                tabularSubjectTermResults = tabularSubjectTermResults.OrderBy(ketQua => ketQua.TenMonHoc)
+                tabularSubjectTermResults = tabularSubjectTermResults.OrderBy(ketQua => ketQua.SubjectName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
                 foreach (TabularSubjectTermResult tbSubjectTermResult in tabularSubjectTermResults)
                 {
@@ -171,7 +171,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularSubjectTermResults;
         }
 
-        public List<StrDiemMonHocLoaiDiem> GetSubjectMarks(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public List<StrDiemMonHocLoaiDiem> GetSubjectMarks(Student_TermSubjectMark termSubjectedMark)
         {
             List<StrDiemMonHocLoaiDiem> lstStringDiemMonHoc = new List<StrDiemMonHocLoaiDiem>();
 
@@ -191,47 +191,47 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lstStringDiemMonHoc;
         }
 
-        public HocSinh_ThongTinCaNhan GetStudent(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public Student_Student GetStudent(Student_TermSubjectMark termSubjectedMark)
         {
-            HocSinh_DiemMonHocHocKy termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.MaDiemMonHK);
-            return termSubjectedMark.HocSinh_HocSinhLopHoc.HocSinh_ThongTinCaNhan;
+            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
+            return termSubjectedMark.Student_StudentInClass.Student_Student;
         }
 
-        public CauHinh_NamHoc GetYear(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public Configuration_Year GetYear(Student_TermSubjectMark termSubjectedMark)
         {
-            HocSinh_DiemMonHocHocKy termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.MaDiemMonHK);
-            return termSubjectedMark.HocSinh_HocSinhLopHoc.LopHoc_Lop.CauHinh_NamHoc;
+            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
+            return termSubjectedMark.Student_StudentInClass.Class_Class.Configuration_Year;
         }
 
-        public CauHinh_HocKy GetTerm(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public Configuration_Term GetTerm(Student_TermSubjectMark termSubjectedMark)
         {
-            HocSinh_DiemMonHocHocKy termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.MaDiemMonHK);
-            return termSubjectedMark.CauHinh_HocKy;
+            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
+            return termSubjectedMark.Configuration_Term;
         }
 
-        public DanhMuc_MonHoc GetSubject(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public Category_Subject GetSubject(Student_TermSubjectMark termSubjectedMark)
         {
-            HocSinh_DiemMonHocHocKy termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.MaDiemMonHK);
-            return termSubjectedMark.DanhMuc_MonHoc;
+            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
+            return termSubjectedMark.Category_Subject;
         }
 
-        public double GetAVGMark(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        public double GetAVGMark(Student_TermSubjectMark termSubjectedMark)
         {
-            HocSinh_DiemMonHocHocKy termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.MaDiemMonHK);
-            return termSubjectedMark.DiemTB;
+            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
+            return termSubjectedMark.AverageMark;
         }
 
-        public List<TabularChiTietDiemMonHocLoaiDiem> GetListTabularChiTietDiemMonHocLoaiDiem(HocSinh_DiemMonHocHocKy termSubjectedMark, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularChiTietDiemMonHocLoaiDiem> GetListTabularChiTietDiemMonHocLoaiDiem(Student_TermSubjectMark termSubjectedMark, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularChiTietDiemMonHocLoaiDiem> tbChiTietDiemMonHocLoaiDiems = new List<TabularChiTietDiemMonHocLoaiDiem>();
-            List<HocSinh_ChiTietDiem> detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectedMark, pageCurrentIndex, pageSize, out totalRecords);
+            List<Student_DetailedTermSubjectMark> detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectedMark, pageCurrentIndex, pageSize, out totalRecords);
             TabularChiTietDiemMonHocLoaiDiem tbChiTietDiemMonHocLoaiDiem = null;
-            foreach (HocSinh_ChiTietDiem detailedMark in detailedMarks)
+            foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
             {
                 tbChiTietDiemMonHocLoaiDiem = new TabularChiTietDiemMonHocLoaiDiem();
-                tbChiTietDiemMonHocLoaiDiem.MaChiTietDiem = detailedMark.MaChiTietDiem;
-                tbChiTietDiemMonHocLoaiDiem.TenLoaiDiem = detailedMark.DanhMuc_LoaiDiem.TenLoaiDiem;
-                tbChiTietDiemMonHocLoaiDiem.Diem = detailedMark.Diem;
+                tbChiTietDiemMonHocLoaiDiem.MaChiTietDiem = detailedMark.DetailedTermSubjectMark;
+                tbChiTietDiemMonHocLoaiDiem.MarkTypeName = detailedMark.Category_MarkType.MarkTypeName;
+                tbChiTietDiemMonHocLoaiDiem.Diem = detailedMark.MarkValue;
 
                 tbChiTietDiemMonHocLoaiDiems.Add(tbChiTietDiemMonHocLoaiDiem);
             }
@@ -239,13 +239,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tbChiTietDiemMonHocLoaiDiems;
         }
 
-        public List<TabularTermStudentResult> GetTabularTermStudentResults(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            SystemConfigBL systemConfigBL = null;
-            HocLucBL hocLucBL = null;
+            LearningAptitudeBL hocLucBL = null;
             ConductBL conductBL = null;
             DanhHieuBL danhHieuBL = null;
-            List<HocSinh_DanhHieuHocKy> termResults = null;
+            List<Student_TermLearningResult> termResults = null;
             List<TabularTermStudentResult> tbTermStudentResults = new List<TabularTermStudentResult>();
             TabularTermStudentResult tbTermStudentResult = null;
             TabularTermStudentResult tbFinalStudentResult = null;
@@ -253,29 +252,29 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             termResults = studyingResultDA.GetStudentTermResults(student, year, pageCurrentIndex, pageSize, out totalRecords);
             if (totalRecords != 0)
             {
-                hocLucBL = new HocLucBL(school);
+                hocLucBL = new LearningAptitudeBL(school);
                 conductBL = new ConductBL(school);
                 danhHieuBL = new DanhHieuBL(school);
-                foreach (HocSinh_DanhHieuHocKy termResult in termResults)
+                foreach (Student_TermLearningResult termResult in termResults)
                 {
                     tbTermStudentResult = new TabularTermStudentResult();
-                    tbTermStudentResult.MaDanhHieuHSHK = termResult.MaDanhHieuHSHK;
-                    tbTermStudentResult.DiemTB = (int)termResult.DiemTBHK;
-                    tbTermStudentResult.StrDiemTB = (termResult.DiemTBHK != -1) ? (termResult.DiemTBHK.ToString()) : "";
-                    tbTermStudentResult.TenHocKy = termResult.CauHinh_HocKy.TenHocKy;
-                    tbTermStudentResult.MaHanhKiem = termResult.MaHanhKiemHK;
-                    int maHanhKiem = (int)tbTermStudentResult.MaHanhKiem;
-                    tbTermStudentResult.TenHanhKiem = (maHanhKiem != -1) ? conductBL.GetConduct(maHanhKiem).TenHanhKiem : "";
-                    int maHocLuc = (int)termResult.MaHocLucHK;
-                    tbTermStudentResult.TenHocLuc = (maHocLuc != -1) ? hocLucBL.GetHocLuc(maHocLuc).TenHocLuc : "";
-                    //tbTermStudentResult.TenDanhHieu = danhHieuBL.GetTenDanhHieu(maHocLuc, maHanhKiem);
+                    tbTermStudentResult.LearningResultIdHSHK = termResult.TermLearningResultId;
+                    tbTermStudentResult.DiemTB = (int)termResult.TermAverageMark;
+                    tbTermStudentResult.StrDiemTB = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "";
+                    tbTermStudentResult.TermName = termResult.Configuration_Term.TermName;
+                    tbTermStudentResult.ConductId = termResult.TermConductId;
+                    int ConductId = (int)tbTermStudentResult.ConductId;
+                    tbTermStudentResult.ConductName = (ConductId != -1) ? conductBL.GetConduct(ConductId).ConductName : "";
+                    int LearningAptitudeId = (int)termResult.TermLearningAptitudeId;
+                    tbTermStudentResult.LearningAptitudeName = (LearningAptitudeId != -1) ? hocLucBL.GetHocLuc(LearningAptitudeId).LearningAptitudeName : "";
+                    //tbTermStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeId, ConductId);
 
                     tbTermStudentResults.Add(tbTermStudentResult);
                 }
 
                 tbFinalStudentResult = new TabularTermStudentResult();
-                tbFinalStudentResult.MaDanhHieuHSHK = -1;
-                tbFinalStudentResult.TenHocKy = "Cả năm";
+                tbFinalStudentResult.LearningResultIdHSHK = -1;
+                tbFinalStudentResult.TermName = "Cả năm";
                 if ((tbTermStudentResults[0].DiemTB != -1) && (tbTermStudentResults[1].DiemTB != -1))
                 {
                     tbFinalStudentResult.DiemTB = Math.Round(((tbTermStudentResults[0].DiemTB + (2 * tbTermStudentResults[1].DiemTB)) / 3), 1);
@@ -287,31 +286,31 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     tbFinalStudentResult.StrDiemTB = "";
                 }
 
-                if (tbTermStudentResults[0].MaHanhKiem != -1 && tbTermStudentResults[1].MaHanhKiem != -1)
+                if (tbTermStudentResults[0].ConductId != -1 && tbTermStudentResults[1].ConductId != -1)
                 {
-                    tbFinalStudentResult.MaHanhKiem = tbTermStudentResults[1].MaHanhKiem;
+                    tbFinalStudentResult.ConductId = tbTermStudentResults[1].ConductId;
                 }
                 else
                 {
-                    tbFinalStudentResult.MaHanhKiem = -1;
+                    tbFinalStudentResult.ConductId = -1;
                 }
-                int maHanhKiemCuoiNam = (int)tbFinalStudentResult.MaHanhKiem;
-                tbFinalStudentResult.TenHanhKiem = (maHanhKiemCuoiNam != -1) ? conductBL.GetConduct(maHanhKiemCuoiNam).TenHanhKiem : "";
+                int ConductIdCuoiNam = (int)tbFinalStudentResult.ConductId;
+                tbFinalStudentResult.ConductName = (ConductIdCuoiNam != -1) ? conductBL.GetConduct(ConductIdCuoiNam).ConductName : "";
 
-                int maHocLucCuoiNam;
+                int LearningAptitudeIdCuoiNam;
                 if (tbFinalStudentResult.DiemTB != -1)
                 {
-                    //DanhMuc_HocLuc hocLuc = hocLucBL.GetHocLuc(tbFinalStudentResult.DiemTB);
-                    //maHocLucCuoiNam = hocLuc.MaHocLuc;
-                    //tbFinalStudentResult.TenHocLuc = hocLuc.TenHocLuc;
+                    //Category_LearningAptitude hocLuc = hocLucBL.GetHocLuc(tbFinalStudentResult.DiemTB);
+                    //LearningAptitudeIdCuoiNam = hocLuc.LearningAptitudeId;
+                    //tbFinalStudentResult.LearningAptitudeName = hocLuc.LearningAptitudeName;
                 }
                 else
                 {
-                    //maHocLucCuoiNam = -1;
-                    //tbFinalStudentResult.TenHocLuc = "";
+                    //LearningAptitudeIdCuoiNam = -1;
+                    //tbFinalStudentResult.LearningAptitudeName = "";
                 }
 
-                //tbFinalStudentResult.TenDanhHieu = danhHieuBL.GetTenDanhHieu(maHocLucCuoiNam, maHanhKiemCuoiNam);
+                //tbFinalStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeIdCuoiNam, ConductIdCuoiNam);
 
                 tbTermStudentResults.Add(tbFinalStudentResult);
             }
@@ -319,37 +318,37 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tbTermStudentResults;
         }
 
-        public List<TabularStudentMark> GetTabularStudentMarks(LopHoc_Lop Class, DanhMuc_MonHoc subject, CauHinh_HocKy term, List<DanhMuc_LoaiDiem> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
-            TabularStudentMark tabularStudentMark = null;            
-            List<HocSinh_DiemMonHocHocKy> termSubjectMarks = null;
+            TabularStudentMark tabularStudentMark = null;
+            List<Student_TermSubjectMark> termSubjectMarks = null;
             List<MarkTypedMark> markMypedMarks = null;
-            List<HocSinh_ChiTietDiem> detailedMarks = null;
+            List<Student_DetailedTermSubjectMark> detailedMarks = null;
             StringBuilder strB = new StringBuilder();
             string strMarks = "";
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
 
             termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
-            foreach (HocSinh_DiemMonHocHocKy termSubjectMark in termSubjectMarks)
+            foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
             {
                 tabularStudentMark = new TabularStudentMark();
-                tabularStudentMark.MaDiemHK = termSubjectMark.MaDiemMonHK;
-                tabularStudentMark.MaHocSinh = termSubjectMark.HocSinh_HocSinhLopHoc.MaHocSinh;
-                tabularStudentMark.MaHocSinhHienThi = termSubjectMark.HocSinh_HocSinhLopHoc.HocSinh_ThongTinCaNhan.MaHocSinhHienThi;
-                tabularStudentMark.TenHocSinh = termSubjectMark.HocSinh_HocSinhLopHoc.HocSinh_ThongTinCaNhan.HoTen;
-                tabularStudentMark.DiemTrungBinh = termSubjectMark.DiemTB;
+                tabularStudentMark.MaDiemHK = termSubjectMark.TermSubjectMarkId;
+                tabularStudentMark.MaHocSinh = termSubjectMark.Student_StudentInClass.StudentId;
+                tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
+                tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
+                tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
 
                 markMypedMarks = new List<MarkTypedMark>();
-                foreach (DanhMuc_LoaiDiem markType in markTypes)
+                foreach (Category_MarkType markType in markTypes)
                 {
                     List<double> dMarks = new List<double>();
                     detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType);
                     strMarks = "";
 
-                    foreach (HocSinh_ChiTietDiem detailedMark in detailedMarks)
+                    foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
                     {
-                        strB.Append(detailedMark.Diem.ToString());
+                        strB.Append(detailedMark.MarkValue.ToString());
                         strB.Append(", ");
                     }
 
@@ -357,8 +356,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     strB.Clear();
 
                     MarkTypedMark markTypedMark = new MarkTypedMark();
-                    markTypedMark.MaLoaiDiem = markType.MaLoaiDiem;
-                    markTypedMark.TenLoaiDiem = markType.TenLoaiDiem;
+                    markTypedMark.MarkTypeId = markType.MarkTypeId;
+                    markTypedMark.MarkTypeName = markType.MarkTypeName;
                     markTypedMark.StringDiems = strMarks;
 
                     markMypedMarks.Add(markTypedMark);
@@ -371,13 +370,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudentMarks;
         }
 
-        //public List<TabularDiemHocSinh> GetListDiemHocSinh(int maLopHoc, int maMonHoc,
-        //    int maHocKy, int maLoaiDiem,
+        //public List<TabularDiemHocSinh> GetListDiemHocSinh(int ClassId, int SubjectId,
+        //    int TermId, int MarkTypeId,
         //    int pageCurrentIndex, int pageSize, out double totalRecord)
         //{
         //    MarkTypeBL loaiDiemBL = new MarkTypeBL();
-        //    List<DanhMuc_LoaiDiem> lLoaiDiems = loaiDiemBL.GetListLoaiDiem(maLoaiDiem);
-        //    return kqhtDA.GetListDiemHocSinh(maLopHoc, maMonHoc, maHocKy,
+        //    List<Category_MarkType> lLoaiDiems = loaiDiemBL.GetListLoaiDiem(MarkTypeId);
+        //    return kqhtDA.GetListDiemHocSinh(ClassId, SubjectId, TermId,
         //        lLoaiDiems,
         //        pageCurrentIndex, pageSize, out totalRecord);
         //}
@@ -410,8 +409,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         //        }
 
         //        MarkTypeBL loaiDiemBL = new MarkTypeBL();
-        //        DanhMuc_LoaiDiem loaiDiem = loaiDiemBL.GetLoaiDiem(markTypeCode);
-        //        if (totalMarkCount > loaiDiem.SoCotToiDa)
+        //        Category_MarkType loaiDiem = loaiDiemBL.GetLoaiDiem(markTypeCode);
+        //        if (totalMarkCount > loaiDiem.MaxQuantity)
         //        {
         //            return false;
         //        }
@@ -419,7 +418,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         //    return true;
         //}
 
-        public bool ValidateMark(string marks, DanhMuc_LoaiDiem markType)
+        public bool ValidateMark(string marks, Category_MarkType markType)
         {
             bool bValid = true;
 
@@ -456,8 +455,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 if (bValid)
                 {
                     MarkTypeBL markTypeBL = new MarkTypeBL(school);
-                    markType = markTypeBL.GetMarkType(markType.MaLoaiDiem);
-                    if (markCount > markType.SoCotToiDa)
+                    markType = markTypeBL.GetMarkType(markType.MarkTypeId);
+                    if (markCount > markType.MaxQuantity)
                     {
                         bValid = false;
                     }
@@ -467,22 +466,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return bValid;
         }
 
-        private List<List<double>> GetDoubleSubjectMarks(HocSinh_DiemMonHocHocKy termSubjectedMark)
+        private List<List<double>> GetDoubleSubjectMarks(Student_TermSubjectMark termSubjectedMark)
         {
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
-            List<DanhMuc_LoaiDiem> markTypes = markTypeBL.GetListMarkTypes();
+            List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes();
 
             List<List<double>> subjectMarks = new List<List<double>>();
             List<double> innerSubjectMarks = null;
-            List<HocSinh_ChiTietDiem> detailMarks;
+            List<Student_DetailedTermSubjectMark> detailMarks;
 
-            foreach (DanhMuc_LoaiDiem loaiDiem in markTypes)
+            foreach (Category_MarkType loaiDiem in markTypes)
             {
                 detailMarks = studyingResultDA.GetDetailedMarks(termSubjectedMark, loaiDiem);
                 innerSubjectMarks = new List<double>();
-                foreach (HocSinh_ChiTietDiem detailMark in detailMarks)
+                foreach (Student_DetailedTermSubjectMark detailMark in detailMarks)
                 {
-                    innerSubjectMarks.Add(detailMark.Diem);
+                    innerSubjectMarks.Add(detailMark.MarkValue);
                 }
                 subjectMarks.Add(innerSubjectMarks);
             }

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhsachlop.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DanhSachLop" %>
+    CodeBehind="danhsachlop.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ClassesPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -14,7 +14,7 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     modalPopupAdd.add_showing(function () {
-                        $get('<%=TxtTenLopHocThem.ClientID%>').value = "";
+                        $get('<%=TxtClassNameThem.ClientID%>').value = "";
                         var DdlNganh = $get('<%=DdlNganh.ClientID%>');
                         DdlNganh.options[DdlNganh.selectedIndex].value = DdlNganh.options[0].value;
                         var DdlKhoiLop = $get('<%=DdlKhoiLop.ClientID%>');
@@ -40,15 +40,15 @@
                 return false;
             }
 
-            function validateTenLopHocAdd(ctrl, args) {
+            function validateClassNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
                 var ddlNamHoc = $get('<%=DdlNamHocThem.ClientID%>');
-                var maNamHoc = ddlNamHoc.options[ddlNamHoc.selectedIndex].value;
-                var tenLopHoc = $.trim(args.Value);
+                var YearId = ddlNamHoc.options[ddlNamHoc.selectedIndex].value;
+                var ClassName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
                     url: "/Modules/Lop_Hoc/LopHocServicePage.aspx/LopHocExists",
-                    data: "{'tenLopHoc':'" + tenLopHoc + "','maNamHoc':'" + maNamHoc + "'}",
+                    data: "{'ClassName':'" + ClassName + "','YearId':'" + YearId + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -70,14 +70,14 @@
                 }
             }
 
-            function validateTenLopHocEdit(ctrl, args) {
+            function validateClassNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maLopHoc = $get('<%=HdfMaLopHoc.ClientID%>').value;
-                var tenLopHoc = $.trim(args.Value);
+                var ClassId = $get('<%=HdfClassId.ClientID%>').value;
+                var ClassName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
                     url: "/Modules/Lop_Hoc/LopHocServicePage.aspx/LopHocExists",
-                    data: "{'maLopHoc':'" + maLopHoc + "','tenLopHoc':'" + tenLopHoc + "'}",
+                    data: "{'ClassId':'" + ClassId + "','ClassName':'" + ClassName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -164,7 +164,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfSltClassName" runat="server" />
-            <asp:HiddenField ID="HdfMaLopHoc" runat="server" />
+            <asp:HiddenField ID="HdfClassId" runat="server" />
             <asp:HiddenField ID="HdfRptLopHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptLopHocMPEEdit" runat="server" />
             <asp:HiddenField ID="HdfRptLopHocMPEDetailGVCN" runat="server" />
@@ -199,22 +199,22 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaLopHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLopHoc")%>' />
-                            <asp:HiddenField ID="HdfRptTenLopHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%>' />
+                            <asp:HiddenField ID="HdfRptClassId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ClassId")%>' />
+                            <asp:HiddenField ID="HdfRptClassName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ClassName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="LblTenLopHoc" runat="server" Style="display: none"></asp:Label>
-                            <asp:LinkButton ID="LbtnTenLopHoc" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%>'
+                            <asp:Label ID="LblClassName" runat="server" Style="display: none"></asp:Label>
+                            <asp:LinkButton ID="LbtnClassName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "ClassName")%>'
                                 Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
-                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLopHoc")%>'>
-                                    '<%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%>'
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ClassId")%>'>
+                                    '<%#DataBinder.Eval(Container.DataItem, "ClassName")%>'
                             </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "FacultyName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>
+                            <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
                         </td>
                         <td style="height: 40px;">
                             <asp:Label ID="LblTenGVCN" runat="server" Style="display: none"></asp:Label>
@@ -224,7 +224,7 @@
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLopHoc")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ClassId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -233,7 +233,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenLopHoc")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ClassName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -290,11 +290,11 @@
                         <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenLopHocThem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenLopHocRequiredAdd" runat="server" ControlToValidate="TxtTenLopHocThem"
+                        <asp:TextBox ID="TxtClassNameThem" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ClassNameRequiredAdd" runat="server" ControlToValidate="TxtClassNameThem"
                             ValidationGroup="AddLopHoc" ErrorMessage="Tên lớp học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenLopHocValidatorAdd" runat="server" ControlToValidate="TxtTenLopHocThem"
+                        <asp:CustomValidator ID="ClassNameValidatorAdd" runat="server" ControlToValidate="TxtClassNameThem"
                             ValidationGroup="AddLopHoc" ErrorMessage="Tên lớp học đã tồn tại"
                             Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                         <asp:HiddenField ID="hfOutputAdd" runat="server" Value="true" />
@@ -358,11 +358,11 @@
                         <asp:Label ID="Label9" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenLopHocSua" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenLopHocRequiredEdit" runat="server" ControlToValidate="TxtTenLopHocSua"
+                        <asp:TextBox ID="TxtClassNameSua" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="ClassNameRequiredEdit" runat="server" ControlToValidate="TxtClassNameSua"
                             ValidationGroup="EditLopHoc" ErrorMessage="Tên lớp học không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenLopHocValidatorEdit" runat="server" ControlToValidate="TxtTenLopHocSua"
+                        <asp:CustomValidator ID="ClassNameValidatorEdit" runat="server" ControlToValidate="TxtClassNameSua"
                             ValidationGroup="EditLopHoc"
                             ErrorMessage="Tên lớp học đã tồn tại" Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
                         <asp:HiddenField ID="hfOutputEdit" runat="server" Value="true" />

@@ -51,7 +51,7 @@
                 <asp:Repeater ID="RptLoaiDiem" runat="server">
                     <ItemTemplate>
                         <td class="middle">
-                            <%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>
+                            <%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>
                         </td>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -66,7 +66,7 @@
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
                         </td>
                         <td>
-                            <%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "SubjectName")%>
                             <asp:HiddenField ID="HdfMaDiemMonHK" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaDiemMonHK")%>' />
                         </td>
                         <asp:Repeater ID="RptDiemTheoMonHoc" runat="server">
@@ -95,7 +95,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="RptMPEHanhKiem" runat="server" />
-            <asp:HiddenField ID="HdfMaDanhHieuHSHK" runat="server" />
+            <asp:HiddenField ID="HdfLearningResultIdHSHK" runat="server" />
             <asp:Repeater ID="RptDanhHieu" runat="server">
                 <HeaderTemplate>
                     <tr class="header">
@@ -123,24 +123,24 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (DataPagerDanhHieu.CurrentIndex - 1) * DataPagerDanhHieu.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfRptMaDanhHieuHSHK" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaDanhHieuHSHK")%>' />
+                            <asp:HiddenField ID="HdfRptLearningResultIdHSHK" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "LearningResultIdHSHK")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHocKy")%>
+                            <%#DataBinder.Eval(Container.DataItem, "TermName")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "StrDiemTB")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHocLuc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "LearningAptitudeName")%>
                         </td>
                         <td style="height: 40px; vertical-align: middle">
-                            <asp:HiddenField ID="HiddenField1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>' />
-                            <%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>
+                            <asp:HiddenField ID="HiddenField1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductId")%>' />
+                            <%#DataBinder.Eval(Container.DataItem, "ConductName")%>
                             <asp:Label ID="LblFakeEdit" runat="server"></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenDanhHieu")%>
+                            <%#DataBinder.Eval(Container.DataItem, "LearningResultName")%>
                         </td>
                     </tr>
                 </ItemTemplate>

@@ -36,7 +36,7 @@ namespace SoLienLacTrucTuyen_WebRole
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
 
-                ViewState["SortColumn"] = "TenNganhHoc";
+                ViewState["SortColumn"] = "FacultyName";
                 ViewState["SortOrder"] = "ASC";
                 BindData();
             }
@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             string facultyName = TxtSearchNganhHoc.Text.Trim();
             double dTotalRecords;
-            List<DanhMuc_NganhHoc> faculties = facultyBL.GetFaculties(facultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<Category_Faculty> faculties = facultyBL.GetFaculties(facultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             
             // Decrease page current index when delete
             if (faculties.Count == 0 && dTotalRecords != 0)
@@ -124,11 +124,11 @@ namespace SoLienLacTrucTuyen_WebRole
                 return;
             }
 
-            string facultyName = this.TxtTenNganhHoc.Text.Trim();
+            string facultyName = this.TxtFacultyName.Text.Trim();
 
             if (facultyName == "")
             {
-                TenNganhHocRequiredAdd.IsValid = false;
+                FacultyNameRequiredAdd.IsValid = false;
                 MPEAdd.Show();
                 return;
             }
@@ -136,25 +136,25 @@ namespace SoLienLacTrucTuyen_WebRole
             {
                 if (facultyBL.FacultyExists(facultyName))
                 {
-                    TenNganhHocValidatorAdd.IsValid = false;
+                    FacultyNameValidatorAdd.IsValid = false;
                     MPEAdd.Show();
                     return;
                 }
             }
 
-            string description = this.TxtMoTaNganhHoc.Text.Trim();
-            DanhMuc_NganhHoc faculty = new DanhMuc_NganhHoc
+            string description = this.TxtDescriptionNganhHoc.Text.Trim();
+            Category_Faculty faculty = new Category_Faculty
             {
-                TenNganhHoc = facultyName,
-                MoTa = description
+                FacultyName = facultyName,
+                Description = description
             };
             facultyBL.InsertFaculty(faculty);
 
             MainDataPager.CurrentIndex = 1;
             BindData();
 
-            this.TxtTenNganhHoc.Text = "";
-            this.TxtMoTaNganhHoc.Text = "";
+            this.TxtFacultyName.Text = "";
+            this.TxtDescriptionNganhHoc.Text = "";
 
             if (this.CkbAddAfterSave.Checked)
             {
@@ -165,7 +165,7 @@ namespace SoLienLacTrucTuyen_WebRole
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             string deletedFacultyName = this.HdfDeletedFacultyName.Value;
-            DanhMuc_NganhHoc faculty = facultyBL.GetFaculty(deletedFacultyName);
+            Category_Faculty faculty = facultyBL.GetFaculty(deletedFacultyName);
             facultyBL.DeleteFaculty(faculty);
             isSearch = false;
             BindData();
@@ -192,12 +192,12 @@ namespace SoLienLacTrucTuyen_WebRole
             }
 
             string editedFacultyName = (string)this.HdfEditedFacultyName.Value;
-            string newFacultyName = this.TxtTenNganhHocEdit.Text.Trim();
-            string newDescription = this.TxtSuaMoTaNganhHoc.Text.Trim();
+            string newFacultyName = this.TxtFacultyNameEdit.Text.Trim();
+            string newDescription = this.TxtSuaDescriptionNganhHoc.Text.Trim();
 
             if (newFacultyName == "")
             {
-                TenNganhHocRequiredEdit.IsValid = false;
+                FacultyNameRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
                 return;
             }
@@ -205,7 +205,7 @@ namespace SoLienLacTrucTuyen_WebRole
             {
                 if (facultyBL.FacultyExists(editedFacultyName, newFacultyName))
                 {
-                    TenNganhHocValidatorEdit.IsValid = false;
+                    FacultyNameValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
                     return;
                 }
@@ -244,7 +244,7 @@ namespace SoLienLacTrucTuyen_WebRole
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
-                    DanhMuc_NganhHoc faculty = (DanhMuc_NganhHoc)e.Item.DataItem;
+                    Category_Faculty faculty = (Category_Faculty)e.Item.DataItem;
                     if (!facultyBL.IsDeletable(faculty))
                     {
                         ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
@@ -280,8 +280,8 @@ namespace SoLienLacTrucTuyen_WebRole
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        HiddenField hdfRptMaNganhHoc = (HiddenField)e.Item.FindControl("HdfRptMaNganhHoc");
-                        this.HdfMaNganhHoc.Value = hdfRptMaNganhHoc.Value;
+                        HiddenField hdfRptFacultyId = (HiddenField)e.Item.FindControl("HdfRptFacultyId");
+                        this.HdfFacultyId.Value = hdfRptFacultyId.Value;
                         this.HdfDeletedFacultyName.Value = (string)e.CommandArgument;
                         this.HdfRptNganhHocMPEDelete.Value = mPEDelete.ClientID;
 
@@ -291,9 +291,9 @@ namespace SoLienLacTrucTuyen_WebRole
                     {
                         string facultyName = (string)e.CommandArgument;
 
-                        DanhMuc_NganhHoc faculty = facultyBL.GetFaculty(facultyName);
-                        TxtTenNganhHocEdit.Text = faculty.TenNganhHoc;
-                        TxtSuaMoTaNganhHoc.Text = faculty.MoTa;
+                        Category_Faculty faculty = facultyBL.GetFaculty(facultyName);
+                        TxtFacultyNameEdit.Text = faculty.FacultyName;
+                        TxtSuaDescriptionNganhHoc.Text = faculty.Description;
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();

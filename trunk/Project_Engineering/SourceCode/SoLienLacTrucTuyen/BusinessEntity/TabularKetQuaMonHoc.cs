@@ -8,7 +8,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     public class TabularSubjectTermResult
     {
         public int MaDiemMonHK { get; set; }
-        public string TenMonHoc { get; set; }
+        public string SubjectName { get; set; }
         public double DiemTB { get; set; }
         public string StrDiemTB { get; set; }
     }

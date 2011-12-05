@@ -7,17 +7,17 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class SystemConfigDA : BaseDA
     {
-        public SystemConfigDA(School school)
+        public SystemConfigDA(School_School school)
             : base(school)
         {
         }
 
-        public CauHinh_NamHoc GetYear(int yearId)
+        public Configuration_Year GetYear(int yearId)
         {
-            CauHinh_NamHoc year = null;
-            IQueryable<CauHinh_NamHoc> iqYear = from y in db.CauHinh_NamHocs
-                                                where y.MaNamHoc == yearId
-                                                select y;
+            Configuration_Year year = null;
+            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
+                                                    where y.YearId == yearId
+                                                    select y;
             if (iqYear.Count() != 0)
             {
                 year = iqYear.First();
@@ -26,43 +26,43 @@ namespace SoLienLacTrucTuyen.DataAccess
             return year;
         }
 
-        public List<CauHinh_NamHoc> GetListYears()
+        public List<Configuration_Year> GetListYears()
         {
-            List<CauHinh_NamHoc> lYears = new List<CauHinh_NamHoc>();
+            List<Configuration_Year> lYears = new List<Configuration_Year>();
 
-            IQueryable<CauHinh_NamHoc> iqYear = from y in db.CauHinh_NamHocs
-                                                select y;
+            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
+                                                    select y;
             if (iqYear.Count() != 0)
             {
-                lYears = iqYear.OrderBy(year => year.TenNamHoc).ToList();
+                lYears = iqYear.OrderBy(year => year.YearName).ToList();
             }
 
             return lYears;
         }
 
-        public CauHinh_NamHoc GetCurrentYear()
+        public Configuration_Year GetCurrentYear()
         {
-            IQueryable<CauHinh_NamHoc> iqYear = from sysConfig in db.CauHinh_HeThongs
-                                                join year in db.CauHinh_NamHocs
-                                                    on sysConfig.MaNamHocHienHanh equals year.MaNamHoc
-                                                select year;
+            IQueryable<Configuration_Year> iqYear = from sysConfig in db.Configuration_Configurations
+                                                    join year in db.Configuration_Years
+                                                        on sysConfig.CurrentYear equals year.YearId
+                                                    select year;
             return iqYear.First();
         }
 
-        public void UpdateMaNamHocHienHanh(int maNamHocHienHanh)
+        public void UpdateYearIdHienHanh(int YearIdHienHanh)
         {
-            CauHinh_HeThong cauHinhHeThong = (from cauhinh_Hethong in db.CauHinh_HeThongs
-                                              select cauhinh_Hethong).First();
-            cauHinhHeThong.MaNamHocHienHanh = maNamHocHienHanh;
+            Configuration_Configuration cauHinhHeThong = (from cauhinh_Hethong in db.Configuration_Configurations
+                                                          select cauhinh_Hethong).First();
+            cauHinhHeThong.CurrentYear = YearIdHienHanh;
             db.SubmitChanges();
         }
 
-        public CauHinh_HocKy GetTerm(int termId)
+        public Configuration_Term GetTerm(int termId)
         {
-            CauHinh_HocKy term = null;
-            IQueryable<CauHinh_HocKy> iqTerm = from t in db.CauHinh_HocKies
-                                               where t.MaHocKy == termId
-                                               select t;
+            Configuration_Term term = null;
+            IQueryable<Configuration_Term> iqTerm = from t in db.Configuration_Terms
+                                                    where t.TermId == termId
+                                                    select t;
 
             if (iqTerm.Count() != 0)
             {
@@ -72,28 +72,28 @@ namespace SoLienLacTrucTuyen.DataAccess
             return term;
         }
 
-        public List<CauHinh_HocKy> GetListTerms()
+        public List<Configuration_Term> GetListTerms()
         {
-            List<CauHinh_HocKy> lTerms = new List<CauHinh_HocKy>();
+            List<Configuration_Term> lTerms = new List<Configuration_Term>();
 
-            IQueryable<CauHinh_HocKy> iqTerm = from t in db.CauHinh_HocKies
-                                               select t;
+            IQueryable<Configuration_Term> iqTerm = from t in db.Configuration_Terms
+                                                    select t;
 
             if (iqTerm.Count() != 0)
             {
-                lTerms = iqTerm.OrderByDescending(t => t.MaHocKy).ToList();
+                lTerms = iqTerm.OrderByDescending(t => t.TermId).ToList();
             }
 
             return lTerms;
         }
 
-        public CauHinh_HocKy GetCurrentTerm()
+        public Configuration_Term GetCurrentTerm()
         {
-            CauHinh_HocKy term = null;
+            Configuration_Term term = null;
 
-            IQueryable<CauHinh_HocKy> iqTerm = from sysConfig in db.CauHinh_HeThongs
-                                               join t in db.CauHinh_HocKies on sysConfig.MaHocKyHienHanh equals t.MaHocKy
-                                               select t;
+            IQueryable<Configuration_Term> iqTerm = from sysConfig in db.Configuration_Configurations
+                                                    join t in db.Configuration_Terms on sysConfig.CurrentTerm equals t.TermId
+                                                    select t;
             if (iqTerm.Count() != 0)
             {
                 term = iqTerm.First();
@@ -102,21 +102,21 @@ namespace SoLienLacTrucTuyen.DataAccess
             return term;
         }
 
-        public void UpdateMaHocKyHienHanh(int maHocKyHienHanh)
+        public void UpdateTermIdHienHanh(int TermIdHienHanh)
         {
-            CauHinh_HeThong cauHinhHeThong = (from cauhinh_Hethong in db.CauHinh_HeThongs
-                                              select cauhinh_Hethong).First();
-            cauHinhHeThong.MaHocKyHienHanh = maHocKyHienHanh;
+            Configuration_Configuration cauHinhHeThong = (from cauhinh_Hethong in db.Configuration_Configurations
+                                                          select cauhinh_Hethong).First();
+            cauHinhHeThong.CurrentTerm = TermIdHienHanh;
             db.SubmitChanges();
         }
 
-        public CauHinh_Thu GetDayInWeek(int dayInWeekId)
+        public Configuration_DayInWeek GetDayInWeek(int dayInWeekId)
         {
-            CauHinh_Thu dayInWeek = null;
+            Configuration_DayInWeek dayInWeek = null;
 
-            IQueryable<CauHinh_Thu> iqDayInWeek = from dIW in db.CauHinh_Thus
-                                                  where dIW.MaThu == dayInWeekId
-                                                  select dIW;
+            IQueryable<Configuration_DayInWeek> iqDayInWeek = from dIW in db.Configuration_DayInWeeks
+                                                              where dIW.DayInWeekId == dayInWeekId
+                                                              select dIW;
             if (iqDayInWeek.Count() != 0)
             {
                 dayInWeek = iqDayInWeek.First();
@@ -125,12 +125,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             return dayInWeek;
         }
 
-        public List<CauHinh_Thu> GetListDayInWeeks()
+        public List<Configuration_DayInWeek> GetListDayInWeeks()
         {
-            List<CauHinh_Thu> lDayInWeek = new List<CauHinh_Thu>();
+            List<Configuration_DayInWeek> lDayInWeek = new List<Configuration_DayInWeek>();
 
-            IQueryable<CauHinh_Thu> iqDayInWeek = from dIW in db.CauHinh_Thus
-                                                  select dIW;
+            IQueryable<Configuration_DayInWeek> iqDayInWeek = from dIW in db.Configuration_DayInWeeks
+                                                              select dIW;
             if (iqDayInWeek.Count() != 0)
             {
                 lDayInWeek = iqDayInWeek.ToList();
@@ -139,12 +139,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lDayInWeek;
         }
 
-        public List<CauHinh_Buoi> GetSessions()
+        public List<Configuration_Session> GetSessions()
         {
-            List<CauHinh_Buoi> lSesssions = new List<CauHinh_Buoi>();
+            List<Configuration_Session> lSesssions = new List<Configuration_Session>();
 
-            IQueryable<CauHinh_Buoi> iqSessions = from session in db.CauHinh_Buois
-                                                  select session;
+            IQueryable<Configuration_Session> iqSessions = from session in db.Configuration_Sessions
+                                                           select session;
             if (iqSessions.Count() != 0)
             {
                 lSesssions = iqSessions.ToList();
@@ -153,13 +153,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lSesssions;
         }
 
-        public CauHinh_Buoi GetSession(int sessionId)
+        public Configuration_Session GetSession(int sessionId)
         {
-            CauHinh_Buoi sesssion = null;
+            Configuration_Session sesssion = null;
 
-            IQueryable<CauHinh_Buoi> iqSessions = from session in db.CauHinh_Buois
-                                                  where session.MaBuoi == sessionId
-                                                  select session;
+            IQueryable<Configuration_Session> iqSessions = from session in db.Configuration_Sessions
+                                                           where session.SessionId == sessionId
+                                                           select session;
             if (iqSessions.Count() != 0)
             {
                 sesssion = iqSessions.First();

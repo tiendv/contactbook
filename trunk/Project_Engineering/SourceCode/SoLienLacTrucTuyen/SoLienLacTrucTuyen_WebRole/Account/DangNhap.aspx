@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="DangNhap.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DangNhap" %>
+    CodeBehind="DangNhap.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.LoginPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">

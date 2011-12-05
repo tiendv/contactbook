@@ -7,10 +7,10 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularParentsComment
     {
-        public int MaYKien { get; set; }
-        public string TieuDe { get; set; }
-        public string NoiDung { get; set; }
-        public string TinhTrangYKien { get; set; }
-        public string Ngay { get; set; }
+        public int CommentId { get; set; }
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public string CommentStatusName { get; set; }
+        public string Date { get; set; }
     }
 }

@@ -10,8 +10,8 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     modalPopupAdd.add_showing(function () {
-                        $get('<%=TxtTenNganhHoc.ClientID%>').value = "";
-                        $get('<%=TxtMoTaNganhHoc.ClientID%>').value = "";
+                        $get('<%=TxtFacultyName.ClientID%>').value = "";
+                        $get('<%=TxtDescriptionNganhHoc.ClientID%>').value = "";
                     });
                 }
             }
@@ -33,14 +33,14 @@
                 return false;
             }
 
-            function validateTenNganhHocThem(ctrl, args) {
+            function validateFacultyNameThem(ctrl, args) {
                 var hfOutput = $get('<%=hfOutput_Them.ClientID%>');
-                var maNganhHoc = 0;
-                var tenNganhHoc = $.trim(args.Value);
+                var FacultyId = 0;
+                var FacultyName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenNganhHoc",
-                    data: "{'maNganhHoc':'" + maNganhHoc + "','tenNganhHoc':'" + tenNganhHoc + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistFacultyName",
+                    data: "{'FacultyId':'" + FacultyId + "','FacultyName':'" + FacultyName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -62,14 +62,14 @@
                 }
             }
 
-            function validateTenNganhHocSua(ctrl, args) {
+            function validateFacultyNameSua(ctrl, args) {
                 var hfOutput = $get('<%=hfOutput_Edit.ClientID%>');
-                var maNganhHoc = $('#<%=HdfMaNganhHoc.ClientID%>').val();
-                var tenNganhHoc = $.trim(args.Value);
+                var FacultyId = $('#<%=HdfFacultyId.ClientID%>').val();
+                var FacultyName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenNganhHoc",
-                    data: "{'maNganhHoc':'" + maNganhHoc + "','tenNganhHoc':'" + tenNganhHoc + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistFacultyName",
+                    data: "{'FacultyId':'" + FacultyId + "','FacultyName':'" + FacultyName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -121,7 +121,7 @@
         <table class="repeater">
             <asp:HiddenField ID="HdfEditedFacultyName" runat="server" />
             <asp:HiddenField ID="HdfDeletedFacultyName" runat="server" />
-            <asp:HiddenField ID="HdfMaNganhHoc" runat="server" />
+            <asp:HiddenField ID="HdfFacultyId" runat="server" />
             <asp:HiddenField ID="HdfRptNganhHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptNganhHocMPEEdit" runat="server" />
             <asp:Repeater ID="RptNganhHoc" runat="server" OnItemCommand="RptNganhHoc_ItemCommand"
@@ -132,7 +132,7 @@
                             STT
                         </td>
                         <td class="middle" style="width: 30%">
-                            <asp:LinkButton ID="LkBtnTenNganhHoc" runat="server">Ngành</asp:LinkButton>
+                            <asp:LinkButton ID="LkBtnFacultyName" runat="server">Ngành</asp:LinkButton>
                         </td>
                         <td>
                             Mô tả
@@ -149,19 +149,19 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaNganhHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaNganhHoc")%>' />
-                            <asp:HiddenField ID="HdfRptTenNganhHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>' />
+                            <asp:HiddenField ID="HdfRptFacultyId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FacultyId")%>' />
+                            <asp:HiddenField ID="HdfRptFacultyName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "FacultyName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "MoTa")%>
+                            <%#DataBinder.Eval(Container.DataItem, "Description")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>' />
                             <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -170,7 +170,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenNganhHoc")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>' />
                             <asp:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -228,11 +228,11 @@
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenNganhHoc" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenNganhHocRequiredAdd" runat="server" ControlToValidate="TxtTenNganhHoc"
+                        <asp:TextBox ID="TxtFacultyName" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="FacultyNameRequiredAdd" runat="server" ControlToValidate="TxtFacultyName"
                             ValidationGroup="AddNganhHoc" ErrorMessage="Tên ngành học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenNganhHocValidatorAdd" runat="server" ControlToValidate="TxtTenNganhHoc"
+                        <asp:CustomValidator ID="FacultyNameValidatorAdd" runat="server" ControlToValidate="TxtFacultyName"
                             ValidationGroup="AddNganhHoc" ErrorMessage="Ngành học đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -242,7 +242,7 @@
                         Mô tả:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtMoTaNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtDescriptionNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
                             Style="font-family: arial;"></asp:TextBox>
                     </td>
                 </tr>
@@ -277,11 +277,11 @@
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenNganhHocEdit" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenNganhHocRequiredEdit" runat="server" ControlToValidate="TxtTenNganhHocEdit"
+                        <asp:TextBox ID="TxtFacultyNameEdit" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="FacultyNameRequiredEdit" runat="server" ControlToValidate="TxtFacultyNameEdit"
                             ValidationGroup="EditNganhHoc" ErrorMessage="Tên ngành học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenNganhHocValidatorEdit" runat="server" ControlToValidate="TxtTenNganhHocEdit"
+                        <asp:CustomValidator ID="FacultyNameValidatorEdit" runat="server" ControlToValidate="TxtFacultyNameEdit"
                             ValidationGroup="EditNganhHoc" ErrorMessage="Ngành học đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -291,7 +291,7 @@
                         Mô tả:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaMoTaNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtSuaDescriptionNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
                             Style="font-family: arial;"></asp:TextBox>
                     </td>
                 </tr>

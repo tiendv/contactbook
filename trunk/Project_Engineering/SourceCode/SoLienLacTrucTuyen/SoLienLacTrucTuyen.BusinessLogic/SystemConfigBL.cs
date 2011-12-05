@@ -10,73 +10,73 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private SystemConfigDA sysConfigDA;
 
-        public SystemConfigBL(School school)
+        public SystemConfigBL(School_School school)
             : base(school)
         {
             sysConfigDA = new SystemConfigDA(school);
         }
 
-        public CauHinh_NamHoc GetYear(int yearId)
+        public Configuration_Year GetYear(int yearId)
         {
             return sysConfigDA.GetYear(yearId);
         }
 
-        public List<CauHinh_NamHoc> GetListYears()
+        public List<Configuration_Year> GetListYears()
         {
             return sysConfigDA.GetListYears();
         }
 
-        public CauHinh_NamHoc GetCurrentYear()
+        public Configuration_Year GetCurrentYear()
         {
             return sysConfigDA.GetCurrentYear();
         }
 
-        public void UpdateMaNamHocHienHanh(int maNamHocHienHanh)
+        public void UpdateYearIdHienHanh(int YearIdHienHanh)
         {
-            sysConfigDA.UpdateMaNamHocHienHanh(maNamHocHienHanh);
+            sysConfigDA.UpdateYearIdHienHanh(YearIdHienHanh);
         }
 
-        public CauHinh_HocKy GetTerm(int maHocKy)
+        public Configuration_Term GetTerm(int TermId)
         {
-            return sysConfigDA.GetTerm(maHocKy);
+            return sysConfigDA.GetTerm(TermId);
         }
 
-        public List<CauHinh_HocKy> GetListTerms()
+        public List<Configuration_Term> GetListTerms()
         {
             return sysConfigDA.GetListTerms();
         }
 
-        public CauHinh_HocKy GetCurrentTerm()
+        public Configuration_Term GetCurrentTerm()
         {
             return sysConfigDA.GetCurrentTerm();
         }
 
-        public void UpdateMaHocKyHienHanh(int maHocKyHienHanh)
+        public void UpdateTermIdHienHanh(int TermIdHienHanh)
         {
-            sysConfigDA.UpdateMaHocKyHienHanh(maHocKyHienHanh);
+            sysConfigDA.UpdateTermIdHienHanh(TermIdHienHanh);
         }
 
-        public List<CauHinh_Thu> GetDayInWeeks()
+        public List<Configuration_DayInWeek> GetDayInWeeks()
         {
             return sysConfigDA.GetListDayInWeeks();
         }
 
-        public CauHinh_Thu GetDayInWeek(int dayInWeekId)
+        public Configuration_DayInWeek GetDayInWeek(int dayInWeekId)
         {
             return sysConfigDA.GetDayInWeek(dayInWeekId);
         }
 
-        public List<CauHinh_Buoi> GetSessions()
+        public List<Configuration_Session> GetSessions()
         {
             return sysConfigDA.GetSessions();
         }
 
         public string GetSessionName(int sessionId)
         {
-            CauHinh_Buoi session = GetSession(sessionId);
+            Configuration_Session session = GetSession(sessionId);
             if (session != null)
             {
-                return session.TenBuoi;
+                return session.SessionName;
             }
             else
             {
@@ -84,7 +84,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public CauHinh_Buoi GetSession(int sessionId)
+        public Configuration_Session GetSession(int sessionId)
         {
             return sysConfigDA.GetSession(sessionId);
         }

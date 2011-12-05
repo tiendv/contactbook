@@ -89,11 +89,11 @@
                 <ItemTemplate>
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; width: 10%; vertical-align: middle;">
-                            <asp:HiddenField ID="HdfRptMaNamHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaNamHoc")%>' />
-                            <asp:HiddenField ID="HdfRptMaHocKy" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocKy")%>' />
-                            <asp:HiddenField ID="HdfRptMaThu" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaThu")%>' />
-                            <asp:HiddenField ID="HdfRptMaLopHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLopHoc")%>' />
-                            <asp:Label ID="LblTenBuoi" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenThu")%>'></asp:Label>
+                            <asp:HiddenField ID="HdfRptYearId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "YearId")%>' />
+                            <asp:HiddenField ID="HdfRptTermId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TermId")%>' />
+                            <asp:HiddenField ID="HdfRptDayInWeekId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DayInWeekId")%>' />
+                            <asp:HiddenField ID="HdfRptClassId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ClassId")%>' />
+                            <asp:Label ID="LblSessionName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "DayInWeekName")%>'></asp:Label>
                         </td>
                         <%--Thời khóa biểu buổi sáng--%>
                         <td style="height: 40px; width: 41%; padding: 0px">
@@ -104,13 +104,13 @@
                                         <tr class='<%#((Container.ItemIndex + 1) % 2 != 0) ? "innerOddRow" : "innerEvenRow"%>'>
                                             <td style="height: 40px; width: 37%; border-style: none; border-bottom-style: solid;
                                                 border-right-style: solid; padding: 0px 5px 0px 5px">
-                                                <%#DataBinder.Eval(Container.DataItem, "ChiTietTiet")%>
+                                                <%#DataBinder.Eval(Container.DataItem, "StringDetailTeachingPeriod")%>
                                             </td>
                                             <td style="height: 40px; border-style: none; border-bottom-style: solid; padding: 0px 5px 0px 5px">
                                                 <b>
-                                                    <%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></b>
+                                                    <%#DataBinder.Eval(Container.DataItem, "SubjectName")%></b>
                                                 <br />
-                                                (<%#DataBinder.Eval(Container.DataItem, "TenGiaoVien")%>)
+                                                (<%#DataBinder.Eval(Container.DataItem, "TeacherName")%>)
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -126,13 +126,13 @@
                                         <tr class='<%#((Container.ItemIndex + 1) % 2 != 0) ? "innerOddRow" : "innerEvenRow"%>'>
                                             <td style="height: 40px; width: 40%; border-style: none; border-bottom-style: solid;
                                                 border-right-style: solid; padding: 0px 5px 0px 5px">
-                                                <%#DataBinder.Eval(Container.DataItem, "ChiTietTiet")%>
+                                                <%#DataBinder.Eval(Container.DataItem, "StringDetailTeachingPeriod")%>
                                             </td>
                                             <td style="height: 40px; border-style: none; border-bottom-style: solid; padding: 0px 5px 0px 5px">
                                                 <b>
-                                                    <%#DataBinder.Eval(Container.DataItem, "TenMonHoc")%></b>
+                                                    <%#DataBinder.Eval(Container.DataItem, "SubjectName")%></b>
                                                 <br />
-                                                (<%#DataBinder.Eval(Container.DataItem, "TenGiaoVien")%>)
+                                                (<%#DataBinder.Eval(Container.DataItem, "TeacherName")%>)
                                             </td>
                                         </tr>
                                     </ItemTemplate>

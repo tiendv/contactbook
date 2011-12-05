@@ -108,11 +108,11 @@
                             <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "HoTenHocSinh")%></asp:HyperLink>
                         </td>
                         <td style="text-align: center">
-                            <asp:HiddenField ID="HdfMaHanhKiemHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>' />
+                            <asp:HiddenField ID="HdfConductIdHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductId")%>' />
                             <asp:Repeater ID="RptHanhKiem" runat="server" OnItemDataBound="RptHanhKiem_ItemDataBound">
                                 <ItemTemplate>
-                                    <asp:HiddenField ID="HdfMaHanhKiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHanhKiem")%>' />
-                                    <%#DataBinder.Eval(Container.DataItem, "TenHanhKiem")%>
+                                    <asp:HiddenField ID="HdfConductId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductId")%>' />
+                                    <%#DataBinder.Eval(Container.DataItem, "ConductName")%>
                                     <asp:RadioButton ID="RbtnHanhKiem" runat="server" CssClass="radioBehaviour" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </ItemTemplate>
                             </asp:Repeater>

@@ -41,7 +41,7 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     $find('<%=MPEAdd.ClientID%>').add_showing(function () {
-                        $get('<%=TxtTenKhoiLop.ClientID%>').value = "";
+                        $get('<%=TxtGradeName.ClientID%>').value = "";
                     });
                 }
             }
@@ -63,14 +63,14 @@
                 return false;
             }
 
-            function validateTenKhoiLopAdd(ctrl, args) {
+            function validateGradeNameAdd(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputAdd.ClientID%>');
-                var maKhoiLop = 0;
-                var tenKhoiLop = $.trim(args.Value);
+                var GradeId = 0;
+                var GradeName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenKhoiLop",
-                    data: "{'maKhoiLop':'" + maKhoiLop + "', 'tenKhoiLop':'" + tenKhoiLop + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistGradeName",
+                    data: "{'GradeId':'" + GradeId + "', 'GradeName':'" + GradeName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -92,14 +92,14 @@
                 }
             }
 
-            function validateTenKhoiLopEdit(ctrl, args) {
+            function validateGradeNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
-                var maKhoiLop = $('#<%=HdfMaKhoiLop.ClientID%>').val();
-                var tenKhoiLop = $.trim(args.Value);
+                var GradeId = $('#<%=HdfGradeId.ClientID%>').val();
+                var GradeName = $.trim(args.Value);
                 $.ajax({
                     type: "POST",
-                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistTenKhoiLop",
-                    data: "{'maKhoiLop':'" + maKhoiLop + "', 'tenKhoiLop':'" + tenKhoiLop + "'}",
+                    url: "/Modules/Danh_Muc/DanhMucServicePage.aspx/CheckExistGradeName",
+                    data: "{'GradeId':'" + GradeId + "', 'GradeName':'" + GradeName + "'}",
                     contentType: "application/json; charset=utf-8",
                     success: function (serverResponseData) {
                         if (serverResponseData.d == true) {
@@ -149,7 +149,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:HiddenField ID="HdfMaKhoiLop" runat="server" />
+            <asp:HiddenField ID="HdfGradeId" runat="server" />
             <asp:HiddenField ID="HdfSeletedGradeName" runat="server" />
             <asp:HiddenField ID="HdfRptKhoiLopMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptKhoiLopMPEEdit" runat="server" />
@@ -175,16 +175,16 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaKhoiLop" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaKhoiLop")%>' />
-                            <asp:HiddenField ID="HdfRptTenKhoiLop" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>' />
+                            <asp:HiddenField ID="HdfRptGradeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "GradeId")%>' />
+                            <asp:HiddenField ID="HdfRptGradeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "GradeName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>
+                            <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "GradeName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -193,7 +193,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenKhoiLop")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "GradeName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -254,11 +254,11 @@
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenKhoiLop" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenKhoiLopRequiredAdd" runat="server" ControlToValidate="TxtTenKhoiLop"
+                        <asp:TextBox ID="TxtGradeName" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="GradeNameRequiredAdd" runat="server" ControlToValidate="TxtGradeName"
                             ValidationGroup="AddKhoiLop" ErrorMessage="Tên khối lớp không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenKhoiLopValidatorAdd" runat="server" ControlToValidate="TxtTenKhoiLop"
+                        <asp:CustomValidator ID="GradeNameValidatorAdd" runat="server" ControlToValidate="TxtGradeName"
                             ValidationGroup="AddKhoiLop" ErrorMessage="Khối lớp đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -306,11 +306,11 @@
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaTenKhoiLop" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenKhoiLopRequiredEdit" runat="server" ControlToValidate="TxtSuaTenKhoiLop"
+                        <asp:TextBox ID="TxtSuaGradeName" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="GradeNameRequiredEdit" runat="server" ControlToValidate="TxtSuaGradeName"
                             ValidationGroup="EditKhoiLop" ErrorMessage="Tên khối lớp không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenKhoiLopValidatorEdit" runat="server" ControlToValidate="TxtSuaTenKhoiLop"
+                        <asp:CustomValidator ID="GradeNameValidatorEdit" runat="server" ControlToValidate="TxtSuaGradeName"
                             ValidationGroup="EditKhoiLop" ErrorMessage="Khối lớp đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>

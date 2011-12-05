@@ -11,73 +11,73 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private ClassDA classDA;
 
-        public ClassBL(School school)
+        public ClassBL(School_School school)
             : base(school)
         {
             classDA = new ClassDA(school);
         }
                 
-        public void InsertClass(string ClassName, CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public void InsertClass(string ClassName, Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
-            classDA.InsertClass(new LopHoc_Lop()
+            classDA.InsertClass(new Class_Class()
             {
-                TenLopHoc = ClassName,
-                MaNganhHoc = faculty.MaNganhHoc,
-                MaKhoiLop = grade.MaKhoiLop,
-                MaNamHoc = year.MaNamHoc
+                ClassName = ClassName,
+                FacultyId = faculty.FacultyId,
+                GradeId = grade.GradeId,
+                YearId = year.YearId
             });
         }
 
-        public void UpdateClass(LopHoc_Lop editedClass, string newClassName)
+        public void UpdateClass(Class_Class editedClass, string newClassName)
         {
-            editedClass.TenLopHoc = newClassName;
+            editedClass.ClassName = newClassName;
             classDA.UpdateClass(editedClass);
         }
 
-        public void IncreaseStudentAmount(LopHoc_Lop Class)
+        public void IncreaseStudentAmount(Class_Class Class)
         {
             classDA.IncreaseStudentAmount(Class);
         }
 
-        public void DeleteClass(LopHoc_Lop deletedClass)
+        public void DeleteClass(Class_Class deletedClass)
         {
             classDA.DeleteClass(deletedClass);
         }
 
-        public LopHoc_Lop GetClass(int classId)
+        public Class_Class GetClass(int classId)
         {
             return classDA.GetClass(classId);
         }
 
-        public TabularClass GetTabularClass(LopHoc_Lop Class)
+        public TabularClass GetTabularClass(Class_Class Class)
         {
-            Class = GetClass(Class.MaLopHoc);
+            Class = classDA.GetClass(Class.ClassId);
             TabularClass tabularClass = new TabularClass();
             FormerTeacherBL formerTeacherBL = new FormerTeacherBL(school);
-            LopHoc_GVCN formerTeacher = null;
+            Class_FormerTeacher formerTeacher = null;
 
-            tabularClass.MaLopHoc = Class.MaLopHoc;
-            tabularClass.TenLopHoc = Class.TenLopHoc;
-            tabularClass.TenNganhHoc = Class.DanhMuc_NganhHoc.TenNganhHoc;
-            tabularClass.MaNganhHoc = Class.MaNganhHoc;
-            tabularClass.MaKhoiLop = Class.MaKhoiLop;
-            tabularClass.TenKhoiLop = Class.DanhMuc_KhoiLop.TenKhoiLop;
-            tabularClass.SiSo = Class.SiSo;
-            tabularClass.MaNamHoc = Class.MaNamHoc;
-            tabularClass.TenNamHoc = Class.CauHinh_NamHoc.TenNamHoc;
+            tabularClass.ClassId = Class.ClassId;
+            tabularClass.ClassName = Class.ClassName;
+            tabularClass.FacultyName = Class.Category_Faculty.FacultyName;
+            tabularClass.FacultyId = Class.FacultyId;
+            tabularClass.GradeId = Class.GradeId;
+            tabularClass.GradeName = Class.Category_Grade.GradeName;
+            tabularClass.SiSo = Class.StudentQuantity;
+            tabularClass.YearId = Class.YearId;
+            tabularClass.YearName = Class.Configuration_Year.YearName;
             formerTeacher = formerTeacherBL.GetFormerTeacher(Class);
             if (formerTeacher != null)
             {
                 tabularClass.HomeroomTeacherCode = formerTeacher.aspnet_User.UserId;
-                tabularClass.TenGVCN = formerTeacher.aspnet_User.aspnet_Membership.RealName;
+                tabularClass.TenGVCN = formerTeacher.aspnet_User.aspnet_Membership.FullName;
             }
 
             return tabularClass;
         }
 
-        public List<LopHoc_Lop> GetListClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public List<Class_Class> GetListClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
             if (faculty == null)
             {
                 if (grade == null)
@@ -104,10 +104,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lClasses;
         }
 
-        public List<TabularClass> GetTabularClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularClass> GetTabularClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularClass> lTabularClasses = new List<TabularClass>();
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
 
             if (faculty == null)
             {
@@ -132,20 +132,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            TabularClass tabularClass = new TabularClass();
-            foreach (LopHoc_Lop Class in lClasses)
+            TabularClass tabularClass = null;
+            foreach (Class_Class Class in lClasses)
             {
-                tabularClass = GetTabularClass(Class);
-
+                tabularClass = ConvertToTabularClass(Class);
                 lTabularClasses.Add(tabularClass);
             }
 
             return lTabularClasses;
         }
 
-        public List<LopHoc_Lop> GetUnformeredClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public List<Class_Class> GetUnformeredClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
-            List<LopHoc_Lop> lUnformeredClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lUnformeredClasses = new List<Class_Class>();
             if (faculty == null)
             {
                 if (grade == null)
@@ -173,12 +172,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             
         }        
 
-        public bool ClassNameExists(string className, CauHinh_NamHoc year)
+        public bool ClassNameExists(string className, Configuration_Year year)
         {
             return classDA.ClassNameExists(className, year);
         }
 
-        public bool ClassNameExists(string oldClassName, string newClassName, CauHinh_NamHoc year)
+        public bool ClassNameExists(string oldClassName, string newClassName, Configuration_Year year)
         {
             if (oldClassName == newClassName)
             {
@@ -190,14 +189,39 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public bool IsDeletable(LopHoc_Lop Class)
+        public bool IsDeletable(Class_Class Class)
         {
             return classDA.IsDeletable(Class);
         }
 
-        public bool HasFormerTeacher(LopHoc_Lop Class)
+        public bool HasFormerTeacher(Class_Class Class)
         {
             return classDA.HasFormerTeacher(Class);
+        }
+
+        public TabularClass ConvertToTabularClass(Class_Class Class)
+        {
+            TabularClass tabularClass = new TabularClass();
+            FormerTeacherBL formerTeacherBL = new FormerTeacherBL(school);
+            Class_FormerTeacher formerTeacher = null;
+
+            tabularClass.ClassId = Class.ClassId;
+            tabularClass.ClassName = Class.ClassName;
+            tabularClass.FacultyName = Class.Category_Faculty.FacultyName;
+            tabularClass.FacultyId = Class.FacultyId;
+            tabularClass.GradeId = Class.GradeId;
+            tabularClass.GradeName = Class.Category_Grade.GradeName;
+            tabularClass.SiSo = Class.StudentQuantity;
+            tabularClass.YearId = Class.YearId;
+            tabularClass.YearName = Class.Configuration_Year.YearName;
+            formerTeacher = formerTeacherBL.GetFormerTeacher(Class);
+            if (formerTeacher != null)
+            {
+                tabularClass.HomeroomTeacherCode = formerTeacher.aspnet_User.UserId;
+                tabularClass.TenGVCN = formerTeacher.aspnet_User.aspnet_Membership.FullName;
+            }
+
+            return tabularClass;
         }
     }
 }

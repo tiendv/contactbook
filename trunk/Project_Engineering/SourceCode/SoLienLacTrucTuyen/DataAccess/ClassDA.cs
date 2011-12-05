@@ -9,65 +9,65 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class ClassDA : BaseDA
     {
-        public ClassDA(School school)
+        public ClassDA(School_School school)
             : base(school)
         {
         }
 
-        public void InsertClass(LopHoc_Lop Class)
+        public void InsertClass(Class_Class Class)
         {
-            db.LopHoc_Lops.InsertOnSubmit(Class);
+            db.Class_Classes.InsertOnSubmit(Class);
             db.SubmitChanges();
         }
 
-        public void UpdateClass(LopHoc_Lop editedClass)
+        public void UpdateClass(Class_Class editedClass)
         {
-            LopHoc_Lop Class = null;
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaLopHoc == editedClass.MaLopHoc
-                                             select cls;
+            Class_Class Class = null;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassId == editedClass.ClassId
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 Class = iqClass.First();
-                Class.TenLopHoc = editedClass.TenLopHoc;
+                Class.ClassName = editedClass.ClassName;
                 db.SubmitChanges();
             }
         }
 
-        public void IncreaseStudentAmount(LopHoc_Lop editedClass)
+        public void IncreaseStudentAmount(Class_Class editedClass)
         {
-            LopHoc_Lop Class = null;
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaLopHoc == editedClass.MaLopHoc
-                                             select cls;
+            Class_Class Class = null;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassId == editedClass.ClassId
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 Class = iqClass.First();
-                Class.SiSo++;
+                Class.StudentQuantity++;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteClass(LopHoc_Lop deletedClass)
+        public void DeleteClass(Class_Class deletedClass)
         {
-            LopHoc_Lop Class = null;
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaLopHoc == deletedClass.MaLopHoc
-                                             select cls;
+            Class_Class Class = null;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassId == deletedClass.ClassId
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 Class = iqClass.First();
-                db.LopHoc_Lops.DeleteOnSubmit(Class);
+                db.Class_Classes.DeleteOnSubmit(Class);
                 db.SubmitChanges();
             }
         }
 
-        public LopHoc_Lop GetClass(int classID)
+        public Class_Class GetClass(int classID)
         {
-            LopHoc_Lop Class = null;
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaLopHoc == classID
-                                             select cls;
+            Class_Class Class = null;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassId == classID
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 Class = iqClass.First();
@@ -76,13 +76,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             return Class;
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year)
+        public List<Class_Class> GetClasses(Configuration_Year year)
         {
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
 
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 lClasses = iqClass.ToList();
@@ -91,102 +91,105 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public List<Class_Class> GetClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
 
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc
-                                             && cls.MaKhoiLop == grade.MaKhoiLop && cls.MaNganhHoc == faculty.MaNganhHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              && cls.GradeId == grade.GradeId && cls.FacultyId == faculty.FacultyId
+                                              select cls;
             if (iqClass.Count() != 0)
             {
-                lClasses = iqClass.OrderBy(cls => cls.TenLopHoc).ToList();
+                lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
             }
 
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty)
+        public List<Class_Class> GetClasses(Configuration_Year year, Category_Faculty faculty)
         {
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
 
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc && cls.MaNganhHoc == faculty.MaNganhHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              && cls.FacultyId == faculty.FacultyId
+                                              select cls;
+
             if (iqClass.Count() != 0)
             {
-                lClasses = iqClass.OrderBy(cls => cls.TenLopHoc).ToList();
+                lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
             }
 
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, DanhMuc_KhoiLop grade)
+        public List<Class_Class> GetClasses(Configuration_Year year, Category_Grade grade)
         {
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
 
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc
-                                             && cls.MaKhoiLop == grade.MaKhoiLop
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              && cls.GradeId == grade.GradeId
+                                              select cls;
+
             if (iqClass.Count() != 0)
             {
-                lClasses = iqClass.OrderBy(cls => cls.TenLopHoc).ToList();
+                lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
             }
 
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_Class> GetClasses(Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              select cls;
+            return GetClasses(ref iqClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<Class_Class> GetClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              && cls.GradeId == grade.GradeId && cls.FacultyId == faculty.FacultyId
+                                              select cls;
 
             return GetClasses(ref iqClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_Class> GetClasses(Configuration_Year year, Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc
-                                             && cls.MaKhoiLop == grade.MaKhoiLop && cls.MaNganhHoc == faculty.MaNganhHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              && cls.FacultyId == faculty.FacultyId
+                                              select cls;
 
             return GetClasses(ref iqClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_Class> GetClasses(Configuration_Year year, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc && cls.MaNganhHoc == faculty.MaNganhHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.YearId == year.YearId
+                                              && cls.GradeId == grade.GradeId
+                                              select cls;
 
             return GetClasses(ref iqClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_Lop> GetClasses(CauHinh_NamHoc year, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_Class> GetUnformeredClasses(Configuration_Year year)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.MaNamHoc == year.MaNamHoc
-                                             && cls.MaKhoiLop == grade.MaKhoiLop
-                                             select cls;
-
-            return GetClasses(ref iqClass, pageCurrentIndex, pageSize, out totalRecords);
-        }
-
-        public List<LopHoc_Lop> GetUnformeredClasses(CauHinh_NamHoc year)
-        {
-            List<LopHoc_Lop> lClasses = GetClasses(year);
+            List<Class_Class> lClasses = GetClasses(year);
             if (lClasses.Count != 0)
             {
                 int i = 0;
                 while (i < lClasses.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                                                              where formerTeacher.MaLopHoc == lClasses[i].MaLopHoc
-                                                              select formerTeacher;
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher = from formerTeacher in db.Class_FormerTeachers
+                                                                      where formerTeacher.ClassId == lClasses[i].ClassId
+                                                                      select formerTeacher;
                     if (iqFormerTeacher.Count() != 0)
                     {
                         lClasses.Remove(lClasses[i]);
@@ -201,17 +204,17 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetUnformeredClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty)
+        public List<Class_Class> GetUnformeredClasses(Configuration_Year year, Category_Faculty faculty)
         {
-            List<LopHoc_Lop> lClasses = GetClasses(year, faculty);
+            List<Class_Class> lClasses = GetClasses(year, faculty);
             if (lClasses.Count != 0)
             {
                 int i = 0;
                 while (i < lClasses.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                                                              where formerTeacher.MaLopHoc == lClasses[i].MaLopHoc
-                                                              select formerTeacher;
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher = from formerTeacher in db.Class_FormerTeachers
+                                                                      where formerTeacher.ClassId == lClasses[i].ClassId
+                                                                      select formerTeacher;
                     if (iqFormerTeacher.Count() != 0)
                     {
                         lClasses.Remove(lClasses[i]);
@@ -226,17 +229,17 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetUnformeredClasses(CauHinh_NamHoc year, DanhMuc_KhoiLop grade)
+        public List<Class_Class> GetUnformeredClasses(Configuration_Year year, Category_Grade grade)
         {
-            List<LopHoc_Lop> lClasses = GetClasses(year, grade);
+            List<Class_Class> lClasses = GetClasses(year, grade);
             if (lClasses.Count != 0)
             {
                 int i = 0;
                 while (i < lClasses.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                                                              where formerTeacher.MaLopHoc == lClasses[i].MaLopHoc
-                                                              select formerTeacher;
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher = from formerTeacher in db.Class_FormerTeachers
+                                                                      where formerTeacher.ClassId == lClasses[i].ClassId
+                                                                      select formerTeacher;
                     if (iqFormerTeacher.Count() != 0)
                     {
                         lClasses.Remove(lClasses[i]);
@@ -251,17 +254,17 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lClasses;
         }
 
-        public List<LopHoc_Lop> GetUnformeredClasses(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade)
+        public List<Class_Class> GetUnformeredClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
-            List<LopHoc_Lop> lClasses = GetClasses(year, faculty, grade);
+            List<Class_Class> lClasses = GetClasses(year, faculty, grade);
             if (lClasses.Count != 0)
             {
                 int i = 0;
                 while (i < lClasses.Count)
                 {
-                    IQueryable<LopHoc_GVCN> iqFormerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                                                              where formerTeacher.MaLopHoc == lClasses[i].MaLopHoc
-                                                              select formerTeacher;
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher = from formerTeacher in db.Class_FormerTeachers
+                                                                      where formerTeacher.ClassId == lClasses[i].ClassId
+                                                                      select formerTeacher;
                     if (iqFormerTeacher.Count() != 0)
                     {
                         lClasses.Remove(lClasses[i]);
@@ -276,25 +279,25 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lClasses;
         }
 
-        private List<LopHoc_Lop> GetClasses(ref IQueryable<LopHoc_Lop> iqClass, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Class_Class> GetClasses(ref IQueryable<Class_Class> iqClass, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<LopHoc_Lop> lClasses = new List<LopHoc_Lop>();
+            List<Class_Class> lClasses = new List<Class_Class>();
             totalRecords = iqClass.Count();
             if (totalRecords != 0)
             {
-                lClasses = iqClass.OrderBy(cls => cls.DanhMuc_NganhHoc.TenNganhHoc)
-                    .ThenBy(cls => cls.DanhMuc_KhoiLop.TenKhoiLop).ThenBy(cls => cls.TenLopHoc)
+                lClasses = iqClass.OrderBy(cls => cls.Category_Faculty.FacultyName)
+                    .ThenBy(cls => cls.Category_Grade.GradeName).ThenBy(cls => cls.ClassName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return lClasses;
         }
 
-        public bool ClassNameExists(string className, CauHinh_NamHoc year)
+        public bool ClassNameExists(string className, Configuration_Year year)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.TenLopHoc == className && cls.MaNamHoc == year.MaNamHoc
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassName == className && cls.YearId == year.YearId
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 return true;
@@ -307,9 +310,9 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool ClassNameExists(string className)
         {
-            IQueryable<LopHoc_Lop> iqClass = from cls in db.LopHoc_Lops
-                                             where cls.TenLopHoc == className
-                                             select cls;
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassName == className
+                                              select cls;
             if (iqClass.Count() != 0)
             {
                 return true;
@@ -320,46 +323,36 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(LopHoc_Lop Class)
+        public bool IsDeletable(Class_Class Class)
         {
-            IQueryable<LopHoc_MonHocTKB> iqSchedule = from schedule in db.LopHoc_MonHocTKBs
-                                                      where schedule.MaLopHoc == Class.MaLopHoc
-                                                      select schedule;
+            IQueryable<Class_Schedule> iqSchedule = from schedule in db.Class_Schedules
+                                                    where schedule.ClassId == Class.ClassId
+                                                    select schedule;
             if (iqSchedule.Count() != 0)
             {
                 return false;
             }
             else
             {
-                IQueryable<LopHoc_ThongBao> iqClassNews = from clsNews in db.LopHoc_ThongBaos
-                                                          where clsNews.MaLopHoc == Class.MaLopHoc
-                                                          select clsNews;
-                if (iqClassNews.Count() != 0)
+                IQueryable<Student_StudentInClass> iqStudentsInClass = from stdsInCls in db.Student_StudentInClasses
+                                                                       where stdsInCls.ClassId == Class.ClassId
+                                                                       select stdsInCls;
+                if (iqStudentsInClass.Count() != 0)
                 {
                     return false;
                 }
                 else
                 {
-                    IQueryable<HocSinh_HocSinhLopHoc> iqStudentsInClass = from stdsInCls in db.HocSinh_HocSinhLopHocs
-                                                                          where stdsInCls.MaLopHoc == Class.MaLopHoc
-                                                                          select stdsInCls;
-                    if (iqStudentsInClass.Count() != 0)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
 
-        public bool HasFormerTeacher(LopHoc_Lop Class)
+        public bool HasFormerTeacher(Class_Class Class)
         {
-            IQueryable<LopHoc_GVCN> iqFormerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                                                      where formerTeacher.MaLopHoc == Class.MaLopHoc
-                                                      select formerTeacher;
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from formerTeacher in db.Class_FormerTeachers
+                                                              where formerTeacher.ClassId == Class.ClassId
+                                                              select formerTeacher;
             if (iqFormerTeacher.Count() != 0)
             {
                 return true;
@@ -368,6 +361,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 return false;
             }
-        }        
+        }
     }
 }

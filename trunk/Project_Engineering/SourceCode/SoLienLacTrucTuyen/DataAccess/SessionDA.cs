@@ -7,7 +7,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class SessionDA : BaseDA
     {
-        public SessionDA(School school)
+        public SessionDA(School_School school)
             : base(school)
         {
         }
@@ -20,18 +20,18 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
             else
             {
-                CauHinh_Buoi buoi = (from b in db.CauHinh_Buois
-                                     where b.MaBuoi == sessionId
+                Configuration_Session buoi = (from b in db.Configuration_Sessions
+                                     where b.SessionId == sessionId
                                      select b).First();
-                return buoi.TenBuoi;
+                return buoi.SessionName;
             }
         }
 
-        public List<CauHinh_Buoi> GetListSessions()
+        public List<Configuration_Session> GetListSessions()
         {
-            List<CauHinh_Buoi> lSesssions = new List<CauHinh_Buoi>();
+            List<Configuration_Session> lSesssions = new List<Configuration_Session>();
 
-            IQueryable<CauHinh_Buoi> iqSessions = from session in db.CauHinh_Buois
+            IQueryable<Configuration_Session> iqSessions = from session in db.Configuration_Sessions
                                                   select session;
             if (iqSessions.Count() != 0)
             {

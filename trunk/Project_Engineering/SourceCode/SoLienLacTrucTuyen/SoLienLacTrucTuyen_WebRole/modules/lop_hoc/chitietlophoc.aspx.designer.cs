@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ChiTietLopHoc {
+    public partial class DetailedClassPage {
         
         /// <summary>
         /// BtnEdit control.
@@ -31,13 +31,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label18;
         
         /// <summary>
-        /// LblTenLopHocChiTiet control.
+        /// LblClassNameChiTiet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTenLopHocChiTiet;
+        protected global::System.Web.UI.WebControls.Label LblClassNameChiTiet;
         
         /// <summary>
         /// Label21 control.
@@ -49,13 +49,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label21;
         
         /// <summary>
-        /// LblTenNganhHocChiTiet control.
+        /// LblFacultyNameChiTiet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTenNganhHocChiTiet;
+        protected global::System.Web.UI.WebControls.Label LblFacultyNameChiTiet;
         
         /// <summary>
         /// Label22 control.
@@ -67,13 +67,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label22;
         
         /// <summary>
-        /// LblTenKhoiLopChiTiet control.
+        /// LblGradeNameChiTiet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTenKhoiLopChiTiet;
+        protected global::System.Web.UI.WebControls.Label LblGradeNameChiTiet;
         
         /// <summary>
         /// Label19 control.

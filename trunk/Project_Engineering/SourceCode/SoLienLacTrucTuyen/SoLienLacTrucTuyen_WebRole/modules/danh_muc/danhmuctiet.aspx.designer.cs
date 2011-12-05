@@ -85,13 +85,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfSltTeachingPeriodName;
         
         /// <summary>
-        /// HdfMaTietHoc control.
+        /// HdfTeachingPeriodIdHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaTietHoc;
+        protected global::System.Web.UI.WebControls.HiddenField HdfTeachingPeriodIdHoc;
         
         /// <summary>
         /// HdfRptTietHocMPEDelete control.
@@ -238,31 +238,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// TxtTenTietHocThem control.
+        /// TxtTeachingPeriodNameHocThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenTietHocThem;
+        protected global::System.Web.UI.WebControls.TextBox TxtTeachingPeriodNameHocThem;
         
         /// <summary>
-        /// TenTietHocRequiredAdd control.
+        /// TeachingPeriodNameHocRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenTietHocRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator TeachingPeriodNameHocRequiredAdd;
         
         /// <summary>
-        /// TenTietHocValidatorAdd control.
+        /// TeachingPeriodNameHocValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenTietHocValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator TeachingPeriodNameHocValidatorAdd;
         
         /// <summary>
         /// DdlBuoiAdd control.
@@ -301,13 +301,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender3;
         
         /// <summary>
-        /// HeSoDiemRequiredAdd control.
+        /// MarkRatioRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator HeSoDiemRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkRatioRequiredAdd;
         
         /// <summary>
         /// ThuTuRegExp control.
@@ -472,31 +472,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label5;
         
         /// <summary>
-        /// TxtTenTietHocEdit control.
+        /// TxtTeachingPeriodNameHocEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenTietHocEdit;
+        protected global::System.Web.UI.WebControls.TextBox TxtTeachingPeriodNameHocEdit;
         
         /// <summary>
-        /// TenTietHocRequiredEdit control.
+        /// TeachingPeriodNameHocRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenTietHocRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator TeachingPeriodNameHocRequiredEdit;
         
         /// <summary>
-        /// TenTietHocValidatorEdit control.
+        /// TeachingPeriodNameHocValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenTietHocValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator TeachingPeriodNameHocValidatorEdit;
         
         /// <summary>
         /// DdlBuoiEdit control.
@@ -535,13 +535,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender4;
         
         /// <summary>
-        /// HeSoDiemRequiredEdit control.
+        /// MarkRatioRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator HeSoDiemRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator MarkRatioRequiredEdit;
         
         /// <summary>
         /// RegularExpressionValidator1 control.

@@ -10,68 +10,68 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private DanhHieuDA danhHieuDA;
 
-        public DanhHieuBL(School school)
+        public DanhHieuBL(School_School school)
             : base(school)
         {
             danhHieuDA = new DanhHieuDA(school);
         }
 
-        public void InsertDanhHieu(string tenDanhHieu, Dictionary<int, int> dicHanhKiemNHocLuc)
+        public void InsertDanhHieu(string LearningResultName, Dictionary<int, int> dicHanhKiemNHocLuc)
         {
-            danhHieuDA.InsertDanhHieu(tenDanhHieu, dicHanhKiemNHocLuc);
+            danhHieuDA.InsertDanhHieu(LearningResultName, dicHanhKiemNHocLuc);
         }
 
-        public void UpdateDanhHieu(int maDanhHieu, string tenDanhHieu)
+        public void UpdateDanhHieu(int LearningResultId, string LearningResultName)
         {
-            danhHieuDA.UpdateDanhHieu(maDanhHieu, tenDanhHieu);
+            danhHieuDA.UpdateDanhHieu(LearningResultId, LearningResultName);
         }
 
-        public void UpdateDanhHieu(int maDanhHieu, Dictionary<int, int> dicHanhKiemNHocLuc)
+        public void UpdateDanhHieu(int LearningResultId, Dictionary<int, int> dicHanhKiemNHocLuc)
         {
-            danhHieuDA.UpdateDanhHieu(maDanhHieu, dicHanhKiemNHocLuc);
+            danhHieuDA.UpdateDanhHieu(LearningResultId, dicHanhKiemNHocLuc);
         }
 
-        public void DeleteDanhHieu(int maDanhHieu)
+        public void DeleteDanhHieu(int LearningResultId)
         {
-            danhHieuDA.DeleteDanhHieu(maDanhHieu);
+            danhHieuDA.DeleteDanhHieu(LearningResultId);
         }
 
-        public void DeleteChiTietDanhHieu(int maDanhHieu, int maHocLuc, int maHanhKiem)
+        public void DeleteChiTietDanhHieu(int LearningResultId, int LearningAptitudeId, int ConductId)
         {
-            danhHieuDA.DeleteChiTietDanhHieu(maDanhHieu, maHocLuc, maHanhKiem);
+            danhHieuDA.DeleteChiTietDanhHieu(LearningResultId, LearningAptitudeId, ConductId);
         }
 
-        public bool DanhHieuExists(int exceptedMaDanhHieu, string tenDanhHieu)
+        public bool DanhHieuExists(int exceptedLearningResultId, string LearningResultName)
         {
-            return danhHieuDA.DanhHieuExists(exceptedMaDanhHieu, tenDanhHieu);
+            return danhHieuDA.DanhHieuExists(exceptedLearningResultId, LearningResultName);
         }
 
-        public bool DanhHieuExists(string tenDanhHieu)
+        public bool DanhHieuExists(string LearningResultName)
         {
-            return danhHieuDA.DanhHieuExists(tenDanhHieu);
+            return danhHieuDA.DanhHieuExists(LearningResultName);
         }
 
-        public List<DanhMuc_DanhHieu> GetListDanhHieus(string tenDanhHieu, 
+        public List<Category_LearningResult> GetListDanhHieus(string LearningResultName, 
             int pageCurrentIndex, int pageSize, out double totalRecord)
         {
-            if (String.Compare(tenDanhHieu, "tất cả", true) == 0 || tenDanhHieu == "")
+            if (String.Compare(LearningResultName, "tất cả", true) == 0 || LearningResultName == "")
             {
                 return danhHieuDA.GetListDanhHieus(pageCurrentIndex, pageSize, out totalRecord);
             }
             else
             {
-                return danhHieuDA.GetListDanhHieus(tenDanhHieu, pageCurrentIndex, pageSize, out totalRecord);
+                return danhHieuDA.GetListDanhHieus(LearningResultName, pageCurrentIndex, pageSize, out totalRecord);
             }
         }
 
-        public DanhMuc_DanhHieu GetDanhHieu(int maDanhHieu)
+        public Category_LearningResult GetDanhHieu(int LearningResultId)
         {
-            return danhHieuDA.GetDanhHieu(maDanhHieu);
+            return danhHieuDA.GetDanhHieu(LearningResultId);
         }
 
-        public bool CanDeleteDanhHieu(int maDanhHieu)
+        public bool CanDeleteDanhHieu(int LearningResultId)
         {
-            return danhHieuDA.CanDeleteDanhHieu(maDanhHieu);
+            return danhHieuDA.CanDeleteDanhHieu(LearningResultId);
         }
     }
 }

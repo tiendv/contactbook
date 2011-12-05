@@ -7,59 +7,59 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class ConductDA : BaseDA
     {
-        public ConductDA(School school)
+        public ConductDA(School_School school)
             : base(school)
         {
 
         }
 
-        public void InsertConduct(DanhMuc_HanhKiem conduct)
+        public void InsertConduct(Category_Conduct conduct)
         {
             conduct.SchoolId = school.SchoolId;
-            db.DanhMuc_HanhKiems.InsertOnSubmit(conduct);
+            db.Category_Conducts.InsertOnSubmit(conduct);
             db.SubmitChanges();
         }
 
-        public void UpdateConduct(DanhMuc_HanhKiem editedConduct)
+        public void UpdateConduct(Category_Conduct editedConduct)
         {
-            DanhMuc_HanhKiem conduct = null;
+            Category_Conduct conduct = null;
 
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
-                                                     where cdt.MaHanhKiem == editedConduct.MaHanhKiem
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
+                                                     where cdt.ConductId == editedConduct.ConductId
                                                      && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
             {
                 conduct = iqConduct.First();
-                conduct.TenHanhKiem = editedConduct.TenHanhKiem;
+                conduct.ConductName = editedConduct.ConductName;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteConduct(DanhMuc_HanhKiem deletedConduct)
+        public void DeleteConduct(Category_Conduct deletedConduct)
         {
-            DanhMuc_HanhKiem conduct = null;
+            Category_Conduct conduct = null;
 
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
-                                                     where cdt.MaHanhKiem == deletedConduct.MaHanhKiem
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
+                                                     where cdt.ConductId == deletedConduct.ConductId
                                                      && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
             {
                 conduct = iqConduct.First();
-                db.DanhMuc_HanhKiems.DeleteOnSubmit(conduct);
+                db.Category_Conducts.DeleteOnSubmit(conduct);
                 db.SubmitChanges();
             }
         }
 
-        public DanhMuc_HanhKiem GetConduct(int conductId)
+        public Category_Conduct GetConduct(int conductId)
         {
-            DanhMuc_HanhKiem conduct = null;
+            Category_Conduct conduct = null;
 
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
-                                                     where cdt.MaHanhKiem == conductId
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
+                                                     where cdt.ConductId == conductId
                                                      && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
@@ -71,12 +71,12 @@ namespace SoLienLacTrucTuyen.DataAccess
             return conduct;
         }
 
-        public DanhMuc_HanhKiem GetConduct(string conductName)
+        public Category_Conduct GetConduct(string conductName)
         {
-            DanhMuc_HanhKiem conduct = null;
+            Category_Conduct conduct = null;
 
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
-                                                     where cdt.TenHanhKiem == conductName
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
+                                                     where cdt.ConductName == conductName
                                                      && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
@@ -88,56 +88,56 @@ namespace SoLienLacTrucTuyen.DataAccess
             return conduct;
         }
 
-        public List<DanhMuc_HanhKiem> GetConducts()
+        public List<Category_Conduct> GetConducts()
         {
-            List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
+            List<Category_Conduct> lConducts = new List<Category_Conduct>();
 
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
             {
-                lConducts = iqConduct.OrderBy(cdt => cdt.TenHanhKiem).ToList();
+                lConducts = iqConduct.OrderBy(cdt => cdt.ConductName).ToList();
             }
 
             return lConducts;
         }
 
-        public List<DanhMuc_HanhKiem> GetConducts(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_Conduct> GetConducts(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_HanhKiem> lConducts = new List<DanhMuc_HanhKiem>();
+            List<Category_Conduct> lConducts = new List<Category_Conduct>();
 
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             return GetConducts(ref iqConduct, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        private List<DanhMuc_HanhKiem> GetConducts(ref IQueryable<DanhMuc_HanhKiem> iqHanhKiem, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Category_Conduct> GetConducts(ref IQueryable<Category_Conduct> iqHanhKiem, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             totalRecords = iqHanhKiem.Count();
             if (totalRecords != 0)
             {
-                return iqHanhKiem.OrderBy(hanhkiem => hanhkiem.TenHanhKiem)
+                return iqHanhKiem.OrderBy(hanhkiem => hanhkiem.ConductName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
             else
             {
-                return new List<DanhMuc_HanhKiem>();
+                return new List<Category_Conduct>();
             }
         }
 
         public bool IsDeletable(string conductName)
         {
             bool bResult = true;
-            IQueryable<HocSinh_DanhHieuHocKy> iqTermStudentResult;
+            IQueryable<Student_TermLearningResult> iqTermStudentResult;
 
             // Kiểm tra có tồn tại Học sinh nào đạt hạnh kiểm chỉ định hay không
-            iqTermStudentResult = from termStudentResult in db.HocSinh_DanhHieuHocKies
-                                  join conduct in db.DanhMuc_HanhKiems on termStudentResult.MaHanhKiemHK equals conduct.MaHanhKiem
-                                  where conduct.TenHanhKiem == conductName
+            iqTermStudentResult = from termStudentResult in db.Student_TermLearningResults
+                                  join conduct in db.Category_Conducts on termStudentResult.TermConductId equals conduct.ConductId
+                                  where conduct.ConductName == conductName
                                   select termStudentResult;
 
             if (iqTermStudentResult.Count() != 0)
@@ -150,8 +150,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool ConductNameExists(string conductName)
         {
-            IQueryable<DanhMuc_HanhKiem> iqConduct = from cdt in db.DanhMuc_HanhKiems
-                                                     where cdt.TenHanhKiem == conductName
+            IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
+                                                     where cdt.ConductName == conductName
                                                      && cdt.SchoolId == school.SchoolId
                                                      select cdt;
             if (iqConduct.Count() != 0)

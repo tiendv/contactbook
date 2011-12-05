@@ -2133,14 +2133,14 @@
     <packageHasNamedElement>
       <class
         Id="f127ac72-b60d-41d2-a224-057cb647bfd4"
-        name="DanhMuc_NganhHoc"
+        name="Category_Faculty"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
         <ownedAttributesInternal>
           <property
             Id="929dafb2-8435-4439-ac43-a5d9e6d50ebe"
-            name="MaNganhHoc"
+            name="FacultyId"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -2151,7 +2151,7 @@
             isComposite="false" />
           <property
             Id="5884f637-b688-4dff-8d7c-1b3783467ead"
-            name="TenNganhHoc"
+            name="FacultyName"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"

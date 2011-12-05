@@ -11,7 +11,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private TeacherDA teacherDA;
 
-        public TeacherBL(School school)
+        public TeacherBL(School_School school)
             : base(school)
         {
             teacherDA = new TeacherDA(school);
@@ -39,7 +39,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void UpdateTeacher(aspnet_Membership editedTeacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
         {
-            editedTeacher.RealName = newTeacherName;
+            editedTeacher.FullName = newTeacherName;
             editedTeacher.Gender = newGender;
             editedTeacher.Birthday = newBirthday;
             editedTeacher.Address = newAddress;
@@ -85,7 +85,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    
+
                     lTeachers = teacherDA.GetListTeachers(teacherCode, teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
@@ -93,9 +93,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             foreach (aspnet_User teacher in lTeachers)
             {
                 TabularTeacher tbTeacher = new TabularTeacher();
-                tbTeacher.MaGiaoVien = teacher.UserId;
+                tbTeacher.UserId = teacher.UserId;
                 tbTeacher.MaHienThiGiaoVien = teacher.UserName.Split('_')[1];
-                tbTeacher.HoTen = teacher.aspnet_Membership.RealName;
+                tbTeacher.HoTen = teacher.aspnet_Membership.FullName;
                 tbTeacher.NgaySinh = teacher.aspnet_Membership.Birthday;
                 tbTeacher.GioiTinh = teacher.aspnet_Membership.Gender;
 
@@ -104,7 +104,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTabularTeachers;
         }
 
-        public List<TabularTeacher> GetTabularUnformeredTeachers(CauHinh_NamHoc year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTeacher> GetTabularUnformeredTeachers(Configuration_Year year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             List<TabularTeacher> lTabularTeachers = new List<TabularTeacher>();
@@ -137,9 +137,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             foreach (aspnet_User teacher in lTeachers)
             {
                 TabularTeacher tbTeacher = new TabularTeacher();
-                tbTeacher.MaGiaoVien = teacher.UserId;
+                tbTeacher.UserId = teacher.UserId;
                 tbTeacher.MaHienThiGiaoVien = teacher.UserName.Split('_')[1];
-                tbTeacher.HoTen = teacher.aspnet_Membership.RealName;
+                tbTeacher.HoTen = teacher.aspnet_Membership.FullName;
                 tbTeacher.NgaySinh = teacher.aspnet_Membership.Birthday;
                 tbTeacher.GioiTinh = teacher.aspnet_Membership.Gender;
 
@@ -172,7 +172,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return bDeletable;
         }
 
-        public bool IsTeaching(aspnet_User teacher, CauHinh_HocKy term, CauHinh_Thu dayInWeek, DanhMuc_Tiet teachingPeriod)
+        public bool IsTeaching(aspnet_User teacher, Configuration_Term term, Configuration_DayInWeek dayInWeek, Category_TeachingPeriod teachingPeriod)
         {
             return teacherDA.IsTeaching(teacher, term, dayInWeek, teachingPeriod);
         }
@@ -180,16 +180,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularFormering> GetListFormerings(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularFormering> lTbFormering = new List<TabularFormering>();
-            List<LopHoc_GVCN> lFormering = teacherDA.GetFormering(teacher, pageCurrentIndex, pageSize, out totalRecords);
+            List<Class_FormerTeacher> lFormering = teacherDA.GetFormering(teacher, pageCurrentIndex, pageSize, out totalRecords);
 
-            foreach (LopHoc_GVCN formering in lFormering)
+            foreach (Class_FormerTeacher formering in lFormering)
             {
                 TabularFormering tbFormering = new TabularFormering
                               {
-                                  MaNamHoc = formering.LopHoc_Lop.MaNamHoc,
-                                  TenNamHoc = formering.LopHoc_Lop.CauHinh_NamHoc.TenNamHoc,
-                                  MaLopHoc = formering.LopHoc_Lop.MaLopHoc,
-                                  TenLopHoc = formering.LopHoc_Lop.TenLopHoc
+                                  YearId = formering.Class_Class.YearId,
+                                  YearName = formering.Class_Class.Configuration_Year.YearName,
+                                  ClassId = formering.Class_Class.ClassId,
+                                  ClassName = formering.Class_Class.ClassName
                               };
                 lTbFormering.Add(tbFormering);
             }
@@ -200,22 +200,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularTeaching> GetListTeachings(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularTeaching> lTeachings = new List<TabularTeaching>();
-            List<LopHoc_MonHocTKB> lShedules = new List<LopHoc_MonHocTKB>();
+            List<Class_Schedule> lShedules = new List<Class_Schedule>();
 
             lShedules = teacherDA.GetTeaching(teacher, pageCurrentIndex, pageSize, out totalRecords);
 
-            foreach (LopHoc_MonHocTKB schedule in lShedules)
+            foreach (Class_Schedule schedule in lShedules)
             {
                 TabularTeaching tbTeaching = new TabularTeaching
                 {
-                    MaNamHoc = schedule.LopHoc_Lop.CauHinh_NamHoc.MaNamHoc,
-                    TenNamHoc = schedule.LopHoc_Lop.CauHinh_NamHoc.TenNamHoc,
-                    MaHocKy = schedule.CauHinh_HocKy.MaHocKy,
-                    TenHocKy = schedule.CauHinh_HocKy.TenHocKy,
-                    MaLopHoc = schedule.LopHoc_Lop.MaLopHoc,
-                    TenLopHoc = schedule.LopHoc_Lop.TenLopHoc,
-                    MaMonHoc = schedule.DanhMuc_MonHoc.MaMonHoc,
-                    TenMonHoc = schedule.DanhMuc_MonHoc.TenMonHoc
+                    YearId = schedule.Class_Class.Configuration_Year.YearId,
+                    YearName = schedule.Class_Class.Configuration_Year.YearName,
+                    TermId = schedule.Configuration_Term.TermId,
+                    TermName = schedule.Configuration_Term.TermName,
+                    ClassId = schedule.Class_Class.ClassId,
+                    ClassName = schedule.Class_Class.ClassName,
+                    SubjectId = schedule.Category_Subject.SubjectId,
+                    SubjectName = schedule.Category_Subject.SubjectName
                 };
 
                 lTeachings.Add(tbTeaching);

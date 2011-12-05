@@ -11,13 +11,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private StudentDA studentDA;
 
-        public StudentBL(School school)
+        public StudentBL(School_School school)
             : base(school)
         {
             studentDA = new StudentDA(school);
         }
 
-        public void InsertStudent(LopHoc_Lop Class, string studentCode, string studentName,
+        public void InsertStudent(Class_Class Class, string studentCode, string studentName,
             bool gender, DateTime studentBithday, string birthplace, string address, string phone,
             string fatherName, string fatherJob, DateTime? fatherBirthday,
             string motherName, string motherJob, DateTime? motherBirthday,
@@ -26,74 +26,74 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             ClassBL classBL = new ClassBL(school);
             SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             StudyingResultBL studyingResultBL = new StudyingResultBL(school);
-            DanhMuc_HanhKiem conduct = null;
-            DanhMuc_HocLuc studyingAptitude = null;
+            Category_Conduct conduct = null;
+            Category_LearningAptitude studyingAptitude = null;
 
-            HocSinh_ThongTinCaNhan student = new HocSinh_ThongTinCaNhan
+            Student_Student student = new Student_Student
             {
-                MaHocSinhHienThi = studentCode,
-                HoTen = studentName,
-                GioiTinh = gender,
-                NgaySinh = studentBithday,
-                NoiSinh = birthplace,
-                DiaChi = address,
-                DienThoai = phone,
-                HoTenBo = fatherName,
-                NgheNghiepBo = fatherJob,
-                NgaySinhBo = fatherBirthday,
-                HoTenMe = motherName,
-                NgheNghiepMe = motherJob,
-                NgaySinhMe = motherBirthday,
-                HoTenNguoiDoDau = patronName,
-                NgheNghiepNguoiDoDau = patronJob,
-                NgaySinhNguoiDoDau = patronBirthday
+                StudentCode = studentCode,
+                FullName = studentName,
+                Gender = gender,
+                StudentBirthday = studentBithday,
+                Birthplace = birthplace,
+                Address = address,
+                ContactPhone = phone,
+                FatherName = fatherName,
+                FatherJob = fatherJob,
+                FatherBirthday = fatherBirthday,
+                MotherName = motherName,
+                MotherJob = motherJob,
+                MotherBirthday = motherBirthday,
+                PatronName = patronName,
+                PatronJob = patronJob,
+                PatronBirthday = patronBirthday
             };
             studentDA.InsertStudent(student);
 
-            HocSinh_ThongTinCaNhan insertedStudent = studentDA.GetStudent(student.MaHocSinhHienThi);
-            HocSinh_HocSinhLopHoc lastedStudentInClass = studentDA.InsertStudentInClass(insertedStudent, Class);
+            Student_Student insertedStudent = studentDA.GetStudent(student.StudentCode);
+            Student_StudentInClass lastedStudentInClass = studentDA.InsertStudentInClass(insertedStudent, Class);
             classBL.IncreaseStudentAmount(Class);
 
-            List<CauHinh_HocKy> terms = systemConfigBL.GetListTerms();
-            foreach (CauHinh_HocKy term in terms)
+            List<Configuration_Term> terms = systemConfigBL.GetListTerms();
+            foreach (Configuration_Term term in terms)
             {
-                conduct = new DanhMuc_HanhKiem();
-                conduct.MaHanhKiem = -1;
-                studyingAptitude = new DanhMuc_HocLuc();
-                studyingAptitude.MaHocLuc = -1;
+                conduct = new Category_Conduct();
+                conduct.ConductId = -1;
+                studyingAptitude = new Category_LearningAptitude();
+                studyingAptitude.LearningAptitudeId = -1;
                 studyingResultBL.InsertTermStudyingResult(term, lastedStudentInClass, -1, conduct, studyingAptitude);
             }
         }
 
-        public void UpdateHocSinh(HocSinh_ThongTinCaNhan editedStudent, LopHoc_Lop Class, string studentCode, string studentName,
+        public void UpdateHocSinh(Student_Student editedStudent, Class_Class Class, string studentCode, string studentName,
             bool gender, DateTime studentBithday, string birthplace, string address, string phone,
             string fatherName, string fatherJob, DateTime? fatherBirthday,
             string motherName, string motherJob, DateTime? motherBirthday,
             string patronName, string patronJob, DateTime? patronBirthday)
         {
-            editedStudent.MaHocSinhHienThi = studentCode;
-            editedStudent.HoTen = studentName;
-            editedStudent.GioiTinh = gender;
-            editedStudent.NgaySinh = studentBithday;
-            editedStudent.NoiSinh = birthplace;
-            editedStudent.DiaChi = address;
-            editedStudent.DienThoai = phone;
-            editedStudent.HoTenBo = fatherName;
-            editedStudent.NgheNghiepBo = fatherJob;
-            editedStudent.NgaySinhBo = fatherBirthday;
-            editedStudent.HoTenMe = motherName;
-            editedStudent.NgheNghiepMe = motherJob;
-            editedStudent.NgaySinhMe = motherBirthday;
-            editedStudent.HoTenNguoiDoDau = patronName;
-            editedStudent.NgheNghiepNguoiDoDau = patronJob;
-            editedStudent.NgaySinhNguoiDoDau = patronBirthday;
+            editedStudent.StudentCode = studentCode;
+            editedStudent.FullName = studentName;
+            editedStudent.Gender = gender;
+            editedStudent.StudentBirthday = studentBithday;
+            editedStudent.Birthplace = birthplace;
+            editedStudent.Address = address;
+            editedStudent.ContactPhone = phone;
+            editedStudent.FatherName = fatherName;
+            editedStudent.FatherJob = fatherJob;
+            editedStudent.FatherBirthday = fatherBirthday;
+            editedStudent.MotherName = motherName;
+            editedStudent.MotherJob = motherJob;
+            editedStudent.PatronBirthday = motherBirthday;
+            editedStudent.PatronName = patronName;
+            editedStudent.PatronJob = patronJob;
+            editedStudent.PatronBirthday = patronBirthday;
             studentDA.UpdateStudent(editedStudent);
 
-            HocSinh_HocSinhLopHoc studentInClass = studentDA.GetLastedStudentInClass(editedStudent);
+            Student_StudentInClass studentInClass = studentDA.GetLastedStudentInClass(editedStudent);
             studentDA.UpdateStudentInClass(studentInClass, Class);
         }
 
-        public void DeleteStudent(HocSinh_ThongTinCaNhan deletedStudent)
+        public void DeleteStudent(Student_Student deletedStudent)
         {
             //studentDA.DeleteStudent(deletedStudent);
         }
@@ -120,37 +120,37 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public HocSinh_ThongTinCaNhan GetStudent(string studentCode)
+        public Student_Student GetStudent(string studentCode)
         {
             return studentDA.GetStudent(studentCode);
         }
 
-        public HocSinh_ThongTinCaNhan GetStudent(int studentId)
+        public Student_Student GetStudent(int studentId)
         {
             return studentDA.GetStudent(studentId);
         }
 
-        public HocSinh_HocSinhLopHoc GetStudentInClass(int studentInClassId)
+        public Student_StudentInClass GetStudentInClass(int studentInClassId)
         {
             return studentDA.GetStudentInClass(studentInClassId);
         }
 
-        public HocSinh_HocSinhLopHoc GetStudentInClass(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year)
+        public Student_StudentInClass GetStudentInClass(Student_Student student, Configuration_Year year)
         {
             return studentDA.GetStudentInClass(student, year);
         }
 
-        public List<TabularStudent> GetTabularStudents(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade,
-            LopHoc_Lop Class, string studentCode, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularStudent> GetTabularStudents(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
+            Class_Class Class, string studentCode, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
             TabularStudent tabularStudent = null;
             bool bStudentNameIsAll = (string.Compare(studentName, "tất cả", true) == 0) || (studentName == "");
 
             if ((string.Compare(studentCode, "tất cả", true) != 0) && (studentCode != ""))
             {
-                HocSinh_ThongTinCaNhan student = studentDA.GetStudent(studentCode);
+                Student_Student student = studentDA.GetStudent(studentCode);
                 if (student != null)
                 {
                     studentInClasses.Add(studentDA.GetStudentInClass(student, year));
@@ -226,16 +226,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            foreach (HocSinh_HocSinhLopHoc studentInClass in studentInClasses)
+            foreach (Student_StudentInClass studentInClass in studentInClasses)
             {
                 tabularStudent = new TabularStudent();
-                tabularStudent.MaHocSinh = studentInClass.MaHocSinh;
-                tabularStudent.MaHocSinhHienThi = studentInClass.HocSinh_ThongTinCaNhan.MaHocSinhHienThi;
-                tabularStudent.TenHocSinh = studentInClass.HocSinh_ThongTinCaNhan.HoTen;
-                tabularStudent.TenNganh = studentInClass.LopHoc_Lop.DanhMuc_NganhHoc.TenNganhHoc;
-                tabularStudent.TenKhoi = studentInClass.LopHoc_Lop.DanhMuc_KhoiLop.TenKhoiLop;
-                tabularStudent.TenLopHoc = studentInClass.LopHoc_Lop.TenLopHoc;
-                tabularStudent.MaLopHoc = studentInClass.MaLopHoc;
+                tabularStudent.StudentId = studentInClass.StudentId;
+                tabularStudent.StudentCode = studentInClass.Student_Student.StudentCode;
+                tabularStudent.FullName = studentInClass.Student_Student.FullName;
+                tabularStudent.FacultyName = studentInClass.Class_Class.Category_Faculty.FacultyName;
+                tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
+                tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
+                tabularStudent.ClassId = studentInClass.ClassId;
 
                 tabularStudents.Add(tabularStudent);
             }
@@ -243,11 +243,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudents;
         }
 
-        public TabularClass GetTabularClass(CauHinh_NamHoc year, HocSinh_ThongTinCaNhan student)
+        public TabularClass GetTabularClass(Configuration_Year year, Student_Student student)
         {
             ClassBL classBL = new ClassBL(school);
             TabularClass tabularClass = null;
-            LopHoc_Lop Class = studentDA.GetClass(year, student);
+            Class_Class Class = studentDA.GetClass(year, student);
             if (Class != null)
             {
                 tabularClass = classBL.GetTabularClass(Class);
@@ -256,9 +256,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularClass;
         }
 
-        public List<StudentDropdownListItem> GetStudents(DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, LopHoc_Lop Class)
+        public List<StudentDropdownListItem> GetStudents(Category_Faculty faculty, Category_Grade grade, Class_Class Class)
         {
-            List<HocSinh_HocSinhLopHoc> studentInClasses = new List<HocSinh_HocSinhLopHoc>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
             List<StudentDropdownListItem> students = new List<StudentDropdownListItem>();
             StudentDropdownListItem student = null;
 
@@ -292,13 +292,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 studentInClasses = studentDA.GetStudentInClasses(Class);
             }
 
-            foreach (HocSinh_HocSinhLopHoc studentInClass in studentInClasses)
+            foreach (Student_StudentInClass studentInClass in studentInClasses)
             {
                 student = new StudentDropdownListItem();
-                student.StudentId = studentInClass.MaHocSinh;
-                student.StudentCode = studentInClass.HocSinh_ThongTinCaNhan.MaHocSinhHienThi;
-                student.StudentName = studentInClass.HocSinh_ThongTinCaNhan.HoTen;
-                student.StudentInClassId = studentInClass.MaHocSinhLopHoc;
+                student.StudentId = studentInClass.StudentId;
+                student.StudentCode = studentInClass.Student_Student.StudentCode;
+                student.StudentName = studentInClass.Student_Student.FullName;
+                student.StudentInClassId = studentInClass.StudentInClassId;
 
                 students.Add(student);
             }
@@ -306,28 +306,28 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return students;
         }
 
-        public List<CauHinh_NamHoc> GetYears(HocSinh_ThongTinCaNhan student)
+        public List<Configuration_Year> GetYears(Student_Student student)
         {
             return studentDA.GetYears(student);
         }
 
-        public LopHoc_Lop GetClass(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year)
+        public Class_Class GetClass(Student_Student student, Configuration_Year year)
         {
             return studentDA.GetClass(year, student);
         }
 
-        public LopHoc_Lop GetLastedClass(HocSinh_ThongTinCaNhan student)
+        public Class_Class GetLastedClass(Student_Student student)
         {
             return studentDA.GetLastedClass(student);
         }
 
-        public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int maLopHoc, int maHocKy, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            return studentDA.GetListHanhKiemHocSinh(maLopHoc, maHocKy,
+            return studentDA.GetListHanhKiemHocSinh(ClassId, TermId,
                 pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public void UpdateStudenTermConduct(LopHoc_Lop Class, CauHinh_HocKy term, HocSinh_ThongTinCaNhan student, DanhMuc_HanhKiem conduct)
+        public void UpdateStudenTermConduct(Class_Class Class, Configuration_Term term, Student_Student student, Category_Conduct conduct)
         {
             studentDA.UpdateStudenTermConduct(Class, term, student, conduct);
         }

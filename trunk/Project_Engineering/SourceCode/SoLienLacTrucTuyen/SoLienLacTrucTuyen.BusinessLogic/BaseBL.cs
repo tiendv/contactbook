@@ -8,9 +8,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 {
     public class BaseBL
     {
-        protected School school;
+        protected School_School school;
 
-        public BaseBL(School school)
+        public BaseBL(School_School school)
         {
             this.school = school;
         }

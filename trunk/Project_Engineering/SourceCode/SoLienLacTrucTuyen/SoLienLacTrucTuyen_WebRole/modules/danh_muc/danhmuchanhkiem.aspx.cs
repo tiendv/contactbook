@@ -14,7 +14,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public partial class DanhMucHanhKiem : BaseContentPage
     {
-        private const string EDITED_MAHANHKIEM = "EditedMaHanhKiem";
+        private const string EDITED_ConductId = "EditedConductId";
 
         #region Fields
         private ConductBL hanhKiemBL;
@@ -53,35 +53,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string tenHanhKiem = this.TxtTenHanhKiem.Text;
+            string ConductName = this.TxtConductName.Text;
 
-            if (tenHanhKiem == "")
+            if (ConductName == "")
             {
-                TenHanhKiemRequiredAdd.IsValid = false;
-                TxtTenHanhKiem.Focus();
+                ConductNameRequiredAdd.IsValid = false;
+                TxtConductName.Focus();
                 MPEAdd.Show();
                 return;
             }
             else
             {
-                if (hanhKiemBL.ConductNameExists(tenHanhKiem))
+                if (hanhKiemBL.ConductNameExists(ConductName))
                 {
-                    TenHanhKiemValidatorAdd.IsValid = false;
-                    TxtTenHanhKiem.Focus();
+                    ConductNameValidatorAdd.IsValid = false;
+                    TxtConductName.Focus();
                     MPEAdd.Show();
                     return;
                 }
             }
 
-            hanhKiemBL.InsertConduct(new DanhMuc_HanhKiem
+            hanhKiemBL.InsertConduct(new Category_Conduct
             {
-                TenHanhKiem = tenHanhKiem
+                ConductName = ConductName
             });
 
             MainDataPager.CurrentIndex = 1;
             BindData();
 
-            this.TxtTenHanhKiem.Text = "";
+            this.TxtConductName.Text = "";
 
             if (this.CkbAddAfterSave.Checked)
             {
@@ -91,10 +91,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maHanhKiem = Int32.Parse(this.HdfMaHanhKiem.Value);
+            int ConductId = Int32.Parse(this.HdfConductId.Value);
 
-            DanhMuc_HanhKiem conduct = new DanhMuc_HanhKiem();
-            conduct.MaHanhKiem = maHanhKiem;
+            Category_Conduct conduct = new Category_Conduct();
+            conduct.ConductId = ConductId;
 
             hanhKiemBL.DeleteConduct(conduct);
             isSearch = false;
@@ -121,27 +121,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
             
-            string editedTenHanhKiem = (string)HdfEditedTenHanhKiem.Value;
-            string newTenHanhKiem = TxtSuaTenHanhKiem.Text.Trim();
+            string editedConductName = (string)HdfEditedConductName.Value;
+            string newConductName = TxtSuaConductName.Text.Trim();
 
-            if (newTenHanhKiem == "")
+            if (newConductName == "")
             {
-                TenHanhKiemRequiredEdit.IsValid = false;
+                ConductNameRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
                 return;
             }
             else
             {
-                if (hanhKiemBL.ConductNameExists(editedTenHanhKiem, newTenHanhKiem))
+                if (hanhKiemBL.ConductNameExists(editedConductName, newConductName))
                 {
-                    TenHanhKiemValidatorEdit.IsValid = false;
+                    ConductNameValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
                     return;
                 }
             }
 
-            int editedMaHanhKiem = Int32.Parse(this.HdfMaHanhKiem.Value);
-            hanhKiemBL.UpdateConduct(editedTenHanhKiem, newTenHanhKiem);
+            int editedConductId = Int32.Parse(this.HdfConductId.Value);
+            hanhKiemBL.UpdateConduct(editedConductName, newConductName);
             BindData();
         }
         #endregion
@@ -176,9 +176,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        DanhMuc_HanhKiem conduct = (DanhMuc_HanhKiem)e.Item.DataItem;
+                        Category_Conduct conduct = (Category_Conduct)e.Item.DataItem;
 
-                        if (!hanhKiemBL.IsDeletable(conduct.TenHanhKiem))
+                        if (!hanhKiemBL.IsDeletable(conduct.ConductName))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -214,8 +214,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        HiddenField hdfRptMaHanhKiem = (HiddenField)e.Item.FindControl("HdfRptMaHanhKiem");
-                        this.HdfMaHanhKiem.Value = hdfRptMaHanhKiem.Value;
+                        HiddenField hdfRptConductId = (HiddenField)e.Item.FindControl("HdfRptConductId");
+                        this.HdfConductId.Value = hdfRptConductId.Value;
 
                         this.HdfRptHanhKiemMPEDelete.Value = mPEDelete.ClientID;
 
@@ -225,16 +225,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         string conductName = (string)e.CommandArgument;
 
-                        DanhMuc_HanhKiem conduct = hanhKiemBL.GetConduct(conductName);
-                        ViewState[EDITED_MAHANHKIEM] = conduct.MaHanhKiem;
+                        Category_Conduct conduct = hanhKiemBL.GetConduct(conductName);
+                        ViewState[EDITED_ConductId] = conduct.ConductId;
 
-                        TxtSuaTenHanhKiem.Text = conduct.TenHanhKiem;
+                        TxtSuaConductName.Text = conduct.ConductName;
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptHanhKiemMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaHanhKiem.Value = conduct.MaHanhKiem.ToString();
-                        this.HdfEditedTenHanhKiem.Value = conduct.TenHanhKiem;
+                        this.HdfConductId.Value = conduct.ConductId.ToString();
+                        this.HdfEditedConductName.Value = conduct.ConductName;
 
                         break;
                     }
@@ -273,23 +273,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void BindData()
         {
-            string tenHanhKiem = TxtSearchHanhKiem.Text.Trim();
+            string strConductName = TxtSearchHanhKiem.Text.Trim();
 
             double dTotalRecords;
-            List<DanhMuc_HanhKiem> lstHanhKiem;
-            lstHanhKiem = hanhKiemBL.GetListConducts(tenHanhKiem, MainDataPager.CurrentIndex, MainDataPager.PageSize, 
+            List<Category_Conduct> conducts;
+            conducts = hanhKiemBL.GetListConducts(strConductName, MainDataPager.CurrentIndex, MainDataPager.PageSize, 
                 out dTotalRecords);
             MainDataPager.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
-            if (lstHanhKiem.Count == 0 && MainDataPager.ItemCount != 0)
+            if (conducts.Count == 0 && MainDataPager.ItemCount != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindData();
                 return;
             }
 
-            bool bDisplayData = (lstHanhKiem.Count != 0) ? true : false;
+            bool bDisplayData = (conducts.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             PnlPopupEdit.Visible = bDisplayData;
             RptHanhKiem.Visible = bDisplayData;
@@ -315,7 +315,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }
 
-            RptHanhKiem.DataSource = lstHanhKiem;
+            RptHanhKiem.DataSource = conducts;
             RptHanhKiem.DataBind();
         }
         #endregion

@@ -8,11 +8,11 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     [Serializable]
     public class TabularSubject
     {
-        public int MaMonHoc { get; set; }
-        public string TenMonHoc { get; set; }
+        public int SubjectId { get; set; }
+        public string SubjectName { get; set; }
 
-        public string TenNganhHoc { get; set; }
-        public string TenKhoiLop { get; set; }
-        public double HeSoDiem { get; set; }
+        public string FacultyName { get; set; }
+        public string GradeName { get; set; }
+        public double MarkRatio { get; set; }
     }
 }

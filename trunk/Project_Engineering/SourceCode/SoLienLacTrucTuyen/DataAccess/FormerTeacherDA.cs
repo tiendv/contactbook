@@ -8,53 +8,53 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class FormerTeacherDA : BaseDA
     {
-        public FormerTeacherDA(School school)
+        public FormerTeacherDA(School_School school)
             : base(school)
         {
 
         }
 
-        public void InsertFormerTeacher(LopHoc_Lop Class, aspnet_User teacher)
+        public void InsertFormerTeacher(Class_Class Class, aspnet_User teacher)
         {
-            LopHoc_GVCN formerTeacher = new LopHoc_GVCN
+            Class_FormerTeacher formerTeacher = new Class_FormerTeacher
             {
-                MaLopHoc = Class.MaLopHoc,
+                ClassId = Class.ClassId,
                 TeacherId = teacher.UserId
             };
 
-            db.LopHoc_GVCNs.InsertOnSubmit(formerTeacher);
+            db.Class_FormerTeachers.InsertOnSubmit(formerTeacher);
             db.SubmitChanges();
         }
 
         public void UpdateFormerTeacher(int formerTeacherId, aspnet_User teacher)
         {
-            IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                                      where fTchr.MaGVCN == formerTeacherId
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
+                                                      where fTchr.FormerTeacherId == formerTeacherId
                                                       select fTchr;
             if (iqFormerTeacher.Count() != 0)
             {
-                LopHoc_GVCN formerTeacher = iqFormerTeacher.First();
+                Class_FormerTeacher formerTeacher = iqFormerTeacher.First();
                 formerTeacher.TeacherId = teacher.UserId;
                 db.SubmitChanges();
             }
         }
 
-        public void DeleteFormerTeacher(LopHoc_GVCN frmrTeacher)
+        public void DeleteFormerTeacher(Class_FormerTeacher frmrTeacher)
         {
-            IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                                      where fTchr.MaGVCN == frmrTeacher.MaGVCN
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
+                                                      where fTchr.FormerTeacherId == frmrTeacher.FormerTeacherId
                                                       select fTchr;
             if (iqFormerTeacher.Count() != 0)
             {
-                LopHoc_GVCN formerTeacher = iqFormerTeacher.First();
-                db.LopHoc_GVCNs.DeleteOnSubmit(formerTeacher);
+                Class_FormerTeacher formerTeacher = iqFormerTeacher.First();
+                db.Class_FormerTeachers.DeleteOnSubmit(formerTeacher);
                 db.SubmitChanges();
             }
         }
 
-        private List<LopHoc_GVCN> GetFormerTeachers(ref IQueryable<LopHoc_GVCN> iqFormerTeacher, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Class_FormerTeacher> GetFormerTeachers(ref IQueryable<Class_FormerTeacher> iqFormerTeacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<LopHoc_GVCN> lFormerTeacher = new List<LopHoc_GVCN>();
+            List<Class_FormerTeacher> lFormerTeacher = new List<Class_FormerTeacher>();
             totalRecords = iqFormerTeacher.Count();
             if (totalRecords != 0)
             {
@@ -65,201 +65,201 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lFormerTeacher;
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(LopHoc_Lop Class, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Class_Class Class, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.ClassId == Class.ClassId
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachersByCode(LopHoc_Lop Class, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachersByCode(Class_Class Class, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.ClassId == Class.ClassId
                                && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(LopHoc_Lop Class, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Class_Class Class, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaLopHoc == Class.MaLopHoc
-                               && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.ClassId == Class.ClassId
+                               && formerTeacher.aspnet_User.aspnet_Membership.FullName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.aspnet_User.aspnet_Membership.FullName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachersByCode(CauHinh_NamHoc year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachersByCode(Configuration_Year year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
                              && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.FacultyId == faculty.FacultyId
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, Category_Faculty faculty, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.FacultyId == faculty.FacultyId
+                             && formerTeacher.aspnet_User.aspnet_Membership.FullName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachersByCode(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachersByCode(Configuration_Year year, Category_Faculty faculty, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.FacultyId == faculty.FacultyId
                              && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.GradeId == grade.GradeId
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, DanhMuc_KhoiLop grade, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, Category_Grade grade, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.GradeId == grade.GradeId
+                             && formerTeacher.aspnet_User.aspnet_Membership.FullName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachersByCode(CauHinh_NamHoc year, DanhMuc_KhoiLop grade, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachersByCode(Configuration_Year year, Category_Grade grade, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.GradeId == grade.GradeId
                              && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                             && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.FacultyId == faculty.FacultyId
+                             && formerTeacher.Class_Class.GradeId == grade.GradeId
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachers(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachers(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                             && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
-                             && formerTeacher.aspnet_User.aspnet_Membership.RealName == teacherName
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.FacultyId == faculty.FacultyId
+                             && formerTeacher.Class_Class.GradeId == grade.GradeId
+                             && formerTeacher.aspnet_User.aspnet_Membership.FullName == teacherName
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<LopHoc_GVCN> GetFormerTeachersByCode(CauHinh_NamHoc year, DanhMuc_NganhHoc faculty, DanhMuc_KhoiLop grade, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Class_FormerTeacher> GetFormerTeachersByCode(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<LopHoc_GVCN> iqFomerTeacher;
-            iqFomerTeacher = from formerTeacher in db.LopHoc_GVCNs
-                             where formerTeacher.LopHoc_Lop.MaNamHoc == year.MaNamHoc
-                             && formerTeacher.LopHoc_Lop.MaNganhHoc == faculty.MaNganhHoc
-                             && formerTeacher.LopHoc_Lop.MaKhoiLop == grade.MaKhoiLop
+            IQueryable<Class_FormerTeacher> iqFomerTeacher;
+            iqFomerTeacher = from formerTeacher in db.Class_FormerTeachers
+                             where formerTeacher.Class_Class.YearId == year.YearId
+                             && formerTeacher.Class_Class.FacultyId == faculty.FacultyId
+                             && formerTeacher.Class_Class.GradeId == grade.GradeId
                              && formerTeacher.aspnet_User.UserName == teacherCode
                              select formerTeacher;
 
             return GetFormerTeachers(ref iqFomerTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public LopHoc_GVCN GetFormerTeacher(int formerTeacherId)
+        public Class_FormerTeacher GetFormerTeacher(int formerTeacherId)
         {
-            LopHoc_GVCN giaoVienChuNhiem = (from gvcn in db.LopHoc_GVCNs
-                                            where gvcn.MaGVCN == formerTeacherId
+            Class_FormerTeacher giaoVienChuNhiem = (from gvcn in db.Class_FormerTeachers
+                                            where gvcn.FormerTeacherId == formerTeacherId
                                             select gvcn).First();
             return giaoVienChuNhiem;
         }
 
-        public LopHoc_GVCN GetFormerTeacher(LopHoc_Lop Class)
+        public Class_FormerTeacher GetFormerTeacher(Class_Class Class)
         {
-            LopHoc_GVCN formerTeacher = null;
+            Class_FormerTeacher formerTeacher = null;
 
-            IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
-                                                      where fTchr.MaLopHoc == Class.MaLopHoc
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
+                                                      where fTchr.ClassId == Class.ClassId
                                                       select fTchr;
             if (iqFormerTeacher.Count() != 0)
             {
@@ -271,7 +271,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public bool FormerTeacherExists(aspnet_User teacher)
         {
-            IQueryable<LopHoc_GVCN> iqFormerTeacher = from fTchr in db.LopHoc_GVCNs
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
                                                       where fTchr.TeacherId == teacher.UserId
                                                       select fTchr;
             if (iqFormerTeacher.Count() != 0)

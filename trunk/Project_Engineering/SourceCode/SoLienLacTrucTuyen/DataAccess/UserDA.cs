@@ -8,7 +8,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class UserDA : BaseDA
     {
-        public UserDA(School school)
+        public UserDA(School_School school)
             : base(school)
         {
         }
@@ -59,7 +59,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<aspnet_User> GetUsers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
-                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             where user.aspnet_Membership.IsDeletable == true
                                              && user.aspnet_Membership.SchoolId == school.SchoolId
                                              select user;
 
@@ -69,7 +69,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<aspnet_User> GetUsers(string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
-                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             where user.aspnet_Membership.IsDeletable == true
                                              && user.UserName == userName
                                              && user.aspnet_Membership.SchoolId == school.SchoolId
                                              select user;
@@ -81,7 +81,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
                                              join usersInRole in db.aspnet_UsersInRoles on user.UserId equals usersInRole.UserId
-                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             where user.aspnet_Membership.IsDeletable == true
                                              && (usersInRole.RoleId == role.RoleId || usersInRole.aspnet_Role.UserManagement_RoleDetail.ParentRoleId == role.RoleId)
                                              && user.aspnet_Membership.SchoolId == school.SchoolId
                                              select user;
@@ -93,7 +93,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
                                              join usersInRole in db.aspnet_UsersInRoles on user.UserId equals usersInRole.UserId
-                                             where user.aspnet_Membership.CanBeDeleted == true
+                                             where user.aspnet_Membership.IsDeletable == true
                                              && (usersInRole.RoleId == role.RoleId || usersInRole.aspnet_Role.UserManagement_RoleDetail.ParentRoleId == role.RoleId)
                                              && user.UserName == userName
                                              && user.aspnet_Membership.SchoolId == school.SchoolId
@@ -116,7 +116,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             bool bCanDelete = (from membership in db.aspnet_Memberships
                                where membership.UserId == user.UserId
-                               select membership.CanBeDeleted).First();
+                               select membership.IsDeletable).First();
             return bCanDelete;
         }
 
@@ -160,7 +160,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 aspnet_Membership membership = iqMembership.First();
                 membership.SchoolId = school.SchoolId;
                 membership.IsTeacher = isTeacher;
-                membership.RealName = realName;
+                membership.FullName = realName;
                 membership.Email = email;
                 db.SubmitChanges();
             }

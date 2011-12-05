@@ -9,9 +9,9 @@ namespace SoLienLacTrucTuyen.BusinessEntity
     {
         public int MaGVCN { get; set; }
 
-        public Guid MaGiaoVien { get; set; }
+        public Guid UserId { get; set; }
         public string TenGiaoVien { get; set; }
-        public int MaLopHoc { get; set; }
-        public string TenLopHoc { get; set; }
+        public int ClassId { get; set; }
+        public string ClassName { get; set; }
     }
 }

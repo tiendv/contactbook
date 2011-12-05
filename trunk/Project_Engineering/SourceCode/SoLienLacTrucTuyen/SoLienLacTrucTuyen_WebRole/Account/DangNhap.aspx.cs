@@ -12,7 +12,7 @@ using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DangNhap : System.Web.UI.Page
+    public partial class LoginPage : System.Web.UI.Page
     {
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLSchools()
         {
             SchoolBL schoolBL = new SchoolBL();
-            List<School> schools = schoolBL.GetSchools();
+            List<School_School> schools = schoolBL.GetSchools();
 
             DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
             ddlSchools.DataSource = schools;
@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (ValidateUser(LoginCtrl.UserName, LoginCtrl.Password))
             {
                 e.Authenticated = true;
-                School school = new School();
+                School_School school = new School_School();
                 school.SchoolId = iSltSchool;
                 school.SchoolName = ddlSchools.SelectedItem.Text;
 

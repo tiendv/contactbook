@@ -12,7 +12,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhMucDanhHieuPage : BaseContentPage
+    public partial class LearningResultPage : BaseContentPage
     {
         #region Fields
         private DanhHieuBL danhHieuBL;
@@ -56,30 +56,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string tenDanhHieu = this.TxtTenDanhHieu.Text.Trim();
+            string LearningResultName = this.TxtLearningResultName.Text.Trim();
 
-            if (tenDanhHieu == "")
+            if (LearningResultName == "")
             {
-                TenDanhHieuRequiredAdd.IsValid = false;
-                TxtTenDanhHieu.Focus();
+                LearningResultNameRequiredAdd.IsValid = false;
+                TxtLearningResultName.Focus();
                 return;
             }
             else
             {
-                if (danhHieuBL.DanhHieuExists(tenDanhHieu))
+                if (danhHieuBL.DanhHieuExists(LearningResultName))
                 {
-                    TenDanhHieuValidatorAdd.IsValid = false;
-                    TxtTenDanhHieu.Focus();
+                    LearningResultNameValidatorAdd.IsValid = false;
+                    TxtLearningResultName.Focus();
                     return;
                 }
             }
 
-            danhHieuBL.InsertDanhHieu(tenDanhHieu, new Dictionary<int, int>());
+            danhHieuBL.InsertDanhHieu(LearningResultName, new Dictionary<int, int>());
 
             MainDataPager.CurrentIndex = 1;
             BindData();
 
-            this.TxtTenDanhHieu.Text = "";
+            this.TxtLearningResultName.Text = "";
 
             if (this.CkbAddAfterSave.Checked)
             {
@@ -89,8 +89,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maDanhHieu = Int32.Parse(this.HdfMaDanhHieu.Value);
-            danhHieuBL.DeleteDanhHieu(maDanhHieu);
+            int LearningResultId = Int32.Parse(this.HdfLearningResultId.Value);
+            danhHieuBL.DeleteDanhHieu(LearningResultId);
             isSearch = false;
             BindData();
         }
@@ -115,26 +115,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int maDanhHieu = Int32.Parse(this.HdfMaDanhHieu.Value);
-            string tenDanhHieu = TxtSuaTenDanhHieu.Text.Trim();
+            int LearningResultId = Int32.Parse(this.HdfLearningResultId.Value);
+            string LearningResultName = TxtSuaLearningResultName.Text.Trim();
 
-            if (tenDanhHieu == "")
+            if (LearningResultName == "")
             {
-                TenDanhHieuRequiredEdit.IsValid = false;
+                LearningResultNameRequiredEdit.IsValid = false;
                 modalPopupEdit.Show();
                 return;
             }
             else
             {
-                if (danhHieuBL.DanhHieuExists(maDanhHieu, tenDanhHieu))
+                if (danhHieuBL.DanhHieuExists(LearningResultId, LearningResultName))
                 {
-                    TenDanhHieuValidatorEdit.IsValid = false;
+                    LearningResultNameValidatorEdit.IsValid = false;
                     modalPopupEdit.Show();
                     return;
                 }
             }
 
-            danhHieuBL.UpdateDanhHieu(maDanhHieu, tenDanhHieu);
+            danhHieuBL.UpdateDanhHieu(LearningResultId, LearningResultName);
             BindData();
         }
         #endregion
@@ -169,8 +169,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     if (e.Item.DataItem != null)
                     {
-                        DanhMuc_DanhHieu DanhHieu = (DanhMuc_DanhHieu)e.Item.DataItem;
-                        if (!danhHieuBL.CanDeleteDanhHieu(DanhHieu.MaDanhHieu))
+                        Category_LearningResult DanhHieu = (Category_LearningResult)e.Item.DataItem;
+                        if (!danhHieuBL.CanDeleteDanhHieu(DanhHieu.LearningResultId))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
@@ -206,8 +206,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
                         mPEDelete.Show();
 
-                        HiddenField hdfRptMaDanhHieu = (HiddenField)e.Item.FindControl("HdfRptMaDanhHieu");
-                        this.HdfMaDanhHieu.Value = hdfRptMaDanhHieu.Value;
+                        HiddenField hdfRptLearningResultId = (HiddenField)e.Item.FindControl("HdfRptLearningResultId");
+                        this.HdfLearningResultId.Value = hdfRptLearningResultId.Value;
 
                         this.HdfRptDanhHieuMPEDelete.Value = mPEDelete.ClientID;
 
@@ -215,15 +215,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 case "CmdEditItem":
                     {
-                        int maDanhHieu = Int32.Parse(e.CommandArgument.ToString());
-                        DanhMuc_DanhHieu DanhHieu = danhHieuBL.GetDanhHieu(maDanhHieu);
+                        int LearningResultId = Int32.Parse(e.CommandArgument.ToString());
+                        Category_LearningResult DanhHieu = danhHieuBL.GetDanhHieu(LearningResultId);
 
-                        TxtSuaTenDanhHieu.Text = DanhHieu.TenDanhHieu;
+                        TxtSuaLearningResultName.Text = DanhHieu.LearningResultName;
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
 
                         this.HdfRptDanhHieuMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfMaDanhHieu.Value = maDanhHieu.ToString();
+                        this.HdfLearningResultId.Value = LearningResultId.ToString();
 
                         break;
                     }
@@ -262,10 +262,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public void BindData()
         {
-            string tenDanhHieu = TxtSearchDanhHieu.Text.Trim();
+            string LearningResultName = TxtSearchDanhHieu.Text.Trim();
 
             double totalRecord;
-            List<DanhMuc_DanhHieu> lstDanhHieu = danhHieuBL.GetListDanhHieus(tenDanhHieu,
+            List<Category_LearningResult> lstDanhHieu = danhHieuBL.GetListDanhHieus(LearningResultName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecord);
 
             // Decrease page current index when delete

@@ -146,7 +146,7 @@
                 <asp:Repeater ID="RptLoaiDiem" runat="server">
                     <ItemTemplate>
                         <td class="middle">
-                            <%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>
+                            <%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>
                         </td>
                     </ItemTemplate>
                 </asp:Repeater>
@@ -171,8 +171,8 @@
                         <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
                             <ItemTemplate>
                                 <td style="height: 40px">
-                                    <asp:HiddenField ID="HdfMaLoaiDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLoaiDiem")%>' />
-                                    <asp:HiddenField ID="HdfTenLoaiDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenLoaiDiem")%>' />
+                                    <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>' />
+                                    <asp:HiddenField ID="HdfMarkTypeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>' />
                                     <asp:HiddenField ID="HdfDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>' />
                                     <asp:TextBox ID="TxtDiems" runat="server" CssClass="MarkTextBox" Style="width: 98%;
                                         height: 25px" Text='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>'></asp:TextBox>
@@ -180,8 +180,8 @@
                                     <asp:CustomValidator ID="DiemsValidator" runat="server" ControlToValidate="TxtDiems"
                                         ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ"
                                         Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
-                                    <span class="SpanMaLoaiDiem" style="display: none">
-                                        <%#DataBinder.Eval(Container.DataItem, "MaLoaiDiem")%></span>
+                                    <span class="SpanMarkTypeId" style="display: none">
+                                        <%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%></span>
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>

@@ -11,67 +11,67 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private StudentActivityDA studentActivityDA;
 
-        public StudentActivityBL(School school) : base(school)
+        public StudentActivityBL(School_School school) : base(school)
         {
             studentActivityDA = new StudentActivityDA(school);
         }
 
-        public void InsertStudentActivity(HocSinh_ThongTinCaNhan student, CauHinh_HocKy term, DateTime date, string title, string content, DanhMuc_ThaiDoThamGia attitude)
+        public void InsertStudentActivity(Student_Student student, Configuration_Term term, DateTime date, string title, string content, Category_Attitude attitude)
         {
             studentActivityDA.InsertStudentActivity(student, term, date, title, content, attitude);
         }
 
-        public void UpdateStudentActivity(HocSinh_HoatDong editedStudentActivity, DateTime date, string content, DanhMuc_ThaiDoThamGia attitude)
+        public void UpdateStudentActivity(Student_Activity editedStudentActivity, DateTime date, string content, Category_Attitude attitude)
         {
-            editedStudentActivity.Ngay = date;
-            editedStudentActivity.NoiDung = content;
+            editedStudentActivity.Date = date;
+            editedStudentActivity.ActivityContent = content;
             if (attitude != null)
             {
-                editedStudentActivity.MaThaiDoThamGia = attitude.MaThaiDoThamGia;
+                editedStudentActivity.AttitudeId = attitude.AttitudeId;
             }
             else
             {
-                editedStudentActivity.MaThaiDoThamGia = null;
+                editedStudentActivity.AttitudeId = null;
             }
 
             studentActivityDA.UpdateStudentActivity(editedStudentActivity);
         }
 
-        public void DeleteStudentActivity(HocSinh_HoatDong deletedStudentActivity)
+        public void DeleteStudentActivity(Student_Activity deletedStudentActivity)
         {
             studentActivityDA.DeleteStudentActivity(deletedStudentActivity);
         }        
 
-        public HocSinh_HoatDong GetStudentActivity(int studentActivityId)
+        public Student_Activity GetStudentActivity(int studentActivityId)
         {
             return studentActivityDA.GetStudentActivity(studentActivityId);
         }
 
-        public HocSinh_HoatDong GetStudentActivity(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public Student_Activity GetStudentActivity(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
             return studentActivityDA.GetStudentActivity(student, year, term, date);
         }
 
-        public List<TabularStudentActivity> GetTabularStudentActivities(HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime beginDate, DateTime endDate,
+        public List<TabularStudentActivity> GetTabularStudentActivities(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime beginDate, DateTime endDate,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             AttitudeBL attitudeBL = new AttitudeBL(school);
             List<TabularStudentActivity> tabularStudentActivities = new List<TabularStudentActivity>();
-            List<HocSinh_HoatDong> studentActivities = new List<HocSinh_HoatDong>();
+            List<Student_Activity> studentActivities = new List<Student_Activity>();
             studentActivities = studentActivityDA.GetStudentActivities(student, year, term, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
             TabularStudentActivity tabularStudentActivity = null;
 
-            foreach (HocSinh_HoatDong studentActivity in studentActivities)
+            foreach (Student_Activity studentActivity in studentActivities)
             {
                 tabularStudentActivity = new TabularStudentActivity();
-                tabularStudentActivity.MaHoatDong = studentActivity.MaHoatDong;
-                tabularStudentActivity.MaHocSinhLopHoc = studentActivity.HocSinh_HocSinhLopHoc.MaHocSinhLopHoc;
-                tabularStudentActivity.TenHoatDong = studentActivity.TieuDe;
-                tabularStudentActivity.Ngay = studentActivity.Ngay;
-                tabularStudentActivity.StrNgay = studentActivity.Ngay.ToShortDateString();
-                if (studentActivity.MaThaiDoThamGia != null)
+                tabularStudentActivity.MaHoatDong = studentActivity.ActivityId;
+                tabularStudentActivity.MaHocSinhLopHoc = studentActivity.Student_StudentInClass.StudentInClassId;
+                tabularStudentActivity.TenHoatDong = studentActivity.Title;
+                tabularStudentActivity.Ngay = studentActivity.Date;
+                tabularStudentActivity.StrNgay = studentActivity.Date.ToShortDateString();
+                if (studentActivity.AttitudeId != null)
                 {
-                    tabularStudentActivity.ThaiDoThamGia = attitudeBL.GetAttitude((int)studentActivity.MaThaiDoThamGia).TenThaiDoThamGia;
+                    tabularStudentActivity.ThaiDoThamGia = attitudeBL.GetAttitude((int)studentActivity.AttitudeId).AttitudeName;
                 }
                 else
                 {
@@ -83,16 +83,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudentActivities;
         }
 
-        public bool StudentActivityNamExists(string title, HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public bool StudentActivityNamExists(string title, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
             StudentBL studentBL = new StudentBL(school);
-            //int maLopHoc = studentBL.GetCurrentMaLopHoc(student.MaHocSinh);
-            //LopHoc_Lop Class = new LopHoc_Lop();
-            //Class.MaLopHoc = maLopHoc;
+            //int ClassId = studentBL.GetCurrentClassId(student.StudentId);
+            //Class_Class Class = new Class_Class();
+            //Class.ClassId = ClassId;
             return studentActivityDA.StudentActivityNameExists(title, student, year, term, date);
         }
 
-        public bool StudentActivityNamExists(string oldTitlte, string title, HocSinh_ThongTinCaNhan student, CauHinh_NamHoc year, CauHinh_HocKy term, DateTime date)
+        public bool StudentActivityNamExists(string oldTitlte, string title, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
             if (oldTitlte == title)
             {
@@ -101,9 +101,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             else
             {
                 StudentBL studentBL = new StudentBL(school);
-                //int maLopHoc = studentBL.GetCurrentMaLopHoc(student.MaHocSinh);
-                //LopHoc_Lop Class = new LopHoc_Lop();
-                //Class.MaLopHoc = maLopHoc;
+                //int ClassId = studentBL.GetCurrentClassId(student.StudentId);
+                //Class_Class Class = new Class_Class();
+                //Class.ClassId = ClassId;
                 return studentActivityDA.StudentActivityNameExists(title, student, year, term, date);
             }
         }

@@ -297,7 +297,7 @@
                         Mô tả:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtMoTaNhomNguoiDungSua" runat="server" TextMode="MultiLine" CssClass="input_textbox"
+                        <asp:TextBox ID="TxtDescriptionNhomNguoiDungSua" runat="server" TextMode="MultiLine" CssClass="input_textbox"
                             Style="font-family: arial; height: 300%"></asp:TextBox>
                     </td>
                 </tr>

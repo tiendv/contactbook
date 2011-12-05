@@ -16,7 +16,7 @@
   </profileInstances>
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
-      <class Id="bbbc1abf-ff08-4db0-acc7-0929611a0c74" name="DanhMuc_NganhHoc" isAbstract="false" isLeaf="false" isActiveClass="false">
+      <class Id="bbbc1abf-ff08-4db0-acc7-0929611a0c74" name="Category_Faculty" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="f127ac72-b60d-41d2-a224-057cb647bfd4" />
         <ownedAttributesInternal>
           <property Id="dc77f186-9502-4b8f-abf5-e10459e069bc" name="MaNganhHoc" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">

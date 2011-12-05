@@ -8,7 +8,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 {
     public class PhanQuyenDA : BaseDA
     {
-        public PhanQuyenDA(School school)
+        public PhanQuyenDA(School_School school)
             : base(school)
         {
         }

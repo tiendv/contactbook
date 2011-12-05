@@ -11,9 +11,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
         }
 
-        public List<School> GetSchools()
+        public List<School_School> GetSchools()
         {
-            IQueryable<School> iqSchool = from school in db.Schools
+            IQueryable<School_School> iqSchool = from school in db.School_Schools
                                           select school;
             if (iqSchool.Count() != 0)
             {
@@ -21,7 +21,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
             else
             {
-                return new List<School>();
+                return new List<School_School>();
             }
         }
     }

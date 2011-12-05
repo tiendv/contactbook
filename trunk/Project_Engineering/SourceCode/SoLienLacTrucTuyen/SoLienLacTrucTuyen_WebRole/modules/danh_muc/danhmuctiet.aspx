@@ -10,7 +10,7 @@
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
                 if (modalPopupAdd != null) {
                     modalPopupAdd.add_showing(function () {
-                        $get('<%=TxtTenTietHocThem.ClientID%>').value = "";
+                        $get('<%=TxtTeachingPeriodNameHocThem.ClientID%>').value = "";
                     });
                 }
             }
@@ -64,7 +64,7 @@
         </div>
         <table class="repeater ui-corner-all">
             <asp:HiddenField ID="HdfSltTeachingPeriodName" runat="server" />
-            <asp:HiddenField ID="HdfMaTietHoc" runat="server" />
+            <asp:HiddenField ID="HdfTeachingPeriodIdHoc" runat="server" />
             <asp:HiddenField ID="HdfRptTietHocMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptTietHocMPEEdit" runat="server" />
             <asp:HiddenField ID="HdfRptTietHocMPEDetail" runat="server" />
@@ -102,28 +102,28 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaTietHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaTiet")%>' />
-                            <asp:HiddenField ID="HdfRptTenTietHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TenTiet")%>' />
+                            <asp:HiddenField ID="HdfRptTeachingPeriodIdHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TeachingPeriodId")%>' />
+                            <asp:HiddenField ID="HdfRptTeachingPeriodNameHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TeachingPeriodName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenTiet")%>
+                            <%#DataBinder.Eval(Container.DataItem, "TeachingPeriodName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenBuoi")%>
+                            <%#DataBinder.Eval(Container.DataItem, "SessionName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "ThuTu")%>
+                            <%#DataBinder.Eval(Container.DataItem, "TeachingPeriodOrder")%>
                         </td>
                         <td style="height: 40px; text-align: right">
-                            <%#DataBinder.Eval(Container.DataItem, "StringThoiGianBatDau")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringBeginTime")%>
                         </td>
                         <td style="height: 40px; text-align: right">
-                            <%#DataBinder.Eval(Container.DataItem, "StringThoiGianKetThuc")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringEndTime")%>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaTiet")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TeachingPeriodId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -132,7 +132,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TenTiet")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TeachingPeriodName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -190,11 +190,11 @@
                         <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenTietHocThem" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenTietHocRequiredAdd" runat="server" ControlToValidate="TxtTenTietHocThem"
+                        <asp:TextBox ID="TxtTeachingPeriodNameHocThem" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="TeachingPeriodNameHocRequiredAdd" runat="server" ControlToValidate="TxtTeachingPeriodNameHocThem"
                             ValidationGroup="AddTietHoc" ErrorMessage="Tên tiết học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenTietHocValidatorAdd" runat="server" ControlToValidate="TxtTenTietHocThem"
+                        <asp:CustomValidator ID="TeachingPeriodNameHocValidatorAdd" runat="server" ControlToValidate="TxtTeachingPeriodNameHocThem"
                             ValidationGroup="AddTietHoc" ErrorMessage="Tiết học đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -219,7 +219,7 @@
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender3" runat="server" MaskType="Number"
                             TargetControlID="TxtThuTuAdd" Mask="9">
                         </ajaxToolkit:MaskedEditExtender>
-                        <asp:RequiredFieldValidator ID="HeSoDiemRequiredAdd" runat="server" ControlToValidate="TxtThuTuAdd"
+                        <asp:RequiredFieldValidator ID="MarkRatioRequiredAdd" runat="server" ControlToValidate="TxtThuTuAdd"
                             ValidationGroup="AddTietHoc" ErrorMessage="Hệ số điểm không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="ThuTuRegExp" runat="server" ControlToValidate="TxtThuTuAdd"
@@ -290,11 +290,11 @@
                         <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtTenTietHocEdit" runat="server" CssClass="input_textbox"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="TenTietHocRequiredEdit" runat="server" ControlToValidate="TxtTenTietHocEdit"
+                        <asp:TextBox ID="TxtTeachingPeriodNameHocEdit" runat="server" CssClass="input_textbox"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="TeachingPeriodNameHocRequiredEdit" runat="server" ControlToValidate="TxtTeachingPeriodNameHocEdit"
                             ValidationGroup="EditTietHoc" ErrorMessage="Tên tiết học không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:CustomValidator ID="TenTietHocValidatorEdit" runat="server" ControlToValidate="TxtTenTietHocEdit"
+                        <asp:CustomValidator ID="TeachingPeriodNameHocValidatorEdit" runat="server" ControlToValidate="TxtTeachingPeriodNameHocEdit"
                             ValidationGroup="EditTietHoc" ErrorMessage="Tiết học đã tồn tại" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
@@ -319,7 +319,7 @@
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender4" runat="server" MaskType="Number"
                             TargetControlID="TxtThuTuEdit" Mask="9">
                         </ajaxToolkit:MaskedEditExtender>
-                        <asp:RequiredFieldValidator ID="HeSoDiemRequiredEdit" runat="server" ControlToValidate="TxtThuTuEdit"
+                        <asp:RequiredFieldValidator ID="MarkRatioRequiredEdit" runat="server" ControlToValidate="TxtThuTuEdit"
                             ValidationGroup="EditTietHoc" ErrorMessage="Hệ số điểm không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TxtThuTuEdit"

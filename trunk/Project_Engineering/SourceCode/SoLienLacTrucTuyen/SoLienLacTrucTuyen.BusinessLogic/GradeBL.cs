@@ -10,7 +10,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private GradeDA gradeDA;
 
-        public GradeBL(School school)
+        public GradeBL(School_School school)
             : base(school)
         {
             gradeDA = new GradeDA(school);
@@ -18,10 +18,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void InsertGrade(string gradeName, short displayOrder)
         {
-            DanhMuc_KhoiLop grade = new DanhMuc_KhoiLop
+            Category_Grade grade = new Category_Grade
             {
-                TenKhoiLop = gradeName,
-                ThuTuHienThi = displayOrder
+                GradeName = gradeName,
+                DisplayedOrder = displayOrder
             };
 
             gradeDA.InsertGrade(grade);
@@ -29,31 +29,31 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void UpdateGrade(string editedGradeName, string newGradeName, short newDisplayOrder)
         {
-            DanhMuc_KhoiLop grade = GetGrade(editedGradeName);
-            grade.TenKhoiLop = newGradeName;
-            grade.ThuTuHienThi = newDisplayOrder;
+            Category_Grade grade = GetGrade(editedGradeName);
+            grade.GradeName = newGradeName;
+            grade.DisplayedOrder = newDisplayOrder;
             gradeDA.UpdateGrade(grade);
         }
 
         public void DeleteGrade(string gradeName)
         {
-            DanhMuc_KhoiLop grade = GetGrade(gradeName);
+            Category_Grade grade = GetGrade(gradeName);
             gradeDA.DeleteGrade(grade);
         }
 
-        public DanhMuc_KhoiLop GetGrade(string gradeName)
+        public Category_Grade GetGrade(string gradeName)
         {
             return gradeDA.GetGrade(gradeName);
         }
 
-        public List<DanhMuc_KhoiLop> GetListGrades()
+        public List<Category_Grade> GetListGrades()
         {
             return gradeDA.GetGrades();
         }
 
-        public List<DanhMuc_KhoiLop> GetListGrades(string gradeName, int pageIndex, int pageSize, out double totalRecords)
+        public List<Category_Grade> GetListGrades(string gradeName, int pageIndex, int pageSize, out double totalRecords)
         {
-            List<DanhMuc_KhoiLop> lGrades = new List<DanhMuc_KhoiLop>();
+            List<Category_Grade> lGrades = new List<Category_Grade>();
 
             if (String.Compare(gradeName, "tất cả", true) == 0 || gradeName == "")
             {
@@ -61,7 +61,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                DanhMuc_KhoiLop grade = GetGrade(gradeName);
+                Category_Grade grade = GetGrade(gradeName);
                 lGrades.Add(grade);
                 totalRecords = 1;
             }
@@ -71,7 +71,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool IsDeletable(string gradeName)
         {
-            DanhMuc_KhoiLop grade = GetGrade(gradeName);
+            Category_Grade grade = GetGrade(gradeName);
             return gradeDA.IsDeletable(grade);
         }
 

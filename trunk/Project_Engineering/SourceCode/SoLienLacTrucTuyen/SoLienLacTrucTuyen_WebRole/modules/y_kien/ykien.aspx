@@ -92,19 +92,19 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaYKien")%>' />
+                            <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "MaYKien")%>'
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "CommentId")%>'
                                 Target="_blank">
-                                    <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
+                                    <%#DataBinder.Eval(Container.DataItem, "Title")%>
                             </asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "Ngay")%>
+                            <%#DataBinder.Eval(Container.DataItem, "Date")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TinhTrangYKien")%>
+                            <%#DataBinder.Eval(Container.DataItem, "CommentStatusName")%>
                         </td>
                     </tr>
                 </ItemTemplate>

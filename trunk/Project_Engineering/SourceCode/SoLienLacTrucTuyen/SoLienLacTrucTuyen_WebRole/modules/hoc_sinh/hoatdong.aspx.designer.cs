@@ -274,13 +274,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.CustomValidator TieuDeValidatorAdd;
         
         /// <summary>
-        /// TxtMoTaThem control.
+        /// TxtDescriptionThem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMoTaThem;
+        protected global::System.Web.UI.WebControls.TextBox TxtDescriptionThem;
         
         /// <summary>
         /// Label77 control.
@@ -454,13 +454,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblTieuDeSua;
         
         /// <summary>
-        /// TxtMoTaSua control.
+        /// TxtDescriptionSua control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMoTaSua;
+        protected global::System.Web.UI.WebControls.TextBox TxtDescriptionSua;
         
         /// <summary>
         /// Label72 control.
@@ -697,13 +697,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.HiddenField HdfMaHocSinh;
         
         /// <summary>
-        /// HdfMaHocKy control.
+        /// HdfTermId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaHocKy;
+        protected global::System.Web.UI.WebControls.HiddenField HdfTermId;
         
         /// <summary>
         /// HdfTieuDe control.

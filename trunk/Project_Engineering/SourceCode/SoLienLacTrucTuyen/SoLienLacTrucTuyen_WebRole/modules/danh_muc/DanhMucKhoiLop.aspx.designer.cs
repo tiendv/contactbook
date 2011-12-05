@@ -67,13 +67,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// HdfMaKhoiLop control.
+        /// HdfGradeId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaKhoiLop;
+        protected global::System.Web.UI.WebControls.HiddenField HdfGradeId;
         
         /// <summary>
         /// HdfSeletedGradeName control.
@@ -220,31 +220,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label7;
         
         /// <summary>
-        /// TxtTenKhoiLop control.
+        /// TxtGradeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenKhoiLop;
+        protected global::System.Web.UI.WebControls.TextBox TxtGradeName;
         
         /// <summary>
-        /// TenKhoiLopRequiredAdd control.
+        /// GradeNameRequiredAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenKhoiLopRequiredAdd;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator GradeNameRequiredAdd;
         
         /// <summary>
-        /// TenKhoiLopValidatorAdd control.
+        /// GradeNameValidatorAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenKhoiLopValidatorAdd;
+        protected global::System.Web.UI.WebControls.CustomValidator GradeNameValidatorAdd;
         
         /// <summary>
         /// Label1 control.
@@ -355,31 +355,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label3;
         
         /// <summary>
-        /// TxtSuaTenKhoiLop control.
+        /// TxtSuaGradeName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSuaTenKhoiLop;
+        protected global::System.Web.UI.WebControls.TextBox TxtSuaGradeName;
         
         /// <summary>
-        /// TenKhoiLopRequiredEdit control.
+        /// GradeNameRequiredEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator TenKhoiLopRequiredEdit;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator GradeNameRequiredEdit;
         
         /// <summary>
-        /// TenKhoiLopValidatorEdit control.
+        /// GradeNameValidatorEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator TenKhoiLopValidatorEdit;
+        protected global::System.Web.UI.WebControls.CustomValidator GradeNameValidatorEdit;
         
         /// <summary>
         /// Label2 control.
