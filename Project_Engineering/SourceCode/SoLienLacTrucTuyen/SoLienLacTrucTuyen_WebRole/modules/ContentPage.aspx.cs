@@ -30,6 +30,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
+        public Student_Student MembershipStudent
+        {
+            get
+            {
+                Student_Student membershipStudent = null;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    string strMembershipStudentSessionKey = User.Identity.Name 
+                        + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
+                    if (Session[strMembershipStudentSessionKey] != null)
+                    {
+                        membershipStudent = (Student_Student)Session[strMembershipStudentSessionKey];
+                    }
+                }
+
+                return membershipStudent;
+            }
+
+            set
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    Session[User.Identity.Name + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT] = value;
+                }                
+            }
+        }
+
         #region Fields
         protected List<SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum> lstAccessibilities;
         protected bool isAccessDenied = false;
@@ -80,7 +108,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Session.Remove(UserSchool.SchoolId + AppConstant.UNDERSCORE + key);
             }
         }
-        
+
         protected object GetSession(string key)
         {
             if (CheckSessionKey(key))

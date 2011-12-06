@@ -18,7 +18,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private RoleBL roleBL;
         private bool isSearch;
-        #endregion        
+        #endregion
 
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
@@ -30,7 +30,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             roleBL = new RoleBL(UserSchool);
-            
+
             if (!Page.IsPostBack)
             {
                 ProcPermissions();
@@ -43,18 +43,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if(!lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (!lstAccessibilities.Contains(AccessibilityEnum.Add))
             {
                 this.BtnAddRole.Visible = false;
                 this.MPEAdd.Enabled = false;
-                this.PnlPopupAdd.Visible = false;                
+                this.PnlPopupAdd.Visible = false;
             }
         }
         #endregion
 
         #region Methods
         public void BindRptRoles()
-        {   
+        {
             string strRoleName = TxtSearchNhomNguoiDung.Text.Trim();
             double dTotalRecords;
             List<TabularRole> tabularRoles = roleBL.GetTabularRoles(strRoleName,
@@ -79,13 +79,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (!isSearch)
                 {
                     LblSearchResult.Text = string.Format(
-                        (string)GetGlobalResourceObject("MainResource", "LblSearchResultText"), 
+                        (string)GetGlobalResourceObject("MainResource", "LblSearchResultText"),
                         "nhóm người dùng");
                 }
                 else
                 {
                     LblSearchResult.Text = string.Format(
-                        (string)GetGlobalResourceObject("MainResource", "LblSearchResultSearchText"), 
+                        (string)GetGlobalResourceObject("MainResource", "LblSearchResultSearchText"),
                         "nhóm người dùng");
                 }
 
@@ -96,7 +96,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             else
             {
                 MainDataPager.Visible = true;
-            }          
+            }
 
             RptRoles.DataSource = tabularRoles;
             RptRoles.DataBind();
@@ -205,11 +205,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     modalPopupEdit.Show();
                     return;
                 }
-            }            
+            }
 
             roleBL.UpdateRole(roleName, newRoleName, description);
             BindRptRoles();
-        }        
+        }
         #endregion
 
         #region Repeater event handlers
@@ -222,7 +222,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     e.Item.FindControl("thSuaNhomNguoiDung").Visible = false;
                 }
 
-                if (e.Item.ItemType == ListItemType.Item || 
+                if (e.Item.ItemType == ListItemType.Item ||
                     e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     e.Item.FindControl("tdSuaNhomNguoiDung").Visible = false;
@@ -258,7 +258,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         btnDeleteItem.Enabled = false;
                     }
                 }
-            }            
+            }
         }
 
         protected void RptRoles_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -299,7 +299,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
             }
         }
-        #endregion        
+        #endregion
 
         #region Pager event handlers
         public void pager_Command(object sender, CommandEventArgs e)
@@ -308,6 +308,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             this.MainDataPager.CurrentIndex = currnetPageIndx;
             BindRptRoles();
         }
-        #endregion        
+        #endregion
     }
 }

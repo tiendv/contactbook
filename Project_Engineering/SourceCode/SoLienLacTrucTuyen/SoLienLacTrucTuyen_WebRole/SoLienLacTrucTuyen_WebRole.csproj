@@ -93,6 +93,15 @@
     <Content Include="modules\nguoi_dung\NguoiDungServicePage.aspx" />
     <Content Include="modules\nguoi_dung\nhomnguoidung.aspx" />
     <Content Include="modules\nguoi_dung\themnguoidung.aspx" />
+    <Content Include="modules\phu_huynh\chitietykien.aspx" />
+    <Content Include="modules\phu_huynh\loinhankhan.aspx" />
+    <Content Include="modules\phu_huynh\lophoc.aspx" />
+    <Content Include="modules\phu_huynh\hoatdong.aspx" />
+    <Content Include="modules\phu_huynh\ketquahoctap.aspx" />
+    <Content Include="modules\phu_huynh\ngaynghihoc.aspx" />
+    <Content Include="modules\phu_huynh\thoikhoabieu.aspx" />
+    <Content Include="modules\phu_huynh\thongtincanhan.aspx" />
+    <Content Include="modules\phu_huynh\ykien.aspx" />
     <Content Include="modules\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="modules\Scripts\jquery-1.4.1.js" />
     <Content Include="modules\Scripts\jquery-1.4.1.min.js" />
@@ -125,7 +134,7 @@
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
     <Content Include="modules\ContentPage.aspx" />
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
-    <Content Include="modules\y_kien\chitietykien.aspx" />
+    <Content Include="modules\cau_hinh\cauhinh.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
     <Content Include="Scripts\GlobalScript.js" />
     <Content Include="Scripts\JQRepeater-2.0.js" />
@@ -481,6 +490,69 @@
     <Compile Include="modules\nguoi_dung\themnguoidung.aspx.designer.cs">
       <DependentUpon>themnguoidung.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\phu_huynh\chitietykien.aspx.cs">
+      <DependentUpon>chitietykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\chitietykien.aspx.designer.cs">
+      <DependentUpon>chitietykien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\loinhankhan.aspx.cs">
+      <DependentUpon>loinhankhan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\loinhankhan.aspx.designer.cs">
+      <DependentUpon>loinhankhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\lophoc.aspx.cs">
+      <DependentUpon>lophoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\lophoc.aspx.designer.cs">
+      <DependentUpon>lophoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\hoatdong.aspx.cs">
+      <DependentUpon>hoatdong.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\hoatdong.aspx.designer.cs">
+      <DependentUpon>hoatdong.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\ketquahoctap.aspx.cs">
+      <DependentUpon>ketquahoctap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\ketquahoctap.aspx.designer.cs">
+      <DependentUpon>ketquahoctap.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\ngaynghihoc.aspx.cs">
+      <DependentUpon>ngaynghihoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\ngaynghihoc.aspx.designer.cs">
+      <DependentUpon>ngaynghihoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\thoikhoabieu.aspx.cs">
+      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\thoikhoabieu.aspx.designer.cs">
+      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\thongtincanhan.aspx.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\thongtincanhan.aspx.designer.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\ykien.aspx.cs">
+      <DependentUpon>ykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\ykien.aspx.designer.cs">
+      <DependentUpon>ykien.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\Trang_Chu\TrangChu.aspx.cs">
       <DependentUpon>TrangChu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -646,11 +718,12 @@
     <Compile Include="modules\danh_muc\themdanhhieu.aspx.designer.cs">
       <DependentUpon>themdanhhieu.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\y_kien\chitietykien.aspx.designer.cs">
-      <DependentUpon>chitietykien.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\y_kien\chitietykien.aspx.cs">
+    <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
+      <DependentUpon>cauhinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\cau_hinh\cauhinh.aspx.designer.cs">
+      <DependentUpon>cauhinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\y_kien\ykien.aspx.cs">
       <DependentUpon>ykien.aspx</DependentUpon>
@@ -687,7 +760,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="modules\cau_hinh\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />

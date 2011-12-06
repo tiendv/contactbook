@@ -355,8 +355,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             if (iqGiaoVien.Count() != 0)
             {
                 aspnet_Role subjectTeacherRole = (from role in db.aspnet_Roles
-                                                 where role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == SUBJECTTEACHER
-                                                 select role).First();
+                                                  where role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == SUBJECTTEACHER
+                                                  select role).First();
 
                 db.aspnet_UsersInRoles.InsertOnSubmit(new aspnet_UsersInRole
                 {
@@ -433,14 +433,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             aspnet_Role roleAdmin = null;
 
             IQueryable<aspnet_Role> iqRoleAdmin = from role in db.aspnet_Roles
-                                                where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
-                                                && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == ADMIN
-                                                select role;
+                                                  where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                  && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == ADMIN
+                                                  select role;
             if (iqRoleAdmin.Count() != 0)
             {
                 roleAdmin = iqRoleAdmin.First();
             }
-            
+
             return roleAdmin;
         }
 
