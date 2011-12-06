@@ -149,12 +149,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             foreach (Category_Subject scheduledSubject in scheduledSubjects)
             {
                 termSubjectedMark = studyingResultDA.GetTermSubjectedMark(student, year, term, scheduledSubject);
-                tabularSubjectTermResult = new TabularSubjectTermResult();
-                tabularSubjectTermResult.SubjectName = scheduledSubject.SubjectName;
-                tabularSubjectTermResult.MaDiemMonHK = termSubjectedMark.TermSubjectMarkId;
-                tabularSubjectTermResult.DiemTB = termSubjectedMark.AverageMark;
+                if (termSubjectedMark != null)
+                {
+                    tabularSubjectTermResult = new TabularSubjectTermResult();
+                    tabularSubjectTermResult.SubjectName = scheduledSubject.SubjectName;
+                    tabularSubjectTermResult.MaDiemMonHK = termSubjectedMark.TermSubjectMarkId;
+                    tabularSubjectTermResult.DiemTB = termSubjectedMark.AverageMark;
 
-                tabularSubjectTermResults.Add(tabularSubjectTermResult);
+                    tabularSubjectTermResults.Add(tabularSubjectTermResult);
+                }
             }
 
             totalRecords = tabularSubjectTermResults.Count();

@@ -11,7 +11,7 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThoiKhoaBieu : BaseContentPage
+    public partial class SchedulePage : BaseContentPage
     {
         #region Fields
         private ClassBL classBL;

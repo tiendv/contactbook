@@ -9,7 +9,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
 using AjaxControlToolkit;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules
+namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 {
     public partial class DetailedParentsCommentPage : BaseContentPage
     {

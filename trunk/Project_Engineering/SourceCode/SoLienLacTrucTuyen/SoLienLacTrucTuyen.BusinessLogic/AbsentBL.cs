@@ -99,15 +99,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             Class_Class Class = studentBL.GetLastedClass(student);
             int ClassId = Class.ClassId;
 
-            if (exceptedAbsent == null)
+            if (exceptedAbsent == null) // create new
             {
-                if (session == null)
+                if (session == null) // choose all day
                 {
                     return absentDA.AbsentExists(student, Class, term, date);
                 }
                 else
                 {
-                    bool bAllDay = absentDA.AbsentExists(student, Class, term, date, null);
+                    bool bAllDay = absentDA.AbsentExists(student, Class, term, date);
                     if (bAllDay)
                     {
                         return true;
@@ -118,7 +118,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     }
                 }
             }
-            else
+            else // update
             {
                 if (session == null)
                 {
@@ -126,7 +126,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    bool bAllDay = absentDA.AbsentExists(exceptedAbsent, student, Class, term, date, null);
+                    bool bAllDay = absentDA.AbsentExists(exceptedAbsent, student, Class, term, date);
                     if (bAllDay)
                     {
                         return true;

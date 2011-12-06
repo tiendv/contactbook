@@ -32,6 +32,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_STUDENTCLASS_ID = "StudentClassId";
         public const string VIEWSTATE_PREV_PAGE = "PrevPage";
 
+        public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
         public const string SESSION_SELECTEDPARENTSFUNCTION = "SelectedParentFunction";
         public const string SESSION_STUDENT = "Student";
         public const string SESSION_SELECTED_YEAR = "Year";

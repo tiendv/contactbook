@@ -22,12 +22,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             roleName = GetActualName(roleName);
             roleDA.CreateRoleDetail(roleName, description);
         }
-        
+
         public void UpdateRole(string roleName, string newRoleName, string description)
-        {         
+        {
             newRoleName = GetActualName(newRoleName);
             roleDA.UpdateRole(roleName, newRoleName, description);
-        }        
+        }
 
         public void DeleteRole(string roleName)
         {
@@ -108,7 +108,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 return false;
             }
             else
-            {   
+            {
                 return roleDA.RoleExists(newRoleName);
             }
         }

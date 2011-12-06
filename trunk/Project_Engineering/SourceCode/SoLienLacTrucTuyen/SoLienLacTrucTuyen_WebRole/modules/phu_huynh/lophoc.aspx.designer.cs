@@ -7,81 +7,108 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen_WebRole.Modules {
+namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
     
     
-    public partial class DetailedParentsCommentPage {
+    public partial class DetailedClassPage {
         
         /// <summary>
-        /// LblInfor control.
+        /// divScript control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblInfor;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divScript;
         
         /// <summary>
-        /// LblTitle control.
+        /// Label18 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTitle;
+        protected global::System.Web.UI.WebControls.Label Label18;
         
         /// <summary>
-        /// LblContent control.
+        /// LblClassNameChiTiet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblContent;
+        protected global::System.Web.UI.WebControls.Label LblClassNameChiTiet;
         
         /// <summary>
-        /// Label3 control.
+        /// Label21 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label Label21;
         
         /// <summary>
-        /// TxtReply control.
+        /// LblFacultyNameChiTiet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtReply;
+        protected global::System.Web.UI.WebControls.Label LblFacultyNameChiTiet;
         
         /// <summary>
-        /// Label5 control.
+        /// Label22 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
+        protected global::System.Web.UI.WebControls.Label Label22;
         
         /// <summary>
-        /// BtnReply control.
+        /// LblGradeNameChiTiet control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnReply;
+        protected global::System.Web.UI.WebControls.Label LblGradeNameChiTiet;
         
         /// <summary>
-        /// BtnCancel control.
+        /// Label19 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancel;
+        protected global::System.Web.UI.WebControls.Label Label19;
+        
+        /// <summary>
+        /// LblTenGVCNChiTiet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblTenGVCNChiTiet;
+        
+        /// <summary>
+        /// Label20 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label20;
+        
+        /// <summary>
+        /// LblSiSoChiTiet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblSiSoChiTiet;
     }
 }

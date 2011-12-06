@@ -57,6 +57,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 school.SchoolName = ddlSchools.SelectedItem.Text;
 
                 Session[AppConstant.SCHOOL] = school;
+
+                Guid role = (new UserBL(school)).GetRoleId(LoginCtrl.UserName);
+                AuthorizationBL authorizationBL = new AuthorizationBL(school);
+                if (authorizationBL.IsRoleParents(new aspnet_Role { RoleId = role }))
+                {
+                    StudentBL studentBL = new StudentBL(school);
+                    string strStudentCode = LoginCtrl.UserName.Split('_')[1];
+                    string strMembershipStudentSessionKey = LoginCtrl.UserName
+                        + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
+                    Session[strMembershipStudentSessionKey] = studentBL.GetStudent(strStudentCode);
+                }
             }
             else
             {
