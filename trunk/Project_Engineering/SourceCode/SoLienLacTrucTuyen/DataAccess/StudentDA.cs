@@ -25,8 +25,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Student_Student student = null;
             IQueryable<Student_Student> iqStudent = from std in db.Student_Students
-                                                           where std.StudentId == editedStudent.StudentId
-                                                           select std;
+                                                    where std.StudentId == editedStudent.StudentId
+                                                    select std;
             if (iqStudent.Count() != 0)
             {
                 student = iqStudent.First();
@@ -39,10 +39,10 @@ namespace SoLienLacTrucTuyen.DataAccess
                 student.ContactPhone = editedStudent.ContactPhone;
                 student.FatherName = editedStudent.FatherName;
                 student.FatherBirthday = editedStudent.FatherBirthday;
-                student.FatherJob = editedStudent.FatherJob;                
+                student.FatherJob = editedStudent.FatherJob;
                 student.MotherName = editedStudent.MotherName;
                 student.MotherBirthday = editedStudent.MotherBirthday;
-                student.MotherJob = editedStudent.MotherJob;                
+                student.MotherJob = editedStudent.MotherJob;
 
                 db.SubmitChanges();
             }
@@ -83,8 +83,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Student_Student student = null;
             IQueryable<Student_Student> iqStudent = from std in db.Student_Students
-                                                           where std.StudentCode == studentCode
-                                                           select std;
+                                                    where std.StudentCode == studentCode
+                                                    select std;
             if (iqStudent.Count() != 0)
             {
                 student = iqStudent.First();
@@ -97,8 +97,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Student_Student student = null;
             IQueryable<Student_Student> iqStudent = from std in db.Student_Students
-                                                           where std.StudentId == studentId
-                                                           select std;
+                                                    where std.StudentId == studentId
+                                                    select std;
             if (iqStudent.Count() != 0)
             {
                 student = iqStudent.First();
@@ -115,8 +115,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public bool StudentCodeExists(string maHocSinhHienThi)
         {
             IQueryable<Student_Student> hocSinhs = from hocSinh in db.Student_Students
-                                                          where hocSinh.StudentCode == maHocSinhHienThi
-                                                          select hocSinh;
+                                                   where hocSinh.StudentCode == maHocSinhHienThi
+                                                   select hocSinh;
             if (hocSinhs.Count() != 0)
             {
                 return true;
@@ -132,10 +132,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             Class_Class Class = null;
 
             IQueryable<Class_Class> iqClass = from studentsInClass in db.Student_StudentInClasses
-                                             join cls in db.Class_Classes on studentsInClass.ClassId equals cls.ClassId
-                                             where studentsInClass.StudentId == student.StudentId
-                                               && studentsInClass.Class_Class.YearId == year.YearId
-                                             select cls;
+                                              where studentsInClass.StudentId == student.StudentId
+                                                && studentsInClass.Class_Class.YearId == year.YearId
+                                              select studentsInClass.Class_Class;
             if (iqClass.Count() != 0)
             {
                 Class = iqClass.First();
@@ -149,8 +148,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             Class_Class Class = null;
 
             IQueryable<Student_StudentInClass> iqStudentsInClass = from studentsInClass in db.Student_StudentInClasses
-                                                                  where studentsInClass.StudentId == student.StudentId
-                                                                  select studentsInClass;
+                                                                   where studentsInClass.StudentId == student.StudentId
+                                                                   select studentsInClass;
             if (iqStudentsInClass.Count() != 0)
             {
                 Class = iqStudentsInClass.OrderByDescending(studentsInClass => studentsInClass.StudentInClassId).First().Class_Class;
@@ -163,12 +162,12 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             List<Configuration_Year> years = new List<Configuration_Year>();
             IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
-                                                join cls in db.Class_Classes
-                                                   on year.YearId equals cls.YearId
-                                                join stdInCls in db.Student_StudentInClasses
-                                                   on cls.ClassId equals stdInCls.ClassId
-                                                where stdInCls.StudentId == student.StudentId
-                                                select year;
+                                                    join cls in db.Class_Classes
+                                                       on year.YearId equals cls.YearId
+                                                    join stdInCls in db.Student_StudentInClasses
+                                                       on cls.ClassId equals stdInCls.ClassId
+                                                    where stdInCls.StudentId == student.StudentId
+                                                    select year;
             if (iqYear.Count() != 0)
             {
                 years = iqYear.OrderByDescending(year => year.BeginYear).ToList();
@@ -193,8 +192,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Student_StudentInClass studentInClass = null;
             IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                                                                 where stdInCls.StudentInClassId == editedStudentInClass.StudentInClassId
-                                                                 select stdInCls;
+                                                                  where stdInCls.StudentInClassId == editedStudentInClass.StudentInClassId
+                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
@@ -209,7 +208,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             Student_StudentInClass lastedStudentInClass = null;
 
             IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                                                                 select stdInCls;
+                                                                  select stdInCls;
             if (iqStudentInClass.Count() != 0)
             {
                 lastedStudentInClass = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.StudentInClassId).First();
@@ -222,8 +221,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Student_StudentInClass studentInClass = null;
             IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                                                                 where stdInCls.StudentId == student.StudentId
-                                                                 select stdInCls;
+                                                                  where stdInCls.StudentId == student.StudentId
+                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
@@ -253,9 +252,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Student_StudentInClass studentInClass = null;
             IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                                                                 where stdInCls.StudentId == student.StudentId
-                                                                 && stdInCls.Class_Class.YearId == year.YearId
-                                                                 select stdInCls;
+                                                                  where stdInCls.StudentId == student.StudentId
+                                                                  && stdInCls.Class_Class.YearId == year.YearId
+                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {

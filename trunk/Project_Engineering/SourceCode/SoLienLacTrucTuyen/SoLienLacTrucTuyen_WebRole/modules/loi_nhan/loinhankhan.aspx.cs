@@ -50,7 +50,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
 
             double dTotalRecords;
-            List<TabularLoiNhanKhan> lstTabularLoiNhanKhan = loiNhanKhanBL.GetListTabularLoiNhanKhan(
+            List<TabularMessage> lstTabularLoiNhanKhan = loiNhanKhanBL.GetListTabularLoiNhanKhan(
                 YearId, tuNgay, denNgay,
                 maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 

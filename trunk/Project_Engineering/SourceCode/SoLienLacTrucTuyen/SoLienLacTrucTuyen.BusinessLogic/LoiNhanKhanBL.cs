@@ -7,7 +7,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class LoiNhanKhanBL:BaseBL
+    public class LoiNhanKhanBL : BaseBL
     {
         private LoiNhanKhanDA loiNhanKhanDA;
 
@@ -42,7 +42,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return loiNhanKhanDA.GetLoiNhanKhan(maLoiNhanKhan);
         }
 
-        public List<TabularLoiNhanKhan> GetListTabularLoiNhanKhan(int YearId, DateTime tuNgay, DateTime denNgay,
+        public List<TabularMessage> GetListTabularLoiNhanKhan(int YearId, DateTime tuNgay, DateTime denNgay,
             string maHocSinhHienThi, int xacNhan, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             if (string.Compare(maHocSinhHienThi, "tất cả", true) == 0 || maHocSinhHienThi == "")
@@ -75,6 +75,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         maHocSinhHienThi, bXacNhan,
                         pageCurrentIndex, pageSize, out totalRecords);
                 }
+            }
+        }
+
+        public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime tuNgay, DateTime denNgay,
+            Student_Student student, bool? confirmed, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            if (confirmed == null)
+            {
+                return loiNhanKhanDA.GetMessages(year, tuNgay, denNgay,
+                    student, pageCurrentIndex, pageSize, out totalRecords);
+            }
+            else
+            {
+                return loiNhanKhanDA.GetMessages(year, tuNgay, denNgay,
+                    student, (bool)confirmed, pageCurrentIndex, pageSize, out totalRecords);
             }
         }
 

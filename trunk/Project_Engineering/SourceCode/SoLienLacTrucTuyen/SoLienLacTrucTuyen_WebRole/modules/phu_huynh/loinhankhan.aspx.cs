@@ -15,7 +15,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
     {
         #region Fields
         private bool isSearch;
-        private LoiNhanKhanBL loiNhanKhanBL;
+        private LoiNhanKhanBL messageBL;
+        StudentBL studentBL;
         #endregion
 
         #region Page event handlers
@@ -28,7 +29,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 return;
             }
 
-            loiNhanKhanBL = new LoiNhanKhanBL(UserSchool);
+            messageBL = new LoiNhanKhanBL(UserSchool);
+            studentBL = new StudentBL(UserSchool);
+
             if (!Page.IsPostBack)
             {
                 isSearch = false;
@@ -43,28 +46,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         #region Methods
         private void BindRptLoiNhanKhan()
         {
-            int YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
-            DateTime denNgay = DateTime.Parse(TxtDenNgay.Text);
-            string maHocSinhHienThi = TxtMaHS.Text;
-            int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
+            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            bool? bConfirmed = null;
+            if(DdlXacNhan.SelectedIndex == 0)
+            {
+                bConfirmed = false;
+            }
+            else
+            {
+                if(DdlXacNhan.SelectedIndex == 1)
+                {
+                    bConfirmed = true;
+                }
+            }
 
             double dTotalRecords;
-            List<TabularLoiNhanKhan> lstTabularLoiNhanKhan = loiNhanKhanBL.GetListTabularLoiNhanKhan(
-                YearId, tuNgay, denNgay,
-                maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<MessageToParents_Message> messages = messageBL.GetMessages(
+                year, dtBeginDate, dtEndDate, MembershipStudent, bConfirmed, 
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if (lstTabularLoiNhanKhan.Count == 0 && dTotalRecords != 0)
+            if (messages.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptLoiNhanKhan();
                 return;
             }
 
-            bool bDisplayData = (lstTabularLoiNhanKhan.Count != 0) ? true : false;
+            bool bDisplayData = (messages.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
 
-            RptLoiNhanKhan.DataSource = lstTabularLoiNhanKhan;
+            RptLoiNhanKhan.DataSource = messages;
             RptLoiNhanKhan.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }
@@ -72,7 +86,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         private void ProcessDislayInfo(bool bDisplayData)
         {
             PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptLoiNhanKhan.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -99,129 +112,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             BindDDLNamHoc();
             BindDDLXacNhan();
-            BindDDLNganhHoc();
-            BindDDLKhoiLop();
-            BindDDLLopHoc();
         }
 
         private void BindDDLNamHoc()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = lstNamHoc;
+            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
-            DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
         }
 
         private void BindDDLXacNhan()
-        {
-            DdlXacNhan.Items.Add(new ListItem("Tất cả", "-1"));
-            DdlXacNhan.Items.Add(new ListItem("Có", "1"));
+        {   
             DdlXacNhan.Items.Add(new ListItem("Không", "0"));
-        }
-
-        private void BindDDLKhoiLop()
-        {
-            GradeBL gradeBL = new GradeBL(UserSchool);
-            List<Category_Grade> lGrades = gradeBL.GetListGrades();
-            DdlKhoiLopThem.DataSource = lGrades;
-            DdlKhoiLopThem.DataValueField = "GradeName";
-            DdlKhoiLopThem.DataTextField = "GradeName";
-            DdlKhoiLopThem.DataBind();
-            if (lGrades.Count > 1)
-            {
-                DdlKhoiLopThem.Items.Insert(0, new ListItem("Tất cả", "Tất cả"));
-            }
-        }
-
-        private void BindDDLNganhHoc()
-        {
-            FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<Category_Faculty> faculties = facultyBL.GetFaculties();
-            DdlNganhHocThem.DataSource = faculties;
-            DdlNganhHocThem.DataValueField = "FacultyId";
-            DdlNganhHocThem.DataTextField = "FacultyName";
-            DdlNganhHocThem.DataBind();
-            if (faculties.Count > 1)
-            {
-                DdlNganhHocThem.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-        }
-
-        private void BindDDLLopHoc()
-        {
-            ClassBL lopHocBL = new ClassBL(UserSchool);
-            GradeBL gradeBL = new GradeBL(UserSchool);
-            Category_Faculty faculty = null;
-            Category_Grade grade = null;
-            Configuration_Year currentYear = (new SystemConfigBL(UserSchool)).GetCurrentYear();
-
-            int YearId = currentYear.YearId;
-
-            try
-            {
-                if (DdlNganhHocThem.SelectedIndex > 0)
-                {
-                    faculty = new Category_Faculty();
-                    faculty.FacultyId = Int32.Parse(DdlNganhHocThem.SelectedValue);
-                }
-            }
-            catch (Exception) { }
-
-            try
-            {                
-                if (DdlKhoiLopThem.SelectedIndex > 0)
-                {
-                    string gradeName = DdlKhoiLopThem.SelectedValue;                    
-                    grade = gradeBL.GetGrade(gradeName);
-                }
-            }
-            catch (Exception) { }
-
-
-            List<Class_Class> lstLop = lopHocBL.GetListClasses(currentYear, faculty, grade);
-            DdlLopThem.DataSource = lstLop;
-            DdlLopThem.DataValueField = "ClassId";
-            DdlLopThem.DataTextField = "ClassName";
-            DdlLopThem.DataBind();
-
-            if (lstLop.Count > 1)
-            {
-                DdlLopThem.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-
-            BindDDLHocSinh();
-        }
-
-        private void BindDDLHocSinh()
-        {
-            List<StudentDropdownListItem> lStudents = new List<StudentDropdownListItem>();
-            if (DdlLopThem.Items.Count != 0)
-            {
-                string facultyName = DdlNganhHocThem.SelectedItem.Text;
-                Category_Faculty faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
-
-                string strGradeName = DdlKhoiLopThem.SelectedValue;
-                Category_Grade grade = (new GradeBL(UserSchool)).GetGrade(strGradeName);
-
-                int iClassId = Int32.Parse(DdlLopThem.SelectedValue);
-                Class_Class cls = (new ClassBL(UserSchool)).GetClass(iClassId);
-
-                lStudents = (new StudentBL(UserSchool)).GetStudents(faculty, grade, cls);
-            }
-
-            DdlHocSinhThem.DataSource = lStudents;
-            DdlHocSinhThem.DataTextField = StudentDropdownListItem.STUDENT_CODE;
-            DdlHocSinhThem.DataValueField = StudentDropdownListItem.STUDENT_IN_CLASS_ID;
-
-            DdlHocSinhThem.DataBind();
-            if (DdlHocSinhThem.Items.Count > 1)
-            {
-                DdlHocSinhThem.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-        }
+            DdlXacNhan.Items.Add(new ListItem("Có", "1"));
+            DdlXacNhan.Items.Add(new ListItem("Tất cả", "-1"));
+        }        
 
         private void InitDates()
         {
@@ -232,25 +139,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
             DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
             TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
-
-            TxtNgayThem.Text = today.ToShortDateString();
-        }
-        #endregion
-
-        #region DropDownList event hanlders
-        protected void DdlNganhThem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
-        }
-
-        protected void DdlKhoiLopThem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
-        }
-
-        protected void DdlLopHocThem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLHocSinh();
         }
         #endregion
 
@@ -289,30 +177,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                         this.HdfRptLoiNhanKhanMPEDelete.Value = mPEDelete.ClientID;
 
                         break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int maLoiNhanKhan = Int32.Parse(e.CommandArgument.ToString());
-                        MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetLoiNhanKhan(maLoiNhanKhan);
-
-                        LblTieuDeSua.Text = loiNhanKhan.Title;
-                        TxtNoiDungSua.Text = TxtNoiDungSua.Text;
-                        TxtNgaySua.Text = loiNhanKhan.Date.ToShortDateString();
-
-                        Student_StudentInClass hocSinhLopHoc = (new StudentBL(UserSchool)).GetStudentInClass(loiNhanKhan.StudentInClassId);
-                        LblMaHocSinhSua.Text = (new StudentBL(UserSchool)).GetStudent(hocSinhLopHoc.StudentId).StudentCode;                        
-                        LblNganhHocSua.Text = hocSinhLopHoc.Class_Class.Category_Faculty.FacultyName;
-                        LblKhoiSua.Text = hocSinhLopHoc.Class_Class.Category_Grade.GradeName;
-                        LblLopSua.Text = hocSinhLopHoc.Class_Class.ClassName;
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfMaLoiNhanKhan.Value = maLoiNhanKhan.ToString();
-                        this.HdfRptLoiNhanKhanMPEEdit.Value = mPEEdit.ClientID;
-
-                        break;
-                    }
+                    }               
                 case "CmdDetailItem":
                     {
                         //int ClassId = Int32.Parse(e.CommandArgument.ToString());
@@ -345,51 +210,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             BindRptLoiNhanKhan();
         }
 
-        protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
-        {
-            MainDataPager.CurrentIndex = 1;
-
-            string tieuDe = TxtTieuDeThem.Text;
-            string noiDung = TxtNoiDungThem.Text;
-            DateTime ngay = DateTime.Parse(TxtNgayThem.Text);
-            int maHocSinhLopHoc = Int32.Parse(DdlHocSinhThem.SelectedValue);
-            if (maHocSinhLopHoc == 0)
-            {
-                for (int i = 1; i < DdlHocSinhThem.Items.Count; i++)
-                {
-                    loiNhanKhanBL.InsertLoiNhanKhan(Int32.Parse(DdlHocSinhThem.Items[i].Value),
-                        tieuDe, noiDung, ngay);
-                }
-            }
-            else
-            {
-                loiNhanKhanBL.InsertLoiNhanKhan(maHocSinhLopHoc,
-                        tieuDe, noiDung, ngay);
-            }
-
-            BindRptLoiNhanKhan();
-
-            TxtTieuDeThem.Text = "";
-            TxtNoiDungThem.Text = "";
-            TxtNgayThem.Text = DateTime.Now.ToShortDateString();
-
-            if (this.CkbAddAfterSave.Checked)
-            {
-                this.MPEAdd.Show();
-            }
-        }
-
-        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
-        {
-            int maLoiNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            loiNhanKhanBL.UpdateLoiNhanKhan(maLoiNhanKhan, TxtNoiDungSua.Text, DateTime.Parse(TxtNgaySua.Text));
-            BindRptLoiNhanKhan();
-        }
-
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            loiNhanKhanBL.DeleteLoiNhanKhan(maLopNhanKhan);
+            messageBL.DeleteLoiNhanKhan(maLopNhanKhan);
             isSearch = false;
             BindRptLoiNhanKhan();
         }
