@@ -12,7 +12,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
     public partial class DetailedClassPage : BaseContentPage
     {
         #region Fields
-        private ClassBL lopHocBL;
+        private StudentBL studentBL;
+        private ClassBL classBL;
         #endregion
 
         #region Page event handlers
@@ -25,51 +26,62 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 return;
             }
 
-            lopHocBL = new ClassBL(UserSchool);           
+            studentBL = new StudentBL(UserSchool);
+            classBL = new ClassBL(UserSchool);           
 
             if (!Page.IsPostBack)
             {
-                int? ClassId = GetQueryString();
-                if (ClassId != null)
-                {
-                    Class_Class lophoc = lopHocBL.GetClass((int)ClassId);
-                    if (lophoc != null)
-                    {                        
-                        LblClassNameChiTiet.Text = lophoc.ClassName;
-                        LblFacultyNameChiTiet.Text = lophoc.Category_Faculty.FacultyName;
-                        LblGradeNameChiTiet.Text = lophoc.Category_Grade.GradeName;
-                        LblSiSoChiTiet.Text = lophoc.StudentQuantity.ToString();
-                        Class_FormerTeacher formerTeacher = (new FormerTeacherBL(UserSchool)).GetFormerTeacher(lophoc);
-                        if(formerTeacher != null)
-                        {
-                            LblTenGVCNChiTiet.Text = formerTeacher.aspnet_User.aspnet_Membership.FullName;
-                        }
-                        
-                    }
-                }
+                BindDDLYears();
+                FillClass();
             }
         }
         #endregion
 
-        private int? GetQueryString()
+        #region DropDownList event hanlders
+        protected void DdlYear_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Request.QueryString["malop"] != null)
+            FillClass();
+        }
+        #endregion
+
+        #region Methods
+        private void BindDDLYears()
+        {
+            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            DdlYear.DataSource = years;
+            DdlYear.DataValueField = "YearId";
+            DdlYear.DataTextField = "YearName";
+            DdlYear.DataBind();
+        }
+
+        private void FillClass()
+        {
+            StudentBL studentBL = new StudentBL(UserSchool);
+            FormerTeacherBL formerTeacherBL = new FormerTeacherBL(UserSchool);
+            Configuration_Year year = null;
+            if(DdlYear.Items.Count == 0)
             {
-                int iClassId;
-                bool bParseSuccess = Int32.TryParse(Request.QueryString["malop"], out iClassId);
-                if (bParseSuccess == true)
-                {
-                    return iClassId;
-                }
-                else
-                {
-                    return null;
-                }
+                return;
+            }
+
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlYear.SelectedValue);
+            Class_Class Class = studentBL.GetClass(MembershipStudent, year);
+
+            LblClassName.Text = Class.ClassName;
+            LblFacultyName.Text = Class.Category_Faculty.FacultyName;
+            LblGradeName.Text = Class.Category_Grade.GradeName;
+            LblQuantity.Text = Class.StudentQuantity.ToString();
+            Class_FormerTeacher formerTeacher = formerTeacherBL.GetFormerTeacher(Class);
+            if (formerTeacher != null)
+            {
+                LblFormerTeacherName.Text = formerTeacher.aspnet_User.aspnet_Membership.FullName;
             }
             else
             {
-                return null;
+                LblFormerTeacherName.Text = "(Không có)";
             }
         }
+        #endregion
     }
 }

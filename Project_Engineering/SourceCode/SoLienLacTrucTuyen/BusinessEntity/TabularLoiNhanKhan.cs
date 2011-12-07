@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.BusinessEntity
 {
-    public class TabularLoiNhanKhan
+    public class TabularMessage
     {
         public int MaLoiNhanKhan { get; set; }
         public DateTime Ngay { get; set; }

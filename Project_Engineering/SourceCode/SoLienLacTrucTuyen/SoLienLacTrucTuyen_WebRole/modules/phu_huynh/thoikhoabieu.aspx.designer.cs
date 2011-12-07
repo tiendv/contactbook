@@ -13,49 +13,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
     public partial class SchedulePage {
         
         /// <summary>
-        /// divScript control.
+        /// DdlYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divScript;
-        
-        /// <summary>
-        /// UPDropdownlists control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UPDropdownlists;
-        
-        /// <summary>
-        /// DdlNamHoc control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
-        
-        /// <summary>
-        /// DdlNganh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlNganh;
-        
-        /// <summary>
-        /// DdlLopHoc control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlLopHoc;
+        protected global::System.Web.UI.WebControls.DropDownList DdlYear;
         
         /// <summary>
         /// DdlHocKy control.
@@ -67,22 +31,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
-        /// DdlKhoiLop control.
+        /// LblClassName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
-        
-        /// <summary>
-        /// BtnSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
+        protected global::System.Web.UI.WebControls.Label LblClassName;
         
         /// <summary>
         /// LblSearchResult control.

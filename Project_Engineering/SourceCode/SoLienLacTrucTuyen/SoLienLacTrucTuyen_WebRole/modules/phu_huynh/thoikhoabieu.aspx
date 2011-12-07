@@ -4,67 +4,36 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-<div id="divScript" runat="server">
-        <script type="text/javascript">
-            $(document).ready(function () {
-                alert("This module is implementing");
-            });
-        </script>
-    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            <asp:UpdatePanel ID="UPDropdownlists" runat="server" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <table class="search">
-                        <tr>
-                            <td style="width: 60px;">
-                                Năm học:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" AutoPostBack="true"
-                                    OnSelectedIndexChanged="DdlNamHoc_SelectedIndexChanged">
-                                </asp:DropDownList>
-                            </td>
-                            <td>
-                                Ngành:
-                            </td>
-                            <td>
-                                <asp:DropDownList ID="DdlNganh" runat="server" Width="150px" AutoPostBack="true"
-                                    OnSelectedIndexChanged="DdlNganh_SelectedIndexChanged">
-                                </asp:DropDownList>
-                            </td>
-                            <td>
-                                Lớp:
-                            </td>
-                            <td style="width: 200px">
-                                <asp:DropDownList ID="DdlLopHoc" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 35px;">
-                                Học kỳ:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 35px;">
-                                Khối:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px" AutoPostBack="true"
-                                    OnSelectedIndexChanged="DdlKhoiLop_SelectedIndexChanged">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                    </table>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
-        <div id="divButtonSearch" style="margin: 3px 0px 0px 0px">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
-                ToolTip="Tìm kiếm thời khóa biểu" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
+            <table class="search">
+                <tr>
+                    <td style="width: 60px;">
+                        Năm học:
+                    </td>
+                    <td style="width: 200px;">
+                        <asp:DropDownList ID="DdlYear" runat="server" Width="150px" AutoPostBack="true"
+                            OnSelectedIndexChanged="DdlYear_SelectedIndexChanged">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        Học kỳ:
+                    </td>
+                    <td style="width: 200px;">
+                        <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px" AutoPostBack="true"
+                            OnSelectedIndexChanged="DdlTerm_SelectedIndexChanged">
+                        </asp:DropDownList>
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>
+                        Lớp:
+                    </td>
+                    <td>
+                        <asp:Label ID="LblClassName" runat="server"></asp:Label>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <div class="table_data ui-corner-all">
