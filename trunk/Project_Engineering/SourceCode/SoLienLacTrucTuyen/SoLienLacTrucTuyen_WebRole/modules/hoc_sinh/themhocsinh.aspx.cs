@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class AddStudentPage : BaseContentPage
     {
         #region Fields
-        private StudentBL hocSinhBL;
+        private StudentBL studentBL;
         #endregion
 
         #region Page event handlers
@@ -25,7 +25,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            hocSinhBL = new StudentBL(UserSchool);
+            studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -56,37 +56,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Class_Class Class = null;            
 
-            string maHocSinhHienThi = this.TxtMaHocSinhHienThi.Text.Trim();
-            if (maHocSinhHienThi == "")
+            string strStudentCode = this.TxtMaHocSinhHienThi.Text.Trim();
+            if (strStudentCode == "")
             {
                 MaHocSinhRequired.IsValid = false;
                 return;
             }
             else
             {
-                if (hocSinhBL.StudentCodeExists(maHocSinhHienThi))
+                if (studentBL.StudentCodeExists(strStudentCode))
                 {
                     MaHocSinhValidator.IsValid = false;
                     return;
                 }
             }
 
-            string tenHocSinh = this.TxtTenHocSinh.Text.Trim();
-            if (tenHocSinh == "")
+            string strStudentName = this.TxtTenHocSinh.Text.Trim();
+            if (strStudentName == "")
             {
                 TenHocSinhRequired.IsValid = false;
                 return;
             }
 
-            string strNgaySinh = this.TxtNgaySinhHocSinh.Text.Trim();
-            if (strNgaySinh == "")
+            string strDayOfBirth = this.TxtNgaySinhHocSinh.Text.Trim();
+            if (strDayOfBirth == "")
             {
                 NgaySinhHocSinhRequired.IsValid = false;
                 return;
             }
 
-            string diaChi = this.TxtDiaChi.Text.Trim();
-            if (diaChi == "")
+            string strAddress = this.TxtDiaChi.Text.Trim();
+            if (strAddress == "")
             {
                 DiaChiRequired.IsValid = false;
                 return;
@@ -114,7 +114,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime? ngaySinhNguoiDoDau = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
 
             bool gioiTinh = this.RbtnNam.Checked;
-            string[] arrNgaySinh = strNgaySinh.Split('/');
+            string[] arrNgaySinh = strDayOfBirth.Split('/');
             DateTime ngaySinh = new DateTime(Int32.Parse(arrNgaySinh[2]),
                 Int32.Parse(arrNgaySinh[1]), Int32.Parse(arrNgaySinh[0]));
             string noiSinh = this.TxtNoiSinh.Text.Trim();
@@ -123,8 +123,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Class = new Class_Class();
             Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
-            hocSinhBL.InsertStudent(Class, maHocSinhHienThi, tenHocSinh,
-                gioiTinh, ngaySinh, noiSinh, diaChi, dienThoai,
+            studentBL.InsertStudent(Class, strStudentCode, strStudentName,
+                gioiTinh, ngaySinh, noiSinh, strAddress, dienThoai,
                 tenBo, ngheNghiepBo, ngaySinhBo,
                 tenMe, ngheNghiepMe, ngaySinhMe,
                 tenNguoiDoDau, ngheNghiepNguoiDoDau, ngaySinhNguoiDoDau);
@@ -135,13 +135,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                Response.Redirect("danhsachhocsinh.aspx");
+                Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
             }
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("danhsachhocsinh.aspx");
+            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
         }
 
         protected void BtnDuyetHinhAnh_Click(object sender, ImageClickEventArgs e)
@@ -221,48 +221,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLClasses()
         {
-            int YearId = 0;
-            try
-            {
-                YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            }
-            catch (Exception) { }
-
-            int FacultyId = 0;
-            try
-            {
-                FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-            }
-            catch (Exception) { }
-
-            int GradeId = 0;
-            try
-            {
-                GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-            }
-            catch (Exception) { }
-
-            List<Class_Class> lstLop = GetListLopHoc(FacultyId, GradeId, YearId);
-            DdlLopHoc.DataSource = lstLop;
-            DdlLopHoc.DataValueField = "ClassId";
-            DdlLopHoc.DataTextField = "ClassName";
-            DdlLopHoc.DataBind();
-
-        }
-
-        private List<Class_Class> GetListLopHoc(int FacultyId, int GradeId, int YearId)
-        {
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
             ClassBL lopHocBL = new ClassBL(UserSchool);
-            
+
             year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             try
             {
-                if (DdlNganh.SelectedIndex > 0)
+                if (DdlNganh.SelectedIndex >= 0)
                 {
                     faculty = new Category_Faculty();
                     faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
@@ -272,7 +241,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             try
             {
-                if (DdlKhoiLop.SelectedIndex > 0)
+                if (DdlKhoiLop.SelectedIndex >= 0)
                 {
                     grade = new Category_Grade();
                     grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
@@ -281,7 +250,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             catch (Exception) { }
 
             List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
-            return lstLop;
+            DdlLopHoc.DataSource = lstLop;
+            DdlLopHoc.DataValueField = "ClassId";
+            DdlLopHoc.DataTextField = "ClassName";
+            DdlLopHoc.DataBind();
+
         }
 
         private DateTime? ToDateTime(string str)

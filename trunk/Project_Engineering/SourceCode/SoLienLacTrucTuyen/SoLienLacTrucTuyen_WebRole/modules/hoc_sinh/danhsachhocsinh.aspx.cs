@@ -275,7 +275,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRptStudents();
 
             CrystalReportViewer1.Visible = true;
-            SoLienLacTrucTuyen_WebRole.modules.report.Rpt_Student rptSource = new modules.report.Rpt_Student();
+            //SoLienLacTrucTuyen_WebRole.modules.report.Rpt_Student rptSource = new modules.report.Rpt_Student();
+            
             DataSet dsHocSinh = new DataSet();
             DataTable dtSource = new DataTable();
             dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));

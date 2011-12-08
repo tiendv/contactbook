@@ -4,7 +4,11 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <div id="divScript">
+    <div>
+        Học sinh: 
+        <asp:Label ID="LblStudentName" runat="server"></asp:Label>
+        &nbsp;&nbsp;&nbsp;&nbsp;Mã học sinh:<asp:Label ID="LblStudentCode" runat="server"></asp:Label>
+        <br />
     </div>
     <div>
         <div>

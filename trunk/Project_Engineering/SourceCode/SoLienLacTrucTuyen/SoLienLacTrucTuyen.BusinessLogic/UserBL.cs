@@ -78,6 +78,29 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.GetApplicationId(userName);
         }
 
+        public bool ValidateUser(string newUserName, aspnet_Role selectedRole)
+        {
+            AuthorizationBL authorizationBL = new AuthorizationBL(school);
+            StudentBL studentBL = null;
+            if (authorizationBL.IsRoleParents(selectedRole))
+            {
+                studentBL = new StudentBL(school);
+                if (!studentBL.StudentCodeExists(newUserName))
+                {
+                    return false;
+                }
+            }
+
+            bool bUserNameExists = UserNameExists(newUserName);
+
+            return (!bUserNameExists);
+        }
+
+        private bool UserNameExists(string newUserName)
+        {
+            return true;
+        }
+
         public bool ValidateUser(string userName)
         {
             return userDA.ValidateUser(userName);

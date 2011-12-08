@@ -85,7 +85,7 @@
                 <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="TxtMaHocSinhHienThi" runat="server" CssClass="input_textbox" Text="090001"></asp:TextBox>
+                <asp:TextBox ID="TxtMaHocSinhHienThi" runat="server" CssClass="input_textbox"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="MaHocSinhRequired" runat="server" ValidationGroup="AddHocSinh"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi" ErrorMessage="Mã học sinh không được để trống">
                 </asp:RequiredFieldValidator>
@@ -111,7 +111,7 @@
                 <asp:Label ID="Label28" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td style="width: auto;">
-                <asp:TextBox ID="TxtTenHocSinh" runat="server" CssClass="input_textbox" Text="Nguyen Anh Duy"></asp:TextBox>
+                <asp:TextBox ID="TxtTenHocSinh" runat="server" CssClass="input_textbox"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="TenHocSinhRequired" runat="server" ValidationGroup="AddHocSinh"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtTenHocSinh" ErrorMessage="Tên học sinh không được để trống">
                 </asp:RequiredFieldValidator>
@@ -135,7 +135,7 @@
                 <asp:Label ID="Label14" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="TxtNgaySinhHocSinh" runat="server" Text="09/09/1989"></asp:TextBox>
+                <asp:TextBox ID="TxtNgaySinhHocSinh" runat="server"></asp:TextBox>
                 <asp:Image ID="ImgCalendarNgaySinhHocSinh" runat="server" ImageUrl="~/Styles/Images/calendar.png" />
                 <br />
                 <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtNgaySinhHocSinh"
@@ -160,7 +160,7 @@
                 <asp:Label ID="Label6" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td style="width: 300px;">
-                <asp:TextBox ID="TxtDiaChi" runat="server" CssClass="input_textbox" Text="Quan 9, Tp.HCM"></asp:TextBox>
+                <asp:TextBox ID="TxtDiaChi" runat="server" CssClass="input_textbox"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="DiaChiRequired" runat="server" ValidationGroup="AddHocSinh"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtDiaChi" ErrorMessage="Địa chỉ không được để trống">
                 </asp:RequiredFieldValidator>
@@ -198,7 +198,7 @@
                 Họ tên bố:
             </td>
             <td style="width: 300px;">
-                <asp:TextBox ID="TxtHoTenBo" runat="server" CssClass="input_textbox" Text="Nguyen Van A"></asp:TextBox>
+                <asp:TextBox ID="TxtHoTenBo" runat="server" CssClass="input_textbox"></asp:TextBox>
             </td>
             <td style="width: 80px; padding-left: 50px">
                 Ngày sinh:

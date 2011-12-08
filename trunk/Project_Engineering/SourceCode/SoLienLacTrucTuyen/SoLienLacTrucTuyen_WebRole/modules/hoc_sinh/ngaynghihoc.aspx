@@ -220,27 +220,27 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfRptMaNgayNghiHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaNgayNghiHoc")%>' />
+                            <asp:HiddenField ID="HdfRptMaNgayNghiHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "AbsentId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label40" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Ngay")%>'></asp:Label>
+                            <asp:Label ID="Label40" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Date")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label41" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Buoi")%>'></asp:Label>
+                            <asp:Label ID="Label41" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Session")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label42" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "XinPhep")%>'></asp:Label>
+                            <asp:Label ID="Label42" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "IsAsked")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label43" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "LyDo")%>'></asp:Label>
+                            <asp:Label ID="Label43" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Reason")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label44" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "XacNhan")%>'></asp:Label>
+                            <asp:Label ID="Label44" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Confirmed")%>'></asp:Label>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaNgayNghiHoc")%>' />
+                                CommandName="CommandEdit" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AbsentId")%>' />
                             <ajaxtoolkit:modalpopupextender id="MPEEdit" runat="server" targetcontrolid="BtnFakeEditItem"
                                 popupcontrolid="PnlPopupEdit" backgroundcssclass="modalBackground" cancelcontrolid="ImgClosePopupEdit"
                                 popupdraghandlecontrolid="PnlDragPopupEdit">
@@ -249,7 +249,7 @@
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" />
+                                CommandName="CmdDeleteItem"/>
                             <ajaxtoolkit:modalpopupextender id="MPEDelete" runat="server" targetcontrolid="BtnFakeDeleteItem"
                                 popupcontrolid="PnlPopupConfirmDelete" backgroundcssclass="modalBackground" cancelcontrolid="imgClosePopupConfirmDelete"
                                 popupdraghandlecontrolid="PnlDragPopupConfirmDelete">

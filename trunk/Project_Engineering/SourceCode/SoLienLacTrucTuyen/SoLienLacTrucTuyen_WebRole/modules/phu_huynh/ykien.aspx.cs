@@ -192,6 +192,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             BindRptParentsComments();
         }
 
+        protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect(AppConstant.PAGEPATH_ADDCOMMENT);
+        }
+
         #endregion
 
         #region Pager event handlers

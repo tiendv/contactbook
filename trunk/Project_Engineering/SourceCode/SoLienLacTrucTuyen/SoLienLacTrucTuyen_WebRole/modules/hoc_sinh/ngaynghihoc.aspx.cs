@@ -191,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<TabularAbsent> tabularAbsents;
 
             student = new Student_Student();
-            student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];// Int32.Parse(this.HdfMaHocSinh.Value);
+            student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
             year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             term = new Configuration_Term();
@@ -327,17 +327,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         HdfRptNgayNghiMPEDelete.Value = mPEDelete.ClientID;
                         break;
                     }
-                case "CmdEditItem":
+                case AppConstant.COMMAND_EDIT:
                     {
-                        int maNgayNghiHoc = Int32.Parse(e.CommandArgument.ToString());
-                        Student_Absent ngayNghi = absentBL.GetAbsent(maNgayNghiHoc);
+                        int iAbsentId = Int32.Parse(e.CommandArgument.ToString());
+                        Student_Absent absent = absentBL.GetAbsent(iAbsentId);
 
-                        this.DdlHocKySua.SelectedValue = ngayNghi.TermId.ToString();
-                        this.TxtNgaySua.Text = ngayNghi.Date.ToShortDateString();
-                        this.DdlBuoiSua.SelectedValue = ngayNghi.SessionId.ToString();
-                        this.RbtnCoSua.Checked = ngayNghi.IsAsked;
-                        this.RbtnKhongSua.Checked = !ngayNghi.IsAsked;
-                        this.TxtLyDoSua.Text = ngayNghi.Reason;
+                        this.DdlHocKySua.SelectedValue = absent.TermId.ToString();
+                        this.TxtNgaySua.Text = absent.Date.ToShortDateString();
+                        this.DdlBuoiSua.SelectedValue = absent.SessionId.ToString();
+                        this.RbtnCoSua.Checked = absent.IsAsked;
+                        this.RbtnKhongSua.Checked = !absent.IsAsked;
+                        this.TxtLyDoSua.Text = absent.Reason;
 
                         ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
                         mPEEdit.Show();
@@ -520,7 +520,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             absent = new Student_Absent();
             absent.AbsentId = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
             student = new Student_Student();
-            student.StudentId = Int32.Parse(this.HdfMaHocSinh.Value);
+            student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
             term = new Configuration_Term();
             term.TermId = Int32.Parse(this.DdlHocKySua.SelectedValue);
             if (DdlBuoiSua.SelectedIndex > 0)
@@ -564,10 +564,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             date = DateTime.Parse(this.TxtNgaySua.Text);
-            bool xinPhep = this.RbtnCoSua.Checked;
-            string lyDo = this.TxtLyDoSua.Text;
+            bool bIsAsked = this.RbtnCoSua.Checked;
+            string strReason = this.TxtLyDoSua.Text;
 
-            absentBL.UpdateAbsent(absent, term, date, session, xinPhep, lyDo);
+            absentBL.UpdateAbsent(absent, term, date, session, bIsAsked, strReason);
 
             MainDataPager.CurrentIndex = 1;
             BindRptStudentAbsents();

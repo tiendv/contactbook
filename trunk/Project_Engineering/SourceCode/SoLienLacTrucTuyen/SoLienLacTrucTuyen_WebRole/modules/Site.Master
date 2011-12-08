@@ -107,11 +107,9 @@
                 <asp:Label ID="LblLogedName" runat="server" Text='<%# UserName %>'></asp:Label>
                 <asp:LoginView ID="LoginView1" runat="server">
                     <LoggedInTemplate>
-                        <asp:LoginName ID="LoginNameCtrl" runat="server" Style="font-size: 12px; font-weight: bold;"
-                             />
+                        <asp:Label ID="LblUserName" runat="server" Text="User name" Style="font-size: 12px; font-weight: bold;"></asp:Label>
+                        <asp:LoginName ID="LoginNameCtrl" runat="server" Visible="false" Style="font-size: 12px; font-weight: bold;" />
                         <br />
-                        
-                        
                         <asp:LoginStatus ID="LoginStatusCtrl" runat="server" LoginText="Đăng nhập" LogoutText="Đăng xuất"
                             LogoutPageUrl="~/Modules/Trang_Chu/TrangChu.aspx" LogoutAction="Redirect" />
                         &nbsp;
