@@ -68,6 +68,8 @@ namespace SoLienLacTrucTuyen_WebRole
             {
                 PageTitle = (new PagePathBL()).GetPageTitle(PageUrl);
             }
+
+            
         }
 
         protected void Page_PreRender(object sender, System.EventArgs e)

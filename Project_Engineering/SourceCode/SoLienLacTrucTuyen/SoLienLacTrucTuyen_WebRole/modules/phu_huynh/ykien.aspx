@@ -4,13 +4,6 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-<div id="divScript" runat="server">
-        <script type="text/javascript">
-            $(document).ready(function () {
-                alert("This module is implementing");
-            });
-        </script>
-    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
             <table class="search">
@@ -68,6 +61,10 @@
         </div>
     </div>
     <div class="table_data ui-corner-all">
+        <div class="add">
+            <asp:ImageButton ID="BtnAdd" runat="server" OnClick="BtnAdd_Click" ImageUrl="~/Styles/Images/button_add_with_text.png"
+                ToolTip="Thêm lới góp ý mới" CssClass="BtnAdd" />
+        </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>

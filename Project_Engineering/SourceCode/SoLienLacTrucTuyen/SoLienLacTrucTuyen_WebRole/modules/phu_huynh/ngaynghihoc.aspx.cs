@@ -62,8 +62,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void BindDDLYears()
         {
-            List<Configuration_Year> lstNamHoc = studentBL.GetYears(MembershipStudent);
-            DdlNamHoc.DataSource = lstNamHoc;
+            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
@@ -72,12 +72,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         private void BindDDDLTerms()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
-            DdlHocKy.DataSource = lstHocKy;
+            List<Configuration_Term> terms = systemConfigBL.GetListTerms();
+            DdlHocKy.DataSource = terms;
             DdlHocKy.DataValueField = "TermId";
             DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
-            DdlHocKy.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentTerm().ToString();
+            DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().ToString();
         }
 
         private void InitDates()
@@ -188,14 +188,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             {
                 case "CmdDeleteItem":
                     {
-                        LblConfirmDelete.Text = "Bạn có chắc xóa ngày nghỉ học này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
+                        LblConfirmDelete.Text = "Bạn có chắc xác nhận ngày nghỉ học này không?";
+                        ModalPopupExtender mPEConfirm = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
+                        mPEConfirm.Show();
 
                         HiddenField hdfRptMaNgayNghiHoc = (HiddenField)e.Item.FindControl("HdfRptMaNgayNghiHoc");
                         HdfMaNgayNghiHoc.Value = hdfRptMaNgayNghiHoc.Value;
 
-                        HdfRptNgayNghiMPEDelete.Value = mPEDelete.ClientID;
+                        HdfRptAbsentMPEConfirm.Value = mPEConfirm.ClientID;
                         break;
                     }
                 default:

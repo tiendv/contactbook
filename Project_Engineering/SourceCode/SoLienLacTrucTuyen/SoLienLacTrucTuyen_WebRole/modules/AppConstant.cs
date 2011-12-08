@@ -15,6 +15,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_PARENTSCOMMENTS = "/modules/y_kien/ykien.aspx";
         public const string PAGEPATH_STUDENTINFOR = "/modules/hoc_sinh/thongtincanhan.aspx";
         public const string PAGEPATH_STUDENTEDIT = "/modules/hoc_sinh/suahocsinh.aspx";
+        public const string PAGEPATH_ADDCOMMENT = "/modules/phu_huynh/XXX.aspx";
         public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx";
 
         public const string QUERY_STUDENT = "std";
@@ -59,6 +60,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string ROLE = "Role";
         public const string TEACHER = "Teacher";
         public const string UNDERSCORE = "_";
+
+        public const string COMMAND_EDIT = "CommandEdit";
         
     }
 }

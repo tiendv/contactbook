@@ -81,7 +81,7 @@
                 OnItemDataBound="RptLoiNhanKhan_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
-                        <td class=" orderNo">
+                        <td class="ui-corner-tl orderNo">
                             STT
                         </td>
                         <td class="middle" style="width: 20%">
@@ -121,14 +121,14 @@
                                 </ajaxToolkit:ModalPopupExtender>--%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "Date").ToString()%>
-                        </td>                        
+                            <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortDateString()%>
+                        </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "IsConfirmed")%>
+                            <%#((bool)DataBinder.Eval(Container.DataItem, "IsConfirmed") == true) ? "Có" : "Không"%>
                         </td>
                         <td class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
+                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
                                 CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
@@ -147,8 +147,9 @@
         </table>
     </div>
     <div style="float: right; margin-top: -35px; padding-right: 30px;">
-        <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command" ViewStateMode="Enabled"/>
-    </div>    
+        <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
+            ViewStateMode="Enabled" />
+    </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">

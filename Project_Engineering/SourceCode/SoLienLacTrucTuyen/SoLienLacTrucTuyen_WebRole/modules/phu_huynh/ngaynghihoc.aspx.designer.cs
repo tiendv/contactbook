@@ -7,22 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
-{
-
-
-    public partial class StudentAbsentPage
-    {
-
-        /// <summary>
-        /// HdfMaHocSinh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaHocSinh;
-
+namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
+    
+    
+    public partial class StudentAbsentPage {
+        
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -31,7 +20,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
+        
         /// <summary>
         /// DdlNamHoc control.
         /// </summary>
@@ -40,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
-
+        
         /// <summary>
         /// DdlHocKy control.
         /// </summary>
@@ -49,7 +38,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
-
+        
         /// <summary>
         /// TxtTuNgay control.
         /// </summary>
@@ -58,7 +47,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtTuNgay;
-
+        
         /// <summary>
         /// ImgCalendarTuNgay control.
         /// </summary>
@@ -67,7 +56,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image ImgCalendarTuNgay;
-
+        
         /// <summary>
         /// CalendarExtender1 control.
         /// </summary>
@@ -76,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.CalendarExtender CalendarExtender1;
-
+        
         /// <summary>
         /// MaskedEditExtender1 control.
         /// </summary>
@@ -85,7 +74,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender1;
-
+        
         /// <summary>
         /// TxtDenNgay control.
         /// </summary>
@@ -94,7 +83,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtDenNgay;
-
+        
         /// <summary>
         /// ImgCalendarDenNgay control.
         /// </summary>
@@ -103,7 +92,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image ImgCalendarDenNgay;
-
+        
         /// <summary>
         /// CalendarExtender2 control.
         /// </summary>
@@ -112,7 +101,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.CalendarExtender CalendarExtender2;
-
+        
         /// <summary>
         /// MaskedEditExtender2 control.
         /// </summary>
@@ -121,7 +110,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender2;
-
+        
         /// <summary>
         /// BtnSearch control.
         /// </summary>
@@ -130,7 +119,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
-
+        
         /// <summary>
         /// LblSearchResult control.
         /// </summary>
@@ -139,7 +128,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
-
+        
         /// <summary>
         /// HdfMaNgayNghiHoc control.
         /// </summary>
@@ -148,25 +137,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HdfMaNgayNghiHoc;
-
+        
         /// <summary>
-        /// HdfRptNgayNghiMPEDelete control.
+        /// HdfRptAbsentMPEConfirm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptNgayNghiMPEDelete;
-
-        /// <summary>
-        /// HdfRptNgayNghiMPEEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptNgayNghiMPEEdit;
-
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptAbsentMPEConfirm;
+        
         /// <summary>
         /// RptNgayNghi control.
         /// </summary>
@@ -175,7 +155,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater RptNgayNghi;
-
+        
         /// <summary>
         /// MainDataPager control.
         /// </summary>
@@ -184,7 +164,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
-
+        
         /// <summary>
         /// PnlPopupConfirm control.
         /// </summary>
@@ -193,7 +173,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel PnlPopupConfirm;
-
+        
         /// <summary>
         /// PnlDragPopupConfirm control.
         /// </summary>
@@ -202,7 +182,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel PnlDragPopupConfirm;
-
+        
         /// <summary>
         /// LblPopupConfirmTitle control.
         /// </summary>
@@ -211,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LblPopupConfirmTitle;
-
+        
         /// <summary>
         /// Image1 control.
         /// </summary>
@@ -220,7 +200,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image Image1;
-
+        
         /// <summary>
         /// LblConfirmDelete control.
         /// </summary>
@@ -229,7 +209,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LblConfirmDelete;
-
+        
         /// <summary>
         /// BtnOKDeleteItem control.
         /// </summary>
@@ -238,7 +218,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton BtnOKDeleteItem;
-
+        
         /// <summary>
         /// BtnCancelDeleteItem control.
         /// </summary>

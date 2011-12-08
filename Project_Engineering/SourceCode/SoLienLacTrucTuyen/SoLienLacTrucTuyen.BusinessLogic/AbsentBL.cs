@@ -28,6 +28,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void UpdateAbsent(Student_Absent editedAbsent, Configuration_Term newTerm, DateTime newDate, Configuration_Session newSession, bool newPermission, string newReason)
         {
+            editedAbsent.TermId = newTerm.TermId;
+            editedAbsent.Date = newDate;
+            if (newSession != null)
+            {
+                editedAbsent.SessionId = newSession.SessionId;
+            }            
+            editedAbsent.IsAsked = newPermission;
+            editedAbsent.Reason = newReason;
             absentDA.UpdateAbsent(editedAbsent);
         }
 
@@ -69,12 +77,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             foreach (Student_Absent absent in absents)
             {
                 tabularAbsent = new TabularAbsent();
-                tabularAbsent.MaHocSinhLopHoc = absent.StudentInClass;
-                tabularAbsent.Ngay = absent.Date.Day + "/" + absent.Date.Month + "/" + absent.Date.Year;
-                tabularAbsent.Buoi = systemConfigBL.GetSessionName(absent.SessionId);
-                tabularAbsent.XinPhep = (absent.IsAsked) ? "Có" : "Không";
-                tabularAbsent.LyDo = absent.Reason;
-                tabularAbsent.XacNhan = (absent.IsConfirmed) ? "Có" : "Không";
+                tabularAbsent.AbsentId = absent.AbsentId;
+                tabularAbsent.StudentInClassId = absent.StudentInClass;
+                tabularAbsent.Date = absent.Date.Day + "/" + absent.Date.Month + "/" + absent.Date.Year;
+                tabularAbsent.Session = systemConfigBL.GetSessionName(absent.SessionId);
+                tabularAbsent.IsAsked = (absent.IsAsked) ? "Có" : "Không";
+                tabularAbsent.Reason = absent.Reason;
+                tabularAbsent.Confirmed = (absent.IsConfirmed) ? "Có" : "Không";
 
                 tabularAbsents.Add(tabularAbsent);
             }

@@ -82,7 +82,7 @@
     <Compile Include="TabularHocSinhInfo.cs" />
     <Compile Include="TabularKetQuaMonHoc.cs" />
     <Compile Include="TabularLoiNhanKhan.cs" />
-    <Compile Include="TabularNgayNghiHoc.cs" />
+    <Compile Include="TabularAbsent.cs" />
     <Compile Include="TabularUser.cs" />
     <Compile Include="TabularPhanQuyen.cs" />
     <Compile Include="TabularRole.cs" />

@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
     public partial class ParentsCommentPage {
         
         /// <summary>
-        /// divScript control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divScript;
-        
-        /// <summary>
         /// DdlYears control.
         /// </summary>
         /// <remarks>
@@ -119,6 +110,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
+        
+        /// <summary>
+        /// BtnAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnAdd;
         
         /// <summary>
         /// LblSearchResult control.

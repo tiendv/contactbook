@@ -90,6 +90,41 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             SeletedRoleId = new Guid(DdlRoles.Items[0].Value);
         }
 
+        protected void ValidateUserName(object source, ServerValidateEventArgs args)
+        {
+            string password = Membership.GeneratePassword(8, 2);
+
+            StringBuilder strB = new StringBuilder();
+            strB.Append(UserSchool.SchoolId);
+            strB.Append("_");
+            strB.Append(RegisterUserWizard.UserName);
+            MembershipUserCollection users = Membership.FindUsersByName(strB.ToString());
+            if (users.Count != 0)
+            {
+                args.IsValid = false;
+            }
+            else
+            {
+                args.IsValid = true;
+            }
+        }
+
+        protected void ValidateStudentCode(object source, ServerValidateEventArgs args)
+        {
+            StudentBL studentBL = null;
+            if ((bool)ViewState[VIEWSTATE_ISCHOSEROLEPARENTS])
+            {
+                studentBL = new StudentBL(UserSchool);
+                args.IsValid = studentBL.StudentCodeExists(RegisterUserWizard.UserName);
+                CustomValidator userNameCustomValidator = ((CustomValidator)CreateUserStep.ContentTemplateContainer.FindControl("UserNameCustomValidator"));
+                userNameCustomValidator.IsValid = true;
+            }
+            else
+            {
+                args.IsValid = true;
+            }
+        }
+        
         private void BackPrevPage()
         {
             Response.Redirect(AppConstant.PAGEPATH_USERS);
@@ -220,32 +255,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // assign role to new created user
             aspnet_Role role = new aspnet_Role();
             role.RoleId = SeletedRoleId;
-            string userName = RegisterUserWizard.UserName;
-            authorizationBL.AddUserToRole(userName, role);
+            string strUserName = RegisterUserWizard.UserName;
+            authorizationBL.AddUserToRole(strUserName, role);
 
             // update user's membership
             aspnet_User createdUser = new aspnet_User();
-            createdUser.UserName = userName;
+            createdUser.UserName = strUserName;
             bool isTeacher = false;
             if ((bool)ViewState[VIEWSTATE_ISCHOSEROLETEACHERS])
             {
                 isTeacher = true;
             }
-            Control container = CreateUserStep.ContentTemplateContainer;
-            String strRealName = ((TextBox)container.FindControl(STEP_CREATEUSER_TXT_REALNAME)).Text;
-            userBL.UpdateMembership(createdUser, isTeacher, strRealName, RegisterUserWizard.Email);
-
+            String strFullName = ((TextBox)CreateUserStep.ContentTemplateContainer.FindControl(STEP_CREATEUSER_TXT_REALNAME)).Text;
+            userBL.UpdateMembership(createdUser, isTeacher, strFullName, RegisterUserWizard.Email);
             if ((bool)ViewState[VIEWSTATE_ISCHOSEROLEPARENTS])
             {
                 if (CheckSessionKey(AppConstant.SESSION_SELECTEDPARENTSFUNCTION))
                 {
                     List<UserManagement_Function> functions = (List<UserManagement_Function>)GetSession(
                         AppConstant.SESSION_SELECTEDPARENTSFUNCTION);
-
                     authorizationBL.AddServicesToParentsUser(createdUser, functions);
-                }                
+                }
             }
-
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTION);
         }
 

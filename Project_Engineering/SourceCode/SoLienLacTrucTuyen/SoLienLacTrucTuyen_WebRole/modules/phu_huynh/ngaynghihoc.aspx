@@ -3,8 +3,16 @@
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">        
-    <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div id="divScript">
+        <script type="text/javascript">
+            function popopConfirmDelete_CancelDelete_Click() {
+                var mPEDeleteID = $get('<%=HdfRptAbsentMPEConfirm.ClientID%>').value;
+                $find(mPEDeleteID).hide();
+                return false;
+            }            
+        </script>        
+    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -34,12 +42,12 @@
                                 <asp:TextBox ID="TxtTuNgay" runat="server" Width="125px"></asp:TextBox>
                                 <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                                     ImageAlign="Middle" />
-                                <ajaxtoolkit:calendarextender id="CalendarExtender1" runat="server" targetcontrolid="TxtTuNgay"
-                                    popupbuttonid="ImgCalendarTuNgay" popupposition="Right">
-                                </ajaxtoolkit:calendarextender>
-                                <ajaxtoolkit:maskededitextender id="MaskedEditExtender1" runat="server" targetcontrolid="TxtTuNgay"
-                                    masktype="Date" mask="99/99/9999" errortooltipenabled="true">
-                                </ajaxtoolkit:maskededitextender>
+                                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtTuNgay"
+                                    PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
+                                </ajaxToolkit:CalendarExtender>
+                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender1" runat="server" TargetControlID="TxtTuNgay"
+                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
+                                </ajaxToolkit:MaskedEditExtender>
                             </td>
                             <td>
                                 Đến ngày:
@@ -48,12 +56,12 @@
                                 <asp:TextBox ID="TxtDenNgay" runat="server" Width="125px"></asp:TextBox>
                                 <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                                     ImageAlign="Middle" />
-                                <ajaxtoolkit:calendarextender id="CalendarExtender2" runat="server" targetcontrolid="TxtDenNgay"
-                                    popupbuttonid="ImgCalendarDenNgay" popupposition="Right">
-                                </ajaxtoolkit:calendarextender>
-                                <ajaxtoolkit:maskededitextender id="MaskedEditExtender2" runat="server" targetcontrolid="TxtDenNgay"
-                                    masktype="Date" mask="99/99/9999" errortooltipenabled="true">
-                                </ajaxtoolkit:maskededitextender>
+                                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtDenNgay"
+                                    PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
+                                </ajaxToolkit:CalendarExtender>
+                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender2" runat="server" TargetControlID="TxtDenNgay"
+                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
+                                </ajaxToolkit:MaskedEditExtender>
                             </td>
                         </tr>
                     </table>
@@ -65,14 +73,13 @@
                 ToolTip="Tìm kiếm ngày nghỉ học" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
-    <div class="table_data ui-corner-all">        
+    <div class="table_data ui-corner-all">
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaNgayNghiHoc" runat="server" />
-            <asp:HiddenField ID="HdfRptNgayNghiMPEDelete" runat="server" />
-            <asp:HiddenField ID="HdfRptNgayNghiMPEEdit" runat="server" />
+            <asp:HiddenField ID="HdfRptAbsentMPEConfirm" runat="server" />
             <asp:Repeater ID="RptNgayNghi" runat="server" OnItemCommand="RptNgayNghi_ItemCommand"
                 OnItemDataBound="RptNgayNghi_ItemDataBound">
                 <HeaderTemplate>
@@ -104,31 +111,31 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfRptMaNgayNghiHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaNgayNghiHoc")%>' />
+                            <asp:HiddenField ID="HdfRptMaNgayNghiHoc" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "AbsentId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label40" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Ngay")%>'></asp:Label>
+                            <asp:Label ID="Label40" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Date")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label41" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Buoi")%>'></asp:Label>
+                            <asp:Label ID="Label41" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Session")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label42" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "XinPhep")%>'></asp:Label>
+                            <asp:Label ID="Label42" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "IsAsked")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label43" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "LyDo")%>'></asp:Label>
+                            <asp:Label ID="Label43" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Reason")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label44" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "XacNhan")%>'></asp:Label>
+                            <asp:Label ID="Label44" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Confirmed")%>'></asp:Label>
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaNgayNghiHoc")%>' />
-                            <ajaxtoolkit:modalpopupextender id="MPEEdit" runat="server" targetcontrolid="BtnFakeEditItem"
-                                popupcontrolid="PnlPopupConfirm" backgroundcssclass="modalBackground" cancelcontrolid="ImgClosePopupEdit"
-                                popupdraghandlecontrolid="PnlDragPopupConfirm">
-                            </ajaxtoolkit:modalpopupextender>
+                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AbsentId")%>' />
+                            <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
+                                PopupControlID="PnlPopupConfirm" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
+                                PopupDragHandleControlID="PnlDragPopupConfirm">
+                            </ajaxToolkit:ModalPopupExtender>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -141,11 +148,11 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:datapager id="MainDataPager" runat="server" oncommand="MainDataPager_Command" viewstatemode="Enabled"/>
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
+                ViewStateMode="Enabled" />
         </div>
-    </div>    
-    <asp:Panel ID="PnlPopupConfirm" runat="server" CssClass="popup ui-corner-all"
-        Width="350px">
+    </div>
+    <asp:Panel ID="PnlPopupConfirm" runat="server" CssClass="popup ui-corner-all" Width="350px">
         <asp:Panel ID="PnlDragPopupConfirm" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmTitle" runat="server" Text="Xác nhận ngày nghỉ học"
                 CssClass="popup_header_title"></asp:Label>
