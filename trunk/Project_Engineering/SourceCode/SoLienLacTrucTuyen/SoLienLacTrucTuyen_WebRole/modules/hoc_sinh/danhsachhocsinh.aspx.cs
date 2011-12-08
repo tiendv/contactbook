@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -8,6 +9,11 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
+using CrystalDecisions;
+using CrystalDecisions.CrystalReports;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.ReportSource;
+using CrystalDecisions.Shared;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -17,10 +23,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private StudentBL studentBL;
         private bool isSearch;
         #endregion
-
+        
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
+            CrystalReportViewer1.Visible = false;
             base.Page_Load(sender, e);
             if (isAccessDenied)
             {
@@ -261,6 +268,68 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Button event handlers
+        protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
+        {
+            MainDataPager.CurrentIndex = 1;
+            isSearch = true;
+            BindRptStudents();
+
+            CrystalReportViewer1.Visible = true;
+            SoLienLacTrucTuyen_WebRole.modules.report.Rpt_Student rptSource = new modules.report.Rpt_Student();
+            DataSet dsHocSinh = new DataSet();
+            DataTable dtSource = new DataTable();
+            dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));
+            dtSource.Columns.Add("ClassName", Type.GetType("System.String"));
+            dtSource.Columns.Add("FacultyName", Type.GetType("System.String"));
+            dtSource.Columns.Add("FullName", Type.GetType("System.String"));
+            dtSource.Columns.Add("GradeName", Type.GetType("System.String"));
+            dtSource.Columns.Add("StudentCode", Type.GetType("System.String"));
+            dtSource.Columns.Add("StudentId", Type.GetType("System.Int32"));
+            List<TabularStudent> tabularStudents = (List<TabularStudent>)RptHocSinh.DataSource;
+            for (int i = 0; i < tabularStudents.Count; i++)
+            {
+                DataRow dr = dtSource.NewRow();
+                dr["ClassId"] = tabularStudents[i].ClassId;
+                dr["ClassName"] = tabularStudents[i].ClassName;
+                dr["FacultyName"] = tabularStudents[i].FacultyName;
+                dr["FullName"] = tabularStudents[i].FullName;
+                dr["GradeName"] = tabularStudents[i].GradeName;
+                dr["StudentCode"] = tabularStudents[i].StudentCode;
+                dr["StudentId"] = tabularStudents[i].StudentId;
+                dtSource.Rows.Add(dr);
+            }
+            dsHocSinh.Tables.Add(dtSource);
+            try
+            {
+                ReportDocument RptDocument = new ReportDocument();
+                RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
+                RptDocument.SetDataSource(dsHocSinh.Tables[0]);
+                CrystalReportViewer1.DisplayGroupTree = false;
+                CrystalReportViewer1.ViewStateMode = System.Web.UI.ViewStateMode.Inherit;
+                CrystalReportViewer1.ReportSource = RptDocument;
+                CrystalReportViewer1.DataBind();
+                #region
+                //string strPage = "PageReportStudents.aspx?";
+                //if (DdlNamHoc.SelectedValue != null)
+                //    strPage += "Year=" + DdlNamHoc.SelectedValue +"&"; 
+                //if (DdlNganh.SelectedValue != null)
+                //    strPage += "Fal=" + DdlNganh.SelectedValue +"&";
+                //if (DdlKhoiLop.SelectedValue != null)
+                //    strPage += "Classes=" + DdlKhoiLop.SelectedValue +"&";
+                //if (DdlLopHoc.SelectedItem != null)
+                //    strPage += "Class=" + DdlLopHoc.SelectedValue;
+                //this.ClientScript.RegisterStartupScript(this.GetType(), 
+                //"OpenReport", 
+                //"<script language=javascript>window.open('"+strPage+"','Report','_blank');</script>");
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                string strMessage = ex.Message;
+                throw ex;
+            }
+        }
+
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             MainDataPager.CurrentIndex = 1;

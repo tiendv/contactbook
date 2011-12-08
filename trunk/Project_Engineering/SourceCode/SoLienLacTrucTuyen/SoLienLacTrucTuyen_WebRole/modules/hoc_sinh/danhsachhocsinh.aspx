@@ -1,8 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
+<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
     CodeBehind="danhsachhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.StudentsPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+<%@ Register assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript">
         <script type="text/javascript">
@@ -41,7 +42,7 @@
                     <table style="padding-bottom: 10px">
                         <tr>
                             <td style="width: 60px; height: 25px">
-                                Năm học:
+                                Nam hoc:
                             </td>
                             <td style="width: 200px;">
                                 <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" AutoPostBack="true"
@@ -49,7 +50,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td style="width: 35px;">
-                                Khối:
+                                Khoi:
                             </td>
                             <td style="width: 200px;">
                                 <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px" AutoPostBack="true"
@@ -57,7 +58,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td style="width: 80px;">
-                                Mã học sinh:
+                                Ma hoc sinh:
                             </td>
                             <td style="width: 200px;">
                                 <asp:TextBox ID="TxtMaHocSinh" runat="server" Style="width: 150px;"></asp:TextBox>
@@ -68,7 +69,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Ngành:
+                                Nganh:
                             </td>
                             <td>
                                 <asp:DropDownList ID="DdlNganh" runat="server" Width="150px" AutoPostBack="true"
@@ -83,7 +84,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td style="width: 70px;">
-                                Tên học sinh:
+                                Ten hoc sinh:
                             </td>
                             <td style="width: 200px;">
                                 <asp:TextBox ID="TxtTenHocSinh" runat="server" Style="width: 150px;"></asp:TextBox>
@@ -100,6 +101,11 @@
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
+        <div id="div1">
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
+                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
+        </div>
+
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
@@ -121,19 +127,19 @@
                             STT
                         </td>
                         <td class="middle" style="width: 100px;">
-                            <asp:LinkButton ID="LinkButton1" runat="server">Mã học sinh</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton1" runat="server">Ma hoc sinh</asp:LinkButton>
                         </td>
                         <td class="middle" style="width: 200px;">
-                            <asp:LinkButton ID="LinkButton2" runat="server">Tên học sinh</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton2" runat="server">Ten hoc sinh</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            <asp:LinkButton ID="LinkButton3" runat="server">Ngành</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton3" runat="server">Nganh</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            <asp:LinkButton ID="LinkButton4" runat="server">Khối</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton4" runat="server">Khoi</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            <asp:LinkButton ID="LinkButton5" runat="server">Lớp</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton5" runat="server">Lop</asp:LinkButton>
                         </td>
                         <td id="thEdit" runat="server" class="icon">
                             Sửa
@@ -226,5 +232,8 @@
         <asp:HiddenField ID="HdfSearchLopHoc" runat="server" />
         <asp:HiddenField ID="HdfSearchMaHocSinh" runat="server" />
         <asp:HiddenField ID="HdfSearchTenHocSinh" runat="server" />
+    </div>
+    <div>
+        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" AutoDataBind="true" />
     </div>
 </asp:Content>
