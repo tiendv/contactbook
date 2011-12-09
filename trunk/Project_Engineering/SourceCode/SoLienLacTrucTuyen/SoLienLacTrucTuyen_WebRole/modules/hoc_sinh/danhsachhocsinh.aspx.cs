@@ -318,7 +318,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             CrystalReportViewer1.Visible = true;
             CrystalReportViewer1.DisplayGroupTree = false;
             #region
-            string strPage = "PageReportStudents.aspx?";
+            string strPage = "indanhsachhocsinh.aspx?";
             if (DdlNamHoc.SelectedValue != null)
                 strPage += "Year=" + DdlNamHoc.SelectedValue + "&";
             if (DdlNganh.SelectedValue != null)
@@ -330,6 +330,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //this.ClientScript.RegisterStartupScript(this.GetType(),
             //"OpenReport",
             //"<script language=javascript>window.open('" + strPage + "','Report','_blank');</script>");
+            #endregion          
+
+            #region Add Info 2 Session
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+
+            Class_Class Class = new Class_Class();
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+            String strStudentName = TxtTenHocSinh.Text;
+            AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, strStudentName);
+
+            String strStudentCode = TxtMaHocSinh.Text;
+            AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
+
+            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
 
             #region

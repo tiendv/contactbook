@@ -139,6 +139,7 @@
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
     <Content Include="modules\ContentPage.aspx" />
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
+    <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
     <Content Include="Scripts\GlobalScript.js" />
     <Content Include="Scripts\JQRepeater-2.0.js" />
@@ -739,6 +740,13 @@
     </Compile>
     <Compile Include="modules\danh_muc\themdanhhieu.aspx.designer.cs">
       <DependentUpon>themdanhhieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\indanhsachhocsinh.aspx.cs">
+      <DependentUpon>indanhsachhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\indanhsachhocsinh.aspx.designer.cs">
+      <DependentUpon>indanhsachhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\y_kien\ykien.aspx.cs">
       <DependentUpon>ykien.aspx</DependentUpon>
