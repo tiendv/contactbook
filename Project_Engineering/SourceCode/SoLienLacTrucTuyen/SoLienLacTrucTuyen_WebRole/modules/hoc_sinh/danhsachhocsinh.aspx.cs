@@ -22,12 +22,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private StudentBL studentBL;
         private bool isSearch;
+        ReportDocument RptDocument = new ReportDocument();
         #endregion
         
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
-            CrystalReportViewer1.Visible = false;
+            //CrystalReportViewer1.Visible = false;
             base.Page_Load(sender, e);
             if (isAccessDenied)
             {
@@ -87,6 +88,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 ProcPermissions();
             }
+            if (Session["report1"] == null)
+            {
+                RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
+                CrystalReportViewer1.Visible = false;
+            }
+            else
+            {
+                RptDocument = (ReportDocument)Session["report1"];
+            }
+            CrystalReportViewer1.ReportSource = RptDocument;
+            CrystalReportViewer1.DisplayGroupTree = false;
         }
         #endregion
 
@@ -275,8 +287,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRptStudents();
 
             CrystalReportViewer1.Visible = true;
-            //SoLienLacTrucTuyen_WebRole.modules.report.Rpt_Student rptSource = new modules.report.Rpt_Student();
-            
+            //SoLienLacTrucTuyen_WebRole.Modules.r.Rpt_Student rptSource = new modules.report.Rpt_Student();
             DataSet dsHocSinh = new DataSet();
             DataTable dtSource = new DataTable();
             dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));
@@ -300,35 +311,65 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 dtSource.Rows.Add(dr);
             }
             dsHocSinh.Tables.Add(dtSource);
-            try
-            {
-                ReportDocument RptDocument = new ReportDocument();
-                RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
-                RptDocument.SetDataSource(dsHocSinh.Tables[0]);
-                CrystalReportViewer1.DisplayGroupTree = false;
-                CrystalReportViewer1.ViewStateMode = System.Web.UI.ViewStateMode.Inherit;
-                CrystalReportViewer1.ReportSource = RptDocument;
-                CrystalReportViewer1.DataBind();
-                #region
-                //string strPage = "PageReportStudents.aspx?";
-                //if (DdlNamHoc.SelectedValue != null)
-                //    strPage += "Year=" + DdlNamHoc.SelectedValue +"&"; 
-                //if (DdlNganh.SelectedValue != null)
-                //    strPage += "Fal=" + DdlNganh.SelectedValue +"&";
-                //if (DdlKhoiLop.SelectedValue != null)
-                //    strPage += "Classes=" + DdlKhoiLop.SelectedValue +"&";
-                //if (DdlLopHoc.SelectedItem != null)
-                //    strPage += "Class=" + DdlLopHoc.SelectedValue;
-                //this.ClientScript.RegisterStartupScript(this.GetType(), 
-                //"OpenReport", 
-                //"<script language=javascript>window.open('"+strPage+"','Report','_blank');</script>");
-                #endregion
-            }
-            catch (Exception ex)
-            {
-                string strMessage = ex.Message;
-                throw ex;
-            }
+            RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
+            RptDocument.SetDataSource(dsHocSinh.Tables[0]);
+            Session["report1"] = RptDocument;
+            CrystalReportViewer1.ReportSource = RptDocument;
+            CrystalReportViewer1.Visible = true;
+            CrystalReportViewer1.DisplayGroupTree = false;
+            #region
+            string strPage = "PageReportStudents.aspx?";
+            if (DdlNamHoc.SelectedValue != null)
+                strPage += "Year=" + DdlNamHoc.SelectedValue + "&";
+            if (DdlNganh.SelectedValue != null)
+                strPage += "Fal=" + DdlNganh.SelectedValue + "&";
+            if (DdlKhoiLop.SelectedValue != null)
+                strPage += "Classes=" + DdlKhoiLop.SelectedValue + "&";
+            if (DdlLopHoc.SelectedItem != null)
+                strPage += "Class=" + DdlLopHoc.SelectedValue;
+            //this.ClientScript.RegisterStartupScript(this.GetType(),
+            //"OpenReport",
+            //"<script language=javascript>window.open('" + strPage + "','Report','_blank');</script>");
+            #endregion
+
+            #region
+            //try
+            //{
+//                ReportDocument RptDocument = new ReportDocument();
+                //RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
+                //RptDocument.SetDataSource(dsHocSinh.Tables[0]);
+                //CrystalReportViewer1.DisplayGroupTree = false;
+                //CrystalReportViewer1.DisplayToolbar = true;
+                //CrystalReportViewer1.HasSearchButton = true;
+                //CrystalReportViewer1.HasExportButton = true;
+                //CrystalReportViewer1.HasPrintButton = true;
+
+                //CrystalReportViewer1.ViewStateMode = System.Web.UI.ViewStateMode.Inherit;
+                //CrystalReportViewer1.ReportSource = RptDocument;
+                //CrystalReportViewer1.DataBind();
+            //}
+            //catch (Exception ex)
+            //{
+            //    string strMessage = ex.Message;
+            //    throw ex;
+            //}
+            //ReportDocument RptDocument = new ReportDocument();
+            //if (Session["report1"] == null)
+            //{
+            //    RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));                
+            //    CrystalReportViewer1.ReportSource = RptDocument;
+            //    Session["report1"] = RptDocument;
+            //}
+            //else
+            //{
+            //    RptDocument = (ReportDocument)Session["report1"];
+            //}
+            //CrystalReportViewer1.ReportSource = RptDocument;
+            //CrystalReportViewer1.DisplayToolbar = true;
+            //CrystalReportViewer1.HasPrintButton = true;
+            //CrystalReportViewer1.DisplayGroupTree = true;
+            //CrystalReportViewer1.HasCrystalLogo = false;
+            #endregion
         }
 
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
