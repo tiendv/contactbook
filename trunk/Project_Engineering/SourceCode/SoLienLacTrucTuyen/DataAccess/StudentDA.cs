@@ -492,6 +492,122 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             return studentInClasses;
         }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, string studentName)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Grade grade)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, string studentName)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Grade grade, string studentName)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, string studentName)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Class_Class Class, string studentName)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.Class_Class.ClassId == Class.ClassId
+                                  && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass);
+        }
+
+        private List<Student_StudentInClass> GetStudentInClasses(ref IQueryable<Student_StudentInClass> iqStudentInClass)
+        {
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
+    
+            if (iqStudentInClass.Count() != 0)
+            {
+                studentInClasses = iqStudentInClass.ToList();
+            }
+
+            return studentInClasses;
+        }
+
         #endregion
 
         public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
