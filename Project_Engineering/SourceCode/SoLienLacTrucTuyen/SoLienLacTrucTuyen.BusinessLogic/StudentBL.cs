@@ -243,6 +243,106 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudents;
         }
 
+        public List<TabularStudent> GetTabularStudents(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
+            Class_Class Class, string studentCode, string studentName)
+        {
+            List<TabularStudent> tabularStudents = new List<TabularStudent>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
+            TabularStudent tabularStudent = null;
+            bool bStudentNameIsAll = (string.Compare(studentName, "tất cả", true) == 0) || (studentName == "");
+
+            if ((string.Compare(studentCode, "tất cả", true) != 0) && (studentCode != ""))
+            {
+                Student_Student student = studentDA.GetStudent(studentCode);
+                if (student != null)
+                {
+                    studentInClasses.Add(studentDA.GetStudentInClass(student, year));
+                }
+            }
+            else
+            {
+                if (Class != null)
+                {
+                    if (bStudentNameIsAll)
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(Class);
+                    }
+                    else
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(Class, studentName);
+                    }
+                }
+                else
+                {
+                    if (faculty == null)
+                    {
+                        if (grade == null)
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, studentName);
+                            }
+                        }
+                        else
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, grade);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, grade, studentName);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (grade == null)
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, studentName);
+                            }
+                        }
+                        else
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, studentName);
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (Student_StudentInClass studentInClass in studentInClasses)
+            {
+                tabularStudent = new TabularStudent();
+                tabularStudent.StudentId = studentInClass.StudentId;
+                tabularStudent.StudentCode = studentInClass.Student_Student.StudentCode;
+                tabularStudent.FullName = studentInClass.Student_Student.FullName;
+                tabularStudent.FacultyName = studentInClass.Class_Class.Category_Faculty.FacultyName;
+                tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
+                tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
+                tabularStudent.ClassId = studentInClass.ClassId;
+
+                tabularStudents.Add(tabularStudent);
+            }
+
+            return tabularStudents;
+        }
         public TabularClass GetTabularClass(Configuration_Year year, Student_Student student)
         {
             ClassBL classBL = new ClassBL(school);
