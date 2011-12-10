@@ -104,7 +104,6 @@
                 </asp:Panel>
             </div>
             <div id="DivUserInfo" runat="server" class="user_info">
-                <asp:Label ID="LblLogedName" runat="server" Text='<%# UserName %>'></asp:Label>
                 <asp:LoginView ID="LoginView1" runat="server">
                     <LoggedInTemplate>
                         <asp:Label ID="LblUserName" runat="server" Text="User name" Style="font-size: 12px; font-weight: bold;"></asp:Label>

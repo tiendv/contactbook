@@ -13,12 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole
     public partial class Site : System.Web.UI.MasterPage
     {
         #region Fields
-        private string userName;
-        public string UserName
-        {
-            get { return userName; }
-        }
-
         private MenuBL menuBL = new MenuBL();
         private string MenuCap0HienHanh;
         private Dictionary<MyMenuItem, List<MyMenuItem>> dicMenuItem = new Dictionary<MyMenuItem,List<MyMenuItem>>();
@@ -57,9 +51,10 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Page.User.Identity.Name != "")
+            if (Page.User.Identity.IsAuthenticated)
             {
-                userName = Page.User.Identity.Name.Split('_')[1];
+                Label lblUserName = (Label)LoginView1.Controls[0].FindControl("LblUserName");
+                lblUserName.Text = string.Format("Xin chào {0}!", Page.User.Identity.Name.Split(AppConstant.UNDERSCORE_CHAR)[1]);
             }
             
             SetLevel0MenuItems();
@@ -67,9 +62,7 @@ namespace SoLienLacTrucTuyen_WebRole
             if(PageUrl != null)
             {
                 PageTitle = (new PagePathBL()).GetPageTitle(PageUrl);
-            }
-
-            
+            }            
         }
 
         protected void Page_PreRender(object sender, System.EventArgs e)

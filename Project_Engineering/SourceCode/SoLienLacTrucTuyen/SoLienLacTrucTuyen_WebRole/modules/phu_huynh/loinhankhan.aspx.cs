@@ -85,7 +85,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void ProcessDislayInfo(bool bDisplayData)
         {
-            PnlPopupConfirmDelete.Visible = bDisplayData;
+            PnlPopupConfirmMessage.Visible = bDisplayData;
             RptLoiNhanKhan.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -151,11 +151,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 //if (lopHoc != null)
                 //{
                 //    int ClassId = lopHoc.ClassId;
-                //    if (!lopHocBL.CheckCanDeleteLopHoc(ClassId))
+                //    if (!lopHocBL.CheckCanConfirmLopHoc(ClassId))
                 //    {
-                //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                //        btnDeleteItem.Enabled = false;
+                //        ImageButton btnConfirmItem = (ImageButton)e.Item.FindControl("BtnConfirmItem");
+                //        btnConfirmItem.ImageUrl = "~/Styles/Images/button_Confirm_disable.png";
+                //        btnConfirmItem.Enabled = false;
                 //    }
                 //}
             }
@@ -165,19 +165,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             switch (e.CommandName)
             {
-                case "CmdDeleteItem":
+                case "CmdConfirmItem":
                     {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
+                        this.LblConfirmMessage.Text = "Bạn có chắc xác nhận lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
+                        ModalPopupExtender mPEConfirm = (ModalPopupExtender)e.Item.FindControl("MPEConfirm");
+                        mPEConfirm.Show();
 
                         HiddenField hdfRptMaLoiNhanKhan = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
                         this.HdfMaLoiNhanKhan.Value = hdfRptMaLoiNhanKhan.Value;
 
-                        this.HdfRptLoiNhanKhanMPEDelete.Value = mPEDelete.ClientID;
+                        this.HdfRptLoiNhanKhanMPEConfirm.Value = mPEConfirm.ClientID;
 
                         break;
-                    }               
+                    }
+                case "CmdCancelConfirmItem":
+                    {
+                        this.LblConfirmMessage.Text = "Bạn có chắc hủy xác nhận lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
+                        ModalPopupExtender mPECancelConfirm = (ModalPopupExtender)e.Item.FindControl("MPECancelConfirm");
+                        mPECancelConfirm.Show();
+
+                        HiddenField hdfRptMaLoiNhanKhan = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
+                        this.HdfMaLoiNhanKhan.Value = hdfRptMaLoiNhanKhan.Value;
+
+                        this.HdfRptLoiNhanKhanMPEConfirm.Value = mPECancelConfirm.ClientID;
+
+                        break;
+                    }        
                 case "CmdDetailItem":
                     {
                         //int ClassId = Int32.Parse(e.CommandArgument.ToString());
@@ -210,10 +223,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             BindRptLoiNhanKhan();
         }
 
-        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
+        protected void BtnOKConfirmItem_Click(object sender, ImageClickEventArgs e)
         {
             int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            messageBL.DeleteLoiNhanKhan(maLopNhanKhan);
+            //messageBL.ConfirmLoiNhanKhan(maLopNhanKhan);
+            isSearch = false;
+            BindRptLoiNhanKhan();
+        }
+
+        protected void BtnCancelConfirmItem_Click(object sender, ImageClickEventArgs e)
+        {
+            int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
+            //messageBL.ConfirmLoiNhanKhan(maLopNhanKhan);
             isSearch = false;
             BindRptLoiNhanKhan();
         }

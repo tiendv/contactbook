@@ -3,7 +3,6 @@
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-<%@ Register assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" namespace="CrystalDecisions.Web" tagprefix="CR" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript">
         <script type="text/javascript">
@@ -232,8 +231,5 @@
         <asp:HiddenField ID="HdfSearchLopHoc" runat="server" />
         <asp:HiddenField ID="HdfSearchMaHocSinh" runat="server" />
         <asp:HiddenField ID="HdfSearchTenHocSinh" runat="server" />
-    </div>
-    <div>
-        <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" AutoDataBind="true" />
     </div>
 </asp:Content>

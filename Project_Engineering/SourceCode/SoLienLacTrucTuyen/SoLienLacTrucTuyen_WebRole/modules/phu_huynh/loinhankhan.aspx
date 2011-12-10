@@ -6,9 +6,9 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScripts">
         <script type="text/javascript">
-            function popopConfirmDelete_CancelDelete_Click() {
-                var mPEDeleteID = $get('<%=HdfRptLoiNhanKhanMPEDelete.ClientID%>').value;
-                $find(mPEDeleteID).hide();
+            function popopConfirmMessage_CancelConfirm_Click() {
+                var mPEConfirmID = $get('<%=HdfRptLoiNhanKhanMPEConfirm.ClientID%>').value;
+                $find(mPEConfirmID).hide();
                 return false;
             }
         </script>
@@ -75,7 +75,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaLoiNhanKhan" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDelete" runat="server" />
+            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEConfirm" runat="server" />
             <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetail" runat="server" />
             <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemCommand="RptLoiNhanKhan_ItemCommand"
                 OnItemDataBound="RptLoiNhanKhan_ItemDataBound">
@@ -90,11 +90,11 @@
                         <td class="middle">
                             Ngày
                         </td>
-                        <td class="middle" style="width: 100px">
-                            Xác nhận của phụ huynh
-                        </td>
                         <td class="icon">
                             Xác nhận
+                        </td>
+                        <td style="width: 100px">
+                            Hủy xác nhận
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -124,15 +124,21 @@
                             <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortDateString()%>
                         </td>
                         <td style="height: 40px;">
-                            <%#((bool)DataBinder.Eval(Container.DataItem, "IsConfirmed") == true) ? "Có" : "Không"%>
+                            <asp:ImageButton ID="BtnFakeConfirmItem" runat="server" Style="display: none;" />
+                            <asp:ImageButton ID="BtnConfirmItem" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
+                                CommandName="CmdConfirmItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Title")%>' />
+                            <ajaxToolkit:ModalPopupExtender ID="MPEConfirm" runat="server" TargetControlID="BtnFakeConfirmItem"
+                                PopupControlID="PnlPopupConfirmMessage" BackgroundCssClass="modalBackground"
+                                CancelControlID="imgClosePopupConfirmMessage" PopupDragHandleControlID="PnlDragPopupConfirmMessage">
+                            </ajaxToolkit:ModalPopupExtender>
                         </td>
-                        <td class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
-                            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
-                                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
-                                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
+                        <td style="height: 40px;">
+                            <asp:ImageButton ID="BtnFakeCancelConfirmItem" runat="server" Style="display: none;" />
+                            <asp:ImageButton ID="BtnCancelConfirmItem" runat="server" ImageUrl="~/Styles/Icons/icon_delete.png"
+                                CommandName="CmdCancelConfirmItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Title")%>' />
+                            <ajaxToolkit:ModalPopupExtender ID="MPECancelConfirm" runat="server" TargetControlID="BtnFakeCancelConfirmItem"
+                                PopupControlID="PnlPopupCancelConfirmMessage" BackgroundCssClass="modalBackground"
+                                CancelControlID="imgClosePopupCancelConfirmMessage" PopupDragHandleControlID="PnlDragPopupCancelConfirmMessage">
                             </ajaxToolkit:ModalPopupExtender>
                         </td>
                     </tr>
@@ -150,26 +156,48 @@
         <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
             ViewStateMode="Enabled" />
     </div>
-    <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
+    <asp:Panel ID="PnlPopupConfirmMessage" runat="server" CssClass="popup ui-corner-all"
         Width="350px">
-        <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
-            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa lời nhắn khẩn"></asp:Label>
-            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
+        <asp:Panel ID="PnlDragPopupConfirmMessage" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="LblPopupConfirmMessageTitle" runat="server" Text="Xác nhận lời nhắn khẩn"></asp:Label>
+            <img id="imgClosePopupConfirmMessage" class="button_close" src="../../Styles/Images/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
             <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa lời nhắn khẩn này không?"></asp:Label>
+                <asp:Label ID="LblConfirmMessage" runat="server"></asp:Label>
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; clear: both">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_yes.png"
-                OnClick="BtnOKDeleteItem_Click" CssClass="YesButton" />
+            <asp:ImageButton ID="BtnOKConfirmItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+                OnClick="BtnOKConfirmItem_Click" CssClass="SaveButton" />
             &nbsp;&nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_no.png"
-                OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="NoButton" />
+            <asp:ImageButton ID="BtnCancelConfirmItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+                OnClientClick="return popopConfirmMessage_CancelConfirm_Click();" CssClass="CancelButton" />
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="PnlPopupCancelConfirmMessage" runat="server" CssClass="popup ui-corner-all"
+        Width="350px">
+        <asp:Panel ID="PnlDragPopupCancelConfirmMessage" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="LblPopupCancelConfirmMessageTitle" runat="server" Text="Hủy xác nhận lời nhắn khẩn"></asp:Label>
+            <img id="imgClosePopupCancelConfirmMessage" class="button_close" src="../../Styles/Images/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="LblCancelConfirmMessage" runat="server"></asp:Label>
+            </div>
+        </div>
+        <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; clear: both">
+            <asp:ImageButton ID="BtnOKCancelConfirmItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+                OnClick="BtnCancelConfirmItem_Click" CssClass="SaveButton" />
+            &nbsp;&nbsp;
+            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+                CssClass="CancelButton" />
         </div>
     </asp:Panel>
 </asp:Content>
