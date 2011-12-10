@@ -130,13 +130,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         protected global::System.Web.UI.WebControls.HiddenField HdfMaLoiNhanKhan;
         
         /// <summary>
-        /// HdfRptLoiNhanKhanMPEDelete control.
+        /// HdfRptLoiNhanKhanMPEConfirm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDelete;
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEConfirm;
         
         /// <summary>
         /// HdfRptLoiNhanKhanMPEDetail control.
@@ -166,31 +166,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
         
         /// <summary>
-        /// PnlPopupConfirmDelete control.
+        /// PnlPopupConfirmMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PnlPopupConfirmDelete;
+        protected global::System.Web.UI.WebControls.Panel PnlPopupConfirmMessage;
         
         /// <summary>
-        /// PnlDragPopupConfirmDelete control.
+        /// PnlDragPopupConfirmMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PnlDragPopupConfirmDelete;
+        protected global::System.Web.UI.WebControls.Panel PnlDragPopupConfirmMessage;
         
         /// <summary>
-        /// LblPopupConfirmDeleteTitle control.
+        /// LblPopupConfirmMessageTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblPopupConfirmDeleteTitle;
+        protected global::System.Web.UI.WebControls.Label LblPopupConfirmMessageTitle;
         
         /// <summary>
         /// Image1 control.
@@ -202,30 +202,93 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         protected global::System.Web.UI.WebControls.Image Image1;
         
         /// <summary>
-        /// LblConfirmDelete control.
+        /// LblConfirmMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblConfirmDelete;
+        protected global::System.Web.UI.WebControls.Label LblConfirmMessage;
         
         /// <summary>
-        /// BtnOKDeleteItem control.
+        /// BtnOKConfirmItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnOKDeleteItem;
+        protected global::System.Web.UI.WebControls.ImageButton BtnOKConfirmItem;
         
         /// <summary>
-        /// BtnCancelDeleteItem control.
+        /// BtnCancelConfirmItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancelDeleteItem;
+        protected global::System.Web.UI.WebControls.ImageButton BtnCancelConfirmItem;
+        
+        /// <summary>
+        /// PnlPopupCancelConfirmMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlPopupCancelConfirmMessage;
+        
+        /// <summary>
+        /// PnlDragPopupCancelConfirmMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlDragPopupCancelConfirmMessage;
+        
+        /// <summary>
+        /// LblPopupCancelConfirmMessageTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblPopupCancelConfirmMessageTitle;
+        
+        /// <summary>
+        /// Image2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image2;
+        
+        /// <summary>
+        /// LblCancelConfirmMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblCancelConfirmMessage;
+        
+        /// <summary>
+        /// BtnOKCancelConfirmItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnOKCancelConfirmItem;
+        
+        /// <summary>
+        /// ImageButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
     }
 }

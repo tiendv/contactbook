@@ -88,17 +88,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 ProcPermissions();
             }
-            if (Session["report1"] == null)
-            {
-                RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
-                CrystalReportViewer1.Visible = false;
-            }
-            else
-            {
-                RptDocument = (ReportDocument)Session["report1"];
-            }
-            CrystalReportViewer1.ReportSource = RptDocument;
-            CrystalReportViewer1.DisplayGroupTree = false;
         }
         #endregion
 
@@ -281,71 +270,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         #region Button event handlers
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
-        {
-            MainDataPager.CurrentIndex = 1;
-            isSearch = true;
-            BindRptStudents();
-
-            CrystalReportViewer1.Visible = true;
-            //SoLienLacTrucTuyen_WebRole.Modules.r.Rpt_Student rptSource = new modules.report.Rpt_Student();
-            DataSet dsHocSinh = new DataSet();
-            DataTable dtSource = new DataTable();
-            dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));
-            dtSource.Columns.Add("ClassName", Type.GetType("System.String"));
-            dtSource.Columns.Add("FacultyName", Type.GetType("System.String"));
-            dtSource.Columns.Add("FullName", Type.GetType("System.String"));
-            dtSource.Columns.Add("GradeName", Type.GetType("System.String"));
-            dtSource.Columns.Add("StudentCode", Type.GetType("System.String"));
-            dtSource.Columns.Add("StudentId", Type.GetType("System.Int32"));
-            List<TabularStudent> tabularStudents = (List<TabularStudent>)RptHocSinh.DataSource;
-            for (int i = 0; i < tabularStudents.Count; i++)
-            {
-                DataRow dr = dtSource.NewRow();
-                dr["ClassId"] = tabularStudents[i].ClassId;
-                dr["ClassName"] = tabularStudents[i].ClassName;
-                dr["FacultyName"] = tabularStudents[i].FacultyName;
-                dr["FullName"] = tabularStudents[i].FullName;
-                dr["GradeName"] = tabularStudents[i].GradeName;
-                dr["StudentCode"] = tabularStudents[i].StudentCode;
-                dr["StudentId"] = tabularStudents[i].StudentId;
-                dtSource.Rows.Add(dr);
-            }
-            dsHocSinh.Tables.Add(dtSource);
-            RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
-            RptDocument.SetDataSource(dsHocSinh.Tables[0]);
-            Session["report1"] = RptDocument;
-            CrystalReportViewer1.ReportSource = RptDocument;
-            CrystalReportViewer1.Visible = true;
-            CrystalReportViewer1.DisplayGroupTree = false;
-            #region
-            string strPage = "indanhsachhocsinh.aspx?";
-            if (DdlNamHoc.SelectedValue != null)
-                strPage += "Year=" + DdlNamHoc.SelectedValue + "&";
-            if (DdlNganh.SelectedValue != null)
-                strPage += "Fal=" + DdlNganh.SelectedValue + "&";
-            if (DdlKhoiLop.SelectedValue != null)
-                strPage += "Classes=" + DdlKhoiLop.SelectedValue + "&";
-            if (DdlLopHoc.SelectedItem != null)
-                strPage += "Class=" + DdlLopHoc.SelectedValue;
-            //this.ClientScript.RegisterStartupScript(this.GetType(),
-            //"OpenReport",
-            //"<script language=javascript>window.open('" + strPage + "','Report','_blank');</script>");
-            #endregion          
-
-            #region Add Info 2 Session
+        {   
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
-            Category_Faculty faculty = new Category_Faculty();
+            Category_Faculty faculty = null;
+            faculty = new Category_Faculty();
             faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
-            Category_Grade grade = new Category_Grade();
+            Category_Grade grade = null;
+            grade = new Category_Grade();
             grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
-            Class_Class Class = new Class_Class();
+            Class_Class Class = null;
+            Class = new Class_Class();
             Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
@@ -356,46 +297,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
             Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
-            #endregion
-
-            #region
-            //try
-            //{
-//                ReportDocument RptDocument = new ReportDocument();
-                //RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
-                //RptDocument.SetDataSource(dsHocSinh.Tables[0]);
-                //CrystalReportViewer1.DisplayGroupTree = false;
-                //CrystalReportViewer1.DisplayToolbar = true;
-                //CrystalReportViewer1.HasSearchButton = true;
-                //CrystalReportViewer1.HasExportButton = true;
-                //CrystalReportViewer1.HasPrintButton = true;
-
-                //CrystalReportViewer1.ViewStateMode = System.Web.UI.ViewStateMode.Inherit;
-                //CrystalReportViewer1.ReportSource = RptDocument;
-                //CrystalReportViewer1.DataBind();
-            //}
-            //catch (Exception ex)
-            //{
-            //    string strMessage = ex.Message;
-            //    throw ex;
-            //}
-            //ReportDocument RptDocument = new ReportDocument();
-            //if (Session["report1"] == null)
-            //{
-            //    RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));                
-            //    CrystalReportViewer1.ReportSource = RptDocument;
-            //    Session["report1"] = RptDocument;
-            //}
-            //else
-            //{
-            //    RptDocument = (ReportDocument)Session["report1"];
-            //}
-            //CrystalReportViewer1.ReportSource = RptDocument;
-            //CrystalReportViewer1.DisplayToolbar = true;
-            //CrystalReportViewer1.HasPrintButton = true;
-            //CrystalReportViewer1.DisplayGroupTree = true;
-            //CrystalReportViewer1.HasCrystalLogo = false;
-            #endregion
         }
 
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)

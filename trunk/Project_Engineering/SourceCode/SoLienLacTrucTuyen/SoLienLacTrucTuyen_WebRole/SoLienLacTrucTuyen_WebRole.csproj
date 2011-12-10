@@ -137,7 +137,7 @@
     <Content Include="modules\lop_hoc\themtietthoikhoabieu.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
-    <Content Include="modules\ContentPage.aspx" />
+    <Content Include="modules\BaseContentPage.aspx" />
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
@@ -730,8 +730,8 @@
     <Compile Include="modules\hoc_sinh\hanhkiemhocsinh.aspx.designer.cs">
       <DependentUpon>hanhkiemhocsinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\ContentPage.aspx.cs">
-      <DependentUpon>ContentPage.aspx</DependentUpon>
+    <Compile Include="modules\BaseContentPage.aspx.cs">
+      <DependentUpon>BaseContentPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="modules\danh_muc\themdanhhieu.aspx.cs">
@@ -855,7 +855,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>6341</DevelopmentServerPort>
+          <DevelopmentServerPort>4294</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -14,5 +14,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public string FacultyName { get; set; }
         public string GradeName { get; set; }
         public string ClassName { get; set; }
+        public string Gender { get; set; }
+        public string DayOfBirth { get; set; }
     }
 }

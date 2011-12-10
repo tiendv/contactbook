@@ -61,6 +61,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string ROLE = "Role";
         public const string TEACHER = "Teacher";
         public const string UNDERSCORE = "_";
+        public const char UNDERSCORE_CHAR = '_';
 
         public const string COMMAND_EDIT = "CommandEdit";
         
