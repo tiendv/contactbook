@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class AuthenticationPage {
         
         /// <summary>
-        /// LblSearchRoleName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblSearchRoleName;
-        
-        /// <summary>
         /// DdlRoles control.
         /// </summary>
         /// <remarks>

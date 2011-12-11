@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="lophoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ModuleParents.DetailedClassPage" %>
+    CodeBehind="lophoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.DetailedClassPage" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <table style="width: 100%;" class="inputBorder">

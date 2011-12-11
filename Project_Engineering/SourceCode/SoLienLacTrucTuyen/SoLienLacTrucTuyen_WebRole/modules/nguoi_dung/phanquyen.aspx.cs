@@ -15,26 +15,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         AuthorizationBL authorizationBL;
         private RoleBL roleBL;
-        private PhanQuyenBL phanQuyenBL;
         #endregion
 
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
 
             authorizationBL = new AuthorizationBL(UserSchool);
             roleBL = new RoleBL(UserSchool);
-            phanQuyenBL = new PhanQuyenBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
-                BindDropDownList();
-                BindRepeater();
+                BindDDLRoles();
+                BindRptAuthorizations();
             }
         }
         #endregion
@@ -42,42 +40,45 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptPhanQuyen_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            FunctionsBL functionBL = null;
+
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 if (e.Item.DataItem != null)
                 {
-                    TabularPhanQuyen tbPhanQuyen = (TabularPhanQuyen)e.Item.DataItem;
-                    Repeater RptPhanQuyen = (Repeater)e.Item.FindControl("RptChiTietPhanQuyen");
-                    RptPhanQuyen.DataSource = tbPhanQuyen.ListChiTietPhanQuyens;
-                    RptPhanQuyen.DataBind();
+                    // Bind DetailedAuthorization
+                    TabularAuthorization tabularAuthorization = (TabularAuthorization)e.Item.DataItem;
+                    Repeater rptDetailedAuthorization = (Repeater)e.Item.FindControl("RptChiTietPhanQuyen");
+                    rptDetailedAuthorization.DataSource = tabularAuthorization.detailedAuthorizations;
+                    rptDetailedAuthorization.DataBind();
 
-                    FunctionsBL functionBL = new FunctionsBL();
-                    if (tbPhanQuyen.FunctionCategoryName == functionBL.GetHomePageFunctionCategory())
+                    // Make HomePage' Authorizations are invisible
+                    functionBL = new FunctionsBL();        
+                    if (tabularAuthorization.FunctionCategoryName == functionBL.GetHomePageFunctionCategory())
                     {
-                        foreach (RepeaterItem item in RptPhanQuyen.Items)
+                        foreach (RepeaterItem detailedAuthorization in rptDetailedAuthorization.Items)
                         {
-                            if (item.ItemType == ListItemType.Item 
-                                || item.ItemType == ListItemType.AlternatingItem)
+                            if (detailedAuthorization.ItemType == ListItemType.Item || detailedAuthorization.ItemType == ListItemType.AlternatingItem)
                             {
-                                CheckBox ckbxView = (CheckBox)item.FindControl("CkbxView");
+                                CheckBox ckbxView = (CheckBox)detailedAuthorization.FindControl("CkbxView");
                                 ckbxView.Enabled = false;
 
-                                item.FindControl("CkbxAdd").Visible = false;
-                                item.FindControl("CkbxModify").Visible = false;
-                                item.FindControl("CkbxDelete").Visible = false;
+                                detailedAuthorization.FindControl("CkbxAdd").Visible = false;
+                                detailedAuthorization.FindControl("CkbxModify").Visible = false;
+                                detailedAuthorization.FindControl("CkbxDelete").Visible = false;
                             }
                         }
                     }
 
-                    Guid selectedRole = new Guid(DdlRoles.SelectedValue.ToString());
-                    if (selectedRole == authorizationBL.GetRoleAdminId())
+                    aspnet_Role role = new aspnet_Role();
+                    role.RoleId = new Guid(DdlRoles.SelectedValue.ToString());
+                    if (authorizationBL.IsRoleAdmin(role))
                     {
-                        if (functionBL.GetAdminOnlyFunctionCategories().Contains(tbPhanQuyen.FunctionCategoryName))
+                        if (functionBL.GetAdminOnlyFunctionCategories().Contains(tabularAuthorization.FunctionCategoryName))
                         {
-                            foreach (RepeaterItem item in RptPhanQuyen.Items)
+                            foreach (RepeaterItem item in rptDetailedAuthorization.Items)
                             {
-                                if (item.ItemType == ListItemType.Item
-                                    || item.ItemType == ListItemType.AlternatingItem)
+                                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                                 {
                                     CheckBox ckbxView = (CheckBox)item.FindControl("CkbxView");
                                     ckbxView.Enabled = false;
@@ -99,56 +100,54 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
-            BindRepeater();
+            BindRptAuthorizations();
         }
         
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            Guid role = new Guid(DdlRoles.SelectedValue);
-            List<TabularChiTietPhanQuyen> lstTbChiTietPhanQuyens = new List<TabularChiTietPhanQuyen>();
-
-            foreach (RepeaterItem rptItemPhanQuyen in RptPhanQuyen.Items)
+            aspnet_Role role = null;            
+            List<TabularDetailedAuthorization> detailedAuthorizations = new List<TabularDetailedAuthorization>();
+            foreach (RepeaterItem rptItemAuthorization in RptPhanQuyen.Items)
             {
-                if (rptItemPhanQuyen.ItemType == ListItemType.Item 
-                    || rptItemPhanQuyen.ItemType == ListItemType.AlternatingItem)
+                if (rptItemAuthorization.ItemType == ListItemType.Item || rptItemAuthorization.ItemType == ListItemType.AlternatingItem)
                 {
-                    Repeater RptChiTietPhanQuyen = (Repeater)rptItemPhanQuyen.FindControl("RptChiTietPhanQuyen");
-                    foreach (RepeaterItem rptItemChiTietPhanQuyen in RptChiTietPhanQuyen.Items)
+                    Repeater RptDetailedAuthorization = (Repeater)rptItemAuthorization.FindControl("RptChiTietPhanQuyen");
+                    foreach (RepeaterItem rptItemDetailedAuthorization in RptDetailedAuthorization.Items)
                     {
-                        if (rptItemChiTietPhanQuyen.ItemType == ListItemType.Item 
-                            || rptItemChiTietPhanQuyen.ItemType == ListItemType.AlternatingItem)
+                        if (rptItemDetailedAuthorization.ItemType == ListItemType.Item || rptItemDetailedAuthorization.ItemType == ListItemType.AlternatingItem)
                         {
-                            TabularChiTietPhanQuyen phanQuyenChucNang = new TabularChiTietPhanQuyen();
+                            TabularDetailedAuthorization detailedAuthorization = new TabularDetailedAuthorization();
 
-                            HiddenField hfFunctionId = (HiddenField)rptItemChiTietPhanQuyen.FindControl("HfFunctionId");
-                            phanQuyenChucNang.FunctionId = Int32.Parse(hfFunctionId.Value);
+                            HiddenField hfFunctionId = (HiddenField)rptItemDetailedAuthorization.FindControl("HfFunctionId");
+                            detailedAuthorization.FunctionId = Int32.Parse(hfFunctionId.Value);
 
-                            CheckBox CkbxView = (CheckBox)rptItemChiTietPhanQuyen.FindControl("CkbxView");
-                            phanQuyenChucNang.ViewAccessibility = CkbxView.Checked;
+                            CheckBox CkbxView = (CheckBox)rptItemDetailedAuthorization.FindControl("CkbxView");
+                            detailedAuthorization.ViewAccessibility = CkbxView.Checked;
 
-                            CheckBox CkbxAdd = (CheckBox)rptItemChiTietPhanQuyen.FindControl("CkbxAdd");
-                            phanQuyenChucNang.AddAccessibility = CkbxAdd.Checked;
+                            CheckBox CkbxAdd = (CheckBox)rptItemDetailedAuthorization.FindControl("CkbxAdd");
+                            detailedAuthorization.AddAccessibility = CkbxAdd.Checked;
 
-                            CheckBox CkbxModify = (CheckBox)rptItemChiTietPhanQuyen.FindControl("CkbxModify");
-                            phanQuyenChucNang.ModifyAccessibility = CkbxModify.Checked;
+                            CheckBox CkbxModify = (CheckBox)rptItemDetailedAuthorization.FindControl("CkbxModify");
+                            detailedAuthorization.ModifyAccessibility = CkbxModify.Checked;
 
-                            CheckBox CkbxDelete = (CheckBox)rptItemChiTietPhanQuyen.FindControl("CkbxDelete");
-                            phanQuyenChucNang.DeleteAccessibility = CkbxDelete.Checked;
+                            CheckBox CkbxDelete = (CheckBox)rptItemDetailedAuthorization.FindControl("CkbxDelete");
+                            detailedAuthorization.DeleteAccessibility = CkbxDelete.Checked;
 
-                            lstTbChiTietPhanQuyens.Add(phanQuyenChucNang);
+                            detailedAuthorizations.Add(detailedAuthorization);
                         }
                     }
                 }
             }
 
-            phanQuyenBL.PhanQuyen(role, lstTbChiTietPhanQuyens);
-
-            BindRepeater();            
+            role = new aspnet_Role();
+            role.RoleId = new Guid(DdlRoles.SelectedValue); 
+            authorizationBL.Authorize(role, detailedAuthorizations);
+            BindRptAuthorizations();            
         }
         #endregion
 
         #region Methods
-        private void BindDropDownList()
+        private void BindDDLRoles()
         {
             List<TabularRole> tabularRoles = authorizationBL.GetAuthorizedRoles();
             DdlRoles.DataSource = tabularRoles;
@@ -157,12 +156,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlRoles.DataBind();
         }
 
-        private void BindRepeater()
+        private void BindRptAuthorizations()
         {
-            Guid selectedRole = new Guid(DdlRoles.SelectedValue.ToString());
-            List<TabularPhanQuyen> lstTbPhanQuyens;
-            lstTbPhanQuyens = phanQuyenBL.GetListPhanQuyens(selectedRole);
-            RptPhanQuyen.DataSource = lstTbPhanQuyens;
+            aspnet_Role role = new aspnet_Role();
+            role.RoleId = new Guid(DdlRoles.SelectedValue.ToString());
+
+            List<TabularAuthorization> tabularAuthorizations;
+            tabularAuthorizations = authorizationBL.GetTabularAuthorizations(role);
+            RptPhanQuyen.DataSource = tabularAuthorizations;
             RptPhanQuyen.DataBind();
         }
         #endregion

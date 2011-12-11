@@ -9,8 +9,9 @@ using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
 using System.Web.UI.HtmlControls;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class StudentPersonalPage : BaseContentPage
     {
@@ -22,7 +23,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -31,10 +32,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             if (!Page.IsPostBack)
             {
-                if (MembershipStudent != null)
+                if (LoggedInStudent != null)
                 {
-                    BindDDLYears(MembershipStudent);
-                    FillPersonalInformation(MembershipStudent);
+                    BindDDLYears(LoggedInStudent);
+                    FillPersonalInformation(LoggedInStudent);
                 }
                 else
                 {
@@ -59,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
-            TabularClass tabularClass = studentBL.GetTabularClass(year, MembershipStudent);
+            TabularClass tabularClass = studentBL.GetTabularClass(year, LoggedInStudent);
             LblLopHoc.Text = tabularClass.ClassName;
         }
 

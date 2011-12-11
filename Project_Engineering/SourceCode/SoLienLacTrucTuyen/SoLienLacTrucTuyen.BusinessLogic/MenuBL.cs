@@ -17,9 +17,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             menuDA = new MenuDA();
         }
 
-        public Dictionary<MyMenuItem, List<MyMenuItem>> BuildMenuTree(Guid roleId, string pageUrl)
+        public Dictionary<MyMenuItem, List<MyMenuItem>> BuildMenuTree(School_School school, string userName, string pageUrl)
         {
-            return menuDA.BuildMenuTree(roleId, pageUrl);
+            AuthorizationBL authorizationBL = new AuthorizationBL(school);
+            UserBL userBL = new UserBL(school);
+            aspnet_Role role = userBL.GetRole(userName);
+            if (authorizationBL.IsRoleParents(role))
+            {
+                return menuDA.BuildMenuTree(userName, pageUrl);
+            }
+            else
+            {
+                return menuDA.BuildMenuTree(role, pageUrl);
+            }            
         }
     }
 }

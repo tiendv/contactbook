@@ -20,7 +20,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -75,7 +75,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 // do something
             }

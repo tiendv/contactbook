@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class DetailedClassPage : BaseContentPage
     {
@@ -21,7 +21,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             // Check user's accessibility
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -47,7 +47,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         #region Methods
         private void BindDDLYears()
         {
-            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            List<Configuration_Year> years = studentBL.GetYears(LoggedInStudent);
             DdlYear.DataSource = years;
             DdlYear.DataValueField = "YearId";
             DdlYear.DataTextField = "YearName";
@@ -66,7 +66,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlYear.SelectedValue);
-            Class_Class Class = studentBL.GetClass(MembershipStudent, year);
+            Class_Class Class = studentBL.GetClass(LoggedInStudent, year);
 
             LblClassName.Text = Class.ClassName;
             LblFacultyName.Text = Class.Category_Faculty.FacultyName;

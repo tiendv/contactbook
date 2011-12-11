@@ -24,7 +24,7 @@ namespace SoLienLacTrucTuyen_WebRole
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -48,7 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Methods
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
@@ -219,7 +219,7 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Repeater event handlers
         protected void RptNganhHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 // Do something
             }
@@ -239,7 +239,7 @@ namespace SoLienLacTrucTuyen_WebRole
                 PnlPopupEdit.Visible = false;
             }
 
-            if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)

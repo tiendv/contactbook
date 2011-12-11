@@ -13,14 +13,14 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
         }
 
-        public List<TabularPhanQuyen> GetListPhanQuyens(Guid roleId)
+        public List<TabularAuthorization> GetTabularAuthorizations(aspnet_Role role)
         {
             FunctionsDA functionDA = new FunctionsDA();
 
             // List TabularPhanQuyen for UI
-            List<TabularPhanQuyen> lstTbPhanQuyens = new List<TabularPhanQuyen>();
+            List<TabularAuthorization> lstTbPhanQuyens = new List<TabularAuthorization>();
 
-            List<string> lstFunctionFlagStrings = functionDA.GetFunctionFlags(roleId);
+            List<string> lstFunctionFlagStrings = functionDA.GetFunctionFlags(role);
 
             // Get list of Function Category
             IQueryable<string> functionCatagories = from function in db.UserManagement_Functions
@@ -31,7 +31,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             // Loop through function categories
             foreach (string functionCatagory in functionCatagories)
             {
-                TabularPhanQuyen tbPhanQuyen = new TabularPhanQuyen();
+                TabularAuthorization tbPhanQuyen = new TabularAuthorization();
 
                 // Get list of function-category-based function
                 IQueryable<UserManagement_Function> catagoryBasedFunctions;
@@ -40,7 +40,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                             && (lstFunctionFlagStrings.Contains(function.FunctionFlag) == true)                                            
                                          select function;
 
-                List<TabularChiTietPhanQuyen> lstTbChiTietPhanQuyen = new List<TabularChiTietPhanQuyen>();
+                List<TabularDetailedAuthorization> lstTbChiTietPhanQuyen = new List<TabularDetailedAuthorization>();
 
                 
 
@@ -53,7 +53,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                     }
 
                     // Init TabularChiTietPhanQuyen
-                    TabularChiTietPhanQuyen tbChiTietPhanQuyen = new TabularChiTietPhanQuyen()
+                    TabularDetailedAuthorization tbChiTietPhanQuyen = new TabularDetailedAuthorization()
                     {
                         FunctionId = catagoryBasedFunction.FunctionId,
                         FunctionName = catagoryBasedFunction.FunctionName,
@@ -140,7 +140,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                 if (lstTbChiTietPhanQuyen.Count != 0)
                 {
                     tbPhanQuyen.FunctionCategoryName = functionCatagory;
-                    tbPhanQuyen.ListChiTietPhanQuyens = lstTbChiTietPhanQuyen;
+                    tbPhanQuyen.detailedAuthorizations = lstTbChiTietPhanQuyen;
                     lstTbPhanQuyens.Add(tbPhanQuyen);
                 }
             }

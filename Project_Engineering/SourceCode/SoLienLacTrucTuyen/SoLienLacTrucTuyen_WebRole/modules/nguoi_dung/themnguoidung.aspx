@@ -50,19 +50,43 @@
                                     <div style="padding: 3px 0px 3px 0px; border-bottom: 1px solid blue; text-align: center">
                                         <asp:Label ID="Label20" runat="server" Text="Thông tin truy vấn" Font-Bold="true"></asp:Label>
                                     </div>
-                                    <div style="padding: 5px">
+                                    <table style="width:100%; padding: 5px">
                                         <asp:Repeater ID="RptRoleBasedFunctions" runat="server">
                                             <HeaderTemplate>
-                                                <asp:CheckBox ID="ChkBxAllFunctions" runat="server" Style="float: right" CssClass="checkAll" /><br />
-                                                <br />
+                                                <tr>
+                                                    <td class="icon"    >
+                                                        <%--<asp:CheckBox ID="ChkBxAllFunctions" runat="server" Style="float: right" CssClass="checkAll" />--%>
+                                                    </td>
+                                                    <td>
+                                                        Dịch vụ
+                                                    </td>                                                    
+                                                    <td style="width: 80px">
+                                                        Nhận e-mail
+                                                    </td>
+                                                    <td style="width: 70px">
+                                                        Nhận SMS
+                                                    </td>
+                                                </tr>
                                             </HeaderTemplate>
                                             <ItemTemplate>
-                                                <asp:HiddenField ID="HdfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
-                                                <asp:Label ID="LblFunctionName" runat="server"><%#DataBinder.Eval(Container.DataItem, "FunctionName")%></asp:Label>&nbsp;
-                                                <asp:CheckBox ID="ChkBxSelectedFunction" runat="server" Style="float: right" /><br />
+                                                <tr>
+                                                    <td>
+                                                        <asp:CheckBox ID="ChkBxSelectedFunction" runat="server" Style="float: right" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:HiddenField ID="HdfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
+                                                        <asp:Label ID="LblFunctionName" runat="server"><%#DataBinder.Eval(Container.DataItem, "FunctionName")%></asp:Label>
+                                                    </td>                                                    
+                                                    <td style="text-align:center">
+                                                        <asp:CheckBox ID="ChkBxGetEmail" runat="server" />
+                                                    </td>
+                                                    <td style="text-align:center">
+                                                        <asp:CheckBox ID="ChkBxGetSMS" runat="server" />
+                                                    </td>
+                                                </tr>
                                             </ItemTemplate>
                                         </asp:Repeater>
-                                    </div>
+                                    </table>
                                 </div>
                             </asp:View>
                         </asp:MultiView>
@@ -160,7 +184,7 @@
                                 <td colspan="2" style="height: 27px; padding-left: 10px; padding-right: 10px">
                                     <asp:Panel ID="PnlThoiGianNhanTin" runat="server" GroupingText="Thời gian nhận thông tin">
                                         <asp:Label ID="Label3" runat="server" Text="Năm học:" Style="margin-left: 10px; margin-top: 10px" />&nbsp;
-                                        <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" Style="margin-top: 5px" />
+                                        <asp:Label ID="LblLastedYearName" runat="server" Style="margin-left: 10px; margin-top: 10px" />&nbsp;
                                         <br />
                                         <div style="padding: 10px">
                                             <asp:RadioButton ID="RbtnHocKy1" runat="server" Text=" Học kì 1" GroupName="ThoiKiNhantin" />&nbsp;&nbsp;

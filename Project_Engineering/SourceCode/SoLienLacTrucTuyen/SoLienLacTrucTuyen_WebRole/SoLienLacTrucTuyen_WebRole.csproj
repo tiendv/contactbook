@@ -72,6 +72,8 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="App_Themes\Images\menu_child_pane.png" />
     <Content Include="Contacts.ico" />
+    <Content Include="modules\cau_hinh\cauhinh.aspx" />
+    <Content Include="modules\ContentPage.aspx" />
     <Content Include="modules\danh_muc\danhmucdanhhieu.aspx" />
     <Content Include="modules\danh_muc\danhmuctiet.aspx" />
     <Content Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx" />
@@ -104,6 +106,8 @@
     <Content Include="modules\phu_huynh\loinhankhan.aspx" />
     <Content Include="modules\phu_huynh\lophoc.aspx" />
     <Content Include="modules\phu_huynh\ngaynghihoc.aspx" />
+    <Content Include="modules\phu_huynh\PhuHuynhContentPage.aspx" />
+    <Content Include="modules\phu_huynh\suaykien.aspx" />
     <Content Include="modules\phu_huynh\thoikhoabieu.aspx" />
     <Content Include="modules\phu_huynh\thongtincanhan.aspx" />
     <Content Include="modules\phu_huynh\ykien.aspx" />
@@ -137,9 +141,9 @@
     <Content Include="modules\lop_hoc\themtietthoikhoabieu.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
-    <Content Include="modules\BaseContentPage.aspx" />
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
+    <Content Include="modules\phu_huynh\themykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
     <Content Include="Scripts\GlobalScript.js" />
     <Content Include="Scripts\JQRepeater-2.0.js" />
@@ -290,6 +294,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="modules\AppConstant.cs" />
+    <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
+      <DependentUpon>cauhinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\cau_hinh\cauhinh.aspx.designer.cs">
+      <DependentUpon>cauhinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ContentPage.aspx.cs">
+      <DependentUpon>ContentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="modules\danh_muc\danhmucdanhhieu.aspx.cs">
       <DependentUpon>danhmucdanhhieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -549,6 +564,17 @@
     <Compile Include="modules\phu_huynh\ngaynghihoc.aspx.designer.cs">
       <DependentUpon>ngaynghihoc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\phu_huynh\PhuHuynhContentPage.aspx.cs">
+      <DependentUpon>PhuHuynhContentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\suaykien.aspx.cs">
+      <DependentUpon>suaykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\suaykien.aspx.designer.cs">
+      <DependentUpon>suaykien.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\phu_huynh\thoikhoabieu.aspx.cs">
       <DependentUpon>thoikhoabieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -730,10 +756,6 @@
     <Compile Include="modules\hoc_sinh\hanhkiemhocsinh.aspx.designer.cs">
       <DependentUpon>hanhkiemhocsinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\BaseContentPage.aspx.cs">
-      <DependentUpon>BaseContentPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="modules\danh_muc\themdanhhieu.aspx.cs">
       <DependentUpon>themdanhhieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -747,6 +769,13 @@
     </Compile>
     <Compile Include="modules\hoc_sinh\indanhsachhocsinh.aspx.designer.cs">
       <DependentUpon>indanhsachhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\themykien.aspx.cs">
+      <DependentUpon>themykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\themykien.aspx.designer.cs">
+      <DependentUpon>themykien.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\y_kien\ykien.aspx.cs">
       <DependentUpon>ykien.aspx</DependentUpon>
@@ -783,7 +812,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="modules\cau_hinh\" />
     <Folder Include="modules\report\aspx\" />
   </ItemGroup>
   <ItemGroup>

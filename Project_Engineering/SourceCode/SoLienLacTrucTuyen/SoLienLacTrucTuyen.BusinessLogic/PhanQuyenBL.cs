@@ -17,19 +17,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             phanQuyenDA = new PhanQuyenDA(school);
         }
 
-        public List<TabularPhanQuyen> GetListPhanQuyens(Guid roleId)
+        public List<TabularAuthorization> GetTabularAuthorizations(aspnet_Role role)
         {
-            return phanQuyenDA.GetListPhanQuyens(roleId);
+            return phanQuyenDA.GetTabularAuthorizations(role);
         }
 
-        public void PhanQuyen(Guid roleId, List<TabularChiTietPhanQuyen> lstChiTietPhanQuyens)
+        public void PhanQuyen(Guid roleId, List<TabularDetailedAuthorization> lstChiTietPhanQuyens)
         {
             FunctionsBL functionsBL = new FunctionsBL();
 
             List<UserManagement_AuthorizedPage> lstAuthorizedPages;
             lstAuthorizedPages = new List<UserManagement_AuthorizedPage>();
 
-            foreach (TabularChiTietPhanQuyen tbChiTietPhanQuyen in lstChiTietPhanQuyens)
+            foreach (TabularDetailedAuthorization tbChiTietPhanQuyen in lstChiTietPhanQuyens)
             {
                 int functionId = tbChiTietPhanQuyen.FunctionId;
                 bool bIncludeParentsFunction = false;

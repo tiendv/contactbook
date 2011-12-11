@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.BusinessEntity;
 using SoLienLacTrucTuyen_WebRole.Modules;
+using SoLienLacTrucTuyen.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole
 {    
@@ -14,29 +15,19 @@ namespace SoLienLacTrucTuyen_WebRole
     {
         #region Fields
         private MenuBL menuBL = new MenuBL();
-        private string MenuCap0HienHanh;
+        private string currentLevel0MenuItem;
         private Dictionary<MyMenuItem, List<MyMenuItem>> dicMenuItem = new Dictionary<MyMenuItem,List<MyMenuItem>>();
-        private List<MyMenuItem> listLevel0MenuItems = new List<MyMenuItem>();
+        private List<MyMenuItem> level0MenuItems = new List<MyMenuItem>();
         #endregion
 
         #region Properties
-        public string UserNameSession
-        {
-            get
-            {
-                if (Session["username"] != null)
-                {
-                    return Session["username"].ToString();
-                }
-                return "Anonymous";
-            }
-        }
+        public School_School UserSchool { get; set; }
 
-        public string CurrentUserName { get; set; }
-        
+        public string UserName { get; set; }
+
+        public aspnet_Role UserRole { get; set; }
+
         public string PageUrl { get; set; }
-        
-        public Guid UserRole { get; set; }
 
         public string PageTitle
         {
@@ -75,7 +66,7 @@ namespace SoLienLacTrucTuyen_WebRole
                     if (control != null)
                     {
                         HyperLink HlkLevel0MenuItem = (HyperLink)control;
-                        if (MenuCap0HienHanh == HlkLevel0MenuItem.NavigateUrl)
+                        if (currentLevel0MenuItem == HlkLevel0MenuItem.NavigateUrl)
                         {
                             this.hdfActiveLevel0MenuTitle.Value = HlkLevel0MenuItem.ClientID;
                             HlkLevel0MenuItem.CssClass = "menu_title_hover_parent";
@@ -91,22 +82,22 @@ namespace SoLienLacTrucTuyen_WebRole
         private void SetLevel0MenuItems()
         {
             if (PageUrl != null)
-            {
-                dicMenuItem = menuBL.BuildMenuTree(UserRole, PageUrl);
-                listLevel0MenuItems.Clear();
+            {   
+                dicMenuItem = menuBL.BuildMenuTree(UserSchool, UserName, PageUrl);
+                level0MenuItems.Clear();
                 foreach (KeyValuePair<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem, List<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem>>
                     pair in dicMenuItem)
                 {
                     SoLienLacTrucTuyen.BusinessEntity.MyMenuItem menuItemCap0 = pair.Key;
-                    listLevel0MenuItems.Add(menuItemCap0);
+                    level0MenuItems.Add(menuItemCap0);
 
                     if (menuItemCap0.HienHanh)
                     {
-                        MenuCap0HienHanh = menuItemCap0.Url;
+                        currentLevel0MenuItem = menuItemCap0.Url;
                     }
                 }
 
-                RptLevel0MenuItem.DataSource = listLevel0MenuItems;
+                RptLevel0MenuItem.DataSource = level0MenuItems;
                 RptLevel0MenuItem.DataBind();
             }
         }

@@ -18,6 +18,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private RoleBL roleBL;
         private UserBL userBL;
+        private AuthorizationBL authorizationBL;
         private const string STEP_SELECTROLE_DDLROLE = "DdlRoles";
         private const string STEP_SELECTROLE_LBLSTEPERROR = "LblStepError";
         private const string STEP_SELECTROLE_MULVIEW = "MultiViewCtrl";
@@ -56,13 +57,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
 
             userBL = new UserBL(UserSchool);
             roleBL = new RoleBL(UserSchool);
+            authorizationBL = new AuthorizationBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -124,17 +126,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 args.IsValid = true;
             }
         }
-        
+
         private void BackPrevPage()
         {
             Response.Redirect(AppConstant.PAGEPATH_USERS);
-        }
-        #endregion
-
-        #region DropDownList event handlers
-        protected void DdlRoles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Display();
         }
 
         private void Display()
@@ -162,15 +157,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (authorizationBL.IsRoleParents(role))
             {
+                List<UserManagement_Authorization> authorizations = authorizationBL.GetSupliedRoleParentsAuthorizations();
+                if (authorizations.Count != 0)
+                {
+                    List<UserManagement_Function> functions = authorizationBL.GetSupliedRoleParentsFunctions(authorizations);
+                    Repeater rptRoleBasedFunctions = (Repeater)multiViewCtrl.FindControl("RptRoleBasedFunctions");
+                    rptRoleBasedFunctions.DataSource = functions;
+                    rptRoleBasedFunctions.DataBind();
+                    AddSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS, authorizations);
+                }
+
                 lblUserName.Text = "Mã học sinh:";
                 multiViewCtrl.ActiveViewIndex = 1;
-                Repeater rptRoleBasedFunctions = (Repeater)multiViewCtrl.FindControl("RptRoleBasedFunctions");
-                rptRoleBasedFunctions.DataSource = authorizationBL.GetListRoleParentsBasedFunctions();
-                rptRoleBasedFunctions.DataBind();
+
 
                 reqValidatorRealName.Enabled = false;
                 htmlTableRowRealName.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
                 htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
+                Label lblLastedYearName = ((Label)container.FindControl("LblLastedYearName"));
+                SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+                lblLastedYearName.Text = systemConfigBL.GetLastedYear().YearName;
+
                 ViewState[VIEWSTATE_ISCHOSEROLEPARENTS] = true;
                 ViewState[VIEWSTATE_ISCHOSEROLETEACHERS] = false;
             }
@@ -196,6 +203,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
         #endregion
 
+        #region DropDownList event handlers
+        protected void DdlRoles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Display();
+        }
+
+        
+        #endregion
+
         #region Button event handlers
         protected void BtnFinish_Click(object sender, ImageClickEventArgs e)
         {
@@ -213,71 +229,102 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
              * */
 
             List<UserManagement_Function> functions = new List<UserManagement_Function>();
-            UserManagement_Function function = null;
+            List<ChoseService> choseServices = new List<ChoseService>();
+            ChoseService choseService = null;
 
             Repeater rptRoleParentsFunctions = (Repeater)SeleteRoleStep.FindControl("RptRoleBasedFunctions");
             foreach (RepeaterItem rptItem in rptRoleParentsFunctions.Items)
             {
                 if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
                 {
+                    choseService = new ChoseService();
+                    choseService.FunctionId = Int32.Parse(((HiddenField)rptItem.FindControl("HdfFunctionId")).Value);
+
                     CheckBox ChkBxSelectedFunction = (CheckBox)rptItem.FindControl("ChkBxSelectedFunction");
                     if (ChkBxSelectedFunction.Checked)
                     {
-                        function = new UserManagement_Function();
-                        function.FunctionId = Int32.Parse(((HiddenField)rptItem.FindControl("HdfFunctionId")).Value);
-                        functions.Add(function);
+                        choseService.Chose = true;
+                        CheckBox ChkBxGetEmail = (CheckBox)rptItem.FindControl("ChkBxGetEmail");
+                        CheckBox ChkBxGetSMS = (CheckBox)rptItem.FindControl("ChkBxGetSMS");
+                        choseService.GetEmail = ChkBxGetEmail.Checked;
+                        choseService.GetSMS = ChkBxGetSMS.Checked;
                     }
+                    else
+                    {
+                        choseService.Chose = false;
+                        choseService.GetEmail = false;
+                        choseService.GetSMS = false;
+                    }
+
+                    choseServices.Add(choseService);
                 }
             }
 
-            if (functions.Count != 0)
+            if (choseServices.Count != 0)
             {
-                AddSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTION, functions);
+                AddSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS, choseServices);
             }
         }
         #endregion
 
         #region CreateUserWizard event handlers
+        /// <summary>
+        /// Process before create new user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void RegisterUserWizard_CreatingUser(object sender, LoginCancelEventArgs e)
         {
-            // Make actual UserName
+            // Make actual RegisterUserWizard.UserName
             StringBuilder strB = new StringBuilder();
             strB.Append(UserSchool.SchoolId);
-            strB.Append("_");
+            strB.Append(AppConstant.UNDERSCORE);
             strB.Append(RegisterUserWizard.UserName);
             RegisterUserWizard.UserName = strB.ToString();
         }
 
+        /// <summary>
+        /// Process after create user successfully
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void RegisterUserWizard_CreatedUser(object sender, EventArgs e)
         {
-            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+            // Declare viables
+            AuthorizationBL authorizationBL = null;
+            aspnet_Role role = null;
+            aspnet_User createdUser = null;
+            List<ChoseService> choseServices = null;
+            List<UserManagement_Authorization> authorizations = null;
 
-            // assign role to new created user
-            aspnet_Role role = new aspnet_Role();
+            // assign role to new created user            
+            role = new aspnet_Role();
             role.RoleId = SeletedRoleId;
-            string strUserName = RegisterUserWizard.UserName;
-            authorizationBL.AddUserToRole(strUserName, role);
+            authorizationBL = new AuthorizationBL(UserSchool);
+            authorizationBL.AddUserToRole(RegisterUserWizard.UserName, role);
 
             // update user's membership
-            aspnet_User createdUser = new aspnet_User();
-            createdUser.UserName = strUserName;
-            bool isTeacher = false;
-            if ((bool)ViewState[VIEWSTATE_ISCHOSEROLETEACHERS])
-            {
-                isTeacher = true;
-            }
+            createdUser = new aspnet_User();
+            createdUser.UserName = RegisterUserWizard.UserName;
             String strFullName = ((TextBox)CreateUserStep.ContentTemplateContainer.FindControl(STEP_CREATEUSER_TXT_REALNAME)).Text;
-            userBL.UpdateMembership(createdUser, isTeacher, strFullName, RegisterUserWizard.Email);
+            userBL.UpdateMembership(createdUser, (bool)ViewState[VIEWSTATE_ISCHOSEROLETEACHERS], strFullName, RegisterUserWizard.Email);
+
+            // Create User Parents' Authorization
             if ((bool)ViewState[VIEWSTATE_ISCHOSEROLEPARENTS])
             {
-                if (CheckSessionKey(AppConstant.SESSION_SELECTEDPARENTSFUNCTION))
+                if (CheckSessionKey(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS))
                 {
-                    List<UserManagement_Function> functions = (List<UserManagement_Function>)GetSession(
-                        AppConstant.SESSION_SELECTEDPARENTSFUNCTION);
-                    authorizationBL.AddServicesToParentsUser(createdUser, functions);
+                    choseServices = (List<ChoseService>)GetSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
+                    authorizations = (List<UserManagement_Authorization>)GetSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
+
+                    // Add registerd services
+                    authorizationBL.AddParentsUserRegisteredServices(createdUser, authorizations, choseServices);
                 }
             }
-            RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTION);
+
+            // remove unused sessions
+            RemoveSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
+            RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
         }
 
         protected void RegisterUserWizard_ContinueButtonClick(object sender, ImageClickEventArgs e)

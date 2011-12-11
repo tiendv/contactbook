@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
     
     
     public partial class StudentStudyingResultPage {

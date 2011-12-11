@@ -49,6 +49,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularRoles;
         }
 
+        public aspnet_Role GetRole(string roleName)
+        {
+            return roleDA.GetRole(roleName);
+        }
+
         public List<TabularRole> GetTabularRoles(string roleName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_Role> roles = null;

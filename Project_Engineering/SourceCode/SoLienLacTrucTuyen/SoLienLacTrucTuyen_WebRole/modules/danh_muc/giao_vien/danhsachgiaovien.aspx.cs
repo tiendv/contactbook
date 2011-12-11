@@ -22,7 +22,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -98,7 +98,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAddGiaoVien.Visible = true;
                 BtnAddGiaoVien.ImageUrl = "~/Styles/Images/button_add_with_text.png";
@@ -138,7 +138,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptGiaoVien_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -164,7 +164,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)

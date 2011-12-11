@@ -24,7 +24,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -43,7 +43,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (!lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (!accessibilities.Contains(AccessibilityEnum.Add))
             {
                 this.BtnAddRole.Visible = false;
                 this.MPEAdd.Enabled = false;
@@ -138,10 +138,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
 
                 // Insert                
-                strActualRoleName = UserSchool.SchoolId + "_" + strRoleName;
+                strActualRoleName = UserSchool.SchoolId + AppConstant.UNDERSCORE + strRoleName;
                 Roles.CreateRole(strActualRoleName);
                 roleBL.CreateRoleDetail(strRoleName, strDescription);
-
+                AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+                authorizationBL.InsertAuthorizations(roleBL.GetRole(strActualRoleName));
                 // Rebind data
                 MainDataPager.CurrentIndex = 1;
                 BindRptRoles();
@@ -215,7 +216,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptRoles_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (!lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (!accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 if (e.Item.ItemType == ListItemType.Header)
                 {
@@ -231,7 +232,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 this.PnlPopupEdit.Visible = false;
             }
 
-            if (!lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (!accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Header)
                 {

@@ -23,7 +23,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 // User can not access this page
                 return;
@@ -51,13 +51,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
             DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
             bool? bConfirmed = null;
-            if(DdlXacNhan.SelectedIndex == 0)
+            if (DdlXacNhan.SelectedIndex == 0)
             {
                 bConfirmed = false;
             }
             else
             {
-                if(DdlXacNhan.SelectedIndex == 1)
+                if (DdlXacNhan.SelectedIndex == 1)
                 {
                     bConfirmed = true;
                 }
@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             double dTotalRecords;
             List<MessageToParents_Message> messages = messageBL.GetMessages(
-                year, dtBeginDate, dtEndDate, MembershipStudent, bConfirmed, 
+                year, dtBeginDate, dtEndDate, MembershipStudent, bConfirmed,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (messages.Count == 0 && dTotalRecords != 0)
@@ -86,6 +86,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         private void ProcessDislayInfo(bool bDisplayData)
         {
             PnlPopupConfirmMessage.Visible = bDisplayData;
+            PnlPopupCancelConfirmMessage.Visible = bDisplayData;
+            PnlPopupDetail.Visible = bDisplayData;
             RptLoiNhanKhan.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -124,11 +126,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         }
 
         private void BindDDLXacNhan()
-        {   
+        {
             DdlXacNhan.Items.Add(new ListItem("Không", "0"));
             DdlXacNhan.Items.Add(new ListItem("Có", "1"));
             DdlXacNhan.Items.Add(new ListItem("Tất cả", "-1"));
-        }        
+        }
 
         private void InitDates()
         {
@@ -147,17 +149,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                //LopHocInfo lopHoc = (LopHocInfo)e.Item.DataItem;
-                //if (lopHoc != null)
-                //{
-                //    int ClassId = lopHoc.ClassId;
-                //    if (!lopHocBL.CheckCanConfirmLopHoc(ClassId))
-                //    {
-                //        ImageButton btnConfirmItem = (ImageButton)e.Item.FindControl("BtnConfirmItem");
-                //        btnConfirmItem.ImageUrl = "~/Styles/Images/button_Confirm_disable.png";
-                //        btnConfirmItem.Enabled = false;
-                //    }
-                //}
+                MessageToParents_Message message = (MessageToParents_Message)e.Item.DataItem;
+                ImageButton btnConfirmItem = (ImageButton)e.Item.FindControl("BtnConfirmItem");
+                btnConfirmItem.Visible = !message.IsConfirmed;
+                ImageButton btnCancelConfirmItem = (ImageButton)e.Item.FindControl("BtnCancelConfirmItem");
+                btnCancelConfirmItem.Visible = message.IsConfirmed;
             }
         }
 
@@ -180,31 +176,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                     }
                 case "CmdCancelConfirmItem":
                     {
-                        this.LblConfirmMessage.Text = "Bạn có chắc hủy xác nhận lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
+                        this.LblCancelConfirmMessage.Text = "Bạn có chắc hủy xác nhận lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
                         ModalPopupExtender mPECancelConfirm = (ModalPopupExtender)e.Item.FindControl("MPECancelConfirm");
                         mPECancelConfirm.Show();
 
                         HiddenField hdfRptMaLoiNhanKhan = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
                         this.HdfMaLoiNhanKhan.Value = hdfRptMaLoiNhanKhan.Value;
 
-                        this.HdfRptLoiNhanKhanMPEConfirm.Value = mPECancelConfirm.ClientID;
+                        this.HdfRptLoiNhanKhanMPECancelConfirm.Value = mPECancelConfirm.ClientID;
 
                         break;
-                    }        
+                    }
                 case "CmdDetailItem":
                     {
-                        //int ClassId = Int32.Parse(e.CommandArgument.ToString());
-                        //Class_Class lophoc = lopHocBL.GetLopHoc(ClassId);
+                        int iMessageId = Int32.Parse(e.CommandArgument.ToString());
+                        MessageToParents_Message message = messageBL.GetLoiNhanKhan(iMessageId);
 
-                        //LblClassNameChiTiet.Text = lophoc.ClassName;
-                        //LblFacultyNameChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.FacultyId).FacultyName;
-                        //LblGradeNameChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.GradeId).GradeName;
-                        //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
-                        //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
-                        //mPEDetail.Show();
+                        LblTitle.Text = message.Title;
+                        LblContent.Text = message.MessageContent;
 
-                        //this.HdfClassId.Value = ClassId.ToString();
-                        //this.HdfRptLopHocMPEDetail.Value = mPEDetail.ClientID;
+                        ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
+                        mPEDetail.Show();
+
+                        this.HdfMaLoiNhanKhan.Value = iMessageId.ToString();
+                        this.HdfRptLoiNhanKhanMPEDetail.Value = mPEDetail.ClientID;
                         break;
                     }
                 default:
@@ -225,16 +220,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         protected void BtnOKConfirmItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            //messageBL.ConfirmLoiNhanKhan(maLopNhanKhan);
+            MessageToParents_Message message = new MessageToParents_Message();
+            message.MessageId = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
+            messageBL.ConfirmMessage(message);
             isSearch = false;
             BindRptLoiNhanKhan();
         }
 
         protected void BtnCancelConfirmItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            //messageBL.ConfirmLoiNhanKhan(maLopNhanKhan);
+            MessageToParents_Message message = new MessageToParents_Message();
+            message.MessageId = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
+            messageBL.UnconfirmMessage(message);
             isSearch = false;
             BindRptLoiNhanKhan();
         }

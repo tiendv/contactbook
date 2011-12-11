@@ -11,6 +11,23 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         ParentsCommentDA parentsCommentDA;
 
+        public void InsertParentsComment(Student_Student student, string title, string content)
+        {
+            Class_Class Class = null;
+            Student_StudentInClass studentInClass = null;
+            StudentBL studentBL = new StudentBL(school);
+
+            Class = studentBL.GetLastedClass(student);
+            studentInClass = studentBL.GetStudentInClass(student, Class.Configuration_Year);            
+            ParentComment_Comment parentsComment = new ParentComment_Comment();
+            parentsComment.Title = title;
+            parentsComment.CommentContent = content;
+            parentsComment.Date = DateTime.Now;
+            parentsComment.CommentStatusId = 1; // unread
+            parentsComment.StudentInClassId = studentInClass.StudentInClassId;
+            parentsCommentDA.InsertParentsComment(parentsComment);
+        }
+
         public ParentsCommentBL(School_School school)
             : base(school)
         {
@@ -39,6 +56,43 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             else
             {
                 parentsComments = parentsCommentDA.GetParentsComments(year, beginDate, endDate,
+                    pageCurrentIndex, pageSize, out totalRecords);
+            }
+
+            // Convert ParentComment_Comments to TabularParentsComments
+            tabularParentsComments = new List<TabularParentsComment>();
+            foreach (ParentComment_Comment parentsComment in parentsComments)
+            {
+                tabularParentsComment = new TabularParentsComment();
+                tabularParentsComment.CommentId = parentsComment.CommentId;
+                tabularParentsComment.Title = parentsComment.Title;
+                tabularParentsComment.Content = parentsComment.CommentContent;
+                tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
+                tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
+
+                tabularParentsComments.Add(tabularParentsComment);
+            }
+
+            return tabularParentsComments;
+        }
+
+        public List<TabularParentsComment> GetTabularParentsComments(Student_Student student, Configuration_Year year, Configuration_CommentStatus commentStatus,
+            DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            // Declare variables
+            List<TabularParentsComment> tabularParentsComments;
+            TabularParentsComment tabularParentsComment = null;
+            List<ParentComment_Comment> parentsComments = null;
+
+            // get list GopY_YKien
+            if (commentStatus != null)
+            {
+                parentsComments = parentsCommentDA.GetParentsComments(student, year, commentStatus, beginDate, endDate,
+                    pageCurrentIndex, pageSize, out totalRecords);
+            }
+            else
+            {
+                parentsComments = parentsCommentDA.GetParentsComments(student, year, beginDate, endDate,
                     pageCurrentIndex, pageSize, out totalRecords);
             }
 

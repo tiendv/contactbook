@@ -17,6 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private UserBL userBL;
+        private AuthorizationBL authorizationBL;
         private bool isSearch;
         #endregion
 
@@ -24,13 +25,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
 
             userBL = new UserBL(UserSchool);
-
+            authorizationBL = new AuthorizationBL(UserSchool);
             if (!Page.IsPostBack)
             {
                 BindDDLRoles();
@@ -118,7 +119,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 if (DdlRoles.Items.Count == 0)
                 {
@@ -149,14 +150,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("/modules/nguoi_dung/themnguoidung.aspx");
+            Response.Redirect(AppConstant.PAGEPATH_ADDUSER);
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             string userName = this.HdfUserName.Value;
-            Membership.DeleteUser(userName, true);
-
+            authorizationBL.DeleteAuthorization(userName);
+            Membership.DeleteUser(userName, true);            
             isSearch = false;
             BindRptUsers();
 
@@ -166,7 +167,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptUser_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (!lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (!accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 if (e.Item.ItemType == ListItemType.Header)
                 {
@@ -180,7 +181,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (!lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (!accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Header)
                 {

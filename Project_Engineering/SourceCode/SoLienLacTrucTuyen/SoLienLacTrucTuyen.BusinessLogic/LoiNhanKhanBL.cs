@@ -32,6 +32,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             loiNhanKhanDA.UpdateLoiNhanKhan(maLoiNhanKhan, noiDung, ngay);
         }
 
+        public void ConfirmMessage(MessageToParents_Message message)
+        {
+            loiNhanKhanDA.UpdateMessage(message, true);
+        }
+
+        public void UnconfirmMessage(MessageToParents_Message message)
+        {
+            loiNhanKhanDA.UpdateMessage(message, false);
+        }
+
         public void DeleteLoiNhanKhan(int maLopNhanKhan)
         {
             loiNhanKhanDA.DeleteLoiNhanKhan(maLopNhanKhan);
