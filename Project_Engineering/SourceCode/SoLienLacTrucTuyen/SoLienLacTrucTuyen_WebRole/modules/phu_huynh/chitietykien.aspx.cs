@@ -45,12 +45,25 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             ParentComment_Comment comment = parentsCommentBL.GetParentsComments((int)ViewState[AppConstant.VIEWSTATE_PARENTSCOMMENTID]);
             LblTitle.Text = comment.Title;
             LblContent.Text = comment.CommentContent;
-            LblFeedback.Text = comment.Feedback;            
+            LblFeedback.Text = comment.Feedback;
+
+            if (comment.Feedback.Trim() == "")
+            {
+                BtnEdit.Visible = true;
+            }
+            else
+            {
+                BtnEdit.Visible = false;
+            }
         }
 
         #region Button event handlers
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
+            int iCommentId = (int)ViewState[AppConstant.VIEWSTATE_PARENTSCOMMENTID];
+            ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
+            AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
+
             Response.Redirect(AppConstant.PAGEPATH_EDITCOMMENT);
         }
 

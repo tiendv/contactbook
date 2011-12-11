@@ -42,6 +42,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return learningAptitudeDA.GetHocLuc(LearningAptitudeId);
         }
 
+        public Category_LearningAptitude GetLearningAptitude(double averageMark)
+        {
+            return learningAptitudeDA.GetLearningAptitude(averageMark);
+        }
+
         public List<Category_LearningAptitude> GetListHocLuc(bool allOptions)
         {
             List<Category_LearningAptitude> hocLucs = learningAptitudeDA.GetListHocLuc();

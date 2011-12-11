@@ -545,13 +545,14 @@ namespace SoLienLacTrucTuyen.DataAccess
             return termSubjectMarks;
         }
 
-        public List<Student_TermLearningResult> GetStudentTermResults(Student_Student student, Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Student_TermLearningResult> GetStudentTermResults(Student_Student student, Configuration_Year year, 
+            int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<Student_TermLearningResult> studentTermResults = new List<Student_TermLearningResult>();
-            IQueryable<Student_TermLearningResult> iqStudentTermResult = from danhHieu in db.Student_TermLearningResults
-                                                                         where danhHieu.Student_StudentInClass.StudentId == student.StudentId
-                                                                         && danhHieu.Student_StudentInClass.Class_Class.YearId == year.YearId
-                                                                         select danhHieu;
+            IQueryable<Student_TermLearningResult> iqStudentTermResult = from termLearningResult in db.Student_TermLearningResults
+                                                                         where termLearningResult.Student_StudentInClass.StudentId == student.StudentId
+                                                                            && termLearningResult.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                         select termLearningResult;
 
             totalRecords = iqStudentTermResult.Count();
             if (totalRecords != 0)

@@ -118,15 +118,15 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             double dTotalRecords;
-            List<TabularTermStudentResult> lstTbDanhHieu;
-            lstTbDanhHieu = studyingResultBL.GetTabularTermStudentResults(LoggedInStudent, year,
+            List<TabularTermStudentResult> tabularTermStudentResults;
+            tabularTermStudentResults = studyingResultBL.GetTabularTermStudentResults(LoggedInStudent, year,
                 DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out dTotalRecords);
 
-            RptDanhHieu.DataSource = lstTbDanhHieu;
+            RptDanhHieu.DataSource = tabularTermStudentResults;
             RptDanhHieu.DataBind();
             DataPagerDanhHieu.ItemCount = dTotalRecords;
 
-            bool bDisplayed = (lstTbDanhHieu.Count != 0) ? true : false;
+            bool bDisplayed = (tabularTermStudentResults.Count != 0) ? true : false;
             RptDanhHieu.Visible = bDisplayed;
         }
         #endregion

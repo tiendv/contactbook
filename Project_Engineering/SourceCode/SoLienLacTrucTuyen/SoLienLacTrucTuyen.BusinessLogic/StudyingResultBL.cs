@@ -242,9 +242,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tbChiTietDiemMonHocLoaiDiems;
         }
 
-        public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year, 
+            int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            LearningAptitudeBL hocLucBL = null;
+            LearningAptitudeBL learningAptitudeBL = null;
             ConductBL conductBL = null;
             DanhHieuBL danhHieuBL = null;
             List<Student_TermLearningResult> termResults = null;
@@ -255,7 +256,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             termResults = studyingResultDA.GetStudentTermResults(student, year, pageCurrentIndex, pageSize, out totalRecords);
             if (totalRecords != 0)
             {
-                hocLucBL = new LearningAptitudeBL(school);
+                learningAptitudeBL = new LearningAptitudeBL(school);
                 conductBL = new ConductBL(school);
                 danhHieuBL = new DanhHieuBL(school);
                 foreach (Student_TermLearningResult termResult in termResults)
@@ -263,13 +264,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     tbTermStudentResult = new TabularTermStudentResult();
                     tbTermStudentResult.LearningResultIdHSHK = termResult.TermLearningResultId;
                     tbTermStudentResult.DiemTB = (int)termResult.TermAverageMark;
-                    tbTermStudentResult.StrDiemTB = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "";
+                    tbTermStudentResult.StrDiemTB = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
                     tbTermStudentResult.TermName = termResult.Configuration_Term.TermName;
                     tbTermStudentResult.ConductId = termResult.TermConductId;
-                    int ConductId = (int)tbTermStudentResult.ConductId;
-                    tbTermStudentResult.ConductName = (ConductId != -1) ? conductBL.GetConduct(ConductId).ConductName : "";
-                    int LearningAptitudeId = (int)termResult.TermLearningAptitudeId;
-                    tbTermStudentResult.LearningAptitudeName = (LearningAptitudeId != -1) ? hocLucBL.GetHocLuc(LearningAptitudeId).LearningAptitudeName : "";
+                    int iConductId = (int)tbTermStudentResult.ConductId;
+                    tbTermStudentResult.ConductName = (iConductId != -1) ? conductBL.GetConduct(iConductId).ConductName : "(Chưa xác định)";
+                    int iLearningAptitudeId = (int)termResult.TermLearningAptitudeId;
+                    tbTermStudentResult.LearningAptitudeName = (iLearningAptitudeId != -1) ? learningAptitudeBL.GetHocLuc(iLearningAptitudeId).LearningAptitudeName : "(Chưa xác định)";
+
+                    if (iConductId == -1 || iLearningAptitudeId == -1)
+                    {
+                        tbTermStudentResult.LearningResultName = "(Chưa xác định)";
+                    }
+                    else
+                    {
+
+                    }
                     //tbTermStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeId, ConductId);
 
                     tbTermStudentResults.Add(tbTermStudentResult);
@@ -286,34 +296,43 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 else
                 {
                     tbFinalStudentResult.DiemTB = -1;
-                    tbFinalStudentResult.StrDiemTB = "";
+                    tbFinalStudentResult.StrDiemTB = "(Chưa xác định)";
                 }
 
+                // Nếu đã xác định được hạnh kiểm cả 2 học kì
                 if (tbTermStudentResults[0].ConductId != -1 && tbTermStudentResults[1].ConductId != -1)
                 {
+                    // hạnh kiểm cuối năm = hạnh kiểm học kì 2
                     tbFinalStudentResult.ConductId = tbTermStudentResults[1].ConductId;
                 }
                 else
                 {
                     tbFinalStudentResult.ConductId = -1;
                 }
-                int ConductIdCuoiNam = (int)tbFinalStudentResult.ConductId;
-                tbFinalStudentResult.ConductName = (ConductIdCuoiNam != -1) ? conductBL.GetConduct(ConductIdCuoiNam).ConductName : "";
+                int iFinalConductId = (int)tbFinalStudentResult.ConductId;
+                tbFinalStudentResult.ConductName = (iFinalConductId != -1) ? conductBL.GetConduct(iFinalConductId).ConductName : "(Chưa xác định)";
 
-                int LearningAptitudeIdCuoiNam;
+                int iFinalLearningAptitudeId;
                 if (tbFinalStudentResult.DiemTB != -1)
                 {
-                    //Category_LearningAptitude hocLuc = hocLucBL.GetHocLuc(tbFinalStudentResult.DiemTB);
-                    //LearningAptitudeIdCuoiNam = hocLuc.LearningAptitudeId;
-                    //tbFinalStudentResult.LearningAptitudeName = hocLuc.LearningAptitudeName;
+                    Category_LearningAptitude finalLearningAptitude = learningAptitudeBL.GetLearningAptitude(tbFinalStudentResult.DiemTB);
+                    iFinalLearningAptitudeId = finalLearningAptitude.LearningAptitudeId;
+                    tbFinalStudentResult.LearningAptitudeName = finalLearningAptitude.LearningAptitudeName;
                 }
                 else
                 {
-                    //LearningAptitudeIdCuoiNam = -1;
-                    //tbFinalStudentResult.LearningAptitudeName = "";
+                    iFinalLearningAptitudeId = -1;
+                    tbFinalStudentResult.LearningAptitudeName = "(Chưa xác định)";
                 }
 
-                //tbFinalStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeIdCuoiNam, ConductIdCuoiNam);
+                if (iFinalConductId == -1 || iFinalLearningAptitudeId == -1)
+                {
+                    tbFinalStudentResult.LearningResultName = "(Chưa xác định)";
+                }
+                else
+                {
+                    //tbFinalStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeIdCuoiNam, ConductIdCuoiNam);
+                }
 
                 tbTermStudentResults.Add(tbFinalStudentResult);
             }

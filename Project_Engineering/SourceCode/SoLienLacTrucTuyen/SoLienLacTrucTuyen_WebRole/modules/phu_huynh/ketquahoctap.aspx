@@ -4,7 +4,7 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-   <div id="divSearch">
+    <div id="divSearch">
         <div id="divSearchCriteria">
             Năm học:&nbsp;
             <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px">
@@ -14,6 +14,7 @@
             </asp:DropDownList>
         </div>
         <div id="divButtonSearch">
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
@@ -76,9 +77,14 @@
                 </FooterTemplate>
             </asp:Repeater>
         </table>
-        <div style="float: right; margin-top: -45px; padding-right: 30px;">
+        <div style="float: right; margin-top: -30px; padding-right: 30px;">
             <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
                 ViewStateMode="Enabled" />
+        </div>
+        <br />
+        <div style="padding: 5px 10px 5px 10px; font-size: 15px; font-weight: bold">
+            <asp:Label ID="Label1" runat="server" Text="KẾT QUẢ NĂM HỌC" ForeColor="Violet">
+            </asp:Label>
         </div>
         <table class="repeater">
             <asp:HiddenField ID="RptMPEHanhKiem" runat="server" />
@@ -101,7 +107,7 @@
                         <td class="middle">
                             Hạnh kiểm
                         </td>
-                        <td style="width: 78px">
+                        <td style="width: 120px">
                             Danh hiệu
                         </td>
                     </tr>
@@ -121,10 +127,8 @@
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "LearningAptitudeName")%>
                         </td>
-                        <td style="height: 40px; vertical-align: middle">
-                            <asp:HiddenField ID="HiddenField1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductId")%>' />
+                        <td style="height: 40px; vertical-align: middle">                            
                             <%#DataBinder.Eval(Container.DataItem, "ConductName")%>
-                            <asp:Label ID="LblFakeEdit" runat="server"></asp:Label>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "LearningResultName")%>

@@ -83,6 +83,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             RptLoiNhanKhan.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
+            PnlPopupConfirmDelete.Visible = bDisplayData;
 
             if (LblSearchResult.Visible)
             {
@@ -140,6 +141,24 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         #endregion
         
         #region Repeater event handlers
+        protected void RptLoiNhanKhan_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                TabularParentsComment tabularParentsComment = (TabularParentsComment)e.Item.DataItem;
+                if (tabularParentsComment.Feedback != "")
+                {
+                    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
+                    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
+                    btnDeleteItem.Enabled = false;
+
+                    ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
+                    btnEditItem.ImageUrl = "~/Styles/Images/button_edit_disable.png";
+                    btnEditItem.Enabled = false;
+                }
+            }
+        }
+
         protected void RptLoiNhanKhan_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
@@ -154,6 +173,18 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                         Response.Redirect(AppConstant.PAGEPATH_DETAILEDCOMMENT);
                         break;
                     }
+                case "CmdDeleteItem":
+                    {
+                        this.LblConfirmDelete.Text = "Bạn có chắc xóa góp ý <b>" + e.CommandArgument + "</b> này không?";
+                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
+                        mPEDelete.Show();
+
+                        HiddenField hdfRptCommentId = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
+                        this.HdfCommentId.Value = hdfRptCommentId.Value;
+                        this.HdfRptCommentMPEDelete.Value = mPEDelete.ClientID;
+
+                        break;
+                    }                
                 case "CmdEditItem":
                     {
                         int iCommentId = Int32.Parse(e.CommandArgument.ToString());
@@ -185,6 +216,14 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             Response.Redirect(AppConstant.PAGEPATH_ADDCOMMENT);
         }
 
+        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
+        {
+            ParentComment_Comment comment = new ParentComment_Comment();
+            comment.CommentId = Int32.Parse(HdfCommentId.Value);
+            parentsCommentBL.DeleteParentsComment(comment);
+            isSearch = false;
+            BindRptParentsComments();
+        }
         #endregion
 
         #region Pager event handlers

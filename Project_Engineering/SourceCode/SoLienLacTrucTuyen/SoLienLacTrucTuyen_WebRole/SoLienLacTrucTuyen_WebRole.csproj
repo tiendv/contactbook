@@ -144,6 +144,8 @@
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
     <Content Include="modules\phu_huynh\themykien.aspx" />
+    <Content Include="modules\y_kien\chitietykien.aspx" />
+    <Content Include="modules\y_kien\phanhoiykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
     <Content Include="Scripts\GlobalScript.js" />
     <Content Include="Scripts\JQRepeater-2.0.js" />
@@ -155,6 +157,7 @@
     <Content Include="Styles\Icons\icon_delete_disabled.png" />
     <Content Include="Styles\Icons\icon_edit.png" />
     <Content Include="Styles\Icons\icon_edit_disabled.png" />
+    <Content Include="Styles\Icons\icon_feedback.png" />
     <Content Include="Styles\Images\avatar.png" />
     <Content Include="Styles\Images\background.png" />
     <Content Include="Styles\Images\button.png" />
@@ -174,6 +177,7 @@
     <Content Include="Styles\Images\button_delete_disable.png" />
     <Content Include="Styles\Images\button_edit.png" />
     <Content Include="Styles\Images\button_edit_with_text.png" />
+    <Content Include="Styles\Images\button_feedback.png" />
     <Content Include="Styles\Images\button_login.png" />
     <Content Include="Styles\Images\button_next.png" />
     <Content Include="Styles\Images\button_next_step.png" />
@@ -776,6 +780,20 @@
     </Compile>
     <Compile Include="modules\phu_huynh\themykien.aspx.designer.cs">
       <DependentUpon>themykien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\y_kien\chitietykien.aspx.cs">
+      <DependentUpon>chitietykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\y_kien\chitietykien.aspx.designer.cs">
+      <DependentUpon>chitietykien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\y_kien\phanhoiykien.aspx.cs">
+      <DependentUpon>phanhoiykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\y_kien\phanhoiykien.aspx.designer.cs">
+      <DependentUpon>phanhoiykien.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\y_kien\ykien.aspx.cs">
       <DependentUpon>ykien.aspx</DependentUpon>

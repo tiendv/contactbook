@@ -86,6 +86,9 @@
                         <td style="width: 100px">
                             Tình trạng
                         </td>
+                        <td style="width: 80px">
+                            Phản hồi
+                        </td>
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
@@ -95,16 +98,24 @@
                             <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "CommentId")%>'
+                            <asp:LinkButton ID="LbtnCommentTitle" runat="server" Style="text-decoration: underline;
+                                color: Blue; cursor: pointer;" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'>
+                            <%#DataBinder.Eval(Container.DataItem, "Title")%>
+                            </asp:LinkButton>
+                            <%--<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "CommentId")%>'
                                 Target="_blank">
                                     <%#DataBinder.Eval(Container.DataItem, "Title")%>
-                            </asp:HyperLink>
+                            </asp:HyperLink>--%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Date")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "CommentStatusName")%>
+                        </td>
+                        <td style="height: 40px; text-align: center">
+                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Icons/icon_feedback.png"
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
                         </td>
                     </tr>
                 </ItemTemplate>
