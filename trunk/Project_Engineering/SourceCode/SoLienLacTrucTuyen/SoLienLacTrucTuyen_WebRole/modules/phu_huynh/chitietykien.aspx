@@ -1,55 +1,44 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="~/modules/y_kien/chitietykien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ModuleParents.DetailedParentsCommentPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
+    CodeBehind="chitietykien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.DetailedParentsCommentPage" %>
 
-<%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <div class="table_data ui-corner-all">
-        <table style="width: 100px">
-            <tr>
-                <td style="width: 30%">
-                    Thông tin:
-                </td>
-                <td style="width: 70%">
-                    <asp:Label ID="LblInfor" runat="server" Width="400px" CssClass="readOnlyTextBox"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Tiêu đề:
-                </td>
-                <td>
-                    <asp:Label ID="LblTitle" runat="server" CssClass="readOnlyTextBox"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Nội dung:
-                </td>
-                <td>
-                    <asp:Label ID="LblContent" runat="server" CssClass="readOnlyTextBox"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Phản hồi:
-                    <asp:Label ID="Label3" runat="server" ForeColor="Red" Text="*"></asp:Label>
-                </td>
-                <td>
-                    <asp:TextBox ID="TxtReply" Font-Names="Arial" TextMode="MultiLine" runat="server"></asp:TextBox>
-                </td>
-            </tr>
-        </table>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div style="padding:5px 0px 5px 0px; float:right">
+        <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
+            OnClick="BtnEdit_Click" />
     </div>
-    <div style="padding: 5px 7px 5px 7px;">
-        <asp:Label ID="Label5" runat="server" Text="*" ForeColor="Red"></asp:Label>
-        :Thông tin bắt buộc nhập
-    </div>
-    <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-        <asp:ImageButton ID="BtnReply" runat="server" ImageUrl="~/Styles/Images/button_save.png"
-            OnClick="BtnReply_Click" ValidationGroup="AddConfirm" CssClass="SaveButton" />
-        &nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
-            OnClick="BtnCancel_Click" CssClass="CancelButton" />
+    <table style="width: 100%; padding: 10px 20px 10px 20px; clear:both" class="loginBox ui-corner-all">
+        <tr>
+            <td style="vertical-align: top; padding-top: 3px;">
+                Tiêu đề:
+            </td>
+            <td class="readOnlyTextBox">
+                <asp:Label ID="LblTitle" runat="server" ViewStateMode="Enabled"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 70px; vertical-align: top; padding-top: 3px;">
+                Nội dung:
+            </td>
+            <td class="readOnlyTextBox">
+                <asp:Label ID="LblContent" runat="server" Height="250px" ViewStateMode="Enabled"></asp:Label>
+                <%--<asp:TextBox ID="TxtContent" runat="server" TextMode="MultiLine" Height="230px" Font-Names="Arial" CssClass="input_textbox"></asp:TextBox>--%>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 70px; vertical-align: top; padding-top: 3px;">
+                Phản hồi:
+            </td>
+            <td class="readOnlyTextBox">
+                <asp:Label ID="LblFeedback" runat="server" Height="250px"></asp:Label>
+            </td>
+        </tr>
+    </table>    
+    <div style="vertical-align: middle;">
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
+            OnClick="BtnBackPrevPage_Click" />
+        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back_text.png"
+            OnClick="BtnBackPrevPage_Click" />
     </div>
 </asp:Content>

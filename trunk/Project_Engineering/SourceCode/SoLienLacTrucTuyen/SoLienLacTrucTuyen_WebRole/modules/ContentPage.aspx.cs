@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
+using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -59,8 +60,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
 
         #region Fields
-        protected List<SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum> lstAccessibilities;
-        protected bool isAccessDenied = false;
+        protected List<AccessibilityEnum> accessibilities;
+        protected bool accessDenied = false;
         #endregion
 
         #region Page event handlers
@@ -73,21 +74,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             string pageUrl = Page.Request.Path;
             List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
-
-            Guid role = userBL.GetRoleId(User.Identity.Name);
+            aspnet_Role role = roles[0];
 
             if (!authorizationBL.ValidateAuthorization(roles, pageUrl))
             {
                 Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
-                isAccessDenied = false;
+                accessDenied = false;
                 return;
             }
 
             Site masterPage = (Site)Page.Master;
+            masterPage.UserName = User.Identity.Name;
             masterPage.UserRole = role;
             masterPage.PageUrl = pageUrl;
+            masterPage.UserSchool = UserSchool;
 
-            lstAccessibilities = authorizationBL.GetAccessibilities(role, pageUrl);
+            accessibilities = authorizationBL.GetAccessibilities(roles, pageUrl);
 
             if (Session[AppConstant.SCHOOL] != null)
             {

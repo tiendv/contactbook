@@ -86,15 +86,6 @@ namespace SoLienLacTrucTuyen.DataAccess
             };
             db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
             db.SubmitChanges();
-
-            // create default Authorization of Role
-            UserManagement_Authorization authorization = new UserManagement_Authorization
-            {
-                RoleId = roleId,
-                AuthorizedPagePathId = 1 // Home page
-            };
-            db.UserManagement_Authorizations.InsertOnSubmit(authorization);
-            db.SubmitChanges();
         }
 
         public void UpdateRoleDetail(string roleName, string description, bool expired, bool IsDeletable, bool actived)
@@ -209,37 +200,69 @@ namespace SoLienLacTrucTuyen.DataAccess
             return roles;
         }
 
-        public List<AccessibilityEnum> GetAccessibilities(Guid roleId, string pageUrl)
+        public List<AccessibilityEnum> GetAccessibilities(aspnet_Role role, string pageUrl)
         {
-            IQueryable<int> pageUrlBasedFunctionIds;
-            pageUrlBasedFunctionIds = from pagePath in db.UserManagement_PagePaths
-                                      join authorizedPage in db.UserManagement_AuthorizedPages
-                                        on pagePath.PagePathId equals authorizedPage.PagePathId
-                                      where pagePath.PhysicalPath == pageUrl
-                                      select authorizedPage.FunctionId;
+            IQueryable<UserManagement_Function> iqPageUrlBasedFunction;
+            iqPageUrlBasedFunction = from authorizedPage in db.UserManagement_AuthorizedPages
+                                     where authorizedPage.UserManagement_PagePath.PhysicalPath == pageUrl
+                                     select authorizedPage.UserManagement_Function;
 
-            List<AccessibilityEnum> lstAccessibilities = new List<AccessibilityEnum>();
-            foreach (int pageUrlBasedFunctionId in pageUrlBasedFunctionIds)
+            List<AccessibilityEnum> accessibilities = new List<AccessibilityEnum>();
+            foreach (UserManagement_Function pageUrlBasedFunction in iqPageUrlBasedFunction)
             {
-                IQueryable<int> accessibilities;
-                accessibilities = from authorizedPage in db.UserManagement_AuthorizedPages
-                                  join authorization in db.UserManagement_Authorizations
-                                    on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
-                                  where authorization.RoleId == roleId && authorizedPage.FunctionId == pageUrlBasedFunctionId
-                                  select authorizedPage.AccessibilityId;
+                IQueryable<int> iqAccessibility;
+                iqAccessibility = from authorization in db.UserManagement_Authorizations
+                                  where authorization.RoleId == role.RoleId
+                                  && authorization.UserManagement_AuthorizedPage.FunctionId == pageUrlBasedFunction.FunctionId
+                                  && authorization.IsActivated == true
+                                  select authorization.UserManagement_AuthorizedPage.AccessibilityId;
 
-                if (accessibilities.Count() != 0)
+                if (iqAccessibility.Count() != 0)
                 {
-                    List<int> lst = accessibilities.Distinct().ToList();
+                    List<int> lst = iqAccessibility.Distinct().ToList();
                     foreach (int accessibility in lst)
                     {
-                        lstAccessibilities.Add((AccessibilityEnum)accessibility);
+                        accessibilities.Add((AccessibilityEnum)accessibility);
                     }
                 }
             }
 
-            lstAccessibilities = lstAccessibilities.Distinct().ToList();
-            return lstAccessibilities;
+            accessibilities = accessibilities.Distinct().ToList();
+            return accessibilities;
+        }
+
+        public List<AccessibilityEnum> GetAccessibilities(List<aspnet_Role> roles, string pageUrl)
+        {
+            IQueryable<UserManagement_Function> iqPageUrlBasedFunction;
+            iqPageUrlBasedFunction = from authorizedPage in db.UserManagement_AuthorizedPages
+                                     where authorizedPage.UserManagement_PagePath.PhysicalPath == pageUrl
+                                     select authorizedPage.UserManagement_Function;
+
+            List<AccessibilityEnum> accessibilities = new List<AccessibilityEnum>();
+            foreach (UserManagement_Function pageUrlBasedFunction in iqPageUrlBasedFunction)
+            {
+                foreach (aspnet_Role role in roles)
+                {
+                    IQueryable<int> iqAccessibility;
+                    iqAccessibility = from authorization in db.UserManagement_Authorizations
+                                      where authorization.RoleId == role.RoleId
+                                      && authorization.UserManagement_AuthorizedPage.FunctionId == pageUrlBasedFunction.FunctionId
+                                      && authorization.IsActivated == true
+                                      select authorization.UserManagement_AuthorizedPage.AccessibilityId;
+
+                    if (iqAccessibility.Count() != 0)
+                    {
+                        List<int> lst = iqAccessibility.Distinct().ToList();
+                        foreach (int accessibility in lst)
+                        {
+                            accessibilities.Add((AccessibilityEnum)accessibility);
+                        }
+                    }
+                }
+            }
+
+            accessibilities = accessibilities.Distinct().ToList();
+            return accessibilities;
         }
 
         public List<aspnet_Role> GetListRoles(bool parentRoleOnly)
@@ -267,44 +290,38 @@ namespace SoLienLacTrucTuyen.DataAccess
             return roles;
         }
 
-        public bool ValidateAuthorization(Guid role, string pageUrl)
-        {
-            IQueryable<int> authorizationIds = from authorizedPage in db.UserManagement_AuthorizedPages
-                                               join pagePath in db.UserManagement_PagePaths
-                                                   on authorizedPage.PagePathId equals pagePath.PagePathId
-                                               join authorization in db.UserManagement_Authorizations
-                                                   on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
-                                               where pagePath.PhysicalPath == pageUrl
-                                                   && authorization.RoleId == role
-                                               select authorization.AuthorizationId;
-            if (authorizationIds.Count() != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         public bool ValidateAuthorization(List<aspnet_Role> roles, string pageUrl)
         {
             foreach (aspnet_Role role in roles)
             {
-                IQueryable<int> authorizationIds;
-                authorizationIds = from authorizedPage in db.UserManagement_AuthorizedPages
-                                   join pagePath in db.UserManagement_PagePaths
-                                       on authorizedPage.PagePathId equals pagePath.PagePathId
-                                   join authorization in db.UserManagement_Authorizations
-                                       on authorizedPage.AuthorizedPageId equals authorization.AuthorizedPagePathId
-                                   where pagePath.PhysicalPath == pageUrl
-                                       && authorization.RoleId == role.RoleId
-                                   select authorization.AuthorizationId;
-                if (authorizationIds.Count() != 0)
+                IQueryable<UserManagement_Authorization> iqAuthorization;
+                iqAuthorization = from authorization in db.UserManagement_Authorizations
+                                  where authorization.RoleId == role.RoleId
+                                      && authorization.UserManagement_AuthorizedPage.UserManagement_PagePath.PhysicalPath == pageUrl
+                                      && authorization.IsActivated == true
+                                  select authorization;
+                if (iqAuthorization.Count() != 0)
                 {
                     return true;
                 }
             }
+
+            return false;
+        }
+
+        public bool ValidateAuthorization(string userName, string pageUrl)
+        {
+            IQueryable<UserManagement_RoleParentsAuthorization> iqAuthorization;
+            iqAuthorization = from authorization in db.UserManagement_RoleParentsAuthorizations
+                              where authorization.aspnet_User.UserName == userName
+                                  && authorization.UserManagement_Authorization.UserManagement_AuthorizedPage.UserManagement_PagePath.PhysicalPath == pageUrl
+                                  && authorization.IsActivated == true
+                              select authorization;
+            if (iqAuthorization.Count() != 0)
+            {
+                return true;
+            }
+
 
             return false;
         }
@@ -598,6 +615,24 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return roles;
+        }
+
+        public bool IsRoleAdmin(aspnet_Role role)
+        {
+            IQueryable<aspnet_Role> iqRoleAdmin;
+            iqRoleAdmin = from rl in db.aspnet_Roles
+                          where role.RoleId == role.RoleId
+                          && rl.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == ADMIN
+                          select role;
+
+            if (iqRoleAdmin.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

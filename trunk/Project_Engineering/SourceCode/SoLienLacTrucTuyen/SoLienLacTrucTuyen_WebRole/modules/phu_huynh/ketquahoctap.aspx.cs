@@ -9,8 +9,9 @@ using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
 using System.Web.UI.HtmlControls;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class StudentStudyingResultPage : BaseContentPage
     {
@@ -24,7 +25,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -35,7 +36,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             if (!Page.IsPostBack)
             {
-                if (MembershipStudent != null)
+                if (LoggedInStudent != null)
                 {
                     BindDropDownLists();
                     BindRptMarkTypes();
@@ -59,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void BindDDLYears()
         {
-            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            List<Configuration_Year> years = studentBL.GetYears(LoggedInStudent);
             DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
@@ -93,7 +94,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             double dTotalRecords;
             List<TabularSubjectTermResult> lstTbKetQuaMonHoc;
-            lstTbKetQuaMonHoc = studyingResultBL.GetTabularSubjectTermResults(MembershipStudent, year, term,
+            lstTbKetQuaMonHoc = studyingResultBL.GetTabularSubjectTermResults(LoggedInStudent, year, term,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             bool bDisplayData = (lstTbKetQuaMonHoc.Count != 0) ? true : false;
@@ -118,7 +119,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             double dTotalRecords;
             List<TabularTermStudentResult> lstTbDanhHieu;
-            lstTbDanhHieu = studyingResultBL.GetTabularTermStudentResults(MembershipStudent, year,
+            lstTbDanhHieu = studyingResultBL.GetTabularTermStudentResults(LoggedInStudent, year,
                 DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out dTotalRecords);
 
             RptDanhHieu.DataSource = lstTbDanhHieu;

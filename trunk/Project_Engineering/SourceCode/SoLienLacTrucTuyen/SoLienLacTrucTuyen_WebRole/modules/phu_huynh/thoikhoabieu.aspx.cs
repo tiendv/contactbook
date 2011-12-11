@@ -8,8 +8,9 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class SchedulePage : BaseContentPage
     {
@@ -23,7 +24,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -128,7 +129,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void BindDDlYears()
         {
-            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            List<Configuration_Year> years = studentBL.GetYears(LoggedInStudent);
             DdlYear.DataSource = years;
             DdlYear.DataValueField = "YearId";
             DdlYear.DataTextField = "YearName";
@@ -156,7 +157,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlYear.SelectedValue);
-            Class_Class Class = studentBL.GetClass(MembershipStudent, year);
+            Class_Class Class = studentBL.GetClass(LoggedInStudent, year);
             ViewState[AppConstant.VIEWSTATE_CLASSID] = Class.ClassId;
             LblClassName.Text = Class.ClassName;
         }

@@ -27,7 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -45,7 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Add))
+            if (accessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
@@ -275,7 +275,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //        btnDeleteItem.Enabled = false;
             //    }
             //}
-            if (lstAccessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Modify))
+            if (accessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Modify))
             {
                 // Do something
             }
@@ -295,7 +295,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 PnlPopupEdit.Visible = false;
             }
 
-            if (lstAccessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Delete))
+            if (accessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)

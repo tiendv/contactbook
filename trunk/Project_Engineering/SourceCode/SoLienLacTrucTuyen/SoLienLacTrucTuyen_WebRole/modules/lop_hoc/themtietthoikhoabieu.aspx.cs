@@ -25,7 +25,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
 
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }

@@ -34,14 +34,18 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public Guid GetRoleId(string userName)
+        public aspnet_Role GetRole(string userName)
         {
-            IQueryable<Guid> roleIds = from usersInRole in db.aspnet_UsersInRoles
-                                       join user in db.aspnet_Users on usersInRole.UserId equals user.UserId
-                                       where user.UserName == userName
-                                       select usersInRole.RoleId;
-            return roleIds.First();
-        }        
+            aspnet_Role role = null;
+            IQueryable<aspnet_Role> iqRole = from usersInRole in db.aspnet_UsersInRoles
+                                             where usersInRole.aspnet_User.UserName == userName
+                                             select usersInRole.aspnet_Role;
+            if (iqRole.Count() != 0)
+            {
+                role = iqRole.First();
+            }
+            return role;
+        }
 
         public Guid GetApplicationId(string userName)
         {

@@ -30,7 +30,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             //CrystalReportViewer1.Visible = false;
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -111,7 +111,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptHocSinh_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 // Do something
             }
@@ -129,7 +129,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -343,7 +343,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";

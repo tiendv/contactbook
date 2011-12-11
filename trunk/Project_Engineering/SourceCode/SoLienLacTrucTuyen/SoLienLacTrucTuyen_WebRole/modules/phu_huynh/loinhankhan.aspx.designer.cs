@@ -130,6 +130,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         protected global::System.Web.UI.WebControls.HiddenField HdfMaLoiNhanKhan;
         
         /// <summary>
+        /// HdfRptLoiNhanKhanMPECancelConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPECancelConfirm;
+        
+        /// <summary>
         /// HdfRptLoiNhanKhanMPEConfirm control.
         /// </summary>
         /// <remarks>
@@ -290,5 +299,50 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
+        
+        /// <summary>
+        /// PnlPopupDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlPopupDetail;
+        
+        /// <summary>
+        /// PnlDragPopupDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlDragPopupDetail;
+        
+        /// <summary>
+        /// LblPnlPopupDetailTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblPnlPopupDetailTitle;
+        
+        /// <summary>
+        /// LblTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblTitle;
+        
+        /// <summary>
+        /// LblContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblContent;
     }
 }

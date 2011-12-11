@@ -23,16 +23,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             userDA = new UserDA();
         }
 
+        public aspnet_User GetUser(string userName)
+        {
+            return userDA.GetUser(userName);
+        }
+
         public List<TabularUser> GetTabularUsers(aspnet_Role role, string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> users = new List<aspnet_User>();
             List<TabularUser> tabularUsers = new List<TabularUser>();
-            TabularUser tabularUser = null;            
+            TabularUser tabularUser = null;
 
             if (role == null)
             {
                 if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
-                {   
+                {
                     users = userDA.GetUsers(pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
@@ -44,7 +49,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             else
             {
                 if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
-                {   
+                {
                     users = userDA.GetUsers(role, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
@@ -63,9 +68,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularUsers;
         }
 
-        public Guid GetRoleId(string userName)
+        public aspnet_Role GetRole(string userName)
         {
-            return userDA.GetRoleId(userName);
+            return userDA.GetRole(userName);
         }
 
         public List<aspnet_Role> GetRoles(string userName)
@@ -155,5 +160,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return tabularUser;
         }
+
+
     }
 }

@@ -11,6 +11,12 @@
                 $find(mPEConfirmID).hide();
                 return false;
             }
+
+            function popopCancelConfirmMessage_Cancel_Click() {
+                var mPECancelConfirmID = $get('<%=HdfRptLoiNhanKhanMPECancelConfirm.ClientID%>').value;
+                $find(mPECancelConfirmID).hide();
+                return false;
+            }
         </script>
     </div>
     <div id="divSearch">
@@ -75,6 +81,7 @@
         </div>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaLoiNhanKhan" runat="server" />
+            <asp:HiddenField ID="HdfRptLoiNhanKhanMPECancelConfirm" runat="server" />
             <asp:HiddenField ID="HdfRptLoiNhanKhanMPEConfirm" runat="server" />
             <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetail" runat="server" />
             <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemCommand="RptLoiNhanKhan_ItemCommand"
@@ -84,13 +91,13 @@
                         <td class="ui-corner-tl orderNo">
                             STT
                         </td>
-                        <td class="middle" style="width: 20%">
+                        <td>
                             Lời nhắn
                         </td>
-                        <td class="middle">
+                        <td style="width: 200px">
                             Ngày
                         </td>
-                        <td class="icon">
+                        <td style="width: 100px">
                             Xác nhận
                         </td>
                         <td style="width: 100px">
@@ -105,25 +112,21 @@
                             <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label28" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Title")%>'></asp:Label>
-                            <%--<asp:Label ID="LblTieuDe" runat="server" style="display:none"></asp:Label>
-                                <asp:LinkButton ID="LbtnTieuDe" runat="server"
-                                    Text='<%#DataBinder.Eval(Container.DataItem, "TieuDe")%>'
-                                    style="text-decoration:underline; color:Blue;cursor:pointer;"
-                                    CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLoiNhanKhan")%>'>
-                                </asp:LinkButton>--%>
-                            <%--<ajaxToolkit:ModalPopupExtender ID="MPEDetail" runat="server"                                         
-                                    TargetControlID="LblClassName"
-                                    PopupControlID="PnlPopupDetail"
-                                    BackgroundCssClass="modalBackground"
-                                    CancelControlID="ImgClosePopupDetail"
-                                    PopupDragHandleControlID="PnlDragPopupDetail">
-                                </ajaxToolkit:ModalPopupExtender>--%>
+                            <%--<asp:Label ID="Label28" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Title")%>'></asp:Label>--%>
+                            <asp:Label ID="LblTitle" runat="server" style="display:none"></asp:Label>
+                            <asp:LinkButton ID="LbtnTieuDe" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Title")%>'
+                                Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>'>
+                            </asp:LinkButton>
+                            <ajaxToolkit:ModalPopupExtender ID="MPEDetail" runat="server" TargetControlID="LblTitle"
+                                PopupControlID="PnlPopupDetail" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupDetail"
+                                PopupDragHandleControlID="PnlDragPopupDetail">
+                            </ajaxToolkit:ModalPopupExtender>
                         </td>
                         <td style="height: 40px;">
                             <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortDateString()%>
                         </td>
-                        <td style="height: 40px;">
+                        <td style="height: 40px; text-align: center">
                             <asp:ImageButton ID="BtnFakeConfirmItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnConfirmItem" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
                                 CommandName="CmdConfirmItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Title")%>' />
@@ -132,7 +135,7 @@
                                 CancelControlID="imgClosePopupConfirmMessage" PopupDragHandleControlID="PnlDragPopupConfirmMessage">
                             </ajaxToolkit:ModalPopupExtender>
                         </td>
-                        <td style="height: 40px;">
+                        <td style="height: 40px; text-align: center">
                             <asp:ImageButton ID="BtnFakeCancelConfirmItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnCancelConfirmItem" runat="server" ImageUrl="~/Styles/Icons/icon_delete.png"
                                 CommandName="CmdCancelConfirmItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Title")%>' />
@@ -197,7 +200,41 @@
                 OnClick="BtnCancelConfirmItem_Click" CssClass="SaveButton" />
             &nbsp;&nbsp;
             <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
-                CssClass="CancelButton" />
+                OnClientClick="return popopCancelConfirmMessage_Cancel_Click();" CssClass="CancelButton" />
         </div>
+    </asp:Panel>
+    <asp:Panel ID="PnlPopupDetail" runat="server" CssClass="popup ui-corner-all" Width="550px">
+        <asp:Panel ID="PnlDragPopupDetail" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="LblPnlPopupDetailTitle" runat="server" Text="Chi tiết lời nhắn khẩn"></asp:Label>
+            <img id="ImgClosePopupDetail" class="button_close" src="../../Styles/Images/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 5px 7px 10px 7px;">
+            <table style="width: 100%" class="inputBorder">
+                <tr>
+                    <td style="width: 60px; vertical-align: top; padding-top: 3px;">
+                        Tiêu đề:
+                    </td>
+                    <td style="width: auto;" colspan="3" class="readOnlyTextBox input_textbox">
+                        <asp:Label ID="LblTitle" runat="server" Style="width: 99%"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 60px; vertical-align: top; padding-top: 3px;" >
+                        Nội dung:
+                    </td>
+                    <td style="width: auto;" colspan="3" class="readOnlyTextBox input_textbox">
+                    <asp:Label ID="LblContent" runat="server" Style="width: 99%"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <%--<div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 10px 0px">
+            <asp:ImageButton ID="BtnSaveAdd" runat="server" OnClick="BtnSaveAdd_Click" ValidationGroup="AddLoiNhanKhan"
+                ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />
+            &nbsp;&nbsp;
+            <asp:ImageButton ID="BtnCancelAdd" runat="server" OnClientClick="return popopDetail_CancelSave_Click();"
+                ImageUrl="~/Styles/Images/button_cancel.png" CssClass="CancelButton" />
+        </div>--%>
     </asp:Panel>
 </asp:Content>

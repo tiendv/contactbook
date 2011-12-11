@@ -20,7 +20,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             // Check user's accessibility
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }

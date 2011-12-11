@@ -40,7 +40,7 @@
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            <asp:Label ID="LblSearchRoleName" runat="server" Text="Nhóm người dùng:" />
+            Nhóm người dùng:
             &nbsp;
             <asp:DropDownList ID="DdlRoles" runat="server" Width="200px" />
             &nbsp; &nbsp; &nbsp;

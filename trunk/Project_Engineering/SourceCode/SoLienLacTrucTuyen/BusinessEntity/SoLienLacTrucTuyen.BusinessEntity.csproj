@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChoseService.cs" />
     <Compile Include="DDLFormatHocSinh.cs" />
     <Compile Include="Faculty.cs" />
     <Compile Include="FunctionType.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="TabularLoiNhanKhan.cs" />
     <Compile Include="TabularAbsent.cs" />
     <Compile Include="TabularUser.cs" />
-    <Compile Include="TabularPhanQuyen.cs" />
+    <Compile Include="TabularAuthorization.cs" />
     <Compile Include="TabularRole.cs" />
     <Compile Include="TabularThongBaoLop.cs" />
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptLopHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Modify))
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 // Do something
             }
@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 PnlPopupEdit.Visible = false;
             }
 
-            if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -127,8 +127,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             // Set NavigateUrl for Hyperlink HomeroomTeacher
             string pageUrl = Page.Request.Path;
-            Guid role = (new UserBL(UserSchool)).GetRoleId(User.Identity.Name);
-            if ((new AuthorizationBL(UserSchool)).ValidateAuthorization(role, pageUrl))
+            List<aspnet_Role> roles = (new UserBL(UserSchool)).GetRoles(User.Identity.Name);
+            if ((new AuthorizationBL(UserSchool)).ValidateAuthorization(roles, pageUrl))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -330,7 +330,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (lstAccessibilities.Contains(AccessibilityEnum.Add))
+            if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";

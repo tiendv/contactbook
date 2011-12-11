@@ -40,6 +40,22 @@ namespace SoLienLacTrucTuyen.DataAccess
             return lYears;
         }
 
+        public Configuration_Year GetLastedYear()
+        {
+            Configuration_Year lastedYear = null;
+
+            IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
+                                                    where year.SchoolId == school.SchoolId
+                                                    select year;
+
+            if (iqYear.Count() != 0)
+            {
+                lastedYear = iqYear.OrderByDescending(year => year.YearId).First();
+            }
+
+            return lastedYear;
+        }
+
         public Configuration_Year GetCurrentYear()
         {
             IQueryable<Configuration_Year> iqYear = from sysConfig in db.Configuration_Configurations

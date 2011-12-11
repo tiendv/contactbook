@@ -41,6 +41,20 @@ namespace SoLienLacTrucTuyen.DataAccess
             db.SubmitChanges();
         }
 
+        public void UpdateMessage(MessageToParents_Message editedMessage, bool confirmed)
+        {
+            MessageToParents_Message message = null;
+            IQueryable<MessageToParents_Message> iqMessage = from msg in db.MessageToParents_Messages
+                                                             where msg.MessageId == editedMessage.MessageId
+                                                             select msg;
+            if (iqMessage.Count() != 0)
+            {
+                message = iqMessage.First();
+                message.IsConfirmed = confirmed;
+                db.SubmitChanges();
+            }            
+        }
+
         public void UpdateLoiNhanKhan(int maLoiNhanKhan, string noiDung,
             DateTime ngay)
         {

@@ -7,20 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
-{
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
     
     
     public partial class DetailedParentsCommentPage {
         
         /// <summary>
-        /// LblInfor control.
+        /// BtnEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblInfor;
+        protected global::System.Web.UI.WebControls.ImageButton BtnEdit;
         
         /// <summary>
         /// LblTitle control.
@@ -41,48 +40,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         protected global::System.Web.UI.WebControls.Label LblContent;
         
         /// <summary>
-        /// Label3 control.
+        /// LblFeedback control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label LblFeedback;
         
         /// <summary>
-        /// TxtReply control.
+        /// BtnBackPrevPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtReply;
+        protected global::System.Web.UI.WebControls.ImageButton BtnBackPrevPage;
         
         /// <summary>
-        /// Label5 control.
+        /// BtnTextBackPrevPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
-        
-        /// <summary>
-        /// BtnReply control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnReply;
-        
-        /// <summary>
-        /// BtnCancel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancel;
+        protected global::System.Web.UI.WebControls.ImageButton BtnTextBackPrevPage;
     }
 }

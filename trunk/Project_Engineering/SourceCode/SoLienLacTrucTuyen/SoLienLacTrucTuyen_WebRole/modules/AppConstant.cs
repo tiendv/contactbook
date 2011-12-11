@@ -10,12 +10,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SCHOOL = "SCHOOL";
 
         public const string PAGEPATH_USERS = "/modules/nguoi_dung/danhsachnguoidung.aspx";
+        public const string PAGEPATH_ADDUSER = "/modules/nguoi_dung/themnguoidung.aspx";
         public const string PAGEPATH_EDITUSER = "/modules/nguoi_dung/suanguoidung.aspx";
         public const string PAGEPATH_STUDENTS = "/modules/hoc_sinh/danhsachhocsinh.aspx";
         public const string PAGEPATH_PARENTSCOMMENTS = "/modules/y_kien/ykien.aspx";
         public const string PAGEPATH_STUDENTINFOR = "/modules/hoc_sinh/thongtincanhan.aspx";
         public const string PAGEPATH_STUDENTEDIT = "/modules/hoc_sinh/suahocsinh.aspx";
-        public const string PAGEPATH_ADDCOMMENT = "/modules/phu_huynh/XXX.aspx";
+        public const string PAGEPATH_ADDCOMMENT = "/modules/phu_huynh/themykien.aspx";
+        public const string PAGEPATH_EDITCOMMENT = "/modules/phu_huynh/suaykien.aspx";
+        public const string PAGEPATH_DETAILEDCOMMENT = "/modules/phu_huynh/chitietykien.aspx";
+        public const string PAGEPATH_COMMENTS = "/modules/phu_huynh/ykien.aspx";
         public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx";
         public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
 
@@ -33,9 +37,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_STUDENTNAME = "StudenCode";
         public const string VIEWSTATE_STUDENTCLASS_ID = "StudentClassId";
         public const string VIEWSTATE_PREV_PAGE = "PrevPage";
+        public const string VIEWSTATE_PARENTSCOMMENTID = "ParentCommentId";
 
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
-        public const string SESSION_SELECTEDPARENTSFUNCTION = "SelectedParentFunction";
+        public const string SESSION_SUPPLIEDPARENTSAUTHORIZATIONS = "SuppliedParentsAuthorizations";
+        public const string SESSION_SELECTEDPARENTSFUNCTIONS = "SelectedParentsFunctions";
         public const string SESSION_STUDENT = "Student";
         public const string SESSION_SELECTED_YEAR = "Year";
         public const string SESSION_SELECTED_CLASS = "Class";
@@ -45,6 +51,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_STUDENTNAME = "StudenCode";
         public const string SESSION_STUDENTCLASS = "StudenClass";
         public const string SESSION_PREV_PAGE = "PrevPage";
+        public const string SESSION_PARENTSCOMMENTID = "ParentCommentId";
 
         public const string CSSSTYLE_DISPLAY_NONE = "none";
         public const string CSSSTYLE_DISPLAY_BLOCK = "block";

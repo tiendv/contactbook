@@ -26,6 +26,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return sysConfigDA.GetListYears();
         }
 
+        public Configuration_Year GetLastedYear()
+        {
+            return sysConfigDA.GetLastedYear();
+        }
+
         public Configuration_Year GetCurrentYear()
         {
             return sysConfigDA.GetCurrentYear();

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="ykien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ModuleParents.ParentsCommentPage" %>
+    CodeBehind="ykien.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.ParentsCommentPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Xác nhận:
+                        Tình trạng:
                     </td>
                     <td style="width: 180px">
                         <asp:DropDownList ID="DdlXacNhan" runat="server" Width="150px">
@@ -74,18 +74,17 @@
             <asp:HiddenField ID="HdfRptLoiNhanKhanMPEEdit" runat="server" />
             <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetail" runat="server" />
             <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetailHS" runat="server" />
-            <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemCommand="RptLoiNhanKhan_ItemCommand"
-                OnItemDataBound="RptLoiNhanKhan_ItemDataBound">
+            <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemCommand="RptLoiNhanKhan_ItemCommand">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
                             STT
                         </td>
                         <td>
-                            Ý kiến của phụ huynh
+                            Góp ý của phụ huynh
                         </td>
                         <td style="width: 100px">
-                            Ngày
+                            Ngày góp ý  
                         </td>
                         <td style="width: 100px">
                             Tình trạng
@@ -98,11 +97,12 @@
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
                             <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
                         </td>
-                        <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "CommentId")%>'
-                                Target="_blank">
-                                    <%#DataBinder.Eval(Container.DataItem, "Title")%>
-                            </asp:HyperLink>
+                        <td style="height: 40px;">                            
+                            <asp:LinkButton ID="LbtnCommentTitle" runat="server"
+                                Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'>
+                            <%#DataBinder.Eval(Container.DataItem, "Title")%>
+                            </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Date")%>

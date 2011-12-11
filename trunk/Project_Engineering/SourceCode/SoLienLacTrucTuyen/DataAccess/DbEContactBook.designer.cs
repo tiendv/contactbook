@@ -863,6 +863,14 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private System.Guid _UserParentId;
 		
+		private System.Nullable<bool> _GetEmail;
+		
+		private System.Nullable<bool> _GetSMS;
+		
+		private System.Nullable<bool> _IsRegistered;
+		
+		private System.Nullable<bool> _IsActivated;
+		
 		private EntityRef<aspnet_User> _aspnet_User;
 		
 		private EntityRef<UserManagement_Authorization> _UserManagement_Authorization;
@@ -875,6 +883,14 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnRoleParentAuthorizationIdChanged();
     partial void OnUserParentIdChanging(System.Guid value);
     partial void OnUserParentIdChanged();
+    partial void OnGetEmailChanging(System.Nullable<bool> value);
+    partial void OnGetEmailChanged();
+    partial void OnGetSMSChanging(System.Nullable<bool> value);
+    partial void OnGetSMSChanged();
+    partial void OnIsRegisteredChanging(System.Nullable<bool> value);
+    partial void OnIsRegisteredChanged();
+    partial void OnIsActivatedChanging(System.Nullable<bool> value);
+    partial void OnIsActivatedChanged();
     #endregion
 		
 		public UserManagement_RoleParentsAuthorization()
@@ -928,6 +944,86 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._UserParentId = value;
 					this.SendPropertyChanged("UserParentId");
 					this.OnUserParentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetEmail", DbType="Bit")]
+		public System.Nullable<bool> GetEmail
+		{
+			get
+			{
+				return this._GetEmail;
+			}
+			set
+			{
+				if ((this._GetEmail != value))
+				{
+					this.OnGetEmailChanging(value);
+					this.SendPropertyChanging();
+					this._GetEmail = value;
+					this.SendPropertyChanged("GetEmail");
+					this.OnGetEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetSMS", DbType="Bit")]
+		public System.Nullable<bool> GetSMS
+		{
+			get
+			{
+				return this._GetSMS;
+			}
+			set
+			{
+				if ((this._GetSMS != value))
+				{
+					this.OnGetSMSChanging(value);
+					this.SendPropertyChanging();
+					this._GetSMS = value;
+					this.SendPropertyChanged("GetSMS");
+					this.OnGetSMSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRegistered", DbType="Bit")]
+		public System.Nullable<bool> IsRegistered
+		{
+			get
+			{
+				return this._IsRegistered;
+			}
+			set
+			{
+				if ((this._IsRegistered != value))
+				{
+					this.OnIsRegisteredChanging(value);
+					this.SendPropertyChanging();
+					this._IsRegistered = value;
+					this.SendPropertyChanged("IsRegistered");
+					this.OnIsRegisteredChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit")]
+		public System.Nullable<bool> IsActivated
+		{
+			get
+			{
+				return this._IsActivated;
+			}
+			set
+			{
+				if ((this._IsActivated != value))
+				{
+					this.OnIsActivatedChanging(value);
+					this.SendPropertyChanging();
+					this._IsActivated = value;
+					this.SendPropertyChanged("IsActivated");
+					this.OnIsActivatedChanged();
 				}
 			}
 		}
@@ -11982,6 +12078,8 @@ namespace SoLienLacTrucTuyen.DataAccess
 		
 		private int _AuthorizedPagePathId;
 		
+		private bool _IsActivated;
+		
 		private EntityRef<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorization;
 		
 		private EntityRef<aspnet_Role> _aspnet_Role;
@@ -11998,6 +12096,8 @@ namespace SoLienLacTrucTuyen.DataAccess
     partial void OnRoleIdChanged();
     partial void OnAuthorizedPagePathIdChanging(int value);
     partial void OnAuthorizedPagePathIdChanged();
+    partial void OnIsActivatedChanging(bool value);
+    partial void OnIsActivatedChanged();
     #endregion
 		
 		public UserManagement_Authorization()
@@ -12072,6 +12172,26 @@ namespace SoLienLacTrucTuyen.DataAccess
 					this._AuthorizedPagePathId = value;
 					this.SendPropertyChanged("AuthorizedPagePathId");
 					this.OnAuthorizedPagePathIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit NOT NULL")]
+		public bool IsActivated
+		{
+			get
+			{
+				return this._IsActivated;
+			}
+			set
+			{
+				if ((this._IsActivated != value))
+				{
+					this.OnIsActivatedChanging(value);
+					this.SendPropertyChanging();
+					this._IsActivated = value;
+					this.SendPropertyChanged("IsActivated");
+					this.OnIsActivatedChanged();
 				}
 			}
 		}

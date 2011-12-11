@@ -16,6 +16,10 @@
     <Type Name="UserManagement_RoleParentsAuthorization">
       <Column Name="RoleParentAuthorizationId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserParentId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="GetEmail" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="GetSMS" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsRegistered" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="aspnet_User" ThisKey="UserParentId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_Authorization" ThisKey="RoleParentAuthorizationId" OtherKey="AuthorizationId" Type="UserManagement_Authorization" IsForeignKey="true" />
     </Type>
@@ -533,6 +537,7 @@
       <Column Name="AuthorizationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="AuthorizedPagePathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorization" ThisKey="AuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" Cardinality="One" />
       <Association Name="aspnet_Role_UserManagement_Authorization" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
       <Association Name="UserManagement_AuthorizedPage_UserManagement_Authorization" Member="UserManagement_AuthorizedPage" ThisKey="AuthorizedPagePathId" OtherKey="AuthorizedPageId" Type="UserManagement_AuthorizedPage" IsForeignKey="true" />

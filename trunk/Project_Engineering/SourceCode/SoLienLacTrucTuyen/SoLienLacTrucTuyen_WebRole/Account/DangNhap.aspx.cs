@@ -44,10 +44,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Login event handlers
         protected void LoginCtrl_Authenticate(object sender, AuthenticateEventArgs e)
         {
-            // Get real UserName
+            // Make actual UserName
             DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
             int iSltSchool = Int32.Parse(ddlSchools.SelectedValue);
-            LoginCtrl.UserName = iSltSchool + "_" + LoginCtrl.UserName;
+            LoginCtrl.UserName = iSltSchool + AppConstant.UNDERSCORE + LoginCtrl.UserName;
 
             if (ValidateUser(LoginCtrl.UserName, LoginCtrl.Password))
             {
@@ -58,12 +58,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 Session[AppConstant.SCHOOL] = school;
 
-                Guid role = (new UserBL(school)).GetRoleId(LoginCtrl.UserName);
+                aspnet_Role role = (new UserBL(school)).GetRole(LoginCtrl.UserName);
                 AuthorizationBL authorizationBL = new AuthorizationBL(school);
-                if (authorizationBL.IsRoleParents(new aspnet_Role { RoleId = role }))
+                if (authorizationBL.IsRoleParents(role))
                 {
                     StudentBL studentBL = new StudentBL(school);
-                    string strStudentCode = LoginCtrl.UserName.Split('_')[1];
+                    string strStudentCode = LoginCtrl.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
                     string strMembershipStudentSessionKey = LoginCtrl.UserName
                         + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
                     Session[strMembershipStudentSessionKey] = studentBL.GetStudent(strStudentCode);
@@ -71,7 +71,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                LoginCtrl.UserName = LoginCtrl.UserName.Split('_')[1];
+                LoginCtrl.UserName = LoginCtrl.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
                 e.Authenticated = false;
             }
         }

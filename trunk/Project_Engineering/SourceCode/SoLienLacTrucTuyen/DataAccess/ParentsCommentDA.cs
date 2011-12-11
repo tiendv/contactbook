@@ -13,6 +13,12 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         }
 
+        public void InsertParentsComment(ParentComment_Comment parentsComment)
+        {
+            db.ParentComment_Comments.InsertOnSubmit(parentsComment);
+            db.SubmitChanges();
+        }
+
         public void UpdateParentsComments(ParentComment_Comment editedParentsComment, string reply)
         {
             ParentComment_Comment parentsComment = null;
@@ -45,6 +51,29 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                        && cmt.CommentStatusId == commentStatus.CommentStatusId
                                                        && cmt.Date >= beginDate && cmt.Date <= endDate
                                                        select cmt;
+
+            return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<ParentComment_Comment> GetParentsComments(Student_Student student, Configuration_Year year, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                                  where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                  && cmt.Date >= beginDate && cmt.Date <= endDate
+                                                                  && cmt.Student_StudentInClass.StudentId == student.StudentId
+                                                                  select cmt;
+
+            return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<ParentComment_Comment> GetParentsComments(Student_Student student, Configuration_Year year, Configuration_CommentStatus commentStatus, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                                  where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                  && cmt.CommentStatusId == commentStatus.CommentStatusId
+                                                                  && cmt.Date >= beginDate && cmt.Date <= endDate
+                                                                  && cmt.Student_StudentInClass.StudentId == student.StudentId
+                                                                  select cmt;
 
             return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
         }

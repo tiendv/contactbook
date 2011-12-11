@@ -10,8 +10,9 @@ using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
 using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class StudentAbsentPage : BaseContentPage
     {
@@ -26,7 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (isAccessDenied)
+            if (accessDenied)
             {
                 return;
             }
@@ -38,7 +39,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
             if (!Page.IsPostBack)
             {
-                if (MembershipStudent != null)
+                if (LoggedInStudent != null)
                 {
                     BindDropDownLists();
                     InitDates();
@@ -62,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void BindDDLYears()
         {
-            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            List<Configuration_Year> years = studentBL.GetYears(LoggedInStudent);
             DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
@@ -106,7 +107,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
             DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
 
-            tabularAbsents = absentBL.GetTabularAbsents(MembershipStudent, year, term, dtBeginDate, dtEndDate,
+            tabularAbsents = absentBL.GetTabularAbsents(LoggedInStudent, year, term, dtBeginDate, dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (dTotalRecords != 0 && tabularAbsents.Count == 0)
@@ -154,7 +155,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             Student_Absent absent = null;
 
-            if (lstAccessibilities.Contains(AccessibilityEnum.Delete))
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)

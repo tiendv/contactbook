@@ -82,7 +82,6 @@
     <Compile Include="FacultyBL.cs" />
     <Compile Include="RoleBL.cs" />
     <Compile Include="PagePathBL.cs" />
-    <Compile Include="PhanQuyenBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AttitudeBL.cs" />
     <Compile Include="TeachingPeriodBL.cs" />
