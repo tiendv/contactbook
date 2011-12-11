@@ -11,8 +11,11 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class AddParentsCommentPage : BaseContentPage
     {
+        #region Fields
         private ParentsCommentBL parentsCommentBL;
+        #endregion
 
+        #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
@@ -23,6 +26,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
             parentsCommentBL = new ParentsCommentBL(UserSchool);
         }
+        #endregion
 
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)

@@ -18,13 +18,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             StudentBL studentBL = new StudentBL(school);
 
             Class = studentBL.GetLastedClass(student);
-            studentInClass = studentBL.GetStudentInClass(student, Class.Configuration_Year);            
+            studentInClass = studentBL.GetStudentInClass(student, Class.Configuration_Year);
             ParentComment_Comment parentsComment = new ParentComment_Comment();
             parentsComment.Title = title;
             parentsComment.CommentContent = content;
             parentsComment.Date = DateTime.Now;
             parentsComment.CommentStatusId = 1; // unread
             parentsComment.StudentInClassId = studentInClass.StudentInClassId;
+            parentsComment.Feedback = "";
             parentsCommentDA.InsertParentsComment(parentsComment);
         }
 
@@ -34,9 +35,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             parentsCommentDA = new ParentsCommentDA(school);
         }
 
-        public void Reply(ParentComment_Comment parentsComment, string reply)
+        public void Feedback(ParentComment_Comment parentsComment, string feedback)
         {
-            parentsCommentDA.UpdateParentsComments(parentsComment, reply);
+            parentsCommentDA.UpdateParentsComments(parentsComment, feedback);
         }
 
         public List<TabularParentsComment> GetTabularParentsComments(Configuration_Year year, Configuration_CommentStatus commentStatus,
@@ -69,7 +70,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularParentsComment.Content = parentsComment.CommentContent;
                 tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
                 tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
-
+                tabularParentsComment.Feedback = parentsComment.Feedback;
                 tabularParentsComments.Add(tabularParentsComment);
             }
 
@@ -106,7 +107,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularParentsComment.Content = parentsComment.CommentContent;
                 tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
                 tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
-
+                tabularParentsComment.Feedback = parentsComment.Feedback;
                 tabularParentsComments.Add(tabularParentsComment);
             }
 
@@ -128,6 +129,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public ParentComment_Comment GetParentsComments(int commentId)
         {
             return parentsCommentDA.GetParentsComments(commentId);
+        }
+
+        public void DeleteParentsComment(ParentComment_Comment comment)
+        {
+            parentsCommentDA.DeleteParentsComment(comment);
+        }
+
+        public void UpdateParentsComment(ParentComment_Comment comment, string newContent)
+        {
+            parentsCommentDA.UpdateParentsComment(comment, newContent);
         }
     }
 }

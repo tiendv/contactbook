@@ -162,18 +162,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDetailItem":
                     {
-                        //int ClassId = Int32.Parse(e.CommandArgument.ToString());
-                        //Class_Class lophoc = lopHocBL.GetLopHoc(ClassId);
+                        int iCommentId = Int32.Parse(e.CommandArgument.ToString());
 
-                        //LblClassNameChiTiet.Text = lophoc.ClassName;
-                        //LblFacultyNameChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.FacultyId).FacultyName;
-                        //LblGradeNameChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.GradeId).GradeName;
-                        //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
-                        //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
-                        //mPEDetail.Show();
+                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
+                        AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
 
-                        //this.HdfClassId.Value = ClassId.ToString();
-                        //this.HdfRptLopHocMPEDetail.Value = mPEDetail.ClientID;
+                        Response.Redirect(AppConstant.PAGEPATH_DETAILEDPARENTSCOMMENTS);
+                        break;
+                    }
+                case "CmdEditItem":
+                    {
+                        int iCommentId = Int32.Parse(e.CommandArgument.ToString());
+
+                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
+                        AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
+
+                        Response.Redirect(AppConstant.PAGEPATH_FEEDBACKPARENTSCOMMENTS);
                         break;
                     }
                 default:

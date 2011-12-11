@@ -19,7 +19,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             db.SubmitChanges();
         }
 
-        public void UpdateParentsComments(ParentComment_Comment editedParentsComment, string reply)
+        public void UpdateParentsComments(ParentComment_Comment editedParentsComment, string feedback)
         {
             ParentComment_Comment parentsComment = null;
 
@@ -29,7 +29,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             if (iqParentsComments.Count() != 0)
             {
                 parentsComment = iqParentsComments.First();
-                parentsComment.Feedback = reply;
+                parentsComment.Feedback = feedback;
+                parentsComment.CommentStatusId = 2; // fed back
+
                 db.SubmitChanges();
             }
         }
@@ -119,6 +121,36 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return parentsComment;
+        }
+
+        public void DeleteParentsComment(ParentComment_Comment comment)
+        {
+            ParentComment_Comment parentsComment = null;
+
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                                  where cmt.CommentId == comment.CommentId
+                                                                  select cmt;
+            if (iqParentsComments.Count() != 0)
+            {
+                parentsComment = iqParentsComments.First();
+                db.ParentComment_Comments.DeleteOnSubmit(parentsComment);
+                db.SubmitChanges();
+            }
+        }
+
+        public void UpdateParentsComment(ParentComment_Comment comment, string newContent)
+        {
+            ParentComment_Comment parentsComment = null;
+
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                                  where cmt.CommentId == comment.CommentId
+                                                                  select cmt;
+            if (iqParentsComments.Count() != 0)
+            {
+                parentsComment = iqParentsComments.First();
+                parentsComment.CommentContent = newContent;
+                db.SubmitChanges();
+            }
         }
     }
 }

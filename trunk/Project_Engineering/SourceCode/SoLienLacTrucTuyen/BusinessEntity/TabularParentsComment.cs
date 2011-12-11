@@ -10,6 +10,7 @@ namespace SoLienLacTrucTuyen.BusinessEntity
         public int CommentId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string Feedback { get; set; }
         public string CommentStatusName { get; set; }
         public string Date { get; set; }
     }

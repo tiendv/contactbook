@@ -40,8 +40,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public Category_LearningAptitude GetHocLuc(int LearningAptitudeId)
         {
             IQueryable<Category_LearningAptitude> HocLucs = from hl in db.Category_LearningAptitudes
-                                                 where hl.LearningAptitudeId == LearningAptitudeId
-                                                 select hl;
+                                                            where hl.LearningAptitudeId == LearningAptitudeId
+                                                            select hl;
             if (HocLucs.Count() != 0)
             {
                 return HocLucs.First();
@@ -55,7 +55,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<Category_LearningAptitude> GetListHocLuc()
         {
             IQueryable<Category_LearningAptitude> iqHocLuc = from hocLuc in db.Category_LearningAptitudes
-                                                  select hocLuc;
+                                                             select hocLuc;
             if (iqHocLuc.Count() != 0)
             {
                 return iqHocLuc.OrderBy(hocLuc => hocLuc.LearningAptitudeName).ToList();
@@ -63,13 +63,13 @@ namespace SoLienLacTrucTuyen.DataAccess
             else
             {
                 return new List<Category_LearningAptitude>();
-            }            
+            }
         }
 
         public List<Category_LearningAptitude> GetListHocLuc(int pageCurrentIndex, int pageSize)
         {
             IQueryable<Category_LearningAptitude> hocLucs = from hl in db.Category_LearningAptitudes
-                                                 select hl;
+                                                            select hl;
             hocLucs = hocLucs.OrderBy(hl => hl.LearningAptitudeName);
             hocLucs = hocLucs.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
             return hocLucs.ToList();
@@ -78,8 +78,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<Category_LearningAptitude> GetListHocLuc(string LearningAptitudeName, int pageCurrentIndex, int pageSize)
         {
             IQueryable<Category_LearningAptitude> hocLucs = from hl in db.Category_LearningAptitudes
-                                                 where hl.LearningAptitudeName.Contains(LearningAptitudeName)
-                                                 select hl;
+                                                            where hl.LearningAptitudeName.Contains(LearningAptitudeName)
+                                                            select hl;
             hocLucs = hocLucs.OrderBy(n => n.LearningAptitudeName).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize);
             return hocLucs.ToList();
         }
@@ -88,8 +88,8 @@ namespace SoLienLacTrucTuyen.DataAccess
             List<Category_LearningAptitude> lConducts = new List<Category_LearningAptitude>();
 
             IQueryable<Category_LearningAptitude> iqConduct = from cdt in db.Category_LearningAptitudes
-                                                     where cdt.SchoolId == school.SchoolId
-                                                     select cdt;
+                                                              where cdt.SchoolId == school.SchoolId
+                                                              select cdt;
 
             return GetHocLucs(ref iqConduct, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -109,23 +109,23 @@ namespace SoLienLacTrucTuyen.DataAccess
         public double GetHocLucCount()
         {
             IQueryable<Category_LearningAptitude> hocLucs = from hl in db.Category_LearningAptitudes
-                                                 select hl;
+                                                            select hl;
             return hocLucs.Count();
         }
 
         public double GetHocLucCount(string LearningAptitudeName)
         {
             IQueryable<Category_LearningAptitude> hocLucs = from hl in db.Category_LearningAptitudes
-                                                 where hl.LearningAptitudeName.Contains(LearningAptitudeName)
-                                                 select hl;
+                                                            where hl.LearningAptitudeName.Contains(LearningAptitudeName)
+                                                            select hl;
             return hocLucs.Count();
         }
 
         public bool CheckExistLearningAptitudeName(int LearningAptitudeId, string LearningAptitudeName)
         {
             IQueryable<Category_LearningAptitude> hocLucs = from hl in db.Category_LearningAptitudes
-                                                 where hl.LearningAptitudeName == LearningAptitudeName && hl.LearningAptitudeId != LearningAptitudeId
-                                                 select hl;
+                                                            where hl.LearningAptitudeName == LearningAptitudeName && hl.LearningAptitudeId != LearningAptitudeId
+                                                            select hl;
             if (hocLucs.Count() != 0)
             {
                 return true;
@@ -155,8 +155,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public Category_LearningAptitude GetHocLuc(double diem)
         {
             IQueryable<Category_LearningAptitude> hocLucs = from hocluc in db.Category_LearningAptitudes
-                                                 where hocluc.EndAverageMark <= diem && hocluc.EndAverageMark >= diem
-                                                 select hocluc;
+                                                            where hocluc.EndAverageMark <= diem && hocluc.EndAverageMark >= diem
+                                                            select hocluc;
             if (hocLucs.Count() != 0)
             {
                 return hocLucs.First();
@@ -169,9 +169,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public bool ConductNameExists(string conductName)
         {
             IQueryable<Category_LearningAptitude> iqConduct = from cdt in db.Category_LearningAptitudes
-                                                     where cdt.LearningAptitudeName == conductName
-                                                     && cdt.SchoolId == school.SchoolId
-                                                     select cdt;
+                                                              where cdt.LearningAptitudeName == conductName
+                                                              && cdt.SchoolId == school.SchoolId
+                                                              select cdt;
             if (iqConduct.Count() != 0)
             {
                 return true;
@@ -192,9 +192,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             Category_LearningAptitude conduct = null;
 
             IQueryable<Category_LearningAptitude> iqConduct = from cdt in db.Category_LearningAptitudes
-                                                   where cdt.LearningAptitudeId == deletedHocLuc.LearningAptitudeId
-                                                     && cdt.SchoolId == school.SchoolId
-                                                     select cdt;
+                                                              where cdt.LearningAptitudeId == deletedHocLuc.LearningAptitudeId
+                                                                && cdt.SchoolId == school.SchoolId
+                                                              select cdt;
 
             if (iqConduct.Count() != 0)
             {
@@ -208,9 +208,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             Category_LearningAptitude conduct = null;
 
             IQueryable<Category_LearningAptitude> iqConduct = from cdt in db.Category_LearningAptitudes
-                                                     where cdt.LearningAptitudeName == conductName
-                                                     && cdt.SchoolId == school.SchoolId
-                                                     select cdt;
+                                                              where cdt.LearningAptitudeName == conductName
+                                                              && cdt.SchoolId == school.SchoolId
+                                                              select cdt;
 
             if (iqConduct.Count() != 0)
             {
@@ -224,9 +224,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             Category_LearningAptitude conduct = null;
 
             IQueryable<Category_LearningAptitude> iqConduct = from cdt in db.Category_LearningAptitudes
-                                                   where cdt.LearningAptitudeId == conductName
-                                                   && cdt.SchoolId == school.SchoolId
-                                                   select cdt;
+                                                              where cdt.LearningAptitudeId == conductName
+                                                              && cdt.SchoolId == school.SchoolId
+                                                              select cdt;
 
             if (iqConduct.Count() != 0)
             {
@@ -240,9 +240,9 @@ namespace SoLienLacTrucTuyen.DataAccess
             Category_LearningAptitude conduct = null;
 
             IQueryable<Category_LearningAptitude> iqConduct = from cdt in db.Category_LearningAptitudes
-                                                     where cdt.LearningAptitudeId == editedConduct.LearningAptitudeId
-                                                     && cdt.SchoolId == school.SchoolId
-                                                     select cdt;
+                                                              where cdt.LearningAptitudeId == editedConduct.LearningAptitudeId
+                                                              && cdt.SchoolId == school.SchoolId
+                                                              select cdt;
 
             if (iqConduct.Count() != 0)
             {
@@ -270,6 +270,23 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return bResult;
+        }
+
+        public Category_LearningAptitude GetLearningAptitude(double averageMark)
+        {
+            Category_LearningAptitude learningAptitude = null;
+
+            IQueryable<Category_LearningAptitude> iqLearningAptitude = from lA in db.Category_LearningAptitudes
+                                                                       where lA.BeginAverageMark <= averageMark
+                                                                       && lA.BeginAverageMark >= averageMark
+                                                                       && lA.SchoolId == school.SchoolId
+                                                                       select lA;
+            if (iqLearningAptitude.Count() != 0)
+            {
+                learningAptitude = iqLearningAptitude.First();
+            }
+
+            return learningAptitude;
         }
     }
 }

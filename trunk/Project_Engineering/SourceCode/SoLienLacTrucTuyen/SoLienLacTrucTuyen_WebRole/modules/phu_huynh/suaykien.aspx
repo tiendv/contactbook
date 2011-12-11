@@ -10,11 +10,8 @@
                 Tiêu đề:
                 <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
-            <td>
-                <asp:TextBox ID="TxtTitle" runat="server" CssClass="input_textbox"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredTitle" runat="server" ValidationGroup="AddComment"
-                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtTitle" ErrorMessage="Tiêu đề không được để trống">
-                </asp:RequiredFieldValidator>
+            <td class="readOnlyTextBox">
+                <asp:Label ID="LblTitle" runat="server" ViewStateMode="Enabled"></asp:Label>
             </td>
         </tr>
         <tr>

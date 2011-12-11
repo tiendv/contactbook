@@ -22,22 +22,13 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// TxtTitle control.
+        /// LblTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTitle;
-        
-        /// <summary>
-        /// RequiredTitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredTitle;
+        protected global::System.Web.UI.WebControls.Label LblTitle;
         
         /// <summary>
         /// Label2 control.

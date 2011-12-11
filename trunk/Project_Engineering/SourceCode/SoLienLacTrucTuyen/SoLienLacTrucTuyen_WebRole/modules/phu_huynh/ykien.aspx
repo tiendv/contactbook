@@ -4,6 +4,15 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div id="divScript">
+        <script language="javascript" type="text/javascript">
+            function popopConfirmDelete_CancelDelete_Click() {
+                var mPEDeleteID = $get('<%=HdfRptCommentMPEDelete.ClientID%>').value;
+                $find(mPEDeleteID).hide();
+                return false;
+            }
+        </script>
+    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
             <table class="search">
@@ -69,12 +78,10 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:HiddenField ID="HdfMaLoiNhanKhan" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDelete" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEEdit" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetail" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetailHS" runat="server" />
-            <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemCommand="RptLoiNhanKhan_ItemCommand">
+            <asp:HiddenField ID="HdfCommentId" runat="server" />
+            <asp:HiddenField ID="HdfRptCommentMPEDelete" runat="server" />
+            <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemDataBound="RptLoiNhanKhan_ItemDataBound" 
+                OnItemCommand="RptLoiNhanKhan_ItemCommand">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
@@ -84,10 +91,16 @@
                             Góp ý của phụ huynh
                         </td>
                         <td style="width: 100px">
-                            Ngày góp ý  
+                            Ngày góp ý
                         </td>
                         <td style="width: 100px">
                             Tình trạng
+                        </td>
+                        <td class="icon">
+                            Sửa
+                        </td>
+                        <td class="icon">
+                            Xóa
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -97,10 +110,9 @@
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
                             <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
                         </td>
-                        <td style="height: 40px;">                            
-                            <asp:LinkButton ID="LbtnCommentTitle" runat="server"
-                                Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
-                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'>
+                        <td style="height: 40px;">
+                            <asp:LinkButton ID="LbtnCommentTitle" runat="server" Style="text-decoration: underline;
+                                color: Blue; cursor: pointer;" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'>
                             <%#DataBinder.Eval(Container.DataItem, "Title")%>
                             </asp:LinkButton>
                         </td>
@@ -109,6 +121,19 @@
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "CommentStatusName")%>
+                        </td>
+                        <td style="height: 40px; text-align: center">
+                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
+                        </td>
+                        <td style="height: 40px; text-align: center">
+                            <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
+                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Title")%>' />
+                            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
+                                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
+                                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
+                            </ajaxToolkit:ModalPopupExtender>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -125,4 +150,25 @@
         <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
             ViewStateMode="Enabled" />
     </div>
+    <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
+        Width="350px">
+        <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa góp ý" CssClass="popup_header_title"></asp:Label>
+            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="LblConfirmDelete" runat="server"></asp:Label>
+            </div>
+        </div>
+        <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px;">
+            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+                OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />&nbsp;
+            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+                OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
+        </div>
+    </asp:Panel>
 </asp:Content>
