@@ -108,8 +108,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
-            DdlYears.DataSource = lstNamHoc;
+            List<Configuration_Year> years = systemConfigBL.GetListYears();
+            DdlYears.DataSource = years;
             DdlYears.DataValueField = "YearId";
             DdlYears.DataTextField = "YearName";
             DdlYears.DataBind();

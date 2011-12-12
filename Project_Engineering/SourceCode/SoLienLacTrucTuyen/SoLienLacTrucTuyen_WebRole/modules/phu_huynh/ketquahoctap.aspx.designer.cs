@@ -164,14 +164,5 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::SoLienLacTrucTuyen.DataPager.DataPager DataPagerDanhHieu;
-        
-        /// <summary>
-        /// HdfMaHocSinh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaHocSinh;
     }
 }

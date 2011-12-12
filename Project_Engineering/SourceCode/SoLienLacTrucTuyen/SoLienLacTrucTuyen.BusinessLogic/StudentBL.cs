@@ -26,9 +26,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             ClassBL classBL = new ClassBL(school);
             SystemConfigBL systemConfigBL = new SystemConfigBL(school);
             StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            ScheduleBL scheduleBL = new ScheduleBL(school);
             Category_Conduct conduct = null;
             Category_LearningAptitude studyingAptitude = null;
 
+            // Insert new student to database
             Student_Student student = new Student_Student
             {
                 StudentCode = studentCode,
@@ -46,21 +48,36 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 MotherBirthday = motherBirthday,
                 PatronName = patronName,
                 PatronJob = patronJob,
-                PatronBirthday = patronBirthday
+                PatronBirthday = patronBirthday,
+                SchoolId = school.SchoolId
+
             };
             studentDA.InsertStudent(student);
 
+            // Update Class' quantity student
+            classBL.IncreaseStudentAmount(Class);
+            
+            // Insert created student to specified class
             Student_Student insertedStudent = studentDA.GetStudent(student.StudentCode);
             Student_StudentInClass lastedStudentInClass = studentDA.InsertStudentInClass(insertedStudent, Class);
-            classBL.IncreaseStudentAmount(Class);
 
             List<Configuration_Term> terms = systemConfigBL.GetListTerms();
+            List<Category_Subject> scheduledSubjects;
             foreach (Configuration_Term term in terms)
             {
                 conduct = new Category_Conduct();
                 conduct.ConductId = -1;
                 studyingAptitude = new Category_LearningAptitude();
                 studyingAptitude.LearningAptitudeId = -1;
+
+                // insert student's TermSubjectMark
+                scheduledSubjects = scheduleBL.GetScheduledSubjects(Class, term);
+                foreach (Category_Subject scheduledSubject in scheduledSubjects)
+                {
+                    studyingResultBL.InsertTermSubjectMark(lastedStudentInClass, term, scheduledSubject);
+                }
+
+                // insert new student's TermStudyingResult
                 studyingResultBL.InsertTermStudyingResult(term, lastedStudentInClass, -1, conduct, studyingAptitude);
             }
         }
@@ -344,6 +361,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return tabularStudents;
         }
+
         public TabularClass GetTabularClass(Configuration_Year year, Student_Student student)
         {
             ClassBL classBL = new ClassBL(school);

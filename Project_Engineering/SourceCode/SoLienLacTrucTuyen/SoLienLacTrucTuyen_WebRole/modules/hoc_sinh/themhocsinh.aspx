@@ -91,7 +91,7 @@
                 </asp:RequiredFieldValidator>
                 <asp:HiddenField ID="hdfOutput" runat="server" Value="true" />
                 <asp:CustomValidator ID="MaHocSinhValidator" runat="server" ValidationGroup="AddHocSinh"
-                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi" ClientValidationFunction="ValidateMaHocSinh"
+                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi"
                     ErrorMessage="Mã học sinh đã tồn tại">
                 </asp:CustomValidator>
             </td>

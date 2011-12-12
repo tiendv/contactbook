@@ -7,14 +7,21 @@ namespace SoLienLacTrucTuyen.BusinessEntity
 {
     public class TabularTermStudentResult
     {
-        public int LearningResultIdHSHK { get; set; }
-        public int? ConductId { get; set; }
-        public double DiemTB { get; set; }
-
         public string TermName { get; set; }
-        public string StrDiemTB { get; set; }
-        public string LearningAptitudeName { get; set; }
+
+        // Conduct
+        public int? ConductId { get; set; }
         public string ConductName { get; set; }
+
+        // LearningAptitude
+        public int LearningAptitudeId { get; set; }
+        public string LearningAptitudeName { get; set; }
+
+        // AverageMark
+        public double AverageMark { get; set; }
+        public string StringAverageMark { get; set; }
+
+        // LearningResultName
         public string LearningResultName { get; set; }
     }
 }

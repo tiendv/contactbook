@@ -69,6 +69,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return danhHieuDA.GetDanhHieu(LearningResultId);
         }
 
+        public Category_LearningResult GetLearningResult(Category_Conduct conduct, Category_LearningAptitude learningAptitude)
+        {
+            return danhHieuDA.GetLearningResult(conduct, learningAptitude);
+        }
+
         public bool CanDeleteDanhHieu(int LearningResultId)
         {
             return danhHieuDA.CanDeleteDanhHieu(LearningResultId);

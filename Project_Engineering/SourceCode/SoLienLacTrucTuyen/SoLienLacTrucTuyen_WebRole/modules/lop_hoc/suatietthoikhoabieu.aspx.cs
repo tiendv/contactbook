@@ -146,7 +146,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            ScheduleBL thoiKhoaBieuBL = new ScheduleBL(UserSchool);
+            ScheduleBL scheduleBL = new ScheduleBL(UserSchool);
             Class_Schedule schedule = null;
             Category_Subject subject = null;
             aspnet_User teacher = null;
@@ -173,7 +173,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 subject.SubjectId = SubjectId;
                 teacher = new aspnet_User();
                 teacher.UserId = UserId;
-                thoiKhoaBieuBL.UpdateSchedule(schedule, subject, teacher);
+                scheduleBL.UpdateSchedule(schedule, subject, teacher);
 
                 Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",
                     Request.QueryString["lop"], Request.QueryString["hocky"], Request.QueryString["thu"]));

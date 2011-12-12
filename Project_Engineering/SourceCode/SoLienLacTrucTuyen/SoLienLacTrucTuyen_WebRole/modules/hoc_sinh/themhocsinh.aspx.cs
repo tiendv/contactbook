@@ -92,11 +92,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            string tenBo = this.TxtHoTenBo.Text.Trim();
-            string tenMe = this.TxtHoTenMe.Text.Trim();
-            string tenNguoiDoDau = this.TxtHoTenNguoiDoDau.Text;
+            string strFatherName = this.TxtHoTenBo.Text.Trim();
+            string strMotherName = this.TxtHoTenMe.Text.Trim();
+            string strPatron = this.TxtHoTenNguoiDoDau.Text;
 
-            if (tenBo == "" && tenMe == "" && tenNguoiDoDau == "")
+            if (strFatherName == "" && strMotherName == "" && strPatron == "")
             {
                 LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, "none");
                 return;
@@ -106,7 +106,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, "block");
             }
 
-            string ngheNghiepBo = this.TxtNgheNghiepBo.Text.Trim();
+            string strFatherJob = this.TxtNgheNghiepBo.Text.Trim();
             DateTime? ngaySinhBo = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
             string ngheNghiepMe = this.TxtNgheNghiepMe.Text.Trim();
             DateTime? ngaySinhMe = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
@@ -125,9 +125,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             studentBL.InsertStudent(Class, strStudentCode, strStudentName,
                 gioiTinh, ngaySinh, noiSinh, strAddress, dienThoai,
-                tenBo, ngheNghiepBo, ngaySinhBo,
-                tenMe, ngheNghiepMe, ngaySinhMe,
-                tenNguoiDoDau, ngheNghiepNguoiDoDau, ngaySinhNguoiDoDau);
+                strFatherName, strFatherJob, ngaySinhBo,
+                strMotherName, ngheNghiepMe, ngaySinhMe,
+                strPatron, ngheNghiepNguoiDoDau, ngaySinhNguoiDoDau);
 
             if (this.CkbAddAfterSave.Checked)
             {
@@ -177,17 +177,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
-            BindDropDownListNganhHoc();
+            BindDDLYears();
+            BindDDLFaculties();
             BindDDLGrades();
             BindDDLClasses();
         }
 
-        private void BindDropDownListNamHoc()
+        private void BindDDLYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = lstNamHoc;
+            List<Configuration_Year> years = systemConfigBL.GetListYears();
+            DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
@@ -201,15 +201,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLGrades()
         {
-            GradeBL grades = new GradeBL(UserSchool);
-            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
-            DdlKhoiLop.DataSource = lstKhoiLop;
+            GradeBL gradeBL = new GradeBL(UserSchool);
+            List<Category_Grade> grades = gradeBL.GetListGrades();
+            DdlKhoiLop.DataSource = grades;
             DdlKhoiLop.DataValueField = "GradeId";
             DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
         }
 
-        private void BindDropDownListNganhHoc()
+        private void BindDDLFaculties()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
             List<Category_Faculty> faculties = facultyBL.GetFaculties();

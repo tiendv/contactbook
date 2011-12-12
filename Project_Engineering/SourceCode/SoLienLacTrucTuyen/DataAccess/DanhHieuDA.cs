@@ -5,12 +5,12 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen.DataAccess
 {
-    public class DanhHieuDA: BaseDA
+    public class DanhHieuDA : BaseDA
     {
         public DanhHieuDA(School_School school)
             : base(school)
         {
-        }        
+        }
 
         public void InsertDanhHieu(string LearningResultName, Dictionary<int, int> dicHanhKiemNHocLuc)
         {
@@ -21,26 +21,26 @@ namespace SoLienLacTrucTuyen.DataAccess
             db.Category_LearningResults.InsertOnSubmit(danhHieu);
             db.SubmitChanges();
 
-            danhHieu = GetLastedDanhHieu();            
+            danhHieu = GetLastedDanhHieu();
             foreach (KeyValuePair<int, int> pair in dicHanhKiemNHocLuc)
             {
                 Category_DetailedLearningResult ctDanhHieu = new Category_DetailedLearningResult
                 {
                     LearningResultId = danhHieu.LearningResultId,
                     LearningAptitudeId = pair.Key,
-                    ConductId = pair.Value                    
+                    ConductId = pair.Value
                 };
-                db.Category_DetailedLearningResults.InsertOnSubmit(ctDanhHieu);                   
+                db.Category_DetailedLearningResults.InsertOnSubmit(ctDanhHieu);
             }
-            
+
             db.SubmitChanges();
         }
 
         public void UpdateDanhHieu(int LearningResultId, Dictionary<int, int> dicHanhKiemNHocLuc)
         {
             IQueryable<Category_DetailedLearningResult> ctDanhHieus = from ctDHieu in db.Category_DetailedLearningResults
-                                                              where ctDHieu.LearningResultId == LearningResultId
-                                                              select ctDHieu;
+                                                                      where ctDHieu.LearningResultId == LearningResultId
+                                                                      select ctDHieu;
             foreach (Category_DetailedLearningResult ctDanhHieu in ctDanhHieus)
             {
                 db.Category_DetailedLearningResults.DeleteOnSubmit(ctDanhHieu);
@@ -64,8 +64,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public void DeleteDanhHieu(int LearningResultId)
         {
             Category_LearningResult danhHieu = (from dHieu in db.Category_LearningResults
-                                         where dHieu.LearningResultId == LearningResultId
-                                         select dHieu).First();
+                                                where dHieu.LearningResultId == LearningResultId
+                                                select dHieu).First();
             db.Category_LearningResults.DeleteOnSubmit(danhHieu);
             db.SubmitChanges();
         }
@@ -73,10 +73,10 @@ namespace SoLienLacTrucTuyen.DataAccess
         public void DeleteChiTietDanhHieu(int LearningResultId, int LearningAptitudeId, int ConductId)
         {
             Category_DetailedLearningResult ctDanhHieu = (from ctDHieu in db.Category_DetailedLearningResults
-                                                 where ctDHieu.LearningResultId == LearningResultId
-                                                    && ctDHieu.LearningAptitudeId == LearningAptitudeId
-                                                    && ctDHieu.ConductId == ConductId
-                                                 select ctDHieu).First();
+                                                          where ctDHieu.LearningResultId == LearningResultId
+                                                             && ctDHieu.LearningAptitudeId == LearningAptitudeId
+                                                             && ctDHieu.ConductId == ConductId
+                                                          select ctDHieu).First();
             db.Category_DetailedLearningResults.DeleteOnSubmit(ctDanhHieu);
             db.SubmitChanges();
         }
@@ -84,7 +84,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public Category_LearningResult GetLastedDanhHieu()
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     select danhHieu;
+                                                            select danhHieu;
             if (danhHieus.Count() != 0)
             {
                 return danhHieus.OrderByDescending(danhHieu => danhHieu.LearningResultId).First();
@@ -98,11 +98,11 @@ namespace SoLienLacTrucTuyen.DataAccess
         public string GetLearningResultName(int LearningAptitudeId, int ConductId)
         {
             IQueryable<Category_LearningResult> danhHieus = from ctDanhHieu in db.Category_DetailedLearningResults
-                                                     join danhHieu in db.Category_LearningResults 
-                                                        on ctDanhHieu.LearningResultId equals danhHieu.LearningResultId
-                                                     where ctDanhHieu.LearningAptitudeId == LearningAptitudeId 
-                                                        && ctDanhHieu.ConductId == ConductId
-                                                     select danhHieu;
+                                                            join danhHieu in db.Category_LearningResults
+                                                               on ctDanhHieu.LearningResultId equals danhHieu.LearningResultId
+                                                            where ctDanhHieu.LearningAptitudeId == LearningAptitudeId
+                                                               && ctDanhHieu.ConductId == ConductId
+                                                            select danhHieu;
             if (danhHieus.Count() != 0)
             {
                 return danhHieus.First().LearningResultName;
@@ -116,9 +116,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         public bool DanhHieuExists(int exceptedLearningResultId, string LearningResultName)
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     where danhHieu.LearningResultName == LearningResultName
-                                                        && danhHieu.LearningResultId != exceptedLearningResultId
-                                                     select danhHieu;
+                                                            where danhHieu.LearningResultName == LearningResultName
+                                                               && danhHieu.LearningResultId != exceptedLearningResultId
+                                                            select danhHieu;
             if (danhHieus.Count() != 0)
             {
                 return true;
@@ -132,8 +132,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public bool DanhHieuExists(string LearningResultName)
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     where danhHieu.LearningResultName == LearningResultName
-                                                     select danhHieu;
+                                                            where danhHieu.LearningResultName == LearningResultName
+                                                            select danhHieu;
             if (danhHieus.Count() != 0)
             {
                 return true;
@@ -147,18 +147,18 @@ namespace SoLienLacTrucTuyen.DataAccess
         public void UpdateDanhHieu(int LearningResultId, string LearningResultName)
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     where danhHieu.LearningResultId == LearningResultId
-                                                     select danhHieu;
+                                                            where danhHieu.LearningResultId == LearningResultId
+                                                            select danhHieu;
             danhHieus.First().LearningResultName = LearningResultName;
             db.SubmitChanges();
         }
 
-        public List<Category_LearningResult> GetListDanhHieus(string LearningResultName, 
+        public List<Category_LearningResult> GetListDanhHieus(string LearningResultName,
             int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     where danhHieu.LearningResultName == LearningResultName
-                                                     select danhHieu;
+                                                            where danhHieu.LearningResultName == LearningResultName
+                                                            select danhHieu;
             totalRecord = danhHieus.Count();
             if (totalRecord != 0)
             {
@@ -174,7 +174,7 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<Category_LearningResult> GetListDanhHieus(int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     select danhHieu;
+                                                            select danhHieu;
             totalRecord = danhHieus.Count();
             if (totalRecord != 0)
             {
@@ -190,8 +190,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         public Category_LearningResult GetDanhHieu(int LearningResultId)
         {
             IQueryable<Category_LearningResult> danhHieus = from danhHieu in db.Category_LearningResults
-                                                     where danhHieu.LearningResultId == LearningResultId
-                                                     select danhHieu;
+                                                            where danhHieu.LearningResultId == LearningResultId
+                                                            select danhHieu;
             if (danhHieus.Count() != 0)
             {
                 return danhHieus.First();
@@ -205,6 +205,21 @@ namespace SoLienLacTrucTuyen.DataAccess
         public bool CanDeleteDanhHieu(int LearningResultId)
         {
             return true;
+        }
+
+        public Category_LearningResult GetLearningResult(Category_Conduct conduct, Category_LearningAptitude learningAptitude)
+        {
+            Category_LearningResult learningResult = null;
+            IQueryable<Category_LearningResult> iqLearningResult = from detailedLearningResult in db.Category_DetailedLearningResults
+                                                                   where detailedLearningResult.ConductId == conduct.ConductId
+                                                                   && detailedLearningResult.LearningAptitudeId == learningAptitude.LearningAptitudeId
+                                                                   select detailedLearningResult.Category_LearningResult;
+            if (iqLearningResult.Count() != 0)
+            {
+                learningResult = iqLearningResult.First();
+            }
+
+            return learningResult;
         }
     }
 }

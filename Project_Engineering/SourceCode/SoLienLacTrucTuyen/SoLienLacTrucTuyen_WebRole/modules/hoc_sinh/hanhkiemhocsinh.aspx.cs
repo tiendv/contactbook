@@ -69,8 +69,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLNamHoc()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = lstNamHoc;
+            List<Configuration_Year> years = systemConfigBL.GetListYears();
+            DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();

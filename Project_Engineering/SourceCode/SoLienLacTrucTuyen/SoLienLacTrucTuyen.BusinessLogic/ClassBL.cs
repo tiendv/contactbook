@@ -24,7 +24,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 ClassName = ClassName,
                 FacultyId = faculty.FacultyId,
                 GradeId = grade.GradeId,
-                YearId = year.YearId
+                YearId = year.YearId,
+                SchoolId = school.SchoolId
             });
         }
 

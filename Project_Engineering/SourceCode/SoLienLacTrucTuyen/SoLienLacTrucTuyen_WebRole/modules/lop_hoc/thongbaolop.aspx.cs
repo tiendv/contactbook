@@ -36,7 +36,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         //        InitDates();
         //        BindRepeater();
 
-        //        BindDropDownListNganhHoc();
+        //        BindDDLFaculties();
         //        BindDDLGrades();
         //        BindDDLClassesThem();
         //    }
@@ -100,8 +100,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         ////private void BindDropDownListNamHoc()
         ////{
         ////    NamHocBL namHocBL = new NamHocBL(UserSchool);
-        ////    List<Configuration_Year> lstNamHoc = namHocBL.GetListNamHoc();
-        ////    DdlNamHoc.DataSource = lstNamHoc;
+        ////    List<Configuration_Year> years = namHocBL.GetListNamHoc();
+        ////    DdlNamHoc.DataSource = years;
         ////    DdlNamHoc.DataValueField = "YearId";
         ////    DdlNamHoc.DataTextField = "YearName";
         ////    DdlNamHoc.DataBind();
@@ -142,7 +142,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         ////    }
         ////}
 
-        ////private void BindDropDownListNganhHoc()
+        ////private void BindDDLFaculties()
         ////{
         ////    facultyBL facultyBL = new facultyBL(UserSchool);
         ////    List<Category_Faculty> faculties = facultyBL.GetListNganhHoc();

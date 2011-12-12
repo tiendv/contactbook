@@ -350,7 +350,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int LearningAptitudeId = Int32.Parse(e.CommandArgument.ToString());
-                        Category_LearningAptitude HocLuc = learningAptitudeBL.GetHocLuc(LearningAptitudeId);
+                        Category_LearningAptitude HocLuc = learningAptitudeBL.GetLearningAptitude(LearningAptitudeId);
 
                         TxtSuaLearningAptitudeName.Text = HocLuc.LearningAptitudeName;
                         //TxtMarkRatioHocLucSua.Text = HocLuc.BeginAverageMark.ToString();
