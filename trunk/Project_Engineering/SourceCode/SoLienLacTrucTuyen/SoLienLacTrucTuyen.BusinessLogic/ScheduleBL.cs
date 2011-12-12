@@ -19,6 +19,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void InsertSchedule(Class_Class Class, Category_Subject subject, aspnet_User teacher, Configuration_Term term, Configuration_DayInWeek dayInWeek, Category_TeachingPeriod teachingPeriod)
         {
+            /*
+             * 1) Thêm thông tin TKB mới
+             * 2) Thêm điểm môn học học kì của các học sinh thuộc lớp xếp TKB
+             *  2.1) Kiểm tra TKB của môn này trong học kì này của lớp đã tồn tại chưa
+             *      2.1.1) Nếu có, thì không xử lí
+             *      2.1.2) Nếu chưa, thêm điểm môn học học kì của các học sinh thuộc lớp xếp TKB
+             */
+
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+
             Class_Schedule schedule = new Class_Schedule();
             schedule.ClassId = Class.ClassId;
             schedule.SubjectId = subject.SubjectId;
@@ -28,19 +38,89 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             schedule.SessionId = teachingPeriod.SessionId;
             schedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
 
+            bool bInsertStudentTermSubjectMark;
+            bInsertStudentTermSubjectMark = ScheduleExists(Class, subject, term);
+
+            // Insert new schedule
             scheduleDA.InsertSchedule(schedule);
+
+            // Insert student's TermSubjectMark
+            if (!bInsertStudentTermSubjectMark)
+            {
+                studyingResultBL.InsertTermSubjectMark(Class, subject, term);
+            }
         }
 
-        public void UpdateSchedule(Class_Schedule editedSchedule, Category_Subject subject, aspnet_User teacher)
+        public void UpdateSchedule(Class_Schedule editedSchedule, Category_Subject newSubject, aspnet_User newTeacher)
         {
-            editedSchedule.SubjectId = subject.SubjectId;
-            editedSchedule.TeacherId = teacher.UserId;
-            scheduleDA.UpdateSchedule(editedSchedule, subject, teacher);
+            /*
+             * 1) Thêm thông tin TKB mới
+             * 2) Thêm điểm môn học học kì của các học sinh thuộc lớp xếp TKB
+             *  2.1) Kiểm tra TKB của môn này trong học kì này của lớp đã tồn tại chưa
+             *      2.1.1) Nếu có, thì không xử lí
+             *      2.1.2) Nếu chưa, thêm điểm môn học học kì của các học sinh thuộc lớp xếp TKB
+             */
+
+            /*
+             * 1) Lưu lại thông tin TKB sẽ bị xóa
+             * 2) Xóa thông tin TKB
+             * 3) Xóa điểm môn học học kì và chi tiết điểm của các học sinh thuộc lớp xếp TKB
+             *  3.1) Kiểm tra TKB của môn này trong học kì này của lớp còn tồn tại không
+             *      3.1.1) Nếu còn, thì không xử lí
+             *      3.1.2) Nếu ko, xóa điểm môn học học kì của các học sinh thuộc lớp xếp TKB
+             */
+
+            Class_Schedule originalSchedule = scheduleDA.GetSchedule(editedSchedule.ScheduleId);
+
+            bool bInsertStudentTermSubjectMark;
+            bInsertStudentTermSubjectMark = ScheduleExists(originalSchedule.Class_Class, newSubject, originalSchedule.Configuration_Term);
+
+            editedSchedule.SubjectId = newSubject.SubjectId;
+            editedSchedule.TeacherId = newTeacher.UserId;
+            scheduleDA.UpdateSchedule(editedSchedule, newSubject, newTeacher);
+
+            // Xóa thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);            
+            if (!ScheduleExists(originalSchedule.Class_Class, originalSchedule.Category_Subject, originalSchedule.Configuration_Term))
+            {
+                studyingResultBL.DeleteTermSubjectMark(originalSchedule.Class_Class, originalSchedule.Configuration_Term, originalSchedule.Category_Subject);
+            }
+
+            // Insert student's TermSubjectMark
+            if (!bInsertStudentTermSubjectMark)
+            {
+                studyingResultBL.InsertTermSubjectMark(originalSchedule.Class_Class, originalSchedule.Category_Subject, originalSchedule.Configuration_Term);
+            }
         }
 
         public void DeleteSchedule(Class_Schedule deletedSchedule)
         {
-            scheduleDA.DeleteSchedule(deletedSchedule);
+            /*
+             * 1) Lưu lại thông tin TKB sẽ bị xóa
+             * 2) Xóa thông tin TKB
+             * 3) Xóa điểm môn học học kì và chi tiết điểm của các học sinh thuộc lớp xếp TKB
+             *  3.1) Kiểm tra TKB của môn này trong học kì này của lớp còn tồn tại không
+             *      3.1.1) Nếu còn, thì không xử lí
+             *      3.1.2) Nếu ko, xóa điểm môn học học kì của các học sinh thuộc lớp xếp TKB
+             */
+
+            deletedSchedule = GetSchedule(deletedSchedule.ScheduleId);
+
+            // Xóa thời khóa biểu
+            scheduleDA.DeleteSchedule(deletedSchedule); 
+            
+            // Xóa thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            Class_Class Class = new Class_Class();
+            Class.ClassId = deletedSchedule.ClassId;
+            Category_Subject subject = new Category_Subject();
+            subject.SubjectId = deletedSchedule.SubjectId;
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = deletedSchedule.TermId;
+            if (!ScheduleExists(Class, subject, term))
+            {
+                studyingResultBL.DeleteTermSubjectMark(Class, term, subject);
+            }
         }
 
         public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
@@ -196,6 +276,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public Class_Schedule GetSchedule(int scheduleId)
         {
             return scheduleDA.GetSchedule(scheduleId);
+        }
+
+        private bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        {
+            return scheduleDA.ScheduledExists(Class, subject, term);
         }
     }
 }

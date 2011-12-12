@@ -25,7 +25,7 @@
             </asp:Label>
             <br />
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
-                Text="Chưa có thông tin kết quả học tập">
+                Text="Chưa có bảng điểm môn học">
             </asp:Label>
         </div>
         <table class="repeater">
@@ -116,18 +116,17 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (DataPagerDanhHieu.CurrentIndex - 1) * DataPagerDanhHieu.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfRptLearningResultIdHSHK" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "LearningResultIdHSHK")%>' />
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "TermName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "StrDiemTB")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringAverageMark")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "LearningAptitudeName")%>
                         </td>
-                        <td style="height: 40px; vertical-align: middle">                            
+                        <td style="height: 40px; vertical-align: middle">
                             <%#DataBinder.Eval(Container.DataItem, "ConductName")%>
                         </td>
                         <td style="height: 40px;">
@@ -147,5 +146,4 @@
             <cc1:DataPager ID="DataPagerDanhHieu" runat="server" ViewStateMode="Enabled" />
         </div>
     </div>
-    <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
 </asp:Content>

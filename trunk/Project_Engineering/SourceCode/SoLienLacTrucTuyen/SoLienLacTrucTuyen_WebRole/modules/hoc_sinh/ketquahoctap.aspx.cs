@@ -139,11 +139,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
 
             double dTotalRecords;
-            List<TabularSubjectTermResult> lstTbKetQuaMonHoc;
-            lstTbKetQuaMonHoc = studyingResultBL.GetTabularSubjectTermResults(student, year, term,
+            List<TabularSubjectTermResult> tabularSubjectTermResults;
+            tabularSubjectTermResults = studyingResultBL.GetTabularSubjectTermResults(student, year, term,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            bool bDisplayData = (lstTbKetQuaMonHoc.Count != 0) ? true : false;
+            bool bDisplayData = (tabularSubjectTermResults.Count != 0) ? true : false;
             RptKetQuaDiem.Visible = bDisplayData;
             MainDataPager.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
@@ -153,7 +153,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdKQHocTapMonHoc.Visible = bDisplayData;
             tdKQHocTapDTB.Visible = bDisplayData;
 
-            this.RptKetQuaDiem.DataSource = lstTbKetQuaMonHoc;
+            this.RptKetQuaDiem.DataSource = tabularSubjectTermResults;
             this.RptKetQuaDiem.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }

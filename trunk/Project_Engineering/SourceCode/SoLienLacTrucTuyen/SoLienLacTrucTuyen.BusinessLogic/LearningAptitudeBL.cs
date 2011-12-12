@@ -37,7 +37,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             learningAptitudeDA.DeleteHocLuc(LearningAptitudeId);
         }
 
-        public Category_LearningAptitude GetHocLuc(int LearningAptitudeId)
+        public Category_LearningAptitude GetLearningAptitude(int LearningAptitudeId)
         {
             return learningAptitudeDA.GetHocLuc(LearningAptitudeId);
         }

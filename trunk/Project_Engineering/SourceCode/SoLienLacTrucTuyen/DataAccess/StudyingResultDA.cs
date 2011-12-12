@@ -375,6 +375,37 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
+        public void DeleteTermSubjectMark(Class_Class Class, Configuration_Term term, Category_Subject subject)
+        {
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId
+                                    && termSubjMark.SubjectId == subject.SubjectId
+                                  select termSubjMark;
+
+            if (iqTermSubjectedMark.Count() != 0)
+            {
+                foreach (Student_TermSubjectMark termSubjectedMark in iqTermSubjectedMark)
+                {
+                    IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark;
+                    iqDetailedMark = from mark in db.Student_DetailedTermSubjectMarks
+                                     where mark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                     select mark;
+                    if (iqDetailedMark.Count() != 0)
+                    {
+                        foreach (Student_DetailedTermSubjectMark detailedMark in iqDetailedMark)
+                        {
+                            db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedMark);
+                        }
+                        db.SubmitChanges();
+                    }
+
+                    db.SubmitChanges();
+                }
+            }
+        }
+
         public void DeleteDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType)
         {
             IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark = from dtlMark in db.Student_DetailedTermSubjectMarks
@@ -545,7 +576,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             return termSubjectMarks;
         }
 
-        public List<Student_TermLearningResult> GetStudentTermResults(Student_Student student, Configuration_Year year, 
+        public List<Student_TermLearningResult> GetStudentTermResults(Student_Student student, Configuration_Year year,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<Student_TermLearningResult> studentTermResults = new List<Student_TermLearningResult>();
@@ -561,6 +592,111 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             return studentTermResults;
+        }
+
+        public void InsertTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        {
+            IQueryable<Student_StudentInClass> iqStudentsInClass = from stdsInCls in db.Student_StudentInClasses
+                                                                   where stdsInCls.ClassId == Class.ClassId
+                                                                   select stdsInCls;
+
+            Student_TermSubjectMark studentTermSubjectMark = null;
+            foreach (Student_StudentInClass studentInClass in iqStudentsInClass)
+            {
+                studentTermSubjectMark = new Student_TermSubjectMark();
+                studentTermSubjectMark.StudentInClassId = studentInClass.StudentInClassId;
+                studentTermSubjectMark.SubjectId = subject.SubjectId;
+                studentTermSubjectMark.TermId = term.TermId;
+                studentTermSubjectMark.AverageMark = -1;
+
+                db.Student_TermSubjectMarks.InsertOnSubmit(studentTermSubjectMark);
+            }
+
+            db.SubmitChanges();
+        }
+
+        public void DeleteTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        {
+            IQueryable<Student_TermSubjectMark> iqStudentTermSubjectMark;
+            iqStudentTermSubjectMark = from studTermSubjMark in db.Student_TermSubjectMarks
+                                       where studTermSubjMark.TermId == term.TermId
+                                         && studTermSubjMark.SubjectId == subject.SubjectId
+                                         && studTermSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                       select studTermSubjMark;
+            if (iqStudentTermSubjectMark.Count() != 0)
+            {
+                foreach (Student_TermSubjectMark studentTermSubjectMark in iqStudentTermSubjectMark)
+                {
+                    IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
+                    iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
+                                                where detailedTermSubjectMark.TermSubjectMarkId == studentTermSubjectMark.TermSubjectMarkId
+                                                select detailedTermSubjectMark;
+                    if (iqDetailedTermSubjectMark.Count() != 0)
+                    {
+                        foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in iqDetailedTermSubjectMark)
+                        {
+                            // delete student's DetailedTermSubjectMark
+
+                            db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedTermSubjectMark);
+                        }
+                        db.SubmitChanges();
+                    }
+
+                    // delete student's TermSubjectMarks
+                    db.Student_TermSubjectMarks.DeleteOnSubmit(studentTermSubjectMark);
+                }
+                db.SubmitChanges();
+            }
+        }
+
+        public void InsertTermSubjectMark(Student_TermSubjectMark termSubjectMark)
+        {
+            db.Student_TermSubjectMarks.InsertOnSubmit(termSubjectMark);
+            db.SubmitChanges();
+        }
+
+        public void CalculateStudentTermAvgMark(Student_Student student, Class_Class Class, Configuration_Term term)
+        {
+            double dTermAvgMark = -1;
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId
+                                    && termSubjMark.AverageMark >= 0
+                                  select termSubjMark;
+
+            IQueryable<Student_TermLearningResult> iqTermLearningResult = from termLearningResult in db.Student_TermLearningResults
+                                                                          where termLearningResult.Student_StudentInClass.StudentId == student.StudentId
+                                                                          && termLearningResult.Student_StudentInClass.ClassId == Class.ClassId
+                                                                          && termLearningResult.TermId == term.TermId
+                                                                          select termLearningResult;
+
+            foreach (Student_TermLearningResult termLearningResult in iqTermLearningResult)
+            {
+                if (iqTermSubjectedMark.Count() != 0)
+                {
+                    double dTotalSubjectMarkRatio = 0;
+                    double dTotalMarks = 0;
+                    foreach (Student_TermSubjectMark termSubjectedMark in iqTermSubjectedMark)
+                    {
+                        dTotalSubjectMarkRatio += termSubjectedMark.Category_Subject.MarkRatio;
+                        dTotalMarks += termSubjectedMark.Category_Subject.MarkRatio * termSubjectedMark.AverageMark;
+                    }
+
+                    dTermAvgMark = dTotalMarks / dTotalSubjectMarkRatio;
+                    dTermAvgMark = Math.Round(dTermAvgMark, 1, MidpointRounding.AwayFromZero);
+
+                    termLearningResult.TermAverageMark = dTermAvgMark;
+                }
+                else
+                {
+                    termLearningResult.TermAverageMark = -1;
+                }
+            }
+
+            db.SubmitChanges();
         }
     }
 }

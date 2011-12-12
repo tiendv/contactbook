@@ -183,6 +183,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             Student_StudentInClass studentInClass = new Student_StudentInClass();
             studentInClass.ClassId = Class.ClassId;
             studentInClass.StudentId = student.StudentId;
+            db.Student_StudentInClasses.InsertOnSubmit(studentInClass);
             db.SubmitChanges();
 
             return GetLastedStudentInClass();
@@ -487,7 +488,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             totalRecords = iqStudentInClass.Count();
             if (totalRecords != 0)
             {
-                studentInClasses = iqStudentInClass.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                studentInClasses = iqStudentInClass.OrderBy(student => student.Student_Student.StudentCode).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return studentInClasses;
@@ -602,7 +603,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     
             if (iqStudentInClass.Count() != 0)
             {
-                studentInClasses = iqStudentInClass.ToList();
+                studentInClasses = iqStudentInClass.OrderBy(student => student.Student_Student.StudentCode).ToList();
             }
 
             return studentInClasses;

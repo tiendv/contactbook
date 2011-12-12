@@ -103,6 +103,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 studyingResultDA.CalAvgMark(student, Class, term, subject);
             }
+
+            studyingResultDA.CalculateStudentTermAvgMark(student, Class, term);
         }
 
         /// <summary>
@@ -245,99 +247,131 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year, 
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
+            List<TabularTermStudentResult> tabularTermStudentResults = null;
+            TabularTermStudentResult tabularTermStudentResult = null;
             LearningAptitudeBL learningAptitudeBL = null;
             ConductBL conductBL = null;
-            DanhHieuBL danhHieuBL = null;
+            DanhHieuBL learningResultBL = null;
+            Category_Conduct conduct = null;
+            Category_LearningAptitude learningAptitude = null;
+            Category_LearningResult learningResult = null;
             List<Student_TermLearningResult> termResults = null;
-            List<TabularTermStudentResult> tbTermStudentResults = new List<TabularTermStudentResult>();
-            TabularTermStudentResult tbTermStudentResult = null;
-            TabularTermStudentResult tbFinalStudentResult = null;
+            TabularTermStudentResult tabularFinalStudentResult = null;
 
             termResults = studyingResultDA.GetStudentTermResults(student, year, pageCurrentIndex, pageSize, out totalRecords);
             if (totalRecords != 0)
             {
                 learningAptitudeBL = new LearningAptitudeBL(school);
                 conductBL = new ConductBL(school);
-                danhHieuBL = new DanhHieuBL(school);
+                learningResultBL = new DanhHieuBL(school);
+                tabularTermStudentResults = new List<TabularTermStudentResult>(); // init result list
                 foreach (Student_TermLearningResult termResult in termResults)
                 {
-                    tbTermStudentResult = new TabularTermStudentResult();
-                    tbTermStudentResult.LearningResultIdHSHK = termResult.TermLearningResultId;
-                    tbTermStudentResult.DiemTB = (int)termResult.TermAverageMark;
-                    tbTermStudentResult.StrDiemTB = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
-                    tbTermStudentResult.TermName = termResult.Configuration_Term.TermName;
-                    tbTermStudentResult.ConductId = termResult.TermConductId;
-                    int iConductId = (int)tbTermStudentResult.ConductId;
-                    tbTermStudentResult.ConductName = (iConductId != -1) ? conductBL.GetConduct(iConductId).ConductName : "(Chưa xác định)";
-                    int iLearningAptitudeId = (int)termResult.TermLearningAptitudeId;
-                    tbTermStudentResult.LearningAptitudeName = (iLearningAptitudeId != -1) ? learningAptitudeBL.GetHocLuc(iLearningAptitudeId).LearningAptitudeName : "(Chưa xác định)";
-
-                    if (iConductId == -1 || iLearningAptitudeId == -1)
+                    tabularTermStudentResult = new TabularTermStudentResult();
+                    tabularTermStudentResult.TermName = termResult.Configuration_Term.TermName;
+                    tabularTermStudentResult.AverageMark = (int)termResult.TermAverageMark;
+                    tabularTermStudentResult.StringAverageMark = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
+                    tabularTermStudentResult.LearningAptitudeId = (int)termResult.TermLearningAptitudeId;
+                    learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularTermStudentResult.AverageMark);                    
+                    if (learningAptitude != null)
                     {
-                        tbTermStudentResult.LearningResultName = "(Chưa xác định)";
+                        tabularTermStudentResult.LearningAptitudeName = learningAptitude.LearningAptitudeName;
                     }
                     else
                     {
-
+                        tabularTermStudentResult.LearningAptitudeName = "(Chưa xác định)";
+                    } 
+                    tabularTermStudentResult.ConductId = termResult.TermConductId;
+                    conduct = conductBL.GetConduct((int)tabularTermStudentResult.ConductId);
+                    if (conduct != null)
+                    {
+                        tabularTermStudentResult.ConductName = conduct.ConductName;
                     }
-                    //tbTermStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeId, ConductId);
-
-                    tbTermStudentResults.Add(tbTermStudentResult);
+                    else
+                    {
+                        tabularTermStudentResult.ConductName = "(Chưa xác định)";
+                    }
+                    if (conduct != null && learningAptitude != null)
+                    {
+                        learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
+                        if (learningResult != null)
+                        {
+                            tabularTermStudentResult.LearningResultName = learningResult.LearningResultName;
+                        }
+                        else
+                        {
+                            tabularTermStudentResult.LearningResultName = "(Chưa xác định)";
+                        } 
+                    }
+                    else
+                    {
+                        tabularTermStudentResult.LearningResultName = "(Chưa xác định)";                        
+                    }
+                    tabularTermStudentResults.Add(tabularTermStudentResult);
                 }
 
-                tbFinalStudentResult = new TabularTermStudentResult();
-                tbFinalStudentResult.LearningResultIdHSHK = -1;
-                tbFinalStudentResult.TermName = "Cả năm";
-                if ((tbTermStudentResults[0].DiemTB != -1) && (tbTermStudentResults[1].DiemTB != -1))
+                tabularFinalStudentResult = new TabularTermStudentResult();
+                tabularFinalStudentResult.LearningAptitudeId = -1;
+                tabularFinalStudentResult.TermName = "Cả năm";
+                if ((tabularTermStudentResults[0].AverageMark != -1) && (tabularTermStudentResults[1].AverageMark != -1))
                 {
-                    tbFinalStudentResult.DiemTB = Math.Round(((tbTermStudentResults[0].DiemTB + (2 * tbTermStudentResults[1].DiemTB)) / 3), 1);
-                    tbFinalStudentResult.StrDiemTB = tbFinalStudentResult.DiemTB.ToString();
+                    tabularFinalStudentResult.AverageMark = Math.Round(((tabularTermStudentResults[0].AverageMark + (2 * tabularTermStudentResults[1].AverageMark)) / 3), 1);
+                    tabularFinalStudentResult.StringAverageMark = tabularFinalStudentResult.AverageMark.ToString();
                 }
                 else
                 {
-                    tbFinalStudentResult.DiemTB = -1;
-                    tbFinalStudentResult.StrDiemTB = "(Chưa xác định)";
+                    tabularFinalStudentResult.AverageMark = -1;
+                    tabularFinalStudentResult.StringAverageMark = "(Chưa xác định)";
                 }
-
                 // Nếu đã xác định được hạnh kiểm cả 2 học kì
-                if (tbTermStudentResults[0].ConductId != -1 && tbTermStudentResults[1].ConductId != -1)
+                if (tabularTermStudentResults[0].ConductId != -1 && tabularTermStudentResults[1].ConductId != -1)
                 {
                     // hạnh kiểm cuối năm = hạnh kiểm học kì 2
-                    tbFinalStudentResult.ConductId = tbTermStudentResults[1].ConductId;
+                    tabularFinalStudentResult.ConductId = tabularTermStudentResults[1].ConductId;
                 }
                 else
                 {
-                    tbFinalStudentResult.ConductId = -1;
+                    tabularFinalStudentResult.ConductId = -1;
                 }
-                int iFinalConductId = (int)tbFinalStudentResult.ConductId;
-                tbFinalStudentResult.ConductName = (iFinalConductId != -1) ? conductBL.GetConduct(iFinalConductId).ConductName : "(Chưa xác định)";
-
-                int iFinalLearningAptitudeId;
-                if (tbFinalStudentResult.DiemTB != -1)
+                conduct = conductBL.GetConduct((int)tabularFinalStudentResult.ConductId);
+                if(conduct != null)
                 {
-                    Category_LearningAptitude finalLearningAptitude = learningAptitudeBL.GetLearningAptitude(tbFinalStudentResult.DiemTB);
-                    iFinalLearningAptitudeId = finalLearningAptitude.LearningAptitudeId;
-                    tbFinalStudentResult.LearningAptitudeName = finalLearningAptitude.LearningAptitudeName;
+                    tabularFinalStudentResult.ConductName = conduct.ConductName;
                 }
                 else
                 {
-                    iFinalLearningAptitudeId = -1;
-                    tbFinalStudentResult.LearningAptitudeName = "(Chưa xác định)";
-                }
-
-                if (iFinalConductId == -1 || iFinalLearningAptitudeId == -1)
-                {
-                    tbFinalStudentResult.LearningResultName = "(Chưa xác định)";
+                    tabularFinalStudentResult.ConductName = "(Chưa xác định)";
+                }                
+                learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularFinalStudentResult.AverageMark);
+                if (learningAptitude != null)
+                {                    
+                    tabularFinalStudentResult.LearningAptitudeName = learningAptitude.LearningAptitudeName;
                 }
                 else
                 {
-                    //tbFinalStudentResult.LearningResultName = danhHieuBL.GetLearningResultName(LearningAptitudeIdCuoiNam, ConductIdCuoiNam);
+                    tabularFinalStudentResult.LearningAptitudeName = "(Chưa xác định)";
                 }
 
-                tbTermStudentResults.Add(tbFinalStudentResult);
+                if (conduct != null && learningAptitude != null)
+                {
+                    learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
+                    if (learningResult != null)
+                    {
+                        tabularFinalStudentResult.LearningResultName = learningResult.LearningResultName;
+                    }
+                    else
+                    {
+                        tabularFinalStudentResult.LearningResultName = "(Chưa xác định)";
+                    }
+                }
+                else
+                {
+                    tabularFinalStudentResult.LearningResultName = "(Chưa xác định)";
+                }
+                tabularTermStudentResults.Add(tabularFinalStudentResult);
             }
 
-            return tbTermStudentResults;
+            return tabularTermStudentResults;
         }
 
         public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
@@ -509,6 +543,30 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return subjectMarks;
+        }
+
+        internal void InsertTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        {
+            studyingResultDA.InsertTermSubjectMark(Class, subject, term);
+        }
+        
+        internal void DeleteTermSubjectMark(Class_Class Class, Configuration_Term term, Category_Subject subject)
+        {
+            studyingResultDA.DeleteTermSubjectMark(Class, subject, term);
+        }
+
+        internal void InsertTermSubjectMark(Student_StudentInClass studentInClass, Configuration_Term term, Category_Subject scheduledSubject)
+        {
+            Student_TermSubjectMark termSubjectMark = null;
+            StudentBL studentBL = new StudentBL(school);
+
+            termSubjectMark = new Student_TermSubjectMark();
+            termSubjectMark.StudentInClassId = studentInClass.StudentInClassId;
+            termSubjectMark.SubjectId = scheduledSubject.SubjectId;
+            termSubjectMark.TermId = term.TermId;
+            termSubjectMark.AverageMark = -1; // undefined
+
+            studyingResultDA.InsertTermSubjectMark(termSubjectMark);
         }
     }
 }

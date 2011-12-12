@@ -122,8 +122,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Student_Student student = new Student_Student();
             student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
-            List<Configuration_Year> lstNamHoc = studentBL.GetYears(student);
-            DdlNamHoc.DataSource = lstNamHoc;
+            List<Configuration_Year> years = studentBL.GetYears(student);
+            DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
