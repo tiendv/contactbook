@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen;
 
@@ -77,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             double dTotalRecords;
             List<Category_LearningAptitude> learningAptitudes;
-            learningAptitudes = learningAptitudeBL.GetListHocLuc(strLearningAptitudeName, PagerMain.CurrentIndex, PagerMain.PageSize,
+            learningAptitudes = learningAptitudeBL.GetLearningAptitudes(strLearningAptitudeName, PagerMain.CurrentIndex, PagerMain.PageSize,
                 out dTotalRecords);
             PagerMain.ItemCount = dTotalRecords;
 
@@ -165,7 +165,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (learningAptitudeBL.ConductNameExists(LearningAptitudeName))
+                if (learningAptitudeBL.LearningAptitudeNameExists(LearningAptitudeName))
                 {
                     LearningAptitudeNameValidatorAdd.IsValid = false;
                     TxtLearningAptitudeNameThem.Focus();
@@ -175,7 +175,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             double BeginAverageMark = double.Parse(this.TxtDTBTuThem.Text);
             double EndAverageMark = double.Parse(this.TxtDTBDenThem.Text);
-            learningAptitudeBL.InsertConduct(new Category_LearningAptitude
+            learningAptitudeBL.InsertLearningAptitude(new Category_LearningAptitude
             {
                 LearningAptitudeName = LearningAptitudeName,
                 BeginAverageMark = BeginAverageMark,
@@ -204,7 +204,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_LearningAptitude conduct = new Category_LearningAptitude();
             conduct.LearningAptitudeId = LearningAptitudeId;
 
-            learningAptitudeBL.DeleteConduct(conduct);
+            learningAptitudeBL.DeleteLearningAptitude(conduct);
             isSearch = false;
             BindData();
         }
@@ -256,8 +256,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             double BeginAverageMark = double.Parse(TxtDTBTuSua.Text);
             double EndAverageMark = double.Parse(TxtDTBDenSua.Text);
 
-            int editedConductId = Int32.Parse(this.HdfLearningAptitudeId.Value);
-            learningAptitudeBL.UpdateConduct(editedConductId, newConductName, BeginAverageMark, EndAverageMark);
+            Category_LearningAptitude learningAptitude = new Category_LearningAptitude();
+            learningAptitude.LearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
+            learningAptitudeBL.UpdateLearningAptitude(learningAptitude, newConductName, BeginAverageMark, EndAverageMark);
             BindData();
         }
         #endregion
@@ -304,7 +305,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         Category_LearningAptitude conduct = (Category_LearningAptitude)e.Item.DataItem;
 
-                        if (!learningAptitudeBL.IsDeletable(conduct.LearningAptitudeName))
+                        if (!learningAptitudeBL.IsDeletable(conduct))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
                             btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";

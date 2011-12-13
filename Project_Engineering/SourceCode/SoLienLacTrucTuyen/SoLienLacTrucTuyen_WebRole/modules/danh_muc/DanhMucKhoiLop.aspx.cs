@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen.BusinessEntity;
 

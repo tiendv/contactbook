@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
@@ -109,7 +109,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if(iSltLearningAptitudeId == 0)
             {
                 LearningAptitudeBL hocLucBL = new LearningAptitudeBL(UserSchool);
-                sltHocLucs = hocLucBL.GetListHocLuc(false);
+                sltHocLucs = hocLucBL.GetLearningAptitudes();
             }
             else
             {
@@ -220,11 +220,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLHocLuc()
         {
             LearningAptitudeBL hocLucBL = new LearningAptitudeBL(UserSchool);
-            List<Category_LearningAptitude> hocLucs = hocLucBL.GetListHocLuc(true);
+            List<Category_LearningAptitude> hocLucs = hocLucBL.GetLearningAptitudes();
             DdlHocLucAdd.DataSource = hocLucs;
             DdlHocLucAdd.DataValueField = "LearningAptitudeId";
             DdlHocLucAdd.DataTextField = "LearningAptitudeName";
             DdlHocLucAdd.DataBind();
+
+            if (hocLucs.Count != 0)
+            {
+                DdlHocLucAdd.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
         }
 
         private void BindDDLHanhKiem()

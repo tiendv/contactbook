@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen_WebRole.Modules;
 using SoLienLacTrucTuyen.BusinessEntity;
@@ -221,7 +221,7 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
-                // Do something
+                // Do nothing
             }
             else
             {
@@ -230,8 +230,7 @@ namespace SoLienLacTrucTuyen_WebRole
                     e.Item.FindControl("thEdit").Visible = false;
                 }
 
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
+                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     e.Item.FindControl("tdEdit").Visible = false;
                 }
@@ -241,8 +240,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
             if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
+                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     Category_Faculty faculty = (Category_Faculty)e.Item.DataItem;
                     if (!facultyBL.IsDeletable(faculty))

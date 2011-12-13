@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
 using CrystalDecisions;
@@ -284,34 +284,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             year.YearName = DdlNamHoc.SelectedItem.Text;
             try
             {
+                faculty = new Category_Faculty();
                 if (DdlNganh.SelectedIndex > 0)
-                {
-                    faculty = new Category_Faculty();
+                {                    
                     faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-                    faculty.FacultyName = DdlNganh.SelectedItem.Text; ;
+                    faculty.FacultyName = DdlNganh.SelectedItem.Text;
                 }
             }
             catch (Exception) { }
 
             try
             {
+                grade = new Category_Grade();
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    grade = new Category_Grade();
+                    
                     grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                    grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;
+                    grade.GradeName = DdlKhoiLop.SelectedItem.Text;
                 }
             }
             catch (Exception) { }
 
             try
             {
+                Class = new Class_Class();
                 if (DdlLopHoc.SelectedIndex > 0)
                 {
-                    Class = new Class_Class();
+                    
                     Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                    Class.ClassName = DdlLopHoc.SelectedItem.Text; ;
+                    Class.ClassName = DdlLopHoc.SelectedItem.Text;
                 }
+
             }
             catch (Exception) { }
 

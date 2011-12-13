@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen_WebRole.Modules;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {

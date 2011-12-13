@@ -203,12 +203,7 @@
         </table>
     </div>
     <div style="float: right; margin-top: -35px; padding-right: 30px;">
-        <cc1:DataPager ID="MainDataPager" runat="server" OfClause="/" PageClause="TRANG"
-            OnCommand="MainDataPager_Command" PageSize="10" ViewStateMode="Enabled" LastClause=">>"
-            GenerateHiddenHyperlinks="False" CompactModePageCount="3" GenerateFirstLastSection="True"
-            GenerateGoToSection="False" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-            BackToPageClause="Trở về trang" GoToLastClause="Đến trang cuối" NextToPageClause="Đến trang"
-            ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+        <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command" ViewStateMode="Enabled" />
     </div>
     <asp:Panel ID="PnlPopupAdd" runat="server" CssClass="popup ui-corner-all" Width="550px">
         <asp:Panel ID="PnlDragPopupAdd" runat="server" CssClass="popup_header ui-corner-top">
@@ -236,7 +231,7 @@
                             Nội dung:
                         </td>
                         <td style="width: auto;" colspan="3">
-                            <asp:TextBox ID="TxtNoiDungThem" runat="server" TextMode="MultiLine" Style="width: 99%"></asp:TextBox>&nbsp;
+                            <asp:TextBox ID="TxtNoiDungThem" runat="server" TextMode="MultiLine" Style="width: 99%; font-family: Arial"></asp:TextBox>&nbsp;
                         </td>
                     </tr>
                     <tr>

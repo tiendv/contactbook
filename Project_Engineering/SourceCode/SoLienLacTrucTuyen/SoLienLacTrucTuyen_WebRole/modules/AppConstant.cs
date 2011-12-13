@@ -34,6 +34,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_STUDENTID = "StudentId";
         public const string VIEWSTATE_ROLE = "Role";
         public const string VIEWSTATE_SELECTED_YEAR = "Year";
+        public const string VIEWSTATE_SELECTED_YEARNAME = "YearName";
         public const string VIEWSTATE_SELECTED_CLASS = "Class";
         public const string VIEWSTATE_SELECTED_FACULTY = "Faculty";
         public const string VIEWSTATE_SELECTED_GRADE = "Grade";

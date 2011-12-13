@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.BusinessEntity;
 using SoLienLacTrucTuyen_WebRole.Modules;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole
 {    
