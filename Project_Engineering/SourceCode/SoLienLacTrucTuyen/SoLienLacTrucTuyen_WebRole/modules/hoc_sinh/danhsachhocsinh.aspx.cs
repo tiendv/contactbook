@@ -270,49 +270,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         #region Button event handlers
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
-<<<<<<< .mine
         {
-            MainDataPager.CurrentIndex = 1;
-            isSearch = true;
-            BindRptStudents();
-
-            CrystalReportViewer1.Visible = true;
-            //SoLienLacTrucTuyen_WebRole.Modules.r.Rpt_Student rptSource = new modules.report.Rpt_Student();
-            DataSet dsHocSinh = new DataSet();
-            DataTable dtSource = new DataTable();
-            dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));
-            dtSource.Columns.Add("ClassName", Type.GetType("System.String"));
-            dtSource.Columns.Add("FacultyName", Type.GetType("System.String"));
-            dtSource.Columns.Add("FullName", Type.GetType("System.String"));
-            dtSource.Columns.Add("GradeName", Type.GetType("System.String"));
-            dtSource.Columns.Add("StudentCode", Type.GetType("System.String"));
-            dtSource.Columns.Add("StudentId", Type.GetType("System.Int32"));
-            List<TabularStudent> tabularStudents = (List<TabularStudent>)RptHocSinh.DataSource;
-            for (int i = 0; i < tabularStudents.Count; i++)
-            {
-                DataRow dr = dtSource.NewRow();
-                dr["ClassId"] = tabularStudents[i].ClassId;
-                dr["ClassName"] = tabularStudents[i].ClassName;
-                dr["FacultyName"] = tabularStudents[i].FacultyName;
-                dr["FullName"] = tabularStudents[i].FullName;
-                dr["GradeName"] = tabularStudents[i].GradeName;
-                dr["StudentCode"] = tabularStudents[i].StudentCode;
-                dr["StudentId"] = tabularStudents[i].StudentId;
-                dtSource.Rows.Add(dr);
-            }
-            dsHocSinh.Tables.Add(dtSource);
-            RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
-            RptDocument.SetDataSource(dsHocSinh.Tables[0]);
-            Session["report1"] = RptDocument;
-            CrystalReportViewer1.ReportSource = RptDocument;
-            CrystalReportViewer1.Visible = true;
-            CrystalReportViewer1.DisplayGroupTree = false;
-
             #region Add Info 2 Session
-=======
-        {   
->>>>>>> .r76
-
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
@@ -357,33 +316,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             catch (Exception) { }
 
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
-<<<<<<< .mine
-=======
-
-            Category_Faculty faculty = null;
-            faculty = new Category_Faculty();
-            faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
->>>>>>> .r76
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
-<<<<<<< .mine
-=======
-
-            Category_Grade grade = null;
-            grade = new Category_Grade();
-            grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
->>>>>>> .r76
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
-<<<<<<< .mine
-=======
-
-            Class_Class Class = null;
-            Class = new Class_Class();
-            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
->>>>>>> .r76
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
             AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, studentName);
             AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, studentCode);
             Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            #endregion
         }
 
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
