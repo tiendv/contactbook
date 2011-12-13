@@ -64,7 +64,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // Get data
                 studentBL = new StudentBL(UserSchool);
                 tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, Class, _StudentCode, _StudentName,
-                1, 20, out dTotalRecords);
+                1, 50, out dTotalRecords);
                 
                 DataTable dtSource = new DataTable();
                 dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));
