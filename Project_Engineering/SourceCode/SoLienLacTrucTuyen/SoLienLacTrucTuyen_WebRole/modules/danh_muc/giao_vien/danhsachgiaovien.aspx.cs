@@ -118,7 +118,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             isSearch = true;
             BindRptTeachers();
         }
+        protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
+        {
+            #region Add Info 2 Session
+            string strTeacherName = this.TxtSearchTenGiaoVien.Text;
+            string strTeacherID = this.TxtSearchMaHienThiGiaoVien.Text;
 
+            AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
+            AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
+            Response.Redirect(AppConstant.PAGEPATH_PRINTTEACHERS);
+            #endregion
+        }
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
             Response.Redirect("/modules/danh_muc/giao_vien/themgiaovien.aspx");

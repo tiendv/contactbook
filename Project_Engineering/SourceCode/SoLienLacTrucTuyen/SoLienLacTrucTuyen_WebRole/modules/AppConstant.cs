@@ -24,6 +24,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_COMMENTS = "/modules/phu_huynh/ykien.aspx";
         public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx";
         public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
+        public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
+        public const string PAGEPATH_PRINTCLASSES = "/modules/lop_hoc/indanhsachlophoc.aspx";
 
         public const string QUERY_STUDENT = "std";
         public const string QUERY_PARENTSCOMMENT = "id";
@@ -44,7 +46,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
         public const string SESSION_SUPPLIEDPARENTSAUTHORIZATIONS = "SuppliedParentsAuthorizations";
         public const string SESSION_SELECTEDPARENTSFUNCTIONS = "SelectedParentsFunctions";
-        public const string SESSION_STUDENT = "Student";
+        public const string SESSION_STUDENT = "Student";        
         public const string SESSION_SELECTED_YEAR = "Year";
         public const string SESSION_SELECTED_CLASS = "Class";
         public const string SESSION_SELECTED_FACULTY = "Faculty";
@@ -55,6 +57,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_PREV_PAGE = "PrevPage";
         public const string SESSION_PARENTSCOMMENTID = "ParentCommentId";
 
+        #region Session Teacher
+        public const string SESSION_TEACHERID = "TeacherID";
+        public const string SESSION_TEACHERNAME = "TeacherName";
+        #endregion
         public const string CSSSTYLE_DISPLAY_NONE = "none";
         public const string CSSSTYLE_DISPLAY_BLOCK = "block";
 

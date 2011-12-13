@@ -288,10 +288,17 @@ table.search
     margin-top: -5px;
 }
 
-.CustomValidatorCalloutStyle div, .CustomValidatorCalloutStyle td
+.CustomValidatorCalloutStyle d
+
+#divSearch #divButtonSearch
 {
-    border: solid 1px blue;
-    background-color: #FFFFCC;
+    float: left;
+    width: 80px;
+    margin-top: -5px;
+    height: 34px;
+}
+
+
     font-size: 12px;
     color: #FF0000;
 }
