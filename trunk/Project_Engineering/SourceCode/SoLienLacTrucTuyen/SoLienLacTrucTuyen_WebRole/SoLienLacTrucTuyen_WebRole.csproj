@@ -78,6 +78,7 @@
     <Content Include="modules\danh_muc\danhmuctiet.aspx" />
     <Content Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx" />
+    <Content Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
@@ -89,6 +90,7 @@
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
     <Content Include="modules\loi_nhan\loinhankhan.aspx" />
+    <Content Include="modules\lop_hoc\indanhsachlophoc.aspx" />
     <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
     <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
     <Content Include="modules\danh_muc\DanhMucServicePage.aspx" />
@@ -336,6 +338,12 @@
     <Compile Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx.designer.cs">
       <DependentUpon>GiaoVienServicePage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx.cs">
+      <DependentUpon>indanhsachgiaovien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx.designer.cs">
+      <DependentUpon>indanhsachgiaovien.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\danh_muc\giao_vien\suagiaovien.aspx.cs">
       <DependentUpon>suagiaovien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -414,6 +422,12 @@
     </Compile>
     <Compile Include="modules\loi_nhan\loinhankhan.aspx.designer.cs">
       <DependentUpon>loinhankhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\indanhsachlophoc.aspx.cs">
+      <DependentUpon>indanhsachlophoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\indanhsachlophoc.aspx.designer.cs">
+      <DependentUpon>indanhsachlophoc.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\lop_hoc\LopHocServicePage.aspx.cs">
       <DependentUpon>LopHocServicePage.aspx</DependentUpon>
@@ -600,10 +614,22 @@
     <Compile Include="modules\phu_huynh\ykien.aspx.designer.cs">
       <DependentUpon>ykien.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\report\Rpt_Classes1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Classes.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="modules\report\Rpt_Student.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Student.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="modules\report\Rpt_Teachers1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Teachers.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="modules\Trang_Chu\TrangChu.aspx.cs">
@@ -885,9 +911,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="modules\report\Rpt_Classes.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Classes1.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="modules\report\Rpt_Student.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Student.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="modules\report\Rpt_Teachers.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Teachers1.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
