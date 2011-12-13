@@ -44,14 +44,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_PARENTSCOMMENTID = "ParentCommentId";
 
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
-<<<<<<< .mine
         public const string SESSION_SELECTEDPARENTSFUNCTION = "SelectedParentFunction";
         public const string SESSION_STUDENT = "Student";        
-=======
         public const string SESSION_SUPPLIEDPARENTSAUTHORIZATIONS = "SuppliedParentsAuthorizations";
-        public const string SESSION_SELECTEDPARENTSFUNCTIONS = "SelectedParentsFunctions";
-        public const string SESSION_STUDENT = "Student";        
->>>>>>> .r76
+        public const string SESSION_SELECTEDPARENTSFUNCTIONS = "SelectedParentsFunctions";           
         public const string SESSION_SELECTED_YEAR = "Year";
         public const string SESSION_SELECTED_CLASS = "Class";
         public const string SESSION_SELECTED_FACULTY = "Faculty";
