@@ -137,7 +137,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
             RptDocument.SetDataSource(dsHocSinh.Tables[0]);
             RptDocument.SetParameterValue("School", UserSchool.SchoolName);
-            RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : "Tất cả");
+            RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
             FacultyBL facultyBL = new FacultyBL(UserSchool);
             RptDocument.SetParameterValue("Fal", (faculty == null || faculty.FacultyId == 0) ? "Tất cả" : faculty.FacultyName);
             RptDocument.SetParameterValue("Grade", (grade == null || grade.GradeId == 0)? "Tất cả" : grade.GradeName);
