@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Services;
 using System.Web.Script.Services;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen_WebRole.Modules;
 

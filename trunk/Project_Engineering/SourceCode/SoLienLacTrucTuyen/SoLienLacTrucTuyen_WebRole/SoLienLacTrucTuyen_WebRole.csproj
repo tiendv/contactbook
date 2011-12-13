@@ -340,6 +340,7 @@
     </Compile>
     <Compile Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx.cs">
       <DependentUpon>indanhsachgiaovien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx.designer.cs">
       <DependentUpon>indanhsachgiaovien.aspx</DependentUpon>
@@ -425,6 +426,7 @@
     </Compile>
     <Compile Include="modules\lop_hoc\indanhsachlophoc.aspx.cs">
       <DependentUpon>indanhsachlophoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="modules\lop_hoc\indanhsachlophoc.aspx.designer.cs">
       <DependentUpon>indanhsachlophoc.aspx</DependentUpon>
