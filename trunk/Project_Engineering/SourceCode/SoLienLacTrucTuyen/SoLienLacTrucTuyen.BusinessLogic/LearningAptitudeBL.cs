@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -16,30 +16,28 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             learningAptitudeDA = new LearningAptitudeDA(school);
         }
 
-        public void InsertHocLuc(Category_LearningAptitude hocLucEn)
+        public void InsertLearningAptitude(Category_LearningAptitude learningAptitude)
         {
-            learningAptitudeDA.InsertHocLuc(hocLucEn);
+            learningAptitudeDA.InsertLearningAptitude(learningAptitude);
         }
 
-        public void UpdateHocLuc(int LearningAptitudeId, string LearningAptitudeName, float BeginAverageMark, float EndAverageMark)
+        public void UpdateLearningAptitude(Category_LearningAptitude learningAptitude, string learningAptitudeName, double beginAverageMark, double endAverageMark)
         {
-            learningAptitudeDA.UpdateHocLuc(new Category_LearningAptitude()
-            {
-                LearningAptitudeId = LearningAptitudeId,
-                LearningAptitudeName = LearningAptitudeName,
-                BeginAverageMark = BeginAverageMark,
-                EndAverageMark = EndAverageMark
-            });
+            learningAptitude.LearningAptitudeName = learningAptitudeName;
+            learningAptitude.BeginAverageMark = beginAverageMark;
+            learningAptitude.EndAverageMark = endAverageMark;
+
+            learningAptitudeDA.UpdateLearningAptitude(learningAptitude);
         }
 
-        public void DeleteHocLuc(int LearningAptitudeId)
+        public void DeleteLearningAptitude(Category_LearningAptitude learningAptitude)
         {
-            learningAptitudeDA.DeleteHocLuc(LearningAptitudeId);
+            learningAptitudeDA.DeleteLearningAptitude(learningAptitude);
         }
 
-        public Category_LearningAptitude GetLearningAptitude(int LearningAptitudeId)
+        public Category_LearningAptitude GetLearningAptitude(int learningAptitudeId)
         {
-            return learningAptitudeDA.GetHocLuc(LearningAptitudeId);
+            return learningAptitudeDA.GetLearningAptitude(learningAptitudeId);
         }
 
         public Category_LearningAptitude GetLearningAptitude(double averageMark)
@@ -47,118 +45,44 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return learningAptitudeDA.GetLearningAptitude(averageMark);
         }
 
-        public List<Category_LearningAptitude> GetListHocLuc(bool allOptions)
+        public List<Category_LearningAptitude> GetLearningAptitudes()
         {
-            List<Category_LearningAptitude> hocLucs = learningAptitudeDA.GetListHocLuc();
-            if (hocLucs.Count != 0 && allOptions)
+            return learningAptitudeDA.GetLearningAptitudes();
+        }
+
+        public List<Category_LearningAptitude> GetLearningAptitudes(string learningAptitudeName, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            if ((learningAptitudeName == "") || (string.Compare(learningAptitudeName, "tất cả", true) == 0))
             {
-                hocLucs.Insert(hocLucs.Count, new Category_LearningAptitude
-                {
-                    LearningAptitudeId = 0,
-                    LearningAptitudeName = "Tất cả"
-                });
-            }
-            return hocLucs;
-        }
-
-        public List<Category_LearningAptitude> GetListHocLuc(int pageCurrentIndex, int pageSize)
-        {
-            return learningAptitudeDA.GetListHocLuc(pageCurrentIndex, pageSize);
-        }
-
-        public List<Category_LearningAptitude> GetListHocLuc(string LearningAptitudeName, int pageCurrentIndex, int pageSize)
-        {
-            return learningAptitudeDA.GetListHocLuc(LearningAptitudeName, pageCurrentIndex, pageSize);
-        }
-        public List<Category_LearningAptitude> GetListHocLuc(string conductName, int pageIndex, int pageSize, out double totalRecords)
-        {
-            List<Category_LearningAptitude> learningAptitudes = new List<Category_LearningAptitude>();
-
-            if ((conductName == "") || (string.Compare(conductName, "tất cả", true) == 0))
-            {
-                learningAptitudes = learningAptitudeDA.GetHocLucs(pageIndex, pageSize, out totalRecords);
+                return learningAptitudeDA.GetLearningAptitudes(pageCurrentIndex, pageSize, out totalRecord);
             }
             else
             {
-                Category_LearningAptitude learningAptitude = GetConduct(conductName);
-                if (learningAptitude != null)
-                {
-                    learningAptitudes.Add(learningAptitude);
-                }
-                
-                totalRecords = learningAptitudes.Count;
-            }
-
-            return learningAptitudes;
-        }
-        public double GetHocLucCount()
-        {
-            return learningAptitudeDA.GetHocLucCount();
+                return learningAptitudeDA.GetLearningAptitudes(learningAptitudeName, pageCurrentIndex, pageSize, out totalRecord);
+            }            
         }
 
-        public double GetHocLucCount(string LearningAptitudeName)
+        public bool LearningAptitudeNameExists(string learningAptitudeName)
         {
-            return learningAptitudeDA.GetHocLucCount(LearningAptitudeName);
+            return learningAptitudeDA.LearningAptitudeNameExists(learningAptitudeName);
         }
 
-        public bool CheckExistHocLuc(int LearningAptitudeId, string LearningAptitudeName)
+        public bool LearningAptitudeNameExists(string oldLearningAptitudeName, string newLearningAptitudeName)
         {
-            return learningAptitudeDA.CheckExistLearningAptitudeName(LearningAptitudeId, LearningAptitudeName);
-        }
-
-        public bool CheckCanDeleteHocLuc(int LearningAptitudeId)
-        {
-            return learningAptitudeDA.CheckCanDeleteHocLuc(LearningAptitudeId);
-        }
-
-        public bool ConductNameExists(string conductName)
-        {
-            return learningAptitudeDA.ConductNameExists(conductName);
-        }
-        public void InsertConduct(Category_LearningAptitude conduct)
-        {
-            learningAptitudeDA.InsertConduct(conduct);
-        }
-        public void DeleteConduct(Category_LearningAptitude conduct)
-        {
-            learningAptitudeDA.DeleteConduct(conduct);
-        }
-        public bool ConductNameExists(string oldConductName, string newConductName)
-        {
-            bool bResult = false;
-
-            if (oldConductName == newConductName)
+            if (oldLearningAptitudeName == newLearningAptitudeName)
             {
-                bResult = false;
+                return false;
             }
             else
             {
-                bResult = learningAptitudeDA.ConductNameExists(newConductName);
+                return LearningAptitudeNameExists(newLearningAptitudeName);
             }
+        }
 
-            return bResult;
-        }
-        public void UpdateConduct(int editedConductName, string newConductName, double BeginAverageMark, double EndAverageMark)
+        public bool IsDeletable(Category_LearningAptitude learningAptitude)
         {
-            Category_LearningAptitude hocluc = GetConduct(editedConductName);
-
-            hocluc.LearningAptitudeName = newConductName;
-            hocluc.BeginAverageMark = BeginAverageMark;
-            hocluc.EndAverageMark = EndAverageMark;
-
-            learningAptitudeDA.UpdateConduct(hocluc);
-        }
-        public Category_LearningAptitude GetConduct(int conductName)
-        {
-            return learningAptitudeDA.GetConduct(conductName);
-        }
-        public Category_LearningAptitude GetConduct(string conductName)
-        {
-            return learningAptitudeDA.GetConduct(conductName);
-        }
-        public bool IsDeletable(string conductName)
-        {
-            return learningAptitudeDA.IsDeletable(conductName);
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            return studyingResultBL.TermLearningResultExists(learningAptitude);
         }
     }
 }

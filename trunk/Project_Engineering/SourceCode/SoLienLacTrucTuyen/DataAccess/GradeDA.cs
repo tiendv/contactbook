@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class GradeDA : BaseDA
     {
@@ -24,9 +24,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Grade grade = null;
             IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
-                                                  where grad.GradeId == editedGrade.GradeId
-                                                  && grad.SchoolId == school.SchoolId
-                                                  select grad;
+                                                 where grad.GradeId == editedGrade.GradeId
+                                                 select grad;
             if (iqGrade.Count() != 0)
             {
                 grade = iqGrade.First();
@@ -41,9 +40,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Grade grade = null;
             IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
-                                                  where grad.GradeId == deletedGrade.GradeId
-                                                  && grad.SchoolId == school.SchoolId
-                                                  select grad;
+                                                 where grad.GradeId == deletedGrade.GradeId
+                                                 select grad;
             if (iqGrade.Count() != 0)
             {
                 grade = iqGrade.First();
@@ -56,9 +54,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Grade grade = null;
             IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
-                                                  where grad.GradeName == gradeName
-                                                  && grad.SchoolId == school.SchoolId
-                                                  select grad;
+                                                 where grad.GradeName == gradeName && grad.SchoolId == school.SchoolId
+                                                 select grad;
             if (iqGrade.Count() != 0)
             {
                 grade = iqGrade.First();
@@ -69,65 +66,40 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public List<Category_Grade> GetGrades()
         {
-            List<Category_Grade> lGrades = new List<Category_Grade>();
+            List<Category_Grade> grades = new List<Category_Grade>();
 
             IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
-                                                  where grad.SchoolId == school.SchoolId
-                                                  select grad;
+                                                 where grad.SchoolId == school.SchoolId
+                                                 select grad;
             if (iqGrade.Count() != 0)
             {
-                lGrades = iqGrade.OrderBy(grad => grad.DisplayedOrder).ToList();
+                grades = iqGrade.OrderBy(grad => grad.DisplayedOrder).ToList();
             }
 
-            return lGrades;
+            return grades;
         }
 
         public List<Category_Grade> GetGrades(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Category_Grade> lGrades = new List<Category_Grade>();
+            List<Category_Grade> grades = new List<Category_Grade>();
             IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
-                                                  where grad.SchoolId == school.SchoolId
-                                                  select grad;
+                                                 where grad.SchoolId == school.SchoolId
+                                                 select grad;
             totalRecords = iqGrade.Count();
             if (totalRecords != 0)
             {
-                lGrades = iqGrade.OrderBy(grad => grad.DisplayedOrder)
+                grades = iqGrade.OrderBy(grad => grad.DisplayedOrder)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
-            return lGrades;
-        }
-
-        public bool IsDeletable(Category_Grade grade)
-        {
-            var lop = from l in db.Class_Classes
-                      where l.GradeId == grade.GradeId
-                      && l.SchoolId == school.SchoolId
-                      select l;
-            bool bConstraintToLop = (lop.Count() != 0) ? true : false;
-
-            var mon = from m in db.Category_Subjects
-                      where m.GradeId == grade.GradeId
-                      && m.Category_Grade.SchoolId == school.SchoolId
-                      select m;
-            bool bConstraintToMon = (mon.Count() != 0) ? true : false;
-
-            if (bConstraintToLop || bConstraintToMon)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return grades;
         }
 
         public bool GradeNameExists(string gradeName)
         {
             IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
-                                                  where grad.GradeName == gradeName
-                                                  && grad.SchoolId == school.SchoolId
-                                                  select grad;
+                                                 where grad.GradeName == gradeName && grad.SchoolId == school.SchoolId
+                                                 select grad;
 
             if (iqGrade.Count() != 0)
             {
@@ -137,6 +109,54 @@ namespace SoLienLacTrucTuyen.DataAccess
             {
                 return false;
             }
+        }
+
+        public bool ClassInGradeExists(Category_Grade grade)
+        {
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.Category_Grade.GradeId == grade.GradeId
+                                              && cls.Category_Grade.SchoolId == school.SchoolId
+                                              select cls;
+
+            if (iqClass.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool SubjectInGradeExists(Category_Grade grade)
+        {
+            IQueryable<Category_Subject> iqSubject = from subject in db.Category_Subjects
+                                                     where subject.Category_Grade.GradeId == grade.GradeId
+                                                     && subject.Category_Grade.SchoolId == school.SchoolId
+                                                     select subject;
+
+            if (iqSubject.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Category_Grade GetGrade(int gradeId)
+        {
+            Category_Grade grade = null;
+            IQueryable<Category_Grade> iqGrade = from grad in db.Category_Grades
+                                                 where grad.GradeId == gradeId
+                                                 select grad;
+            if (iqGrade.Count() != 0)
+            {
+                grade = iqGrade.First();
+            }
+
+            return grade;
         }
     }
 }

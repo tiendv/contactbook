@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class FacultyDA : BaseDA
     {
@@ -13,24 +13,24 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
         }
 
-        public void InsertFaculty(Category_Faculty faculty)
+        public void InsertFaculty(Category_Faculty newFaculty)
         {
-            faculty.SchoolId = school.SchoolId;
-            db.Category_Faculties.InsertOnSubmit(faculty);
+            newFaculty.SchoolId = school.SchoolId;
+            db.Category_Faculties.InsertOnSubmit(newFaculty);
             db.SubmitChanges();
         }
 
         public void UpdateFaculty(Category_Faculty editedFaculty)
         {
-            IQueryable<Category_Faculty> iqFaculty;
-            iqFaculty = from fac in db.Category_Faculties
-                        where fac.FacultyId == editedFaculty.FacultyId
-                        && fac.SchoolId == school.SchoolId
-                        select fac;
+            Category_Faculty faculty = null;
+
+            IQueryable<Category_Faculty> iqFaculty = from fac in db.Category_Faculties
+                                                     where fac.FacultyId == editedFaculty.FacultyId
+                                                     select fac;
 
             if (iqFaculty.Count() != 0)
             {
-                Category_Faculty faculty = iqFaculty.First();
+                faculty = iqFaculty.First();
                 faculty.FacultyName = editedFaculty.FacultyName;
                 faculty.Description = editedFaculty.Description;
                 db.SubmitChanges();
@@ -39,15 +39,15 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public void DeleteFaculty(Category_Faculty deletedFaculty)
         {
-            IQueryable<Category_Faculty> iqFaculty;
-            iqFaculty = from fac in db.Category_Faculties
-                        where fac.FacultyId == deletedFaculty.FacultyId
-                        && fac.SchoolId == school.SchoolId
-                        select fac;
+            Category_Faculty faculty = null;
+
+            IQueryable<Category_Faculty> iqFaculty = from fac in db.Category_Faculties
+                                                     where fac.FacultyId == deletedFaculty.FacultyId
+                                                     select fac;
 
             if (iqFaculty.Count() != 0)
             {
-                Category_Faculty faculty = iqFaculty.First();
+                faculty = iqFaculty.First();
                 db.Category_Faculties.DeleteOnSubmit(faculty);
                 db.SubmitChanges();
             }
@@ -57,10 +57,10 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Faculty faculty = null;
 
-            IQueryable<Category_Faculty> iqFaculty;
-            iqFaculty = from fac in db.Category_Faculties
-                        where fac.FacultyName == facultyName && fac.SchoolId == school.SchoolId
-                        select fac;
+            IQueryable<Category_Faculty> iqFaculty = from fac in db.Category_Faculties
+                                                     where fac.FacultyName == facultyName
+                                                        && fac.SchoolId == school.SchoolId
+                                                     select fac;
 
             if (iqFaculty.Count() != 0)
             {
@@ -72,38 +72,37 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public List<Category_Faculty> GetFaculties()
         {
+            List<Category_Faculty> faculties = new List<Category_Faculty>();
+
             IQueryable<Category_Faculty> iqFaculty = from faculty in db.Category_Faculties
                                                      where faculty.SchoolId == school.SchoolId
                                                      select faculty;
             if (iqFaculty.Count() != 0)
             {
-                return iqFaculty.OrderBy(fac => fac.FacultyName).ToList();
+                faculties = iqFaculty.OrderBy(fac => fac.FacultyName).ToList();
             }
-            else
-            {
-                return new List<Category_Faculty>();
-            }
+
+            return faculties;
         }
 
         public List<Category_Faculty> GetFaculties(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
+            List<Category_Faculty> faculties = new List<Category_Faculty>();
+
             IQueryable<Category_Faculty> iqFaculty = from faculty in db.Category_Faculties
                                                      where faculty.SchoolId == school.SchoolId
                                                      select faculty;
             totalRecords = iqFaculty.Count();
             if (totalRecords != 0)
             {
-                return iqFaculty.OrderBy(fac => fac.FacultyName)
-                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize)
-                    .ToList();
+                faculties = iqFaculty.OrderBy(fac => fac.FacultyName)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
-            else
-            {
-                return new List<Category_Faculty>();
-            }
+
+            return faculties;
         }
 
-        public bool FacultyExists(string facultyName)
+        public bool FacultyNameExists(string facultyName)
         {
             IQueryable<Category_Faculty> iqFaculty = from faculty in db.Category_Faculties
                                                      where faculty.FacultyName == facultyName
@@ -119,35 +118,54 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(Category_Faculty faculty)
+        public bool ClassInFacultyExists(Category_Faculty faculty)
         {
             IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
-                                             join fac in db.Category_Faculties on cls.FacultyId equals fac.FacultyId
-                                             where fac.FacultyName == faculty.FacultyName
-                                             && fac.SchoolId == school.SchoolId
-                                             select cls;
+                                              where cls.Category_Faculty.FacultyName == faculty.FacultyName
+                                              && cls.Category_Faculty.SchoolId == school.SchoolId
+                                              select cls;
 
             if (iqClass.Count() != 0)
             {
-                return false;
+                return true;
             }
             else
             {
-                IQueryable<Category_Subject> iqSubject = from subject in db.Category_Subjects
-                                                       join fac in db.Category_Faculties on subject.FacultyId equals fac.FacultyId
-                                                       where fac.FacultyName == faculty.FacultyName
-                                                       && fac.SchoolId == school.SchoolId
-                                                       select subject;
-
-                if (iqSubject.Count() != 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return false;
             }
+        }
+
+        public bool SubjectInFacultyExists(Category_Faculty faculty)
+        {
+            IQueryable<Category_Subject> iqSubject = from subject in db.Category_Subjects
+                                                     where subject.Category_Faculty.FacultyName == faculty.FacultyName
+                                                     && subject.Category_Faculty.SchoolId == school.SchoolId
+                                                     select subject;
+
+            if (iqSubject.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public Category_Faculty GetFaculty(int facultyId)
+        {
+            Category_Faculty faculty = null;
+
+            IQueryable<Category_Faculty> iqFaculty = from fac in db.Category_Faculties
+                                                     where fac.FacultyId == facultyId
+                                                     select fac;
+
+            if (iqFaculty.Count() != 0)
+            {
+                faculty = iqFaculty.First();
+            }
+
+            return faculty;
         }
     }
 }

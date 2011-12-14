@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -177,7 +177,7 @@ namespace SoLienLacTrucTuyen.DataAccess
     #endregion
 		
 		public DbEContactBookDataContext() : 
-				base(global::SoLienLacTrucTuyen.DataAccess.Properties.Settings.Default.DbEContactBookConnectionString3, mappingSource)
+				base(global::EContactBook.DataAccess.Properties.Settings.Default.DbEContactBookConnectionString3, mappingSource)
 		{
 			OnCreated();
 		}

@@ -33,6 +33,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
+
             // Get data
             studentBL = new StudentBL(UserSchool);
             DataSet dsHocSinh = new DataSet();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class ScheduleDA : BaseDA
     {
@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                     select schd;
             if (iqSchedule.Count() != 0)
             {
-                schedules = iqSchedule.OrderBy(teachingPeriod => teachingPeriod.SessionId).ToList();
+                schedules = iqSchedule.OrderBy(teachingPeriod => teachingPeriod.TeachingPeriodId).ToList();
             }
 
             return schedules;
@@ -148,7 +148,7 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool ScheduledExists(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term)
         {
             IQueryable<Class_Schedule> iqSchedule = from schedule in db.Class_Schedules
                                                     where schedule.ClassId == Class.ClassId
@@ -162,6 +162,38 @@ namespace SoLienLacTrucTuyen.DataAccess
             else
             {
                 return false;
+            }
+        }
+
+        public bool ScheduleExists(Category_Subject subject)
+        {
+            IQueryable<Class_Schedule> iqScheduledSubjects = from scheduledSubject in db.Class_Schedules
+                                                             where scheduledSubject.SubjectId == subject.SubjectId
+                                                             select scheduledSubject;
+
+            if (iqScheduledSubjects.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool ScheduleExists(Category_TeachingPeriod teachingPeriod)
+        {
+            IQueryable<Class_Schedule> iqScheduledSubjects = from scheduledSubject in db.Class_Schedules
+                                                             where scheduledSubject.TeachingPeriodId == teachingPeriod.TeachingPeriodId
+                                                             select scheduledSubject;
+
+            if (iqScheduledSubjects.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }
