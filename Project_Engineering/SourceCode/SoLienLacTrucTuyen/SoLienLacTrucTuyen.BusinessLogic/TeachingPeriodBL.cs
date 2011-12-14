@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
@@ -126,7 +126,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool IsDeletable(Category_TeachingPeriod teachingPeriod)
         {
-            return teachingPeriodDA.IsDeletable(teachingPeriod);
+            ScheduleBL scheduleBL = new ScheduleBL(school);
+            return scheduleBL.ScheduleExists(teachingPeriod);
         }
 
         public string GetDetailedTeachingPeriod(Category_TeachingPeriod teachingPeriod)

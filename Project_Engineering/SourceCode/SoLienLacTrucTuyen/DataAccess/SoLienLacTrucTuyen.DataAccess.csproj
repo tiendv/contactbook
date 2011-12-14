@@ -8,8 +8,8 @@
     <ProjectGuid>{ED2027DC-923E-4904-9E11-928D65B01BCD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoLienLacTrucTuyen.DataAccess</RootNamespace>
-    <AssemblyName>SoLienLacTrucTuyen.DataAccess</AssemblyName>
+    <RootNamespace>EContactBook.DataAccess</RootNamespace>
+    <AssemblyName>EContactBook.DataAccess</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>

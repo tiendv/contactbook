@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -58,7 +58,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<Category_MarkType> GetListMarkTypes()
         {
-            return markTypeDA.GetListMarkTypes();
+            return markTypeDA.GetMarkTypes();
         }
 
         public List<Category_MarkType> GetListMarkTypes(string markTypeName, int pageCurrentIndex, int pageSize, out double totalRecords)
@@ -67,7 +67,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             if (String.Compare(markTypeName, "tất cả", true) == 0 || markTypeName == "")
             {
-                lMarkTypes = markTypeDA.GetListMarkTypes(pageCurrentIndex, pageSize, out totalRecords);
+                lMarkTypes = markTypeDA.GetMarkTypes(pageCurrentIndex, pageSize, out totalRecords);
             }
             else
             {
@@ -103,12 +103,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool IsDeletable(string markTypeName)
         {
             Category_MarkType markType = GetMarkType(markTypeName);
-            return markTypeDA.IsDeletable(markType);
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            return studyingResultBL.DetailTermSubjectMarkExists(markType);
         }
 
         public Category_MarkType GetAppliedCalAvgMarkType()
         {
-            return markTypeDA.GetAppliedCalAvgMarkType();
+            return markTypeDA.GetAppliedCalculateAvgMarkType();
         }
     }
 }

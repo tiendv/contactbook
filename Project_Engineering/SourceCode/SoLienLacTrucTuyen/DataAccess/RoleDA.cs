@@ -5,7 +5,7 @@ using System.Text;
 using SoLienLacTrucTuyen.BusinessEntity;
 using System.Web.Security;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class RoleDA : BaseDA
     {

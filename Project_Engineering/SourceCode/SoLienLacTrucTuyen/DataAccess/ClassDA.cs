@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class ClassDA : BaseDA
     {

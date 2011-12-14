@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
@@ -280,7 +280,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         private bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term)
         {
-            return scheduleDA.ScheduledExists(Class, subject, term);
+            return scheduleDA.ScheduleExists(Class, subject, term);
+        }
+
+        public bool ScheduleExists(Category_Subject subject)
+        {
+            return scheduleDA.ScheduleExists(subject);
+        }
+
+        public bool ScheduleExists(Category_TeachingPeriod teachingPeriod)
+        {
+            return scheduleDA.ScheduleExists(teachingPeriod);
         }
     }
 }

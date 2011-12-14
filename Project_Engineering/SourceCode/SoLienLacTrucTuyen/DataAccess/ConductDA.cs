@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class ConductDA : BaseDA
     {
@@ -13,10 +13,14 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         }
 
-        public void InsertConduct(Category_Conduct conduct)
+        /// <summary>
+        /// Insert new conduct to database
+        /// </summary>
+        /// <param name="newConduct">conduct that will be inserted</param>
+        public void InsertConduct(Category_Conduct newConduct)
         {
-            conduct.SchoolId = school.SchoolId;
-            db.Category_Conducts.InsertOnSubmit(conduct);
+            newConduct.SchoolId = school.SchoolId;
+            db.Category_Conducts.InsertOnSubmit(newConduct);
             db.SubmitChanges();
         }
 
@@ -26,7 +30,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.ConductId == editedConduct.ConductId
-                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -43,7 +46,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.ConductId == deletedConduct.ConductId
-                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -60,7 +62,6 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.ConductId == conductId
-                                                     && cdt.SchoolId == school.SchoolId
                                                      select cdt;
 
             if (iqConduct.Count() != 0)
@@ -90,7 +91,7 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public List<Category_Conduct> GetConducts()
         {
-            List<Category_Conduct> lConducts = new List<Category_Conduct>();
+            List<Category_Conduct> conducts = new List<Category_Conduct>();
 
             IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.SchoolId == school.SchoolId
@@ -98,15 +99,15 @@ namespace SoLienLacTrucTuyen.DataAccess
 
             if (iqConduct.Count() != 0)
             {
-                lConducts = iqConduct.OrderBy(cdt => cdt.ConductName).ToList();
+                conducts = iqConduct.OrderBy(cdt => cdt.ConductName).ToList();
             }
 
-            return lConducts;
+            return conducts;
         }
 
         public List<Category_Conduct> GetConducts(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Category_Conduct> lConducts = new List<Category_Conduct>();
+            List<Category_Conduct> conducts = new List<Category_Conduct>();
 
             IQueryable<Category_Conduct> iqConduct = from cdt in db.Category_Conducts
                                                      where cdt.SchoolId == school.SchoolId
@@ -115,18 +116,17 @@ namespace SoLienLacTrucTuyen.DataAccess
             return GetConducts(ref iqConduct, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        private List<Category_Conduct> GetConducts(ref IQueryable<Category_Conduct> iqHanhKiem, int pageCurrentIndex, int pageSize, out double totalRecords)
+        private List<Category_Conduct> GetConducts(ref IQueryable<Category_Conduct> iqConduct, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            totalRecords = iqHanhKiem.Count();
+            List<Category_Conduct> conducts = new List<Category_Conduct>();
+            totalRecords = iqConduct.Count();
             if (totalRecords != 0)
             {
-                return iqHanhKiem.OrderBy(hanhkiem => hanhkiem.ConductName)
+                conducts = iqConduct.OrderBy(conduct => conduct.ConductName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
-            else
-            {
-                return new List<Category_Conduct>();
-            }
+
+            return conducts;
         }
 
         public bool IsDeletable(string conductName)

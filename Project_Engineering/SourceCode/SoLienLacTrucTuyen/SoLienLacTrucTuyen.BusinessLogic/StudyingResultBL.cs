@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
@@ -567,6 +567,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             termSubjectMark.AverageMark = -1; // undefined
 
             studyingResultDA.InsertTermSubjectMark(termSubjectMark);
+        }
+
+        internal bool DetailTermSubjectMarkExists(Category_MarkType markType)
+        {
+            return studyingResultDA.DetailTermSubjectMarkExists(markType);
+        }
+
+        internal bool TermLearningResultExists(Category_LearningAptitude learningAptitude)
+        {
+            return studyingResultDA.TermLearningResultExists(learningAptitude);
         }
     }
 }

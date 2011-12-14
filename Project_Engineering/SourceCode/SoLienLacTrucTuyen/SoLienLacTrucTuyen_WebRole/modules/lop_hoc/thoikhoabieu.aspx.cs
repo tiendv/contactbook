@@ -181,10 +181,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptMonHocTKB.DataSource = dailySchedules;
             RptMonHocTKB.DataBind();
-
-            //Session["ThoiKhoaBieu_YearId"] = YearId;
-            //Session["ThoiKhoaBieu_TermId"] = TermId;
-            //Session["ThoiKhoaBieu_ClassId"] = ClassId;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class TeacherDA : BaseDA
     {

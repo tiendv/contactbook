@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
@@ -34,6 +34,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void DeleteFaculty(Category_Faculty faculty)
         {
             facultyDA.DeleteFaculty(faculty);
+        }
+
+        public Category_Faculty GetFaculty(int facultyId)
+        {            
+            return facultyDA.GetFaculty(facultyId);
         }
 
         public Category_Faculty GetFaculty(string facultyName)
@@ -79,18 +84,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                return facultyDA.FacultyExists(newFacultyName);
+                return facultyDA.FacultyNameExists(newFacultyName);
             }
         }
 
         public bool FacultyExists(string facultyName)
         {
-            return facultyDA.FacultyExists(facultyName);
+            return facultyDA.FacultyNameExists(facultyName);
         }
 
         public bool IsDeletable(Category_Faculty faculty)
         {
-            return facultyDA.IsDeletable(faculty);
+            return ((!facultyDA.SubjectInFacultyExists(faculty)) && (!facultyDA.ClassInFacultyExists(faculty)));
         }
     }
 }

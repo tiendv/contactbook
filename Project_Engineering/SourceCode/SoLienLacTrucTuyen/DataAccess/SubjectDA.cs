@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class SubjectDA : BaseDA
     {
@@ -24,9 +24,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Subject subject = null;
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.SubjectId== editedSubject.SubjectId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.SubjectId == editedSubject.SubjectId
+                                                     select subj;
             if (iqSubject.Count() != 0)
             {
                 subject = iqSubject.First();
@@ -40,9 +39,8 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Subject subject = null;
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.SubjectId== deletedSubject.SubjectId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.SubjectId == deletedSubject.SubjectId
+                                                     select subj;
             if (iqSubject.Count() != 0)
             {
                 subject = iqSubject.First();
@@ -55,11 +53,11 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             Category_Subject subject = null;
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.SubjectName == subjectName
-                                                        && subj.Category_Faculty.FacultyName == facultyName
-                                                        && subj.Category_Grade.GradeName == gradeName
-                                                        && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.SubjectName == subjectName
+                                                          && subj.Category_Faculty.FacultyName == facultyName
+                                                          && subj.Category_Grade.GradeName == gradeName
+                                                          && subj.Category_Faculty.SchoolId == school.SchoolId
+                                                     select subj;
 
             if (iqSubject.Count() != 0)
             {
@@ -71,124 +69,77 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         public List<Category_Subject> GetListSubjects()
         {
-            List<Category_Subject> lSubjects = new List<Category_Subject>();
+            List<Category_Subject> subjects = new List<Category_Subject>();
 
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.Category_Faculty.SchoolId == school.SchoolId
+                                                     select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                subjects = iqSubject.OrderBy(subj => subj.SubjectName)
                     .ThenBy(subj => subj.Category_Faculty.FacultyName)
                     .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
-            return lSubjects;
-        }
-
-        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade)
-        {
-            List<Category_Subject> lSubjects = new List<Category_Subject>();
-
-            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.FacultyId == faculty.FacultyId
-                                                   && subj.GradeId == grade.GradeId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
-            if (iqSubject.Count() != 0)
-            {
-                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
-                    .ThenBy(subj => subj.Category_Faculty.FacultyName)
-                    .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
-            }
-
-            return lSubjects;
+            return subjects;
         }
 
         public List<Category_Subject> GetListSubjects(Category_Faculty faculty)
         {
-            List<Category_Subject> lSubjects = new List<Category_Subject>();
+            List<Category_Subject> subjects = new List<Category_Subject>();
 
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.FacultyId == faculty.FacultyId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.FacultyId == faculty.FacultyId
+                                                     select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                subjects = iqSubject.OrderBy(subj => subj.SubjectName)
                     .ThenBy(subj => subj.Category_Faculty.FacultyName)
                     .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
-            return lSubjects;
+            return subjects;
         }
 
         public List<Category_Subject> GetListSubjects(Category_Grade grade)
         {
-            List<Category_Subject> lSubjects = new List<Category_Subject>();
+            List<Category_Subject> subjects = new List<Category_Subject>();
 
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
                                                      where subj.GradeId == grade.GradeId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     select subj;
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                subjects = iqSubject.OrderBy(subj => subj.SubjectName)
                     .ThenBy(subj => subj.Category_Faculty.FacultyName)
                     .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
             }
 
-            return lSubjects;
+            return subjects;
         }
 
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade)
+        {
+            List<Category_Subject> subjects = new List<Category_Subject>();
+
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.FacultyId == faculty.FacultyId && subj.GradeId == grade.GradeId
+                                                     select subj;
+            if (iqSubject.Count() != 0)
+            {
+                subjects = iqSubject.OrderBy(subj => subj.SubjectName)
+                    .ThenBy(subj => subj.Category_Faculty.FacultyName)
+                    .ThenBy(subj => subj.Category_Grade.GradeName).ToList();
+            }
+
+            return subjects;
+        }        
+        
         public List<Category_Subject> GetListSubjects(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
-
-            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
-        }
-
-        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.Category_Faculty.FacultyId == faculty.FacultyId
-                                                   && subj.Category_Grade.GradeId == grade.GradeId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
-
-            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
-        }
-
-        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade, Category_Subject exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.Category_Faculty.FacultyId == faculty.FacultyId
-                                                   && subj.Category_Grade.GradeId == grade.GradeId
-                                                   && subj.SubjectId!= exceptedSubject.SubjectId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
-
-            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
-        }
-
-        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.Category_Faculty.FacultyId == faculty.FacultyId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
-
-            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
-        }
-
-        public List<Category_Subject> GetListSubjects(Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.Category_Grade.GradeId == grade.GradeId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.Category_Faculty.SchoolId == school.SchoolId
+                                                     select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -196,23 +147,62 @@ namespace SoLienLacTrucTuyen.DataAccess
         public List<Category_Subject> GetListSubjects(string subjectName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.SubjectName == subjectName
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.SubjectName == subjectName
+                                                     && subj.Category_Faculty.SchoolId == school.SchoolId
+                                                     select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.Category_Faculty.FacultyId == faculty.FacultyId
+                                                     select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<Category_Subject> GetListSubjects(Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.Category_Grade.GradeId == grade.GradeId
+                                                     select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+        
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.Category_Faculty.FacultyId == faculty.FacultyId
+                                                     && subj.Category_Grade.GradeId == grade.GradeId
+                                                     select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+        
         public List<Category_Subject> GetListSubjects(string subjectName, Category_Subject exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
-                                                   where subj.SubjectName == subjectName && subj.SubjectId!= exceptedSubject.SubjectId
-                                                   && subj.Category_Faculty.SchoolId == school.SchoolId
-                                                   select subj;
+                                                     where subj.SubjectName == subjectName && subj.SubjectId != exceptedSubject.SubjectId
+                                                     && subj.Category_Faculty.SchoolId == school.SchoolId
+                                                     select subj;
 
             return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Category_Subject> GetListSubjects(Category_Faculty faculty, Category_Grade grade, Category_Subject exceptedSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.Category_Faculty.FacultyId == faculty.FacultyId
+                                                        && subj.Category_Grade.GradeId == grade.GradeId
+                                                        && subj.SubjectId != exceptedSubject.SubjectId
+                                                     select subj;
+
+            return GetListSubjects(ref iqSubject, pageCurrentIndex, pageSize, out totalRecords);
+        }
+        
         public bool SubjectNameExists(string subjectName, string facultyName, string gradeName)
         {
             IQueryable<Category_Subject> iqSubject;
@@ -232,37 +222,20 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
         }
 
-        public bool IsDeletable(Category_Subject subject)
-        {
-            IQueryable<Class_Schedule> iqScheduledSubjects = from scheduledSubject in db.Class_Schedules
-                                                               where scheduledSubject.SubjectId== subject.SubjectId
-                                                               && scheduledSubject.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
-                                                               select scheduledSubject;
-
-            if (iqScheduledSubjects.Count() != 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
         private List<Category_Subject> GetListSubjects(ref IQueryable<Category_Subject> iqSubject, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Category_Subject> lSubjects = new List<Category_Subject>();
+            List<Category_Subject> subjects = new List<Category_Subject>();
 
             totalRecords = iqSubject.Count();
             if (iqSubject.Count() != 0)
             {
-                lSubjects = iqSubject.OrderBy(subj => subj.Category_Faculty.FacultyName)
+                subjects = iqSubject.OrderBy(subj => subj.Category_Faculty.FacultyName)
                     .ThenBy(subj => subj.Category_Grade.GradeName)
                     .ThenBy(subj => subj.SubjectName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
-            return lSubjects;
+            return subjects;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.DataAccess;
+using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -72,7 +72,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool IsDeletable(string gradeName)
         {
             Category_Grade grade = GetGrade(gradeName);
-            return gradeDA.IsDeletable(grade);
+            return (!gradeDA.ClassInGradeExists(grade) && !gradeDA.SubjectInGradeExists(grade));
         }
 
         public bool GradeNameExists(string gradeName)
@@ -90,6 +90,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 return gradeDA.GradeNameExists(newGradeName);
             }
+        }
+
+        public Category_Grade GetGrade(int gradeId)
+        {
+            return gradeDA.GetGrade(gradeId);
         }
     }
 }

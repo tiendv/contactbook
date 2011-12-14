@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class StudyingResultDA : BaseDA
     {
@@ -697,6 +697,43 @@ namespace SoLienLacTrucTuyen.DataAccess
             }
 
             db.SubmitChanges();
+        }
+
+        public bool DetailTermSubjectMarkExists(Category_MarkType markType)
+        {
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
+            iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
+                                        where detailedTermSubjectMark.MarkType == markType.MarkTypeId
+                                        && detailedTermSubjectMark.Category_MarkType.SchoolId == school.SchoolId
+                                        select detailedTermSubjectMark;
+
+            if (iqDetailedTermSubjectMark.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool TermLearningResultExists(Category_LearningAptitude learningAptitude)
+        {
+            IQueryable<Student_TermLearningResult> iqTermStudentResult;
+
+            iqTermStudentResult = from termStudentResult in db.Student_TermLearningResults
+                                  join la in db.Category_LearningAptitudes on termStudentResult.TermLearningAptitudeId equals la.LearningAptitudeId
+                                  where la.LearningAptitudeId == learningAptitude.LearningAptitudeId
+                                  select termStudentResult;
+
+            if (iqTermStudentResult.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

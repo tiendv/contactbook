@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SoLienLacTrucTuyen.BusinessEntity;
 
-namespace SoLienLacTrucTuyen.DataAccess
+namespace EContactBook.DataAccess
 {
     public class TeachingPeriodDA : BaseDA
     {
@@ -99,6 +99,7 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                                    where tchPeriod.TeachingPeriodName == teachingPeriodName
                                                                    && tchPeriod.SchoolId == school.SchoolId
                                                                    select tchPeriod;
+
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
@@ -106,8 +107,9 @@ namespace SoLienLacTrucTuyen.DataAccess
         {
             IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from tchPeriod in db.Category_TeachingPeriods
                                                                    where tchPeriod.SessionId == session.SessionId
-                                                                   && tchPeriod.SchoolId == school.SchoolId
+                                                                        && tchPeriod.SchoolId == school.SchoolId
                                                                    select tchPeriod;
+
             return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
@@ -117,24 +119,9 @@ namespace SoLienLacTrucTuyen.DataAccess
                                                                    where tchPeriod.TeachingPeriodName == teachingPeriodName
                                                                        && tchPeriod.SessionId == session.SessionId
                                                                        && tchPeriod.SchoolId == school.SchoolId
-
                                                                    select tchPeriod;
-            return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
-        }
 
-        public bool IsDeletable(Category_TeachingPeriod teachingPeriod)
-        {
-            IQueryable<Class_Schedule> iqSchedule = from schedule in db.Class_Schedules
-                                                    where schedule.TeachingPeriodId == teachingPeriod.TeachingPeriodId
-                                                    select schedule;
-            if (iqSchedule.Count() != 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return GetTeachingPeriods(ref iqTeachingPeriod, pageCurrentIndex, pageSize, out totalRecords);
         }
 
         public bool TeachingPeriodNameExists(string teachingPeriodName)
@@ -155,16 +142,16 @@ namespace SoLienLacTrucTuyen.DataAccess
 
         private List<Category_TeachingPeriod> GetTeachingPeriods(ref IQueryable<Category_TeachingPeriod> iqTeachingPeriod, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Category_TeachingPeriod> lTeachingPeriods = new List<Category_TeachingPeriod>();
+            List<Category_TeachingPeriod> teachingPeriods = new List<Category_TeachingPeriod>();
 
             totalRecords = iqTeachingPeriod.Count();
             if (totalRecords != 0)
             {
-                lTeachingPeriods = iqTeachingPeriod.OrderBy(tchPeriod => tchPeriod.BeginTime)
+                teachingPeriods = iqTeachingPeriod.OrderBy(tchPeriod => tchPeriod.BeginTime)
                     .ThenBy(tiet => tiet.TeachingPeriodOrder).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
-            return lTeachingPeriods;
+            return teachingPeriods;
         }
     }
 }
