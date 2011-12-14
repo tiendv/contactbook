@@ -58,6 +58,8 @@
         <div id="divButtonSearch" style="margin: 3px 0px 0px 0px">
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm thời khóa biểu" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
+                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
         </div>
     </div>
     <div class="table_data ui-corner-all">

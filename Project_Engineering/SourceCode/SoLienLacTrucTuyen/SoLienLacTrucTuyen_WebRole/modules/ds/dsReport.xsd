@@ -49,6 +49,19 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="dsTerm" msprop:Generator_TableClassName="dsTermDataTable" msprop:Generator_TableVarName="tabledsTerm" msprop:Generator_TablePropName="dsTerm" msprop:Generator_RowDeletingName="dsTermRowDeleting" msprop:Generator_UserTableName="dsTerm" msprop:Generator_RowChangingName="dsTermRowChanging" msprop:Generator_RowEvHandlerName="dsTermRowChangeEventHandler" msprop:Generator_RowDeletedName="dsTermRowDeleted" msprop:Generator_RowEvArgName="dsTermRowChangeEvent" msprop:Generator_RowChangedName="dsTermRowChanged" msprop:Generator_RowClassName="dsTermRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DayInWeekName" msprop:Generator_ColumnVarNameInTable="columnDayInWeekName" msprop:Generator_ColumnPropNameInRow="DayInWeekName" msprop:Generator_ColumnPropNameInTable="DayInWeekNameColumn" msprop:Generator_UserColumnName="DayInWeekName" type="xs:string" minOccurs="0" />
+              <xs:element name="Morning_StringDetailTeachingPeriod" msprop:Generator_ColumnVarNameInTable="columnMorning_StringDetailTeachingPeriod" msprop:Generator_ColumnPropNameInRow="Morning_StringDetailTeachingPeriod" msprop:Generator_ColumnPropNameInTable="Morning_StringDetailTeachingPeriodColumn" msprop:Generator_UserColumnName="Morning_StringDetailTeachingPeriod" type="xs:string" minOccurs="0" />
+              <xs:element name="Morning_SubjectName" msprop:Generator_ColumnVarNameInTable="columnMorning_SubjectName" msprop:Generator_ColumnPropNameInRow="Morning_SubjectName" msprop:Generator_ColumnPropNameInTable="Morning_SubjectNameColumn" msprop:Generator_UserColumnName="Morning_SubjectName" type="xs:string" minOccurs="0" />
+              <xs:element name="Morning_TeacherName" msprop:Generator_ColumnVarNameInTable="columnMorning_TeacherName" msprop:Generator_ColumnPropNameInRow="Morning_TeacherName" msprop:Generator_ColumnPropNameInTable="Morning_TeacherNameColumn" msprop:Generator_UserColumnName="Morning_TeacherName" type="xs:string" minOccurs="0" />
+              <xs:element name="Afternoon_StringDetailTeachingPeriod" msprop:Generator_ColumnVarNameInTable="columnAfternoon_StringDetailTeachingPeriod" msprop:Generator_ColumnPropNameInRow="Afternoon_StringDetailTeachingPeriod" msprop:Generator_ColumnPropNameInTable="Afternoon_StringDetailTeachingPeriodColumn" msprop:Generator_UserColumnName="Afternoon_StringDetailTeachingPeriod" type="xs:string" minOccurs="0" />
+              <xs:element name="Afternoon_SubjectName" msprop:Generator_ColumnVarNameInTable="columnAfternoon_SubjectName" msprop:Generator_ColumnPropNameInRow="Afternoon_SubjectName" msprop:Generator_ColumnPropNameInTable="Afternoon_SubjectNameColumn" msprop:Generator_UserColumnName="Afternoon_SubjectName" type="xs:string" minOccurs="0" />
+              <xs:element name="Afternoon_TeacherName" msprop:Generator_ColumnVarNameInTable="columnAfternoon_TeacherName" msprop:Generator_ColumnPropNameInRow="Afternoon_TeacherName" msprop:Generator_ColumnPropNameInTable="Afternoon_TeacherNameColumn" msprop:Generator_UserColumnName="Afternoon_TeacherName" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

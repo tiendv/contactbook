@@ -26,6 +26,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
         public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
         public const string PAGEPATH_PRINTCLASSES = "/modules/lop_hoc/indanhsachlophoc.aspx";
+        public const string PAGEPATH_PRINTTERM = "/modules/lop_hoc/inthoikhoabieu.aspx";
 
         public const string QUERY_STUDENT = "std";
         public const string QUERY_PARENTSCOMMENT = "id";
@@ -43,7 +44,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_STUDENTCLASS_ID = "StudentClassId";
         public const string VIEWSTATE_PREV_PAGE = "PrevPage";
         public const string VIEWSTATE_PARENTSCOMMENTID = "ParentCommentId";
+        public const string VIEWSTATE_SELECTED_TEACHERNAME = "TeacherName";
+        public const string VIEWSTATE_SELECTED_TEACHERID = "TeacherID";
 
+        public const string SESSION_PAGEPATH = "PagePath";
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
         public const string SESSION_SELECTEDPARENTSFUNCTION = "SelectedParentFunction";
         public const string SESSION_STUDENT = "Student";        
@@ -51,6 +55,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTEDPARENTSFUNCTIONS = "SelectedParentsFunctions";           
         public const string SESSION_SELECTED_YEAR = "Year";
         public const string SESSION_SELECTED_CLASS = "Class";
+        public const string SESSION_SELECTED_TERM = "Term";
         public const string SESSION_SELECTED_FACULTY = "Faculty";
         public const string SESSION_SELECTED_GRADE = "Grade";
         public const string SESSION_SELECTED_STUDENTCODE = "StudentName";

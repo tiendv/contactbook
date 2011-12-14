@@ -20,11 +20,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class PrintClassesPage : BaseContentPage
     {
         #region Variables
-
-        private int _Year;
-        private int _Falculty;
-        private int _Grade;
-        private int _Class;
         private ClassBL classBL;
         private ReportDocument RptDocument = new ReportDocument();
         #endregion
@@ -39,8 +34,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 double dTotalRecords;
 
                 Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
-                RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
-                _Year = year.YearId;
+                RemoveSession(AppConstant.SESSION_SELECTED_YEAR);                
 
                 Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                 RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
