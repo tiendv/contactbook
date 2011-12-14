@@ -38,13 +38,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             StudentBL studentBL = new StudentBL(UserSchool);
             TeacherBL teacherBL = new TeacherBL(UserSchool);
             ClassBL classBL = new ClassBL(UserSchool);
+            ScheduleBL schiduleBL = new ScheduleBL(UserSchool);
             
             double dTotalRecords;            
             
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
-            Class_Class Class = null;
+            Class_Class classes = null;
+            Configuration_Term term = null;
             String strStudentName = null;
             String strStudentCode = null;
 
@@ -55,6 +57,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
             List<TabularTeacher> tabularTeachers = new List<TabularTeacher>();
             List<TabularClass> tabularClasses = new List<TabularClass>();
+            List<DailySchedule> tabularDailySchedule = new List<DailySchedule>();
 
             #endregion
 
@@ -91,12 +94,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                 grade = null;
                             }
 
-                            Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.ClassId;
+                            classes = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = classes.ClassId;
                             RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
-                            if (Class.ClassId == 0)
+                            if (classes.ClassId == 0)
                             {
-                                Class = null;
+                                classes = null;
                             }
 
                             strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
@@ -139,6 +142,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             #endregion
                             break;
                         }
+                    case AppConstant.PAGEPATH_PRINTTERM:
+                        {
+                            #region
+                            year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+                            RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
+
+                            faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = (faculty == null ? 0 : faculty.FacultyId);
+                            RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
+
+                            grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade == null ? 0 : grade.GradeId;
+                            RemoveSession(AppConstant.SESSION_SELECTED_GRADE);        
+
+                            classes = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = classes==null?0:classes.ClassId;
+                            RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
+
+                            term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
+                            ViewState[AppConstant.SESSION_SELECTED_TERM] = term==null?0:term.TermId;
+                            RemoveSession(AppConstant.SESSION_SELECTED_TERM);
+                            #endregion                            
+                            break;
+                        }                        
                     default:
                         break;
                 }
@@ -172,7 +200,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                             if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != 0)
                             {
-                                Class = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS]);
+                                classes = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS]);
                             }
 
                             strStudentName = (string)ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME];
@@ -207,6 +235,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             #endregion
                             break;
                         }
+                    case AppConstant.PAGEPATH_PRINTTERM:
+                        {
+                            year = new Configuration_Year();
+                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+                            year = (new SystemConfigBL(UserSchool)).GetYear(year.YearId);
+
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] != 0)
+                            {
+                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY]);
+                            }
+
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] != 0)
+                            {
+                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE]);
+                            }
+
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != 0)
+                            {
+                                classes = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS]);
+                            }
+                            if ((int)ViewState[AppConstant.SESSION_SELECTED_TERM] != 0)
+                            {
+                                term =  new  SystemConfigBL(UserSchool).GetTerm((int)ViewState[AppConstant.SESSION_SELECTED_TERM]);
+                            }
+                            break;
+                        }
                     default:
                         break;
                 }
@@ -221,7 +275,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case AppConstant.PAGEPATH_PRINTSTUDENTS:
                     {
                         #region
-                        tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, Class, strStudentCode, strStudentName,
+                        tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, classes, strStudentCode, strStudentName,
                         1, 50, out dTotalRecords);
                         ds = new DataSet();
                         DataTable dtSource = new DataTable();
@@ -254,7 +308,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         FacultyBL facultyBL = new FacultyBL(UserSchool);
                         RptDocument.SetParameterValue("Fal", (faculty == null || faculty.FacultyId == 0) ? "Tất cả" : faculty.FacultyName);
                         RptDocument.SetParameterValue("Grade", (grade == null || grade.GradeId == 0) ? "Tất cả" : grade.GradeName);
-                        RptDocument.SetParameterValue("Class", (Class == null || Class.ClassId == 0) ? "Tất cả" : Class.ClassName);
+                        RptDocument.SetParameterValue("Class", (classes == null || classes.ClassId == 0) ? "Tất cả" : classes.ClassName);
 
                         #endregion
                         break;
@@ -318,6 +372,85 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
                         RptDocument.SetParameterValue("Fal", faculty == null ? "Tất cả" : faculty.FacultyName);
                         RptDocument.SetParameterValue("Grade", grade == null ? "Tất cả" : grade.GradeName);   
+                        #endregion
+                        break;
+                    }
+                case AppConstant.PAGEPATH_PRINTTERM:
+                    {
+                        #region
+                        tabularDailySchedule = schiduleBL.GetDailySchedules(classes, term);
+
+                        DataTable dtSource = new DataTable();
+                        dtSource.Columns.Add("DayInWeekName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Morning_StringDetailTeachingPeriod", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Morning_SubjectName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Morning_TeacherName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Afternoon_StringDetailTeachingPeriod", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Afternoon_SubjectName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Afternoon_TeacherName", Type.GetType("System.String"));
+                        int _count;
+                        for (int i = 0; i < tabularDailySchedule.Count; i++)
+                        {
+                            if (tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count >
+                                tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count)
+                                _count = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count;
+                            else
+                                _count = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count;
+                            if (_count == 0)
+                            {
+                                DataRow drSource = dtSource.NewRow();
+                                drSource["DayInWeekName"] = "Thứ " +(tabularDailySchedule[i].DayInWeekId + 1).ToString();
+                                dtSource.Rows.Add(drSource);
+                            }
+                            else
+                            {
+                                // Morning
+                                for (int j = 0; j < _count; j++)
+                                {
+                                    DataRow drSource = dtSource.NewRow();
+                                    drSource["DayInWeekName"] = "Thứ " + (tabularDailySchedule[i].DayInWeekId + 1).ToString();
+                                    // Morning
+                                    if (j < tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count)
+                                    {
+                                        drSource["Morning_StringDetailTeachingPeriod"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].StringDetailTeachingPeriod.Replace("<b>", "").Replace("</b>", "").Replace("<br/>", "");
+                                        drSource["Morning_SubjectName"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                        drSource["Morning_TeacherName"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].TeacherName;
+                                    }
+                                    else
+                                    {
+                                        drSource["Morning_StringDetailTeachingPeriod"] = string.Empty;
+                                        drSource["Morning_SubjectName"] = string.Empty;
+                                        drSource["Morning_TeacherName"] = string.Empty;
+                                    }
+                                    // Afternoon
+                                    if (j < tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count)
+                                    {
+                                        drSource["Afternoon_StringDetailTeachingPeriod"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].StringDetailTeachingPeriod.Replace("<b>", "").Replace("</b>", "").Replace("<br/>", "");
+                                        drSource["Afternoon_SubjectName"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                        drSource["Afternoon_TeacherName"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].TeacherName;
+                                    }
+                                    else
+                                    {
+                                        drSource["Afternoon_StringDetailTeachingPeriod"] = string.Empty;
+                                        drSource["Afternoon_SubjectName"] = string.Empty;
+                                        drSource["Afternoon_TeacherName"] = string.Empty;
+                                    }
+                                    dtSource.Rows.Add(drSource);
+                                }
+
+                            }
+
+
+                        }
+                        ds.Tables.Add(dtSource);
+                        RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Term.rpt"));
+                        RptDocument.SetDataSource(ds.Tables[0]);
+                        RptDocument.SetParameterValue("School", UserSchool.SchoolName);
+                        RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
+                        RptDocument.SetParameterValue("Fal", faculty == null ? "Tất cả" : faculty.FacultyName);
+                        RptDocument.SetParameterValue("Grade", grade == null ? "Tất cả" : grade.GradeName);
+                        RptDocument.SetParameterValue("Classes", classes.ClassName);
+                        Rpt_DanhSachHocSinh.Zoom(75);
                         #endregion
                         break;
                     }
