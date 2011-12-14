@@ -166,52 +166,43 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             year.YearName = DdlNamHoc.SelectedItem.Text;
             try
             {
-                if (DdlNganh.SelectedIndex > 0)
-                {
                     faculty = new Category_Faculty();
                     faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                     faculty.FacultyName = DdlNganh.SelectedItem.Text; ;
-                }
+
             }
             catch (Exception) { }
 
             try
             {
-                if (DdlKhoiLop.SelectedIndex > 0)
-                {
+
                     grade = new Category_Grade();
                     grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                    grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;
-                }
+                    grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;                
             }
             catch (Exception) { }
             try
             {
-                if (DdlLopHoc.SelectedIndex > 0)
-                {
                     Class = new Class_Class();
                     Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                    Class.ClassName = DdlLopHoc.SelectedItem.Text; ;
-                }
+                    Class.ClassName = DdlLopHoc.SelectedItem.Text; ;               
             }
             catch (Exception) { }
             try
             {
-                if (DdlHocKy.SelectedIndex > 0)
-                {
                     term = new Configuration_Term();
                     term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
                     term.TermName = DdlHocKy.SelectedItem.Text; ;
-                }
             }
             catch (Exception) { }
 
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTERM);
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
             AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-            Response.Redirect(AppConstant.PAGEPATH_PRINTTERM);
+            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
         #endregion
