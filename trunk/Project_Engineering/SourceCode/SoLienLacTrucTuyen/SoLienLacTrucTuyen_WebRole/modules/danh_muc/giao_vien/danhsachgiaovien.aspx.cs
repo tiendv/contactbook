@@ -124,9 +124,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strTeacherName = this.TxtSearchTenGiaoVien.Text;
             string strTeacherID = this.TxtSearchMaHienThiGiaoVien.Text;
 
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTEACHERS);
             AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
             AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
-            Response.Redirect(AppConstant.PAGEPATH_PRINTTEACHERS);
+            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)

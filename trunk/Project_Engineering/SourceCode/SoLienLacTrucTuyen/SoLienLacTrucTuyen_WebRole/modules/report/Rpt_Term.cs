@@ -16,14 +16,14 @@ namespace SoLienLacTrucTuyen_WebRole.modules.report {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class Rpt_Student : ReportClass {
+    public class Rpt_Term : ReportClass {
         
-        public Rpt_Student() {
+        public Rpt_Term() {
         }
         
         public override string ResourceName {
             get {
-                return "Rpt_Student.rpt";
+                return "Rpt_Term.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.report {
         
         public override string FullResourceName {
             get {
-                return "SoLienLacTrucTuyen_WebRole.modules.report.Rpt_Student.rpt";
+                return "SoLienLacTrucTuyen_WebRole.modules.report.Rpt_Term.rpt";
             }
             set {
                 // Do nothing
@@ -103,52 +103,12 @@ namespace SoLienLacTrucTuyen_WebRole.modules.report {
                 return this.ReportDefinition.Sections[6];
             }
         }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_School {
-            get {
-                return this.DataDefinition.ParameterFields[0];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_Year {
-            get {
-                return this.DataDefinition.ParameterFields[1];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_Fal {
-            get {
-                return this.DataDefinition.ParameterFields[2];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_Grade {
-            get {
-                return this.DataDefinition.ParameterFields[3];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_Class {
-            get {
-                return this.DataDefinition.ParameterFields[4];
-            }
-        }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedRpt_Student : Component, ICachedReport {
+    public class CachedRpt_Term : Component, ICachedReport {
         
-        public CachedRpt_Student() {
+        public CachedRpt_Term() {
         }
         
         [Browsable(false)]
@@ -185,7 +145,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.report {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            Rpt_Student rpt = new Rpt_Student();
+            Rpt_Term rpt = new Rpt_Term();
             rpt.Site = this.Site;
             return rpt;
         }

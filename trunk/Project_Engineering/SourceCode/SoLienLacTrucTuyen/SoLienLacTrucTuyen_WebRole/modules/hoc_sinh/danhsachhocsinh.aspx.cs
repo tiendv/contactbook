@@ -318,6 +318,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTSTUDENTS);
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);

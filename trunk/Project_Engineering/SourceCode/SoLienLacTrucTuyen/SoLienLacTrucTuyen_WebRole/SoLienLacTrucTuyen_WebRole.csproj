@@ -90,6 +90,7 @@
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
     <Content Include="modules\loi_nhan\loinhankhan.aspx" />
+    <Content Include="modules\lop_hoc\inthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\indanhsachlophoc.aspx" />
     <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
     <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
@@ -424,6 +425,13 @@
     <Compile Include="modules\loi_nhan\loinhankhan.aspx.designer.cs">
       <DependentUpon>loinhankhan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\lop_hoc\inthoikhoabieu.aspx.cs">
+      <DependentUpon>inthoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\inthoikhoabieu.aspx.designer.cs">
+      <DependentUpon>inthoikhoabieu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\lop_hoc\indanhsachlophoc.aspx.cs">
       <DependentUpon>indanhsachlophoc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -632,6 +640,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Rpt_Teachers.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="modules\report\Rpt_Term.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Term.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="modules\Trang_Chu\TrangChu.aspx.cs">
@@ -924,6 +938,10 @@
     <EmbeddedResource Include="modules\report\Rpt_Teachers.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Rpt_Teachers1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="modules\report\Rpt_Term.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Term.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
