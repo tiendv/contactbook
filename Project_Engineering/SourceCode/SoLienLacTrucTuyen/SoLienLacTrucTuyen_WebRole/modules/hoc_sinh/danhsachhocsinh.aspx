@@ -108,8 +108,10 @@
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
+            <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/Images/button_import.png"
+                ToolTip="Import học sinh" OnClick="BtnImport_Click" CssClass="BtnAdd" />
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
-                ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />
+                ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />                
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>

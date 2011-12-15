@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
+using System.Data.OleDb;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -14,6 +16,7 @@ using CrystalDecisions.CrystalReports;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.ReportSource;
 using CrystalDecisions.Shared;
+using Microsoft.Office.Interop.Excel;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -344,6 +347,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             this.HdfSearchMaHocSinh.Value = this.TxtMaHocSinh.Text;
         }
 
+        protected void BtnImport_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("importhocsinh.aspx");            
+        }
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
             Response.Redirect("themhocsinh.aspx");

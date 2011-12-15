@@ -46,6 +46,9 @@
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Diagnostics" />
     <Reference Include="Microsoft.WindowsAzure.ServiceRuntime" />
     <Reference Include="Microsoft.WindowsAzure.StorageClient" />
@@ -81,6 +84,7 @@
     <Content Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\hoc_sinh\importhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
     <Content Include="modules\hoc_sinh\HocSinhServicePage.aspx" />
@@ -364,6 +368,13 @@
     </Compile>
     <Compile Include="modules\ErrorPage\pagenotfound.aspx.designer.cs">
       <DependentUpon>pagenotfound.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\importhocsinh.aspx.cs">
+      <DependentUpon>importhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\importhocsinh.aspx.designer.cs">
+      <DependentUpon>importhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\hoatdong.aspx.cs">
       <DependentUpon>hoatdong.aspx</DependentUpon>
