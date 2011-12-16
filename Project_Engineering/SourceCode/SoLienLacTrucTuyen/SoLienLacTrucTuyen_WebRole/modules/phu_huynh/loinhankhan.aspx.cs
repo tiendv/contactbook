@@ -194,7 +194,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
                         LblTitle.Text = message.Title;
                         LblContent.Text = message.MessageContent;
-
+                        LblStatus.Text = (message.IsConfirmed == true) ? "Đã xác nhận" : "Chưa xác nhận";
                         ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
                         mPEDetail.Show();
 

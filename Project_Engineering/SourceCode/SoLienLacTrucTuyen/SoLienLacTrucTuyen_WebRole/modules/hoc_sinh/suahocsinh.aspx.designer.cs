@@ -490,24 +490,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label Label15;
         
         /// <summary>
-        /// CkbAddAfterSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CkbAddAfterSave;
-        
-        /// <summary>
-        /// Label100 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label100;
-        
-        /// <summary>
         /// BtnSave control.
         /// </summary>
         /// <remarks>

@@ -267,7 +267,7 @@ namespace EContactBook.DataAccess
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetLastedYear();
 
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
@@ -288,7 +288,7 @@ namespace EContactBook.DataAccess
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetLastedYear();
 
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
@@ -310,7 +310,7 @@ namespace EContactBook.DataAccess
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetLastedYear();
 
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
@@ -332,7 +332,7 @@ namespace EContactBook.DataAccess
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
 
             // get current year
-            Configuration_Year currentYear = (new SystemConfigDA(school)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigDA(school)).GetLastedYear();
 
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses

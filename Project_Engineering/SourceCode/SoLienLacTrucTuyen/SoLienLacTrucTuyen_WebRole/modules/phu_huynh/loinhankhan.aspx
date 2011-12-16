@@ -17,6 +17,12 @@
                 $find(mPECancelConfirmID).hide();
                 return false;
             }
+
+            function popopDetail_Close_Click() {
+                var mPECloseID = $get('<%=HdfRptLoiNhanKhanMPEDetail.ClientID%>').value;
+                $find(mPECloseID).hide();
+                return false;
+            }
         </script>
     </div>
     <div id="divSearch">
@@ -113,7 +119,7 @@
                         </td>
                         <td style="height: 40px;">
                             <%--<asp:Label ID="Label28" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Title")%>'></asp:Label>--%>
-                            <asp:Label ID="LblTitle" runat="server" style="display:none"></asp:Label>
+                            <asp:Label ID="LblTitle" runat="server" Style="display: none"></asp:Label>
                             <asp:LinkButton ID="LbtnTieuDe" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Title")%>'
                                 Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
                                 CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>'>
@@ -212,29 +218,34 @@
         <div style="padding: 5px 7px 10px 7px;">
             <table style="width: 100%" class="inputBorder">
                 <tr>
-                    <td style="width: 60px; vertical-align: top; padding-top: 3px;">
+                    <td style="vertical-align: top; padding-top: 3px;">
                         Tiêu đề:
                     </td>
-                    <td style="width: auto;" colspan="3" class="readOnlyTextBox input_textbox">
+                    <td style="width: auto;" class="readOnlyTextBox input_textbox">
                         <asp:Label ID="LblTitle" runat="server" Style="width: 99%"></asp:Label>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 60px; vertical-align: top; padding-top: 3px;" >
+                    <td style="vertical-align: top; padding-top: 3px;">
                         Nội dung:
                     </td>
-                    <td style="width: auto;" colspan="3" class="readOnlyTextBox input_textbox">
-                    <asp:Label ID="LblContent" runat="server" Style="width: 99%"></asp:Label>
+                    <td style="width: auto;" class="readOnlyTextBox input_textbox">
+                        <asp:Label ID="LblContent" runat="server" Height="230px" Style="width: 99%; height:250px"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: top; padding-top: 3px;">
+                        Tình trạng:
+                    </td>
+                    <td style="width: auto;" class="readOnlyTextBox input_textbox">
+                        <asp:Label ID="LblStatus" runat="server" Style="width: 99%;"></asp:Label>
                     </td>
                 </tr>
             </table>
         </div>
-        <%--<div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 10px 0px">
-            <asp:ImageButton ID="BtnSaveAdd" runat="server" OnClick="BtnSaveAdd_Click" ValidationGroup="AddLoiNhanKhan"
-                ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />
-            &nbsp;&nbsp;
-            <asp:ImageButton ID="BtnCancelAdd" runat="server" OnClientClick="return popopDetail_CancelSave_Click();"
-                ImageUrl="~/Styles/Images/button_cancel.png" CssClass="CancelButton" />
-        </div>--%>
+        <div style="width: 80px; margin: 0px auto 0px auto; padding: 10px 0px 10px 0px">
+            <asp:ImageButton ID="BtnClose" runat="server" OnClientClick="return popopDetail_Close_Click();"
+                ImageUrl="~/Styles/Images/button_close.png" />
+        </div>
     </asp:Panel>
 </asp:Content>

@@ -46,7 +46,7 @@
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Diagnostics" />
@@ -84,6 +84,7 @@
     <Content Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\importhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
@@ -126,11 +127,9 @@
     <Content Include="modules\danh_muc\danhmucthaidothamgia.aspx" />
     <Content Include="modules\danh_muc\danhmuchocluc.aspx" />
     <Content Include="modules\danh_muc\danhmuchanhkiem.aspx" />
-    <Content Include="modules\Trang_Chu\TrangChu.aspx" />
     <Content Include="modules\danh_muc\danhmucmonhoc.aspx" />
     <Content Include="modules\lop_hoc\giaovienchunhiem.aspx" />
     <Content Include="modules\lop_hoc\thongbaolop.aspx" />
-    <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\themhocsinh.aspx" />
     <Content Include="Account\DangNhap.aspx" />
     <Content Include="modules\ErrorPage\errorpage.aspx" />
@@ -151,6 +150,7 @@
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
     <Content Include="modules\phu_huynh\themykien.aspx" />
+    <Content Include="modules\Trang_Chu\TrangChu.aspx" />
     <Content Include="modules\y_kien\chitietykien.aspx" />
     <Content Include="modules\y_kien\phanhoiykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
@@ -255,7 +255,6 @@
     <Content Include="Styles\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Styles\ui-lightness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Styles\ui-lightness\jquery-ui-1.8.14.custom.css" />
-    <Content Include="UserControls\Popup.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -368,6 +367,13 @@
     </Compile>
     <Compile Include="modules\ErrorPage\pagenotfound.aspx.designer.cs">
       <DependentUpon>pagenotfound.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.cs">
+      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.designer.cs">
+      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\importhocsinh.aspx.cs">
       <DependentUpon>importhocsinh.aspx</DependentUpon>
@@ -659,13 +665,6 @@
       <DependentUpon>Rpt_Term.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="modules\Trang_Chu\TrangChu.aspx.cs">
-      <DependentUpon>TrangChu.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\Trang_Chu\TrangChu.aspx.designer.cs">
-      <DependentUpon>TrangChu.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\danh_muc\danhmucmonhoc.aspx.cs">
       <DependentUpon>danhmucmonhoc.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -686,13 +685,6 @@
     </Compile>
     <Compile Include="modules\lop_hoc\thongbaolop.aspx.designer.cs">
       <DependentUpon>thongbaolop.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.cs">
-      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.designer.cs">
-      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\themhocsinh.aspx.cs">
       <DependentUpon>themhocsinh.aspx</DependentUpon>
@@ -834,6 +826,13 @@
     <Compile Include="modules\phu_huynh\themykien.aspx.designer.cs">
       <DependentUpon>themykien.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\Trang_Chu\TrangChu.aspx.cs">
+      <DependentUpon>TrangChu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\Trang_Chu\TrangChu.aspx.designer.cs">
+      <DependentUpon>TrangChu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\y_kien\chitietykien.aspx.cs">
       <DependentUpon>chitietykien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -872,13 +871,6 @@
     </Compile>
     <Compile Include="SortablePaginationRepeater.cs" />
     <Compile Include="Student.cs" />
-    <Compile Include="UserControls\Popup.ascx.cs">
-      <DependentUpon>Popup.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UserControls\Popup.ascx.designer.cs">
-      <DependentUpon>Popup.ascx</DependentUpon>
-    </Compile>
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>

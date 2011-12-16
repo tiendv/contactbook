@@ -267,7 +267,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
+                DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
             }
         }
 

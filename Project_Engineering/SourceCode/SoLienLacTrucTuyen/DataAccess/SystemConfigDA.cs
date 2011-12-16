@@ -56,15 +56,6 @@ namespace EContactBook.DataAccess
             return lastedYear;
         }
 
-        public Configuration_Year GetCurrentYear()
-        {
-            IQueryable<Configuration_Year> iqYear = from sysConfig in db.Configuration_Configurations
-                                                    join year in db.Configuration_Years
-                                                        on sysConfig.CurrentYear equals year.YearId
-                                                    select year;
-            return iqYear.First();
-        }
-
         public void UpdateYearIdHienHanh(int YearIdHienHanh)
         {
             Configuration_Configuration cauHinhHeThong = (from cauhinh_Hethong in db.Configuration_Configurations

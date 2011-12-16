@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (DdlNamHoc.Items.Count != 0)
             {
                 SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
-                DdlNamHoc.SelectedValue = cauHinhBL.GetCurrentYear().ToString();
+                DdlNamHoc.SelectedValue = cauHinhBL.GetLastedYear().ToString();
             }
         }
 

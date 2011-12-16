@@ -279,7 +279,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             student = new Student_Student();
             student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
-            year = systemConfigBL.GetCurrentYear();
+            year = systemConfigBL.GetLastedYear();
             term = new Configuration_Term();
             term.TermId = Int32.Parse(this.DdlHocKyThem.SelectedValue);
             string tieuDe = this.TxtTieuDeThem.Text.Trim();

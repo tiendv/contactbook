@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             studentBL = new StudentBL(UserSchool);
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            currentYear = systemConfigBL.GetCurrentYear();
+            currentYear = systemConfigBL.GetLastedYear();
 
             if (!Page.IsPostBack)
             {

@@ -284,9 +284,6 @@
     <div style="padding-top: 5px">
         <asp:Label ID="Label15" runat="server" Text="*" ForeColor="Red"></asp:Label>
         :Thông tin bắt buộc nhập
-        <br />
-        <asp:CheckBox ID="CkbAddAfterSave" runat="server" />
-        <asp:Label ID="Label100" runat="server" Text="Thêm tiếp sau khi lưu"></asp:Label>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto;">
         <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/Images/button_save.png"
