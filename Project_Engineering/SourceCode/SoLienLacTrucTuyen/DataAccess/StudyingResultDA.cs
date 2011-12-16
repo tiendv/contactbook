@@ -735,5 +735,50 @@ namespace EContactBook.DataAccess
                 return true;
             }
         }
+
+        public void DeleteStudyingResult(Student_Student deletedStudent)
+        {
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
+            iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
+                                        where detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                                        select detailedTermSubjectMark;
+            if (iqDetailedTermSubjectMark.Count() != 0)
+            {
+                foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in iqDetailedTermSubjectMark)
+                {
+                    db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedTermSubjectMark);
+                }
+
+                db.SubmitChanges();
+            }
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
+            iqTermSubjectMark = from termSubjectMark in db.Student_TermSubjectMarks
+                                where termSubjectMark.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                                select termSubjectMark;
+            if (iqTermSubjectMark.Count() != 0)
+            {
+                foreach (Student_TermSubjectMark termSubjectMark in iqTermSubjectMark)
+                {
+                    db.Student_TermSubjectMarks.DeleteOnSubmit(termSubjectMark);
+                }
+
+                db.SubmitChanges();
+            }
+
+            IQueryable<Student_TermLearningResult> iqTermLearningResult;
+            iqTermLearningResult = from termLearningResult in db.Student_TermLearningResults
+                                   where termLearningResult.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                                   select termLearningResult;
+            if (iqTermLearningResult.Count() != 0)
+            {
+                foreach (Student_TermLearningResult termLearningResult in iqTermLearningResult)
+                {
+                    db.Student_TermLearningResults.DeleteOnSubmit(termLearningResult);
+                }
+
+                db.SubmitChanges();
+            }
+        }
     }
 }

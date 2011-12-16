@@ -41,7 +41,7 @@
                                     OnSelectedIndexChanged="DdlNganh_SelectedIndexChanged">
                                 </asp:DropDownList>
                             </td>
-                            <td style="width: 55px;">
+                            <td>
                                 Lớp:
                             </td>
                             <td style="width: 180px">

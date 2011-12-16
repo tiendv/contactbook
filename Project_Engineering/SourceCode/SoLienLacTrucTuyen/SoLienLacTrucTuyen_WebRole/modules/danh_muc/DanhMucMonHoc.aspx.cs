@@ -280,12 +280,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {
-            string subjectName = this.HfdSelectedSubjectName.Value;
-            string facultyName = this.HdfFacultyName.Value;
-            string gradeName = this.HdfGradeName.Value;
-
-            Category_Subject subject = subjectBL.GetSubject(subjectName, facultyName, gradeName);
+        {            
+            Category_Subject subject = new Category_Subject();
+            subject.SubjectId = Int32.Parse(this.HdfSubjectId.Value);
             subjectBL.DeleteSubject(subject);
 
             isSearch = false;

@@ -140,5 +140,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             parentsCommentDA.UpdateParentsComment(comment, newContent);
         }
+
+        internal void DeleteParentsComment(Student_Student deletedStudent)
+        {
+            parentsCommentDA.DeleteParentsComment(deletedStudent);
+        }
     }
 }

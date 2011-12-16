@@ -107,5 +107,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             loiNhanKhanDA.UpdateLoiNhanKhan(maLoiNhanKhan, true);
         }
+
+        internal void DeleteLoiNhanKhan(Student_Student deletedStudent)
+        {
+            loiNhanKhanDA.DeleteLoiNhanKhan(deletedStudent);
+        }
     }
 }

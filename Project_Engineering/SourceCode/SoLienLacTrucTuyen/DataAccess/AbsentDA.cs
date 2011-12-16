@@ -213,7 +213,7 @@ namespace EContactBook.DataAccess
                                                   && abs.TermId == term.TermId
                                                   && abs.Date == date
                                                   && abs.SessionId == session.SessionId
-                                                  select abs; 
+                                                  select abs;
 
             if (iqAbsent.Count() != 0)
             {
@@ -221,6 +221,23 @@ namespace EContactBook.DataAccess
             }
 
             return false;
+        }
+
+        public void DeleteAbsent(Student_Student deletedStudent)
+        {
+            IQueryable<Student_Absent> iqAbsent;
+            iqAbsent = from absent in db.Student_Absents
+                       where absent.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                       select absent;
+            if (iqAbsent.Count() != 0)
+            {
+                foreach (Student_Absent absent in iqAbsent)
+                {
+                    db.Student_Absents.DeleteOnSubmit(absent);
+                }
+
+                db.SubmitChanges();
+            }
         }
     }
 }

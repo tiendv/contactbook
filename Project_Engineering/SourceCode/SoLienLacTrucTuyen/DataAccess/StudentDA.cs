@@ -50,24 +50,6 @@ namespace EContactBook.DataAccess
 
         public void DeleteStudent(Student_Student deletedStudent)
         {
-            IQueryable<Student_StudentInClass> iqStudentInClass;
-            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                               where stdInCls.StudentId == deletedStudent.StudentId
-                               select stdInCls;
-            foreach (Student_StudentInClass studentInClass in iqStudentInClass)
-            {
-                IQueryable<Student_TermLearningResult> iqStudentTermResult;
-                iqStudentTermResult = from stdTermRst in db.Student_TermLearningResults
-                                      where stdTermRst.StudentInClassId == studentInClass.StudentInClassId
-                                      select stdTermRst;
-                foreach (Student_TermLearningResult studentTermResult in iqStudentTermResult)
-                {
-                    db.Student_TermLearningResults.DeleteOnSubmit(studentTermResult);
-                }
-
-                db.Student_StudentInClasses.DeleteOnSubmit(studentInClass);
-            }
-
             IQueryable<Student_Student> iqStudent;
             iqStudent = from std in db.Student_Students
                         where std.StudentId == deletedStudent.StudentId
@@ -654,6 +636,23 @@ namespace EContactBook.DataAccess
             {
                 studentTermResult = iqStudentTermResult.First();
                 studentTermResult.TermConductId = conduct.ConductId;
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteStudentInClass(Student_Student deletedStudent)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from stdInCls in db.Student_StudentInClasses
+                               where stdInCls.StudentId == deletedStudent.StudentId
+                               select stdInCls;
+            if(iqStudentInClass.Count() != 0)
+            {
+                foreach (Student_StudentInClass studentInClass in iqStudentInClass)
+                {
+                    db.Student_StudentInClasses.DeleteOnSubmit(studentInClass);
+                }
+
                 db.SubmitChanges();
             }
         }

@@ -153,5 +153,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
         }
+
+        internal void DeleteAbsent(Student_Student deletedStudent)
+        {
+            absentDA.DeleteAbsent(deletedStudent);
+        }
     }
 }
