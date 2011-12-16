@@ -55,7 +55,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             DdlNamHoc.DataBind();
         }
 
-        private void FillLopHoc()
+        private void FillClass()
         {   
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
@@ -67,48 +67,110 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void FillPersonalInformation(Student_Student student)
         {
             student = studentBL.GetStudent(student.StudentId);
-
             this.LblMaHocSinhHienThi.Text = student.StudentCode;
             this.LblHoTenHocSinh.Text = student.FullName;
             this.LblGioiTinh.Text = (student.Gender == true) ? "Nam" : "Nữ";
-            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.Day.ToString()
-                + "/" + student.StudentBirthday.Month.ToString()
-                + "/" + student.StudentBirthday.Year.ToString();
-            this.LblNoiSinh.Text = student.Birthplace;
+            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.ToShortDateString();
+            if (student.Birthplace != "")
+            {
+                this.LblNoiSinh.Text = student.Birthplace;
+            }
+            else
+            {
+                this.LblNoiSinh.Text = "(Chưa xác định)";
+            }
             this.LblDiaChi.Text = student.Address;
-            this.LblDienThoai.Text = student.ContactPhone;
-            this.LblHoTenBo.Text = student.FatherName;
+            if (student.ContactPhone != "")
+            {
+                LblDiaChi.Text = student.ContactPhone;
+            }
+            else
+            {
+                LblDienThoai.Text = "(Chưa xác định)";
+            }
+            if (student.FatherName != "")
+            {
+                this.LblHoTenBo.Text = student.FatherName;
+            }
+            else
+            {
+                this.LblHoTenBo.Text = "(Chưa xác định)";
+            }
+
             if (student.FatherBirthday != null)
             {
-                DateTime ngaySinhBo = (DateTime)student.FatherBirthday;
-                this.LblNgaySinhBo.Text = ngaySinhBo.Day.ToString() + "/" + ngaySinhBo.Month.ToString()
-                    + "/" + ngaySinhBo.Year.ToString();
+                this.LblNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
             }
-            this.LblNgheNghiepBo.Text = student.FatherJob;
-            this.LblHoTenMe.Text = student.MotherName;
+            else
+            {
+                this.LblNgaySinhBo.Text = "(Chưa xác định)";
+            }
+            if(student.FatherJob != "")
+            {
+                this.LblNgheNghiepBo.Text = student.FatherJob;
+            }
+            else
+            {
+                this.LblNgheNghiepBo.Text = "(Chưa xác định)";
+            }
+
+            if (student.MotherName != "")
+            {
+                this.LblHoTenMe.Text = student.MotherName;
+            }
+            else
+            {
+                this.LblHoTenMe.Text = "(Chưa xác định)";
+            }
             if (student.MotherBirthday != null)
             {
-                DateTime ngaySinhMe = (DateTime)student.MotherBirthday;
-                this.LblNgaySinhMe.Text = ngaySinhMe.Day.ToString() + "/" + ngaySinhMe.Month.ToString()
-                    + "/" + ngaySinhMe.Year.ToString();
+                this.LblNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
             }
-            this.LblNgheNghiepMe.Text = student.MotherJob;
+            else
+            {
+                this.LblNgaySinhMe.Text = "(Chưa xác định)";
+            }
+            if (student.MotherJob != "")
+            {
+                this.LblNgheNghiepMe.Text = student.MotherJob;
+            }
+            else
+            {
+                this.LblNgheNghiepMe.Text = "(Chưa xác định)";
+            }
+            if (student.PatronName != "")
+            {
+                LblHoTenNguoiDoDau.Text = student.PatronName;
+            }
+            else
+            {
+                LblHoTenNguoiDoDau.Text = "(Chưa xác định)";    
+            }
             if (student.PatronBirthday != null)
             {
-                DateTime ngaySinhNguoiDoDau = (DateTime)student.PatronBirthday;
-                this.LblNgaySinhNguoiDoDau.Text = ngaySinhNguoiDoDau.Day.ToString() + "/" + ngaySinhNguoiDoDau.Month.ToString()
-                    + "/" + ngaySinhNguoiDoDau.Year.ToString();
+                this.LblNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToShortDateString();
             }
-            this.LblNgheNghiepNguoiDoDau.Text = student.PatronJob;
+            else
+            {
+                this.LblNgaySinhNguoiDoDau.Text = "(Chưa xác định)";
+            }
+            if (student.PatronJob != "")
+            {
+                this.LblNgheNghiepNguoiDoDau.Text = student.PatronJob;
+            }
+            else
+            {
+                this.LblNgheNghiepNguoiDoDau.Text = "(Chưa xác định)";
+            }            
 
-            FillLopHoc();
+            FillClass();
         }
         #endregion
 
         #region Dropdownlist event handlers
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FillLopHoc();
+            FillClass();
         }
         #endregion
     }

@@ -578,5 +578,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return studyingResultDA.TermLearningResultExists(learningAptitude);
         }
+
+        internal void DeleteStudyingResult(Student_Student deletedStudent)
+        {
+            studyingResultDA.DeleteStudyingResult(deletedStudent);            
+        }
     }
 }

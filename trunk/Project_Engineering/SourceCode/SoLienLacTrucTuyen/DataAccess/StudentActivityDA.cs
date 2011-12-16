@@ -18,8 +18,8 @@ namespace EContactBook.DataAccess
             Student_StudentInClass studentInClass = null;
 
             IQueryable<Student_StudentInClass> iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                                                                 where stdInCls.StudentId == student.StudentId
-                                                                 select stdInCls;
+                                                                  where stdInCls.StudentId == student.StudentId
+                                                                  select stdInCls;
 
             if (iqStudentInClass.Count() != 0)
             {
@@ -45,7 +45,7 @@ namespace EContactBook.DataAccess
             Student_Activity studentActivity = null;
 
             IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
-                                                             where stdAct.ActivityId == editedStudentActivity.ActivityId 
+                                                             where stdAct.ActivityId == editedStudentActivity.ActivityId
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
@@ -64,7 +64,7 @@ namespace EContactBook.DataAccess
             Student_Activity studentActivity = null;
 
             IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
-                                                             where stdAct.ActivityId  == deletedStudentActivity.ActivityId 
+                                                             where stdAct.ActivityId == deletedStudentActivity.ActivityId
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
@@ -80,7 +80,7 @@ namespace EContactBook.DataAccess
             Student_Activity studentActivity = null;
 
             IQueryable<Student_Activity> iqStudentActivity = from stdAct in db.Student_Activities
-                                                             where stdAct.ActivityId  == studentActivityId
+                                                             where stdAct.ActivityId == studentActivityId
                                                              select stdAct;
 
             if (iqStudentActivity.Count() != 0)
@@ -166,6 +166,23 @@ namespace EContactBook.DataAccess
             }
 
             return false;
+        }
+
+        public void DeleteStudentActivity(Student_Student deletedStudent)
+        {
+            IQueryable<Student_Activity> iqActivity;
+            iqActivity = from activity in db.Student_Activities
+                         where activity.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                         select activity;
+            if (iqActivity.Count() != 0)
+            {
+                foreach (Student_Activity activity in iqActivity)
+                {
+                    db.Student_Activities.DeleteOnSubmit(activity);
+                }
+
+                db.SubmitChanges();
+            }
         }
     }
 }

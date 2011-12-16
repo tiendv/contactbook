@@ -56,7 +56,7 @@
                         </td>
                     </ItemTemplate>
                 </asp:Repeater>
-                <td id="tdKQHocTapDTB" runat="server" style="width: 70px">
+                <td id="tdKQHocTapDTB" runat="server" style="width: 70px" class="ui-corner-tr">
                     Điểm trung bình
                 </td>
             </tr>

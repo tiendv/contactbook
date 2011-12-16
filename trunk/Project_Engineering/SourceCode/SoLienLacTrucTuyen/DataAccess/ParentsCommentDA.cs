@@ -24,8 +24,8 @@ namespace EContactBook.DataAccess
             ParentComment_Comment parentsComment = null;
 
             IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
-                                                       where cmt.CommentId == editedParentsComment.CommentId
-                                                       select cmt;
+                                                                  where cmt.CommentId == editedParentsComment.CommentId
+                                                                  select cmt;
             if (iqParentsComments.Count() != 0)
             {
                 parentsComment = iqParentsComments.First();
@@ -39,9 +39,9 @@ namespace EContactBook.DataAccess
         public List<ParentComment_Comment> GetParentsComments(Configuration_Year year, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
-                                                       where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
-                                                       && cmt.Date >= beginDate && cmt.Date <= endDate
-                                                       select cmt;
+                                                                  where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                  && cmt.Date >= beginDate && cmt.Date <= endDate
+                                                                  select cmt;
 
             return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -49,10 +49,10 @@ namespace EContactBook.DataAccess
         public List<ParentComment_Comment> GetParentsComments(Configuration_Year year, Configuration_CommentStatus commentStatus, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
-                                                       where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
-                                                       && cmt.CommentStatusId == commentStatus.CommentStatusId
-                                                       && cmt.Date >= beginDate && cmt.Date <= endDate
-                                                       select cmt;
+                                                                  where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                  && cmt.CommentStatusId == commentStatus.CommentStatusId
+                                                                  && cmt.Date >= beginDate && cmt.Date <= endDate
+                                                                  select cmt;
 
             return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -84,7 +84,7 @@ namespace EContactBook.DataAccess
         {
             List<Configuration_CommentStatus> commentStatuses = new List<Configuration_CommentStatus>();
             IQueryable<Configuration_CommentStatus> iqCommentStatus = from cmtStt in db.Configuration_CommentStatus
-                                                                 select cmtStt;
+                                                                      select cmtStt;
             if (iqCommentStatus.Count() != 0)
             {
                 commentStatuses = iqCommentStatus.ToList();
@@ -113,8 +113,8 @@ namespace EContactBook.DataAccess
             ParentComment_Comment parentsComment = null;
 
             IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
-                                                       where cmt.CommentId == commentId
-                                                       select cmt;
+                                                                  where cmt.CommentId == commentId
+                                                                  select cmt;
             if (iqParentsComments.Count() != 0)
             {
                 parentsComment = iqParentsComments.First();
@@ -149,6 +149,23 @@ namespace EContactBook.DataAccess
             {
                 parentsComment = iqParentsComments.First();
                 parentsComment.CommentContent = newContent;
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteParentsComment(Student_Student deletedStudent)
+        {
+            IQueryable<ParentComment_Comment> iqComment;
+            iqComment = from comment in db.ParentComment_Comments
+                        where comment.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                        select comment;
+            if (iqComment.Count() != 0)
+            {
+                foreach (ParentComment_Comment termLearningResult in iqComment)
+                {
+                    db.ParentComment_Comments.DeleteOnSubmit(termLearningResult);
+                }
+
                 db.SubmitChanges();
             }
         }

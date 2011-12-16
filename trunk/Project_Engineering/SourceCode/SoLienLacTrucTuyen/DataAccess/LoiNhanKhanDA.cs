@@ -52,7 +52,7 @@ namespace EContactBook.DataAccess
                 message = iqMessage.First();
                 message.IsConfirmed = confirmed;
                 db.SubmitChanges();
-            }            
+            }
         }
 
         public void UpdateLoiNhanKhan(int maLoiNhanKhan, string noiDung,
@@ -238,11 +238,11 @@ namespace EContactBook.DataAccess
             List<MessageToParents_Message> messages = new List<MessageToParents_Message>();
 
             IQueryable<MessageToParents_Message> iqMessages = from msg in db.MessageToParents_Messages
-                                                            where msg.Student_StudentInClass.StudentId == student.StudentId
-                                                             && msg.Student_StudentInClass.Class_Class.YearId == year.YearId
-                                                             && msg.Date >= beginDate && msg.Date <= endDate
-                                                             && msg.IsConfirmed == confirmed
-                                                            select msg;
+                                                              where msg.Student_StudentInClass.StudentId == student.StudentId
+                                                               && msg.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                               && msg.Date >= beginDate && msg.Date <= endDate
+                                                               && msg.IsConfirmed == confirmed
+                                                              select msg;
             totalRecords = iqMessages.Count();
             if (totalRecords != 0)
             {
@@ -269,6 +269,23 @@ namespace EContactBook.DataAccess
             }
 
             return messages;
+        }
+
+        public void DeleteLoiNhanKhan(Student_Student deletedStudent)
+        {
+            IQueryable<MessageToParents_Message> iqMessage;
+            iqMessage = from message in db.MessageToParents_Messages
+                        where message.Student_StudentInClass.StudentId == deletedStudent.StudentId
+                        select message;
+            if (iqMessage.Count() != 0)
+            {
+                foreach (MessageToParents_Message message in iqMessage)
+                {
+                    db.MessageToParents_Messages.DeleteOnSubmit(message);
+                }
+
+                db.SubmitChanges();
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.ReportSource;
 using CrystalDecisions.Shared;
 using Microsoft.Office.Interop.Excel;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -358,8 +359,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            Student_Student student = new Student_Student();
-            student.StudentId = Int32.Parse(this.HdfMaHocSinh.Value);
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool); 
+            
+            Student_Student student = studentBL.GetStudent(Int32.Parse(this.HdfMaHocSinh.Value));
+            authorizationBL.DeleteAuthorization(student.StudentCode);
+            Membership.DeleteUser(student.StudentCode, true);  
+
             studentBL.DeleteStudent(student);
 
             isSearch = false;

@@ -92,7 +92,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return studentActivityDA.StudentActivityNameExists(title, student, year, term, date);
         }
 
-        public bool StudentActivityNamExists(string oldTitlte, string title, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
+        public bool StudentActivityNameExists(string oldTitlte, string title, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
         {
             if (oldTitlte == title)
             {
@@ -106,6 +106,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 //Class.ClassId = ClassId;
                 return studentActivityDA.StudentActivityNameExists(title, student, year, term, date);
             }
+        }
+
+        internal void DeleteStudentActivity(Student_Student deletedStudent)
+        {
+            studentActivityDA.DeleteStudentActivity(deletedStudent);
         }
     }
 }

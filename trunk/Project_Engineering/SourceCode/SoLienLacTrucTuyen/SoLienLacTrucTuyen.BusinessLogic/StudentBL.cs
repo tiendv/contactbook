@@ -112,7 +112,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void DeleteStudent(Student_Student deletedStudent)
         {
-            //studentDA.DeleteStudent(deletedStudent);
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            AbsentBL absentBL = new AbsentBL(school);
+            StudentActivityBL activityBL = new StudentActivityBL(school);
+            LoiNhanKhanBL messageBL = new LoiNhanKhanBL(school);
+            ParentsCommentBL parentsCommentBL = new ParentsCommentBL(school);
+
+            parentsCommentBL.DeleteParentsComment(deletedStudent);
+            messageBL.DeleteLoiNhanKhan(deletedStudent);
+            absentBL.DeleteAbsent(deletedStudent);
+            activityBL.DeleteStudentActivity(deletedStudent);
+            studyingResultBL.DeleteStudyingResult(deletedStudent);
+            studentDA.DeleteStudentInClass(deletedStudent);
+            studentDA.DeleteStudent(deletedStudent);
         }
 
         public bool IsDeletable(string studentCode)
