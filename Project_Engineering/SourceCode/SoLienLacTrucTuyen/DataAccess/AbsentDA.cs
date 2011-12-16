@@ -134,8 +134,8 @@ namespace EContactBook.DataAccess
             totalRecords = iqAbsent.Count();
             if (totalRecords != 0)
             {
-                absents = iqAbsent.Skip((pageCurrentIndex - 1) * pageSize)
-                    .Take(pageSize).OrderBy(n => n.Date).ToList();
+                absents = iqAbsent.OrderBy(n => n.Date).Skip((pageCurrentIndex - 1) * pageSize)
+                    .Take(pageSize).ToList();
             }
 
             return absents;
@@ -143,10 +143,15 @@ namespace EContactBook.DataAccess
 
         public bool IsConfirmed(Student_Absent absent)
         {
-            bool confirmed = (from abs in db.Student_Absents
-                              where abs.AbsentId == abs.AbsentId
-                              select abs.IsConfirmed).First();
-            return confirmed;
+            IQueryable<Student_Absent> iqAbsent = from abs in db.Student_Absents
+                                                  where abs.AbsentId == absent.AbsentId
+                                                  select abs;
+            if (iqAbsent.Count() != 0)
+            {
+                absent = iqAbsent.First();
+            }
+
+            return absent.IsConfirmed;
         }
 
         public bool AbsentExists(Student_Student student, Class_Class Class, Configuration_Term term, DateTime date)

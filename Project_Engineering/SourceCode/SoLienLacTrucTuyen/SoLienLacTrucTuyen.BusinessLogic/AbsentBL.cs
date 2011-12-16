@@ -96,10 +96,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return absentDA.IsConfirmed(absent);
         }
 
-        public void ConfirmAbsent(Student_Absent editedAbsent)
+        public void ConfirmAbsent(Student_Absent absent)
         {
             bool xacNhan = true;
-            absentDA.ConfirmAbsent(editedAbsent, xacNhan);
+            absentDA.ConfirmAbsent(absent, xacNhan);
+        }
+
+        public void UnConfirmAbsent(Student_Absent absent)
+        {
+            bool xacNhan = false;
+            absentDA.ConfirmAbsent(absent, xacNhan);
         }
 
         public bool AbsentExists(Student_Absent exceptedAbsent, Student_Student student, Configuration_Term term, DateTime date, Configuration_Session session)

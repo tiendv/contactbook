@@ -8,6 +8,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using SoLienLacTrucTuyen_WebRole.Modules;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
@@ -21,6 +22,11 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 if (Session[AppConstant.SCHOOL] != null)
                 {
                     school = (School_School)Session[AppConstant.SCHOOL];
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    FormsAuthentication.RedirectToLoginPage();
                 }
 
                 return school;
@@ -46,6 +52,16 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                     {
                         membershipStudent = (Student_Student)Session[strMembershipStudentSessionKey];
                     }
+                    else
+                    {
+                        FormsAuthentication.SignOut();
+                        FormsAuthentication.RedirectToLoginPage();
+                    }
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    FormsAuthentication.RedirectToLoginPage();
                 }
 
                 return membershipStudent;

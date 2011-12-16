@@ -34,7 +34,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
             studentBL = new StudentBL(UserSchool);
             absentBL = new AbsentBL(UserSchool);
-
             systemConfigBL = new SystemConfigBL(UserSchool);
 
             if (!Page.IsPostBack)
@@ -127,6 +126,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void ProcessDislayInfo(bool bDisplayData)
         {
             PnlPopupConfirm.Visible = bDisplayData;
+            PnlPopupUnConfirm.Visible = bDisplayData;
             RptNgayNghi.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -153,33 +153,24 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         #region Repeater event handlers
         protected void RptNgayNghi_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            Student_Absent absent = null;
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
+                if (e.Item.DataItem != null)
                 {
-                    if (e.Item.DataItem != null)
+                    Student_Absent absent = new Student_Absent();
+                    absent.AbsentId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfRptMaNgayNghiHoc")).Value);
+                    if (absentBL.Confirmed(absent))
                     {
-                        Control control = e.Item.FindControl("HdfRptMaNgayNghiHoc");
-                        if (control != null)
-                        {
-                            absent = new Student_Absent();
-                            absent.AbsentId = Int32.Parse(((HiddenField)control).Value);
-                            if (absentBL.Confirmed(absent))
-                            {
-                                ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                                btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                                btnDeleteItem.Enabled = false;
-
-                                ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
-                                btnEditItem.ImageUrl = "~/Styles/Images/button_edit_disable.png";
-                                btnEditItem.Enabled = false;
-                            }
-                        }
+                        ImageButton btnConfirm = (ImageButton)e.Item.FindControl("BtnConfirm");
+                        btnConfirm.Visible = false;
+                    }
+                    else
+                    {
+                        ImageButton btnUnConfirm = (ImageButton)e.Item.FindControl("BtnUnConfirm");
+                        btnUnConfirm.Visible = false;
                     }
                 }
+
             }
         }
 
@@ -187,16 +178,28 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             switch (e.CommandName)
             {
-                case "CmdDeleteItem":
+                case "CmdEditItem":
                     {
                         LblConfirmDelete.Text = "Bạn có chắc xác nhận ngày nghỉ học này không?";
-                        ModalPopupExtender mPEConfirm = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
+                        ModalPopupExtender mPEConfirm = (ModalPopupExtender)e.Item.FindControl("MPEConfirm");
                         mPEConfirm.Show();
 
                         HiddenField hdfRptMaNgayNghiHoc = (HiddenField)e.Item.FindControl("HdfRptMaNgayNghiHoc");
                         HdfMaNgayNghiHoc.Value = hdfRptMaNgayNghiHoc.Value;
 
                         HdfRptAbsentMPEConfirm.Value = mPEConfirm.ClientID;
+                        break;
+                    }
+                case "CmdUnConfirm":
+                    {
+                        LblUnConfirm.Text = "Bạn có chắc hủy xác nhận ngày nghỉ học này không?";
+                        ModalPopupExtender mPEUnConfirm = (ModalPopupExtender)e.Item.FindControl("MPEUnConfirm");
+                        mPEUnConfirm.Show();
+
+                        HiddenField hdfRptAbsentId = (HiddenField)e.Item.FindControl("HdfRptMaNgayNghiHoc");
+                        HdfMaNgayNghiHoc.Value = hdfRptAbsentId.Value;
+
+                        HdfRptAbsentMPEUnConfirm.Value = mPEUnConfirm.ClientID;
                         break;
                     }
                 default:
@@ -217,8 +220,18 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maNgayNghiHoc = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
-            absentBL.DeleteAbsent(maNgayNghiHoc);
+            Student_Absent absent = new Student_Absent();
+            absent.AbsentId = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
+            absentBL.ConfirmAbsent(absent);
+            isSearch = false;
+            BindRptStudentAbsents();
+        }
+
+        protected void BtnOKUnConfirm_Click(object sender, ImageClickEventArgs e)
+        {
+            Student_Absent absent = new Student_Absent();
+            absent.AbsentId = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
+            absentBL.UnConfirmAbsent(absent);
             isSearch = false;
             BindRptStudentAbsents();
         }
@@ -231,6 +244,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             MainDataPager.CurrentIndex = currentPageIndex;
             BindRptStudentAbsents();
         }
+
         #endregion
     }
 }

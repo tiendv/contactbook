@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
     public partial class StudentAbsentPage {
         
         /// <summary>
-        /// UpdatePanel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
         /// DdlNamHoc control.
         /// </summary>
         /// <remarks>
@@ -29,15 +20,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
-        
-        /// <summary>
-        /// DdlHocKy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
         /// TxtTuNgay control.
@@ -74,6 +56,15 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender1;
+        
+        /// <summary>
+        /// DdlHocKy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
         /// TxtDenNgay control.
@@ -146,6 +137,15 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HdfRptAbsentMPEConfirm;
+        
+        /// <summary>
+        /// HdfRptAbsentMPEUnConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfRptAbsentMPEUnConfirm;
         
         /// <summary>
         /// RptNgayNghi control.
@@ -227,5 +227,68 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton BtnCancelDeleteItem;
+        
+        /// <summary>
+        /// PnlPopupUnConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlPopupUnConfirm;
+        
+        /// <summary>
+        /// PnlDragPopupUnConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlDragPopupUnConfirm;
+        
+        /// <summary>
+        /// LblPopupUnConfirmTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblPopupUnConfirmTitle;
+        
+        /// <summary>
+        /// Image2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image2;
+        
+        /// <summary>
+        /// LblUnConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblUnConfirm;
+        
+        /// <summary>
+        /// BtnOKUnConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnOKUnConfirm;
+        
+        /// <summary>
+        /// BtnCancelUnConfirmBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnCancelUnConfirmBtn;
     }
 }

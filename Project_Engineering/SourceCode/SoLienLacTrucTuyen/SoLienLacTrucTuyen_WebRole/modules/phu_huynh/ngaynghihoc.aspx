@@ -10,65 +10,67 @@
                 var mPEDeleteID = $get('<%=HdfRptAbsentMPEConfirm.ClientID%>').value;
                 $find(mPEDeleteID).hide();
                 return false;
+            }
+
+            function popopUnConfirm_Cancel_Click() {
+                var mPEDeleteID = $get('<%=HdfRptAbsentMPEUnConfirm.ClientID%>').value;
+                $find(mPEDeleteID).hide();
+                return false;
             }            
-        </script>        
+        </script>
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
-                    <table class="search">
-                        <tr>
-                            <td style="width: 60px;">
-                                Năm học:
-                            </td>
-                            <td style="width: 250px;">
-                                <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 63px;">
-                                Học kỳ:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Từ ngày:
-                            </td>
-                            <td>
-                                <asp:TextBox ID="TxtTuNgay" runat="server" Width="125px"></asp:TextBox>
-                                <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
-                                    ImageAlign="Middle" />
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtTuNgay"
-                                    PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
-                                </ajaxToolkit:CalendarExtender>
-                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender1" runat="server" TargetControlID="TxtTuNgay"
-                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                                </ajaxToolkit:MaskedEditExtender>
-                            </td>
-                            <td>
-                                Đến ngày:
-                            </td>
-                            <td>
-                                <asp:TextBox ID="TxtDenNgay" runat="server" Width="125px"></asp:TextBox>
-                                <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
-                                    ImageAlign="Middle" />
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtDenNgay"
-                                    PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
-                                </ajaxToolkit:CalendarExtender>
-                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender2" runat="server" TargetControlID="TxtDenNgay"
-                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                                </ajaxToolkit:MaskedEditExtender>
-                            </td>
-                        </tr>
-                    </table>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+            <table class="search">
+                <tr>
+                    <td>
+                        Năm học:
+                    </td>
+                    <td style="width: 250px;">
+                        <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        Từ ngày:
+                    </td>
+                    <td style="width: 180px;">
+                        <asp:TextBox ID="TxtTuNgay" runat="server" Width="125px"></asp:TextBox>
+                        <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
+                            ImageAlign="Middle" />
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtTuNgay"
+                            PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
+                        </ajaxToolkit:CalendarExtender>
+                        <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender1" runat="server" TargetControlID="TxtTuNgay"
+                            MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
+                        </ajaxToolkit:MaskedEditExtender>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Học kỳ:
+                    </td>
+                    <td style="width: 200px;">
+                        <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        Đến ngày:
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtDenNgay" runat="server" Width="125px"></asp:TextBox>
+                        <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
+                            ImageAlign="Middle" />
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtDenNgay"
+                            PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
+                        </ajaxToolkit:CalendarExtender>
+                        <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender2" runat="server" TargetControlID="TxtDenNgay"
+                            MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
+                        </ajaxToolkit:MaskedEditExtender>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div id="divButtonSearch">
+        <div id="divButtonSearch" style="padding-top: 5px">
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm ngày nghỉ học" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
@@ -80,6 +82,7 @@
         <table class="repeater">
             <asp:HiddenField ID="HdfMaNgayNghiHoc" runat="server" />
             <asp:HiddenField ID="HdfRptAbsentMPEConfirm" runat="server" />
+            <asp:HiddenField ID="HdfRptAbsentMPEUnConfirm" runat="server" />
             <asp:Repeater ID="RptNgayNghi" runat="server" OnItemCommand="RptNgayNghi_ItemCommand"
                 OnItemDataBound="RptNgayNghi_ItemDataBound">
                 <HeaderTemplate>
@@ -87,23 +90,23 @@
                         <td class="ui-corner-tl orderNo">
                             STT
                         </td>
-                        <td class="middle" style="width: 20%">
+                        <td style="width: 100px">
                             <asp:LinkButton ID="LkBtnNgay" runat="server">Ngày</asp:LinkButton>
                         </td>
-                        <td class="middle">
+                        <td style="width: 100px">
                             <asp:LinkButton ID="LkBtnBuoi" runat="server">Buổi</asp:LinkButton>
                         </td>
-                        <td class="middle">
+                        <td style="width: 100px">
                             <asp:LinkButton ID="LkBtnCoPhep" runat="server">Có phép</asp:LinkButton>
                         </td>
-                        <td class="middle" style="width: 150px">
+                        <td>
                             Lý do
                         </td>
-                        <td class="middle">
-                            <asp:LinkButton ID="LkBtnXacNhan" runat="server">Phụ huynh xác nhận</asp:LinkButton>
-                        </td>
-                        <td id="thEdit" runat="server" class="icon">
+                        <td style="width: 100px">
                             Xác nhận
+                        </td>
+                        <td style="width: 100px">
+                            Hủy xác nhận
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -116,7 +119,7 @@
                         <td style="height: 40px;">
                             <asp:Label ID="Label40" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Date")%>'></asp:Label>
                         </td>
-                        <td style="height: 40px;">
+                        <td style="height: 40px; padding:5px 0px 5px 0px">
                             <asp:Label ID="Label41" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Session")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
@@ -125,16 +128,22 @@
                         <td style="height: 40px;">
                             <asp:Label ID="Label43" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Reason")%>'></asp:Label>
                         </td>
-                        <td style="height: 40px;">
-                            <asp:Label ID="Label44" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Confirmed")%>'></asp:Label>
-                        </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
+                            <asp:ImageButton ID="BtnConfirm" runat="server" ImageUrl="~/Styles/Icons/icon_apply.png"
                                 CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AbsentId")%>' />
-                            <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
-                                PopupControlID="PnlPopupConfirm" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
+                            <ajaxToolkit:ModalPopupExtender ID="MPEConfirm" runat="server" TargetControlID="BtnFakeEditItem"
+                                PopupControlID="PnlPopupConfirm" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirm"
                                 PopupDragHandleControlID="PnlDragPopupConfirm">
+                            </ajaxToolkit:ModalPopupExtender>
+                        </td>
+                        <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
+                            <asp:ImageButton ID="BtnFakeUnConfirm" runat="server" Style="display: none;" />
+                            <asp:ImageButton ID="BtnUnConfirm" runat="server" ImageUrl="~/Styles/Icons/icon_delete.png"
+                                CommandName="CmdUnConfirm" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AbsentId")%>' />
+                            <ajaxToolkit:ModalPopupExtender ID="MPEUnConfirm" runat="server" TargetControlID="BtnFakeUnConfirm"
+                                PopupControlID="PnlPopupUnConfirm" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupUnConfirm"
+                                PopupDragHandleControlID="PnlDragPopupUnConfirm">
                             </ajaxToolkit:ModalPopupExtender>
                         </td>
                     </tr>
@@ -172,6 +181,28 @@
             &nbsp;
             <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
+        </div>
+    </asp:Panel>
+    <asp:Panel ID="PnlPopupUnConfirm" runat="server" CssClass="popup ui-corner-all" Width="350px">
+        <asp:Panel ID="PnlDragPopupUnConfirm" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="LblPopupUnConfirmTitle" runat="server" Text="Xác nhận ngày nghỉ học"
+                CssClass="popup_header_title"></asp:Label>
+            <img id="imgClosePopupUnConfirm" class="button_close" src="../../Styles/Images/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="LblUnConfirm" runat="server"></asp:Label>
+            </div>
+        </div>
+        <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
+            <asp:ImageButton ID="BtnOKUnConfirm" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+                OnClick="BtnOKUnConfirm_Click" CssClass="SaveButton" />
+            &nbsp;
+            <asp:ImageButton ID="BtnCancelUnConfirmBtn" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+                OnClientClick="return popopUnConfirm_Cancel_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
 </asp:Content>

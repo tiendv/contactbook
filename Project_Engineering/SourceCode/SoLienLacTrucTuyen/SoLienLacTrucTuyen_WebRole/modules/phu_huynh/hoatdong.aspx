@@ -6,60 +6,56 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divSearch">
         <div id="divSearchCriteria">
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
-                    <table class="search">
-                        <tr>
-                            <td style="width: 60px;">
-                                Năm học:
-                            </td>
-                            <td style="width: 250px;">
-                                <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 63px;">
-                                Học kỳ:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Từ ngày:
-                            </td>
-                            <td>
-                                <asp:TextBox ID="TxtTuNgay" runat="server" Width="125px"></asp:TextBox>
-                                <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
-                                    ImageAlign="Middle" />
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender5" runat="server" TargetControlID="TxtTuNgay"
-                                    PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
-                                </ajaxToolkit:CalendarExtender>
-                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="TxtTuNgay"
-                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                                </ajaxToolkit:MaskedEditExtender>
-                            </td>
-                            <td>
-                                Đến ngày:
-                            </td>
-                            <td>
-                                <asp:TextBox ID="TxtDenNgay" runat="server" Width="125px"></asp:TextBox>
-                                <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
-                                    ImageAlign="Middle" />
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender6" runat="server" TargetControlID="TxtDenNgay"
-                                    PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
-                                </ajaxToolkit:CalendarExtender>
-                                <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="TxtDenNgay"
-                                    MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
-                                </ajaxToolkit:MaskedEditExtender>
-                            </td>
-                        </tr>
-                    </table>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+            <table class="search">
+                <tr>
+                    <td>
+                        Năm học:
+                    </td>
+                    <td style="width: 250px;">
+                        <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        Từ ngày:
+                    </td>
+                    <td style="width: 180px;">
+                        <asp:TextBox ID="TxtTuNgay" runat="server" Width="125px"></asp:TextBox>
+                        <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
+                            ImageAlign="Middle" />
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender5" runat="server" TargetControlID="TxtTuNgay"
+                            PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
+                        </ajaxToolkit:CalendarExtender>
+                        <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="TxtTuNgay"
+                            MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
+                        </ajaxToolkit:MaskedEditExtender>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Học kỳ:
+                    </td>
+                    <td style="width: 200px;">
+                        <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        Đến ngày:
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtDenNgay" runat="server" Width="125px"></asp:TextBox>
+                        <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
+                            ImageAlign="Middle" />
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender6" runat="server" TargetControlID="TxtDenNgay"
+                            PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
+                        </ajaxToolkit:CalendarExtender>
+                        <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="TxtDenNgay"
+                            MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
+                        </ajaxToolkit:MaskedEditExtender>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div id="divButtonSearch">
+        <div id="divButtonSearch" style="padding-top: 5px">
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm hoạt động" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
@@ -120,8 +116,4 @@
                 ViewStateMode="Enabled" />
         </div>
     </div>
-    <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
-    <asp:HiddenField ID="HdfTermId" runat="server" />
-    <asp:HiddenField ID="HdfTieuDe" runat="server" />
-    <asp:HiddenField ID="HdfNgay" runat="server" />
 </asp:Content>
