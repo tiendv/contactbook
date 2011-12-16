@@ -72,7 +72,11 @@
                 &nbsp;
             </div>
         </ContentTemplate>
-    </asp:UpdatePanel>    
+    </asp:UpdatePanel>
+    Download template import tại đây <asp:LinkButton ID="LinkButton1" runat="server" onclick="LinkButton1_Click" Text='Tại đây'>
+    </asp:LinkButton>  
+    <br />
+    <br />
     Chọn file cần import  <asp:FileUpload id="FileUpload1"                 
            runat="server">
        </asp:FileUpload>                  

@@ -10,6 +10,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using System.IO;
 using System.Data.OleDb;
+using System.Net;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -62,6 +63,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLClasses();
         }
+        protected void LinkButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string strURL = "Book2.xls";
+                WebClient req = new WebClient();
+                HttpResponse response = HttpContext.Current.Response;
+                response.Clear();
+                response.ClearContent();
+                response.ClearHeaders();
+                response.Buffer = true;
+                response.AddHeader("Content-Disposition", strURL);
+                byte[] data = req.DownloadData(Server.MapPath(strURL));
+                response.BinaryWrite(data);
+                response.End();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         #endregion
 
         #region Button event handlers
@@ -113,19 +134,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                             ds.Tables[0].Rows[i][0].ToString(),
                                             ds.Tables[0].Rows[i][1].ToString(),
                                             ds.Tables[0].Rows[i][2].ToString()=="Nam"?true:false,
-                                            DateTime.Parse(ds.Tables[0].Rows[i][3].ToString()),
+                                            ds.Tables[0].Rows[i][3].ToString()== string.Empty?DateTime.MinValue:DateTime.Parse(ds.Tables[0].Rows[i][3].ToString()),
                                             ds.Tables[0].Rows[i][4].ToString(),
                                             ds.Tables[0].Rows[i][5].ToString(),
                                             ds.Tables[0].Rows[i][6].ToString(),
                                             ds.Tables[0].Rows[i][7].ToString(),
                                             ds.Tables[0].Rows[i][9].ToString(),
-                                            DateTime.Parse(ds.Tables[0].Rows[i][8].ToString()),
+                                            ds.Tables[0].Rows[i][8].ToString()== string.Empty?DateTime.MinValue:DateTime.Parse(ds.Tables[0].Rows[i][8].ToString()),
                                             ds.Tables[0].Rows[i][10].ToString(),
                                             ds.Tables[0].Rows[i][12].ToString(),
                                             DateTime.Parse(ds.Tables[0].Rows[i][11].ToString()),
                                             ds.Tables[0].Rows[i][13].ToString(),
                                             ds.Tables[0].Rows[i][15].ToString(),
-                                            DateTime.Parse(ds.Tables[0].Rows[i][14].ToString())
+                                            ds.Tables[0].Rows[i][14].ToString() == string.Empty?DateTime.MinValue:DateTime.Parse(ds.Tables[0].Rows[i][14].ToString())
                                             );
                 }
             }
