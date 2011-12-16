@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
+using SoLienLacTrucTuyen_WebRole.Modules;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
@@ -27,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
 
             studentBL = new StudentBL(UserSchool);
-            classBL = new ClassBL(UserSchool);           
+            classBL = new ClassBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -59,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             StudentBL studentBL = new StudentBL(UserSchool);
             FormerTeacherBL formerTeacherBL = new FormerTeacherBL(UserSchool);
             Configuration_Year year = null;
-            if(DdlYear.Items.Count == 0)
+            if (DdlYear.Items.Count == 0)
             {
                 return;
             }
@@ -77,7 +78,8 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             {
                 aspnet_Membership teacher = formerTeacher.aspnet_User.aspnet_Membership;
                 LblFormerTeacherName.Text = teacher.FullName;
-                if (teacher.Gender == null)
+                LblFormerTeacherCode.Text = teacher.aspnet_User.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
+                if (teacher.Gender != null)
                 {
                     LblFormerTeacherGender.Text = (teacher.Gender == true) ? "Nam" : "Nữ";
                 }
@@ -86,29 +88,46 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                     LblFormerTeacherGender.Text = "(Chưa xác định)";
                 }
 
-                if (teacher.Phone != "")
+                if (!CheckUntils.IsNullOrBlank(teacher.Phone))
                 {
                     LblFormerTeacherPhone.Text = teacher.Phone;
                 }
                 else
                 {
-                    LblFormerTeacherPhone.Text = "";
+                    LblFormerTeacherPhone.Text = "(Chưa xác định)";
                 }
 
-                if (teacher.Address != "")
+                if (!CheckUntils.IsNullOrBlank(teacher.Address))
                 {
-                    LblFormerTeacherPhone.Text = teacher.Address;
+                    LblFormerTeacherAddress.Text = teacher.Address;
                 }
                 else
                 {
-                    LblFormerTeacherPhone.Text = "";
+                    LblFormerTeacherAddress.Text = "(Chưa xác định)";
                 }
+
+                if (teacher.Birthday != null)
+                {
+                    LblFormerTeacherBirthday.Text = ((DateTime)teacher.Birthday).ToShortDateString();
+                }
+                else
+                {
+                    LblFormerTeacherBirthday.Text = "(Chưa xác định)";
+                }
+
+                LblFormerTeacher.Text = "";
             }
             else
             {
-                LblFormerTeacherName.Text = "(Không có)";
-            }               
-           
+                LblFormerTeacher.Text = "(Không có)";
+
+                LblFormerTeacherName.Text = "";
+                LblFormerTeacherCode.Text = "";
+                LblFormerTeacherGender.Text = "";
+                LblFormerTeacherPhone.Text = "";                
+                LblFormerTeacherAddress.Text = "";                
+                LblFormerTeacherBirthday.Text = "";
+            }
         }
         #endregion
     }

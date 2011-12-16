@@ -21,7 +21,7 @@
                     <table style="padding-bottom: 10px">
                         <tr>
                             <td style="width: 60px; height: 25px">
-                                Nam hoc:
+                                Năm hoc:
                             </td>
                             <td style="width: 200px;">
                                 <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" AutoPostBack="true"
@@ -29,7 +29,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td style="width: 35px;">
-                                Khoi:
+                                Khối:
                             </td>
                             <td style="width: 200px;">
                                 <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px" AutoPostBack="true"
@@ -37,7 +37,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td style="width: 80px;">
-                                Ma hoc sinh:
+                                Mã học sinh:
                             </td>
                             <td style="width: 200px;">
                                 <asp:TextBox ID="TxtMaHocSinh" runat="server" Style="width: 150px;"></asp:TextBox>
@@ -48,7 +48,7 @@
                         </tr>
                         <tr>
                             <td>
-                                Nganh:
+                                Ngành:
                             </td>
                             <td>
                                 <asp:DropDownList ID="DdlNganh" runat="server" Width="150px" AutoPostBack="true"
@@ -63,7 +63,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td style="width: 70px;">
-                                Ten hoc sinh:
+                                Tên học sinh:
                             </td>
                             <td style="width: 200px;">
                                 <asp:TextBox ID="TxtTenHocSinh" runat="server" Style="width: 150px;"></asp:TextBox>
@@ -89,7 +89,7 @@
     <div class="table_data ui-corner-all">
         <div class="add">
             <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/Images/button_import.png"
-                ToolTip="Import học sinh" OnClick="BtnImport_Click" CssClass="BtnAdd" />
+                ToolTip="Import học sinh" OnClick="BtnImport_Click"/>
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />                
         </div>
@@ -108,19 +108,19 @@
                             STT
                         </td>
                         <td class="middle" style="width: 100px;">
-                            <asp:LinkButton ID="LinkButton1" runat="server">Ma hoc sinh</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton1" runat="server">Mã học sinh</asp:LinkButton>
                         </td>
                         <td class="middle" style="width: 200px;">
-                            <asp:LinkButton ID="LinkButton2" runat="server">Ten hoc sinh</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton2" runat="server">Tên học sinh</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            <asp:LinkButton ID="LinkButton3" runat="server">Nganh</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton3" runat="server">Ngành</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            <asp:LinkButton ID="LinkButton4" runat="server">Khoi</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton4" runat="server">Khối</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            <asp:LinkButton ID="LinkButton5" runat="server">Lop</asp:LinkButton>
+                            <asp:LinkButton ID="LinkButton5" runat="server">Lớp</asp:LinkButton>
                         </td>
                         <td id="thEdit" runat="server" class="icon">
                             Sửa

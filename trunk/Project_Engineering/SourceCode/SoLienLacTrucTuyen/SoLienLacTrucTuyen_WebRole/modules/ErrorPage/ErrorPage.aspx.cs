@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -13,6 +14,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Site masterPage = (Site)Page.Master;
             masterPage.PageTitle = "Lỗi";
+
+            FormsAuthentication.SignOut();
+            Response.Redirect(AppConstant.PAGEPATH_SIGNIN);
         }
     }
 }

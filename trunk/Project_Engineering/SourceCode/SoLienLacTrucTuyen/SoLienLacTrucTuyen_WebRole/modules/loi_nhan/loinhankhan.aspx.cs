@@ -112,7 +112,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
-            DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
+            DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
         }
 
         private void BindDDLXacNhan()
@@ -156,7 +156,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             GradeBL gradeBL = new GradeBL(UserSchool);
             Category_Faculty faculty = null;
             Category_Grade grade = null;
-            Configuration_Year currentYear = (new SystemConfigBL(UserSchool)).GetCurrentYear();
+            Configuration_Year currentYear = (new SystemConfigBL(UserSchool)).GetLastedYear();
 
             int YearId = currentYear.YearId;
 

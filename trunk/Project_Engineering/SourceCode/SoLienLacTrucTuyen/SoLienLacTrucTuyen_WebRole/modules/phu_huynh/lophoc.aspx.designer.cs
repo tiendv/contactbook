@@ -58,6 +58,15 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         protected global::System.Web.UI.WebControls.Label LblQuantity;
         
         /// <summary>
+        /// LblFormerTeacher control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblFormerTeacher;
+        
+        /// <summary>
         /// LblFormerTeacherName control.
         /// </summary>
         /// <remarks>

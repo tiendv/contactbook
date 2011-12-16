@@ -113,7 +113,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlYears.DataValueField = "YearId";
             DdlYears.DataTextField = "YearName";
             DdlYears.DataBind();
-            DdlYears.SelectedValue = (new SystemConfigBL(UserSchool)).GetCurrentYear().ToString();
+            DdlYears.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
         }
 
         private void BindDDLCommentStatus()

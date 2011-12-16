@@ -332,7 +332,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                year = (new SystemConfigBL(UserSchool)).GetCurrentYear();
+                year = (new SystemConfigBL(UserSchool)).GetLastedYear();
                 if (classBL.ClassNameExists(oldClassName, ClassName, year))
                 {
                     ClassNameValidatorEdit.IsValid = false;

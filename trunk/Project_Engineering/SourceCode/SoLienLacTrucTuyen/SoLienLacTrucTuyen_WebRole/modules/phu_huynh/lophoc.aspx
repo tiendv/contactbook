@@ -2,7 +2,8 @@
     CodeBehind="lophoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.DetailedClassPage" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <table style="width: 100%;" class="inputBorder">
+    <div style="width: 100%; padding: 5px" class="loginBox ui-corner-all">
+    <table style="width: 100%;">
         <tr>
             <td style="width: 60px; height: 27px">
                 Năm học:
@@ -42,7 +43,7 @@
         </tr>
         <tr>
             <td colspan="2" style="height: 27px;">
-                Giáo viên chủ nhiệm:
+                Giáo viên chủ nhiệm: &nbsp;<asp:Label ID="LblFormerTeacher" runat="server"></asp:Label>
             </td>
         </tr>
     </table>
@@ -96,4 +97,5 @@
             </td>
         </tr>
     </table>
+    </div>
 </asp:Content>

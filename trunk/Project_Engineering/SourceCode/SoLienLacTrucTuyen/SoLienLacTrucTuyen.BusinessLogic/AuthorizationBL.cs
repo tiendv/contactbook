@@ -252,9 +252,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 if (bUpdateUserParentsAuthorization)
                 {
                     authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.View, detailedAuthorization.ViewAccessibility);
-                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Add, detailedAuthorization.ViewAccessibility);
-                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Modify, detailedAuthorization.ViewAccessibility);
-                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Delete, detailedAuthorization.ViewAccessibility);
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Add, detailedAuthorization.AddAccessibility);
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Modify, detailedAuthorization.ModifyAccessibility);
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Delete, detailedAuthorization.DeleteAccessibility);
                 }                
 
                 if (bIncludeParentsFunction)
