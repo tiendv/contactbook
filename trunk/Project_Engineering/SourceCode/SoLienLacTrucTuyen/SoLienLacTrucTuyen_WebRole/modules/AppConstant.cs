@@ -27,6 +27,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
         public const string PAGEPATH_PRINTCLASSES = "/modules/lop_hoc/indanhsachlophoc.aspx";
         public const string PAGEPATH_PRINTTERM = "/modules/lop_hoc/inthoikhoabieu.aspx";
+        public const string PAGEPATH_SIGNIN = "/Account/DangNhap.aspx";
 
         public const string QUERY_STUDENT = "std";
         public const string QUERY_PARENTSCOMMENT = "id";

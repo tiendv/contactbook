@@ -86,6 +86,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private bool ValidateUser(string userName, string password)
         {
+            
             if (Membership.ValidateUser(userName, password))
             {
                 // Validate custom information

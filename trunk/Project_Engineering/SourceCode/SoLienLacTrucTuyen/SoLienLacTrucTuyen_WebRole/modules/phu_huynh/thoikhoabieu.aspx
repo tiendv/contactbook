@@ -37,10 +37,6 @@
         </div>
     </div>
     <div class="table_data ui-corner-all">
-        <div>
-            <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
-                Text="Không có thông tin thời khóa biểu"></asp:Label>
-        </div>
         <table class="repeater">
             <asp:Repeater ID="RptMonHocTKB" runat="server" OnItemDataBound="RptMonHocTKB_ItemDataBound">
                 <HeaderTemplate>

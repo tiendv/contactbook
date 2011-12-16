@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
     public partial class StudentActivityPage {
         
         /// <summary>
-        /// UpdatePanel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
         /// DdlNamHoc control.
         /// </summary>
         /// <remarks>
@@ -29,15 +20,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
-        
-        /// <summary>
-        /// DdlHocKy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
         /// TxtTuNgay control.
@@ -74,6 +56,15 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender5;
+        
+        /// <summary>
+        /// DdlHocKy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
         /// TxtDenNgay control.
@@ -182,41 +173,5 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
-        
-        /// <summary>
-        /// HdfMaHocSinh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfMaHocSinh;
-        
-        /// <summary>
-        /// HdfTermId control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfTermId;
-        
-        /// <summary>
-        /// HdfTieuDe control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfTieuDe;
-        
-        /// <summary>
-        /// HdfNgay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfNgay;
     }
 }

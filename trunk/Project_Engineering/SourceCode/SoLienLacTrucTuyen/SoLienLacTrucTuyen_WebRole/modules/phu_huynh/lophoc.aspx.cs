@@ -75,12 +75,40 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             Class_FormerTeacher formerTeacher = formerTeacherBL.GetFormerTeacher(Class);
             if (formerTeacher != null)
             {
-                LblFormerTeacherName.Text = formerTeacher.aspnet_User.aspnet_Membership.FullName;
+                aspnet_Membership teacher = formerTeacher.aspnet_User.aspnet_Membership;
+                LblFormerTeacherName.Text = teacher.FullName;
+                if (teacher.Gender == null)
+                {
+                    LblFormerTeacherGender.Text = (teacher.Gender == true) ? "Nam" : "Nữ";
+                }
+                else
+                {
+                    LblFormerTeacherGender.Text = "(Chưa xác định)";
+                }
+
+                if (teacher.Phone != "")
+                {
+                    LblFormerTeacherPhone.Text = teacher.Phone;
+                }
+                else
+                {
+                    LblFormerTeacherPhone.Text = "";
+                }
+
+                if (teacher.Address != "")
+                {
+                    LblFormerTeacherPhone.Text = teacher.Address;
+                }
+                else
+                {
+                    LblFormerTeacherPhone.Text = "";
+                }
             }
             else
             {
                 LblFormerTeacherName.Text = "(Không có)";
-            }
+            }               
+           
         }
         #endregion
     }

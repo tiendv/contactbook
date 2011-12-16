@@ -5,27 +5,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript">
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#<%=TxtMaHocSinh.ClientID%>').blur(function () {
-                    var $maHocSinh = $(this).text();
-                    if ($maHocSinh.length == 0) {
-                        $(this).text('Tất cả');
-                    }
-                });
-
-                $('#<%=TxtTenHocSinh.ClientID%>').blur(function () {
-                    var $tenHocSinh = $(this).text();
-                    if ($tenHocSinh.length == 0) {
-                        $(this).text('Tất cả');
-                    }
-                });
-            });                
-        </script>
         <script language="javascript" type="text/javascript">
-            function pageLoad() {
-            }
-
             function popopConfirmDelete_CancelDelete_Click() {
                 var mPEDeleteID = $get('<%=HdfRptHocSinhMPEDelete.ClientID%>').value;
                 $find(mPEDeleteID).hide();

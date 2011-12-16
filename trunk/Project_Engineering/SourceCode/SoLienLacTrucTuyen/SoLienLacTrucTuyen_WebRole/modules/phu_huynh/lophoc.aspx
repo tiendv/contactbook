@@ -4,52 +4,95 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <table style="width: 100%;" class="inputBorder">
         <tr>
-            <td style="width: 80px; vertical-align: top; padding-top: 3px;">
+            <td style="width: 60px; height: 27px">
                 Năm học:
             </td>
-            <td style="width: auto;">
+            <td>
                 <asp:DropDownList ID="DdlYear" runat="server" Width="150px" AutoPostBack="true" OnSelectedIndexChanged="DdlYear_SelectedIndexChanged">
                 </asp:DropDownList>
             </td>
         </tr>
         <tr>
-            <td style="width: 50px; vertical-align: top; padding-top: 3px;">
+            <td style="width: 50px; height: 27px">
                 Lớp:
             </td>
-            <td style="width: auto;" class="readOnlyTextBox input_textbox">
+            <td style="width: 150px;">
                 <asp:Label ID="LblClassName" runat="server"></asp:Label>
             </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: text-top; padding-top: 3px;">
+            <td style="width: 30px;">
                 Ngành:
             </td>
-            <td style="width: auto;" class="readOnlyTextBox input_textbox">
+            <td style="width: 150px;">
                 <asp:Label ID="LblFacultyName" runat="server"></asp:Label>
             </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: text-top; padding-top: 3px;">
+            <td style="width: 30px;">
                 Khối:
             </td>
-            <td style="width: auto;" class="readOnlyTextBox input_textbox">
+            <td>
                 <asp:Label ID="LblGradeName" runat="server"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: text-top; padding-top: 3px;">
+            <td style="height: 27px">
                 Sỉ số:
             </td>
-            <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                <asp:Label ID="LblQuantity" runat="server"></asp:Label>
+            <td>
+                <asp:Label ID="LblQuantity" runat="server"></asp:Label>&nbsp; học sinh
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: text-top; padding-top: 3px;">
-                GVCN:
+            <td colspan="2" style="height: 27px;">
+                Giáo viên chủ nhiệm:
             </td>
-            <td style="width: auto;" class="readOnlyTextBox input_textbox">
+        </tr>
+    </table>
+    <table style="padding-left: 50px">
+        <tr>
+            <td style="height: 27px;">
+                Họ tên:
+            </td>
+            <td>
                 <asp:Label ID="LblFormerTeacherName" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 90px; height: 27px;">
+                Mã giáo viên:
+            </td>
+            <td>
+                <asp:Label ID="LblFormerTeacherCode" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 27px;">
+                Ngày sinh:
+            </td>
+            <td>
+                <asp:Label ID="LblFormerTeacherBirthday" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 27px;">
+                Giới tính:
+            </td>
+            <td>
+                <asp:Label ID="LblFormerTeacherGender" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 27px;">
+                Địa chỉ:
+            </td>
+            <td>
+                <asp:Label ID="LblFormerTeacherAddress" runat="server"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td style="height: 27px;">
+                Điện thoại:
+            </td>
+            <td>
+                <asp:Label ID="LblFormerTeacherPhone" runat="server"></asp:Label>
             </td>
         </tr>
     </table>

@@ -71,7 +71,7 @@
                 </ItemTemplate>
                 <FooterTemplate>
                     <tr>
-                        <td colspan="9" class="footer ui-corner-bl ui-corner-br">
+                        <td colspan="10" class="footer ui-corner-bl ui-corner-br">
                         </td>
                     </tr>
                 </FooterTemplate>
