@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=&quot;D:\Luận Văn\contactbook\trunk\Project_Engineering\SourceCode\SoLienLacTrucTuyen\SoLienLacTrucTuyen_WebRole\App_Data\DbEContactBook.mdf&quot;;Integrated Security=True;Connect Timeout=30;User Instance=True" SettingsObjectName="EContactBook.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString3" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Security=True" SettingsObjectName="EContactBook.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Applications" Member="aspnet_Applications">
     <Type Name="aspnet_Application">
       <Column Name="ApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
@@ -15,11 +15,11 @@
   <Table Name="dbo.UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations">
     <Type Name="UserManagement_RoleParentsAuthorization">
       <Column Name="RoleParentAuthorizationId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserParentId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="GetEmail" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="GetSMS" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsRegistered" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="UserParentId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GetEmail" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GetSMS" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsRegistered" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="aspnet_User" ThisKey="UserParentId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_Authorization" ThisKey="RoleParentAuthorizationId" OtherKey="AuthorizationId" Type="UserManagement_Authorization" IsForeignKey="true" />
     </Type>
@@ -538,7 +538,7 @@
       <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="AuthorizedPagePathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorization" ThisKey="AuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" Cardinality="One" />
+      <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="AuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" />
       <Association Name="aspnet_Role_UserManagement_Authorization" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
       <Association Name="UserManagement_AuthorizedPage_UserManagement_Authorization" Member="UserManagement_AuthorizedPage" ThisKey="AuthorizedPagePathId" OtherKey="AuthorizedPageId" Type="UserManagement_AuthorizedPage" IsForeignKey="true" />
     </Type>
