@@ -206,12 +206,4 @@
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
-    <div>
-        <asp:HiddenField ID="HdfSearchNamHoc" runat="server" />
-        <asp:HiddenField ID="HdfSearchNganhHoc" runat="server" />
-        <asp:HiddenField ID="HdfSearchKhoiLop" runat="server" />
-        <asp:HiddenField ID="HdfSearchLopHoc" runat="server" />
-        <asp:HiddenField ID="HdfSearchMaHocSinh" runat="server" />
-        <asp:HiddenField ID="HdfSearchTenHocSinh" runat="server" />
-    </div>
 </asp:Content>
