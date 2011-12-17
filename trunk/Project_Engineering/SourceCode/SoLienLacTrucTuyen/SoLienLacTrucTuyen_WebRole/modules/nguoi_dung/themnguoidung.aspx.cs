@@ -325,6 +325,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // remove unused sessions
             RemoveSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
+
+            MailBL.SendByGmail("econtactbook@gmail.com", "duyna1989@gmail.com", "Tạo tài khoản thành công", "Tạo tài khoản thành công", "duyna1989", "1qazxsw@");
         }
 
         protected void RegisterUserWizard_ContinueButtonClick(object sender, ImageClickEventArgs e)

@@ -23,7 +23,7 @@
                 <asp:Label ID="Label2" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td>
-                <asp:TextBox ID="TxtContent" runat="server" TextMode="MultiLine" Height="230px" Font-Names="Arial"
+                <asp:TextBox ID="TxtContent" runat="server" MaxLength="300" TextMode="MultiLine" Height="230px" Font-Names="Arial"
                     CssClass="input_textbox"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredContent" runat="server" ValidationGroup="AddComment"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtContent" ErrorMessage="Nội dung không được để trống">

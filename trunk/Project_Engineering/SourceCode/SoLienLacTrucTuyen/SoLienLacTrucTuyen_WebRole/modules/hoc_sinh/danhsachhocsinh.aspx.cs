@@ -338,14 +338,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
             BindRptStudents();
-
-            // Save searched info
-            this.HdfSearchNamHoc.Value = this.DdlNamHoc.SelectedValue;
-            this.HdfSearchKhoiLop.Value = this.DdlKhoiLop.SelectedValue;
-            this.HdfSearchNganhHoc.Value = this.DdlNganh.SelectedValue;
-            this.HdfSearchLopHoc.Value = this.DdlLopHoc.SelectedValue;
-            this.HdfSearchTenHocSinh.Value = this.TxtTenHocSinh.Text;
-            this.HdfSearchMaHocSinh.Value = this.TxtMaHocSinh.Text;
         }
 
         protected void BtnImport_Click(object sender, ImageClickEventArgs e)

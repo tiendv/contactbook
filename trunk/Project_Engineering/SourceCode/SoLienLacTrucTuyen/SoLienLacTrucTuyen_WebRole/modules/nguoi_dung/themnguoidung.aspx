@@ -50,16 +50,16 @@
                                     <div style="padding: 3px 0px 3px 0px; border-bottom: 1px solid blue; text-align: center">
                                         <asp:Label ID="Label20" runat="server" Text="Thông tin truy vấn" Font-Bold="true"></asp:Label>
                                     </div>
-                                    <table style="width:100%; padding: 5px">
+                                    <table style="width: 100%; padding: 5px">
                                         <asp:Repeater ID="RptRoleBasedFunctions" runat="server">
                                             <HeaderTemplate>
                                                 <tr>
-                                                    <td class="icon"    >
+                                                    <td class="icon">
                                                         <%--<asp:CheckBox ID="ChkBxAllFunctions" runat="server" Style="float: right" CssClass="checkAll" />--%>
                                                     </td>
                                                     <td>
                                                         Dịch vụ
-                                                    </td>                                                    
+                                                    </td>
                                                     <td style="width: 80px">
                                                         Nhận e-mail
                                                     </td>
@@ -76,11 +76,11 @@
                                                     <td>
                                                         <asp:HiddenField ID="HdfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
                                                         <asp:Label ID="LblFunctionName" runat="server"><%#DataBinder.Eval(Container.DataItem, "FunctionName")%></asp:Label>
-                                                    </td>                                                    
-                                                    <td style="text-align:center">
+                                                    </td>
+                                                    <td style="text-align: center">
                                                         <asp:CheckBox ID="ChkBxGetEmail" runat="server" />
                                                     </td>
-                                                    <td style="text-align:center">
+                                                    <td style="text-align: center">
                                                         <asp:CheckBox ID="ChkBxGetSMS" runat="server" />
                                                     </td>
                                                 </tr>
@@ -203,9 +203,9 @@
                 </asp:CreateUserWizardStep>
                 <asp:CompleteWizardStep ID="CompleteStep" runat="server" Title="Hoàn tất">
                     <ContentTemplate>
-                        Thông tin người dùng được tạo thành công!
-                        <br />
-                        <div style="width: 100%; padding: 10px 0px 10px 0px; float: right">
+                        <div style="width: 100%; padding: 10px 0px 10px 0px; margin: 0px auto 0px auto">
+                            Thông tin người dùng được tạo thành công!
+                            <br />
                             <asp:ImageButton ID="ContinueButton" runat="server" CommandName="ContinueButton"
                                 ImageUrl="~/Styles/Images/button_complete.png" CssClass="ContinueButton" OnClick="RegisterUserWizard_ContinueButtonClick" />
                         </div>
