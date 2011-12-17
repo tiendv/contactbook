@@ -177,7 +177,7 @@ namespace EContactBook.DataAccess
     #endregion
 		
 		public DbEContactBookDataContext() : 
-				base(global::EContactBook.DataAccess.Properties.Settings.Default.DbEContactBookConnectionString3, mappingSource)
+				base(global::EContactBook.DataAccess.Properties.Settings.Default.DbEContactBookConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -863,13 +863,13 @@ namespace EContactBook.DataAccess
 		
 		private System.Guid _UserParentId;
 		
-		private System.Nullable<bool> _GetEmail;
+		private bool _GetEmail;
 		
-		private System.Nullable<bool> _GetSMS;
+		private bool _GetSMS;
 		
-		private System.Nullable<bool> _IsRegistered;
+		private bool _IsRegistered;
 		
-		private System.Nullable<bool> _IsActivated;
+		private bool _IsActivated;
 		
 		private EntityRef<aspnet_User> _aspnet_User;
 		
@@ -883,13 +883,13 @@ namespace EContactBook.DataAccess
     partial void OnRoleParentAuthorizationIdChanged();
     partial void OnUserParentIdChanging(System.Guid value);
     partial void OnUserParentIdChanged();
-    partial void OnGetEmailChanging(System.Nullable<bool> value);
+    partial void OnGetEmailChanging(bool value);
     partial void OnGetEmailChanged();
-    partial void OnGetSMSChanging(System.Nullable<bool> value);
+    partial void OnGetSMSChanging(bool value);
     partial void OnGetSMSChanged();
-    partial void OnIsRegisteredChanging(System.Nullable<bool> value);
+    partial void OnIsRegisteredChanging(bool value);
     partial void OnIsRegisteredChanged();
-    partial void OnIsActivatedChanging(System.Nullable<bool> value);
+    partial void OnIsActivatedChanging(bool value);
     partial void OnIsActivatedChanged();
     #endregion
 		
@@ -924,7 +924,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserParentId", DbType="UniqueIdentifier NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserParentId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid UserParentId
 		{
 			get
@@ -948,8 +948,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetEmail", DbType="Bit")]
-		public System.Nullable<bool> GetEmail
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetEmail", DbType="Bit NOT NULL")]
+		public bool GetEmail
 		{
 			get
 			{
@@ -968,8 +968,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetSMS", DbType="Bit")]
-		public System.Nullable<bool> GetSMS
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetSMS", DbType="Bit NOT NULL")]
+		public bool GetSMS
 		{
 			get
 			{
@@ -988,8 +988,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRegistered", DbType="Bit")]
-		public System.Nullable<bool> IsRegistered
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRegistered", DbType="Bit NOT NULL")]
+		public bool IsRegistered
 		{
 			get
 			{
@@ -1008,8 +1008,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit")]
-		public System.Nullable<bool> IsActivated
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit NOT NULL")]
+		public bool IsActivated
 		{
 			get
 			{
@@ -1079,12 +1079,12 @@ namespace EContactBook.DataAccess
 					if ((previousValue != null))
 					{
 						this._UserManagement_Authorization.Entity = null;
-						previousValue.UserManagement_RoleParentsAuthorization = null;
+						previousValue.UserManagement_RoleParentsAuthorizations.Remove(this);
 					}
 					this._UserManagement_Authorization.Entity = value;
 					if ((value != null))
 					{
-						value.UserManagement_RoleParentsAuthorization = this;
+						value.UserManagement_RoleParentsAuthorizations.Add(this);
 						this._RoleParentAuthorizationId = value.AuthorizationId;
 					}
 					else
@@ -12080,7 +12080,7 @@ namespace EContactBook.DataAccess
 		
 		private bool _IsActivated;
 		
-		private EntityRef<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorization;
+		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
 		
 		private EntityRef<aspnet_Role> _aspnet_Role;
 		
@@ -12102,7 +12102,7 @@ namespace EContactBook.DataAccess
 		
 		public UserManagement_Authorization()
 		{
-			this._UserManagement_RoleParentsAuthorization = default(EntityRef<UserManagement_RoleParentsAuthorization>);
+			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
 			this._aspnet_Role = default(EntityRef<aspnet_Role>);
 			this._UserManagement_AuthorizedPage = default(EntityRef<UserManagement_AuthorizedPage>);
 			OnCreated();
@@ -12196,32 +12196,16 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorization", ThisKey="AuthorizationId", OtherKey="RoleParentAuthorizationId", IsUnique=true, IsForeignKey=false)]
-		public UserManagement_RoleParentsAuthorization UserManagement_RoleParentsAuthorization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="AuthorizationId", OtherKey="RoleParentAuthorizationId")]
+		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
 		{
 			get
 			{
-				return this._UserManagement_RoleParentsAuthorization.Entity;
+				return this._UserManagement_RoleParentsAuthorizations;
 			}
 			set
 			{
-				UserManagement_RoleParentsAuthorization previousValue = this._UserManagement_RoleParentsAuthorization.Entity;
-				if (((previousValue != value) 
-							|| (this._UserManagement_RoleParentsAuthorization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserManagement_RoleParentsAuthorization.Entity = null;
-						previousValue.UserManagement_Authorization = null;
-					}
-					this._UserManagement_RoleParentsAuthorization.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_Authorization = this;
-					}
-					this.SendPropertyChanged("UserManagement_RoleParentsAuthorization");
-				}
+				this._UserManagement_RoleParentsAuthorizations.Assign(value);
 			}
 		}
 		
@@ -12311,6 +12295,18 @@ namespace EContactBook.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserManagement_Authorization = this;
+		}
+		
+		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserManagement_Authorization = null;
 		}
 	}
 	

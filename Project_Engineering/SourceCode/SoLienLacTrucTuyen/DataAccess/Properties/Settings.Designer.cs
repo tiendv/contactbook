@@ -26,74 +26,11 @@ namespace EContactBook.DataAccess.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=|DataDirectory|\\SoLienLacTrucTuyen.mdf;" +
-            "Integrated Security=True;Connect Timeout=30;User Instance=True")]
-        public string SoLienLacTrucTuyenConnectionString {
-            get {
-                return ((string)(this["SoLienLacTrucTuyenConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\" +
-            "MSSQL10.SQLEXPRESS\\MSSQL\\DATA\\SoLienLacTrucTuyen.mdf\";Integrated Security=True;C" +
-            "onnect Timeout=30;User Instance=True")]
-        public string SoLienLacTrucTuyenConnectionString1 {
-            get {
-                return ((string)(this["SoLienLacTrucTuyenConnectionString1"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\" +
-            "MSSQL10.SQLEXPRESS\\MSSQL\\DATA\\DbEContactBook.mdf\";Integrated Security=True;Conne" +
-            "ct Timeout=30;User Instance=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Securi" +
+            "ty=True")]
         public string DbEContactBookConnectionString {
             get {
                 return ((string)(this["DbEContactBookConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"D:\\DOCUMENTS\\Cloud Computing\\solienlac" +
-            "tructuyen-cloudcomputing\\8_Source\\SoLienLacTrucTuyen\\SoLienLacTrucTuyen_WebRole\\" +
-            "App_Data\\DbEContactBook.mdf\";Integrated Security=True;Connect Timeout=30;User In" +
-            "stance=True")]
-        public string DbEContactBookConnectionString1 {
-            get {
-                return ((string)(this["DbEContactBookConnectionString1"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"D:\\Luận Văn\\contactbook\\trunk\\Project_" +
-            "Engineesring\\SourceCode\\SoLienLacTrucTuyen\\SoLienLacTrucTuyen_WebRole\\App_Data\\D" +
-            "bEContactBook.mdf\";Integrated Security=True;Connect Timeout=30;User Instance=Tru" +
-            "e")]
-        public string DbEContactBookConnectionString2 {
-            get {
-                return ((string)(this["DbEContactBookConnectionString2"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"D:\\Luận Văn\\contactbook\\trunk\\Project_" +
-            "Engineering\\SourceCode\\SoLienLacTrucTuyen\\SoLienLacTrucTuyen_WebRole\\App_Data\\Db" +
-            "EContactBook.mdf\";Integrated Security=True;Connect Timeout=30;User Instance=True" +
-            "")]
-        public string DbEContactBookConnectionString3 {
-            get {
-                return ((string)(this["DbEContactBookConnectionString3"]));
             }
         }
     }
