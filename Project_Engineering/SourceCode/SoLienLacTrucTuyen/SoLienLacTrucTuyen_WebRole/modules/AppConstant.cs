@@ -22,6 +22,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_EDITCOMMENT = "/modules/phu_huynh/suaykien.aspx";
         public const string PAGEPATH_DETAILEDCOMMENT = "/modules/phu_huynh/chitietykien.aspx";
         public const string PAGEPATH_COMMENTS = "/modules/phu_huynh/ykien.aspx";
+        public const string PAGEPATH_MESSAGE = "/modules/phu_huynh/loinhankhan.aspx";
+        public const string PAGEPATH_DETAILEDMESSAGE = "/modules/phu_huynh/chitietthongbao.aspx";
         public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx";
         public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
         public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
@@ -45,6 +47,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_STUDENTCLASS_ID = "StudentClassId";
         public const string VIEWSTATE_PREV_PAGE = "PrevPage";
         public const string VIEWSTATE_PARENTSCOMMENTID = "ParentCommentId";
+        public const string VIEWSTATE_MESSAGEID = "MessageId";
         public const string VIEWSTATE_SELECTED_TEACHERNAME = "TeacherName";
         public const string VIEWSTATE_SELECTED_TEACHERID = "TeacherID";
 
@@ -64,6 +67,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_STUDENTCLASS = "StudenClass";
         public const string SESSION_PREV_PAGE = "PrevPage";
         public const string SESSION_PARENTSCOMMENTID = "ParentCommentId";
+        public const string SESSION_MESSAGE = "Message";
 
         #region Session Teacher
         public const string SESSION_TEACHERID = "TeacherID";

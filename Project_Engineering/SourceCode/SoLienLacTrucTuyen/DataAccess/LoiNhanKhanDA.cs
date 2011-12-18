@@ -266,8 +266,22 @@ namespace EContactBook.DataAccess
             IQueryable<MessageToParents_Message> iqMessages = from msg in db.MessageToParents_Messages
                                                               where msg.Student_StudentInClass.StudentId == student.StudentId
                                                                && msg.Student_StudentInClass.Class_Class.YearId == Class.YearId
+                                                               && msg.IsRead == false
                                                               select msg;
             return iqMessages.Count();
+        }
+
+        public void MarkMessageAsRead(MessageToParents_Message message)
+        {
+            IQueryable<MessageToParents_Message> iqMessages = from msg in db.MessageToParents_Messages
+                                                              where msg.MessageId == message.MessageId
+                                                              select msg;
+            if (iqMessages.Count() != 0)
+            {
+                message = iqMessages.First();
+                message.IsRead = true;
+                db.SubmitChanges();
+            }
         }
     }
 }

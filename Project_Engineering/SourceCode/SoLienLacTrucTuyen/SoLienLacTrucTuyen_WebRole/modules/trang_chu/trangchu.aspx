@@ -71,7 +71,7 @@
                     <div style="width: 85%; float: left; padding-left: 10px;">
                         <asp:HyperLink ID="HyperLink3" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/loinhankhan.aspx">Thông báo</asp:HyperLink>
                         <br />
-                        Bạn có (4) thông báo mới
+                        <asp:Label ID="LblMessageTitle" runat="server"></asp:Label>
                     </div>
                 </div>
             </td>
