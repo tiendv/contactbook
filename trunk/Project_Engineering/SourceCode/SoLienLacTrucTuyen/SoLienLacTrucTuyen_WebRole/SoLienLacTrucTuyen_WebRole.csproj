@@ -197,6 +197,7 @@
     <Content Include="Styles\Images\button_yes.png" />
     <Content Include="Styles\Images\calendar.png" />
     <Content Include="Styles\Images\confirm_icon.gif" />
+    <Content Include="Styles\Images\FeedbackIcon.png" />
     <Content Include="Styles\Images\first_page.png" />
     <Content Include="Styles\Images\go_top.png" />
     <Content Include="Styles\Images\header_background.png" />
@@ -206,6 +207,7 @@
     <Content Include="Styles\Images\menu_child_separator.png" />
     <Content Include="Styles\Images\menu_parent_highlight.png" />
     <Content Include="Styles\Images\menu_parent_pane.png" />
+    <Content Include="Styles\Images\message.png" />
     <Content Include="Styles\Images\MouseHover\button_add_with_text.png" />
     <Content Include="Styles\Images\MouseHover\button_cancel.png" />
     <Content Include="Styles\Images\MouseHover\button_complete.png" />
@@ -223,6 +225,7 @@
     <Content Include="Styles\Images\popup_button_close.png" />
     <Content Include="Styles\Images\popup_header_background.png" />
     <Content Include="Styles\Images\prev_page.png" />
+    <Content Include="Styles\Images\schedule.png" />
     <Content Include="Styles\Images\table_footer_left.png" />
     <Content Include="Styles\Images\table_footer_middle.png" />
     <Content Include="Styles\Images\table_footer_right.png" />
@@ -231,6 +234,8 @@
     <Content Include="Styles\Images\table_header_middle.png" />
     <Content Include="Styles\Images\table_header_right.png" />
     <Content Include="Styles\Images\title_pane.png" />
+    <Content Include="Styles\Images\user.png" />
+    <Content Include="Styles\Images\user_group.png" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />

@@ -10,6 +10,7 @@ using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
 using System.Web.Security;
 using System.Text;
+using System.Web.Configuration;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -281,6 +282,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             strB.Append(AppConstant.UNDERSCORE);
             strB.Append(RegisterUserWizard.UserName);
             RegisterUserWizard.UserName = strB.ToString();
+
+            string strGeneratedPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
+                Membership.Provider.MinRequiredNonAlphanumericCharacters);
+            TextBox txtPassword = (TextBox)CreateUserStep.ContentTemplateContainer.FindControl("Password");
+            txtPassword.Text = strGeneratedPassword;
+            TextBox txtConfirmPassword = (TextBox)CreateUserStep.ContentTemplateContainer.FindControl("ConfirmPassword");
+            txtConfirmPassword.Text = strGeneratedPassword;
         }
 
         /// <summary>
@@ -327,6 +335,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
 
             MailBL.SendByGmail("econtactbook@gmail.com", "duyna1989@gmail.com", "Tạo tài khoản thành công", "Tạo tài khoản thành công", "duyna1989", "1qazxsw@");
+
+            SchoolBL schoolBL = new SchoolBL();
+            //schoolBL.UpdateTotalOfUser(UserSchool);
         }
 
         protected void RegisterUserWizard_ContinueButtonClick(object sender, ImageClickEventArgs e)

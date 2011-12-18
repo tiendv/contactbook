@@ -132,7 +132,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public string GetDetailedTeachingPeriod(Category_TeachingPeriod teachingPeriod)
         {
-            string chiTietTiet = string.Format("<b>{0}</b><br/>({1}-{2})",
+            string chiTietTiet = string.Format("<b>{0}</b>&nbsp;({1}-{2})",
                     teachingPeriod.TeachingPeriodName,
                     teachingPeriod.BeginTime.ToShortTimeString(),
                     teachingPeriod.EndTime.ToShortTimeString());

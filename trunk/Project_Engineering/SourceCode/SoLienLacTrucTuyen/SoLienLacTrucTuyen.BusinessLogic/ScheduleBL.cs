@@ -220,7 +220,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     teachingPeriodSchedule.DayInWeekId = schedule.DayInWeekId;
                     teachingPeriodSchedule.TeachingPeriodId = schedule.TeachingPeriodId;
                     teachingPeriod = teachingPeriodBL.GetTeachingPeriod(schedule.TeachingPeriodId);
-                    teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
+                    teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriod.TeachingPeriodName;
 
                     teachingPeriodSchedules.Add(teachingPeriodSchedule);
                 }

@@ -9,7 +9,27 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         public static bool IsNullOrBlank(string str)
         {
-            if (str == null || str.Trim() == "")
+            if (str == null)
+            {
+                return true;
+            }
+            else if (str.Trim() == "")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool IsAllOrBlank(string str)
+        {
+            if (str == null)
+            {
+                return true;
+            }
+            else if (str.Trim() == "tất cả")
             {
                 return true;
             }

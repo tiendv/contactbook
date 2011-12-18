@@ -15,7 +15,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
     {
         #region Fields
         private bool isSearch;
-        private LoiNhanKhanBL messageBL;
+        private MessageBL messageBL;
         StudentBL studentBL;
         #endregion
 
@@ -29,7 +29,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 return;
             }
 
-            messageBL = new LoiNhanKhanBL(UserSchool);
+            messageBL = new MessageBL(UserSchool);
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
@@ -190,7 +190,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 case "CmdDetailItem":
                     {
                         int iMessageId = Int32.Parse(e.CommandArgument.ToString());
-                        MessageToParents_Message message = messageBL.GetLoiNhanKhan(iMessageId);
+                        MessageToParents_Message message = messageBL.GetMessage(iMessageId);
 
                         LblTitle.Text = message.Title;
                         LblContent.Text = message.MessageContent;

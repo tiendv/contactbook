@@ -98,6 +98,23 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                         RptMonHocBuoiChieu.DataSource = lstThoiKhoaBieuTheoTiet;
                         RptMonHocBuoiChieu.DataBind();
                     }
+
+                    Panel PnlMorningSchedule = (Panel)e.Item.FindControl("PnlMorningSchedule");
+                    Panel PnlEveningSchedule = (Panel)e.Item.FindControl("PnlEveningSchedule");
+                    Panel PnlAllDaySchedule = (Panel)e.Item.FindControl("PnlAllDaySchedule");
+
+                    if (thoiKhoaBieuBuoiSang.ListThoiKhoaBieuTheoTiet.Count == 0 && thoiKhoaBieuBuoiChieu.ListThoiKhoaBieuTheoTiet.Count == 0)
+                    {
+                        PnlMorningSchedule.Visible = false;
+                        PnlEveningSchedule.Visible = false;
+                        PnlAllDaySchedule.Visible = true;
+                    }
+                    else
+                    {
+                        PnlMorningSchedule.Visible = true;
+                        PnlEveningSchedule.Visible = true;
+                        PnlAllDaySchedule.Visible = false;
+                    }
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private bool isSearch;
-        private LoiNhanKhanBL loiNhanKhanBL;
+        private MessageBL loiNhanKhanBL;
         #endregion
 
         #region Page event handlers
@@ -28,7 +28,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            loiNhanKhanBL = new LoiNhanKhanBL(UserSchool);
+            loiNhanKhanBL = new MessageBL(UserSchool);
             if (!Page.IsPostBack)
             {
                 isSearch = false;
@@ -43,16 +43,30 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptLoiNhanKhan()
         {
-            int YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
             DateTime denNgay = DateTime.Parse(TxtDenNgay.Text);
-            string maHocSinhHienThi = TxtMaHS.Text;
+            string strStudentCode = TxtMaHS.Text;
+            bool? confirmed = null;
+            if (DdlXacNhan.SelectedIndex > 0)
+            {
+                if (Int32.Parse(DdlXacNhan.SelectedValue) == 0)
+                {
+                    confirmed = false;
+                }
+                else
+                {
+                    confirmed = true;
+                }
+            }            
+
             int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
 
             double dTotalRecords;
-            List<TabularMessage> lstTabularLoiNhanKhan = loiNhanKhanBL.GetListTabularLoiNhanKhan(
-                YearId, tuNgay, denNgay,
-                maHocSinhHienThi, xacNhan, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<TabularMessage> lstTabularLoiNhanKhan = loiNhanKhanBL.GetTabularMessages(
+                year, tuNgay, denNgay,
+                strStudentCode, confirmed, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (lstTabularLoiNhanKhan.Count == 0 && dTotalRecords != 0)
             {
@@ -293,7 +307,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case "CmdEditItem":
                     {
                         int maLoiNhanKhan = Int32.Parse(e.CommandArgument.ToString());
-                        MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetLoiNhanKhan(maLoiNhanKhan);
+                        MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetMessage(maLoiNhanKhan);
 
                         LblTieuDeSua.Text = loiNhanKhan.Title;
                         TxtNoiDungSua.Text = TxtNoiDungSua.Text;
@@ -357,13 +371,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 for (int i = 1; i < DdlHocSinhThem.Items.Count; i++)
                 {
-                    loiNhanKhanBL.InsertLoiNhanKhan(Int32.Parse(DdlHocSinhThem.Items[i].Value),
+                    loiNhanKhanBL.InsertMessage(Int32.Parse(DdlHocSinhThem.Items[i].Value),
                         tieuDe, noiDung, ngay);
                 }
             }
             else
             {
-                loiNhanKhanBL.InsertLoiNhanKhan(maHocSinhLopHoc,
+                loiNhanKhanBL.InsertMessage(maHocSinhLopHoc,
                         tieuDe, noiDung, ngay);
             }
 
@@ -382,14 +396,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             int maLoiNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            loiNhanKhanBL.UpdateLoiNhanKhan(maLoiNhanKhan, TxtNoiDungSua.Text, DateTime.Parse(TxtNgaySua.Text));
+            loiNhanKhanBL.UpdateMessage(maLoiNhanKhan, TxtNoiDungSua.Text, DateTime.Parse(TxtNgaySua.Text));
             BindRptLoiNhanKhan();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            loiNhanKhanBL.DeleteLoiNhanKhan(maLopNhanKhan);
+            loiNhanKhanBL.DeleteMessage(maLopNhanKhan);
             isSearch = false;
             BindRptLoiNhanKhan();
         }
