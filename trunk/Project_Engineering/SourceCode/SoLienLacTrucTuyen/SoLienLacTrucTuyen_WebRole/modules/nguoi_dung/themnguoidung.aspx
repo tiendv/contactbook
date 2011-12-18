@@ -9,6 +9,8 @@
                 $('.checkAll').click(function () {
                     $("input[type='checkbox']").attr('checked', $(".checkAll input[type='checkbox']").is(':checked'));
                 });
+
+                $(".password").val("password");
             });
         </script>
     </div>
@@ -149,10 +151,11 @@
                                     <asp:Label ID="Label7" runat="server" Text="*" Style="color: red;"></asp:Label>
                                 </td>
                                 <td style="padding-right: 10px">
-                                    <asp:TextBox ID="Password" runat="server" TextMode="Password" Style="width: 98%"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="NewPasswordRequired" runat="server" ControlToValidate="Password"
+                                    <asp:TextBox ID="Password" runat="server" TextMode="Password" Enabled="false" Style="width: 98%"
+                                        CssClass="password"></asp:TextBox>
+                                    <%--<asp:RequiredFieldValidator ID="NewPasswordRequired" runat="server" ControlToValidate="Password"
                                         Display="Dynamic" ForeColor="Red" ErrorMessage="Mật khẩu không được để trống"
-                                        ToolTip="Mật khẩu không được để trống" ValidationGroup="CreateUser"></asp:RequiredFieldValidator>
+                                        ToolTip="Mật khẩu không được để trống" ValidationGroup="CreateUser"></asp:RequiredFieldValidator>--%>
                                 </td>
                             </tr>
                             <tr>
@@ -161,11 +164,12 @@
                                     <asp:Label ID="Label9" runat="server" Text="*" Style="color: red"></asp:Label>
                                 </td>
                                 <td style="padding-right: 10px">
-                                    <asp:TextBox ID="ConfirmPassword" runat="server" TextMode="Password" Style="width: 98%"></asp:TextBox>
-                                    <asp:CompareValidator ID="ConfirmPswdCompare" runat="server" ErrorMessage="Mật khẩu phải trùng nhau"
+                                    <asp:TextBox ID="ConfirmPassword" runat="server" Text="12345678" TextMode="Password"
+                                        Enabled="false" Style="width: 98%" CssClass="password"></asp:TextBox>
+                                    <%--<asp:CompareValidator ID="ConfirmPswdCompare" runat="server" ErrorMessage="Mật khẩu phải trùng nhau"
                                         Display="Dynamic" ForeColor="Red" ControlToValidate="ConfirmPassword" ControlToCompare="Password"
                                         ValidationGroup="CreateUser">
-                                    </asp:CompareValidator>
+                                    </asp:CompareValidator>--%>
                                 </td>
                             </tr>
                             <tr>

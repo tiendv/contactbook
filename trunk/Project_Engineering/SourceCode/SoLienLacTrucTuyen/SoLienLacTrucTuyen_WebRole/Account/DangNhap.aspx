@@ -4,7 +4,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div class="loginBox ui-corner-all">
-        <asp:Login ID="LoginCtrl" runat="server" Style="width: 100%" OnLoginError="LoginCtrl_LoginError"
+        <asp:Login ID="LoginCtrl" runat="server" Style="width: 100%" OnLoginError="LoginCtrl_LoginError" OnLoggedIn="LoginCtrl_OnLoggedIn" 
             OnAuthenticate="LoginCtrl_Authenticate">
             <LayoutTemplate>
                 <div style="margin: 0px auto 0px auto; padding: 10px 0px 20px 0px; text-align: center">

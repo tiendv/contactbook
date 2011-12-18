@@ -19,7 +19,7 @@ namespace EContactBook.DataAccess
         {
             aspnet_Role deletingRole = (from role in db.aspnet_Roles
                                         where role.RoleName == roleName
-                                        select role).First();
+                                        select role).First();            
 
             // delete RoleDetail of deleting role
             UserManagement_RoleDetail roleDetail;

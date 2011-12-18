@@ -81,12 +81,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             LoginCtrl.FailureText = (string)GetGlobalResourceObject(
                 "AccountResource", "LoginFailText");
         }
+
+        protected void LoginCtrl_OnLoggedIn(object sender, EventArgs e)
+        {
+            aspnet_Role role = (new UserBL()).GetRole(LoginCtrl.UserName);
+            string strDefaultPage = role.UserManagement_RoleDetail.UserManagement_RoleCategory.UserManagementPagePath.PhysicalPath;
+            Response.Redirect(strDefaultPage);
+        }
         #endregion
 
         #region Methods
         private bool ValidateUser(string userName, string password)
         {
-            
+
             if (Membership.ValidateUser(userName, password))
             {
                 // Validate custom information
