@@ -115,11 +115,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             AbsentBL absentBL = new AbsentBL(school);
             StudentActivityBL activityBL = new StudentActivityBL(school);
-            LoiNhanKhanBL messageBL = new LoiNhanKhanBL(school);
+            MessageBL messageBL = new MessageBL(school);
             ParentsCommentBL parentsCommentBL = new ParentsCommentBL(school);
 
             parentsCommentBL.DeleteParentsComment(deletedStudent);
-            messageBL.DeleteLoiNhanKhan(deletedStudent);
+            messageBL.DeleteMessage(deletedStudent);
             absentBL.DeleteAbsent(deletedStudent);
             activityBL.DeleteStudentActivity(deletedStudent);
             studyingResultBL.DeleteStudyingResult(deletedStudent);

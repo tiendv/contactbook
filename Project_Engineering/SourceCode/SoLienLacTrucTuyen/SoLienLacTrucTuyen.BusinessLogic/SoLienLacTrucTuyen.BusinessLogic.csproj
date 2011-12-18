@@ -74,7 +74,7 @@
     <Compile Include="StudyingResultBL.cs" />
     <Compile Include="GradeBL.cs" />
     <Compile Include="MarkTypeBL.cs" />
-    <Compile Include="LoiNhanKhanBL.cs" />
+    <Compile Include="MessageBL.cs" />
     <Compile Include="ClassBL.cs" />
     <Compile Include="MenuBL.cs" />
     <Compile Include="SubjectBL.cs" />
