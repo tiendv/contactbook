@@ -32,7 +32,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 List<DailySchedule> tabularDailySchedule = new List<DailySchedule>();
-                double dTotalRecords;
 
                 Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                 RemoveSession(AppConstant.SESSION_SELECTED_YEAR);                

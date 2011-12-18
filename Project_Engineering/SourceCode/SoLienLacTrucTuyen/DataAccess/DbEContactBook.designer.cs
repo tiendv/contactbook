@@ -605,6 +605,473 @@ namespace EContactBook.DataAccess
 				return this.GetTable<UserManagement_RoleDetail>();
 			}
 		}
+		
+		public System.Data.Linq.Table<vwaspnetApplication> vwaspnetApplications
+		{
+			get
+			{
+				return this.GetTable<vwaspnetApplication>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetUser> vwaspnetUsers
+		{
+			get
+			{
+				return this.GetTable<vwaspnetUser>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetMembershipUser> vwaspnetMembershipUsers
+		{
+			get
+			{
+				return this.GetTable<vwaspnetMembershipUser>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetProfile> vwaspnetProfiles
+		{
+			get
+			{
+				return this.GetTable<vwaspnetProfile>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetRole> vwaspnetRoles
+		{
+			get
+			{
+				return this.GetTable<vwaspnetRole>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetUsersInRole> vwaspnetUsersInRoles
+		{
+			get
+			{
+				return this.GetTable<vwaspnetUsersInRole>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetWebPartStatePath> vwaspnetWebPartStatePaths
+		{
+			get
+			{
+				return this.GetTable<vwaspnetWebPartStatePath>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetWebPartStateShared> vwaspnetWebPartStateShareds
+		{
+			get
+			{
+				return this.GetTable<vwaspnetWebPartStateShared>();
+			}
+		}
+		
+		public System.Data.Linq.Table<vwaspnetWebPartStateUser> vwaspnetWebPartStateUsers
+		{
+			get
+			{
+				return this.GetTable<vwaspnetWebPartStateUser>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_AnyDataInTables")]
+		public ISingleResult<aspnetAnyDataInTablesResult> aspnetAnyDataInTables([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> TablesToCheck)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), TablesToCheck);
+			return ((ISingleResult<aspnetAnyDataInTablesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Applications_CreateApplication")]
+		public int aspnetApplicationsCreateApplication([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> ApplicationId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ApplicationId);
+			ApplicationId = ((System.Nullable<System.Guid>)(result.GetParameterValue(1)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_CheckSchemaVersion")]
+		public int aspnetCheckSchemaVersion([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Feature, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string CompatibleSchemaVersion)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Feature, CompatibleSchemaVersion);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_ChangePasswordQuestionAndAnswer")]
+		public int aspnetMembershipChangePasswordQuestionAndAnswer([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string NewPasswordQuestion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string NewPasswordAnswer)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, NewPasswordQuestion, NewPasswordAnswer);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_CreateUser")]
+		public int aspnetMembershipCreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Password, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordSalt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string PasswordQuestion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordAnswer, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsApproved, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CreateDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> UniqueEmail, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordFormat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> UserId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Password, PasswordSalt, Email, PasswordQuestion, PasswordAnswer, IsApproved, CurrentTimeUtc, CreateDate, UniqueEmail, PasswordFormat, UserId);
+			UserId = ((System.Nullable<System.Guid>)(result.GetParameterValue(12)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByEmail")]
+		public int aspnetMembershipFindUsersByEmail([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string EmailToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, EmailToMatch, PageIndex, PageSize);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByName")]
+		public int aspnetMembershipFindUsersByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNameToMatch, PageIndex, PageSize);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetAllUsers")]
+		public int aspnetMembershipGetAllUsers([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, PageIndex, PageSize);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetNumberOfUsersOnline")]
+		public int aspnetMembershipGetNumberOfUsersOnline([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MinutesSinceLastInActive, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, MinutesSinceLastInActive, CurrentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetPassword")]
+		public ISingleResult<aspnetMembershipGetPasswordResult> aspnetMembershipGetPassword([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MaxInvalidPasswordAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordAttemptWindow, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordAnswer)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, MaxInvalidPasswordAttempts, PasswordAttemptWindow, CurrentTimeUtc, PasswordAnswer);
+			return ((ISingleResult<aspnetMembershipGetPasswordResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetPasswordWithFormat")]
+		public ISingleResult<aspnetMembershipGetPasswordWithFormatResult> aspnetMembershipGetPasswordWithFormat([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastLoginActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, UpdateLastLoginActivityDate, CurrentTimeUtc);
+			return ((ISingleResult<aspnetMembershipGetPasswordWithFormatResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetUserByEmail")]
+		public ISingleResult<aspnetMembershipGetUserByEmailResult> aspnetMembershipGetUserByEmail([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Email)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Email);
+			return ((ISingleResult<aspnetMembershipGetUserByEmailResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetUserByName")]
+		public ISingleResult<aspnetMembershipGetUserByNameResult> aspnetMembershipGetUserByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastActivity)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, CurrentTimeUtc, UpdateLastActivity);
+			return ((ISingleResult<aspnetMembershipGetUserByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetUserByUserId")]
+		public ISingleResult<aspnetMembershipGetUserByUserIdResult> aspnetMembershipGetUserByUserId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] System.Nullable<System.Guid> UserId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastActivity)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), UserId, CurrentTimeUtc, UpdateLastActivity);
+			return ((ISingleResult<aspnetMembershipGetUserByUserIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_ResetPassword")]
+		public int aspnetMembershipResetPassword([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string NewPassword, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MaxInvalidPasswordAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordAttemptWindow, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordSalt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordFormat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordAnswer)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, NewPassword, MaxInvalidPasswordAttempts, PasswordAttemptWindow, PasswordSalt, CurrentTimeUtc, PasswordFormat, PasswordAnswer);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_SetPassword")]
+		public int aspnetMembershipSetPassword([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string NewPassword, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordSalt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordFormat)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, NewPassword, PasswordSalt, CurrentTimeUtc, PasswordFormat);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_UnlockUser")]
+		public int aspnetMembershipUnlockUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_UpdateUser")]
+		public int aspnetMembershipUpdateUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string Comment, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsApproved, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastLoginDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> UniqueEmail, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Email, Comment, IsApproved, LastLoginDate, LastActivityDate, UniqueEmail, CurrentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_UpdateUserInfo")]
+		public int aspnetMembershipUpdateUserInfo([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsPasswordCorrect, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastLoginActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MaxInvalidPasswordAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordAttemptWindow, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastLoginDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastActivityDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, IsPasswordCorrect, UpdateLastLoginActivityDate, MaxInvalidPasswordAttempts, PasswordAttemptWindow, CurrentTimeUtc, LastLoginDate, LastActivityDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Paths_CreatePath")]
+		public int aspnetPathsCreatePath([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] System.Nullable<System.Guid> ApplicationId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> PathId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationId, Path, PathId);
+			PathId = ((System.Nullable<System.Guid>)(result.GetParameterValue(2)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Personalization_GetApplicationId")]
+		public int aspnetPersonalizationGetApplicationId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> ApplicationId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ApplicationId);
+			ApplicationId = ((System.Nullable<System.Guid>)(result.GetParameterValue(1)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_DeleteAllState")]
+		public int aspnetPersonalizationAdministrationDeleteAllState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> AllUsersScope, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), AllUsersScope, ApplicationName, Count);
+			Count = ((System.Nullable<int>)(result.GetParameterValue(2)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_FindState")]
+		public int aspnetPersonalizationAdministrationFindState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> AllUsersScope, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), AllUsersScope, ApplicationName, PageIndex, PageSize, Path, UserName, InactiveSinceDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_GetCountOfState")]
+		public int aspnetPersonalizationAdministrationGetCountOfState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> AllUsersScope, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Count, AllUsersScope, ApplicationName, Path, UserName, InactiveSinceDate);
+			Count = ((System.Nullable<int>)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_ResetSharedState")]
+		public int aspnetPersonalizationAdministrationResetSharedState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Count, ApplicationName, Path);
+			Count = ((System.Nullable<int>)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_ResetUserState")]
+		public int aspnetPersonalizationAdministrationResetUserState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Count, ApplicationName, InactiveSinceDate, UserName, Path);
+			Count = ((System.Nullable<int>)(result.GetParameterValue(0)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAllUsers_GetPageSettings")]
+		public ISingleResult<aspnetPersonalizationAllUsersGetPageSettingsResult> aspnetPersonalizationAllUsersGetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Path);
+			return ((ISingleResult<aspnetPersonalizationAllUsersGetPageSettingsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAllUsers_ResetPageSettings")]
+		public int aspnetPersonalizationAllUsersResetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Path);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAllUsers_SetPageSettings")]
+		public int aspnetPersonalizationAllUsersSetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="image")] System.Data.Linq.Binary PageSettings, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Path, PageSettings, CurrentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationPerUser_GetPageSettings")]
+		public ISingleResult<aspnetPersonalizationPerUserGetPageSettingsResult> aspnetPersonalizationPerUserGetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Path, CurrentTimeUtc);
+			return ((ISingleResult<aspnetPersonalizationPerUserGetPageSettingsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationPerUser_ResetPageSettings")]
+		public int aspnetPersonalizationPerUserResetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Path, CurrentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationPerUser_SetPageSettings")]
+		public int aspnetPersonalizationPerUserSetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="image")] System.Data.Linq.Binary PageSettings, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Path, PageSettings, CurrentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_DeleteInactiveProfiles")]
+		public ISingleResult<aspnetProfileDeleteInactiveProfilesResult> aspnetProfileDeleteInactiveProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> ProfileAuthOptions, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ProfileAuthOptions, InactiveSinceDate);
+			return ((ISingleResult<aspnetProfileDeleteInactiveProfilesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_DeleteProfiles")]
+		public ISingleResult<aspnetProfileDeleteProfilesResult> aspnetProfileDeleteProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string UserNames)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNames);
+			return ((ISingleResult<aspnetProfileDeleteProfilesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_GetNumberOfInactiveProfiles")]
+		public ISingleResult<aspnetProfileGetNumberOfInactiveProfilesResult> aspnetProfileGetNumberOfInactiveProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> ProfileAuthOptions, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ProfileAuthOptions, InactiveSinceDate);
+			return ((ISingleResult<aspnetProfileGetNumberOfInactiveProfilesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_GetProfiles")]
+		public int aspnetProfileGetProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> ProfileAuthOptions, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ProfileAuthOptions, PageIndex, PageSize, UserNameToMatch, InactiveSinceDate);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_GetProperties")]
+		public ISingleResult<aspnetProfileGetPropertiesResult> aspnetProfileGetProperties([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, CurrentTimeUtc);
+			return ((ISingleResult<aspnetProfileGetPropertiesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_SetProperties")]
+		public int aspnetProfileSetProperties([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string PropertyNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string PropertyValuesString, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="image")] System.Data.Linq.Binary PropertyValuesBinary, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsUserAnonymous, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, PropertyNames, PropertyValuesString, PropertyValuesBinary, UserName, IsUserAnonymous, CurrentTimeUtc);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_RegisterSchemaVersion")]
+		public int aspnetRegisterSchemaVersion([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Feature, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string CompatibleSchemaVersion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsCurrentVersion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> RemoveIncompatibleSchema)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Feature, CompatibleSchemaVersion, IsCurrentVersion, RemoveIncompatibleSchema);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_CreateRole")]
+		public int aspnetRolesCreateRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_DeleteRole")]
+		public int aspnetRolesDeleteRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> DeleteOnlyIfRoleIsEmpty)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName, DeleteOnlyIfRoleIsEmpty);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_GetAllRoles")]
+		public ISingleResult<aspnetRolesGetAllRolesResult> aspnetRolesGetAllRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName);
+			return ((ISingleResult<aspnetRolesGetAllRolesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_RoleExists")]
+		public int aspnetRolesRoleExists([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Setup_RemoveAllRoleMembers")]
+		public int aspnetSetupRemoveAllRoleMembers([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Setup_RestorePermissions")]
+		public int aspnetSetupRestorePermissions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UnRegisterSchemaVersion")]
+		public int aspnetUnRegisterSchemaVersion([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Feature, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string CompatibleSchemaVersion)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Feature, CompatibleSchemaVersion);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Users_CreateUser")]
+		public int aspnetUsersCreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] System.Nullable<System.Guid> ApplicationId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsUserAnonymous, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> UserId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationId, UserName, IsUserAnonymous, LastActivityDate, UserId);
+			UserId = ((System.Nullable<System.Guid>)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Users_DeleteUser")]
+		public int aspnetUsersDeleteUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> TablesToDeleteFrom, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> NumTablesDeletedFrom)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, TablesToDeleteFrom, NumTablesDeletedFrom);
+			NumTablesDeletedFrom = ((System.Nullable<int>)(result.GetParameterValue(3)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_AddUsersToRoles")]
+		public ISingleResult<aspnetUsersInRolesAddUsersToRolesResult> aspnetUsersInRolesAddUsersToRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string UserNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string RoleNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNames, RoleNames, CurrentTimeUtc);
+			return ((ISingleResult<aspnetUsersInRolesAddUsersToRolesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_FindUsersInRole")]
+		public ISingleResult<aspnetUsersInRolesFindUsersInRoleResult> aspnetUsersInRolesFindUsersInRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserNameToMatch)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName, UserNameToMatch);
+			return ((ISingleResult<aspnetUsersInRolesFindUsersInRoleResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_GetRolesForUser")]
+		public ISingleResult<aspnetUsersInRolesGetRolesForUserResult> aspnetUsersInRolesGetRolesForUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName);
+			return ((ISingleResult<aspnetUsersInRolesGetRolesForUserResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_GetUsersInRoles")]
+		public ISingleResult<aspnetUsersInRolesGetUsersInRolesResult> aspnetUsersInRolesGetUsersInRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName);
+			return ((ISingleResult<aspnetUsersInRolesGetUsersInRolesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_IsUserInRole")]
+		public int aspnetUsersInRolesIsUserInRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, RoleName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_RemoveUsersFromRoles")]
+		public ISingleResult<aspnetUsersInRolesRemoveUsersFromRolesResult> aspnetUsersInRolesRemoveUsersFromRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string UserNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string RoleNames)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNames, RoleNames);
+			return ((ISingleResult<aspnetUsersInRolesRemoveUsersFromRolesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_WebEvent_LogEvent")]
+		public int aspnetWebEventLogEvent([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="char(32)")] string EventId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> EventTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> EventTime, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string EventType, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="decimal")] System.Nullable<decimal> EventSequence, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="decimal")] System.Nullable<decimal> EventOccurrence, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> EventCode, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> EventDetailCode, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(1024)")] string Message, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationPath, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationVirtualPath, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string MachineName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(1024)")] string RequestUrl, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ExceptionType, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string Details)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), EventId, EventTimeUtc, EventTime, EventType, EventSequence, EventOccurrence, EventCode, EventDetailCode, Message, ApplicationPath, ApplicationVirtualPath, MachineName, RequestUrl, ExceptionType, Details);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.aspnet_Applications")]
@@ -692,7 +1159,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public System.Guid ApplicationId
 		{
 			get
@@ -2064,7 +2531,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public System.Guid PathId
 		{
 			get
@@ -2427,7 +2894,7 @@ namespace EContactBook.DataAccess
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public System.Guid Id
 		{
 			get
@@ -2896,7 +3363,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public System.Guid RoleId
 		{
 			get
@@ -3313,7 +3780,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
 		public System.Guid UserId
 		{
 			get
@@ -3996,7 +4463,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventSequence", DbType="Decimal(19,0) NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventSequence", DbType="decimal NOT NULL")]
 		public decimal EventSequence
 		{
 			get
@@ -4016,7 +4483,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventOccurrence", DbType="Decimal(19,0) NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventOccurrence", DbType="decimal NOT NULL")]
 		public decimal EventOccurrence
 		{
 			get
@@ -13185,6 +13652,8 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<UserManagement_Menu> _UserManagement_Menus;
 		
+		private EntitySet<UserManagement_RoleCategory> _UserManagementRoleCategories;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -13201,6 +13670,7 @@ namespace EContactBook.DataAccess
 		{
 			this._UserManagement_AuthorizedPages = new EntitySet<UserManagement_AuthorizedPage>(new Action<UserManagement_AuthorizedPage>(this.attach_UserManagement_AuthorizedPages), new Action<UserManagement_AuthorizedPage>(this.detach_UserManagement_AuthorizedPages));
 			this._UserManagement_Menus = new EntitySet<UserManagement_Menu>(new Action<UserManagement_Menu>(this.attach_UserManagement_Menus), new Action<UserManagement_Menu>(this.detach_UserManagement_Menus));
+			this._UserManagementRoleCategories = new EntitySet<UserManagement_RoleCategory>(new Action<UserManagement_RoleCategory>(this.attach_UserManagementRoleCategories), new Action<UserManagement_RoleCategory>(this.detach_UserManagementRoleCategories));
 			OnCreated();
 		}
 		
@@ -13290,6 +13760,19 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_PagePath_UserManagement_RoleCategory", Storage="_UserManagementRoleCategories", ThisKey="PagePathId", OtherKey="DefaultPageId")]
+		public EntitySet<UserManagement_RoleCategory> UserManagementRoleCategories
+		{
+			get
+			{
+				return this._UserManagementRoleCategories;
+			}
+			set
+			{
+				this._UserManagementRoleCategories.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -13333,6 +13816,18 @@ namespace EContactBook.DataAccess
 			this.SendPropertyChanging();
 			entity.UserManagement_PagePath = null;
 		}
+		
+		private void attach_UserManagementRoleCategories(UserManagement_RoleCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserManagementPagePath = this;
+		}
+		
+		private void detach_UserManagementRoleCategories(UserManagement_RoleCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserManagementPagePath = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_RoleCategory")]
@@ -13345,7 +13840,11 @@ namespace EContactBook.DataAccess
 		
 		private string _FunctionFlag;
 		
+		private int _DefaultPageId;
+		
 		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
+		
+		private EntityRef<UserManagement_PagePath> _UserManagementPagePath;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -13355,11 +13854,14 @@ namespace EContactBook.DataAccess
     partial void OnRoleCategoryIdChanged();
     partial void OnFunctionFlagChanging(string value);
     partial void OnFunctionFlagChanged();
+    partial void OnDefaultPageIdChanging(int value);
+    partial void OnDefaultPageIdChanged();
     #endregion
 		
 		public UserManagement_RoleCategory()
 		{
 			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
+			this._UserManagementPagePath = default(EntityRef<UserManagement_PagePath>);
 			OnCreated();
 		}
 		
@@ -13403,6 +13905,30 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultPageId", DbType="int NOT NULL")]
+		public int DefaultPageId
+		{
+			get
+			{
+				return this._DefaultPageId;
+			}
+			set
+			{
+				if ((this._DefaultPageId != value))
+				{
+					if (this._UserManagementPagePath.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDefaultPageIdChanging(value);
+					this.SendPropertyChanging();
+					this._DefaultPageId = value;
+					this.SendPropertyChanged("DefaultPageId");
+					this.OnDefaultPageIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_RoleCategory_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetails", ThisKey="RoleCategoryId", OtherKey="RoleCategoryId")]
 		public EntitySet<UserManagement_RoleDetail> UserManagement_RoleDetails
 		{
@@ -13413,6 +13939,40 @@ namespace EContactBook.DataAccess
 			set
 			{
 				this._UserManagement_RoleDetails.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_PagePath_UserManagement_RoleCategory", Storage="_UserManagementPagePath", ThisKey="DefaultPageId", OtherKey="PagePathId", IsForeignKey=true)]
+		public UserManagement_PagePath UserManagementPagePath
+		{
+			get
+			{
+				return this._UserManagementPagePath.Entity;
+			}
+			set
+			{
+				UserManagement_PagePath previousValue = this._UserManagementPagePath.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagementPagePath.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagementPagePath.Entity = null;
+						previousValue.UserManagementRoleCategories.Remove(this);
+					}
+					this._UserManagementPagePath.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagementRoleCategories.Add(this);
+						this._DefaultPageId = value.PagePathId;
+					}
+					else
+					{
+						this._DefaultPageId = default(int);
+					}
+					this.SendPropertyChanged("UserManagementPagePath");
+				}
 			}
 		}
 		
@@ -13750,6 +14310,2103 @@ namespace EContactBook.DataAccess
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Applications")]
+	public partial class vwaspnetApplication
+	{
+		
+		private string _ApplicationName;
+		
+		private string _LoweredApplicationName;
+		
+		private System.Guid _ApplicationId;
+		
+		private string _Description;
+		
+		public vwaspnetApplication()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string ApplicationName
+		{
+			get
+			{
+				return this._ApplicationName;
+			}
+			set
+			{
+				if ((this._ApplicationName != value))
+				{
+					this._ApplicationName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredApplicationName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string LoweredApplicationName
+		{
+			get
+			{
+				return this._LoweredApplicationName;
+			}
+			set
+			{
+				if ((this._LoweredApplicationName != value))
+				{
+					this._LoweredApplicationName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid ApplicationId
+		{
+			get
+			{
+				return this._ApplicationId;
+			}
+			set
+			{
+				if ((this._ApplicationId != value))
+				{
+					this._ApplicationId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="nvarchar(256)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this._Description = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Users")]
+	public partial class vwaspnetUser
+	{
+		
+		private System.Guid _ApplicationId;
+		
+		private System.Guid _UserId;
+		
+		private string _UserName;
+		
+		private string _LoweredUserName;
+		
+		private string _MobileAlias;
+		
+		private bool _IsAnonymous;
+		
+		private System.DateTime _LastActivityDate;
+		
+		public vwaspnetUser()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid ApplicationId
+		{
+			get
+			{
+				return this._ApplicationId;
+			}
+			set
+			{
+				if ((this._ApplicationId != value))
+				{
+					this._ApplicationId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredUserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string LoweredUserName
+		{
+			get
+			{
+				return this._LoweredUserName;
+			}
+			set
+			{
+				if ((this._LoweredUserName != value))
+				{
+					this._LoweredUserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileAlias", DbType="nvarchar(16)")]
+		public string MobileAlias
+		{
+			get
+			{
+				return this._MobileAlias;
+			}
+			set
+			{
+				if ((this._MobileAlias != value))
+				{
+					this._MobileAlias = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAnonymous", DbType="bit NOT NULL")]
+		public bool IsAnonymous
+		{
+			get
+			{
+				return this._IsAnonymous;
+			}
+			set
+			{
+				if ((this._IsAnonymous != value))
+				{
+					this._IsAnonymous = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastActivityDate
+		{
+			get
+			{
+				return this._LastActivityDate;
+			}
+			set
+			{
+				if ((this._LastActivityDate != value))
+				{
+					this._LastActivityDate = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_MembershipUsers")]
+	public partial class vwaspnetMembershipUser
+	{
+		
+		private System.Guid _UserId;
+		
+		private int _PasswordFormat;
+		
+		private string _MobilePIN;
+		
+		private string _Email;
+		
+		private string _LoweredEmail;
+		
+		private string _PasswordQuestion;
+		
+		private string _PasswordAnswer;
+		
+		private bool _IsApproved;
+		
+		private bool _IsLockedOut;
+		
+		private System.DateTime _CreateDate;
+		
+		private System.DateTime _LastLoginDate;
+		
+		private System.DateTime _LastPasswordChangedDate;
+		
+		private System.DateTime _LastLockoutDate;
+		
+		private int _FailedPasswordAttemptCount;
+		
+		private System.DateTime _FailedPasswordAttemptWindowStart;
+		
+		private int _FailedPasswordAnswerAttemptCount;
+		
+		private System.DateTime _FailedPasswordAnswerAttemptWindowStart;
+		
+		private string _Comment;
+		
+		private System.Guid _ApplicationId;
+		
+		private string _UserName;
+		
+		private string _MobileAlias;
+		
+		private bool _IsAnonymous;
+		
+		private System.DateTime _LastActivityDate;
+		
+		public vwaspnetMembershipUser()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordFormat", DbType="int NOT NULL")]
+		public int PasswordFormat
+		{
+			get
+			{
+				return this._PasswordFormat;
+			}
+			set
+			{
+				if ((this._PasswordFormat != value))
+				{
+					this._PasswordFormat = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobilePIN", DbType="nvarchar(16)")]
+		public string MobilePIN
+		{
+			get
+			{
+				return this._MobilePIN;
+			}
+			set
+			{
+				if ((this._MobilePIN != value))
+				{
+					this._MobilePIN = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="nvarchar(256)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredEmail", DbType="nvarchar(256)")]
+		public string LoweredEmail
+		{
+			get
+			{
+				return this._LoweredEmail;
+			}
+			set
+			{
+				if ((this._LoweredEmail != value))
+				{
+					this._LoweredEmail = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordQuestion", DbType="nvarchar(256)")]
+		public string PasswordQuestion
+		{
+			get
+			{
+				return this._PasswordQuestion;
+			}
+			set
+			{
+				if ((this._PasswordQuestion != value))
+				{
+					this._PasswordQuestion = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordAnswer", DbType="nvarchar(128)")]
+		public string PasswordAnswer
+		{
+			get
+			{
+				return this._PasswordAnswer;
+			}
+			set
+			{
+				if ((this._PasswordAnswer != value))
+				{
+					this._PasswordAnswer = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="bit NOT NULL")]
+		public bool IsApproved
+		{
+			get
+			{
+				return this._IsApproved;
+			}
+			set
+			{
+				if ((this._IsApproved != value))
+				{
+					this._IsApproved = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLockedOut", DbType="bit NOT NULL")]
+		public bool IsLockedOut
+		{
+			get
+			{
+				return this._IsLockedOut;
+			}
+			set
+			{
+				if ((this._IsLockedOut != value))
+				{
+					this._IsLockedOut = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="datetime NOT NULL")]
+		public System.DateTime CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLoginDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastLoginDate
+		{
+			get
+			{
+				return this._LastLoginDate;
+			}
+			set
+			{
+				if ((this._LastLoginDate != value))
+				{
+					this._LastLoginDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastPasswordChangedDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastPasswordChangedDate
+		{
+			get
+			{
+				return this._LastPasswordChangedDate;
+			}
+			set
+			{
+				if ((this._LastPasswordChangedDate != value))
+				{
+					this._LastPasswordChangedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLockoutDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastLockoutDate
+		{
+			get
+			{
+				return this._LastLockoutDate;
+			}
+			set
+			{
+				if ((this._LastLockoutDate != value))
+				{
+					this._LastLockoutDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAttemptCount", DbType="int NOT NULL")]
+		public int FailedPasswordAttemptCount
+		{
+			get
+			{
+				return this._FailedPasswordAttemptCount;
+			}
+			set
+			{
+				if ((this._FailedPasswordAttemptCount != value))
+				{
+					this._FailedPasswordAttemptCount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAttemptWindowStart", DbType="datetime NOT NULL")]
+		public System.DateTime FailedPasswordAttemptWindowStart
+		{
+			get
+			{
+				return this._FailedPasswordAttemptWindowStart;
+			}
+			set
+			{
+				if ((this._FailedPasswordAttemptWindowStart != value))
+				{
+					this._FailedPasswordAttemptWindowStart = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAnswerAttemptCount", DbType="int NOT NULL")]
+		public int FailedPasswordAnswerAttemptCount
+		{
+			get
+			{
+				return this._FailedPasswordAnswerAttemptCount;
+			}
+			set
+			{
+				if ((this._FailedPasswordAnswerAttemptCount != value))
+				{
+					this._FailedPasswordAnswerAttemptCount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAnswerAttemptWindowStart", DbType="datetime NOT NULL")]
+		public System.DateTime FailedPasswordAnswerAttemptWindowStart
+		{
+			get
+			{
+				return this._FailedPasswordAnswerAttemptWindowStart;
+			}
+			set
+			{
+				if ((this._FailedPasswordAnswerAttemptWindowStart != value))
+				{
+					this._FailedPasswordAnswerAttemptWindowStart = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="ntext", UpdateCheck=UpdateCheck.Never)]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this._Comment = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid ApplicationId
+		{
+			get
+			{
+				return this._ApplicationId;
+			}
+			set
+			{
+				if ((this._ApplicationId != value))
+				{
+					this._ApplicationId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileAlias", DbType="nvarchar(16)")]
+		public string MobileAlias
+		{
+			get
+			{
+				return this._MobileAlias;
+			}
+			set
+			{
+				if ((this._MobileAlias != value))
+				{
+					this._MobileAlias = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAnonymous", DbType="bit NOT NULL")]
+		public bool IsAnonymous
+		{
+			get
+			{
+				return this._IsAnonymous;
+			}
+			set
+			{
+				if ((this._IsAnonymous != value))
+				{
+					this._IsAnonymous = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastActivityDate
+		{
+			get
+			{
+				return this._LastActivityDate;
+			}
+			set
+			{
+				if ((this._LastActivityDate != value))
+				{
+					this._LastActivityDate = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Profiles")]
+	public partial class vwaspnetProfile
+	{
+		
+		private System.Guid _UserId;
+		
+		private System.DateTime _LastUpdatedDate;
+		
+		private System.Nullable<int> _DataSize;
+		
+		public vwaspnetProfile()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastUpdatedDate
+		{
+			get
+			{
+				return this._LastUpdatedDate;
+			}
+			set
+			{
+				if ((this._LastUpdatedDate != value))
+				{
+					this._LastUpdatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSize", DbType="int")]
+		public System.Nullable<int> DataSize
+		{
+			get
+			{
+				return this._DataSize;
+			}
+			set
+			{
+				if ((this._DataSize != value))
+				{
+					this._DataSize = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Roles")]
+	public partial class vwaspnetRole
+	{
+		
+		private System.Guid _ApplicationId;
+		
+		private System.Guid _RoleId;
+		
+		private string _RoleName;
+		
+		private string _LoweredRoleName;
+		
+		private string _Description;
+		
+		public vwaspnetRole()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid ApplicationId
+		{
+			get
+			{
+				return this._ApplicationId;
+			}
+			set
+			{
+				if ((this._ApplicationId != value))
+				{
+					this._ApplicationId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					this._RoleId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string RoleName
+		{
+			get
+			{
+				return this._RoleName;
+			}
+			set
+			{
+				if ((this._RoleName != value))
+				{
+					this._RoleName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredRoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string LoweredRoleName
+		{
+			get
+			{
+				return this._LoweredRoleName;
+			}
+			set
+			{
+				if ((this._LoweredRoleName != value))
+				{
+					this._LoweredRoleName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="nvarchar(256)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this._Description = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_UsersInRoles")]
+	public partial class vwaspnetUsersInRole
+	{
+		
+		private System.Guid _UserId;
+		
+		private System.Guid _RoleId;
+		
+		public vwaspnetUsersInRole()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					this._RoleId = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_WebPartState_Paths")]
+	public partial class vwaspnetWebPartStatePath
+	{
+		
+		private System.Guid _ApplicationId;
+		
+		private System.Guid _PathId;
+		
+		private string _Path;
+		
+		private string _LoweredPath;
+		
+		public vwaspnetWebPartStatePath()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid ApplicationId
+		{
+			get
+			{
+				return this._ApplicationId;
+			}
+			set
+			{
+				if ((this._ApplicationId != value))
+				{
+					this._ApplicationId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid PathId
+		{
+			get
+			{
+				return this._PathId;
+			}
+			set
+			{
+				if ((this._PathId != value))
+				{
+					this._PathId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Path]", Storage="_Path", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string Path
+		{
+			get
+			{
+				return this._Path;
+			}
+			set
+			{
+				if ((this._Path != value))
+				{
+					this._Path = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredPath", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string LoweredPath
+		{
+			get
+			{
+				return this._LoweredPath;
+			}
+			set
+			{
+				if ((this._LoweredPath != value))
+				{
+					this._LoweredPath = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_WebPartState_Shared")]
+	public partial class vwaspnetWebPartStateShared
+	{
+		
+		private System.Guid _PathId;
+		
+		private System.Nullable<int> _DataSize;
+		
+		private System.DateTime _LastUpdatedDate;
+		
+		public vwaspnetWebPartStateShared()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid PathId
+		{
+			get
+			{
+				return this._PathId;
+			}
+			set
+			{
+				if ((this._PathId != value))
+				{
+					this._PathId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSize", DbType="int")]
+		public System.Nullable<int> DataSize
+		{
+			get
+			{
+				return this._DataSize;
+			}
+			set
+			{
+				if ((this._DataSize != value))
+				{
+					this._DataSize = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastUpdatedDate
+		{
+			get
+			{
+				return this._LastUpdatedDate;
+			}
+			set
+			{
+				if ((this._LastUpdatedDate != value))
+				{
+					this._LastUpdatedDate = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_WebPartState_User")]
+	public partial class vwaspnetWebPartStateUser
+	{
+		
+		private System.Nullable<System.Guid> _PathId;
+		
+		private System.Nullable<System.Guid> _UserId;
+		
+		private System.Nullable<int> _DataSize;
+		
+		private System.DateTime _LastUpdatedDate;
+		
+		public vwaspnetWebPartStateUser()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="uniqueidentifier")]
+		public System.Nullable<System.Guid> PathId
+		{
+			get
+			{
+				return this._PathId;
+			}
+			set
+			{
+				if ((this._PathId != value))
+				{
+					this._PathId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier")]
+		public System.Nullable<System.Guid> UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSize", DbType="int")]
+		public System.Nullable<int> DataSize
+		{
+			get
+			{
+				return this._DataSize;
+			}
+			set
+			{
+				if ((this._DataSize != value))
+				{
+					this._DataSize = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastUpdatedDate
+		{
+			get
+			{
+				return this._LastUpdatedDate;
+			}
+			set
+			{
+				if ((this._LastUpdatedDate != value))
+				{
+					this._LastUpdatedDate = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetAnyDataInTablesResult
+	{
+		
+		private string _Column1;
+		
+		public aspnetAnyDataInTablesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(17) NOT NULL", CanBeNull=false)]
+		public string Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetMembershipGetPasswordResult
+	{
+		
+		private string _Column1;
+		
+		private System.Nullable<int> _Column2;
+		
+		public aspnetMembershipGetPasswordResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(128)")]
+		public string Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column2", DbType="int")]
+		public System.Nullable<int> Column2
+		{
+			get
+			{
+				return this._Column2;
+			}
+			set
+			{
+				if ((this._Column2 != value))
+				{
+					this._Column2 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetMembershipGetPasswordWithFormatResult
+	{
+		
+		private string _Column1;
+		
+		private System.Nullable<int> _Column2;
+		
+		private string _Column3;
+		
+		private System.Nullable<int> _Column4;
+		
+		private System.Nullable<int> _Column5;
+		
+		private System.Nullable<bool> _Column6;
+		
+		private System.Nullable<System.DateTime> _Column7;
+		
+		private System.Nullable<System.DateTime> _Column8;
+		
+		public aspnetMembershipGetPasswordWithFormatResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(128)")]
+		public string Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column2", DbType="int")]
+		public System.Nullable<int> Column2
+		{
+			get
+			{
+				return this._Column2;
+			}
+			set
+			{
+				if ((this._Column2 != value))
+				{
+					this._Column2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column3", DbType="nvarchar(128)")]
+		public string Column3
+		{
+			get
+			{
+				return this._Column3;
+			}
+			set
+			{
+				if ((this._Column3 != value))
+				{
+					this._Column3 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column4", DbType="int")]
+		public System.Nullable<int> Column4
+		{
+			get
+			{
+				return this._Column4;
+			}
+			set
+			{
+				if ((this._Column4 != value))
+				{
+					this._Column4 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column5", DbType="int")]
+		public System.Nullable<int> Column5
+		{
+			get
+			{
+				return this._Column5;
+			}
+			set
+			{
+				if ((this._Column5 != value))
+				{
+					this._Column5 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column6", DbType="bit")]
+		public System.Nullable<bool> Column6
+		{
+			get
+			{
+				return this._Column6;
+			}
+			set
+			{
+				if ((this._Column6 != value))
+				{
+					this._Column6 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column7", DbType="datetime")]
+		public System.Nullable<System.DateTime> Column7
+		{
+			get
+			{
+				return this._Column7;
+			}
+			set
+			{
+				if ((this._Column7 != value))
+				{
+					this._Column7 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column8", DbType="datetime")]
+		public System.Nullable<System.DateTime> Column8
+		{
+			get
+			{
+				return this._Column8;
+			}
+			set
+			{
+				if ((this._Column8 != value))
+				{
+					this._Column8 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetMembershipGetUserByEmailResult
+	{
+		
+		private string _UserName;
+		
+		public aspnetMembershipGetUserByEmailResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetMembershipGetUserByNameResult
+	{
+		
+		private string _Email;
+		
+		private string _PasswordQuestion;
+		
+		private string _Comment;
+		
+		private bool _IsApproved;
+		
+		private System.DateTime _CreateDate;
+		
+		private System.DateTime _LastLoginDate;
+		
+		private System.DateTime _LastActivityDate;
+		
+		private System.DateTime _LastPasswordChangedDate;
+		
+		private System.Guid _UserId;
+		
+		private bool _IsLockedOut;
+		
+		private System.DateTime _LastLockoutDate;
+		
+		public aspnetMembershipGetUserByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="nvarchar(256)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordQuestion", DbType="nvarchar(256)")]
+		public string PasswordQuestion
+		{
+			get
+			{
+				return this._PasswordQuestion;
+			}
+			set
+			{
+				if ((this._PasswordQuestion != value))
+				{
+					this._PasswordQuestion = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="ntext")]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this._Comment = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="bit NOT NULL")]
+		public bool IsApproved
+		{
+			get
+			{
+				return this._IsApproved;
+			}
+			set
+			{
+				if ((this._IsApproved != value))
+				{
+					this._IsApproved = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="datetime NOT NULL")]
+		public System.DateTime CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLoginDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastLoginDate
+		{
+			get
+			{
+				return this._LastLoginDate;
+			}
+			set
+			{
+				if ((this._LastLoginDate != value))
+				{
+					this._LastLoginDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastActivityDate
+		{
+			get
+			{
+				return this._LastActivityDate;
+			}
+			set
+			{
+				if ((this._LastActivityDate != value))
+				{
+					this._LastActivityDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastPasswordChangedDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastPasswordChangedDate
+		{
+			get
+			{
+				return this._LastPasswordChangedDate;
+			}
+			set
+			{
+				if ((this._LastPasswordChangedDate != value))
+				{
+					this._LastPasswordChangedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
+		public System.Guid UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLockedOut", DbType="bit NOT NULL")]
+		public bool IsLockedOut
+		{
+			get
+			{
+				return this._IsLockedOut;
+			}
+			set
+			{
+				if ((this._IsLockedOut != value))
+				{
+					this._IsLockedOut = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLockoutDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastLockoutDate
+		{
+			get
+			{
+				return this._LastLockoutDate;
+			}
+			set
+			{
+				if ((this._LastLockoutDate != value))
+				{
+					this._LastLockoutDate = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetMembershipGetUserByUserIdResult
+	{
+		
+		private string _Email;
+		
+		private string _PasswordQuestion;
+		
+		private string _Comment;
+		
+		private bool _IsApproved;
+		
+		private System.DateTime _CreateDate;
+		
+		private System.DateTime _LastLoginDate;
+		
+		private System.DateTime _LastActivityDate;
+		
+		private System.DateTime _LastPasswordChangedDate;
+		
+		private string _UserName;
+		
+		private bool _IsLockedOut;
+		
+		private System.DateTime _LastLockoutDate;
+		
+		public aspnetMembershipGetUserByUserIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="nvarchar(256)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordQuestion", DbType="nvarchar(256)")]
+		public string PasswordQuestion
+		{
+			get
+			{
+				return this._PasswordQuestion;
+			}
+			set
+			{
+				if ((this._PasswordQuestion != value))
+				{
+					this._PasswordQuestion = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="ntext")]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this._Comment = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="bit NOT NULL")]
+		public bool IsApproved
+		{
+			get
+			{
+				return this._IsApproved;
+			}
+			set
+			{
+				if ((this._IsApproved != value))
+				{
+					this._IsApproved = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="datetime NOT NULL")]
+		public System.DateTime CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLoginDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastLoginDate
+		{
+			get
+			{
+				return this._LastLoginDate;
+			}
+			set
+			{
+				if ((this._LastLoginDate != value))
+				{
+					this._LastLoginDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastActivityDate
+		{
+			get
+			{
+				return this._LastActivityDate;
+			}
+			set
+			{
+				if ((this._LastActivityDate != value))
+				{
+					this._LastActivityDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastPasswordChangedDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastPasswordChangedDate
+		{
+			get
+			{
+				return this._LastPasswordChangedDate;
+			}
+			set
+			{
+				if ((this._LastPasswordChangedDate != value))
+				{
+					this._LastPasswordChangedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLockedOut", DbType="bit NOT NULL")]
+		public bool IsLockedOut
+		{
+			get
+			{
+				return this._IsLockedOut;
+			}
+			set
+			{
+				if ((this._IsLockedOut != value))
+				{
+					this._IsLockedOut = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLockoutDate", DbType="datetime NOT NULL")]
+		public System.DateTime LastLockoutDate
+		{
+			get
+			{
+				return this._LastLockoutDate;
+			}
+			set
+			{
+				if ((this._LastLockoutDate != value))
+				{
+					this._LastLockoutDate = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetPersonalizationAllUsersGetPageSettingsResult
+	{
+		
+		private System.Data.Linq.Binary _PageSettings;
+		
+		public aspnetPersonalizationAllUsersGetPageSettingsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PageSettings", DbType="image NOT NULL", CanBeNull=false)]
+		public System.Data.Linq.Binary PageSettings
+		{
+			get
+			{
+				return this._PageSettings;
+			}
+			set
+			{
+				if ((this._PageSettings != value))
+				{
+					this._PageSettings = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetPersonalizationPerUserGetPageSettingsResult
+	{
+		
+		private System.Data.Linq.Binary _PageSettings;
+		
+		public aspnetPersonalizationPerUserGetPageSettingsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PageSettings", DbType="image NOT NULL", CanBeNull=false)]
+		public System.Data.Linq.Binary PageSettings
+		{
+			get
+			{
+				return this._PageSettings;
+			}
+			set
+			{
+				if ((this._PageSettings != value))
+				{
+					this._PageSettings = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetProfileDeleteInactiveProfilesResult
+	{
+		
+		private int _Column1;
+		
+		public aspnetProfileDeleteInactiveProfilesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="int NOT NULL")]
+		public int Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetProfileDeleteProfilesResult
+	{
+		
+		private System.Nullable<int> _Column1;
+		
+		public aspnetProfileDeleteProfilesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="int")]
+		public System.Nullable<int> Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetProfileGetNumberOfInactiveProfilesResult
+	{
+		
+		private int _Column1;
+		
+		public aspnetProfileGetNumberOfInactiveProfilesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="int NOT NULL")]
+		public int Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetProfileGetPropertiesResult
+	{
+		
+		private string _PropertyNames;
+		
+		private string _PropertyValuesString;
+		
+		private System.Data.Linq.Binary _PropertyValuesBinary;
+		
+		public aspnetProfileGetPropertiesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PropertyNames", DbType="ntext NOT NULL", CanBeNull=false)]
+		public string PropertyNames
+		{
+			get
+			{
+				return this._PropertyNames;
+			}
+			set
+			{
+				if ((this._PropertyNames != value))
+				{
+					this._PropertyNames = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PropertyValuesString", DbType="ntext NOT NULL", CanBeNull=false)]
+		public string PropertyValuesString
+		{
+			get
+			{
+				return this._PropertyValuesString;
+			}
+			set
+			{
+				if ((this._PropertyValuesString != value))
+				{
+					this._PropertyValuesString = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PropertyValuesBinary", DbType="image NOT NULL", CanBeNull=false)]
+		public System.Data.Linq.Binary PropertyValuesBinary
+		{
+			get
+			{
+				return this._PropertyValuesBinary;
+			}
+			set
+			{
+				if ((this._PropertyValuesBinary != value))
+				{
+					this._PropertyValuesBinary = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetRolesGetAllRolesResult
+	{
+		
+		private string _RoleName;
+		
+		public aspnetRolesGetAllRolesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string RoleName
+		{
+			get
+			{
+				return this._RoleName;
+			}
+			set
+			{
+				if ((this._RoleName != value))
+				{
+					this._RoleName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetUsersInRolesAddUsersToRolesResult
+	{
+		
+		private string _Name;
+		
+		public aspnetUsersInRolesAddUsersToRolesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetUsersInRolesFindUsersInRoleResult
+	{
+		
+		private string _UserName;
+		
+		public aspnetUsersInRolesFindUsersInRoleResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetUsersInRolesGetRolesForUserResult
+	{
+		
+		private string _RoleName;
+		
+		public aspnetUsersInRolesGetRolesForUserResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string RoleName
+		{
+			get
+			{
+				return this._RoleName;
+			}
+			set
+			{
+				if ((this._RoleName != value))
+				{
+					this._RoleName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetUsersInRolesGetUsersInRolesResult
+	{
+		
+		private string _UserName;
+		
+		public aspnetUsersInRolesGetUsersInRolesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class aspnetUsersInRolesRemoveUsersFromRolesResult
+	{
+		
+		private string _Column1;
+		
+		private string _Name;
+		
+		public aspnetUsersInRolesRemoveUsersFromRolesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(1) NOT NULL", CanBeNull=false)]
+		public string Column1
+		{
+			get
+			{
+				return this._Column1;
+			}
+			set
+			{
+				if ((this._Column1 != value))
+				{
+					this._Column1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
 			}
 		}
 	}
