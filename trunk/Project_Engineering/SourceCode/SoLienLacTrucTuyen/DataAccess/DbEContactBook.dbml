@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Security=True" SettingsObjectName="EContactBook.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Applications" Member="aspnet_Applications">
     <Type Name="aspnet_Application">
@@ -379,6 +380,7 @@
       <Column Name="MessageContent" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsRead" Member="IsRead" Type="System.Boolean" DbType="bit NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Student_StudentInClass_MessageToParents_Message" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
     </Type>
@@ -402,6 +404,8 @@
       <Column Name="SchoolName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="TotalOfUsers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Member="Email" Type="System.String" DbType="varchar(50)" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
+      <Column Name="Password" Member="Password" Type="System.String" DbType="varchar(50)" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
       <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_School_Category_Attitude" Member="Category_Attitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Attitude" />
       <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
