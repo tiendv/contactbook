@@ -125,5 +125,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             messageDA.DeleteLoiNhanKhan(student);
         }
+
+        public void MarkMessageAsRead(MessageToParents_Message message)
+        {
+            messageDA.MarkMessageAsRead(message);
+        }
     }
 }

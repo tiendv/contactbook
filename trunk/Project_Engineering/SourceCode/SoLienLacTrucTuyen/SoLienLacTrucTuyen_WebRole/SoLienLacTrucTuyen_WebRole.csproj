@@ -151,6 +151,7 @@
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
     <Content Include="modules\phu_huynh\themykien.aspx" />
     <Content Include="modules\Trang_Chu\TrangChu.aspx" />
+    <Content Include="modules\phu_huynh\chitietthongbao.aspx" />
     <Content Include="modules\y_kien\chitietykien.aspx" />
     <Content Include="modules\y_kien\phanhoiykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
@@ -165,6 +166,8 @@
     <Content Include="Styles\Icons\icon_edit.png" />
     <Content Include="Styles\Icons\icon_edit_disabled.png" />
     <Content Include="Styles\Icons\icon_feedback.png" />
+    <Content Include="Styles\Images\activity.png" />
+    <Content Include="Styles\Images\already_read_message.png" />
     <Content Include="Styles\Images\avatar.png" />
     <Content Include="Styles\Images\background.png" />
     <Content Include="Styles\Images\button.png" />
@@ -234,8 +237,11 @@
     <Content Include="Styles\Images\table_header_middle.png" />
     <Content Include="Styles\Images\table_header_right.png" />
     <Content Include="Styles\Images\title_pane.png" />
+    <Content Include="Styles\Images\unread_message.png" />
     <Content Include="Styles\Images\user.png" />
     <Content Include="Styles\Images\user_group.png" />
+    <Content Include="Styles\Images\user_group_authorization.png" />
+    <Content Include="Styles\Images\Warning.png" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -837,6 +843,13 @@
     </Compile>
     <Compile Include="modules\Trang_Chu\TrangChu.aspx.designer.cs">
       <DependentUpon>TrangChu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\chitietthongbao.aspx.cs">
+      <DependentUpon>chitietthongbao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\chitietthongbao.aspx.designer.cs">
+      <DependentUpon>chitietthongbao.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\y_kien\chitietykien.aspx.cs">
       <DependentUpon>chitietykien.aspx</DependentUpon>

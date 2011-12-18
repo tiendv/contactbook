@@ -38,13 +38,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 BindDropDownLists();
                 InitDates();
 
-                BindRptLoiNhanKhan();
+                BindRptMessages();
             }
         }
         #endregion
 
         #region Methods
-        private void BindRptLoiNhanKhan()
+        private void BindRptMessages()
         {
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
@@ -71,7 +71,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             if (messages.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRptLoiNhanKhan();
+                BindRptMessages();
                 return;
             }
 
@@ -85,9 +85,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void ProcessDislayInfo(bool bDisplayData)
         {
-            PnlPopupConfirmMessage.Visible = bDisplayData;
-            PnlPopupCancelConfirmMessage.Visible = bDisplayData;
-            PnlPopupDetail.Visible = bDisplayData;
             RptLoiNhanKhan.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -149,11 +146,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
+                Image imgAlreadyReadMsg = (Image)e.Item.FindControl("ImgAlreadyReadMsg");
+                Image imgWarning = (Image)e.Item.FindControl("ImgWarning");
+                Image imgUnreadMsg = (Image)e.Item.FindControl("ImgUnreadMsg");
+                LinkButton lkbtnTitle = (LinkButton)e.Item.FindControl("LkbtnTitle");
+
                 MessageToParents_Message message = (MessageToParents_Message)e.Item.DataItem;
-                ImageButton btnConfirmItem = (ImageButton)e.Item.FindControl("BtnConfirmItem");
-                btnConfirmItem.Visible = !message.IsConfirmed;
-                ImageButton btnCancelConfirmItem = (ImageButton)e.Item.FindControl("BtnCancelConfirmItem");
-                btnCancelConfirmItem.Visible = message.IsConfirmed;
+                imgAlreadyReadMsg.Visible = message.IsRead;
+                imgUnreadMsg.Visible = !message.IsRead;
+                imgWarning.Visible = !message.IsConfirmed && message.IsRead;
+                lkbtnTitle.Font.Bold = !message.IsRead;
             }
         }
 
@@ -161,45 +163,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             switch (e.CommandName)
             {
-                case "CmdConfirmItem":
-                    {
-                        this.LblConfirmMessage.Text = "Bạn có chắc xác nhận lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEConfirm = (ModalPopupExtender)e.Item.FindControl("MPEConfirm");
-                        mPEConfirm.Show();
-
-                        HiddenField hdfRptMaLoiNhanKhan = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
-                        this.HdfMaLoiNhanKhan.Value = hdfRptMaLoiNhanKhan.Value;
-
-                        this.HdfRptLoiNhanKhanMPEConfirm.Value = mPEConfirm.ClientID;
-
-                        break;
-                    }
-                case "CmdCancelConfirmItem":
-                    {
-                        this.LblCancelConfirmMessage.Text = "Bạn có chắc hủy xác nhận lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPECancelConfirm = (ModalPopupExtender)e.Item.FindControl("MPECancelConfirm");
-                        mPECancelConfirm.Show();
-
-                        HiddenField hdfRptMaLoiNhanKhan = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
-                        this.HdfMaLoiNhanKhan.Value = hdfRptMaLoiNhanKhan.Value;
-
-                        this.HdfRptLoiNhanKhanMPECancelConfirm.Value = mPECancelConfirm.ClientID;
-
-                        break;
-                    }
                 case "CmdDetailItem":
                     {
-                        int iMessageId = Int32.Parse(e.CommandArgument.ToString());
+                        int iMessageId = Int32.Parse(e.CommandArgument.ToString());                       
                         MessageToParents_Message message = messageBL.GetMessage(iMessageId);
 
-                        LblTitle.Text = message.Title;
-                        LblContent.Text = message.MessageContent;
-                        LblStatus.Text = (message.IsConfirmed == true) ? "Đã xác nhận" : "Chưa xác nhận";
-                        ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
-                        mPEDetail.Show();
+                        if (!message.IsRead)
+                        {
+                            messageBL.MarkMessageAsRead(message);
+                        }                        
 
-                        this.HdfMaLoiNhanKhan.Value = iMessageId.ToString();
-                        this.HdfRptLoiNhanKhanMPEDetail.Value = mPEDetail.ClientID;
+                        AddSession(AppConstant.SESSION_MESSAGE, message);
+                        Response.Redirect(AppConstant.PAGEPATH_DETAILEDMESSAGE);
+                        
                         break;
                     }
                 default:
@@ -215,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
 
         protected void BtnOKConfirmItem_Click(object sender, ImageClickEventArgs e)
@@ -224,7 +200,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             message.MessageId = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
             messageBL.ConfirmMessage(message);
             isSearch = false;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
 
         protected void BtnCancelConfirmItem_Click(object sender, ImageClickEventArgs e)
@@ -233,7 +209,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             message.MessageId = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
             messageBL.UnconfirmMessage(message);
             isSearch = false;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
         #endregion
 
@@ -242,7 +218,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
         #endregion
     }
