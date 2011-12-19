@@ -274,7 +274,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         #region Button event handlers
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
-        {
+        {            
             #region Add Info 2 Session
             Configuration_Year year = null;
             Category_Faculty faculty = null;
@@ -332,7 +332,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
-
+        
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             MainDataPager.CurrentIndex = 1;

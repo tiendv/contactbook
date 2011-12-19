@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://vikasrana.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://vikasrana.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://vikasrana.com/">
+      <s:element name="EmailValidator">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EmailValidatorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="EmailValidatorResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResizeImage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="originalFile" type="tns:Stream" />
+            <s:element minOccurs="1" maxOccurs="1" name="width" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="height" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Stream" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MarshalByRefObject">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:long" />
+              <s:element minOccurs="1" maxOccurs="1" name="ReadTimeout" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="WriteTimeout" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="MarshalByRefObject" abstract="true" />
+      <s:complexType name="Image" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:MarshalByRefObject">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Tag" />
+              <s:element minOccurs="0" maxOccurs="1" name="Palette" type="tns:ColorPalette" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ColorPalette" />
+      <s:complexType name="Bitmap">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Image" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="ResizeImageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ResizeImageResult" type="tns:Bitmap" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WebPageToString">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WebPageToStringResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WebPageToStringResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EmailValidatorSoapIn">
+    <wsdl:part name="parameters" element="tns:EmailValidator" />
+  </wsdl:message>
+  <wsdl:message name="EmailValidatorSoapOut">
+    <wsdl:part name="parameters" element="tns:EmailValidatorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResizeImageSoapIn">
+    <wsdl:part name="parameters" element="tns:ResizeImage" />
+  </wsdl:message>
+  <wsdl:message name="ResizeImageSoapOut">
+    <wsdl:part name="parameters" element="tns:ResizeImageResponse" />
+  </wsdl:message>
+  <wsdl:message name="WebPageToStringSoapIn">
+    <wsdl:part name="parameters" element="tns:WebPageToString" />
+  </wsdl:message>
+  <wsdl:message name="WebPageToStringSoapOut">
+    <wsdl:part name="parameters" element="tns:WebPageToStringResponse" />
+  </wsdl:message>
+  <wsdl:message name="EmailValidatorHttpGetIn">
+    <wsdl:part name="email" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="EmailValidatorHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="WebPageToStringHttpGetIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WebPageToStringHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="EmailValidatorHttpPostIn">
+    <wsdl:part name="email" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="EmailValidatorHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="WebPageToStringHttpPostIn">
+    <wsdl:part name="url" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="WebPageToStringHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="SoapSoap">
+    <wsdl:operation name="EmailValidator">
+      <wsdl:input message="tns:EmailValidatorSoapIn" />
+      <wsdl:output message="tns:EmailValidatorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResizeImage">
+      <wsdl:input message="tns:ResizeImageSoapIn" />
+      <wsdl:output message="tns:ResizeImageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <wsdl:input message="tns:WebPageToStringSoapIn" />
+      <wsdl:output message="tns:WebPageToStringSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SoapHttpGet">
+    <wsdl:operation name="EmailValidator">
+      <wsdl:input message="tns:EmailValidatorHttpGetIn" />
+      <wsdl:output message="tns:EmailValidatorHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <wsdl:input message="tns:WebPageToStringHttpGetIn" />
+      <wsdl:output message="tns:WebPageToStringHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SoapHttpPost">
+    <wsdl:operation name="EmailValidator">
+      <wsdl:input message="tns:EmailValidatorHttpPostIn" />
+      <wsdl:output message="tns:EmailValidatorHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <wsdl:input message="tns:WebPageToStringHttpPostIn" />
+      <wsdl:output message="tns:WebPageToStringHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SoapSoap" type="tns:SoapSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EmailValidator">
+      <soap:operation soapAction="http://vikasrana.com/EmailValidator" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResizeImage">
+      <soap:operation soapAction="http://vikasrana.com/ResizeImage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <soap:operation soapAction="http://vikasrana.com/WebPageToString" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SoapSoap12" type="tns:SoapSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EmailValidator">
+      <soap12:operation soapAction="http://vikasrana.com/EmailValidator" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResizeImage">
+      <soap12:operation soapAction="http://vikasrana.com/ResizeImage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <soap12:operation soapAction="http://vikasrana.com/WebPageToString" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SoapHttpGet" type="tns:SoapHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="EmailValidator">
+      <http:operation location="/EmailValidator" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <http:operation location="/WebPageToString" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SoapHttpPost" type="tns:SoapHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="EmailValidator">
+      <http:operation location="/EmailValidator" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WebPageToString">
+      <http:operation location="/WebPageToString" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Soap">
+    <wsdl:port name="SoapSoap" binding="tns:SoapSoap">
+      <soap:address location="http://wcf.vikasrana.com/Soap.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SoapSoap12" binding="tns:SoapSoap12">
+      <soap12:address location="http://wcf.vikasrana.com/Soap.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SoapHttpGet" binding="tns:SoapHttpGet">
+      <http:address location="http://wcf.vikasrana.com/Soap.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SoapHttpPost" binding="tns:SoapHttpPost">
+      <http:address location="http://wcf.vikasrana.com/Soap.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
