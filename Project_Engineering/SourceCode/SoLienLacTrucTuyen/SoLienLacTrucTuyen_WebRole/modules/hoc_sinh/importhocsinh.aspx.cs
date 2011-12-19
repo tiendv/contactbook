@@ -74,7 +74,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 response.ClearContent();
                 response.ClearHeaders();
                 response.Buffer = true;
-                response.AddHeader("Content-Disposition", strURL);
+                response.AddHeader("Content-Disposition", "attachment;filename=\"" + Server.MapPath(strURL) + "\"");
                 byte[] data = req.DownloadData(Server.MapPath(strURL));
                 response.BinaryWrite(data);
                 response.End();

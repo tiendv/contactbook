@@ -7,6 +7,8 @@ using SoLienLacTrucTuyen.BusinessEntity;
 using System.Net;
 using System.Net.Mail;
 using System.IO;
+using System.Net.Sockets;
+using System.ServiceModel;
 
 
 namespace SoLienLacTrucTuyen.BusinessLogic
@@ -133,6 +135,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 return "Khong the send mail";
             }
             return string.Empty;
+        }
+        public static bool CheckEmailExist(string strEmail)
+        {          
+            var myBinding = new BasicHttpBinding();
+            myBinding.Security.Mode = BasicHttpSecurityMode.None;
+            var myEndpointAddress = new EndpointAddress("http://wcf.vikasrana.com/Soap.asmx");
+            ServiceEmail.SoapSoapClient obj = new ServiceEmail.SoapSoapClient(myBinding, myEndpointAddress);
+            return obj.EmailValidator(strEmail);
         }
     }
 }
