@@ -7,8 +7,11 @@ using SoLienLacTrucTuyen.BusinessEntity;
 using System.Net;
 using System.Net.Mail;
 using System.IO;
+using System.Data.OleDb;
 using System.Net.Sockets;
 using System.ServiceModel;
+using System.Web;
+using System.Data;
 
 
 namespace SoLienLacTrucTuyen.BusinessLogic
@@ -144,5 +147,55 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             ServiceEmail.SoapSoapClient obj = new ServiceEmail.SoapSoapClient(myBinding, myEndpointAddress);
             return obj.EmailValidator(strEmail);
         }
+        public static string SendGmailWithTemplate(string from, string to, string subject, List<DailySchedule> tabularDailySchedule, string id, string pass)
+        {
+            StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("template/schedule.html"));
+            sr = File.OpenText(HttpContext.Current.Server.MapPath("template/schedule.html"));
+            string content = sr.ReadToEnd();
+            //content = content.Replace("[Sender]", TextBoxName.Text.Trim());
+            //content = content.Replace("[Email]", TextBoxEmail.Text);
+            //content = content.Replace("[Content]", TextBoxContent.Text);
+            //content = content.Replace("[DateTime]", DateTime.Now.ToShortDateString());
+            int _count,_countafter;
+            for (int i = 0; i < tabularDailySchedule.Count; i++)
+            {
+                _count = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count;
+                _countafter = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count;
+                // Morning
+                for (int j = 0; j < 5; j++)
+                {
+                    // Morning
+                    string strCell = "[T" + (tabularDailySchedule[i].DayInWeekId + 1).ToString() + (j+1).ToString() + "]";
+                    if (j < tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count)
+                    {                        
+                        content = content.Replace(strCell, tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName);
+                    }
+                    else
+                    {
+                        content = content.Replace(strCell, "(Nghỉ)");
+                    }
+                    // Afternoon
+                    strCell = "[T" + (tabularDailySchedule[i].DayInWeekId + 1).ToString() + (j+5+1).ToString() + "]";
+                    if (j < tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count)
+                    {
+                        content = content.Replace(strCell, tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName);
+                    }
+                    else
+                    {
+                        content = content.Replace(strCell, "(Nghỉ)");
+                    }                    
+                }
+            }
+            try
+            {
+                SendByGmail(from, to, subject, content, id, pass);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return string.Empty;
+        }
+
     }
 }

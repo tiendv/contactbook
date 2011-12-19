@@ -149,10 +149,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
-            BindRptSchedule();
+            BindRptSchedule();            
         }
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
-        {
+        {            
             #region Add Info 2 Session
 
             Configuration_Year year = null;
@@ -232,6 +232,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 this.RptMonHocTKB.Visible = false;
                 return;
             }
+
+            #region Test Send Mail Template
+            SoLienLacTrucTuyen.BusinessLogic.MailBL.SendGmailWithTemplate("econtactcloud@gmail.com", "duyna1989@gmail.com", "TestMail", dailySchedules, "econtactcloud", "1qazxsw@");
+            #endregion
 
             RptMonHocTKB.DataSource = dailySchedules;
             RptMonHocTKB.DataBind();
