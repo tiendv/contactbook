@@ -1,0 +1,797 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A907327E-75C6-4C6D-93D8-F908A5B717CA}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SoLienLacTrucTuyen_WebRole</RootNamespace>
+    <AssemblyName>SoLienLacTrucTuyen_WebRole</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Contacts.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=4.1.50401.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics" />
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime" />
+    <Reference Include="Microsoft.WindowsAzure.StorageClient" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Account\ChangePassword.aspx" />
+    <Content Include="Account\ChangePasswordSuccess.aspx" />
+    <Content Include="Account\PhucHoiMatKhau.aspx" />
+    <Content Include="Account\Register.aspx" />
+    <Content Include="App_Themes\Images\menu_child_pane.png" />
+    <Content Include="Contacts.ico" />
+    <Content Include="modules\danh_muc\danhmucdanhhieu.aspx" />
+    <Content Include="modules\danh_muc\danhmuctiet.aspx" />
+    <Content Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx" />
+    <Content Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx" />
+    <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
+    <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\hoc_sinh\hoatdong.aspx" />
+    <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
+    <Content Include="modules\hoc_sinh\HocSinhServicePage.aspx" />
+    <Content Include="modules\hoc_sinh\ketquahoctap.aspx" />
+    <Content Include="modules\hoc_sinh\ngaynghihoc.aspx" />
+    <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
+    <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
+    <Content Include="modules\loi_nhan\loinhankhan.aspx" />
+    <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
+    <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
+    <Content Include="modules\danh_muc\DanhMucServicePage.aspx" />
+    <Content Include="modules\lop_hoc\suagiaovienchunhiem.aspx" />
+    <Content Include="modules\lop_hoc\suatietthoikhoabieu.aspx" />
+    <Content Include="modules\lop_hoc\thoikhoabieu.aspx" />
+    <Content Include="modules\nguoi_dung\danhsachnguoidung.aspx" />
+    <Content Include="modules\nguoi_dung\nguoidung.aspx" />
+    <Content Include="modules\nguoi_dung\NguoiDungServicePage.aspx" />
+    <Content Include="modules\nguoi_dung\nhomnguoidung.aspx" />
+    <Content Include="modules\nguoi_dung\themnguoidung.aspx" />
+    <Content Include="modules\Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="modules\Scripts\jquery-1.4.1.js" />
+    <Content Include="modules\Scripts\jquery-1.4.1.min.js" />
+    <Content Include="modules\lop_hoc\danhsachlop.aspx" />
+    <Content Include="modules\danh_muc\danhmucloaidiem.aspx" />
+    <Content Include="modules\danh_muc\danhmucthaidothamgia.aspx" />
+    <Content Include="modules\danh_muc\danhmuchocluc.aspx" />
+    <Content Include="modules\danh_muc\danhmuchanhkiem.aspx" />
+    <Content Include="modules\Trang_Chu\TrangChu.aspx" />
+    <Content Include="modules\danh_muc\danhmucmonhoc.aspx" />
+    <Content Include="modules\lop_hoc\giaovienchunhiem.aspx" />
+    <Content Include="modules\lop_hoc\thongbaolop.aspx" />
+    <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
+    <Content Include="modules\hoc_sinh\themhocsinh.aspx" />
+    <Content Include="Account\DangNhap.aspx" />
+    <Content Include="modules\ErrorPage\errorpage.aspx" />
+    <Content Include="modules\nguoi_dung\phanquyen.aspx" />
+    <Content Include="modules\ErrorPage\AccessDenied.aspx" />
+    <Content Include="Account\DoiMatKhau.aspx" />
+    <Content Include="modules\nguoi_dung\chitietnguoidung.aspx" />
+    <Content Include="modules\nguoi_dung\suanguoidung.aspx" />
+    <Content Include="modules\danh_muc\danhmuc.aspx" />
+    <Content Include="modules\lop_hoc\quanlilophoc.aspx" />
+    <Content Include="modules\lop_hoc\chitietlophoc.aspx" />
+    <Content Include="modules\danh_muc\giao_vien\danhsachgiaovien.aspx" />
+    <Content Include="modules\lop_hoc\themgiaovienchunhiem.aspx" />
+    <Content Include="modules\lop_hoc\suathoikhoabieu.aspx" />
+    <Content Include="modules\lop_hoc\themtietthoikhoabieu.aspx" />
+    <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
+    <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
+    <Content Include="modules\ContentPage.aspx" />
+    <Content Include="modules\danh_muc\themdanhhieu.aspx" />
+    <Content Include="modules\y_kien\chitietykien.aspx" />
+    <Content Include="modules\y_kien\ykien.aspx" />
+    <Content Include="Scripts\GlobalScript.js" />
+    <Content Include="Scripts\JQRepeater-2.0.js" />
+    <Content Include="Scripts\jquery-ui-1.8.14.custom.min.js" />
+    <Content Include="Styles\button_edit_disable.png" />
+    <Content Include="Styles\Icons\icon-warning.png" />
+    <Content Include="Styles\Icons\icon_add.png" />
+    <Content Include="Styles\Icons\icon_add_disabled.png" />
+    <Content Include="Styles\Icons\icon_delete_disabled.png" />
+    <Content Include="Styles\Icons\icon_edit.png" />
+    <Content Include="Styles\Icons\icon_edit_disabled.png" />
+    <Content Include="Styles\Images\avatar.png" />
+    <Content Include="Styles\Images\background.png" />
+    <Content Include="Styles\Images\button.png" />
+    <Content Include="Styles\Images\button_add.png" />
+    <Content Include="Styles\Images\button_add_with_text.png" />
+    <Content Include="Styles\Images\button_add_with_text_disable.png" />
+    <Content Include="Styles\Images\button_back.png" />
+    <Content Include="Styles\Images\button_back_text.png" />
+    <Content Include="Styles\Images\button_browse.png" />
+    <Content Include="Styles\Images\button_cancel.png" />
+    <Content Include="Styles\Images\button_close.png" />
+    <Content Include="Styles\Images\button_complete.png" />
+    <Content Include="Styles\Images\button_confirm.png" />
+    <Content Include="Styles\Images\button_confirm_disable.png" />
+    <Content Include="Styles\Images\button_confirm_with_text.png" />
+    <Content Include="Styles\Images\button_delete.png" />
+    <Content Include="Styles\Images\button_delete_disable.png" />
+    <Content Include="Styles\Images\button_edit.png" />
+    <Content Include="Styles\Images\button_edit_with_text.png" />
+    <Content Include="Styles\Images\button_login.png" />
+    <Content Include="Styles\Images\button_next.png" />
+    <Content Include="Styles\Images\button_next_step.png" />
+    <Content Include="Styles\Images\button_no.png" />
+    <Content Include="Styles\Images\button_prev_step.png" />
+    <Content Include="Styles\Images\button_save.png" />
+    <Content Include="Styles\Images\button_save_disable.png" />
+    <Content Include="Styles\Images\button_search.png" />
+    <Content Include="Styles\Images\button_search_with_text.png" />
+    <Content Include="Styles\Images\button_yes.png" />
+    <Content Include="Styles\Images\calendar.png" />
+    <Content Include="Styles\Images\confirm_icon.gif" />
+    <Content Include="Styles\Images\first_page.png" />
+    <Content Include="Styles\Images\go_top.png" />
+    <Content Include="Styles\Images\header_background.png" />
+    <Content Include="Styles\Images\inprogress.gif" />
+    <Content Include="Styles\Images\last_page.png" />
+    <Content Include="Styles\Images\menu_child_pane.png" />
+    <Content Include="Styles\Images\menu_child_separator.png" />
+    <Content Include="Styles\Images\menu_parent_highlight.png" />
+    <Content Include="Styles\Images\menu_parent_pane.png" />
+    <Content Include="Styles\Images\MouseHover\button_add_with_text.png" />
+    <Content Include="Styles\Images\MouseHover\button_cancel.png" />
+    <Content Include="Styles\Images\MouseHover\button_complete.png" />
+    <Content Include="Styles\Images\MouseHover\button_delete.png" />
+    <Content Include="Styles\Images\MouseHover\button_edit.png" />
+    <Content Include="Styles\Images\MouseHover\button_login.png" />
+    <Content Include="Styles\Images\MouseHover\button_next_step.png" />
+    <Content Include="Styles\Images\MouseHover\button_no.png" />
+    <Content Include="Styles\Images\MouseHover\button_prev_step.png" />
+    <Content Include="Styles\Images\MouseHover\button_save.png" />
+    <Content Include="Styles\Images\MouseHover\button_search_with_text.png" />
+    <Content Include="Styles\Images\MouseHover\button_yes.png" />
+    <Content Include="Styles\Images\MouseHover\popup_button_close.png" />
+    <Content Include="Styles\Images\next_page.png" />
+    <Content Include="Styles\Images\popup_button_close.png" />
+    <Content Include="Styles\Images\popup_header_background.png" />
+    <Content Include="Styles\Images\prev_page.png" />
+    <Content Include="Styles\Images\table_footer_left.png" />
+    <Content Include="Styles\Images\table_footer_middle.png" />
+    <Content Include="Styles\Images\table_footer_right.png" />
+    <Content Include="Styles\Images\table_header_left.png" />
+    <Content Include="Styles\Images\table_header_left_2.png" />
+    <Content Include="Styles\Images\table_header_middle.png" />
+    <Content Include="Styles\Images\table_header_right.png" />
+    <Content Include="Styles\Images\title_pane.png" />
+    <Content Include="Styles\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Styles\SSDataTable.css" />
+    <Content Include="Styles\SSImageButton.css" />
+    <Content Include="Styles\SSPopup.css" />
+    <Content Include="Styles\StyleSheet1.css" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Styles\ui-lightness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Styles\ui-lightness\jquery-ui-1.8.14.custom.css" />
+    <Content Include="UserControls\Popup.ascx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="modules\danh_muc\danhmucnganhhoc.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\ChangePasswordSuccess.aspx.cs">
+      <DependentUpon>ChangePasswordSuccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\ChangePasswordSuccess.aspx.designer.cs">
+      <DependentUpon>ChangePasswordSuccess.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\PhucHoiMatKhau.aspx.cs">
+      <DependentUpon>PhucHoiMatKhau.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\PhucHoiMatKhau.aspx.designer.cs">
+      <DependentUpon>PhucHoiMatKhau.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\MainResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MainResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="modules\AppConstant.cs" />
+    <Compile Include="modules\danh_muc\danhmucdanhhieu.aspx.cs">
+      <DependentUpon>danhmucdanhhieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucdanhhieu.aspx.designer.cs">
+      <DependentUpon>danhmucdanhhieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuctiet.aspx.cs">
+      <DependentUpon>danhmuctiet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuctiet.aspx.designer.cs">
+      <DependentUpon>danhmuctiet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx.cs">
+      <DependentUpon>chitietgiaovien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx.designer.cs">
+      <DependentUpon>chitietgiaovien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx.cs">
+      <DependentUpon>GiaoVienServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx.designer.cs">
+      <DependentUpon>GiaoVienServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\suagiaovien.aspx.cs">
+      <DependentUpon>suagiaovien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\suagiaovien.aspx.designer.cs">
+      <DependentUpon>suagiaovien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ds\dsReport.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsReport.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ErrorPage\pagenotfound.aspx.cs">
+      <DependentUpon>pagenotfound.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\ErrorPage\pagenotfound.aspx.designer.cs">
+      <DependentUpon>pagenotfound.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\hoatdong.aspx.cs">
+      <DependentUpon>hoatdong.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\hoatdong.aspx.designer.cs">
+      <DependentUpon>hoatdong.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\HocSinhWebService.asmx.cs">
+      <DependentUpon>HocSinhWebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\HocSinhServicePage.aspx.cs">
+      <DependentUpon>HocSinhServicePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\HocSinhServicePage.aspx.designer.cs">
+      <DependentUpon>HocSinhServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\ketquahoctap.aspx.cs">
+      <DependentUpon>ketquahoctap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\ketquahoctap.aspx.designer.cs">
+      <DependentUpon>ketquahoctap.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\ngaynghihoc.aspx.cs">
+      <DependentUpon>ngaynghihoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\ngaynghihoc.aspx.designer.cs">
+      <DependentUpon>ngaynghihoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\suahocsinh.aspx.cs">
+      <DependentUpon>suahocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\suahocsinh.aspx.designer.cs">
+      <DependentUpon>suahocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\thongtincanhan.aspx.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\thongtincanhan.aspx.designer.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\loi_nhan\loinhankhan.aspx.cs">
+      <DependentUpon>loinhankhan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\loi_nhan\loinhankhan.aspx.designer.cs">
+      <DependentUpon>loinhankhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\LopHocServicePage.aspx.cs">
+      <DependentUpon>LopHocServicePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\LopHocServicePage.aspx.designer.cs">
+      <DependentUpon>LopHocServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuckhoilop.aspx.cs">
+      <DependentUpon>danhmuckhoilop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuckhoilop.aspx.designer.cs">
+      <DependentUpon>danhmuckhoilop.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\DanhMucServicePage.aspx.cs">
+      <DependentUpon>DanhMucServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\DanhMucServicePage.aspx.designer.cs">
+      <DependentUpon>DanhMucServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\danhsachlop.aspx.cs">
+      <DependentUpon>danhsachlop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\danhsachlop.aspx.designer.cs">
+      <DependentUpon>danhsachlop.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucloaidiem.aspx.cs">
+      <DependentUpon>danhmucloaidiem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucloaidiem.aspx.designer.cs">
+      <DependentUpon>danhmucloaidiem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucthaidothamgia.aspx.cs">
+      <DependentUpon>danhmucthaidothamgia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucthaidothamgia.aspx.designer.cs">
+      <DependentUpon>danhmucthaidothamgia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuchocluc.aspx.cs">
+      <DependentUpon>danhmuchocluc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuchocluc.aspx.designer.cs">
+      <DependentUpon>danhmuchocluc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuchanhkiem.aspx.cs">
+      <DependentUpon>danhmuchanhkiem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuchanhkiem.aspx.designer.cs">
+      <DependentUpon>danhmuchanhkiem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suagiaovienchunhiem.aspx.cs">
+      <DependentUpon>suagiaovienchunhiem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suagiaovienchunhiem.aspx.designer.cs">
+      <DependentUpon>suagiaovienchunhiem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suatietthoikhoabieu.aspx.cs">
+      <DependentUpon>suatietthoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suatietthoikhoabieu.aspx.designer.cs">
+      <DependentUpon>suatietthoikhoabieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\thoikhoabieu.aspx.cs">
+      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\thoikhoabieu.aspx.designer.cs">
+      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\danhsachnguoidung.aspx.cs">
+      <DependentUpon>danhsachnguoidung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\danhsachnguoidung.aspx.designer.cs">
+      <DependentUpon>danhsachnguoidung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\nguoidung.aspx.cs">
+      <DependentUpon>nguoidung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\nguoidung.aspx.designer.cs">
+      <DependentUpon>nguoidung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\NguoiDungServicePage.aspx.cs">
+      <DependentUpon>NguoiDungServicePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\NguoiDungServicePage.aspx.designer.cs">
+      <DependentUpon>NguoiDungServicePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\nhomnguoidung.aspx.cs">
+      <DependentUpon>nhomnguoidung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\nhomnguoidung.aspx.designer.cs">
+      <DependentUpon>nhomnguoidung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\themnguoidung.aspx.cs">
+      <DependentUpon>themnguoidung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\themnguoidung.aspx.designer.cs">
+      <DependentUpon>themnguoidung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\report\Rpt_Student.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Rpt_Student.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="modules\Trang_Chu\TrangChu.aspx.cs">
+      <DependentUpon>TrangChu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\Trang_Chu\TrangChu.aspx.designer.cs">
+      <DependentUpon>TrangChu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucmonhoc.aspx.cs">
+      <DependentUpon>danhmucmonhoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucmonhoc.aspx.designer.cs">
+      <DependentUpon>danhmucmonhoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\giaovienchunhiem.aspx.cs">
+      <DependentUpon>giaovienchunhiem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\giaovienchunhiem.aspx.designer.cs">
+      <DependentUpon>giaovienchunhiem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\thongbaolop.aspx.cs">
+      <DependentUpon>thongbaolop.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\thongbaolop.aspx.designer.cs">
+      <DependentUpon>thongbaolop.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.cs">
+      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.designer.cs">
+      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\themhocsinh.aspx.cs">
+      <DependentUpon>themhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\themhocsinh.aspx.designer.cs">
+      <DependentUpon>themhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\DangNhap.aspx.cs">
+      <DependentUpon>DangNhap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\DangNhap.aspx.designer.cs">
+      <DependentUpon>DangNhap.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ErrorPage\errorpage.aspx.cs">
+      <DependentUpon>errorpage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\ErrorPage\errorpage.aspx.designer.cs">
+      <DependentUpon>errorpage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\phanquyen.aspx.cs">
+      <DependentUpon>phanquyen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\phanquyen.aspx.designer.cs">
+      <DependentUpon>phanquyen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ErrorPage\AccessDenied.aspx.cs">
+      <DependentUpon>AccessDenied.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\ErrorPage\AccessDenied.aspx.designer.cs">
+      <DependentUpon>AccessDenied.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\DoiMatKhau.aspx.cs">
+      <DependentUpon>DoiMatKhau.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\DoiMatKhau.aspx.designer.cs">
+      <DependentUpon>DoiMatKhau.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\chitietnguoidung.aspx.cs">
+      <DependentUpon>chitietnguoidung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\chitietnguoidung.aspx.designer.cs">
+      <DependentUpon>chitietnguoidung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\suanguoidung.aspx.cs">
+      <DependentUpon>suanguoidung.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\nguoi_dung\suanguoidung.aspx.designer.cs">
+      <DependentUpon>suanguoidung.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuc.aspx.cs">
+      <DependentUpon>danhmuc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmuc.aspx.designer.cs">
+      <DependentUpon>danhmuc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\quanlilophoc.aspx.cs">
+      <DependentUpon>quanlilophoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\quanlilophoc.aspx.designer.cs">
+      <DependentUpon>quanlilophoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\chitietlophoc.aspx.cs">
+      <DependentUpon>chitietlophoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\chitietlophoc.aspx.designer.cs">
+      <DependentUpon>chitietlophoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\danhsachgiaovien.aspx.cs">
+      <DependentUpon>danhsachgiaovien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\danhsachgiaovien.aspx.designer.cs">
+      <DependentUpon>danhsachgiaovien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\themgiaovienchunhiem.aspx.cs">
+      <DependentUpon>themgiaovienchunhiem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\themgiaovienchunhiem.aspx.designer.cs">
+      <DependentUpon>themgiaovienchunhiem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.cs">
+      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.designer.cs">
+      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\themtietthoikhoabieu.aspx.cs">
+      <DependentUpon>themtietthoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\themtietthoikhoabieu.aspx.designer.cs">
+      <DependentUpon>themtietthoikhoabieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
+      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.designer.cs">
+      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\hanhkiemhocsinh.aspx.cs">
+      <DependentUpon>hanhkiemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\hanhkiemhocsinh.aspx.designer.cs">
+      <DependentUpon>hanhkiemhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\ContentPage.aspx.cs">
+      <DependentUpon>ContentPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\themdanhhieu.aspx.cs">
+      <DependentUpon>themdanhhieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\themdanhhieu.aspx.designer.cs">
+      <DependentUpon>themdanhhieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\y_kien\chitietykien.aspx.designer.cs">
+      <DependentUpon>chitietykien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\y_kien\chitietykien.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\y_kien\ykien.aspx.cs">
+      <DependentUpon>ykien.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\y_kien\ykien.aspx.designer.cs">
+      <DependentUpon>ykien.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="modules\Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucnganhhoc.aspx.cs">
+      <DependentUpon>danhmucnganhhoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucnganhhoc.aspx.designer.cs">
+      <DependentUpon>danhmucnganhhoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SortablePaginationRepeater.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="UserControls\Popup.ascx.cs">
+      <DependentUpon>Popup.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\Popup.ascx.designer.cs">
+      <DependentUpon>Popup.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebRole.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="modules\cau_hinh\" />
+    <Folder Include="modules\report\aspx\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Account\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="modules\Site.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Themes\Theme1\Skin1.skin" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessEntity\SoLienLacTrucTuyen.BusinessEntity.csproj">
+      <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
+      <Name>SoLienLacTrucTuyen.BusinessEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\SoLienLacTrucTuyen.DataAccess.csproj">
+      <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
+      <Name>SoLienLacTrucTuyen.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataPager\SoLienLacTrucTuyen.DataPager.csproj">
+      <Project>{59AF6AAF-1294-492A-AA48-3E2B9EB9E12A}</Project>
+      <Name>SoLienLacTrucTuyen.DataPager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoLienLacTrucTuyen.BusinessLogic\SoLienLacTrucTuyen.BusinessLogic.csproj">
+      <Project>{136FB4E4-9479-4416-A5C4-A8361AEC26C7}</Project>
+      <Name>SoLienLacTrucTuyen.BusinessLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\MainResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>MainResource.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="App_GlobalResources\AccountResource.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="modules\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modules\ds\dsReport.xsc">
+      <DependentUpon>dsReport.xsd</DependentUpon>
+    </None>
+    <None Include="modules\ds\dsReport.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsReport.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="modules\ds\dsReport.xss">
+      <DependentUpon>dsReport.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="modules\report\Rpt_Student.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Rpt_Student.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>6341</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -24,6 +24,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             //base.Page_Load(sender, e);
+            lbError.Text = string.Empty;
             UserSchool = (School_School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);
             RoleBL roleBL = new RoleBL(UserSchool);
@@ -103,7 +104,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 da.Fill(ds);
             }
             // Validate data : follow this task
+            for (int i = 1; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows[i][0].ToString() == string.Empty
+                    || ds.Tables[0].Rows[i][1].ToString() == string.Empty)
+                {
+                    lbError.Text = "Mã số học sinh và tên học sinh ko được để trống !";
+                    return;
+                }
+                else if (ds.Tables[0].Rows[i][3].ToString() == string.Empty)
+                {
+                    lbError.Text = "Ngày sinh của học sinh "+ ds.Tables[0].Rows[i][0].ToString()+" không được để trống !";
+                    return;                
+                }
+                try
+                {
+                    DateTime.Parse(ds.Tables[0].Rows[i][3].ToString());
+                    if (ds.Tables[0].Rows[i][9].ToString() != string.Empty)
+                        DateTime.Parse(ds.Tables[0].Rows[i][8].ToString());
+                    if (ds.Tables[0].Rows[i][12].ToString() != string.Empty)
+                        DateTime.Parse(ds.Tables[0].Rows[i][11].ToString());
+                    if (ds.Tables[0].Rows[i][15].ToString() != string.Empty)
+                        DateTime.Parse(ds.Tables[0].Rows[i][14].ToString());
+                }
+                catch (Exception ex)
+                {
+                    lbError.Text = "Dữ liệu ngày tháng của học sinh "+ds.Tables[0].Rows[i][0].ToString()+" không đúng định dạng";
+                    return;
+                }
+            }
             // Insert Data
+            #region
             // Thu tu cac cot trong excel           
             // 0.[StudentCode]
             // 1.[FullName]            
@@ -121,7 +152,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // 13.[MotherJob]
             // 14.[PatronName]
             // 15.[PatronBirthday]
-            // 16.[PatronJob]            
+            // 16.[PatronJob]      
+            #endregion
             Class_Class Class = new Class_Class();
             Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
