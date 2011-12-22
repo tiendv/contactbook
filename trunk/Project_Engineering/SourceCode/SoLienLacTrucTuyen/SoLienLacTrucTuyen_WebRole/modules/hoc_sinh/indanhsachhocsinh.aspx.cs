@@ -286,7 +286,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         dtSource.Columns.Add("GradeName", Type.GetType("System.String"));
                         dtSource.Columns.Add("StudentCode", Type.GetType("System.String"));
                         dtSource.Columns.Add("StudentId", Type.GetType("System.Int32"));
-                        dtSource.Columns.Add("Year", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Gender", Type.GetType("System.String"));
+                        dtSource.Columns.Add("DayOfBirth", Type.GetType("System.String"));
                         for (int i = 0; i < tabularStudents.Count; i++)
                         {
                             DataRow dr = dtSource.NewRow();
@@ -297,7 +298,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             dr["GradeName"] = tabularStudents[i].GradeName;
                             dr["StudentCode"] = tabularStudents[i].StudentCode;
                             dr["StudentId"] = tabularStudents[i].StudentId;
-                            dr["Year"] = year.YearName;
+                            dr["Gender"] = tabularStudents[i].Gender;
+                            dr["DayOfBirth"] = tabularStudents[i].DayOfBirth;
                             dtSource.Rows.Add(dr);
                         }
                         ds.Tables.Add(dtSource);

@@ -4,7 +4,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript">
-<%--        <script type="text/javascript">
+        <%--        <script type="text/javascript">
             $(document).ready(function () {
                 $('#<%=BtnSave.ClientID%>').click(function (event) {
                     var hotenBo = $.trim($('#<%=TxtHoTenBo.ClientID%>').val());
@@ -82,6 +82,7 @@
        </asp:FileUpload>                  
     <br />
     <br />
+    <asp:Label ID="lbError" runat="server" ForeColor="Red" Text="Label"></asp:Label>
     <br />
     <div style="width: 170px; margin: 0px auto 0px auto;">
         <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/Images/button_save.png"
