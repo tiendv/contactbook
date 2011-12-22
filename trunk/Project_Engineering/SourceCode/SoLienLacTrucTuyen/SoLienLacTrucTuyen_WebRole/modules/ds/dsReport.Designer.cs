@@ -398,7 +398,9 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             private global::System.Data.DataColumn columnStudentId;
             
-            private global::System.Data.DataColumn columnDataColumn1;
+            private global::System.Data.DataColumn columnGender;
+            
+            private global::System.Data.DataColumn columnDayOfBirth;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -491,9 +493,17 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DataColumn1Column {
+            public global::System.Data.DataColumn GenderColumn {
                 get {
-                    return this.columnDataColumn1;
+                    return this.columnGender;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DayOfBirthColumn {
+                get {
+                    return this.columnDayOfBirth;
                 }
             }
             
@@ -534,7 +544,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dsHocSinhRow AdddsHocSinhRow(int ClassId, string ClassName, string FacultyName, string FullName, string GradeName, string StudentCode, int StudentId, string DataColumn1) {
+            public dsHocSinhRow AdddsHocSinhRow(int ClassId, string ClassName, string FacultyName, string FullName, string GradeName, string StudentCode, int StudentId, string Gender, string DayOfBirth) {
                 dsHocSinhRow rowdsHocSinhRow = ((dsHocSinhRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ClassId,
@@ -544,7 +554,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                         GradeName,
                         StudentCode,
                         StudentId,
-                        DataColumn1};
+                        Gender,
+                        DayOfBirth};
                 rowdsHocSinhRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdsHocSinhRow);
                 return rowdsHocSinhRow;
@@ -574,7 +585,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 this.columnGradeName = base.Columns["GradeName"];
                 this.columnStudentCode = base.Columns["StudentCode"];
                 this.columnStudentId = base.Columns["StudentId"];
-                this.columnDataColumn1 = base.Columns["DataColumn1"];
+                this.columnGender = base.Columns["Gender"];
+                this.columnDayOfBirth = base.Columns["DayOfBirth"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -594,8 +606,10 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 base.Columns.Add(this.columnStudentCode);
                 this.columnStudentId = new global::System.Data.DataColumn("StudentId", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnStudentId);
-                this.columnDataColumn1 = new global::System.Data.DataColumn("DataColumn1", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDataColumn1);
+                this.columnGender = new global::System.Data.DataColumn("Gender", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnGender);
+                this.columnDayOfBirth = new global::System.Data.DataColumn("DayOfBirth", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDayOfBirth);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1801,17 +1815,33 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string DataColumn1 {
+            public string Gender {
                 get {
                     try {
-                        return ((string)(this[this.tabledsHocSinh.DataColumn1Column]));
+                        return ((string)(this[this.tabledsHocSinh.GenderColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DataColumn1\' in table \'dsHocSinh\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Gender\' in table \'dsHocSinh\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tabledsHocSinh.DataColumn1Column] = value;
+                    this[this.tabledsHocSinh.GenderColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string DayOfBirth {
+                get {
+                    try {
+                        return ((string)(this[this.tabledsHocSinh.DayOfBirthColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DayOfBirth\' in table \'dsHocSinh\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledsHocSinh.DayOfBirthColumn] = value;
                 }
             }
             
@@ -1901,14 +1931,26 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDataColumn1Null() {
-                return this.IsNull(this.tabledsHocSinh.DataColumn1Column);
+            public bool IsGenderNull() {
+                return this.IsNull(this.tabledsHocSinh.GenderColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDataColumn1Null() {
-                this[this.tabledsHocSinh.DataColumn1Column] = global::System.Convert.DBNull;
+            public void SetGenderNull() {
+                this[this.tabledsHocSinh.GenderColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDayOfBirthNull() {
+                return this.IsNull(this.tabledsHocSinh.DayOfBirthColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDayOfBirthNull() {
+                this[this.tabledsHocSinh.DayOfBirthColumn] = global::System.Convert.DBNull;
             }
         }
         
