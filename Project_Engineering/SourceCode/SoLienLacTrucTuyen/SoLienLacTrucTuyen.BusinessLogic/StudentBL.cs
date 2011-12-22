@@ -265,6 +265,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
                 tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
                 tabularStudent.ClassId = studentInClass.ClassId;
+                tabularStudent.DayOfBirth = studentInClass.Student_Student.StudentBirthday.ToString("dd/MM/yyyy");
+                tabularStudent.Gender = studentInClass.Student_Student.Gender == true ? "Nam" : "Nữ";
 
                 tabularStudents.Add(tabularStudent);
             }

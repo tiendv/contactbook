@@ -103,8 +103,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 da.Fill(ds);
             }
-            // Validate data : follow this task
-            for (int i = 1; i < ds.Tables[0].Rows.Count; i++)
+            // Validate data : follow this task            
+            for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
             {
                 if (ds.Tables[0].Rows[i][0].ToString() == string.Empty
                     || ds.Tables[0].Rows[i][1].ToString() == string.Empty)
@@ -117,20 +117,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     lbError.Text = "Ngày sinh của học sinh "+ ds.Tables[0].Rows[i][0].ToString()+" không được để trống !";
                     return;                
                 }
+                else if ((ds.Tables[0].Rows[i][7].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][8].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][9].ToString() == string.Empty)
+                     && (ds.Tables[0].Rows[i][10].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][11].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][12].ToString() == string.Empty)
+                     && (ds.Tables[0].Rows[i][13].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][14].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][15].ToString() == string.Empty))
+                {
+                    lbError.Text = "Học sinh " + ds.Tables[0].Rows[i][0].ToString() + " phải có ít nhất thông tin đầy đủ của cha/mẹ hoặc người đỡ đầu !";
+                    return;                
+                }
                 try
                 {
                     DateTime.Parse(ds.Tables[0].Rows[i][3].ToString());
-                    if (ds.Tables[0].Rows[i][9].ToString() != string.Empty)
+                    if (ds.Tables[0].Rows[i][8].ToString() != string.Empty)
                         DateTime.Parse(ds.Tables[0].Rows[i][8].ToString());
-                    if (ds.Tables[0].Rows[i][12].ToString() != string.Empty)
+                    if (ds.Tables[0].Rows[i][11].ToString() != string.Empty)
                         DateTime.Parse(ds.Tables[0].Rows[i][11].ToString());
-                    if (ds.Tables[0].Rows[i][15].ToString() != string.Empty)
+                    if (ds.Tables[0].Rows[i][14].ToString() != string.Empty)
                         DateTime.Parse(ds.Tables[0].Rows[i][14].ToString());
                 }
                 catch (Exception ex)
                 {
                     lbError.Text = "Dữ liệu ngày tháng của học sinh "+ds.Tables[0].Rows[i][0].ToString()+" không đúng định dạng";
                     return;
+                }
+
+                DataRow[] dr = ds.Tables[0].Select(ds.Tables[0].Columns[0].ColumnName + "='" + ds.Tables[0].Rows[i][0].ToString() + "'");
+                if (dr.Length > 1)
+                {
+                    lbError.Text = "Mã số của các học sinh không được trùng nhau !";
+                    return;                
                 }
             }
             // Insert Data
@@ -157,7 +177,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Class_Class Class = new Class_Class();
             Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
-            for (int i = 1; i < ds.Tables[0].Rows.Count; i++)
+            for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
             {
                 if (ds.Tables[0].Rows[i][0].ToString() != string.Empty)
                 {
