@@ -22,7 +22,8 @@
               <xs:element name="GradeName" msprop:Generator_ColumnVarNameInTable="columnGradeName" msprop:Generator_ColumnPropNameInRow="GradeName" msprop:Generator_ColumnPropNameInTable="GradeNameColumn" msprop:Generator_UserColumnName="GradeName" type="xs:string" minOccurs="0" />
               <xs:element name="StudentCode" msprop:Generator_ColumnVarNameInTable="columnStudentCode" msprop:Generator_ColumnPropNameInRow="StudentCode" msprop:Generator_ColumnPropNameInTable="StudentCodeColumn" msprop:Generator_UserColumnName="StudentCode" type="xs:string" minOccurs="0" />
               <xs:element name="StudentId" msprop:Generator_ColumnVarNameInTable="columnStudentId" msprop:Generator_ColumnPropNameInRow="StudentId" msprop:Generator_ColumnPropNameInTable="StudentIdColumn" msprop:Generator_UserColumnName="StudentId" type="xs:int" minOccurs="0" />
-              <xs:element name="DataColumn1" msprop:Generator_ColumnVarNameInTable="columnDataColumn1" msprop:Generator_ColumnPropNameInRow="DataColumn1" msprop:Generator_ColumnPropNameInTable="DataColumn1Column" msprop:Generator_UserColumnName="DataColumn1" type="xs:string" minOccurs="0" />
+              <xs:element name="Gender" msprop:Generator_ColumnVarNameInTable="columnGender" msprop:Generator_ColumnPropNameInRow="Gender" msprop:Generator_ColumnPropNameInTable="GenderColumn" msprop:Generator_UserColumnName="Gender" type="xs:string" minOccurs="0" />
+              <xs:element name="DayOfBirth" msprop:Generator_ColumnVarNameInTable="columnDayOfBirth" msprop:Generator_ColumnPropNameInRow="DayOfBirth" msprop:Generator_ColumnPropNameInTable="DayOfBirthColumn" msprop:Generator_UserColumnName="DayOfBirth" type="xs:string" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
