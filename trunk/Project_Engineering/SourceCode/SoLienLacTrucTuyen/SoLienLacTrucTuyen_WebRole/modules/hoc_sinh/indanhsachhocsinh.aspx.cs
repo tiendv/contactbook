@@ -45,8 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             StudentBL studentBL = new StudentBL(UserSchool);
             TeacherBL teacherBL = new TeacherBL(UserSchool);
             ClassBL classBL = new ClassBL(UserSchool);
-            ScheduleBL schiduleBL = new ScheduleBL(UserSchool);
-            
+            ScheduleBL schiduleBL = new ScheduleBL(UserSchool);            
             double dTotalRecords;            
             
             Configuration_Year year = null;
@@ -283,6 +282,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         #region
                         tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, classes, strStudentCode, strStudentName,
+                        
                         1, 50, out dTotalRecords);
                         ds = new DataSet();
                         DataTable dtSource = new DataTable();
@@ -388,7 +388,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         #region
                         tabularDailySchedule = schiduleBL.GetDailySchedules(classes, term);
-
+                        TabularClass tlbClass = classBL.GetTabularClass(classes);
                         DataTable dtSource = new DataTable();
                         dtSource.Columns.Add("DayInWeekName", Type.GetType("System.String"));
                         dtSource.Columns.Add("Morning_StringDetailTeachingPeriod", Type.GetType("System.String"));
@@ -451,13 +451,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
 
                         }
-                        ds.Tables.Add(dtSource);
+                        ds.Tables.Add(dtSource);                                                
                         RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Term.rpt"));
                         RptDocument.SetDataSource(ds.Tables[0]);
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
                         RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
-                        RptDocument.SetParameterValue("Fal", faculty == null ? "Tất cả" : faculty.FacultyName);
-                        RptDocument.SetParameterValue("Grade", grade == null ? "Tất cả" : grade.GradeName);
+                        RptDocument.SetParameterValue("Term", term == null ? "Tất cả" : term.TermName);
+                        RptDocument.SetParameterValue("Fal", tlbClass.FacultyName);
+                        RptDocument.SetParameterValue("Grade", tlbClass.GradeName);
                         RptDocument.SetParameterValue("Classes", classes.ClassName);
                         Rpt_DanhSachHocSinh.Zoom(75);
                         #endregion

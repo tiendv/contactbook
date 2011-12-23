@@ -111,6 +111,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 da.Fill(ds);
             }
+            //studentBL.GetTabularStudents(
             // Validate data : follow this task            
             for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
             {
@@ -120,10 +121,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     lbError.Text = "Mã số học sinh và tên học sinh ko được để trống !";
                     return;
                 }
+                else if (studentBL.StudentCodeExists(ds.Tables[0].Rows[i][0].ToString()))
+                {
+                    lbError.Text = "Mã học sinh " + ds.Tables[0].Rows[i][0].ToString() + " đã tồn tại !";
+                    return;                    
+                }
                 else if (ds.Tables[0].Rows[i][3].ToString() == string.Empty)
                 {
-                    lbError.Text = "Ngày sinh của học sinh "+ ds.Tables[0].Rows[i][0].ToString()+" không được để trống !";
-                    return;                
+                    lbError.Text = "Ngày sinh của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không được để trống !";
+                    return;
                 }
                 else if (ds.Tables[0].Rows[i][2].ToString() == string.Empty)
                 {
@@ -141,7 +147,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         || ds.Tables[0].Rows[i][15].ToString() == string.Empty))
                 {
                     lbError.Text = "Học sinh " + ds.Tables[0].Rows[i][0].ToString() + " phải có ít nhất thông tin đầy đủ của cha/mẹ hoặc người đỡ đầu !";
-                    return;                
+                    return;
                 }
                 try
                 {
@@ -215,7 +221,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                             );
                 }
             }
-            
+            lbError.Text = "Import danh sách học sinh thành công !";
             #endregion
         }
 
