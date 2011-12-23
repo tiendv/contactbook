@@ -55,32 +55,42 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            string strContent = TxtContent.Text.Trim();
+            // string strContent = TxtContent.Text;
+            string strContent = Editor1.Content;
 
-            if (strContent == "")
+            ParentComment_Comment comment = new ParentComment_Comment();
+
+            if (CheckUntils.IsNullOrBlank(strContent))
             {
                 RequiredContent.IsValid = false;
                 return;
             }
-
-            ParentComment_Comment comment = new ParentComment_Comment();
+            
             comment.CommentId = (int)ViewState[AppConstant.VIEWSTATE_PARENTSCOMMENTID];
             parentsCommentBL.UpdateParentsComment(comment, strContent);
 
-            Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+            RedirectToPrevPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+            RedirectToPrevPage();
         }
         #endregion
 
+        #region Method
         private void FillParentsComment()
         {
             ParentComment_Comment comment = parentsCommentBL.GetParentsComments((int)ViewState[AppConstant.VIEWSTATE_PARENTSCOMMENTID]);
             LblTitle.Text = comment.Title;
-            TxtContent.Text = comment.CommentContent;
+            // TxtContent.Text = comment.CommentContent;
+            Editor1.Content = comment.CommentContent;
         }
+
+        private void RedirectToPrevPage()
+        {
+            Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+        }
+        #endregion
     }
 }

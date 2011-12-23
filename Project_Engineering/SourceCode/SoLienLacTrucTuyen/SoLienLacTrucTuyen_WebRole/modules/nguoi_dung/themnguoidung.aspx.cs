@@ -151,7 +151,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 "StartNavigationTemplateContainerID").FindControl(STARTNEXTBUTTON);
             NextButton.Visible = true; // default
             Label lblStepError = (Label)SeleteRoleStep.FindControl(STEP_SELECTROLE_LBLSTEPERROR);
-            lblStepError.Text = ""; // default
+            lblStepError.Text = "Chưa chọn dịch vụ"; // default
+            lblStepError.Visible = false;
 
             Control container = CreateUserStep.ContentTemplateContainer;
             ((Label)container.FindControl(STEP_CREATEUSER_LBLROLE)).Text = role.RoleName;
@@ -226,7 +227,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
 
         protected void BtnNext_Click(object sender, ImageClickEventArgs e)
-        {
+        {   
             /*
              * 1. Loop in repeater RptRoleBasedFunctions
              *      1.1. Determine wheather CheckBox is checked
@@ -238,7 +239,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<UserManagement_Function> functions = new List<UserManagement_Function>();
             List<ChoseService> choseServices = new List<ChoseService>();
             ChoseService choseService = null;
-
+            bool bChoseService = false;
             Repeater rptRoleParentsFunctions = (Repeater)SeleteRoleStep.FindControl("RptRoleBasedFunctions");
             foreach (RepeaterItem rptItem in rptRoleParentsFunctions.Items)
             {
@@ -250,6 +251,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     CheckBox ChkBxSelectedFunction = (CheckBox)rptItem.FindControl("ChkBxSelectedFunction");
                     if (ChkBxSelectedFunction.Checked)
                     {
+                        bChoseService = true;
                         choseService.Chose = true;
                         CheckBox ChkBxGetEmail = (CheckBox)rptItem.FindControl("ChkBxGetEmail");
                         CheckBox ChkBxGetSMS = (CheckBox)rptItem.FindControl("ChkBxGetSMS");
@@ -267,9 +269,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (choseServices.Count != 0)
+            if (bChoseService)
             {
-                AddSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS, choseServices);
+                HdfHasChoseService.Value = "true"; 
+                if (choseServices.Count != 0)
+                {
+                    AddSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS, choseServices);
+                }
+            }
+            else
+            {
+                HdfHasChoseService.Value = "false";
             }
         }
         #endregion
