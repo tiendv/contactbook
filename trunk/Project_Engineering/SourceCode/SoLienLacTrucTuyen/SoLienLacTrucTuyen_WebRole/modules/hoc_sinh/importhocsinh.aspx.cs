@@ -11,6 +11,7 @@ using EContactBook.DataAccess;
 using System.IO;
 using System.Data.OleDb;
 using System.Net;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -24,6 +25,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             //base.Page_Load(sender, e);
+            
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
+
             lbError.Text = string.Empty;
             UserSchool = (School_School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);

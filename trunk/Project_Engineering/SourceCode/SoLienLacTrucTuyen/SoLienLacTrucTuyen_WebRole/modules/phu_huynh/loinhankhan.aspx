@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="LoiNhanKhan.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ModuleParents.MessageForParentsPage" %>
+    CodeBehind="LoiNhanKhan.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.MessageForParentsPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -56,7 +56,7 @@
             </table>
         </div>
         <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" style="margin:5px 0px 0px 0px" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm thông báo" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
@@ -70,24 +70,18 @@
                 OnItemDataBound="RptLoiNhanKhan_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
-                        <td class="ui-corner-tl orderNo">
-                            STT
+                        <td class="ui-corner-tl">
+                            Thông báo
                         </td>
-                        <td>
-                            Lời nhắn
-                        </td>
-                        <td style="width: 200px">
-                            Ngày
+                        <td style="width: 150px">                            
+                            <asp:LinkButton ID="LkBtnDate" runat="server" CommandName="SortDate">Thời gian</asp:LinkButton>
                         </td>
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
-                        <td style="height: 40px; text-align: center">
-                            <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
-                        </td>
-                        <td style="height: 40px;">
+                    <tr class='<%#((int)DataBinder.Eval(Container.DataItem, "MessageStatusId") < 3) ? "evenRow" : "oddRow"%>'>
+                        <td style="height: 40px; padding: 0px 0px 0px 10px">
+                        <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
                             <asp:Image ID="ImgAlreadyReadMsg" runat="server" Height="21" Width="25" ImageUrl="~/Styles/Images/already_read_message.png" />
                             <asp:Image ID="ImgWarning" runat="server" Height="19" Width="19" ImageUrl="~/Styles/Images/warning.png" />
                             <asp:Image ID="ImgUnreadMsg" runat="server" Height="16" Width="25" ImageUrl="~/Styles/Images/unread_message.png" />
@@ -96,7 +90,9 @@
                                 CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>'>
                             </asp:LinkButton>
                         </td>
-                        <td style="height: 40px;">
+                        <td style="height: 40px; text-align:center">
+                            <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortTimeString()%>
+                            ,&nbsp;
                             <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortDateString()%>
                         </td>
                     </tr>
@@ -110,7 +106,7 @@
             </asp:Repeater>
         </table>
     </div>
-    <div style="float: right; margin-top: -35px; padding-right: 30px;">
+    <div style="float: right; margin-top: -40px; padding-right: 30px;">
         <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
             ViewStateMode="Enabled" />
     </div>   

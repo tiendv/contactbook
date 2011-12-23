@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen_WebRole.Modules;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
@@ -23,6 +24,12 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             parentsCommentBL = new ParentsCommentBL(UserSchool);

@@ -174,5 +174,17 @@ namespace EContactBook.DataAccess
 
             return sesssion;
         }
+
+        public List<ConfigurationMessageStatus> GetMessageStatuses()
+        {
+            List<ConfigurationMessageStatus> messageStatuses = new List<ConfigurationMessageStatus>();
+            IQueryable<ConfigurationMessageStatus> iqMessageStatus = from msgStt in db.ConfigurationMessageStatuses
+                                                                     select msgStt;
+            if (iqMessageStatus.Count() != 0)
+            {
+                messageStatuses = iqMessageStatus.ToList();
+            }
+            return messageStatuses;
+        }
     }
 }

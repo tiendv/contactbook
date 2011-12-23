@@ -8,6 +8,7 @@ using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -25,6 +26,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             teacherBL = new TeacherBL(UserSchool);

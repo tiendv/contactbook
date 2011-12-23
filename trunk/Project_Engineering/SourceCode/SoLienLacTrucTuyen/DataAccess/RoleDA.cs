@@ -19,7 +19,7 @@ namespace EContactBook.DataAccess
         {
             aspnet_Role deletingRole = (from role in db.aspnet_Roles
                                         where role.RoleName == roleName
-                                        select role).First();            
+                                        select role).First();
 
             // delete RoleDetail of deleting role
             UserManagement_RoleDetail roleDetail;
@@ -633,6 +633,22 @@ namespace EContactBook.DataAccess
             {
                 return false;
             }
+        }
+
+        public aspnet_Role GetRoleParents()
+        {
+            aspnet_Role roleParents = null;
+
+            IQueryable<aspnet_Role> iqRoleParents = from role in db.aspnet_Roles
+                                                    where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                    && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == PARENTS
+                                                    select role;
+            if (iqRoleParents.Count() != 0)
+            {
+                roleParents = iqRoleParents.First();
+            }
+
+            return roleParents;
         }
     }
 }

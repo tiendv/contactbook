@@ -23,7 +23,6 @@
             </td>
             <td class="readOnlyTextBox">
                 <asp:Label ID="LblContent" runat="server" Height="250px" ViewStateMode="Enabled"></asp:Label>
-                <%--<asp:TextBox ID="TxtContent" runat="server" TextMode="MultiLine" Height="230px" Font-Names="Arial" CssClass="input_textbox"></asp:TextBox>--%>
             </td>
         </tr>
         <tr>
