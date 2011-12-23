@@ -14,6 +14,7 @@ using CrystalDecisions.CrystalReports;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.ReportSource;
 using CrystalDecisions.Shared;
+using System.Web.Security;
 
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
@@ -30,7 +31,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }
-            
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
+
             #region Variables
 
             DataSet ds = new DataSet();            

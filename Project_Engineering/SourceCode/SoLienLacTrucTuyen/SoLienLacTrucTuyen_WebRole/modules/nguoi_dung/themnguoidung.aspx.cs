@@ -63,6 +63,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
+
             userBL = new UserBL(UserSchool);
             roleBL = new RoleBL(UserSchool);
             authorizationBL = new AuthorizationBL(UserSchool);
@@ -334,7 +340,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
 
-            MailBL.SendByGmail("econtactbook@gmail.com", "duyna1989@gmail.com", "Tạo tài khoản thành công", "Tạo tài khoản thành công", "duyna1989", "1qazxsw@");
+            MailBL.SendByGmail("duyna1989@gmail.com", "duyna1989@gmail.com", "Tạo tài khoản thành công", string.Format("pass:{0}", RegisterUserWizard.Password), "duyna1989", "1qazxsw@");
 
             SchoolBL schoolBL = new SchoolBL();
             //schoolBL.UpdateTotalOfUser(UserSchool);

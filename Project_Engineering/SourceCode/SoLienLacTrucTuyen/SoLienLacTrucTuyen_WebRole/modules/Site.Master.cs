@@ -44,8 +44,12 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             if (Page.User.Identity.IsAuthenticated)
             {
-                Label lblUserName = (Label)LoginView1.Controls[0].FindControl("LblUserName");
-                lblUserName.Text = string.Format("Xin chào {0}!", Page.User.Identity.Name.Split(AppConstant.UNDERSCORE_CHAR)[1]);
+                try
+                {
+                    Label lblUserName = (Label)LoginView1.Controls[0].FindControl("LblUserName");
+                    lblUserName.Text = string.Format("Xin chào {0}!", Page.User.Identity.Name.Split(AppConstant.UNDERSCORE_CHAR)[1]);
+                }
+                catch (Exception ex) { }
             }
             
             SetLevel0MenuItems();

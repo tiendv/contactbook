@@ -28,15 +28,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private bool isSearch;
         ReportDocument RptDocument = new ReportDocument();
         #endregion
-        
+
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
-            //CrystalReportViewer1.Visible = false;
             base.Page_Load(sender, e);
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             studentBL = new StudentBL(UserSchool);
@@ -47,12 +52,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 this.isSearch = false;
 
                 // Khôi phục lại thông tin khi chuyển sang trang khác rồi trở về trang này
-                    if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR) 
-                        && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY) 
-                        && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE)
-                        && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
-                        && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTCODE)
-                        && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTNAME))
+                if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR)
+                    && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY)
+                    && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE)
+                    && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
+                    && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTCODE)
+                    && CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENTNAME))
                 {
                     Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                     RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
@@ -274,7 +279,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         #region Button event handlers
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
-        {            
+        {
             #region Add Info 2 Session
             Configuration_Year year = null;
             Category_Faculty faculty = null;
@@ -290,7 +295,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 faculty = new Category_Faculty();
                 if (DdlNganh.SelectedIndex > 0)
-                {                    
+                {
                     faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
                     faculty.FacultyName = DdlNganh.SelectedItem.Text;
                 }
@@ -302,7 +307,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 grade = new Category_Grade();
                 if (DdlKhoiLop.SelectedIndex > 0)
                 {
-                    
+
                     grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                     grade.GradeName = DdlKhoiLop.SelectedItem.Text;
                 }
@@ -314,7 +319,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Class = new Class_Class();
                 if (DdlLopHoc.SelectedIndex > 0)
                 {
-                    
+
                     Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                     Class.ClassName = DdlLopHoc.SelectedItem.Text;
                 }
@@ -332,7 +337,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
-        
+
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             MainDataPager.CurrentIndex = 1;
@@ -342,7 +347,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnImport_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("importhocsinh.aspx");            
+            Response.Redirect("importhocsinh.aspx");
         }
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
@@ -351,11 +356,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool); 
-            
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+
             Student_Student student = studentBL.GetStudent(Int32.Parse(this.HdfMaHocSinh.Value));
             authorizationBL.DeleteAuthorization(student.StudentCode);
-            Membership.DeleteUser(student.StudentCode, true);  
+            Membership.DeleteUser(student.StudentCode, true);
 
             studentBL.DeleteStudent(student);
 

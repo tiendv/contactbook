@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using SoLienLacTrucTuyen_WebRole.Modules;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
@@ -20,11 +21,16 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
-            // Check user's accessibility
             base.Page_Load(sender, e);
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             studentBL = new StudentBL(UserSchool);

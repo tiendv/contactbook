@@ -34,12 +34,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void ConfirmMessage(MessageToParents_Message message)
         {
-            messageDA.UpdateMessage(message, true);
-        }
-
-        public void UnconfirmMessage(MessageToParents_Message message)
-        {
-            messageDA.UpdateMessage(message, false);
+            ConfigurationMessageStatus messageStatus = new ConfigurationMessageStatus();
+            messageStatus.MessageStatusId = 3; // confirmed
+            messageDA.UpdateMessage(message, messageStatus);
         }
 
         public void DeleteMessage(int maLopNhanKhan)
@@ -100,16 +97,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            Student_Student student, bool? confirmed, int pageCurrentIndex, int pageSize, out double totalRecords)
+            Student_Student student, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            if (confirmed == null) // get messages regardless their confirmation
+            if (messageStatus == null) // get messages regardless their confirmation
             {
                 return messageDA.GetMessages(year, beginDate, endDate, student, 
                     pageCurrentIndex, pageSize, out totalRecords);
             }
             else
             {
-                return messageDA.GetMessages(year, beginDate, endDate, student, (bool)confirmed, 
+                return messageDA.GetMessages(year, beginDate, endDate, student, messageStatus, 
                     pageCurrentIndex, pageSize, out totalRecords);
             }
         }

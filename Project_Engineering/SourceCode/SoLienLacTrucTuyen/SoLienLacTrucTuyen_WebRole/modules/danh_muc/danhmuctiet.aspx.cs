@@ -10,6 +10,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen;
 using System.Text.RegularExpressions;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -27,6 +28,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             tietBL = new TeachingPeriodBL(UserSchool);

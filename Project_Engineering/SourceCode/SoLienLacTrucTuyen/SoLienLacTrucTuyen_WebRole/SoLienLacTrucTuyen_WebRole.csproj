@@ -84,7 +84,6 @@
     <Content Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
-    <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\importhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
@@ -129,7 +128,6 @@
     <Content Include="modules\danh_muc\danhmuchanhkiem.aspx" />
     <Content Include="modules\danh_muc\danhmucmonhoc.aspx" />
     <Content Include="modules\lop_hoc\giaovienchunhiem.aspx" />
-    <Content Include="modules\lop_hoc\thongbaolop.aspx" />
     <Content Include="modules\hoc_sinh\themhocsinh.aspx" />
     <Content Include="Account\DangNhap.aspx" />
     <Content Include="modules\ErrorPage\errorpage.aspx" />
@@ -152,6 +150,7 @@
     <Content Include="modules\phu_huynh\themykien.aspx" />
     <Content Include="modules\Trang_Chu\TrangChu.aspx" />
     <Content Include="modules\phu_huynh\chitietthongbao.aspx" />
+    <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
     <Content Include="modules\y_kien\chitietykien.aspx" />
     <Content Include="modules\y_kien\phanhoiykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
@@ -378,13 +377,6 @@
     </Compile>
     <Compile Include="modules\ErrorPage\pagenotfound.aspx.designer.cs">
       <DependentUpon>pagenotfound.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.cs">
-      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.designer.cs">
-      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\importhocsinh.aspx.cs">
       <DependentUpon>importhocsinh.aspx</DependentUpon>
@@ -690,13 +682,6 @@
     <Compile Include="modules\lop_hoc\giaovienchunhiem.aspx.designer.cs">
       <DependentUpon>giaovienchunhiem.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\lop_hoc\thongbaolop.aspx.cs">
-      <DependentUpon>thongbaolop.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\lop_hoc\thongbaolop.aspx.designer.cs">
-      <DependentUpon>thongbaolop.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\hoc_sinh\themhocsinh.aspx.cs">
       <DependentUpon>themhocsinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -851,6 +836,13 @@
     <Compile Include="modules\phu_huynh\chitietthongbao.aspx.designer.cs">
       <DependentUpon>chitietthongbao.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.cs">
+      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.designer.cs">
+      <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\y_kien\chitietykien.aspx.cs">
       <DependentUpon>chitietykien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -976,7 +968,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>4294</DevelopmentServerPort>
+          <DevelopmentServerPort>7282</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -16,7 +17,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessDenied)
             {
                 return;
-            }            
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
         }
     }
 }

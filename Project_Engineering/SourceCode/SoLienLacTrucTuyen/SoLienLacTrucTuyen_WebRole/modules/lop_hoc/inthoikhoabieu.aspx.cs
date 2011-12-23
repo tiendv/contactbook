@@ -14,6 +14,7 @@ using CrystalDecisions.CrystalReports;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.ReportSource;
 using CrystalDecisions.Shared;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -28,6 +29,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
+
             DataSet dsClass = new DataSet();
             if (!Page.IsPostBack)
             {

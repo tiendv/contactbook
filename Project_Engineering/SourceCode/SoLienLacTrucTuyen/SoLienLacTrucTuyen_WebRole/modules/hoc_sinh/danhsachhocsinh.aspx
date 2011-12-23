@@ -1,6 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhsachhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.StudentsPage" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true" CodeBehind="danhsachhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.StudentsPage" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
@@ -21,7 +19,7 @@
                     <table style="padding-bottom: 10px">
                         <tr>
                             <td style="width: 60px; height: 25px">
-                                Năm hoc:
+                                Năm học:
                             </td>
                             <td style="width: 200px;">
                                 <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" AutoPostBack="true"

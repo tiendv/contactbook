@@ -116,14 +116,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<Configuration_CommentStatus> GetCommentStatuses()
         {
-            List<Configuration_CommentStatus> commentStatuses;
-            Configuration_CommentStatus optAll = new Configuration_CommentStatus();
-            optAll.CommentStatusId = 0;
-            optAll.CommentStatusName = "Tất cả";
-
-            commentStatuses = parentsCommentDA.GetCommentStatuses();
-            commentStatuses.Add(optAll);
-            return commentStatuses;
+            return parentsCommentDA.GetCommentStatuses();
         }
 
         public ParentComment_Comment GetParentsComments(int commentId)

@@ -30,6 +30,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
+
             userBL = new UserBL(UserSchool);
             authorizationBL = new AuthorizationBL(UserSchool);
             if (!Page.IsPostBack)

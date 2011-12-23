@@ -9,6 +9,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen_WebRole.Modules;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
@@ -26,8 +27,13 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             base.Page_Load(sender, e);
             if (accessDenied)
             {
-                // User can not access this page
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             parentsCommentBL = new ParentsCommentBL(UserSchool);
@@ -54,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             DateTime dtBeginDate = DateTime.Parse(TxtBeginDate.Text);
             DateTime dtEndDate = DateTime.Parse(TxtEndDate.Text);
             Configuration_CommentStatus commentStatus = null;
-            if (DdlXacNhan.SelectedIndex == 0 || DdlXacNhan.SelectedIndex == 1 || DdlXacNhan.SelectedIndex == 2)
+            if (DdlXacNhan.SelectedIndex > 0)
             {
                 commentStatus = new Configuration_CommentStatus();
                 commentStatus.CommentStatusId = Int32.Parse(DdlXacNhan.SelectedValue);
@@ -126,6 +132,11 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             DdlXacNhan.DataValueField = "CommentStatusId";
             DdlXacNhan.DataTextField = "CommentStatusName";
             DdlXacNhan.DataBind();
+
+            if (DdlXacNhan.Items.Count > 1)
+            {
+                DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
         }
 
         private void InitDates()

@@ -23,11 +23,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 {
                     school = (School_School)Session[AppConstant.SCHOOL];
                 }
-                else
-                {
-                    FormsAuthentication.SignOut();
-                    FormsAuthentication.RedirectToLoginPage();
-                }
 
                 return school;
             }
@@ -42,76 +37,63 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             get
             {
-                Student_Student membershipStudent = null;
-
-                if (User.Identity.IsAuthenticated)
-                {
-                    string strMembershipStudentSessionKey = User.Identity.Name
+                Student_Student loggedInStudent = null;
+                string strLoggedInStudentSessionKey = User.Identity.Name
                         + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
-                    if (Session[strMembershipStudentSessionKey] != null)
-                    {
-                        membershipStudent = (Student_Student)Session[strMembershipStudentSessionKey];
-                    }
-                    else
-                    {
-                        FormsAuthentication.SignOut();
-                        FormsAuthentication.RedirectToLoginPage();
-                    }
-                }
-                else
+
+                if (Session[strLoggedInStudentSessionKey] != null)
                 {
-                    FormsAuthentication.SignOut();
-                    FormsAuthentication.RedirectToLoginPage();
+                    loggedInStudent = (Student_Student)Session[strLoggedInStudentSessionKey];
                 }
 
-                return membershipStudent;
+                return loggedInStudent;
             }
 
             set
             {
-                if (User.Identity.IsAuthenticated)
-                {
-                    Session[User.Identity.Name + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT] = value;
-                }
+                string stLoggedInStudentSessionKey = User.Identity.Name
+                        + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
+
+                Session[stLoggedInStudentSessionKey] = value;
             }
         }
 
         #region Fields
         protected List<AccessibilityEnum> accessibilities;
         protected bool accessDenied = false;
+        protected bool sessionExpired;
         #endregion
 
         #region Page event handlers
         protected virtual void Page_Load(object sender, EventArgs e)
         {
+            if (Session[AppConstant.SCHOOL] == null)
+            {
+                sessionExpired = true;
+                return;
+            }
+
             UserSchool = (School_School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);
-            RoleBL roleBL = new RoleBL(UserSchool);
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
 
             string pageUrl = Page.Request.Path;
             List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
-            aspnet_Role role = roles[0];
 
             if (!authorizationBL.ValidateAuthorization(User.Identity.Name, pageUrl))
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
+                Response.Redirect(GetText("AccessDeniedPageUrl"));
                 accessDenied = false;
                 return;
             }
 
             Site masterPage = (Site)Page.Master;
             masterPage.UserName = User.Identity.Name;
-            masterPage.UserRole = role;
+            masterPage.UserRole = roles[0];
             masterPage.PageUrl = pageUrl;
             masterPage.UserSchool = UserSchool;
 
             accessibilities = authorizationBL.GetAccessibilities(roles, pageUrl);
-
-            if (Session[AppConstant.SCHOOL] != null)
-            {
-                UserSchool = (School_School)Session[AppConstant.SCHOOL];
-            }
         }
         #endregion
 
@@ -150,6 +132,11 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             {
                 return false;
             }
+        }
+
+        protected string GetText(string key)
+        {
+            return (string)GetGlobalResourceObject("MainResource", key);
         }
     }
 }

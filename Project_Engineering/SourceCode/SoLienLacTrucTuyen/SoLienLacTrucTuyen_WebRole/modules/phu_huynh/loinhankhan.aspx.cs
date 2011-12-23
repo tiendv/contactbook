@@ -8,8 +8,10 @@ using SoLienLacTrucTuyen.BusinessEntity;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using AjaxControlToolkit;
+using SoLienLacTrucTuyen_WebRole.Modules;
+using System.Web.Security;
 
-namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
+namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
     public partial class MessageForParentsPage : BaseContentPage
     {
@@ -25,8 +27,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             base.Page_Load(sender, e);
             if (accessDenied)
             {
-                // User can not access this page
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             messageBL = new MessageBL(UserSchool);
@@ -37,7 +44,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 isSearch = false;
                 BindDropDownLists();
                 InitDates();
-
+                GetSearchSessions();
                 BindRptMessages();
             }
         }
@@ -50,22 +57,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
             DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
-            bool? bConfirmed = null;
-            if (DdlXacNhan.SelectedIndex == 0)
+            ConfigurationMessageStatus messageStatus = null;
+            if (DdlXacNhan.SelectedIndex > 0)
             {
-                bConfirmed = false;
-            }
-            else
-            {
-                if (DdlXacNhan.SelectedIndex == 1)
-                {
-                    bConfirmed = true;
-                }
+                messageStatus = new ConfigurationMessageStatus();
+                messageStatus.MessageStatusId = Int32.Parse(DdlXacNhan.SelectedValue);
             }
 
             double dTotalRecords;
-            List<MessageToParents_Message> messages = messageBL.GetMessages(
-                year, dtBeginDate, dtEndDate, MembershipStudent, bConfirmed,
+            List<MessageToParents_Message> messages = messageBL.GetMessages(year, dtBeginDate, dtEndDate, LoggedInStudent, messageStatus,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (messages.Count == 0 && dTotalRecords != 0)
@@ -92,11 +92,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             {
                 if (!isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin lời nhắn khẩn";
+                    LblSearchResult.Text = "Chưa có thông tin thông báo";
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy lời nhắn khẩn";
+                    LblSearchResult.Text = "Không tìm thấy thông báo";
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
@@ -109,24 +109,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
 
         private void BindDropDownLists()
         {
-            BindDDLNamHoc();
-            BindDDLXacNhan();
+            BindDDLYears();
+            BindDDLMessageStatuses();
         }
 
-        private void BindDDLNamHoc()
+        private void BindDDLYears()
         {
-            List<Configuration_Year> years = studentBL.GetYears(MembershipStudent);
+            List<Configuration_Year> years = studentBL.GetYears(LoggedInStudent);
             DdlNamHoc.DataSource = years;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
         }
 
-        private void BindDDLXacNhan()
+        private void BindDDLMessageStatuses()
         {
-            DdlXacNhan.Items.Add(new ListItem("Không", "0"));
-            DdlXacNhan.Items.Add(new ListItem("Có", "1"));
-            DdlXacNhan.Items.Add(new ListItem("Tất cả", "-1"));
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);            
+            List<ConfigurationMessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
+            DdlXacNhan.DataSource = messageStatuses;
+            DdlXacNhan.DataValueField = "MessageStatusId";
+            DdlXacNhan.DataTextField = "MessageStatusName";
+            DdlXacNhan.DataBind();
+
+            DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0")); 
         }
 
         private void InitDates()
@@ -138,6 +143,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
             DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
             TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
+        }
+        
+        private void GetSearchSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_FROMDATE)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_TODATE)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_CONFIRMSTATUS))
+            {
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = (Int32)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
+                DdlNamHoc.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR].ToString();
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE] = (DateTime)GetSession(AppConstant.SESSION_SELECTED_FROMDATE);
+                RemoveSession(AppConstant.SESSION_SELECTED_FROMDATE);
+                TxtTuNgay.Text = ((DateTime)ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE]).ToShortDateString();
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE] = (DateTime)GetSession(AppConstant.SESSION_SELECTED_TODATE);
+                RemoveSession(AppConstant.SESSION_SELECTED_TODATE);
+                TxtDenNgay.Text = ((DateTime)ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE]).ToShortDateString();
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS] = (Int32)GetSession(AppConstant.SESSION_SELECTED_CONFIRMSTATUS);
+                RemoveSession(AppConstant.SESSION_SELECTED_CONFIRMSTATUS);
+                DdlXacNhan.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS].ToString();
+            }
+        }
+        
+        private void SaveSearchSessions()
+        {   
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR]);
+            AddSession(AppConstant.SESSION_SELECTED_FROMDATE, ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE]);
+            AddSession(AppConstant.SESSION_SELECTED_TODATE, ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE]);
+            AddSession(AppConstant.SESSION_SELECTED_CONFIRMSTATUS, ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS]);
         }
         #endregion
 
@@ -152,10 +190,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
                 LinkButton lkbtnTitle = (LinkButton)e.Item.FindControl("LkbtnTitle");
 
                 MessageToParents_Message message = (MessageToParents_Message)e.Item.DataItem;
-                imgAlreadyReadMsg.Visible = message.IsRead;
-                imgUnreadMsg.Visible = !message.IsRead;
-                imgWarning.Visible = !message.IsConfirmed && message.IsRead;
-                lkbtnTitle.Font.Bold = !message.IsRead;
+                bool bRead = (message.MessageStatusId > 1) ? true : false;
+                bool bConfirmed = (message.MessageStatusId == 3) ? true : false;
+
+                imgAlreadyReadMsg.Visible = bRead;
+                imgUnreadMsg.Visible = !bRead;
+                imgWarning.Visible = !bConfirmed && bRead;
+                lkbtnTitle.Font.Bold = !bRead;
             }
         }
 
@@ -165,17 +206,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             {
                 case "CmdDetailItem":
                     {
-                        int iMessageId = Int32.Parse(e.CommandArgument.ToString());                       
+                        int iMessageId = Int32.Parse(e.CommandArgument.ToString());
                         MessageToParents_Message message = messageBL.GetMessage(iMessageId);
 
                         if (!message.IsRead)
                         {
                             messageBL.MarkMessageAsRead(message);
-                        }                        
+                        }
 
                         AddSession(AppConstant.SESSION_MESSAGE, message);
+                        SaveSearchSessions();
                         Response.Redirect(AppConstant.PAGEPATH_DETAILEDMESSAGE);
-                        
+
                         break;
                     }
                 default:
@@ -192,24 +234,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules.ModuleParents
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
             BindRptMessages();
-        }
 
-        protected void BtnOKConfirmItem_Click(object sender, ImageClickEventArgs e)
-        {
-            MessageToParents_Message message = new MessageToParents_Message();
-            message.MessageId = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            messageBL.ConfirmMessage(message);
-            isSearch = false;
-            BindRptMessages();
-        }
-
-        protected void BtnCancelConfirmItem_Click(object sender, ImageClickEventArgs e)
-        {
-            MessageToParents_Message message = new MessageToParents_Message();
-            message.MessageId = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            messageBL.UnconfirmMessage(message);
-            isSearch = false;
-            BindRptMessages();
+            // save selections to viewstate
+            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = Int32.Parse(DdlNamHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE] = DateTime.Parse(TxtTuNgay.Text);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE] = DateTime.Parse(TxtDenNgay.Text);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS] = Int32.Parse(DdlXacNhan.SelectedValue);
         }
         #endregion
 

@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using SoLienLacTrucTuyen.BusinessEntity;
 using EContactBook.DataAccess;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -28,6 +29,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             Class_Class Class = null;

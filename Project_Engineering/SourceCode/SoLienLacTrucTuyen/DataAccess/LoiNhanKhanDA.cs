@@ -41,7 +41,7 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
-        public void UpdateMessage(MessageToParents_Message editedMessage, bool confirmed)
+        public void UpdateMessage(MessageToParents_Message editedMessage, ConfigurationMessageStatus messageStatus)
         {
             MessageToParents_Message message = null;
             IQueryable<MessageToParents_Message> iqMessage = from msg in db.MessageToParents_Messages
@@ -50,7 +50,9 @@ namespace EContactBook.DataAccess
             if (iqMessage.Count() != 0)
             {
                 message = iqMessage.First();
-                message.IsConfirmed = confirmed;
+                message.MessageStatusId = messageStatus.MessageStatusId;
+                message.Feedback = editedMessage.Feedback;
+                
                 db.SubmitChanges();
             }
         }
@@ -63,16 +65,6 @@ namespace EContactBook.DataAccess
                                                     select lnk).First();
             loiNhanKhan.MessageContent = noiDung;
             loiNhanKhan.Date = ngay;
-
-            db.SubmitChanges();
-        }
-
-        public void UpdateLoiNhanKhan(int maLoiNhanKhan, bool xacNhan)
-        {
-            MessageToParents_Message loiNhanKhan = (from lnk in db.MessageToParents_Messages
-                                                    where lnk.MessageId == maLoiNhanKhan
-                                                    select lnk).First();
-            loiNhanKhan.IsConfirmed = xacNhan;
 
             db.SubmitChanges();
         }
@@ -190,7 +182,7 @@ namespace EContactBook.DataAccess
         }
 
         public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            Student_Student student, bool confirmed, int pageCurrentIndex, int pageSize, out double totalRecords)
+            Student_Student student, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<MessageToParents_Message> messages = new List<MessageToParents_Message>();
 
@@ -198,12 +190,12 @@ namespace EContactBook.DataAccess
                                                               where msg.Student_StudentInClass.StudentId == student.StudentId
                                                                && msg.Student_StudentInClass.Class_Class.YearId == year.YearId
                                                                && msg.Date >= beginDate && msg.Date <= endDate
-                                                               && msg.IsConfirmed == confirmed
+                                                               && msg.MessageStatusId == messageStatus.MessageStatusId
                                                               select msg;
             totalRecords = iqMessages.Count();
             if (totalRecords != 0)
             {
-                messages = iqMessages.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                messages = iqMessages.OrderByDescending(msg => msg.Date).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return messages;
@@ -222,7 +214,7 @@ namespace EContactBook.DataAccess
             totalRecords = iqMessages.Count();
             if (totalRecords != 0)
             {
-                messages = iqMessages.Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                messages = iqMessages.OrderByDescending(msg => msg.Date).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return messages;

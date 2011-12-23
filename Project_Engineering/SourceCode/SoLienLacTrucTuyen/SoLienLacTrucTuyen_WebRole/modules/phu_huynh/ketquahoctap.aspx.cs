@@ -10,6 +10,7 @@ using SoLienLacTrucTuyen.BusinessEntity;
 using AjaxControlToolkit;
 using System.Web.UI.HtmlControls;
 using SoLienLacTrucTuyen_WebRole.Modules;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
@@ -28,6 +29,12 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             studentBL = new StudentBL(UserSchool);

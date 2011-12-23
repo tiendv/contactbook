@@ -7,11 +7,13 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessEntity;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public abstract class BaseContentPage : System.Web.UI.Page
     {
+        #region Properties
         public School_School UserSchool
         {
             get
@@ -30,74 +32,48 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Session[AppConstant.SCHOOL] = value;
             }
         }
-
-        public Student_Student MembershipStudent
-        {
-            get
-            {
-                Student_Student membershipStudent = null;
-
-                if (User.Identity.IsAuthenticated)
-                {
-                    string strMembershipStudentSessionKey = User.Identity.Name 
-                        + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
-                    if (Session[strMembershipStudentSessionKey] != null)
-                    {
-                        membershipStudent = (Student_Student)Session[strMembershipStudentSessionKey];
-                    }
-                }
-
-                return membershipStudent;
-            }
-
-            set
-            {
-                if (User.Identity.IsAuthenticated)
-                {
-                    Session[User.Identity.Name + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT] = value;
-                }                
-            }
-        }
+        #endregion
 
         #region Fields
         protected List<AccessibilityEnum> accessibilities;
         protected bool accessDenied = false;
+        protected bool sessionExpired = false;
         #endregion
 
         #region Page event handlers
         protected virtual void Page_Load(object sender, EventArgs e)
         {
+            if(Session[AppConstant.SCHOOL] == null)
+            {
+                sessionExpired = true;
+                return;
+            }
+
             UserSchool = (School_School)Session[AppConstant.SCHOOL];
             UserBL userBL = new UserBL(UserSchool);
-            RoleBL roleBL = new RoleBL(UserSchool);
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
 
             string pageUrl = Page.Request.Path;
             List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
-            aspnet_Role role = roles[0];
 
             if (!authorizationBL.ValidateAuthorization(roles, pageUrl))
             {
-                Response.Redirect((string)GetGlobalResourceObject("MainResource", "AccessDeniedPageUrl"));
+                Response.Redirect(GetText("AccessDeniedPageUrl"));
                 accessDenied = false;
                 return;
             }
 
             Site masterPage = (Site)Page.Master;
             masterPage.UserName = User.Identity.Name;
-            masterPage.UserRole = role;
+            masterPage.UserRole = roles[0];
             masterPage.PageUrl = pageUrl;
             masterPage.UserSchool = UserSchool;
 
             accessibilities = authorizationBL.GetAccessibilities(roles, pageUrl);
-
-            if (Session[AppConstant.SCHOOL] != null)
-            {
-                UserSchool = (School_School)Session[AppConstant.SCHOOL];
-            }
         }
         #endregion
 
+        #region Session methods
         protected void AddSession(string key, object value)
         {
             Session.Add(UserSchool.SchoolId + AppConstant.UNDERSCORE + key, value);
@@ -134,5 +110,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
         }
+        #endregion
+
+        protected string GetText(string key)
+        {
+            return (string)GetGlobalResourceObject("MainResource", key);
+        }
+
     }
 }

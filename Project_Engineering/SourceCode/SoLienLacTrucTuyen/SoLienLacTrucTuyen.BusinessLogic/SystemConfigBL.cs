@@ -88,5 +88,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return sysConfigDA.GetSession(sessionId);
         }
+
+        public List<ConfigurationMessageStatus> GetMessageStatuses()
+        {
+            return sysConfigDA.GetMessageStatuses();             
+        }
     }
 }

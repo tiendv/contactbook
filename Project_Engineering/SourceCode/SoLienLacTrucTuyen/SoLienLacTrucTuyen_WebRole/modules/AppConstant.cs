@@ -50,6 +50,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_MESSAGEID = "MessageId";
         public const string VIEWSTATE_SELECTED_TEACHERNAME = "TeacherName";
         public const string VIEWSTATE_SELECTED_TEACHERID = "TeacherID";
+        public const string VIEWSTATE_SELECTED_FROMDATE = "FromDate";
+        public const string VIEWSTATE_SELECTED_TODATE = "ToDate";
+        public const string VIEWSTATE_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
 
         public const string SESSION_PAGEPATH = "PagePath";
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
@@ -68,6 +71,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_PREV_PAGE = "PrevPage";
         public const string SESSION_PARENTSCOMMENTID = "ParentCommentId";
         public const string SESSION_MESSAGE = "Message";
+        public const string SESSION_SELECTED_FROMDATE = "FromDate";
+        public const string SESSION_SELECTED_TODATE = "ToDate";
+        public const string SESSION_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
 
         #region Session Teacher
         public const string SESSION_TEACHERID = "TeacherID";
