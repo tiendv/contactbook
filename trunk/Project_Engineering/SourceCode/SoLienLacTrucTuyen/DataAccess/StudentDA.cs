@@ -98,6 +98,7 @@ namespace EContactBook.DataAccess
         {
             IQueryable<Student_Student> hocSinhs = from hocSinh in db.Student_Students
                                                    where hocSinh.StudentCode == maHocSinhHienThi
+                                                   && hocSinh.SchoolId == school.SchoolId
                                                    select hocSinh;
             if (hocSinhs.Count() != 0)
             {

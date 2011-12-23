@@ -64,7 +64,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Class_Class Class = null;            
 
             string strStudentCode = this.TxtMaHocSinhHienThi.Text.Trim();
-            if (strStudentCode == "")
+            if (CheckUntils.IsNullOrBlank(strStudentCode))
             {
                 MaHocSinhRequired.IsValid = false;
                 return;

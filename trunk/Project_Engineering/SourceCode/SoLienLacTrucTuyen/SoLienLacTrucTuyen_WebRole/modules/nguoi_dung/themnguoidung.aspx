@@ -6,16 +6,44 @@
     <div id="divScripts">
         <script type="text/javascript">
             $(document).ready(function () {
-                $('.checkAll').click(function () {
-                    $("input[type='checkbox']").attr('checked', $(".checkAll input[type='checkbox']").is(':checked'));
+                $('.checkServiceAll').click(function () {
+                    $(".checkService input[type='checkbox']").attr('checked', $(".checkServiceAll input[type='checkbox']").is(':checked'));
                 });
 
+                $('.checkEmailAll').click(function () {
+                    $(".checkEmail input[type='checkbox']").attr('checked', $(".checkEmailAll input[type='checkbox']").is(':checked'));
+                });
+
+                $('.checkSMSAll').click(function () {
+                    $(".checkSMS input[type='checkbox']").attr('checked', $(".checkSMSAll input[type='checkbox']").is(':checked'));
+                });
+
+                $('.StepNextButton').click(function (event) {
+                    $(".checkService input[type='checkbox']").each(function () {
+                        if ($(this).is(':checked') == false) {
+                            $('.error').show();
+                            event.preventDefault();
+                        } else {
+                            $('.error').hide();
+                        }
+
+                    });
+                });
+
+
+                $(".checkServiceAll input[type='checkbox']").attr('checked', 'checked');
+                $(".checkService input[type='checkbox']").attr('checked', 'checked');
+                $(".checkEmailAll input[type='checkbox']").attr('checked', 'checked');
+                $(".checkEmail input[type='checkbox']").attr('checked', 'checked');
+
+                // init defaut value for passwords
                 $(".password").val("password");
             });
         </script>
     </div>
-    <div class="loginBox ui-corner-all" style="width: 730px; min-height: 300px">
+    <div class="loginBox ui-corner-all" style="width: 90%; min-height: 300px">
         <asp:HiddenField ID="HdfIsSelectRoleParents" runat="server" Value="false" />
+        <asp:HiddenField ID="HdfHasChoseService" runat="server" Value="false" />
         <asp:CreateUserWizard ID="RegisterUserWizard" runat="server" Style="width: 100%;
             text-align: left;" DisplaySideBar="true" SideBarStyle-Width="250px" SideBarStyle-CssClass="SideBarStyle"
             SideBarStyle-VerticalAlign="Top" LoginCreatedUser="false" ContinueDestinationPageUrl="~/Modules/Nguoi_Dung/DanhSachNguoiDung.aspx"
@@ -49,41 +77,44 @@
                             </asp:View>
                             <asp:View ID="ViewPhuHuynh" runat="server">
                                 <div style="border: 1px solid blue" class="ui-corner-all">
-                                    <div style="padding: 3px 0px 3px 0px; border-bottom: 1px solid blue; text-align: center">
-                                        <asp:Label ID="Label20" runat="server" Text="Thông tin truy vấn" Font-Bold="true"></asp:Label>
+                                    <div style="padding: 3px 0px 3px 0px; border-bottom: 1px solid blue; text-align: center;
+                                        font-weight: bold; font-size: 15px">
+                                        Dịch vụ
                                     </div>
                                     <table style="width: 100%; padding: 5px">
                                         <asp:Repeater ID="RptRoleBasedFunctions" runat="server">
                                             <HeaderTemplate>
                                                 <tr>
-                                                    <td class="icon">
-                                                        <%--<asp:CheckBox ID="ChkBxAllFunctions" runat="server" Style="float: right" CssClass="checkAll" />--%>
+                                                    <td style="width: 30px; text-align:center">
+                                                        <asp:CheckBox ID="ChkBxAllFunctions" runat="server" CssClass="checkServiceAll" />
                                                     </td>
                                                     <td>
                                                         Dịch vụ
                                                     </td>
-                                                    <td style="width: 80px">
-                                                        Nhận e-mail
+                                                    <td style="width: 55px; padding:0px 5px 0px 20px">
+                                                        E-mail
+                                                        <asp:CheckBox ID="CheckBox1" runat="server" CssClass="checkEmailAll" style="float:right" />
                                                     </td>
-                                                    <td style="width: 70px">
-                                                        Nhận SMS
+                                                    <td style="width: 45px; padding:0px 5px 0px 20px">
+                                                        SMS
+                                                        <asp:CheckBox ID="CheckBox2" runat="server" CssClass="checkSMSAll" style="float:right"/>
                                                     </td>
                                                 </tr>
                                             </HeaderTemplate>
                                             <ItemTemplate>
                                                 <tr>
-                                                    <td>
-                                                        <asp:CheckBox ID="ChkBxSelectedFunction" runat="server" Style="float: right" />
+                                                    <td style="width: 30px; text-align:center">
+                                                        <asp:CheckBox ID="ChkBxSelectedFunction" runat="server" CssClass="checkService" />
                                                     </td>
                                                     <td>
                                                         <asp:HiddenField ID="HdfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
                                                         <asp:Label ID="LblFunctionName" runat="server"><%#DataBinder.Eval(Container.DataItem, "FunctionName")%></asp:Label>
                                                     </td>
-                                                    <td style="text-align: center">
-                                                        <asp:CheckBox ID="ChkBxGetEmail" runat="server" />
+                                                    <td style="padding:0px 5px 0px 20px">
+                                                        <asp:CheckBox ID="ChkBxGetEmail" runat="server" CssClass="checkEmail" style="float:right"/>
                                                     </td>
-                                                    <td style="text-align: center">
-                                                        <asp:CheckBox ID="ChkBxGetSMS" runat="server" />
+                                                    <td style="padding:0px 5px 0px 20px">
+                                                        <asp:CheckBox ID="ChkBxGetSMS" runat="server" CssClass="checkSMS" style="float:right"/>
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>
@@ -93,7 +124,7 @@
                             </asp:View>
                         </asp:MultiView>
                         <br />
-                        <asp:Label ID="LblStepError" runat="server" Text="Label" ForeColor="Red"></asp:Label>
+                        <asp:Label ID="LblStepError" runat="server" CssClass="error" ForeColor="Red" Text="Chưa chọn dịch vụ"></asp:Label>
                     </div>
                 </asp:WizardStep>
                 <asp:CreateUserWizardStep ID="CreateUserStep" runat="server" Title="Điền thông tin người dùng mới">
