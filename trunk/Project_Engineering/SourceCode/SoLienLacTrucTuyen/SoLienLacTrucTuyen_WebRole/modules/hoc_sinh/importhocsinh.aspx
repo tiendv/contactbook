@@ -73,7 +73,7 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
-    Download template import tại đây <asp:LinkButton ID="LinkButton1" runat="server" onclick="LinkButton1_Click" Text='Tại đây'>
+    Download template import tại đây <asp:LinkButton ID="lbtDownload" runat="server" onclick="lbtDownload_Click" Text='Tại đây'>
     </asp:LinkButton>  
     <br />
     <br />

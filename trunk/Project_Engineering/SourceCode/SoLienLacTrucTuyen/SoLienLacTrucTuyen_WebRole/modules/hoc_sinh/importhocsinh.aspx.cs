@@ -64,7 +64,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLClasses();
         }
-        protected void LinkButton1_Click(object sender, EventArgs e)
+        protected void lbtDownload_Click(object sender, EventArgs e)
         {
             try
             {
@@ -116,6 +116,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     lbError.Text = "Ngày sinh của học sinh "+ ds.Tables[0].Rows[i][0].ToString()+" không được để trống !";
                     return;                
+                }
+                else if (ds.Tables[0].Rows[i][2].ToString() == string.Empty)
+                {
+                    lbError.Text = "Giới tính của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không được để trống !";
+                    return;
                 }
                 else if ((ds.Tables[0].Rows[i][7].ToString() == string.Empty
                         || ds.Tables[0].Rows[i][8].ToString() == string.Empty
