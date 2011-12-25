@@ -76,14 +76,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             try
             {
-                string strURL = "Book2.xls";
+                string strURL = "ListStudent.xls";
                 WebClient req = new WebClient();
                 HttpResponse response = HttpContext.Current.Response;
                 response.Clear();
                 response.ClearContent();
                 response.ClearHeaders();
                 response.Buffer = true;
-                response.AddHeader("Content-Disposition", "attachment;filename=\"" + Server.MapPath(strURL) + "\"");
+                response.AddHeader("Content-Disposition", "Attachment;Filename=\"" + Server.MapPath(strURL) + "\"");
                 byte[] data = req.DownloadData(Server.MapPath(strURL));
                 response.BinaryWrite(data);
                 response.End();
@@ -98,6 +98,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
             #region
+            lbError.ForeColor = System.Drawing.Color.Red;
             string filename = Path.GetFileName(FileUpload1.FileName);
             FileUpload1.SaveAs(Server.MapPath("~/upload/") + filename);
             filename = Server.MapPath("~/upload/") + filename;
@@ -221,6 +222,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                             );
                 }
             }
+            lbError.ForeColor = System.Drawing.Color.Blue;
             lbError.Text = "Import danh sách học sinh thành công !";
             #endregion
         }
