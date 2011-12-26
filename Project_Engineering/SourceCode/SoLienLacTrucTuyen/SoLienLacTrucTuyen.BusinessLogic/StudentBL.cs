@@ -50,7 +50,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 PatronJob = patronJob,
                 PatronBirthday = patronBirthday,
                 SchoolId = school.SchoolId
-
             };
             studentDA.InsertStudent(student);
 
@@ -80,6 +79,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 // insert new student's TermStudyingResult
                 studyingResultBL.InsertTermStudyingResult(term, lastedStudentInClass, -1, conduct, studyingAptitude);
             }
+
+            // Insert new User
         }
 
         public void UpdateHocSinh(Student_Student editedStudent, Class_Class Class, string studentCode, string studentName,

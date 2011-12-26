@@ -184,6 +184,28 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return pagePages;
         }
 
+        public void AddParentsUserRegisteredServices(aspnet_User createdUser, List<UserManagement_Authorization> authorizations)
+        {
+            List<UserManagement_RoleParentsAuthorization> roleParentsAuthorizations = new List<UserManagement_RoleParentsAuthorization>();
+            UserManagement_RoleParentsAuthorization roleParentsAuthorization = null;
+            UserBL userBL = new UserBL(school);
+            createdUser = userBL.GetUser(createdUser.UserName);
+
+            foreach (UserManagement_Authorization authorization in authorizations)
+            {
+                roleParentsAuthorization = new UserManagement_RoleParentsAuthorization();
+                roleParentsAuthorization.RoleParentAuthorizationId = authorization.AuthorizationId;
+                roleParentsAuthorization.UserParentId = createdUser.UserId;
+                roleParentsAuthorization.IsRegistered = authorization.IsActivated; // default
+                roleParentsAuthorization.IsActivated = authorization.IsActivated;  // default
+                roleParentsAuthorization.GetEmail = true;  // default
+                roleParentsAuthorization.GetSMS = false;  // default
+                roleParentsAuthorizations.Add(roleParentsAuthorization);
+            }
+
+            authorizationDA.InsertRoleParentsAuthorization(roleParentsAuthorizations);
+        }
+
         public void AddParentsUserRegisteredServices(aspnet_User createdUser, List<UserManagement_Authorization> authorizations, List<ChoseService> choseServices)
         {
             List<UserManagement_RoleParentsAuthorization> roleParentsAuthorizations = new List<UserManagement_RoleParentsAuthorization>();

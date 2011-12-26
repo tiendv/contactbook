@@ -36,7 +36,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             if (role == null)
             {
-                if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
+                if (CheckUntils.IsAllOrBlank(userName))
                 {
                     users = userDA.GetUsers(pageCurrentIndex, pageSize, out totalRecords);
                 }
@@ -48,7 +48,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                if ((userName == "") || (string.Compare(userName, "Tất cả", true) == 0))
+                if (CheckUntils.IsAllOrBlank(userName))
                 {
                     users = userDA.GetUsers(role, pageCurrentIndex, pageSize, out totalRecords);
                 }
@@ -133,6 +133,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularUser.UserId = user.UserId;
                 tabularUser.ActualUserName = user.UserName;
                 tabularUser.UserName = user.UserName.Split('_')[1];
+                tabularUser.Email = user.aspnet_Membership.Email;
+                if (user.aspnet_Membership.Email != null)
+                {
+                    tabularUser.Actived = true;
+                    tabularUser.StringStatus = "Được kích hoạt";
+                }                
                 roles = userDA.GetRoles(user);
                 foreach (aspnet_Role role in roles)
                 {
@@ -161,6 +167,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularUser;
         }
 
+        public void CreateUserParents(aspnet_User user)
+        {
+            UpdateMembership(user, false, "(Chưa xác định)", null);
+            AuthorizationBL authorizationBL = new AuthorizationBL(school);
+            RoleBL roleBL = new RoleBL(school);
+            
+            authorizationBL.AddUserToRole(user.UserName, roleBL.GetRoleParents());
 
+            List<UserManagement_Authorization> authorizations = authorizationBL.GetSupliedRoleParentsAuthorizations();
+            authorizationBL.AddParentsUserRegisteredServices(user, authorizations);
+        }
     }
 }

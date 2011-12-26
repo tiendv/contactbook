@@ -64,12 +64,10 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                     PnlButtons.Width = new Unit(PnlButtons.Width.Value / 2);
                     BtnConfirm.Visible = false;
                     TxtFeedback.ReadOnly = true;
-                    LblStatus.Text = "Đã xác nhận";
                 }
                 else
                 {
                     TxtFeedback.ReadOnly = false;
-                    LblStatus.Text = "Chưa xác nhận (đã xem)";
                 }
             }
             else

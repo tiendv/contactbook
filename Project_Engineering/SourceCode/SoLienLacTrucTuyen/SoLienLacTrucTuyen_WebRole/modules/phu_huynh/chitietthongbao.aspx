@@ -4,46 +4,20 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div style="padding: 5px 7px 10px 7px;">
-        <table style="width: 100%" class="inputBorder">
-            <tr>
-                <td style="vertical-align: top; padding-top: 3px;">
-                    Tiêu đề:
-                </td>
-                <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                    <asp:Label ID="LblTitle" runat="server" Style="width: 99%; font-weight: bold"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top; padding-top: 3px;" class="style1">
-                    Nội dung:
-                </td>
-                <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                    <asp:Label ID="LblContent" runat="server" Height="230px" Style="width: 99%; height: 250px"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 65px; vertical-align: top; padding-top: 3px;" class="style1">
-                    Tình trạng:
-                </td>
-                <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                    <asp:Label ID="LblStatus" runat="server" Style="width: 99%;"></asp:Label>
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top; padding-top: 3px;" class="style1">
-                    Phản hồi:
-                </td>
-                <td style="width: auto;" class="input_textbox">
-                    <asp:TextBox ID="TxtFeedback" runat="server" TextMode="MultiLine" Height="230px"
-                        Style="width: 99%; font-family: Arial; padding: 3px"></asp:TextBox>
-                </td>
-            </tr>
-        </table>
+        <p style="padding: 5px; font-size: 16px; font-weight: bold; text-align: center">
+            <asp:Label ID="LblTitle" runat="server" Style="width: 99%; font-weight: bold"></asp:Label>
+        </p>
+        <p class="ui-corner-all readOnlyTextBox text_content" style="padding: 5px">
+            <asp:Label ID="LblContent" runat="server" Height="250px" Style="width: 99%; height: 250px"></asp:Label>
+        </p>
+        <p>
+            <asp:TextBox ID="TxtFeedback" runat="server" TextMode="MultiLine" Height="230px"
+                Style="width: 99%; font-family: Arial; padding: 3px"></asp:TextBox>
+        </p>
     </div>
     <asp:Panel ID="PnlButtons" runat="server" Width="203px" Style="margin: 0px auto 0px auto;
         padding: 10px 0px 10px 0px">
         <asp:ImageButton ID="BtnConfirm" runat="server" OnClick="BtnConfirm_Click" ImageUrl="~/Styles/Images/button_confirm.png" />&nbsp;&nbsp;
         <asp:ImageButton ID="BtnClose" runat="server" OnClick="BtnClose_Click" ImageUrl="~/Styles/Images/button_close.png" />
     </asp:Panel>
-    </div>
 </asp:Content>

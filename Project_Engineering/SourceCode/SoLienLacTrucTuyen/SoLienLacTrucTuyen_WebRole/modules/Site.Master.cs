@@ -10,13 +10,13 @@ using SoLienLacTrucTuyen_WebRole.Modules;
 using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole
-{    
+{
     public partial class Site : System.Web.UI.MasterPage
     {
-        #region Fields        
+        #region Fields
         private MenuBL menuBL = new MenuBL();
         private string currentLevel0MenuItem;
-        private Dictionary<MyMenuItem, List<MyMenuItem>> dicMenuItem = new Dictionary<MyMenuItem,List<MyMenuItem>>();
+        private Dictionary<MyMenuItem, List<MyMenuItem>> dicMenuItem = new Dictionary<MyMenuItem, List<MyMenuItem>>();
         private List<MyMenuItem> level0MenuItems = new List<MyMenuItem>();
         #endregion
 
@@ -36,13 +36,13 @@ namespace SoLienLacTrucTuyen_WebRole
                 lblTitle.Text = value;
                 Page.Title = value;
             }
-        }        
-        #endregion        
-        
+        }
+        #endregion
+
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (Page.User.Identity.IsAuthenticated)
             {
                 try
@@ -52,13 +52,13 @@ namespace SoLienLacTrucTuyen_WebRole
                 }
                 catch (Exception ex) { }
             }
-            
+
             SetLevel0MenuItems();
             SetLevel1MenuItems();
-            if(PageUrl != null)
+            if (PageUrl != null)
             {
                 PageTitle = (new PagePathBL()).GetPageTitle(PageUrl);
-            }            
+            }
         }
 
         protected void Page_PreRender(object sender, System.EventArgs e)
@@ -87,7 +87,7 @@ namespace SoLienLacTrucTuyen_WebRole
         private void SetLevel0MenuItems()
         {
             if (PageUrl != null)
-            {   
+            {
                 dicMenuItem = menuBL.BuildMenuTree(UserSchool, UserName, PageUrl);
                 level0MenuItems.Clear();
                 foreach (KeyValuePair<EContactBook.BusinessEntity.MyMenuItem, List<EContactBook.BusinessEntity.MyMenuItem>>
@@ -109,7 +109,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
         private void SetLevel1MenuItems()
         {
-            foreach (KeyValuePair<EContactBook.BusinessEntity.MyMenuItem, 
+            foreach (KeyValuePair<EContactBook.BusinessEntity.MyMenuItem,
                      List<EContactBook.BusinessEntity.MyMenuItem>>
                 pair in dicMenuItem)
             {

@@ -114,27 +114,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string strFatherJob = this.TxtNgheNghiepBo.Text.Trim();
-            DateTime? ngaySinhBo = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
-            string ngheNghiepMe = this.TxtNgheNghiepMe.Text.Trim();
-            DateTime? ngaySinhMe = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
-            string ngheNghiepNguoiDoDau = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
-            DateTime? ngaySinhNguoiDoDau = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+            DateTime? dtFatherDateOfBirth = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
+            string strMotherJob = this.TxtNgheNghiepMe.Text.Trim();
+            DateTime? dtMotherDateOfBirth = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
+            string strPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
+            DateTime? dtPatronDateOfBirth = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
 
-            bool gioiTinh = this.RbtnNam.Checked;
-            string[] arrNgaySinh = strDayOfBirth.Split('/');
-            DateTime ngaySinh = new DateTime(Int32.Parse(arrNgaySinh[2]),
-                Int32.Parse(arrNgaySinh[1]), Int32.Parse(arrNgaySinh[0]));
-            string noiSinh = this.TxtNoiSinh.Text.Trim();
-            string dienThoai = this.TxtDienThoai.Text.Trim();
+            bool bGender = this.RbtnNam.Checked;
+            string[] arrDateOfBirth = strDayOfBirth.Split('/');
+            DateTime dtDateOfBirth = new DateTime(Int32.Parse(arrDateOfBirth[2]),
+                Int32.Parse(arrDateOfBirth[1]), Int32.Parse(arrDateOfBirth[0]));
+            string strBirthPlace = this.TxtNoiSinh.Text.Trim();
+            string strPhone = this.TxtDienThoai.Text.Trim();
 
             Class = new Class_Class();
             Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
             studentBL.InsertStudent(Class, strStudentCode, strStudentName,
-                gioiTinh, ngaySinh, noiSinh, strAddress, dienThoai,
-                strFatherName, strFatherJob, ngaySinhBo,
-                strMotherName, ngheNghiepMe, ngaySinhMe,
-                strPatron, ngheNghiepNguoiDoDau, ngaySinhNguoiDoDau);
+                bGender, dtDateOfBirth, strBirthPlace, strAddress, strPhone,
+                strFatherName, strFatherJob, dtFatherDateOfBirth,
+                strMotherName, strMotherJob, dtMotherDateOfBirth,
+                strPatron, strPatronJob, dtPatronDateOfBirth);
+
+            // create new user parents
+            string strGeneratedPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
+                Membership.Provider.MinRequiredNonAlphanumericCharacters);
+            string strUserName = UserSchool.SchoolId.ToString() + "_PH" + strStudentCode;
+            Membership.CreateUser(strUserName, strGeneratedPassword);
+            UserBL userBL = new UserBL(UserSchool);
+            aspnet_User userParents = new aspnet_User();
+            userParents.UserName = strUserName;
+            userBL.CreateUserParents(userParents);
 
             if (this.CkbAddAfterSave.Checked)
             {
