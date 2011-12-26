@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true" CodeBehind="danhsachhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.StudentsPage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
+    CodeBehind="danhsachhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.StudentsPage" %>
+
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
@@ -8,8 +10,7 @@
                 var mPEDeleteID = $get('<%=HdfRptHocSinhMPEDelete.ClientID%>').value;
                 $find(mPEDeleteID).hide();
                 return false;
-            }
-        
+            }        
         </script>
     </div>
     <div id="divSearch">
@@ -78,18 +79,15 @@
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
-        <div id="div1">
-            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
-        </div>
-
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
+                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
             <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/Images/button_import.png"
-                ToolTip="Import học sinh" OnClick="BtnImport_Click"/>
+                ToolTip="Import học sinh" OnClick="BtnImport_Click" />
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
-                ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />                
+                ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>

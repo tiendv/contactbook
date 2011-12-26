@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SoLienLacTrucTuyen.BusinessEntity
+namespace EContactBook.BusinessEntity
 {
     public class Faculty
     {

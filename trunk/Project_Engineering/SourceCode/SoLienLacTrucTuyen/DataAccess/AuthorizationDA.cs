@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 
 namespace EContactBook.DataAccess
 {
@@ -14,6 +14,14 @@ namespace EContactBook.DataAccess
         MANAGEBASETEACHERS,
         ALLROLES,
         OTHERS,
+    }
+
+    public enum AccessibilityEnum
+    {
+        View = 1,
+        Add = 2,
+        Modify = 3,
+        Delete = 4
     }
 
     public class AuthorizationDA : BaseDA

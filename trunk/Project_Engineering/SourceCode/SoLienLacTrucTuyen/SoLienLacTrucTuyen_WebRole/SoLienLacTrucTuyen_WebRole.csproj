@@ -100,6 +100,7 @@
     <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
     <Content Include="modules\danh_muc\DanhMucServicePage.aspx" />
     <Content Include="modules\lop_hoc\suagiaovienchunhiem.aspx" />
+    <Content Include="modules\lop_hoc\suathoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\suatietthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\thoikhoabieu.aspx" />
     <Content Include="modules\nguoi_dung\danhsachnguoidung.aspx" />
@@ -117,6 +118,7 @@
     <Content Include="modules\phu_huynh\suaykien.aspx" />
     <Content Include="modules\phu_huynh\thoikhoabieu.aspx" />
     <Content Include="modules\phu_huynh\thongtincanhan.aspx" />
+    <Content Include="modules\phu_huynh\trangchu.aspx" />
     <Content Include="modules\phu_huynh\ykien.aspx" />
     <Content Include="modules\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="modules\Scripts\jquery-1.4.1.js" />
@@ -141,7 +143,6 @@
     <Content Include="modules\lop_hoc\chitietlophoc.aspx" />
     <Content Include="modules\danh_muc\giao_vien\danhsachgiaovien.aspx" />
     <Content Include="modules\lop_hoc\themgiaovienchunhiem.aspx" />
-    <Content Include="modules\lop_hoc\suathoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\themtietthoikhoabieu.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
@@ -521,6 +522,13 @@
     <Compile Include="modules\lop_hoc\suagiaovienchunhiem.aspx.designer.cs">
       <DependentUpon>suagiaovienchunhiem.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.cs">
+      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.designer.cs">
+      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\lop_hoc\suatietthoikhoabieu.aspx.cs">
       <DependentUpon>suatietthoikhoabieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -636,6 +644,13 @@
     </Compile>
     <Compile Include="modules\phu_huynh\thongtincanhan.aspx.designer.cs">
       <DependentUpon>thongtincanhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\phu_huynh\trangchu.aspx.cs">
+      <DependentUpon>trangchu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\phu_huynh\trangchu.aspx.designer.cs">
+      <DependentUpon>trangchu.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\phu_huynh\ykien.aspx.cs">
       <DependentUpon>ykien.aspx</DependentUpon>
@@ -773,13 +788,6 @@
     <Compile Include="modules\lop_hoc\themgiaovienchunhiem.aspx.designer.cs">
       <DependentUpon>themgiaovienchunhiem.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.cs">
-      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.designer.cs">
-      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\lop_hoc\themtietthoikhoabieu.aspx.cs">
       <DependentUpon>themtietthoikhoabieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -897,13 +905,13 @@
     <Content Include="App_Themes\Theme1\Skin1.skin" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessEntity\SoLienLacTrucTuyen.BusinessEntity.csproj">
+    <ProjectReference Include="..\BusinessEntity\EContactBook.BusinessEntity.csproj">
       <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
-      <Name>SoLienLacTrucTuyen.BusinessEntity</Name>
+      <Name>EContactBook.BusinessEntity</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataAccess\SoLienLacTrucTuyen.DataAccess.csproj">
+    <ProjectReference Include="..\DataAccess\EContactBook.DataAccess.csproj">
       <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
-      <Name>SoLienLacTrucTuyen.DataAccess</Name>
+      <Name>EContactBook.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataPager\SoLienLacTrucTuyen.DataPager.csproj">
       <Project>{59AF6AAF-1294-492A-AA48-3E2B9EB9E12A}</Project>
@@ -968,7 +976,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7282</DevelopmentServerPort>
+          <DevelopmentServerPort>12538</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

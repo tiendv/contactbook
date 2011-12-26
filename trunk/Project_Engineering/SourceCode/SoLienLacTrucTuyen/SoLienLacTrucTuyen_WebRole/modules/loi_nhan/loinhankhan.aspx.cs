@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using AjaxControlToolkit;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -28,6 +29,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
+            }
+
             loiNhanKhanBL = new MessageBL(UserSchool);
             if (!Page.IsPostBack)
             {
@@ -35,43 +42,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BindDropDownLists();
                 InitDates();
 
-                BindRptLoiNhanKhan();
+                BindRptMessages();
             }
         }
         #endregion
 
         #region Methods
-        private void BindRptLoiNhanKhan()
+        private void BindRptMessages()
         {
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
             DateTime denNgay = DateTime.Parse(TxtDenNgay.Text);
             string strStudentCode = TxtMaHS.Text;
-            bool? confirmed = null;
+            ConfigurationMessageStatus messageStatus = null;
             if (DdlXacNhan.SelectedIndex > 0)
             {
-                if (Int32.Parse(DdlXacNhan.SelectedValue) == 0)
-                {
-                    confirmed = false;
-                }
-                else
-                {
-                    confirmed = true;
-                }
-            }            
-
-            int xacNhan = Int32.Parse(DdlXacNhan.SelectedValue);
+                messageStatus = new ConfigurationMessageStatus();
+                messageStatus.MessageStatusId = Int32.Parse(DdlXacNhan.SelectedValue);
+            }
 
             double dTotalRecords;
             List<TabularMessage> lstTabularLoiNhanKhan = loiNhanKhanBL.GetTabularMessages(
                 year, tuNgay, denNgay,
-                strStudentCode, confirmed, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                strStudentCode, messageStatus, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (lstTabularLoiNhanKhan.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRptLoiNhanKhan();
+                BindRptMessages();
                 return;
             }
 
@@ -112,7 +111,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownLists()
         {
             BindDDLNamHoc();
-            BindDDLXacNhan();
+            BindDDLMessageStatuses();
             BindDDLNganhHoc();
             BindDDLKhoiLop();
             BindDDLLopHoc();
@@ -129,11 +128,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
         }
 
-        private void BindDDLXacNhan()
+        private void BindDDLMessageStatuses()
         {
-            DdlXacNhan.Items.Add(new ListItem("Tất cả", "-1"));
-            DdlXacNhan.Items.Add(new ListItem("Có", "1"));
-            DdlXacNhan.Items.Add(new ListItem("Không", "0"));
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+            List<ConfigurationMessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
+            DdlXacNhan.DataSource = messageStatuses;
+            DdlXacNhan.DataValueField = "MessageStatusId";
+            DdlXacNhan.DataTextField = "MessageStatusName";
+            DdlXacNhan.DataBind();
+
+            DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0")); 
         }
 
         private void BindDDLKhoiLop()
@@ -356,7 +360,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -381,7 +385,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tieuDe, noiDung, ngay);
             }
 
-            BindRptLoiNhanKhan();
+            BindRptMessages();
 
             TxtTieuDeThem.Text = "";
             TxtNoiDungThem.Text = "";
@@ -397,7 +401,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int maLoiNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
             loiNhanKhanBL.UpdateMessage(maLoiNhanKhan, TxtNoiDungSua.Text, DateTime.Parse(TxtNgaySua.Text));
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
@@ -405,7 +409,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
             loiNhanKhanBL.DeleteMessage(maLopNhanKhan);
             isSearch = false;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
         #endregion
 
@@ -414,7 +418,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRptLoiNhanKhan();
+            BindRptMessages();
         }
         #endregion
     }

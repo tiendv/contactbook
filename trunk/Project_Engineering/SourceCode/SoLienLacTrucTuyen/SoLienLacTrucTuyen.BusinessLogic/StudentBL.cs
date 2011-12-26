@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen.BusinessLogic

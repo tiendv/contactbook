@@ -52,10 +52,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (ValidateUser(LoginCtrl.UserName, LoginCtrl.Password))
             {
                 e.Authenticated = true;
+
+                // add School to session
                 School_School school = new School_School();
                 school.SchoolId = iSltSchool;
                 school.SchoolName = ddlSchools.SelectedItem.Text;
-
                 Session[AppConstant.SCHOOL] = school;
 
                 aspnet_Role role = (new UserBL(school)).GetRole(LoginCtrl.UserName);
@@ -63,7 +64,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (authorizationBL.IsRoleParents(role))
                 {
                     StudentBL studentBL = new StudentBL(school);
-                    string strStudentCode = LoginCtrl.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
+                    //string strStudentCode = LoginCtrl.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
+                    string strStudentCode = LoginCtrl.UserName.Substring(4);
                     string strMembershipStudentSessionKey = LoginCtrl.UserName
                         + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
                     Session[strMembershipStudentSessionKey] = studentBL.GetStudent(strStudentCode);

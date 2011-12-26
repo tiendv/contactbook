@@ -58,18 +58,21 @@
         <div id="divButtonSearch" style="margin: 3px 0px 0px 0px">
             <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm thời khóa biểu" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
-            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
         </div>
     </div>
     <div class="table_data ui-corner-all">
+        <div class="add">
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
+                ToolTip="In thời khóa biểu" OnClick="BtnPrint_Click" />&nbsp;&nbsp;&nbsp;
+            <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
+                ToolTip="Sắp xếp thời khóa biểu" OnClick="BtnEdit_Click"/>
+        </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
                 Text="Không có thông tin thời khóa biểu"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:Repeater ID="RptMonHocTKB" runat="server" OnItemCommand="RptMonHocTKB_ItemCommand"
-                OnItemDataBound="RptMonHocTKB_ItemDataBound">
+            <asp:Repeater ID="RptMonHocTKB" runat="server" OnItemDataBound="RptMonHocTKB_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="left_2 ui-corner-tl" style="width: 78px;">
@@ -82,9 +85,6 @@
                         </td>
                         <td>
                             Chiều
-                        </td>
-                        <td class="icon">
-                            Sắp xếp
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -140,10 +140,6 @@
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </table>
-                        </td>
-                        <td style="height: 40px; width: 8%; vertical-align: middle; text-align: center">
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" />
                         </td>
                     </tr>
                 </ItemTemplate>

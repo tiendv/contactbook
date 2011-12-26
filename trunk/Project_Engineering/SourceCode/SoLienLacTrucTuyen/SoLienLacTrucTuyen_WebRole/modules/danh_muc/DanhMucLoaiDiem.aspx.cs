@@ -10,7 +10,7 @@ using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen;
 using System.Text.RegularExpressions;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules

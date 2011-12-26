@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Add))
+            if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
@@ -283,7 +283,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //        btnDeleteItem.Enabled = false;
             //    }
             //}
-            if (accessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Modify))
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
                 // Do something
             }
@@ -303,7 +303,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 PnlPopupEdit.Visible = false;
             }
 
-            if (accessibilities.Contains(SoLienLacTrucTuyen.BusinessEntity.AccessibilityEnum.Delete))
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
             {
                 if (e.Item.ItemType == ListItemType.Item
                     || e.Item.ItemType == ListItemType.AlternatingItem)

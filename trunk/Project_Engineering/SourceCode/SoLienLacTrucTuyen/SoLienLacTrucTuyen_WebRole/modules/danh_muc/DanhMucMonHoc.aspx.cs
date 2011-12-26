@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen;
 using System.Text.RegularExpressions;
@@ -14,7 +14,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhMucMonHoc : BaseContentPage
+    public partial class SubjectsPage : BaseContentPage
     {
         #region Fields
         private SubjectBL subjectBL;

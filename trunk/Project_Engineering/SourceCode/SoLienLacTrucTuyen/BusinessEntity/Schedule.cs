@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SoLienLacTrucTuyen.BusinessEntity
+namespace EContactBook.BusinessEntity
 {
     public class DailySchedule
     {
         public int ClassId { get; set; }
-
         public int YearId { get; set; }
         public int TermId { get; set; }
+
         public int DayInWeekId { get; set; }
         public string DayInWeekName { get; set; }
 
