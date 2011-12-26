@@ -161,9 +161,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessEntity\SoLienLacTrucTuyen.BusinessEntity.csproj">
+    <ProjectReference Include="..\BusinessEntity\EContactBook.BusinessEntity.csproj">
       <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
-      <Name>SoLienLacTrucTuyen.BusinessEntity</Name>
+      <Name>EContactBook.BusinessEntity</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
