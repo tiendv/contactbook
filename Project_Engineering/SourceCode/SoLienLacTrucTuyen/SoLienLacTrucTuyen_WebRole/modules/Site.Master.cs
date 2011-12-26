@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using SoLienLacTrucTuyen_WebRole.Modules;
 using EContactBook.DataAccess;
 
@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole
 {    
     public partial class Site : System.Web.UI.MasterPage
     {
-        #region Fields
+        #region Fields        
         private MenuBL menuBL = new MenuBL();
         private string currentLevel0MenuItem;
         private Dictionary<MyMenuItem, List<MyMenuItem>> dicMenuItem = new Dictionary<MyMenuItem,List<MyMenuItem>>();
@@ -42,6 +42,7 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (Page.User.Identity.IsAuthenticated)
             {
                 try
@@ -89,10 +90,10 @@ namespace SoLienLacTrucTuyen_WebRole
             {   
                 dicMenuItem = menuBL.BuildMenuTree(UserSchool, UserName, PageUrl);
                 level0MenuItems.Clear();
-                foreach (KeyValuePair<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem, List<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem>>
+                foreach (KeyValuePair<EContactBook.BusinessEntity.MyMenuItem, List<EContactBook.BusinessEntity.MyMenuItem>>
                     pair in dicMenuItem)
                 {
-                    SoLienLacTrucTuyen.BusinessEntity.MyMenuItem menuItemCap0 = pair.Key;
+                    EContactBook.BusinessEntity.MyMenuItem menuItemCap0 = pair.Key;
                     level0MenuItems.Add(menuItemCap0);
 
                     if (menuItemCap0.HienHanh)
@@ -108,13 +109,13 @@ namespace SoLienLacTrucTuyen_WebRole
 
         private void SetLevel1MenuItems()
         {
-            foreach (KeyValuePair<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem, 
-                     List<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem>>
+            foreach (KeyValuePair<EContactBook.BusinessEntity.MyMenuItem, 
+                     List<EContactBook.BusinessEntity.MyMenuItem>>
                 pair in dicMenuItem)
             {
                 if (pair.Key.HienHanh)
                 {
-                    List<SoLienLacTrucTuyen.BusinessEntity.MyMenuItem> listLevel1MenuItems = pair.Value;
+                    List<EContactBook.BusinessEntity.MyMenuItem> listLevel1MenuItems = pair.Value;
                     RptFixedLevel1MenuItems.DataSource = listLevel1MenuItems;
                     RptFixedLevel1MenuItems.DataBind();
                     return;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EContactBook.DataAccess;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using System.Net;
 using System.Net.Mail;
 using System.IO;

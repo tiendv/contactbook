@@ -5,10 +5,6 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScripts">
-        <script type="text/javascript">
-            $(document).ready(function () {
-            });
-        </script>
         <script language="javascript" type="text/javascript">
             function pageLoad() {
                 var modalPopupAdd = $find('<%=MPEAdd.ClientID%>');
@@ -256,6 +252,7 @@
     <div style="float: right; margin-top: -45px; padding-right: 30px;">
         <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="pager_Command" ViewStateMode="Enabled" />
     </div>
+
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">

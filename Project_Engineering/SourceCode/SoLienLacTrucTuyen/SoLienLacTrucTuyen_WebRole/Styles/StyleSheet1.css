@@ -313,7 +313,7 @@ table.search
 /* --------------- SideBar ------------------- */
 .sideBarStep
 {
-    width: 250px;
+    width: 280px;
     padding: 5px;
     background-color: #FFFFFF;
 }
@@ -321,6 +321,7 @@ table.search
 .sideBarActivedStep
 {
     font-weight: bold;
+    font-size:14px;
     color: #0000FF;
 }
 

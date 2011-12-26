@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using SoLienLacTrucTuyen_WebRole.Modules;
 using System.Web.Security;
 

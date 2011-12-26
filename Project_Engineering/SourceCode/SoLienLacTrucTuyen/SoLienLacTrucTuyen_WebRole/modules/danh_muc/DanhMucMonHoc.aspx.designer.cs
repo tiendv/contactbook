@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class DanhMucMonHoc {
+    public partial class SubjectsPage {
         
         /// <summary>
         /// DdlNganh control.

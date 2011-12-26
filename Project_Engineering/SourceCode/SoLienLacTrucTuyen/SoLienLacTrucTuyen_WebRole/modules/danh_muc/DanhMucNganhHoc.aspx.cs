@@ -9,7 +9,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using SoLienLacTrucTuyen_WebRole.Modules;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole

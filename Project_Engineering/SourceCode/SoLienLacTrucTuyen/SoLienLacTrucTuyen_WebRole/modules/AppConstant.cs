@@ -23,11 +23,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_DETAILEDCOMMENT = "/modules/phu_huynh/chitietykien.aspx";
         public const string PAGEPATH_COMMENTS = "/modules/phu_huynh/ykien.aspx";
         public const string PAGEPATH_MESSAGE = "/modules/phu_huynh/loinhankhan.aspx";
+        public const string PAGEPATH_PARENTS_HOMEPAGE = "/modules/phu_huynh/trangchu.aspx";
         public const string PAGEPATH_DETAILEDMESSAGE = "/modules/phu_huynh/chitietthongbao.aspx";
         public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx";
         public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
         public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
         public const string PAGEPATH_PRINTCLASSES = "/modules/lop_hoc/indanhsachlophoc.aspx";
+        public const string PAGEPATH_SCHEDULE = "/modules/lop_hoc/thoikhoabieu.aspx";
+        public const string PAGEPATH_SCHEDULEAGGRANGEMENT = "/modules/lop_hoc/suathoikhoabieu.aspx";
         public const string PAGEPATH_PRINTTERM = "/modules/lop_hoc/inthoikhoabieu.aspx";
         public const string PAGEPATH_SIGNIN = "/Account/DangNhap.aspx";
 
@@ -40,6 +43,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_YEAR = "Year";
         public const string VIEWSTATE_SELECTED_YEARNAME = "YearName";
         public const string VIEWSTATE_SELECTED_CLASS = "Class";
+        public const string VIEWSTATE_SELECTED_TERM = "Term";
         public const string VIEWSTATE_SELECTED_FACULTY = "Faculty";
         public const string VIEWSTATE_SELECTED_GRADE = "Grade";
         public const string VIEWSTATE_SELECTED_STUDENTCODE = "StudentName";
@@ -74,6 +78,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_FROMDATE = "FromDate";
         public const string SESSION_SELECTED_TODATE = "ToDate";
         public const string SESSION_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
+        public const string SESSION_DAILYSCHEDULES = "DailySchedules";        
 
         #region Session Teacher
         public const string SESSION_TEACHERID = "TeacherID";
@@ -95,6 +100,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string TEACHER = "Teacher";
         public const string UNDERSCORE = "_";
         public const char UNDERSCORE_CHAR = '_';
+        public const string USERPARENT_PREFIX = "PH";
 
         public const string COMMAND_EDIT = "CommandEdit";
 

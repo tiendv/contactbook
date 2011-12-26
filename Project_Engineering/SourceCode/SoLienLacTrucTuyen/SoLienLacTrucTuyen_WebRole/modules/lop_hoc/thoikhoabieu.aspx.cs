@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 using AjaxControlToolkit;
 using System.Web.Security;
 
@@ -23,11 +23,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
+
+            // Check access denied
             if (accessDenied)
             {
                 return;
             }
 
+            // Check session's expiration
             if (sessionExpired)
             {
                 FormsAuthentication.SignOut();
@@ -130,27 +133,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
         }
-
-        protected void RptMonHocTKB_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdEditItem":
-                    {
-                        string ClassId = ((HiddenField)e.Item.FindControl("HdfRptClassId")).Value;
-                        string TermId = ((HiddenField)e.Item.FindControl("HdfRptTermId")).Value;
-                        string DayInWeekId = ((HiddenField)e.Item.FindControl("HdfRptDayInWeekId")).Value;
-
-                        Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}", 
-                            ClassId, TermId, DayInWeekId));
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
         #endregion
 
         #region Button event handlers
@@ -158,6 +140,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindRptSchedule();            
         }
+        
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            Class_Class Class = new Class_Class();
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != null)
+            {
+                Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
+            }
+            else
+            {
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            }
+
+            Configuration_Term term = new Configuration_Term();
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] != null)
+            {
+                term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
+            }
+            else
+            {
+                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            }
+
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+
+            RedirectToScheduleArrangementPage();
+        }
+
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
         {            
             #region Add Info 2 Session
@@ -217,6 +228,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptSchedule()
         {
+            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Int32.Parse(DdlLopHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] = Int32.Parse(DdlHocKy.SelectedValue);
+
             Configuration_Term term = null;
             Class_Class Class = null;
             List<DailySchedule> dailySchedules;
@@ -377,6 +391,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 DdlLopHoc.SelectedValue = Session["ThoiKhoaBieu_ClassId"].ToString();
                 Session.Remove("ThoiKhoaBieu_ClassId");
             }
+        }
+
+        private void RedirectToScheduleArrangementPage()
+        {
+            Class_Class Class = new Class_Class();
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != null)
+            {
+                Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
+            }
+            else
+            {
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            }
+
+            Configuration_Term term = new Configuration_Term();
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] != null)
+            {
+                term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
+            }
+            else
+            {
+                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            }
+
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+
+            Response.Redirect(AppConstant.PAGEPATH_SCHEDULEAGGRANGEMENT);
         }
         #endregion   
     }

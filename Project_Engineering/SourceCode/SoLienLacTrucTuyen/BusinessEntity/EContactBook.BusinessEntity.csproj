@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{136FB4E4-9479-4416-A5C4-A8361AEC26C7}</ProjectGuid>
+    <ProjectGuid>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoLienLacTrucTuyen.BusinessLogic</RootNamespace>
-    <AssemblyName>SoLienLacTrucTuyen.BusinessLogic</AssemblyName>
+    <RootNamespace>EContactBook.BusinessEntity</RootNamespace>
+    <AssemblyName>EContactBook.BusinessEntity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -37,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,9 +51,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,52 +58,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizationBL.cs" />
-    <Compile Include="BaseBL.cs" />
-    <Compile Include="CheckUntils.cs" />
-    <Compile Include="MailBL.cs" />
-    <Compile Include="ParentsCommentBL.cs" />
-    <Compile Include="Service References\ServiceEmail\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="SystemConfigBL.cs" />
-    <Compile Include="DanhHieuBL.cs" />
-    <Compile Include="FunctionsBL.cs" />
-    <Compile Include="TeacherBL.cs" />
-    <Compile Include="FormerTeacherBL.cs" />
-    <Compile Include="ConductBL.cs" />
-    <Compile Include="StudentActivityBL.cs" />
-    <Compile Include="LearningAptitudeBL.cs" />
-    <Compile Include="StudentBL.cs" />
-    <Compile Include="StudyingResultBL.cs" />
-    <Compile Include="GradeBL.cs" />
-    <Compile Include="MarkTypeBL.cs" />
-    <Compile Include="MessageBL.cs" />
-    <Compile Include="ClassBL.cs" />
-    <Compile Include="MenuBL.cs" />
-    <Compile Include="SubjectBL.cs" />
-    <Compile Include="SchoolBL.cs" />
-    <Compile Include="ScheduleBL.cs" />
-    <Compile Include="AbsentBL.cs" />
-    <Compile Include="FacultyBL.cs" />
-    <Compile Include="RoleBL.cs" />
-    <Compile Include="PagePathBL.cs" />
+    <Compile Include="ChoseService.cs" />
+    <Compile Include="DDLFormatHocSinh.cs" />
+    <Compile Include="Faculty.cs" />
+    <Compile Include="GVCNInfo.cs" />
+    <Compile Include="LopHocInfo.cs" />
+    <Compile Include="MenuItem.cs" />
+    <Compile Include="TabularParentsComment.cs" />
+    <Compile Include="TabularSubject.cs" />
+    <Compile Include="TabularDiemHocSinh.cs" />
+    <Compile Include="TabularHanhKiemHocSinh.cs" />
+    <Compile Include="TabularTeachingPeriod.cs" />
+    <Compile Include="Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AttitudeBL.cs" />
-    <Compile Include="TeachingPeriodBL.cs" />
-    <Compile Include="UserBL.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BusinessEntity\EContactBook.BusinessEntity.csproj">
-      <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
-      <Name>EContactBook.BusinessEntity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccess\EContactBook.DataAccess.csproj">
-      <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
-      <Name>EContactBook.DataAccess</Name>
-    </ProjectReference>
+    <Compile Include="SortOrderEnum.cs" />
+    <Compile Include="TabularChiTietDiemLoaiDiem.cs" />
+    <Compile Include="TabularChiTietDiemMonHocLoaiDiem.cs" />
+    <Compile Include="TabularChiTietPhanQuyen.cs" />
+    <Compile Include="TabularDanhHieuHocSinh.cs" />
+    <Compile Include="TabularTeacher.cs" />
+    <Compile Include="TabularGiaoVienChuNhiem.cs" />
+    <Compile Include="TabularHoatDong.cs" />
+    <Compile Include="TabularHocSinhInfo.cs" />
+    <Compile Include="TabularKetQuaMonHoc.cs" />
+    <Compile Include="TabularLoiNhanKhan.cs" />
+    <Compile Include="TabularAbsent.cs" />
+    <Compile Include="TabularUser.cs" />
+    <Compile Include="TabularAuthorization.cs" />
+    <Compile Include="TabularRole.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -128,33 +108,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ServiceEmail\Soap.wsdl" />
-    <None Include="Service References\ServiceEmail\SoLienLacTrucTuyen.BusinessLogic.ServiceEmail.Bitmap.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ServiceEmail\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceEmail\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceEmail\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ServiceEmail\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EContactBook.DataAccess;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -50,31 +50,31 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public List<TabularMessage> GetTabularMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            string studentCode, bool? confirmed, int pageCurrentIndex, int pageSize, out double totalRecords)
+            string studentCode, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularMessage> tabularMessages = new List<TabularMessage>();
             TabularMessage tabularMessage = null;
             List<MessageToParents_Message> messages;
             if (CheckUntils.IsAllOrBlank(studentCode))
             {
-                if (confirmed == null)
+                if (messageStatus == null)
                 {
                     messages = messageDA.GetMessages(year, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    messages = messageDA.GetMessages(year, beginDate, endDate, (bool)confirmed, pageCurrentIndex, pageSize, out totalRecords);
+                    messages = messageDA.GetMessages(year, beginDate, endDate, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
             else
             {
-                if (confirmed == null)
+                if (messageStatus == null)
                 {
                     messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, (bool)confirmed, pageCurrentIndex, pageSize, out totalRecords);
+                    messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
 
@@ -111,11 +111,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public int GetNewMessage(Student_Student student)
+        public int GetNewMessageCount(Student_Student student)
         {
             StudentBL studentBL = new StudentBL(school);
             Class_Class Class = studentBL.GetLastedClass(student);
-            return messageDA.GetNewMessage(student, Class);
+            return messageDA.GetNewMessageCount(student, Class);
+        }
+
+        public int GetUnconfirmedMessageCount(Student_Student student)
+        {
+            StudentBL studentBL = new StudentBL(school);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            return messageDA.GetUnconfirmedMessageCount(student, Class);
         }
 
         internal void DeleteMessage(Student_Student student)

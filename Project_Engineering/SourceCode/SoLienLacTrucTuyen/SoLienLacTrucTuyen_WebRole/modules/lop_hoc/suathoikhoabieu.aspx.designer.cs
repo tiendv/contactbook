@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class SuaThoiKhoaBieuPage {
+    public partial class ScheduleArrangementPage {
         
         /// <summary>
         /// LblTitle control.
@@ -22,138 +22,264 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblTitle;
         
         /// <summary>
-        /// DdlThu control.
+        /// RptDailySchedule control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlThu;
+        protected global::System.Web.UI.WebControls.Repeater RptDailySchedule;
         
         /// <summary>
-        /// BtnSearch control.
+        /// PnlPopupMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
+        protected global::System.Web.UI.WebControls.Panel PnlPopupMonHoc;
         
         /// <summary>
-        /// HdfSubjectIdTKB control.
+        /// PnlDragPopupMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfSubjectIdTKB;
+        protected global::System.Web.UI.WebControls.Panel PnlDragPopupMonHoc;
         
         /// <summary>
-        /// HdfRptThoiKhoaBieuMPEDelete control.
+        /// LblPnlPopupMonHocTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptThoiKhoaBieuMPEDelete;
+        protected global::System.Web.UI.WebControls.Label LblPnlPopupMonHocTitle;
         
         /// <summary>
-        /// RptThoiKhoaBieu control.
+        /// DdlNganh control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RptThoiKhoaBieu;
+        protected global::System.Web.UI.WebControls.DropDownList DdlNganh;
         
         /// <summary>
-        /// MainDataPager control.
+        /// DdlKhoi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
+        protected global::System.Web.UI.WebControls.DropDownList DdlKhoi;
         
         /// <summary>
-        /// BtnBackPrevPage control.
+        /// TxtMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnBackPrevPage;
+        protected global::System.Web.UI.WebControls.TextBox TxtMonHoc;
         
         /// <summary>
-        /// BtnTextBackPrevPage control.
+        /// MonHocWatermark control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnTextBackPrevPage;
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender MonHocWatermark;
         
         /// <summary>
-        /// PnlPopupConfirmDelete control.
+        /// BtnSearchMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PnlPopupConfirmDelete;
+        protected global::System.Web.UI.WebControls.ImageButton BtnSearchMonHoc;
         
         /// <summary>
-        /// PnlDragPopupConfirmDelete control.
+        /// LblSearchResultMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PnlDragPopupConfirmDelete;
+        protected global::System.Web.UI.WebControls.Label LblSearchResultMonHoc;
         
         /// <summary>
-        /// LblPopupConfirmDeleteTitle control.
+        /// HdfSubjectId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblPopupConfirmDeleteTitle;
+        protected global::System.Web.UI.WebControls.HiddenField HdfSubjectId;
         
         /// <summary>
-        /// Image1 control.
+        /// RptMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
+        protected global::System.Web.UI.WebControls.Repeater RptMonHoc;
         
         /// <summary>
-        /// LblConfirmDelete control.
+        /// DataPageMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblConfirmDelete;
+        protected global::SoLienLacTrucTuyen.DataPager.DataPager DataPageMonHoc;
         
         /// <summary>
-        /// BtnOKDeleteItem control.
+        /// BtnSaveMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnOKDeleteItem;
+        protected global::System.Web.UI.WebControls.ImageButton BtnSaveMonHoc;
         
         /// <summary>
-        /// BtnCancelDeleteItem control.
+        /// BtnCancelAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancelDeleteItem;
+        protected global::System.Web.UI.WebControls.ImageButton BtnCancelAdd;
+        
+        /// <summary>
+        /// PnlPopupGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlPopupGiaoVien;
+        
+        /// <summary>
+        /// PnlDragPopupGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlDragPopupGiaoVien;
+        
+        /// <summary>
+        /// LblPnlPopupGiaoVienTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblPnlPopupGiaoVienTitle;
+        
+        /// <summary>
+        /// TxtSearchUserId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtSearchUserId;
+        
+        /// <summary>
+        /// UserIdWatermark control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender UserIdWatermark;
+        
+        /// <summary>
+        /// TxtSearchTenGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtSearchTenGiaoVien;
+        
+        /// <summary>
+        /// TenGiaoVienWatermark control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender TenGiaoVienWatermark;
+        
+        /// <summary>
+        /// BtnSearchGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnSearchGiaoVien;
+        
+        /// <summary>
+        /// LblSearchResultGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblSearchResultGiaoVien;
+        
+        /// <summary>
+        /// HdfUserId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HdfUserId;
+        
+        /// <summary>
+        /// RptGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RptGiaoVien;
+        
+        /// <summary>
+        /// DataPageGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::SoLienLacTrucTuyen.DataPager.DataPager DataPageGiaoVien;
+        
+        /// <summary>
+        /// BtnSaveGiaoVien control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnSaveGiaoVien;
+        
+        /// <summary>
+        /// ImageButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
     }
 }

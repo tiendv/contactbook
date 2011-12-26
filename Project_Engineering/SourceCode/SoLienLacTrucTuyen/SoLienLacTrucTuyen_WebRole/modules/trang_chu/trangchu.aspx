@@ -73,7 +73,8 @@
                                     <div style="width: 85%; float: left; padding-left: 10px;">
                                         <asp:HyperLink ID="HyperLink3" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/loinhankhan.aspx">Thông báo</asp:HyperLink>
                                         <br />
-                                        <asp:Label ID="LblMessageTitle" runat="server"></asp:Label>
+                                        <asp:Label ID="LblNewMessageStatus" runat="server"></asp:Label><br />
+                                        <asp:Label ID="LblUnconfirmedMessageStatus" runat="server"></asp:Label>
                                     </div>
                                 </div>
                             </td>
@@ -84,7 +85,7 @@
                                     <div style="width: 85%; float: left; padding-left: 10px;">
                                         <asp:HyperLink ID="HyperLink4" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/ykien.aspx">Góp ý</asp:HyperLink>
                                         <br />
-                                        Bạn có (3) phản hồi mới
+                                        <asp:Label ID="LblCommentStatus" runat="server"></asp:Label>
                                     </div>
                                 </div>
                             </td>

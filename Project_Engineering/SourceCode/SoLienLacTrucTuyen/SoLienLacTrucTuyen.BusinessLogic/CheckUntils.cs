@@ -13,6 +13,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 return true;
             }
+            else if (str == string.Empty)
+            {
+                return true;
+            }
             else if (str.Trim() == "")
             {
                 return true;
@@ -25,7 +29,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public static bool IsAllOrBlank(string str)
         {
-            if (str == null)
+            if (IsNullOrBlank(str))
             {
                 return true;
             }

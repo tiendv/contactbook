@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EContactBook.DataAccess;
-using SoLienLacTrucTuyen.BusinessEntity;
+using EContactBook.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -123,16 +123,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
+        public Class_Schedule GetSchedule(int scheduleId)
         {
-            return scheduleDA.ScheduleExists(Class, subject, term, dayInweek, session);
+            return scheduleDA.GetSchedule(scheduleId);
         }
-
-        public bool ScheduleExists(aspnet_User teacher)
-        {
-            return scheduleDA.ScheduleExists(teacher);
-        }
-
+        
         public List<Class_Schedule> GetSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
             return scheduleDA.GetSchedules(Class, term, dayInweek, session);
@@ -157,7 +152,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     teachingPeriodSchedule = new TeachingPeriodSchedule();
                     teachingPeriodSchedule.SubjectId = 0;
+                    teachingPeriodSchedule.SubjectName = "Chưa xác định";
                     teachingPeriodSchedule.ScheduleId = 0;
+                    teachingPeriodSchedule.TeacherName = "Chưa xác định";
                 }
 
                 teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
@@ -273,14 +270,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return teachingPeriodSchedule;
         }
 
-        public Class_Schedule GetSchedule(int scheduleId)
-        {
-            return scheduleDA.GetSchedule(scheduleId);
-        }
+        
 
         private bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term)
         {
             return scheduleDA.ScheduleExists(Class, subject, term);
+        }
+        
+        public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
+        {
+            return scheduleDA.ScheduleExists(Class, subject, term, dayInweek, session);
+        }
+
+        public bool ScheduleExists(aspnet_User teacher)
+        {
+            return scheduleDA.ScheduleExists(teacher);
         }
 
         public bool ScheduleExists(Category_Subject subject)
