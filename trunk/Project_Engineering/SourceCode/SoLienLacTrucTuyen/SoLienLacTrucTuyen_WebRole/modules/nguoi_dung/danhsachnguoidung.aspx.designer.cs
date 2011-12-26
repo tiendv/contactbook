@@ -40,6 +40,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.TextBox TxtSearchUserName;
         
         /// <summary>
+        /// UserNameWatermark control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AjaxControlToolkit.TextBoxWatermarkExtender UserNameWatermark;
+        
+        /// <summary>
         /// BtnSearch control.
         /// </summary>
         /// <remarks>

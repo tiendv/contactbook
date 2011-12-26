@@ -5,10 +5,6 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript" runat="server">
-        <script type="text/javascript">
-            $(document).ready(function () {
-            });
-        </script>
         <script language="javascript" type="text/javascript">
             function popopConfirmDelete_CancelDelete_Click() {
                 var mPEDeleteID = $get('<%=HdfRptUserMPEDelete.ClientID%>').value;
@@ -23,6 +19,9 @@
             <asp:DropDownList ID="DdlRoles" runat="server" Width="200px" />
             &nbsp; &nbsp; &nbsp; &nbsp; Người dùng:
             <asp:TextBox ID="TxtSearchUserName" runat="server" Width="150px"></asp:TextBox>&nbsp;&nbsp;
+            <ajaxToolkit:TextBoxWatermarkExtender ID="UserNameWatermark" runat="server"
+                TargetControlID="TxtSearchUserName" WatermarkText="Tất cả">
+            </ajaxToolkit:TextBoxWatermarkExtender>
         </div>
         <div id="divButtonSearch">
             <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
@@ -54,6 +53,12 @@
                         <td>
                             <asp:LinkButton ID="LinkButton2" runat="server" CommandName="SortByUserName" ForeColor="White">Nhóm người dùng</asp:LinkButton>
                         </td>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            Trạng thái
+                        </td>
                         <td id="thEditUser" runat="server" class="icon">
                             Sửa
                         </td>
@@ -76,6 +81,12 @@
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>
                         </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "Email")%>
+                        </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "StringStatus")%>
+                        </td>
                         <td id="tdEditUser" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
@@ -94,7 +105,7 @@
                 </ItemTemplate>
                 <FooterTemplate>
                     <tr>
-                        <td colspan="6" class="footer ui-corner-bl ui-corner-br">
+                        <td colspan="8" class="footer ui-corner-bl ui-corner-br">
                         </td>
                     </tr>
                 </FooterTemplate>

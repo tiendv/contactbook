@@ -10,7 +10,9 @@ namespace EContactBook.BusinessEntity
         public Guid UserId { get; set; }
         public string UserName { get; set; }
         public string ActualUserName { get; set; }
-        
+        public string Email { get; set; }
+        public bool Actived { get; set; }
+        public string StringStatus { get; set; }
         public string RoleName { get; set; }
         public string RoleDisplayedName { get; set; }        
     }
