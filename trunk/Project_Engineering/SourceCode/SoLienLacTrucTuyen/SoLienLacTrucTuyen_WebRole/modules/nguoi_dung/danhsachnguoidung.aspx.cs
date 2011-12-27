@@ -173,55 +173,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptUser_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (!accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEditUser").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEditUser").Visible = false;
-                }
-            }
-
-            if (!accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDeleteUser").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDeleteUser").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    aspnet_User user = new aspnet_User();
-                    user.UserId = ((TabularUser)e.Item.DataItem).UserId;
-                    if (!userBL.IsDeletable(user))
-                    {
-                        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                        btnDeleteItem.Enabled = false;
-                    }
-                }
-            }
-
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                HyperLink hlkTenNguoiDung = (HyperLink)e.Item.FindControl("HlkTenNguoiDung");
-                hlkTenNguoiDung.NavigateUrl = "~/modules/nguoi_dung/chitietnguoidung.aspx?UserId="
-                    + ((TabularUser)e.Item.DataItem).UserId;
+             
             }
         }
 
@@ -246,6 +200,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         Response.Redirect(string.Format(AppConstant.PAGEPATH_EDITUSER + "?UserId={0}", e.CommandArgument));
                         break;
                     }
+                case "CmdDetailItem":
+                    {
+                        aspnet_User user = new aspnet_User();
+                        user.UserId = new Guid(e.CommandArgument.ToString());
+                        AddSession(AppConstant.SESSION_SELECTED_USER, user);
+                        Response.Redirect(AppConstant.PAGEPATH_DETAILUSER);
+                        break;
+                    }    
                 default:
                     {
                         break;

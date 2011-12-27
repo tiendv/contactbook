@@ -158,6 +158,9 @@
     <Content Include="Scripts\GlobalScript.js" />
     <Content Include="Scripts\JQRepeater-2.0.js" />
     <Content Include="Scripts\jquery-ui-1.8.14.custom.min.js" />
+    <Content Include="Styles\Buttons\button_confirm.png" />
+    <Content Include="Styles\Buttons\button_import.png" />
+    <Content Include="Styles\Buttons\button_next.png" />
     <Content Include="Styles\button_edit_disable.png" />
     <Content Include="Styles\Icons\icon-warning.png" />
     <Content Include="Styles\Icons\icon_add.png" />
@@ -200,6 +203,7 @@
     <Content Include="Styles\Images\button_yes.png" />
     <Content Include="Styles\Images\calendar.png" />
     <Content Include="Styles\Images\confirm_icon.gif" />
+    <Content Include="Styles\Images\text_content_background.png" />
     <Content Include="Styles\Images\FeedbackIcon.png" />
     <Content Include="Styles\Images\first_page.png" />
     <Content Include="Styles\Images\go_top.png" />
@@ -976,7 +980,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>12538</DevelopmentServerPort>
+          <DevelopmentServerPort>7535</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -19,8 +19,8 @@
             <asp:DropDownList ID="DdlRoles" runat="server" Width="200px" />
             &nbsp; &nbsp; &nbsp; &nbsp; Người dùng:
             <asp:TextBox ID="TxtSearchUserName" runat="server" Width="150px"></asp:TextBox>&nbsp;&nbsp;
-            <ajaxToolkit:TextBoxWatermarkExtender ID="UserNameWatermark" runat="server"
-                TargetControlID="TxtSearchUserName" WatermarkText="Tất cả">
+            <ajaxToolkit:TextBoxWatermarkExtender ID="UserNameWatermark" runat="server" TargetControlID="TxtSearchUserName"
+                WatermarkText="Tất cả">
             </ajaxToolkit:TextBoxWatermarkExtender>
         </div>
         <div id="divButtonSearch">
@@ -76,7 +76,8 @@
                             <asp:HiddenField ID="HdfRptActualUserName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ActualUserName")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HlkTenNguoiDung" runat="server"><%#DataBinder.Eval(Container.DataItem, "UserName")%></asp:HyperLink>
+                            <asp:LinkButton ID="LkBtnUserName" runat="server" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>'><%#DataBinder.Eval(Container.DataItem, "UserName")%>
+                            </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>

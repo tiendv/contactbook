@@ -24,7 +24,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
+            // Dont remove this code
             //base.Page_Load(sender, e);
+            //if (accessDenied)
+            //{
+            //    return;
+            //}
             
             if (sessionExpired)
             {
@@ -58,11 +63,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region DropDownList event hanlders
-        protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLClasses();
-        }
-
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLClasses();
@@ -237,26 +237,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownLists()
         {
-            BindDDLYears();
+            FillYear();
             BindDDLFaculties();
             BindDDLGrades();
             BindDDLClasses();
         }
 
-        private void BindDDLYears()
+        private void FillYear()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> years = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = years;
-            DdlNamHoc.DataValueField = "YearId";
-            DdlNamHoc.DataTextField = "YearName";
-            DdlNamHoc.DataBind();
-
-            if (DdlNamHoc.Items.Count != 0)
-            {
-                SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
-                DdlNamHoc.SelectedValue = cauHinhBL.GetLastedYear().ToString();
-            }
+            Configuration_Year year = systemConfigBL.GetLastedYear();
+            LblYear.Text = year.YearName;
+            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
         }
 
         private void BindDDLGrades()
@@ -287,7 +279,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ClassBL lopHocBL = new ClassBL(UserSchool);
 
             year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
 
             try
             {
