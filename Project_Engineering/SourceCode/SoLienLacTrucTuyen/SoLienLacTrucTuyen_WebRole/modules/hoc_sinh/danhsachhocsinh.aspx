@@ -84,7 +84,7 @@
         <div class="add">
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
                 ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
-            <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/Images/button_import.png"
+            <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/buttons/button_import.png"
                 ToolTip="Import học sinh" OnClick="BtnImport_Click" />
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />

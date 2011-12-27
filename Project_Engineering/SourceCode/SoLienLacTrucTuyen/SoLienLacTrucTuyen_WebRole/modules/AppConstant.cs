@@ -12,6 +12,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_USERS = "/modules/nguoi_dung/danhsachnguoidung.aspx";
         public const string PAGEPATH_ADDUSER = "/modules/nguoi_dung/themnguoidung.aspx";
         public const string PAGEPATH_EDITUSER = "/modules/nguoi_dung/suanguoidung.aspx";
+        public const string PAGEPATH_DETAILUSER = "/modules/nguoi_dung/chitietnguoidung.aspx";
         public const string PAGEPATH_STUDENTS = "/modules/hoc_sinh/danhsachhocsinh.aspx";
         public const string PAGEPATH_PARENTSCOMMENTS = "/modules/y_kien/ykien.aspx";
         public const string PAGEPATH_DETAILEDPARENTSCOMMENTS = "/modules/y_kien/chitietykien.aspx";
@@ -39,6 +40,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public const string VIEWSTATE_CLASSID = "ClassId";
         public const string VIEWSTATE_STUDENTID = "StudentId";
+        public const string VIEWSTATE_USER = "User";
         public const string VIEWSTATE_ROLE = "Role";
         public const string VIEWSTATE_SELECTED_YEAR = "Year";
         public const string VIEWSTATE_SELECTED_YEARNAME = "YearName";
@@ -78,6 +80,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_FROMDATE = "FromDate";
         public const string SESSION_SELECTED_TODATE = "ToDate";
         public const string SESSION_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
+        public const string SESSION_SELECTED_USER = "User";
         public const string SESSION_DAILYSCHEDULES = "DailySchedules";        
 
         #region Session Teacher
