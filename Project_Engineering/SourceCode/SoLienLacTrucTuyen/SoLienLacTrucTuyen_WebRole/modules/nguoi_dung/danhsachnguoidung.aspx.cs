@@ -161,12 +161,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            string userName = this.HdfUserName.Value;
-            authorizationBL.DeleteAuthorization(userName);
-            Membership.DeleteUser(userName, true);            
+            foreach(RepeaterItem item in RptUser.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
+                    if (CkbxSelectUser.Checked)
+                    {
+                        HiddenField HdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
+                        authorizationBL.DeleteAuthorization(HdfactualUserName.Value);
+                        Membership.DeleteUser(HdfactualUserName.Value, true);            
+                    }
+                }
+            }
+
             isSearch = false;
             BindRptUsers();
-
         }
         #endregion
 

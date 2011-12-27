@@ -159,6 +159,7 @@
     <Content Include="Scripts\JQRepeater-2.0.js" />
     <Content Include="Scripts\jquery-ui-1.8.14.custom.min.js" />
     <Content Include="Styles\Buttons\button_confirm.png" />
+    <Content Include="Styles\Buttons\button_delete.png" />
     <Content Include="Styles\Buttons\button_import.png" />
     <Content Include="Styles\Buttons\button_next.png" />
     <Content Include="Styles\button_edit_disable.png" />

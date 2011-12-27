@@ -7,10 +7,16 @@
     <div id="divScript" runat="server">
         <script language="javascript" type="text/javascript">
             function popopConfirmDelete_CancelDelete_Click() {
-                var mPEDeleteID = $get('<%=HdfRptUserMPEDelete.ClientID%>').value;
-                $find(mPEDeleteID).hide();
+                $find('<%=MPEDelete.ClientID%>').hide();
                 return false;
-            }  
+            }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.selectAllUser').click(function () {
+                    $(".selectUser input[type='checkbox']").attr('checked', $(".selectAllUser input[type='checkbox']").is(':checked'));
+                });
+            });
         </script>
     </div>
     <div id="divSearch">
@@ -33,6 +39,14 @@
         <div class="add">
             <asp:ImageButton ID="BtnAddUser" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm người dùng mới" OnClick="BtnAdd_Click" />
+            <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
+                ToolTip="Sửa người dùng" OnClick="BtnAdd_Click" />
+            <asp:ImageButton ID="BtnDelete" runat="server" ImageUrl="~/Styles/buttons/button_delete.png"
+                ToolTip="Xóa người dùng" OnClick="BtnAdd_Click" />
+            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnDelete"
+                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
+                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
+            </ajaxToolkit:ModalPopupExtender>
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
@@ -47,7 +61,7 @@
                         <td class="ui-corner-tl orderNo">
                             STT
                         </td>
-                        <td style="width: 30%">
+                        <td style="width: 20%">
                             <asp:LinkButton ID="LinkButton1" runat="server" CommandName="SortByUserName" ForeColor="White">Người dùng</asp:LinkButton>
                         </td>
                         <td>
@@ -59,11 +73,8 @@
                         <td>
                             Trạng thái
                         </td>
-                        <td id="thEditUser" runat="server" class="icon">
-                            Sửa
-                        </td>
-                        <td id="thDeleteUser" runat="server" class="icon">
-                            Xóa
+                        <td class="icon">
+                            <asp:CheckBox ID="CkbxSelectAllUser" runat="server" CssClass="selectAllUser" />
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -83,24 +94,14 @@
                             <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "Email")%>
+                            <asp:TextBox ID="TxtEmail" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Email")%>'
+                                Style="width: 98%; height: 80%; padding: 0px 3px 0px 3px"></asp:TextBox>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "StringStatus")%>
                         </td>
-                        <td id="tdEditUser" runat="server" class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CssClass="EditItemButton" CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
-                        </td>
-                        <td id="tdDeleteUser" runat="server" class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CssClass="DeleteItemButton" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserName")%>' />
-                            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
-                                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
-                                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
-                            </ajaxToolkit:ModalPopupExtender>
+                        <td class="icon">
+                            <asp:CheckBox ID="CkbxSelectUser" CssClass="selectUser select" runat="server" />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -113,13 +114,14 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" ViewStateMode="Enabled" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" ViewStateMode="Enabled"
+                PageSize="15" />
         </div>
     </div>
     <asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
-            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa nhóm người dùng"></asp:Label>
+            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa người dùng"></asp:Label>
             <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
@@ -127,7 +129,7 @@
             <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server"></asp:Label>
+                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa người dùng đã chọn không?"></asp:Label>
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; clear: both">

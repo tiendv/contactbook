@@ -28,6 +28,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.GetUser(userName);
         }
 
+        public aspnet_User GetUser(Guid userId)
+        {
+            return userDA.GetUser(userId);
+        }
+
         public List<TabularUser> GetTabularUsers(aspnet_Role role, string userName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> users = new List<aspnet_User>();
