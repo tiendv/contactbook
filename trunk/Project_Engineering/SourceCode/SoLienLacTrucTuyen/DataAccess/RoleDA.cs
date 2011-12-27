@@ -58,49 +58,55 @@ namespace EContactBook.DataAccess
 
         public void UpdateRole(string oldRoleName, string newRoleName, string description)
         {
-            aspnet_Role role = (from rl in db.aspnet_Roles
-                                where rl.RoleName == oldRoleName
-                                select rl).First();
-            role.RoleName = newRoleName;
-            Guid roleId = role.RoleId;
-            db.SubmitChanges();
-
-            role.UserManagement_RoleDetail.DisplayedName = newRoleName.Split('_')[1];
-            db.SubmitChanges();
+            IQueryable<aspnet_Role> iqRole = from r in db.aspnet_Roles
+                                             where r.RoleName == oldRoleName
+                                             select r;
+            if (iqRole.Count() != 0)
+            {
+                aspnet_Role role = iqRole.First();
+                role.RoleName = newRoleName;
+                role.Description = description;
+                role.UserManagement_RoleDetail.DisplayedName = newRoleName.Split('_')[1];
+                db.SubmitChanges();
+            }
         }
 
         public void CreateRoleDetail(string roleName, string description)
         {
-            Guid roleId = (from role in db.aspnet_Roles
-                           where role.RoleName == roleName
-                           select role.RoleId).First();
-
-            // create new RoleDetail of Role
-            UserManagement_RoleDetail roleDetail = new UserManagement_RoleDetail
+            IQueryable<aspnet_Role> iqRole = from r in db.aspnet_Roles
+                                             where r.RoleName == roleName
+                                             select r;
+            if (iqRole.Count() != 0)
             {
-                RoleId = roleId,
-                IsDeletable = true,
-                SchoolId = school.SchoolId,
-                DisplayedName = roleName.Split('_')[1],
-                RoleCategoryId = "USERDEFINED"
-            };
-            db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
-            db.SubmitChanges();
+                aspnet_Role role = iqRole.First();
+                role.Description = description;
+
+                UserManagement_RoleDetail roleDetail = new UserManagement_RoleDetail
+                {
+                    RoleId = role.RoleId,
+                    IsDeletable = true,
+                    SchoolId = school.SchoolId,
+                    DisplayedName = roleName.Split('_')[1],
+                    RoleCategoryId = "USERDEFINED"
+                };
+                db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
+                db.SubmitChanges();
+            }
         }
 
         public void UpdateRoleDetail(string roleName, string description, bool expired, bool IsDeletable, bool actived)
         {
-            // get RoleDetail
-            UserManagement_RoleDetail roleDetail;
-            roleDetail = (from roleDetails in db.UserManagement_RoleDetails
-                          join role in db.aspnet_Roles on roleDetails.RoleId equals role.RoleId
-                          where role.RoleName == roleName
-                          select roleDetails).First();
+            IQueryable<aspnet_Role> iqRole = from r in db.aspnet_Roles
+                                             where r.RoleName == roleName
+                                             select r;
+            if (iqRole.Count() != 0)
+            {
+                aspnet_Role role = iqRole.First();
+                role.Description = description;
 
-            // change RoleDetail of properties
-            roleDetail.IsDeletable = IsDeletable;
-
-            db.SubmitChanges();
+                role.UserManagement_RoleDetail.IsDeletable = IsDeletable;
+                db.SubmitChanges();
+            }
         }
 
         public bool RoleExists(string roleName)

@@ -60,7 +60,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             List<TabularRole> tabularRoles = null;
             TabularRole tabularRole = null;
 
-            if ((roleName == "") || (string.Compare(roleName, "tất cả", true) == 0))
+            if (CheckUntils.IsAllOrBlank(roleName))
             {
                 roles = roleDA.GetRoles(pageCurrentIndex, pageSize, out totalRecords);
             }

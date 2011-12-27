@@ -34,6 +34,22 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public aspnet_User GetUser(Guid userId)
+        {
+            IQueryable<aspnet_User> iqUser;
+            iqUser = from user in db.aspnet_Users
+                     where user.UserId == userId
+                     select user;
+            if (iqUser.Count() != 0)
+            {
+                return iqUser.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public aspnet_Role GetRole(string userName)
         {
             aspnet_Role role = null;

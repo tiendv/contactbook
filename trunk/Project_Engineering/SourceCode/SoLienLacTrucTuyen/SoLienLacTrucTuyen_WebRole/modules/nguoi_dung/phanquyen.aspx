@@ -35,13 +35,76 @@
                         });
                     }
                 });
+
+                $('.CkBxViewAll').click(function () {
+                    $(".CheckboxView input[type='checkbox']").each(function () {
+                        if ($(this).is(':enabled')) {
+                            $(this).attr('checked', $(".CkBxViewAll input[type='checkbox']").is(':checked'));
+
+                            if ($(this).is(':checked')) {
+                                $(this).parents('td').siblings().each(function () {
+                                    $(this).find(".CheckboxView input[type='checkbox']").each(function () {
+                                        $(this).attr('checked', 'true');
+                                    });
+                                });
+                            } 
+                        }
+                    });
+                });
+
+                $('.CkBxAddAll').click(function () {
+                    $(".CheckboxAdd input[type='checkbox']").each(function () {
+                        if ($(this).is(':enabled')) {
+                            $(this).attr('checked', $(".CkBxAddAll input[type='checkbox']").is(':checked'));
+
+                            if ($(this).is(':checked')) {
+                                $(this).parents('td').siblings().each(function () {
+                                    $(this).find(".CheckboxView input[type='checkbox']").each(function () {
+                                        $(this).attr('checked', 'true');
+                                    });
+                                });
+                            }
+                        }
+                    });
+                });
+
+                $('.CkBxModifyAll').click(function () {
+                    $(".CheckboxModify input[type='checkbox']").each(function () {
+                        if ($(this).is(':enabled')) {
+                            $(this).attr('checked', $(".CkBxModifyAll input[type='checkbox']").is(':checked'));
+
+                            if ($(this).is(':checked')) {
+                                $(this).parents('td').siblings().each(function () {
+                                    $(this).find(".CheckboxView input[type='checkbox']").each(function () {
+                                        $(this).attr('checked', 'true');
+                                    });
+                                });
+                            }
+                        }
+                    });
+                });
+
+                $('.CkBxDeleteAll').click(function () {
+                    $(".CheckboxDelete input[type='checkbox']").each(function () {
+                        if ($(this).is(':enabled')) {
+                            $(this).attr('checked', $(".CkBxDeleteAll input[type='checkbox']").is(':checked'));
+
+                            if ($(this).is(':checked')) {
+                                $(this).parents('td').siblings().each(function () {
+                                    $(this).find(".CheckboxView input[type='checkbox']").each(function () {
+                                        $(this).attr('checked', 'true');
+                                    });
+                                });
+                            }
+                        }
+                    });
+                });
             });           
         </script>
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            Nhóm người dùng:
-            &nbsp;
+            Nhóm người dùng: &nbsp;
             <asp:DropDownList ID="DdlRoles" runat="server" Width="200px" />
             &nbsp; &nbsp; &nbsp;
         </div>
@@ -62,17 +125,21 @@
                                 vertical-align: top;"></asp:Label><br />
                             <asp:Label ID="Label5" runat="server" Text="Chức năng" Style="float: left; vertical-align: bottom"></asp:Label>
                         </td>
-                        <td style="width: 90px">
-                            Xem
+                        <td style="width: 90px; text-align: center">
+                            Xem<br />
+                            <asp:CheckBox ID="CkBxViewAll" runat="server" CssClass="CkBxViewAll" />
                         </td>
-                        <td style="width: 90px">
-                            Thêm
+                        <td style="width: 90px; text-align: center">
+                            Thêm<br />
+                            <asp:CheckBox ID="CkBxAddAll" runat="server" CssClass="CkBxAddAll" />
                         </td>
-                        <td style="width: 90px">
-                            Sửa
+                        <td style="width: 90px; text-align: center">
+                            Sửa<br />
+                            <asp:CheckBox ID="CkBxModifyAll" runat="server" CssClass="CkBxModifyAll" />
                         </td>
                         <td class="ui-corner-tr" style="width: 90px">
-                            Xóa
+                            Xóa<br />
+                            <asp:CheckBox ID="CkBxDeleteAll" runat="server" CssClass="CkBxDeleteAll" />
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -87,6 +154,7 @@
                         <ItemTemplate>
                             <tr>
                                 <td style="padding-left: 20px">
+                                    <%--<asp:CheckBox ID="CkBxFunctionAll" runat="server" />--%>
                                     <asp:HiddenField ID="HfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
                                     <asp:Label ID="LblFunctionName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FunctionName")%>'></asp:Label>
                                 </td>
