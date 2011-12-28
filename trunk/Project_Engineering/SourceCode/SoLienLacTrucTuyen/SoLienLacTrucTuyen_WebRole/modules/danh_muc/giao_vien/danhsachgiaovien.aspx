@@ -11,6 +11,11 @@
                 $find(mPEDeleteID).hide();
                 return false;
             }
+            function fncOpen() {
+                var pageId = '<%=  Page.ClientID %>';
+                __doPostBack(pageId, "myargs");
+                window.showModalDialog("/modules/hoc_sinh/indanhsachhocsinh.aspx", null, "dialogWidth:1000px; dialogHeight:1000px; center:yes");
+            } 
         </script>
     </div>
     <div id="divSearch">
@@ -33,7 +38,7 @@
         </div>
         <div  id="divButtonSearch">
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sach học sinh" OnClick="BtnPrint_Click" />
+                ToolTip="In danh sach học sinh" OnClientClick="fncOpen();" />
         </div>
         <br />
     </div>

@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class TeachersPage : BaseContentPage
+    public partial class TeachersPage : BaseContentPage, IPostBackEventHandler
     {
         #region Fields
         private TeacherBL teacherBL;
@@ -135,6 +135,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
             AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
             Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            #endregion
+        }
+        protected void PrePrint()
+        {
+            #region Add Info 2 Session
+            string strTeacherName = this.TxtSearchTenGiaoVien.Text;
+            string strTeacherID = this.TxtSearchMaHienThiGiaoVien.Text;
+
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTEACHERS);
+            AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
+            AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
+            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
@@ -265,5 +277,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRptTeachers();
         }
         #endregion
+
+        public void RaisePostBackEvent(string eventArgument)
+        {
+            PrePrint();
+        }
     }
 }

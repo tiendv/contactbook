@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ClassesPage : BaseContentPage
+    public partial class ClassesPage : BaseContentPage, IPostBackEventHandler
     {
         #region Fields
         ClassBL classBL;
@@ -249,6 +249,47 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
             Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            #endregion
+        }
+        protected void PrePrint()
+        {
+            #region Add Info 2 Session
+
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
+            Class_Class Class = null;
+
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            year.YearName = DdlNamHoc.SelectedItem.Text;
+            try
+            {
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty.FacultyName = DdlNganh.SelectedItem.Text; ;
+                }
+            }
+            catch (Exception) { }
+
+            try
+            {
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+                    grade = new Category_Grade();
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;
+                }
+            }
+            catch (Exception) { }
+
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTCLASSES);
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -625,5 +666,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MPEAdd.Show();
         }
         #endregion
+
+        public void RaisePostBackEvent(string eventArgument)
+        {
+            PrePrint();
+        }
     }
 }

@@ -37,7 +37,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 FormsAuthentication.SignOut();
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
-
             #region Variables
 
             DataSet ds = new DataSet();            
