@@ -350,7 +350,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
 
-            MailBL.SendByGmail("duyna1989@gmail.com", "duyna1989@gmail.com", "Tạo tài khoản thành công", string.Format("pass:{0}", RegisterUserWizard.Password), "duyna1989", "1qazxsw@");
+            MailBL.SendByGmail("duyna1989@gmail.com", RegisterUserWizard.Email, 
+                "Tạo tài khoản thành công", 
+                string.Format("pass:{0}", RegisterUserWizard.Password), 
+                "duyna1989", "1qazxsw@");
 
             SchoolBL schoolBL = new SchoolBL();
             //schoolBL.UpdateTotalOfUser(UserSchool);

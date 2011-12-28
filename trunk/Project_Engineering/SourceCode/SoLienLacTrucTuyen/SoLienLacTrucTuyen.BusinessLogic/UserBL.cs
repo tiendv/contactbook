@@ -113,7 +113,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public bool ValidateUser(string userName)
         {
-            return userDA.ValidateUser(userName);
+            aspnet_User user = GetUser(userName);
+            if (user.aspnet_Membership.Email == null || user.aspnet_Membership.Email == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public bool IsDeletable(aspnet_User user)
