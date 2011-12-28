@@ -21,7 +21,8 @@ namespace EContactBook.DataAccess
                 StudentInClassId = maHocSinhLopHoc,
                 Title = tieuDe,
                 MessageContent = noiDung,
-                Date = ngay
+                Date = ngay,
+                MessageStatusId = 1
             };
 
             db.MessageToParents_Messages.InsertOnSubmit(loiNhanKhan);
@@ -284,6 +285,7 @@ namespace EContactBook.DataAccess
             {
                 message = iqMessages.First();
                 message.IsRead = true;
+                message.MessageStatusId = 2;
                 db.SubmitChanges();
             }
         }

@@ -96,13 +96,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private bool ValidateUser(string userName, string password)
         {
 
-            if (Membership.ValidateUser(userName, password))
+            if (Membership.ValidateUser(userName, password)) // default validation of ASP.NET
             {
-                // Validate custom information
-                // ...
-                //
+                // Customized validate
                 UserBL userBL = new UserBL();
-                return userBL.ValidateUser(User.Identity.Name);
+                return userBL.ValidateUser(userName);
             }
             else
             {
