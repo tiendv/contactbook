@@ -21,34 +21,32 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class StudentsPage : BaseContentPage
+    public partial class StudentsPage : BaseContentPage, IPostBackEventHandler
     {
         #region Fields
         private StudentBL studentBL;
         private bool isSearch;
         ReportDocument RptDocument = new ReportDocument();
-        #endregion
-
+        #endregion        
         #region Page event handlers
+
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
             if (accessDenied)
             {
                 return;
-            }
-
+            }            
             if (sessionExpired)
             {
                 FormsAuthentication.SignOut();
                 Response.Redirect(FormsAuthentication.LoginUrl);
-            }
-
+            }            
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
-            {
-                BindDropDownLists();
+            {                
+                BindDropDownLists();                
                 this.isSearch = false;
 
                 // Khôi phục lại thông tin khi chuyển sang trang khác rồi trở về trang này
@@ -333,8 +331,82 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
             AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, studentName);
+            AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, studentCode);            
+            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            //Response.Write("<script language='javascript'>window.open('default.aspx','two','menubar=no,height=520,width=460,titlebar=yes,top=75,left=125 ,scrollbars=no,status=no,resizable=no');</script>");
+            if (BtnPrint.Attributes.Count == 0)
+            {
+                BtnPrint.Attributes.Add("onclick", "window.showModalDialog('indanhsachhocsinh.aspx',null,'status:no;dialogWidth:1000px; dialogHeight:1200px;');");
+                BtnPrint_Click(sender, e);
+            }
+            //Response.Write("<script language='javascript'>window.showModalDialog('indanhsachhocsinh.aspx', '', dialogWidth:300px; dialogHeight:200px; center:yes');</script>");
+            #endregion
+        }
+
+        protected void PrePrint()
+        {
+            #region Add Info 2 Session
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
+            Class_Class Class = null;
+            string studentName = this.TxtTenHocSinh.Text;
+            string studentCode = this.TxtMaHocSinh.Text;
+
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            year.YearName = DdlNamHoc.SelectedItem.Text;
+            try
+            {
+                faculty = new Category_Faculty();
+                if (DdlNganh.SelectedIndex > 0)
+                {
+                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+                    faculty.FacultyName = DdlNganh.SelectedItem.Text;
+                }
+            }
+            catch (Exception) { }
+
+            try
+            {
+                grade = new Category_Grade();
+                if (DdlKhoiLop.SelectedIndex > 0)
+                {
+
+                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                    grade.GradeName = DdlKhoiLop.SelectedItem.Text;
+                }
+            }
+            catch (Exception) { }
+
+            try
+            {
+                Class = new Class_Class();
+                if (DdlLopHoc.SelectedIndex > 0)
+                {
+
+                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+                    Class.ClassName = DdlLopHoc.SelectedItem.Text;
+                }
+
+            }
+            catch (Exception) { }
+
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTSTUDENTS);
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, studentName);
             AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, studentCode);
-            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            //Response.Write("<script language='javascript'>window.open('default.aspx','two','menubar=no,height=520,width=460,titlebar=yes,top=75,left=125 ,scrollbars=no,status=no,resizable=no');</script>");
+            //if (BtnPrint.Attributes.Count == 0)
+            //{
+            //    BtnPrint.Attributes.Add("onclick", "window.showModalDialog('indanhsachhocsinh.aspx',null,'status:no;dialogWidth:1000px; dialogHeight:1200px;');");
+            //    BtnPrint_Click(sender, e);
+            //}
+            //Response.Write("<script language='javascript'>window.showModalDialog('indanhsachhocsinh.aspx', '', dialogWidth:300px; dialogHeight:200px; center:yes');</script>");
             #endregion
         }
 
@@ -587,5 +659,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
         #endregion
+
+        public void RaisePostBackEvent(string eventArgument)
+        {
+            //throw new NotImplementedException();
+            PrePrint();
+        }
     }
 }

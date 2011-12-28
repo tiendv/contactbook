@@ -65,7 +65,11 @@
                     args.IsValid = false;
                 }
             }
-
+            function fncOpen() {
+                var pageId = '<%=  Page.ClientID %>';
+                __doPostBack(pageId, "myargs");
+                window.showModalDialog("/modules/hoc_sinh/indanhsachhocsinh.aspx", null, "dialogWidth:1000px; dialogHeight:1000px; center:yes");
+            }  
             function validateClassNameEdit(ctrl, args) {
                 var hfOutput = $get('<%=hfOutputEdit.ClientID%>');
                 var ClassId = $get('<%=HdfClassId.ClientID%>').value;
@@ -144,7 +148,7 @@
             <asp:ImageButton ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 Style="margin: 5px 0px 0px 0px" ToolTip="kiếm lớp học" CssClass="BtnSearch" />
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
+                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" />
         </div>
 
         <br />

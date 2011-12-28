@@ -4,6 +4,15 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+        <div id="divScript">
+        <script language="javascript" type="text/javascript">
+            function fncOpen() {
+                var pageId = '<%=  Page.ClientID %>';
+                __doPostBack(pageId, "myargs");
+                window.showModalDialog("/modules/hoc_sinh/indanhsachhocsinh.aspx", null, "dialogWidth:1000px; dialogHeight:1000px; center:yes");
+            }                
+        </script>
+    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
             <asp:UpdatePanel ID="UPDropdownlists" runat="server" UpdateMode="Conditional">
@@ -63,7 +72,7 @@
     <div class="table_data ui-corner-all">
         <div class="add">
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In thời khóa biểu" OnClick="BtnPrint_Click" />&nbsp;&nbsp;&nbsp;
+                ToolTip="In thời khóa biểu" OnClientClick="fncOpen();" />&nbsp;&nbsp;&nbsp;
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
                 ToolTip="Sắp xếp thời khóa biểu" OnClick="BtnEdit_Click"/>
         </div>

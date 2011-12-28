@@ -10,7 +10,12 @@
                 var mPEDeleteID = $get('<%=HdfRptHocSinhMPEDelete.ClientID%>').value;
                 $find(mPEDeleteID).hide();
                 return false;
-            }        
+            }
+            function fncOpen() {
+                var pageId = '<%=  Page.ClientID %>';
+                __doPostBack(pageId, "myargs");
+                window.showModalDialog("indanhsachhocsinh.aspx", null, "dialogWidth:1000px; dialogHeight:1000px; center:yes");
+            }                
         </script>
     </div>
     <div id="divSearch">
@@ -83,7 +88,7 @@
     <div class="table_data ui-corner-all">
         <div class="add">
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sách học sinh" OnClick="BtnPrint_Click" />
+                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" />
             <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/buttons/button_import.png"
                 ToolTip="Import học sinh" OnClick="BtnImport_Click" />
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
