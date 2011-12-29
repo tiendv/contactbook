@@ -98,10 +98,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
             #region
-            lbError.ForeColor = System.Drawing.Color.Red;
+            lbError.ForeColor = System.Drawing.Color.Red;            
             string filename = Path.GetFileName(FileUpload1.FileName);
-            FileUpload1.SaveAs(Server.MapPath("~/upload/") + filename);
-            filename = Server.MapPath("~/upload/") + filename;
+            if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
+            {
+                lbError.Text = "Vui lòng chọn file định dang Microsoft Excel để tiến hành import !";
+                return;
+            }
+            FileUpload1.SaveAs(Server.MapPath("~/upload/template/") + filename);
+            filename = Server.MapPath("~/upload/template/") + filename;
             String connString = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + filename + ";" + "Extended Properties='Excel 8.0;HDR=No'";            
             OleDbConnection oledbConn = new OleDbConnection(connString);            
             //Check if the Sheet Exists
