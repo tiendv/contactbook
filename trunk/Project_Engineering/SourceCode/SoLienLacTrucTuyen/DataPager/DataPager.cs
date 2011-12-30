@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen.DataPager
         /// <summary>
         /// Gets or sets page size (results per page).
         /// </summary>
-        private int _pageSize = 10;
+        private int _pageSize = 15;
         [Category("Behavioural")]
         public int PageSize
         {

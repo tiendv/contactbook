@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SearchStudentMarkPage : BaseContentPage
+    public partial class AddStudentMarkPage : BaseContentPage
     {
         #region Fields
         private StudyingResultBL studyingResultBL;
@@ -75,7 +75,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLNamHoc();
             BindDDLHocKy();
-            BindDDLMonths();
             BindDDLNganhHoc();
             BindDDLKhoiLop();
             BindDDLLopHoc();
@@ -107,23 +106,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataValueField = "TermId";
             DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
-        }
-
-        private void BindDDLMonths()
-        {
-            DddMonths.Items.Add(new ListItem("Tất cả", "0"));
-            DddMonths.Items.Add(new ListItem("Tháng 1", "1"));
-            DddMonths.Items.Add(new ListItem("Tháng 2", "2"));
-            DddMonths.Items.Add(new ListItem("Tháng 3", "3"));
-            DddMonths.Items.Add(new ListItem("Tháng 4", "4"));
-            DddMonths.Items.Add(new ListItem("Tháng 5", "5"));
-            DddMonths.Items.Add(new ListItem("Tháng 6", "6"));
-            DddMonths.Items.Add(new ListItem("Tháng 7", "7"));
-            DddMonths.Items.Add(new ListItem("Tháng 8", "8"));
-            DddMonths.Items.Add(new ListItem("Tháng 9", "9"));
-            DddMonths.Items.Add(new ListItem("Tháng 10", "10"));
-            DddMonths.Items.Add(new ListItem("Tháng 11", "11"));
-            DddMonths.Items.Add(new ListItem("Tháng 12", "12"));
         }
 
         private void BindDDLNganhHoc()
@@ -176,6 +158,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
+                //BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
+                //BtnSearch.Enabled = false;
+
+                //BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text_disable.png";
+                //BtnAdd.Enabled = false;
+
+                //PnlPopupConfirmDelete.Visible = false;
+                //RptHocSinh.Visible = false;
+                //LblSearchResult.Visible = true;
+                //LblSearchResult.Text = "Chưa có thông tin HocSinh";
+
+                //MainDataPager.ItemCount = 0;
+                //MainDataPager.Visible = false;
+
                 return;
             }
 
@@ -293,19 +289,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 markTypes.Add(markTypeBL.GetMarkType(markTypeName));
             }
 
-            if (RBtnTerm.Checked)
-            {
-                // get student mark information
-                tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
-                    MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
-            } else if(RBtnMonth.Checked)
-            {
-                int month = Int32.Parse(DddMonths.SelectedValue);
-                // get student mark information
-                tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, month, markTypes,
-                    MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
-            }
-
+            // get student mark information
+            tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // bind to repeater and datapager
             this.RptDiemMonHoc.DataSource = tabularStudentMarks;
@@ -328,6 +314,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdMaHocSinh.Visible = bDisplayData;
             tdHoTenHocSinh.Visible = bDisplayData;
             tdDTB.Visible = bDisplayData;
+
+            BtnSave.Visible = bDisplayData;
+            BtnCancel.Visible = bDisplayData;
         }
         #endregion
 
@@ -338,6 +327,89 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //isSearch = true;
             BindRptMarkTypes();
             BindRptStudentMarks();
+        }
+
+        protected void BtnSave_Click(object sender, ImageClickEventArgs e)
+        {
+            Dictionary<Student_Student, List<DetailMark>> dicEnteredStudentMarks = new Dictionary<Student_Student, List<DetailMark>>();
+            Student_Student student = null;
+            Class_Class Class = new Class_Class();
+            Configuration_Term term = new Configuration_Term();
+            Category_Subject subject = null;
+            Category_MarkType markType = null;
+
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            subject = new Category_Subject();
+            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+            foreach (RepeaterItem rptItemStudentMark in RptDiemMonHoc.Items)
+            {
+                if (rptItemStudentMark.ItemType == ListItemType.Item || rptItemStudentMark.ItemType == ListItemType.AlternatingItem)
+                {
+                    List<DetailMark> detailMarks = new List<DetailMark>();
+                    Repeater rptDetailMark = (Repeater)rptItemStudentMark.FindControl("RptDiemTheoLoaiDiem");
+                    foreach (RepeaterItem rptItemDiem in rptDetailMark.Items)
+                    {
+                        if (rptItemDiem.ItemType == ListItemType.Item || rptItemDiem.ItemType == ListItemType.AlternatingItem)
+                        {
+                            HiddenField hdfMarkTypeId = (HiddenField)rptItemDiem.FindControl("HdfMarkTypeId");
+                            markType = new Category_MarkType();
+                            markType.MarkTypeId = Int32.Parse(hdfMarkTypeId.Value);
+
+                            TextBox txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
+                            string marks = txtDiems.Text.Trim();
+
+                            if (studyingResultBL.ValidateMark(marks, markType))
+                            {
+                                if (txtDiems.Text != "")
+                                {
+                                    string[] strMarks = txtDiems.Text.Trim().Split(new char[] { ',' });
+                                    foreach (string strMark in strMarks)
+                                    {
+                                        double dMark = double.Parse(strMark.Trim());
+                                        detailMarks.Add(new DetailMark
+                                        {
+                                            MarkTypeId = Int32.Parse(hdfMarkTypeId.Value),
+                                            GiaTri = dMark
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    detailMarks.Add(new DetailMark
+                                    {
+                                        MarkTypeId = Int32.Parse(hdfMarkTypeId.Value),
+                                        GiaTri = -1
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                CustomValidator diemsValidator = (CustomValidator)rptItemDiem.FindControl("DiemsValidator");
+                                diemsValidator.IsValid = false;
+                                return;
+                            }
+                        }
+                    }
+
+                    student = new Student_Student();
+                    HiddenField hdfStudentId = (HiddenField)rptItemStudentMark.FindControl("HdfMaHocSinh");
+                    student.StudentId = Int32.Parse(hdfStudentId.Value);
+
+                    dicEnteredStudentMarks.Add(student, detailMarks);
+                }
+            }
+
+            foreach (KeyValuePair<Student_Student, List<DetailMark>> pair in dicEnteredStudentMarks)
+            {
+                studyingResultBL.UpdateDetailedMark(pair.Key, Class, term, subject, pair.Value);
+            }
+
+            BindRptStudentMarks();
+        }
+
+        protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
+        {
         }
         #endregion
 

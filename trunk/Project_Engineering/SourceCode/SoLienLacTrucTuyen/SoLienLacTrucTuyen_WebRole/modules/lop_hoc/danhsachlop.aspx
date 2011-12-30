@@ -146,15 +146,14 @@
         </div>
         <div id="divButtonSearch">
             <asp:ImageButton ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" ImageUrl="~/Styles/Images/button_search_with_text.png"
-                Style="margin: 5px 0px 0px 0px" ToolTip="kiếm lớp học" CssClass="BtnSearch" />
-            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" />
+                Style="margin: 5px 0px 0px 0px" ToolTip="kiếm lớp học" CssClass="BtnSearch" />            
         </div>
-
         <br />
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
+                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" />
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm lớp học mới" CssClass="BtnAdd" />
             <ajaxToolkit:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAdd"

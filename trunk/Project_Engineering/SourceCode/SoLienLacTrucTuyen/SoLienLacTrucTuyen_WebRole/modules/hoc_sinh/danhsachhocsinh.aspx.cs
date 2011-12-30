@@ -26,10 +26,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private StudentBL studentBL;
         private bool isSearch;
-        ReportDocument RptDocument = new ReportDocument();
         #endregion        
-        #region Page event handlers
 
+        #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
@@ -37,11 +36,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return;
             }            
+
             if (sessionExpired)
             {
                 FormsAuthentication.SignOut();
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }            
+
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
@@ -554,7 +555,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
+            BindDDLYears();
 
             BindDDLFaculties();
 
@@ -591,7 +592,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListNamHoc()
+        private void BindDDLYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<Configuration_Year> years = systemConfigBL.GetListYears();

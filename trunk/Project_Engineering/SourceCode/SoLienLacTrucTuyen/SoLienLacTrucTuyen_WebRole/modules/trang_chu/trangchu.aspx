@@ -2,8 +2,8 @@
     CodeBehind="TrangChu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.TrangChu" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    Chào mừng phụ huynh đến với hệ thống sổ liên lạc trực tuyến EContactBook của trường &nbsp;
-    <asp:Label ID="LblSchoolName" runat="server"></asp:Label>
+    <asp:Label ID="LblGreetingHead" runat="server"></asp:Label>
+    <asp:Label ID="LblGreetingTail" runat="server"></asp:Label>
     <asp:LoginView ID="LoginView1" runat="server">
         <RoleGroups>
             <asp:RoleGroup>
@@ -93,7 +93,28 @@
                     </table>
                 </ContentTemplate>
             </asp:RoleGroup>
-            <asp:RoleGroup></asp:RoleGroup>
+            <asp:RoleGroup>
+            </asp:RoleGroup>
+            <asp:RoleGroup>
+                <ContentTemplate>
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 33%">
+                                <div style="padding: 10px;">
+                                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/school.png" Style="float: left;
+                                        height: 48px; width: 48px" />
+                                    <div style="width: 85%; float: left; padding-left: 10px;">
+                                        <asp:HyperLink ID="HlkSchools" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/supplier/supplierlist.aspx">Quản lí trường học</asp:HyperLink>
+                                        <br />
+                                        Quản lí trường học đăng kí sử dụng hệ thống
+                                        <div style="clear: both">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                    </table>
+                </ContentTemplate>
+            </asp:RoleGroup>
         </RoleGroups>
     </asp:LoginView>
 </asp:Content>

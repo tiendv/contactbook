@@ -215,9 +215,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void DdlRoles_SelectedIndexChanged(object sender, EventArgs e)
         {
             Display();
-        }
-
-        
+        }        
         #endregion
 
         #region Button event handlers

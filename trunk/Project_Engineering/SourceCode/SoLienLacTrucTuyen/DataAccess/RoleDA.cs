@@ -640,7 +640,7 @@ namespace EContactBook.DataAccess
                 return false;
             }
         }
-
+        
         public aspnet_Role GetRoleParents()
         {
             aspnet_Role roleParents = null;
@@ -648,6 +648,21 @@ namespace EContactBook.DataAccess
             IQueryable<aspnet_Role> iqRoleParents = from role in db.aspnet_Roles
                                                     where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
                                                     && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == PARENTS
+                                                    select role;
+            if (iqRoleParents.Count() != 0)
+            {
+                roleParents = iqRoleParents.First();
+            }
+
+            return roleParents;
+        }
+
+        public aspnet_Role GetRoleSupplier()
+        {
+            aspnet_Role roleParents = null;
+
+            IQueryable<aspnet_Role> iqRoleParents = from role in db.aspnet_Roles
+                                                    where role.UserManagement_RoleDetail.SchoolId == 0 // supplier
                                                     select role;
             if (iqRoleParents.Count() != 0)
             {

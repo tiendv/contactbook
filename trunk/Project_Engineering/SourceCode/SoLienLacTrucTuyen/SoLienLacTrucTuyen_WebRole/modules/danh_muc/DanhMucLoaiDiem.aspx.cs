@@ -236,7 +236,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Category_MarkType appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType();
                 if (appliedCalAvgMarkType != null)
                 {
-                    if (appliedCalAvgMarkType.MarkTypeName != MarkTypeName)
+                    if (appliedCalAvgMarkType.MarkTypeName != editedMarkTypeName)
                     {
                         LblAppCalAvgMarkEdit.Visible = true;
                         modalPopupEdit.Show();

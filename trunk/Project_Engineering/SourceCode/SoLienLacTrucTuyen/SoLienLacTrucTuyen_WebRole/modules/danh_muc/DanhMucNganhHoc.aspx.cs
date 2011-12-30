@@ -178,6 +178,29 @@ namespace SoLienLacTrucTuyen_WebRole
             BindData();
         }
 
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            foreach (RepeaterItem item in RptNganhHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {                                                
+                        HiddenField HdfRptFacultyName = (HiddenField)item.FindControl("HdfRptFacultyName");
+                        string facultyName = HdfRptFacultyName.Value; 
+                        Category_Faculty faculty = facultyBL.GetFaculty(HdfRptFacultyName.Value);
+                        TxtFacultyNameEdit.Text = faculty.FacultyName;
+                        TxtSuaDescriptionNganhHoc.Text = faculty.Description;
+                        MPEEdit.Show(); 
+                        
+                        this.HdfEditedFacultyName.Value = facultyName; 
+                        return;
+                    }
+                }
+            }
+        }
+
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
@@ -228,49 +251,11 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             if (accessibilities.Contains(AccessibilityEnum.Modify))
             {
-                // Do nothing
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
                 PnlPopupEdit.Visible = false;
             }
 
             if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    Category_Faculty faculty = (Category_Faculty)e.Item.DataItem;
-                    if (!facultyBL.IsDeletable(faculty))
-                    {
-                        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                        btnDeleteItem.Enabled = false;
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
+            {                
                 this.PnlPopupConfirmDelete.Visible = false;
             }
         }
@@ -279,19 +264,6 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             switch (e.CommandName)
             {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa ngành học <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptFacultyId = (HiddenField)e.Item.FindControl("HdfRptFacultyId");
-                        this.HdfFacultyId.Value = hdfRptFacultyId.Value;
-                        this.HdfDeletedFacultyName.Value = (string)e.CommandArgument;
-                        this.HdfRptNganhHocMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
                 case "CmdEditItem":
                     {
                         string facultyName = (string)e.CommandArgument;

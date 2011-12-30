@@ -268,11 +268,49 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudent.ClassId = studentInClass.ClassId;
                 tabularStudent.DayOfBirth = studentInClass.Student_Student.StudentBirthday.ToString("dd/MM/yyyy");
                 tabularStudent.Gender = studentInClass.Student_Student.Gender == true ? "Nam" : "Nữ";
-
+                tabularStudent.StudentInClassId = studentInClass.StudentInClassId;
                 tabularStudents.Add(tabularStudent);
             }
 
             return tabularStudents;
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
+            Class_Class Class)
+        {
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
+
+            if (Class != null)
+            {
+                studentInClasses = studentDA.GetStudentInClasses(Class);
+            }
+            else
+            {
+                if (faculty == null)
+                {
+                    if (grade == null)
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(year);
+                    }
+                    else
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(year, grade);
+                    }
+                }
+                else
+                {
+                    if (grade == null)
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(year, faculty);
+                    }
+                    else
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade);
+                    }
+                }
+            }
+
+            return studentInClasses;
         }
 
         public List<TabularStudent> GetTabularStudents(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,

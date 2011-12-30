@@ -9700,6 +9700,12 @@ namespace EContactBook.DataAccess
 		
 		private string _Password;
 		
+		private System.Data.Linq.Binary _Logo;
+		
+		private string _Address;
+		
+		private string _Phone;
+		
 		private EntitySet<aspnet_Membership> _aspnet_Memberships;
 		
 		private EntitySet<Category_Attitude> _Category_Attitudes;
@@ -9742,6 +9748,12 @@ namespace EContactBook.DataAccess
     partial void OnEmailChanged();
     partial void OnPasswordChanging(string value);
     partial void OnPasswordChanged();
+    partial void OnLogoChanging(System.Data.Linq.Binary value);
+    partial void OnLogoChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
     #endregion
 		
 		public School_School()
@@ -9842,7 +9854,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="varchar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="varchar(50) NOT NULL", CanBeNull=false)]
 		public string Email
 		{
 			get
@@ -9862,7 +9874,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="varchar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="varchar(50) NOT NULL", CanBeNull=false)]
 		public string Password
 		{
 			get
@@ -9878,6 +9890,66 @@ namespace EContactBook.DataAccess
 					this._Password = value;
 					this.SendPropertyChanged("Password");
 					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="image", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Logo
+		{
+			get
+			{
+				return this._Logo;
+			}
+			set
+			{
+				if ((this._Logo != value))
+				{
+					this.OnLogoChanging(value);
+					this.SendPropertyChanging();
+					this._Logo = value;
+					this.SendPropertyChanged("Logo");
+					this.OnLogoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="nvarchar(200) NOT NULL", CanBeNull=false)]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="varchar(20) NOT NULL", CanBeNull=false)]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
 				}
 			}
 		}
@@ -10842,7 +10914,7 @@ namespace EContactBook.DataAccess
 		
 		private double _MarkValue;
 		
-		private System.Nullable<int> _SchoolId;
+		private System.Nullable<System.DateTime> _Date1;
 		
 		private EntityRef<Category_MarkType> _Category_MarkType;
 		
@@ -10860,8 +10932,8 @@ namespace EContactBook.DataAccess
     partial void OnMarkTypeChanged();
     partial void OnMarkValueChanging(double value);
     partial void OnMarkValueChanged();
-    partial void OnSchoolIdChanging(System.Nullable<int> value);
-    partial void OnSchoolIdChanged();
+    partial void OnDate1Changing(System.Nullable<System.DateTime> value);
+    partial void OnDate1Changed();
     #endregion
 		
 		public Student_DetailedTermSubjectMark()
@@ -10959,22 +11031,22 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int")]
-		public System.Nullable<int> SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Date]", Storage="_Date1", DbType="datetime")]
+		public System.Nullable<System.DateTime> Date1
 		{
 			get
 			{
-				return this._SchoolId;
+				return this._Date1;
 			}
 			set
 			{
-				if ((this._SchoolId != value))
+				if ((this._Date1 != value))
 				{
-					this.OnSchoolIdChanging(value);
+					this.OnDate1Changing(value);
 					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
+					this._Date1 = value;
+					this.SendPropertyChanged("Date1");
+					this.OnDate1Changed();
 				}
 			}
 		}

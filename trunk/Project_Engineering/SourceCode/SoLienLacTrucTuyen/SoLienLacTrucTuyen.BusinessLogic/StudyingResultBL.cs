@@ -376,6 +376,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
+            Student_Student student = new Student_Student();
+            // student
+
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
             TabularStudentMark tabularStudentMark = null;
             List<Student_TermSubjectMark> termSubjectMarks = null;
@@ -386,6 +389,66 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
 
             termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
+            foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
+            {
+                tabularStudentMark = new TabularStudentMark();
+                tabularStudentMark.MaDiemHK = termSubjectMark.TermSubjectMarkId;
+                tabularStudentMark.MaHocSinh = termSubjectMark.Student_StudentInClass.StudentId;
+                tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
+                tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
+                tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
+
+                markMypedMarks = new List<MarkTypedMark>();
+                foreach (Category_MarkType markType in markTypes)
+                {
+                    List<double> dMarks = new List<double>();
+                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType);
+                    strMarks = "";
+
+                    foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
+                    {
+                        strB.Append(detailedMark.MarkValue.ToString());
+                        strB.Append(", ");
+                    }
+
+                    strMarks = strB.ToString().Trim().Trim(new char[] { ',' });
+                    strB.Clear();
+
+                    MarkTypedMark markTypedMark = new MarkTypedMark();
+                    markTypedMark.MarkTypeId = markType.MarkTypeId;
+                    markTypedMark.MarkTypeName = markType.MarkTypeName;
+                    markTypedMark.StringDiems = strMarks;
+
+                    markMypedMarks.Add(markTypedMark);
+                }
+
+                tabularStudentMark.DiemTheoLoaiDiems = markMypedMarks;
+                tabularStudentMarks.Add(tabularStudentMark);
+            }
+
+            return tabularStudentMarks;
+        }
+
+        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, int month, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
+            TabularStudentMark tabularStudentMark = null;
+            List<Student_TermSubjectMark> termSubjectMarks = null;
+            List<MarkTypedMark> markMypedMarks = null;
+            List<Student_DetailedTermSubjectMark> detailedMarks = null;
+            StringBuilder strB = new StringBuilder();
+            string strMarks = "";
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
+
+            if (month == 0)
+            {
+                termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, pageCurrentIndex, pageSize, out totalRecord);
+            }
+            else
+            {
+                termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, month, pageCurrentIndex, pageSize, out totalRecord);
+            }
+            
             foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
             {
                 tabularStudentMark = new TabularStudentMark();

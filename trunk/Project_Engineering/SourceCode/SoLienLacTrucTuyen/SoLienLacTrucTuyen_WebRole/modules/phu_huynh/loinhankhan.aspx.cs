@@ -216,7 +216,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
                         AddSession(AppConstant.SESSION_MESSAGE, message);
                         SaveSearchSessions();
-                        Response.Redirect(AppConstant.PAGEPATH_DETAILEDMESSAGE);
+                        Response.Redirect(AppConstant.PAGEPATH_PARENTS_DETAILEDMESSAGE);
 
                         break;
                     }
