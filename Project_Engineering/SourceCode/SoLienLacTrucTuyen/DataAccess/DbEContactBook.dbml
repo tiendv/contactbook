@@ -383,7 +383,7 @@
       <Column Name="IsRead" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
       <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Feedback" Type="System.String" DbType="nvarchar(500)" CanBeNull="true" />
-      <Column Name="MessageStatusId" Member="MessageStatusId" Type="System.Int32" DbType="int" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
+      <Column Name="MessageStatusId" Type="System.Int32" DbType="int" CanBeNull="true" />
       <Association Name="Student_StudentInClass_MessageToParents_Message" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
       <Association Name="ConfigurationMessageStatus_MessageToParents_Message" Member="ConfigurationMessageStatus" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="ConfigurationMessageStatus" IsForeignKey="true" />
     </Type>
@@ -407,8 +407,11 @@
       <Column Name="SchoolName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="TotalOfUsers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="varchar(50)" CanBeNull="true" />
-      <Column Name="Password" Type="System.String" DbType="varchar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="varchar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="varchar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Logo" Member="Logo" Type="System.Data.Linq.Binary" DbType="image" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" UpdateCheck="Never" />
+      <Column Name="Address" Member="Address" Type="System.String" DbType="nvarchar(200) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="Phone" Member="Phone" Type="System.String" DbType="varchar(20) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_School_Category_Attitude" Member="Category_Attitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Attitude" />
       <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
@@ -457,7 +460,7 @@
       <Column Name="TermSubjectMarkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Date]" Member="Date1" Type="System.DateTime" DbType="datetime" CanBeNull="true" />
       <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Category_MarkType" ThisKey="MarkType" OtherKey="MarkTypeId" Type="Category_MarkType" IsForeignKey="true" />
       <Association Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark" Member="Student_TermSubjectMark" ThisKey="TermSubjectMarkId" OtherKey="TermSubjectMarkId" Type="Student_TermSubjectMark" IsForeignKey="true" />
     </Type>
@@ -710,6 +713,13 @@
       <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier" CanBeNull="true" />
       <Column Name="DataSize" Type="System.Int32" DbType="int" CanBeNull="true" />
       <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration_MessageStatus" Member="ConfigurationMessageStatuses">
+    <Type Name="ConfigurationMessageStatus">
+      <Column Name="MessageStatusId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MessageStatusName" Type="System.String" DbType="nvarchar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="ConfigurationMessageStatus_MessageToParents_Message" Member="MessageToParentsMessages" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="MessageToParents_Message" />
     </Type>
   </Table>
   <Function Name="dbo.aspnet_AnyDataInTables" Method="aspnetAnyDataInTables">
@@ -1165,11 +1175,4 @@
     <Parameter Name="Details" Type="System.String" DbType="ntext" />
     <Return Type="int" />
   </Function>
-  <Table Name="dbo.Configuration_MessageStatus" Member="ConfigurationMessageStatuses">
-    <Type Name="ConfigurationMessageStatus">
-      <Column Name="MessageStatusId" Member="MessageStatusId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" IsPrimaryKey="true" />
-      <Column Name="MessageStatusName" Member="MessageStatusName" Type="System.String" DbType="nvarchar(100) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Association Name="ConfigurationMessageStatus_MessageToParents_Message" Member="MessageToParentsMessages" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="MessageToParents_Message" IsForeignKey="false" />
-    </Type>
-  </Table>
 </Database>
