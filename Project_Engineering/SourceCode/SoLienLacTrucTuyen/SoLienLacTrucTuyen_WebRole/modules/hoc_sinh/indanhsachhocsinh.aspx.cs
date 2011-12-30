@@ -19,24 +19,39 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class PrintStudentsPage : BaseContentPage
+    public partial class PrintStudentsPage : System.Web.UI.Page
     {                
         private ReportDocument RptDocument = new ReportDocument();     
         private string strPagePath;
 
-        protected override void Page_Load(object sender, EventArgs e)
+        public School_School UserSchool
         {
-            base.Page_Load(sender, e);            
-            if (accessDenied)
+            get
+            {
+                School_School school = null;
+                if (Session[AppConstant.SCHOOL] != null)
+                {
+                    school = (School_School)Session[AppConstant.SCHOOL];
+                }
+
+                return school;
+            }
+
+            set
+            {
+                Session[AppConstant.SCHOOL] = value;
+            }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session[AppConstant.SCHOOL] == null)
             {
                 return;
             }
 
-            if (sessionExpired)
-            {
-                FormsAuthentication.SignOut();
-                Response.Redirect(FormsAuthentication.LoginUrl);
-            }
+            UserSchool = (School_School)Session[AppConstant.SCHOOL];
+            
             #region Variables
 
             DataSet ds = new DataSet();            
@@ -262,7 +277,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             }
                             if ((int)ViewState[AppConstant.SESSION_SELECTED_TERM] != 0)
                             {
-                                term =  new  SystemConfigBL(UserSchool).GetTerm((int)ViewState[AppConstant.SESSION_SELECTED_TERM]);
+                                term = new SystemConfigBL(UserSchool).GetTerm((int)ViewState[AppConstant.SESSION_SELECTED_TERM]);
                             }
                             break;
                         }
@@ -472,6 +487,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             Rpt_DanhSachHocSinh.ReportSource = RptDocument;
             Rpt_DanhSachHocSinh.DisplayGroupTree = false;
+        }
+
+        protected object GetSession(string key)
+        {
+            if (Session[UserSchool.SchoolId + AppConstant.UNDERSCORE + key] != null)
+            {
+                return Session[UserSchool.SchoolId + AppConstant.UNDERSCORE + key];
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+
+        protected void RemoveSession(string key)
+        {
+            if (CheckSessionKey(key))
+            {
+                Session.Remove(UserSchool.SchoolId + AppConstant.UNDERSCORE + key);
+            }
+        }
+
+        protected bool CheckSessionKey(string key)
+        {
+            if (Session[UserSchool.SchoolId + AppConstant.UNDERSCORE + key] != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

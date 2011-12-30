@@ -112,9 +112,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLNamHoc();
             BindDDLMessageStatuses();
-            BindDDLNganhHoc();
-            BindDDLKhoiLop();
-            BindDDLLopHoc();
         }
 
         private void BindDDLNamHoc()
@@ -140,107 +137,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0")); 
         }
 
-        private void BindDDLKhoiLop()
-        {
-            GradeBL gradeBL = new GradeBL(UserSchool);
-            List<Category_Grade> lGrades = gradeBL.GetListGrades();
-            DdlKhoiLopThem.DataSource = lGrades;
-            DdlKhoiLopThem.DataValueField = "GradeName";
-            DdlKhoiLopThem.DataTextField = "GradeName";
-            DdlKhoiLopThem.DataBind();
-            if (lGrades.Count > 1)
-            {
-                DdlKhoiLopThem.Items.Insert(0, new ListItem("Tất cả", "Tất cả"));
-            }
-        }
-
-        private void BindDDLNganhHoc()
-        {
-            FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<Category_Faculty> faculties = facultyBL.GetFaculties();
-            DdlNganhHocThem.DataSource = faculties;
-            DdlNganhHocThem.DataValueField = "FacultyId";
-            DdlNganhHocThem.DataTextField = "FacultyName";
-            DdlNganhHocThem.DataBind();
-            if (faculties.Count > 1)
-            {
-                DdlNganhHocThem.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-        }
-
-        private void BindDDLLopHoc()
-        {
-            ClassBL lopHocBL = new ClassBL(UserSchool);
-            GradeBL gradeBL = new GradeBL(UserSchool);
-            Category_Faculty faculty = null;
-            Category_Grade grade = null;
-            Configuration_Year currentYear = (new SystemConfigBL(UserSchool)).GetLastedYear();
-
-            int YearId = currentYear.YearId;
-
-            try
-            {
-                if (DdlNganhHocThem.SelectedIndex > 0)
-                {
-                    faculty = new Category_Faculty();
-                    faculty.FacultyId = Int32.Parse(DdlNganhHocThem.SelectedValue);
-                }
-            }
-            catch (Exception) { }
-
-            try
-            {                
-                if (DdlKhoiLopThem.SelectedIndex > 0)
-                {
-                    string gradeName = DdlKhoiLopThem.SelectedValue;                    
-                    grade = gradeBL.GetGrade(gradeName);
-                }
-            }
-            catch (Exception) { }
-
-
-            List<Class_Class> lstLop = lopHocBL.GetListClasses(currentYear, faculty, grade);
-            DdlLopThem.DataSource = lstLop;
-            DdlLopThem.DataValueField = "ClassId";
-            DdlLopThem.DataTextField = "ClassName";
-            DdlLopThem.DataBind();
-
-            if (lstLop.Count > 1)
-            {
-                DdlLopThem.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-
-            BindDDLHocSinh();
-        }
-
-        private void BindDDLHocSinh()
-        {
-            List<StudentDropdownListItem> lStudents = new List<StudentDropdownListItem>();
-            if (DdlLopThem.Items.Count != 0)
-            {
-                string facultyName = DdlNganhHocThem.SelectedItem.Text;
-                Category_Faculty faculty = (new FacultyBL(UserSchool)).GetFaculty(facultyName);
-
-                string strGradeName = DdlKhoiLopThem.SelectedValue;
-                Category_Grade grade = (new GradeBL(UserSchool)).GetGrade(strGradeName);
-
-                int iClassId = Int32.Parse(DdlLopThem.SelectedValue);
-                Class_Class cls = (new ClassBL(UserSchool)).GetClass(iClassId);
-
-                lStudents = (new StudentBL(UserSchool)).GetStudents(faculty, grade, cls);
-            }
-
-            DdlHocSinhThem.DataSource = lStudents;
-            DdlHocSinhThem.DataTextField = StudentDropdownListItem.STUDENT_CODE;
-            DdlHocSinhThem.DataValueField = StudentDropdownListItem.STUDENT_IN_CLASS_ID;
-
-            DdlHocSinhThem.DataBind();
-            if (DdlHocSinhThem.Items.Count > 1)
-            {
-                DdlHocSinhThem.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-        }
-
         private void InitDates()
         {
             DateTime today = DateTime.Now;
@@ -250,25 +146,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
             DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
             TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
-
-            TxtNgayThem.Text = today.ToShortDateString();
-        }
-        #endregion
-
-        #region DropDownList event hanlders
-        protected void DdlNganhThem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
-        }
-
-        protected void DdlKhoiLopThem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
-        }
-
-        protected void DdlLopHocThem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLHocSinh();
         }
         #endregion
 
@@ -363,40 +240,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRptMessages();
         }
 
-        protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
+        protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            MainDataPager.CurrentIndex = 1;
-
-            string tieuDe = TxtTieuDeThem.Text;
-            string noiDung = TxtNoiDungThem.Text;
-            DateTime ngay = DateTime.Parse(TxtNgayThem.Text);
-            int maHocSinhLopHoc = Int32.Parse(DdlHocSinhThem.SelectedValue);
-            if (maHocSinhLopHoc == 0)
-            {
-                for (int i = 1; i < DdlHocSinhThem.Items.Count; i++)
-                {
-                    loiNhanKhanBL.InsertMessage(Int32.Parse(DdlHocSinhThem.Items[i].Value),
-                        tieuDe, noiDung, ngay);
-                }
-            }
-            else
-            {
-                loiNhanKhanBL.InsertMessage(maHocSinhLopHoc,
-                        tieuDe, noiDung, ngay);
-            }
-
-            BindRptMessages();
-
-            TxtTieuDeThem.Text = "";
-            TxtNoiDungThem.Text = "";
-            TxtNgayThem.Text = DateTime.Now.ToShortDateString();
-
-            if (this.CkbAddAfterSave.Checked)
-            {
-                this.MPEAdd.Show();
-            }
+            Response.Redirect(AppConstant.PAGEPATH_ADDMESSAGES);
         }
-
+        
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             int maLoiNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);

@@ -144,6 +144,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return roleDA.GetRoleParents();
         }
+
+        public aspnet_Role GetRoleSupplier()
+        {
+            return roleDA.GetRoleSupplier();
+        }
     }
 }
 

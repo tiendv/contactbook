@@ -13,13 +13,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class TrangChu {
         
         /// <summary>
-        /// LblSchoolName control.
+        /// LblGreetingHead control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblSchoolName;
+        protected global::System.Web.UI.WebControls.Label LblGreetingHead;
+        
+        /// <summary>
+        /// LblGreetingTail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblGreetingTail;
         
         /// <summary>
         /// LoginView1 control.

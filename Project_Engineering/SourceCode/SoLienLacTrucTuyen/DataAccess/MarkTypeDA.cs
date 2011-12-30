@@ -137,7 +137,7 @@ namespace EContactBook.DataAccess
 
             IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
                                                        where markTp.IsUsedForCalculatingAvg == true
-                                                       && markType.SchoolId == school.SchoolId
+                                                       && markTp.SchoolId == school.SchoolId
                                                        select markTp;
             if (iqMarkType.Count() != 0)
             {

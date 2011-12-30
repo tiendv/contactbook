@@ -9,31 +9,42 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         public const string SCHOOL = "SCHOOL";
 
+        public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx"; 
+        
         public const string PAGEPATH_USERS = "/modules/nguoi_dung/danhsachnguoidung.aspx";
         public const string PAGEPATH_ADDUSER = "/modules/nguoi_dung/themnguoidung.aspx";
         public const string PAGEPATH_EDITUSER = "/modules/nguoi_dung/suanguoidung.aspx";
         public const string PAGEPATH_DETAILUSER = "/modules/nguoi_dung/chitietnguoidung.aspx";
+
         public const string PAGEPATH_STUDENTS = "/modules/hoc_sinh/danhsachhocsinh.aspx";
+        public const string PAGEPATH_STUDENTINFOR = "/modules/hoc_sinh/thongtincanhan.aspx";
+        public const string PAGEPATH_STUDENTEDIT = "/modules/hoc_sinh/suahocsinh.aspx";
+        public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
+
+        public const string PAGEPATH_MESSAGES = "/modules/loi_nhan/loinhankhan.aspx";
+        public const string PAGEPATH_ADDMESSAGES = "/modules/loi_nhan/themthongbao.aspx";
+        
         public const string PAGEPATH_PARENTSCOMMENTS = "/modules/y_kien/ykien.aspx";
         public const string PAGEPATH_DETAILEDPARENTSCOMMENTS = "/modules/y_kien/chitietykien.aspx";
         public const string PAGEPATH_FEEDBACKPARENTSCOMMENTS = "/modules/y_kien/phanhoiykien.aspx";
-        public const string PAGEPATH_STUDENTINFOR = "/modules/hoc_sinh/thongtincanhan.aspx";
-        public const string PAGEPATH_STUDENTEDIT = "/modules/hoc_sinh/suahocsinh.aspx";
+        
         public const string PAGEPATH_ADDCOMMENT = "/modules/phu_huynh/themykien.aspx";
         public const string PAGEPATH_EDITCOMMENT = "/modules/phu_huynh/suaykien.aspx";
         public const string PAGEPATH_DETAILEDCOMMENT = "/modules/phu_huynh/chitietykien.aspx";
         public const string PAGEPATH_COMMENTS = "/modules/phu_huynh/ykien.aspx";
-        public const string PAGEPATH_MESSAGE = "/modules/phu_huynh/loinhankhan.aspx";
+        public const string PAGEPATH_PARENTS_MESSAGE = "/modules/phu_huynh/loinhankhan.aspx";
         public const string PAGEPATH_PARENTS_HOMEPAGE = "/modules/phu_huynh/trangchu.aspx";
-        public const string PAGEPATH_DETAILEDMESSAGE = "/modules/phu_huynh/chitietthongbao.aspx";
-        public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx";
-        public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
+        public const string PAGEPATH_PARENTS_DETAILEDMESSAGE = "/modules/phu_huynh/chitietthongbao.aspx";        
+        
         public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
         public const string PAGEPATH_PRINTCLASSES = "/modules/lop_hoc/indanhsachlophoc.aspx";
         public const string PAGEPATH_SCHEDULE = "/modules/lop_hoc/thoikhoabieu.aspx";
         public const string PAGEPATH_SCHEDULEAGGRANGEMENT = "/modules/lop_hoc/suathoikhoabieu.aspx";
         public const string PAGEPATH_PRINTTERM = "/modules/lop_hoc/inthoikhoabieu.aspx";
         public const string PAGEPATH_SIGNIN = "/Account/DangNhap.aspx";
+        public const string PAGEPATH_SCHOOLLIST = "/modules/supplier/supplierlist.aspx";
+        public const string PAGEPATH_ADDSCHOOL = "/modules/supplier/addsupplier.aspx";
+        public const string PAGEPATH_MODIFYSCHOOL = "/modules/supplier/modifysupplier.aspx";
 
         public const string QUERY_STUDENT = "std";
         public const string QUERY_PARENTSCOMMENT = "id";

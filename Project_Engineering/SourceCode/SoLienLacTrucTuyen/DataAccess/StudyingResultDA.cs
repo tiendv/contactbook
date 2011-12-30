@@ -576,6 +576,51 @@ namespace EContactBook.DataAccess
             return termSubjectMarks;
         }
 
+        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
+            iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
+                                join detailTermSubjMark in db.Student_DetailedTermSubjectMarks
+                                    on termSubjMark.TermSubjectMarkId equals detailTermSubjMark.TermSubjectMarkId
+                                where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.SubjectId == subject.SubjectId
+                                select termSubjMark;
+
+            totalRecord = iqTermSubjectMark.Count();
+            if (totalRecord != 0)
+            {
+                termSubjectMarks = iqTermSubjectMark.OrderBy(termSubjMark => termSubjMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return termSubjectMarks;
+        }
+
+        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, int month, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
+            iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
+                                join detailTermSubjMark in db.Student_DetailedTermSubjectMarks 
+                                    on termSubjMark.TermSubjectMarkId equals detailTermSubjMark.TermSubjectMarkId
+                                where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.SubjectId == subject.SubjectId
+                                    && detailTermSubjMark.Date1.Value.Month == month
+                                select termSubjMark;
+
+            totalRecord = iqTermSubjectMark.Count();
+            if (totalRecord != 0)
+            {
+                termSubjectMarks = iqTermSubjectMark.OrderBy(termSubjMark => termSubjMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return termSubjectMarks;
+        }
+
         public List<Student_TermLearningResult> GetStudentTermResults(Student_Student student, Configuration_Year year,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {

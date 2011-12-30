@@ -28,16 +28,16 @@ namespace EContactBook.DataAccess
 
         public List<Configuration_Year> GetListYears()
         {
-            List<Configuration_Year> lYears = new List<Configuration_Year>();
-
-            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
-                                                    select y;
+            List<Configuration_Year> years = new List<Configuration_Year>();
+            IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
+                                                    where year.SchoolId == school.SchoolId
+                                                    select year;
             if (iqYear.Count() != 0)
             {
-                lYears = iqYear.OrderBy(year => year.YearName).ToList();
+                years = iqYear.OrderByDescending(year => year.YearName).ToList();
             }
 
-            return lYears;
+            return years;
         }
 
         public Configuration_Year GetLastedYear()

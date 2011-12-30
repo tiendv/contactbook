@@ -173,7 +173,7 @@
                             Số điểm tối đa/Học kì
                         </td>
                         <td>
-                            Dùng tính ĐTB
+                            Dùng tính điểm trung bình
                         </td>
                         <td id="thEdit" runat="server" class="icon">
                             Sửa

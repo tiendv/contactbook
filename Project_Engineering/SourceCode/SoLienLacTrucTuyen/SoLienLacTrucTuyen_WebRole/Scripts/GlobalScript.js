@@ -19,6 +19,18 @@
         $(this).attr("src", "/Styles/Images/button_add_with_text.png");
     });
 
+    $(".BtnEdit").hover(function () {
+        $(this).attr("src", "/Styles/buttons/button_edit_hover.png");
+    }, function () {
+        $(this).attr("src", "/Styles/buttons/button_edit.png");
+    });
+
+    $(".BtnDelete").hover(function () {
+        $(this).attr("src", "/Styles/buttons/button_delete_hover.png");
+    }, function () {
+        $(this).attr("src", "/Styles/buttons/button_delete.png");
+    });
+
     $(".StepNextButton").hover(function () {
         $(this).attr("src", "/Styles/Images/MouseHover/button_next_step.png");
     }, function () {
@@ -78,5 +90,9 @@
         $(this).attr("src", "/Styles/Images/MouseHover/popup_button_close.png");
     }, function () {
         $(this).attr("src", "/Styles/Images/popup_button_close.png");
+    });
+
+    $('.selectAll').click(function () {
+        $(".select input[type='checkbox']").attr('checked', $(".selectAll input[type='checkbox']").is(':checked'));
     });
 });

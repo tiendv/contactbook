@@ -22,14 +22,12 @@
             }
 
             function popopConfirmDelete_CancelDelete_Click() {
-                var mPEDeleteID = $get('<%=HdfRptNganhHocMPEDelete.ClientID%>').value;
-                $find(mPEDeleteID).hide();
+                $find('<%=MPEDelete.ClientID%>').hide();
                 return false;
             }
 
             function popopEdit_Cancel_Click() {
-                var mPEEditID = $get('<%=HdfRptNganhHocMPEEdit.ClientID%>').value;
-                $find(mPEEditID).hide();
+                $find('<%=MPEEdit.ClientID%>').hide();
                 return false;
             }
 
@@ -114,6 +112,18 @@
             <asp:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAdd" PopupControlID="PnlPopupAdd"
                 BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupAdd" PopupDragHandleControlID="PnlDragPopupAdd">
             </asp:ModalPopupExtender>
+            <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
+                ToolTip="Sửa ngành học" CssClass="BtnEdit" />
+            <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnEdit"
+                PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
+                PopupDragHandleControlID="PnlDragPopupEdit">
+            </asp:ModalPopupExtender>
+            <asp:ImageButton ID="BtnDelete" runat="server" ImageUrl="~/Styles/buttons/button_delete.png"
+                ToolTip="Xóa ngành học" CssClass="BtnDelete" />
+            <asp:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnDelete"
+                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
+                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
+            </asp:ModalPopupExtender>
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
@@ -137,11 +147,8 @@
                         <td>
                             Mô tả
                         </td>
-                        <td id="thEdit" runat="server" class="icon">
-                            Sửa
-                        </td>
-                        <td id="thDelete" runat="server" class="icon">
-                            Xóa
+                        <td class="icon">
+                            <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -158,23 +165,8 @@
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Description")%>
                         </td>
-                        <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>' />
-                            <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
-                                PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
-                                PopupDragHandleControlID="PnlDragPopupEdit">
-                            </asp:ModalPopupExtender>
-                        </td>
-                        <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "FacultyName")%>' />
-                            <asp:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
-                                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
-                                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
-                            </asp:ModalPopupExtender>
+                        <td class="icon" style="height: 40px;">
+                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -213,7 +205,7 @@
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
-    <asp:Panel ID="PnlPopupAdd" runat="server" CssClass="popup ui-corner-all" Width="400px">
+    <asp:Panel ID="PnlPopupAdd" runat="server" CssClass="popup ui-corner-all" Width="500px">
         <asp:Panel ID="PnlDragPopupAdd" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupAddTitle" runat="server" CssClass="popup_header_title"
                 Text="Thêm ngành học"></asp:Label>
@@ -223,7 +215,7 @@
         <div style="padding: 5px 7px 10px 7px;">
             <table class="inputBorder" style="width: 100%;">
                 <tr>
-                    <td style="width: 15%; vertical-align: top; padding-top: 3px;">
+                    <td style="width: 40px; vertical-align: top; padding-top: 3px;">
                         Tên:
                         <asp:Label ID="Label7" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
@@ -242,8 +234,8 @@
                         Mô tả:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtDescriptionNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
-                            Style="font-family: arial;"></asp:TextBox>
+                        <asp:TextBox ID="TxtDescriptionNganhHoc" runat="server" Height="100px" TextMode="MultiLine"
+                            CssClass="input_textbox" Style="font-family: arial;"></asp:TextBox>
                     </td>
                 </tr>
             </table>
@@ -262,7 +254,7 @@
         </div>
         <asp:HiddenField ID="hfOutput_Them" runat="server" Value="true" />
     </asp:Panel>
-    <asp:Panel ID="PnlPopupEdit" runat="server" CssClass="popup ui-corner-all" Width="400px">
+    <asp:Panel ID="PnlPopupEdit" runat="server" CssClass="popup ui-corner-all" Width="500px">
         <asp:Panel ID="PnlDragPopupEdit" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupEditTitle" runat="server" CssClass="popup_header_title"
                 Text="Sửa ngành học"></asp:Label>
@@ -272,7 +264,7 @@
         <div style="padding: 5px 7px 10px 7px;">
             <table style="width: 100%;" class="inputBorder">
                 <tr>
-                    <td style="width: 15%; vertical-align: top; padding-top: 3px;">
+                    <td style="width: 40px; vertical-align: top; padding-top: 3px;">
                         Tên:
                         <asp:Label ID="Label3" runat="server" Text="*" ForeColor="Red"></asp:Label>
                     </td>
@@ -291,8 +283,8 @@
                         Mô tả:
                     </td>
                     <td style="width: auto;">
-                        <asp:TextBox ID="TxtSuaDescriptionNganhHoc" runat="server" TextMode="MultiLine" CssClass="input_textbox"
-                            Style="font-family: arial;"></asp:TextBox>
+                        <asp:TextBox ID="TxtSuaDescriptionNganhHoc" runat="server" Height="100px" TextMode="MultiLine"
+                            CssClass="input_textbox" Style="font-family: arial;"></asp:TextBox>
                     </td>
                 </tr>
             </table>

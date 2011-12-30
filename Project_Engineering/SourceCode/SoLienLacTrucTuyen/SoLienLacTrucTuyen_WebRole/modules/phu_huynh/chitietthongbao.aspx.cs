@@ -72,7 +72,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             else
             {
-                Response.Redirect(AppConstant.PAGEPATH_MESSAGE);
+                Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE);
             }
         }
 
@@ -118,7 +118,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             AddSearchSessions();
 
-            Response.Redirect(AppConstant.PAGEPATH_MESSAGE);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE);
         }
 
         private void AddSearchSessions()

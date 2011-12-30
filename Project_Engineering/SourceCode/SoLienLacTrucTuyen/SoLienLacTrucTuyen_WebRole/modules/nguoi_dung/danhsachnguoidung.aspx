@@ -93,9 +93,9 @@
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>
                         </td>
-                        <td style="height: 40px;">
+                        <td style="height: 40px">
                             <asp:TextBox ID="TxtEmail" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Email")%>'
-                                Style="width: 98%; height: 80%; padding: 0px 3px 0px 3px"></asp:TextBox>
+                                Style="width: 97%; height: 80%; padding: 0px 3px 0px 3px"></asp:TextBox>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "StringStatus")%>

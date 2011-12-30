@@ -5,13 +5,13 @@ Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SoLienLacTrucTuyen", "SoLie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoLienLacTrucTuyen_WebRole", "SoLienLacTrucTuyen_WebRole\SoLienLacTrucTuyen_WebRole.csproj", "{A907327E-75C6-4C6D-93D8-F908A5B717CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoLienLacTrucTuyen.DataAccess", "DataAccess\SoLienLacTrucTuyen.DataAccess.csproj", "{ED2027DC-923E-4904-9E11-928D65B01BCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EContactBook.DataAccess", "DataAccess\EContactBook.DataAccess.csproj", "{ED2027DC-923E-4904-9E11-928D65B01BCD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoLienLacTrucTuyen.BusinessLogic", "SoLienLacTrucTuyen.BusinessLogic\SoLienLacTrucTuyen.BusinessLogic.csproj", "{136FB4E4-9479-4416-A5C4-A8361AEC26C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoLienLacTrucTuyen.DataPager", "DataPager\SoLienLacTrucTuyen.DataPager.csproj", "{59AF6AAF-1294-492A-AA48-3E2B9EB9E12A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoLienLacTrucTuyen.BusinessEntity", "BusinessEntity\SoLienLacTrucTuyen.BusinessEntity.csproj", "{8D80AC34-715A-4E7D-9074-42D1A5E01A23}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EContactBook.BusinessEntity", "BusinessEntity\EContactBook.BusinessEntity.csproj", "{8D80AC34-715A-4E7D-9074-42D1A5E01A23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

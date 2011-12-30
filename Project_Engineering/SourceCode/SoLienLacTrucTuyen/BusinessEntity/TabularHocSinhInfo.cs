@@ -16,5 +16,7 @@ namespace EContactBook.BusinessEntity
         public string ClassName { get; set; }
         public string Gender { get; set; }
         public string DayOfBirth { get; set; }
+
+        public int StudentInClassId { get; set; }
     }
 }
