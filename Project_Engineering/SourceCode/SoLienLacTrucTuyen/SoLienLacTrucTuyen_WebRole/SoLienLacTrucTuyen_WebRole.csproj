@@ -93,7 +93,9 @@
     <Content Include="modules\hoc_sinh\PageReportStudents.aspx" />
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
+    <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\loi_nhan\loinhankhan.aspx" />
+    <Content Include="modules\loi_nhan\themthongbao.aspx" />
     <Content Include="modules\lop_hoc\inthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\indanhsachlophoc.aspx" />
     <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
@@ -118,7 +120,6 @@
     <Content Include="modules\phu_huynh\suaykien.aspx" />
     <Content Include="modules\phu_huynh\thoikhoabieu.aspx" />
     <Content Include="modules\phu_huynh\thongtincanhan.aspx" />
-    <Content Include="modules\phu_huynh\trangchu.aspx" />
     <Content Include="modules\phu_huynh\ykien.aspx" />
     <Content Include="modules\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="modules\Scripts\jquery-1.4.1.js" />
@@ -144,7 +145,7 @@
     <Content Include="modules\danh_muc\giao_vien\danhsachgiaovien.aspx" />
     <Content Include="modules\lop_hoc\themgiaovienchunhiem.aspx" />
     <Content Include="modules\lop_hoc\themtietthoikhoabieu.aspx" />
-    <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
+    <Content Include="modules\hoc_sinh\themdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
@@ -152,6 +153,9 @@
     <Content Include="modules\Trang_Chu\TrangChu.aspx" />
     <Content Include="modules\phu_huynh\chitietthongbao.aspx" />
     <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
+    <Content Include="modules\supplier\supplierlist.aspx" />
+    <Content Include="modules\supplier\addsupplier.aspx" />
+    <Content Include="modules\supplier\modifysupplier.aspx" />
     <Content Include="modules\y_kien\chitietykien.aspx" />
     <Content Include="modules\y_kien\phanhoiykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
@@ -203,7 +207,9 @@
     <Content Include="Styles\Images\button_search_with_text.png" />
     <Content Include="Styles\Images\button_yes.png" />
     <Content Include="Styles\Images\calendar.png" />
+    <Content Include="Styles\Images\comment_indicator.png" />
     <Content Include="Styles\Images\confirm_icon.gif" />
+    <Content Include="Styles\Images\School.png" />
     <Content Include="Styles\Images\text_content_background.png" />
     <Content Include="Styles\Images\FeedbackIcon.png" />
     <Content Include="Styles\Images\first_page.png" />
@@ -241,6 +247,7 @@
     <Content Include="Styles\Images\table_header_left_2.png" />
     <Content Include="Styles\Images\table_header_middle.png" />
     <Content Include="Styles\Images\table_header_right.png" />
+    <Content Include="Styles\Images\text_content_background_2.png" />
     <Content Include="Styles\Images\title_pane.png" />
     <Content Include="Styles\Images\unread_message.png" />
     <Content Include="Styles\Images\user.png" />
@@ -281,6 +288,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="modules\danh_muc\danhmucnganhhoc.aspx" />
+    <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\ChangePassword.aspx.cs">
@@ -444,12 +452,26 @@
     <Compile Include="modules\hoc_sinh\thongtincanhan.aspx.designer.cs">
       <DependentUpon>thongtincanhan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
+      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.designer.cs">
+      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\loi_nhan\loinhankhan.aspx.cs">
       <DependentUpon>loinhankhan.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="modules\loi_nhan\loinhankhan.aspx.designer.cs">
       <DependentUpon>loinhankhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\loi_nhan\themthongbao.aspx.cs">
+      <DependentUpon>themthongbao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\loi_nhan\themthongbao.aspx.designer.cs">
+      <DependentUpon>themthongbao.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\lop_hoc\inthoikhoabieu.aspx.cs">
       <DependentUpon>inthoikhoabieu.aspx</DependentUpon>
@@ -650,13 +672,6 @@
     <Compile Include="modules\phu_huynh\thongtincanhan.aspx.designer.cs">
       <DependentUpon>thongtincanhan.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\phu_huynh\trangchu.aspx.cs">
-      <DependentUpon>trangchu.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\phu_huynh\trangchu.aspx.designer.cs">
-      <DependentUpon>trangchu.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\phu_huynh\ykien.aspx.cs">
       <DependentUpon>ykien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -800,12 +815,12 @@
     <Compile Include="modules\lop_hoc\themtietthoikhoabieu.aspx.designer.cs">
       <DependentUpon>themtietthoikhoabieu.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
-      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+    <Compile Include="modules\hoc_sinh\themdiemhocsinh.aspx.cs">
+      <DependentUpon>themdiemhocsinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.designer.cs">
-      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+    <Compile Include="modules\hoc_sinh\themdiemhocsinh.aspx.designer.cs">
+      <DependentUpon>themdiemhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\hanhkiemhocsinh.aspx.cs">
       <DependentUpon>hanhkiemhocsinh.aspx</DependentUpon>
@@ -856,6 +871,27 @@
     <Compile Include="modules\hoc_sinh\danhsachhocsinh.aspx.designer.cs">
       <DependentUpon>danhsachhocsinh.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\supplier\supplierlist.aspx.cs">
+      <DependentUpon>supplierlist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\supplier\supplierlist.aspx.designer.cs">
+      <DependentUpon>supplierlist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\supplier\addsupplier.aspx.cs">
+      <DependentUpon>addsupplier.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\supplier\addsupplier.aspx.designer.cs">
+      <DependentUpon>addsupplier.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\supplier\modifysupplier.aspx.cs">
+      <DependentUpon>modifysupplier.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\supplier\modifysupplier.aspx.designer.cs">
+      <DependentUpon>modifysupplier.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\y_kien\chitietykien.aspx.cs">
       <DependentUpon>chitietykien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -894,6 +930,13 @@
     </Compile>
     <Compile Include="SortablePaginationRepeater.cs" />
     <Compile Include="Student.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
