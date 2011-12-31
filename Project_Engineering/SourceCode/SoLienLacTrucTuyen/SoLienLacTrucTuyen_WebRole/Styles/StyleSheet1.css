@@ -369,3 +369,21 @@ table.search
     padding-right: 5px;
     padding-left: 5px;
 }
+
+.text_content_white
+{
+    background-image: url('Images/text_content_background_2.png');
+    background-repeat: repeat;
+    text-align: justify;
+    white-space: normal;
+    line-height: 29px;
+    padding-top: 8px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.comment_border
+{
+    padding: 5px;
+    border: 1px solid #9d9d9d;
+}
