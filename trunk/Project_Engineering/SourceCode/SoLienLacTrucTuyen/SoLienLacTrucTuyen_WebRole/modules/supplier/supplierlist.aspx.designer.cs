@@ -13,6 +13,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class SuppliersPage {
         
         /// <summary>
+        /// UPDropdownlists control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UPDropdownlists;
+        
+        /// <summary>
+        /// DdlProvinces control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlProvinces;
+        
+        /// <summary>
+        /// DdlDistricts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlDistricts;
+        
+        /// <summary>
         /// TxtSchoolName control.
         /// </summary>
         /// <remarks>

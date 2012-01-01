@@ -40,7 +40,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 isSearch = false;
-                BindRptKhoiLop();
+                BindRptGrades();
             }
 
             ProcPermissions();
@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRptKhoiLop();
+            BindRptGrades();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -70,7 +70,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 // Re-bind Repeater
                 MainDataPager.CurrentIndex = 1;
-                BindRptKhoiLop();
+                BindRptGrades();
 
                 // Reset GUI values
                 this.TxtGradeName.Text = "";
@@ -89,7 +89,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strGradeName = this.HdfSeletedGradeName.Value;
             gradeBL.DeleteGrade(strGradeName);
             isSearch = false;
-            BindRptKhoiLop();
+            BindRptGrades();
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
@@ -109,7 +109,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 short sNewDisplayOrder = short.Parse(newDisplayOrder);
                 gradeBL.UpdateGrade(editedGradeName, newGradeName, sNewDisplayOrder);
 
-                BindRptKhoiLop();
+                BindRptGrades();
             }
         }
         #endregion
@@ -215,7 +215,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindRptKhoiLop();
+            BindRptGrades();
         }
         #endregion
 
@@ -235,24 +235,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        public void BindRptKhoiLop()
+        public void BindRptGrades()
         {
-            string GradeName = TxtSearchKhoiLop.Text.Trim();
+            string strGradeName = TxtSearchKhoiLop.Text.Trim();
 
             double dTotalRecords;
-            List<Category_Grade> lstKhoiLop = gradeBL.GetListGrades(GradeName, 
+            List<Category_Grade> grades = gradeBL.GetListGrades(strGradeName, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             MainDataPager.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
-            if (lstKhoiLop.Count == 0 && dTotalRecords != 0)
+            if (grades.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRptKhoiLop();
+                BindRptGrades();
                 return;
             }
 
-            bool bDisplayData = (lstKhoiLop.Count != 0) ? true : false;
+            bool bDisplayData = (grades.Count != 0) ? true : false;
             PnlPopupConfirmDelete.Visible = bDisplayData;
             PnlPopupEdit.Visible = bDisplayData;
             RptKhoiLop.Visible = bDisplayData;
@@ -278,7 +278,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = true;
             }
 
-            RptKhoiLop.DataSource = lstKhoiLop;
+            RptKhoiLop.DataSource = grades;
             RptKhoiLop.DataBind();
         }
 

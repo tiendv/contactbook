@@ -658,13 +658,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
             }
-        }
-        #endregion
+        }        
 
         public void RaisePostBackEvent(string eventArgument)
         {
             //throw new NotImplementedException();
             PrePrint();
         }
+        #endregion
     }
 }

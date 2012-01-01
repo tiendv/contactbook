@@ -40,22 +40,58 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator SchoolNameRequired;
         
         /// <summary>
-        /// ImgPhoto control.
+        /// ImgLogo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgPhoto;
+        protected global::System.Web.UI.WebControls.Image ImgLogo;
         
         /// <summary>
-        /// FileUpload1 control.
+        /// FileUploadLogo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadLogo;
+        
+        /// <summary>
+        /// FileUpLoadValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator FileUpLoadValidator;
+        
+        /// <summary>
+        /// DdlProvinces control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlProvinces;
+        
+        /// <summary>
+        /// DdlDistricts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlDistricts;
+        
+        /// <summary>
+        /// DistrictRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator DistrictRequired;
         
         /// <summary>
         /// Label2 control.
@@ -139,6 +175,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator EmailRequired;
         
         /// <summary>
+        /// EmailCustomValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator EmailCustomValidator;
+        
+        /// <summary>
         /// Label5 control.
         /// </summary>
         /// <remarks>
@@ -166,12 +211,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.ImageButton BtnSave;
         
         /// <summary>
-        /// BtnCancelEdit control.
+        /// BtnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancelEdit;
+        protected global::System.Web.UI.WebControls.ImageButton BtnCancel;
     }
 }

@@ -62,8 +62,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             else
             {
                 Category_Grade grade = GetGrade(gradeName);
-                lGrades.Add(grade);
-                totalRecords = 1;
+                if (grade != null)
+                {
+                    lGrades.Add(grade);
+                    totalRecords = 1;
+                }
+                else
+                {
+                    totalRecords = 0;
+                }
             }
 
             return lGrades;

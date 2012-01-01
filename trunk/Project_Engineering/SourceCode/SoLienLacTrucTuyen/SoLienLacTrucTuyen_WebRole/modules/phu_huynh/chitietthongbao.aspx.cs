@@ -21,8 +21,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
-            
-
             base.Page_Load(sender, e);
             if (accessDenied)
             {
@@ -64,9 +62,11 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                     PnlButtons.Width = new Unit(PnlButtons.Width.Value / 2);
                     BtnConfirm.Visible = false;
                     TxtFeedback.ReadOnly = true;
+                    FeedbackWatermark.Enabled = false;
                 }
                 else
                 {
+                    FeedbackWatermark.Enabled = true;
                     TxtFeedback.ReadOnly = false;
                 }
             }

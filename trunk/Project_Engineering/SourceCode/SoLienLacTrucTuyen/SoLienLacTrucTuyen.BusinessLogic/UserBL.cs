@@ -180,12 +180,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularUser;
         }
 
+        public void CreateUserAdmin(aspnet_User user)
+        {
+            AuthorizationBL authorizationBL = new AuthorizationBL(school);
+            RoleBL roleBL = new RoleBL(school);            
+            authorizationBL.AddUserToRole(user.UserName, roleBL.GetRoleAdministrator());
+        }
+
         public void CreateUserParents(aspnet_User user)
         {
             UpdateMembership(user, false, "(Chưa xác định)", null);
             AuthorizationBL authorizationBL = new AuthorizationBL(school);
             RoleBL roleBL = new RoleBL(school);
-            
+
             authorizationBL.AddUserToRole(user.UserName, roleBL.GetRoleParents());
 
             List<UserManagement_Authorization> authorizations = authorizationBL.GetSupliedRoleParentsAuthorizations();
