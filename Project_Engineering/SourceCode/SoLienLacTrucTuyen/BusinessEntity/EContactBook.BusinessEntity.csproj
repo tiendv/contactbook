@@ -65,6 +65,7 @@
     <Compile Include="LopHocInfo.cs" />
     <Compile Include="MenuItem.cs" />
     <Compile Include="TabularParentsComment.cs" />
+    <Compile Include="TabularSchool.cs" />
     <Compile Include="TabularSubject.cs" />
     <Compile Include="TabularDiemHocSinh.cs" />
     <Compile Include="TabularHanhKiemHocSinh.cs" />
