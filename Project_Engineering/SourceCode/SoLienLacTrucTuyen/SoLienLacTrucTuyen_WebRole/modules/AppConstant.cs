@@ -70,6 +70,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_FROMDATE = "FromDate";
         public const string VIEWSTATE_SELECTED_TODATE = "ToDate";
         public const string VIEWSTATE_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
+        public const string VIEWSTATE_SELECTED_PROVINCEID = "Province";
+        public const string VIEWSTATE_SELECTED_DISTRICTID = "District";
+        public const string VIEWSTATE_SELECTED_SCHOOLNAME = "SchoolName";
 
         public const string SESSION_PAGEPATH = "PagePath";
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
@@ -84,6 +87,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_GRADE = "Grade";
         public const string SESSION_SELECTED_STUDENTCODE = "StudentName";
         public const string SESSION_SELECTED_STUDENTNAME = "StudenCode";
+        public const string SESSION_SELECTED_PROVINCE = "Province";
+        public const string SESSION_SELECTED_DISTRICT = "District";
+        public const string SESSION_SELECTED_SCHOOLNAME = "SchoolName";
+
         public const string SESSION_STUDENTCLASS = "StudenClass";
         public const string SESSION_PREV_PAGE = "PrevPage";
         public const string SESSION_PARENTSCOMMENTID = "ParentCommentId";

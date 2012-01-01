@@ -31,6 +31,18 @@
         $(this).attr("src", "/Styles/buttons/button_delete.png");
     });
 
+    $(".BtnConfirm").hover(function () {
+        $(this).attr("src", "/Styles/buttons/button_confirm_hover.png");
+    }, function () {
+        $(this).attr("src", "/Styles/buttons/button_confirm.png");
+    });
+
+    $(".BtnClose").hover(function () {
+        $(this).attr("src", "/Styles/buttons/button_close_hover.png");
+    }, function () {
+        $(this).attr("src", "/Styles/buttons/button_close.png");
+    });
+
     $(".StepNextButton").hover(function () {
         $(this).attr("src", "/Styles/Images/MouseHover/button_next_step.png");
     }, function () {

@@ -93,5 +93,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return sysConfigDA.GetMessageStatuses();             
         }
+
+        public List<ConfigurationProvince> GetProvinces()
+        {
+            return sysConfigDA.GetProvinces();
+        }
+
+        public List<ConfigurationDistrict> GetDistricts(ConfigurationProvince province)
+        {
+            return sysConfigDA.GetDistricts(province);
+        }
     }
 }

@@ -104,9 +104,10 @@
                                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/school.png" Style="float: left;
                                         height: 48px; width: 48px" />
                                     <div style="width: 85%; float: left; padding-left: 10px;">
-                                        <asp:HyperLink ID="HlkSchools" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/supplier/supplierlist.aspx">Quản lí trường học</asp:HyperLink>
+                                        <asp:HyperLink ID="HlkSchools" runat="server" Style="font-size: 15px; text-decoration: none; font-weight: bold" NavigateUrl="~/modules/supplier/supplierlist.aspx">
+                                            Quản lí trường học</asp:HyperLink>
                                         <br />
-                                        Quản lí trường học đăng kí sử dụng hệ thống
+                                        Quản lí các trường học đăng kí sử dụng hệ thống sổ liên lạc trực tuyến
                                         <div style="clear: both">
                                         </div>
                                     </div>

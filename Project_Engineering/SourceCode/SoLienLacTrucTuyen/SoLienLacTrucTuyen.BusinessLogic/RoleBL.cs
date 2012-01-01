@@ -11,6 +11,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private RoleDA roleDA;
 
+        public RoleBL()
+            : base()
+        {
+            roleDA = new RoleDA();
+        }
+
         public RoleBL(School_School school)
             : base(school)
         {
@@ -21,6 +27,29 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             roleName = GetActualName(roleName);
             roleDA.CreateRoleDetail(roleName, description);
+        }
+
+        public void CreateRoleDetail(string roleName, string description, bool deletable, 
+            aspnet_Role roleParent, UserManagement_RoleCategory roleCategory, School_School School)
+        {
+            aspnet_Role role = GetRole(School.SchoolId + "_" + roleName);
+
+            UserManagement_RoleDetail roleDetail = new UserManagement_RoleDetail();            
+            roleDetail.DisplayedName = roleName;
+            roleDetail.RoleId = role.RoleId;
+            roleDetail.IsDeletable = deletable;
+            roleDetail.RoleCategoryId = roleCategory.RoleCategoryId;
+            if (roleParent != null)
+            {
+                roleDetail.ParentRoleId = roleParent.RoleId;
+            }
+            else
+            {
+                roleDetail.ParentRoleId = null;
+            }
+            roleDetail.SchoolId = School.SchoolId;
+
+            roleDA.CreateRoleDetail(roleDetail);
         }
 
         public void UpdateRole(string roleName, string newRoleName, string description)

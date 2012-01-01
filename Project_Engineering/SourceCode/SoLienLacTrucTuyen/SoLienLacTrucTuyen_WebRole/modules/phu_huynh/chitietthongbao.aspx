@@ -15,18 +15,18 @@
                 <asp:TextBox ID="TxtFeedback" runat="server" TextMode="MultiLine" Height="230px"
                     Style="width: 99%; font-family: Arial; padding: 3px; border-style: none"></asp:TextBox>
                 <ajaxToolkit:TextBoxWatermarkExtender ID="FeedbackWatermark" runat="server" TargetControlID="TxtFeedback"
-                    WatermarkText="(Phản hồi thông báo ở đây)">
+                    WatermarkText="Nhập xác nhận thông báo ....">
                 </ajaxToolkit:TextBoxWatermarkExtender>
             </div>
             <div style="position: absolute; top: 0px">
-                <img src="../../Styles/Images/comment_indicator.png" alt="CommentIndicator" style="width: 18px;
+                <img src="../../Styles/Images/comment_indicator.png" alt="CommentIndicator" style="width: 16px;
                     height: 18px; margin: 0px 0px 0px 100px" />
             </div>
         </div>
     </div>
     <asp:Panel ID="PnlButtons" runat="server" Width="203px" Style="margin: 0px auto 0px auto;
         padding: 10px 0px 10px 0px">
-        <asp:ImageButton ID="BtnConfirm" runat="server" OnClick="BtnConfirm_Click" ImageUrl="~/Styles/Images/button_confirm.png" />&nbsp;&nbsp;
-        <asp:ImageButton ID="BtnClose" runat="server" OnClick="BtnClose_Click" ImageUrl="~/Styles/Images/button_close.png" />
+        <asp:ImageButton ID="BtnConfirm" runat="server" OnClick="BtnConfirm_Click" ImageUrl="~/Styles/buttons/button_confirm.png" CssClass="BtnConfirm" />&nbsp;&nbsp;
+        <asp:ImageButton ID="BtnClose" runat="server" OnClick="BtnClose_Click" ImageUrl="~/Styles/buttons/button_close.png" CssClass="BtnClose" />
     </asp:Panel>
 </asp:Content>

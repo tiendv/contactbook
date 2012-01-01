@@ -4,26 +4,15 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-
     <div id="divScript">
         <script language="javascript" type="text/javascript">
-            function pageLoad() {
-                var modalPopupDelete = $find('<%=MPEDelete.ClientID%>');
-                if (modalPopupDelete != null) {
-                    modalPopupDelete.add_showing(function () {
-                    });
-                }
-            }
-
             function popopConfirmDelete_Cancel_Click() {
                 $find('<%=MPEDelete.ClientID%>').hide();
                 return false;
             }
-        </script>
-        <script language="javascript" type="text/javascript">
+
             $('document').ready(function () {
                 $('.BtnDelete').click(function (event) {
-                    
                     $find('<%=MPEDelete.ClientID%>').hide();
                 });
             });
@@ -31,17 +20,43 @@
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
-            Tên trường:&nbsp;
-            <asp:TextBox ID="TxtSchoolName" runat="server" Width="150px"></asp:TextBox>&nbsp;&nbsp;
-            <asp:TextBoxWatermarkExtender ID="SchoolNameWatermark" runat="server" TargetControlID="TxtSchoolName"
-                WatermarkText="Tất cả">
-            </asp:TextBoxWatermarkExtender>
+            <asp:UpdatePanel ID="UPDropdownlists" runat="server">
+                <ContentTemplate>
+                    <table class="search">
+                        <tr>
+                            <td>
+                                Tỉnh/Thành:
+                            </td>
+                            <td style="width: 180px;">
+                                <asp:DropDownList ID="DdlProvinces" runat="server" Width="150px" AutoPostBack="true"
+                                    OnSelectedIndexChanged="DdlProvinces_SelectedIndexChanged">
+                                </asp:DropDownList>
+                            </td>
+                            <td>
+                                Huyện/Quận:
+                            </td>
+                            <td style="width: 180px;">
+                                <asp:DropDownList ID="DdlDistricts" runat="server" Width="150px">
+                                </asp:DropDownList>
+                            </td>
+                            <td>
+                                Trường:
+                            </td>
+                            <td>
+                                <asp:TextBox ID="TxtSchoolName" runat="server" Width="250px"></asp:TextBox>
+                                <asp:TextBoxWatermarkExtender ID="SchoolNameWatermark" runat="server" TargetControlID="TxtSchoolName"
+                                    WatermarkText="Tất cả">
+                                </asp:TextBoxWatermarkExtender>
+                            </td>
+                        </tr>
+                    </table>
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </div>
-        <div id="divButtonSearch">
+        <div style="width: 30px; margin: 0px auto 0px auto; padding: 10px">
             <asp:ImageButton ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm trường học" CssClass="BtnSearch" />
         </div>
-        <br />
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
@@ -65,7 +80,7 @@
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
                             STT
-                        </td>                        
+                        </td>
                         <td>
                             <asp:LinkButton ID="LkBtnSchoolName" runat="server">Trường</asp:LinkButton>
                         </td>
@@ -102,7 +117,7 @@
                             <%#DataBinder.Eval(Container.DataItem, "Phone")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#((bool)DataBinder.Eval(Container.DataItem, "Status") == true) ? "Đang sử dụng" : "Chưa sử dụng"%>                            
+                            <%#((bool)DataBinder.Eval(Container.DataItem, "Status") == true) ? "Đang sử dụng" : "Chưa sử dụng"%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "TotalOfUsers")%>

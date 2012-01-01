@@ -12,9 +12,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public partial class SuppliersPage : BaseContentPage
     {
+        #region Fields
         private bool isSearch;
         private SchoolBL schoolBL;
+        #endregion
 
+        #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
             // Check user's accessibility
@@ -34,10 +37,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
+                BindDropDownLists();
+
+                GetSearchedSessions();
                 isSearch = false;
                 BindRptSchools();
             }
         }
+        #endregion
 
         #region Button click event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
@@ -48,6 +55,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
+            // Lưu điều kiện tìm kiếm vào session trước khi chuyển trang
+            SaveSearchedSessions();
+
             Response.Redirect(AppConstant.PAGEPATH_ADDSCHOOL);
         }
 
@@ -90,12 +100,36 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
         #endregion
 
+        #region DropDownList event hanlders
+        protected void DdlProvinces_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindDDLDistricts();
+        }
+        #endregion
 
+        #region Methods
         private void BindRptSchools()
         {
-            string strSchoolName = TxtSchoolName.Text;
+            string strSchoolName = "";
             double dTotalRecords;
-            List<School_School> schools = schoolBL.GetSchools(strSchoolName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            ConfigurationProvince province = null;
+            ConfigurationDistrict district = null;
+            List<School_School> schools;
+
+            if (DdlProvinces.SelectedIndex > 0)
+            {
+                province = new ConfigurationProvince();
+                province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
+            }
+            if (DdlDistricts.SelectedIndex > 0)
+            {
+                district = new ConfigurationDistrict();
+                district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
+            }
+            strSchoolName = TxtSchoolName.Text;
+
+            schools = schoolBL.GetSchools(province, district, strSchoolName, 
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
             if (schools.Count == 0 && dTotalRecords != 0)
@@ -105,33 +139,120 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            bool bDisplayData = (schools.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            LblSearchResult.Visible = !bDisplayData;
+            RptSchools.DataSource = schools;
+            RptSchools.DataBind();
+            MainDataPager.ItemCount = dTotalRecords;
 
-            if (LblSearchResult.Visible)
+            bool bDisplayData = (schools.Count != 0) ? true : false;
+            ProcessDislayInfo(bDisplayData);
+
+            // save selections to viewstate
+            ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID] = Int32.Parse(DdlProvinces.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID] = Int32.Parse(DdlDistricts.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME] = TxtSchoolName.Text;
+        }
+
+        private void BindDropDownLists()
+        {
+            BindDDLProvinces();
+            BindDDLDistricts();
+        }
+
+        private void BindDDLProvinces()
+        {
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+            List<ConfigurationProvince> provinces = systemConfigBL.GetProvinces();
+            DdlProvinces.DataSource = provinces;
+            DdlProvinces.DataValueField = "ProvinceId";
+            DdlProvinces.DataTextField = "ProvinceName";
+            DdlProvinces.DataBind();
+
+            if (DdlProvinces.Items.Count != 0)
             {
-                if (!isSearch)
+                DdlProvinces.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
+        }
+
+        private void BindDDLDistricts()
+        {
+            if (DdlProvinces.Items.Count != 0)
+            {
+                ConfigurationProvince province = null;
+                if (DdlProvinces.SelectedIndex > 0)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin ngành học";
+                    province = new ConfigurationProvince();
+                    province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
+
+                    SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+                    List<ConfigurationDistrict> districts = systemConfigBL.GetDistricts(province);
+                    DdlDistricts.DataSource = districts;
+                    DdlDistricts.DataValueField = "DistrictId";
+                    DdlDistricts.DataTextField = "DistrictName";
+                    DdlDistricts.DataBind();
+
+                    if (DdlDistricts.Items.Count != 0)
+                    {
+                        DdlDistricts.Items.Insert(0, new ListItem("Tất cả", "0"));
+                    }
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy ngành học";
-                }
+                    DdlDistricts.Items.Clear();
+                    DdlDistricts.Items.Insert(0, new ListItem("Tất cả", "0"));
+                }                
+            }            
+        }
 
-                MainDataPager.CurrentIndex = 1;
-                MainDataPager.ItemCount = 0;
-                MainDataPager.Visible = false;
+        private void ProcessDislayInfo(bool bDisplayData)
+        {
+            LblSearchResult.Visible = !bDisplayData;
+            RptSchools.Visible = bDisplayData;
+
+            if (LblSearchResult.Visible)
+            {
+                MainDataPager.Visible = false; 
+                
+                if (!isSearch)
+                {
+                    LblSearchResult.Text = "Chưa có thông tin trường học";
+                }
+                else
+                {
+                    LblSearchResult.Text = "Không tìm thấy trường học";
+                }
             }
             else
             {
                 MainDataPager.Visible = true;
             }
-
-            RptSchools.DataSource = schools;
-            RptSchools.DataBind();
-            MainDataPager.ItemCount = dTotalRecords;
         }
+
+        private void SaveSearchedSessions()
+        {
+            AddSession(AppConstant.SESSION_SELECTED_PROVINCE, ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID]);
+            AddSession(AppConstant.SESSION_SELECTED_DISTRICT, ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID]);
+            AddSession(AppConstant.SESSION_SELECTED_SCHOOLNAME, ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME]);
+        }
+
+        private void GetSearchedSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_PROVINCE)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_DISTRICT)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_SCHOOLNAME))
+            {
+                ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_PROVINCE);
+                RemoveSession(AppConstant.SESSION_SELECTED_PROVINCE);
+                DdlProvinces.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID].ToString();
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_DISTRICT);
+                RemoveSession(AppConstant.SESSION_SELECTED_DISTRICT);
+                DdlDistricts.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID].ToString();
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME] = (string)GetSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
+                RemoveSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
+                TxtSchoolName.Text = (string)ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME];
+            }
+        }
+        #endregion
     }
 }

@@ -186,5 +186,32 @@ namespace EContactBook.DataAccess
             }
             return messageStatuses;
         }
+
+        public List<ConfigurationProvince> GetProvinces()
+        {
+            List<ConfigurationProvince> provinces = new List<ConfigurationProvince>();
+            IQueryable<ConfigurationProvince> iqProvince = from province in db.ConfigurationProvinces
+                                                           select province;
+            if (iqProvince.Count() != 0)
+            {
+                provinces = iqProvince.OrderBy(province => province.ProvinceName).ToList();
+            }
+
+            return provinces;
+        }
+
+        public List<ConfigurationDistrict> GetDistricts(ConfigurationProvince province)
+        {
+            List<ConfigurationDistrict> districts = new List<ConfigurationDistrict>();
+            IQueryable<ConfigurationDistrict> iqDistrict = from district in db.ConfigurationDistricts
+                                                           where district.ProvinceId == province.ProvinceId
+                                                           select district;
+            if (iqDistrict.Count() != 0)
+            {
+                districts = iqDistrict.OrderBy(district => district.DistrictName).ToList();
+            }
+
+            return districts;
+        }
     }
 }

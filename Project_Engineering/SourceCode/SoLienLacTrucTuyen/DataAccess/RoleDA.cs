@@ -9,6 +9,12 @@ namespace EContactBook.DataAccess
 {
     public class RoleDA : BaseDA
     {
+        public RoleDA()
+            : base()
+        {
+
+        }
+
         public RoleDA(School_School school)
             : base(school)
         {
@@ -148,7 +154,6 @@ namespace EContactBook.DataAccess
 
             IQueryable<aspnet_Role> iqRole = from rl in db.aspnet_Roles
                                              where rl.RoleName == roleName
-                                             && rl.UserManagement_RoleDetail.SchoolId == school.SchoolId
                                              select rl;
             if (iqRole.Count() != 0)
             {
@@ -670,6 +675,12 @@ namespace EContactBook.DataAccess
             }
 
             return roleParents;
+        }
+
+        public void CreateRoleDetail(UserManagement_RoleDetail roleDetail)
+        {
+            db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
+            db.SubmitChanges();
         }
     }
 }

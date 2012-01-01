@@ -44,11 +44,12 @@ namespace EContactBook.DataAccess
         public void InsertAuthorizations(aspnet_Role role, List<UserManagement_Function> functions)
         {
             UserManagement_Authorization authorization = null;
+            IQueryable<UserManagement_AuthorizedPage> iqAuthorizedPage = null;
             foreach (UserManagement_Function function in functions)
             {
-                IQueryable<UserManagement_AuthorizedPage> iqAuthorizedPage = from authorizedPage in db.UserManagement_AuthorizedPages
-                                                                             where authorizedPage.FunctionId == function.FunctionId
-                                                                             select authorizedPage;
+                iqAuthorizedPage = from authorizedPage in db.UserManagement_AuthorizedPages
+                                   where authorizedPage.FunctionId == function.FunctionId
+                                   select authorizedPage;
                 if (iqAuthorizedPage.Count() != 0)
                 {
                     foreach (UserManagement_AuthorizedPage authorizedPage in iqAuthorizedPage)
@@ -62,7 +63,7 @@ namespace EContactBook.DataAccess
                         }
                         else
                         {
-                            authorization.IsActivated = false;
+                            authorization.IsActivated = true;
                         }
                         db.UserManagement_Authorizations.InsertOnSubmit(authorization);
                     }
