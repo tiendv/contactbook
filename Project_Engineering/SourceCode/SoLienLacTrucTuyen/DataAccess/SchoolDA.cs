@@ -44,7 +44,21 @@ namespace EContactBook.DataAccess
                 db.SubmitChanges();
             }
         }
-                
+
+        public School_School GetSchool(int schoolId)
+        {
+            School_School school = null;
+            IQueryable<School_School> iqSchool = from s in db.School_Schools
+                                                 where s.SchoolId == schoolId
+                                                 select s;
+            if (iqSchool.Count() != 0)
+            {
+                school = iqSchool.First();
+            }
+
+            return school;
+        }
+
         public List<School_School> GetSchools()
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
@@ -129,6 +143,22 @@ namespace EContactBook.DataAccess
             }
 
             return schools;
+        }
+
+        public bool SchoolNameExists(ConfigurationDistrict district, string schoolName)
+        {
+            IQueryable<School_School> iqSchool = from school in db.School_Schools
+                                                 where school.SchoolId != 0 && school.DistrictId == district.DistrictId
+                                                 && school.SchoolName == schoolName
+                                                 select school;
+            if (iqSchool.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

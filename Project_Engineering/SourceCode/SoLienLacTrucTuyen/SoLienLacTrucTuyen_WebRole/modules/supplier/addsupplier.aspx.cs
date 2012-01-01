@@ -15,6 +15,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public partial class AddSchoolPage : BaseContentPage
     {
+        SchoolBL schoolBL;
+
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
@@ -30,6 +32,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
+            schoolBL = new SchoolBL();
+
             if (!Page.IsPostBack)
             {
                 BindDDLProvinces();
@@ -44,6 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             SchoolBL schoolBL = null;
             School_School lastedInsertedSchool = null;
+            School_School supplier = null;
 
             if (ValidateInput())
             {
@@ -64,6 +69,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // create default information for school
                 CreateSchoolDefaultInfomation(lastedInsertedSchool);
 
+                // send confirmation mail to school
+                supplier = schoolBL.GetSupplier();
+                string strEmailContent = string.Format("Account: {0}, Password: {1}", lastedInsertedSchool.Email, lastedInsertedSchool.Password);
+                MailBL.SendByGmail(supplier.Email, lastedInsertedSchool.Email, "Thông báo tạo thông tin trường thành công", 
+                    strEmailContent, supplier.Password);
                 BackToPrevPage();
             }
         }
@@ -120,8 +130,49 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
 
+            if (DdlDistricts.Items.Count != 0)
+            {
+                ConfigurationDistrict district = new ConfigurationDistrict();
+                district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
+                if (schoolBL.SchoolNameExists(district, TxtSchoolName.Text.Trim()))
+                {
+                    SchoolNameCustomValidator.IsValid = false;
+                    return false;
+                }
+                else
+                {
+                    SchoolNameCustomValidator.IsValid = true;
+                }
+            }
+
+            if (MailBL.CheckEmailExist(TxtEmail.Text))
+            {
+                EmailCustomValidator.IsValid = true;
+            }
+            else
+            {
+                EmailCustomValidator.IsValid = false;
+                return false;
+            }
 
             return true;
+        }
+
+        protected void SchoolNameCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            if(DdlDistricts.Items.Count != 0)
+            {
+                ConfigurationDistrict district = new ConfigurationDistrict();
+                district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
+                if (schoolBL.SchoolNameExists(district, TxtSchoolName.Text.Trim()))
+                {
+                    e.IsValid = false;
+                }
+                else
+                {
+                    e.IsValid = true;
+                }
+            }            
         }
 
         protected void EmailCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)

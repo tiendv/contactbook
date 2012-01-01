@@ -13,6 +13,10 @@
                 <asp:RequiredFieldValidator ID="SchoolNameRequired" runat="server" Display="Dynamic"
                     ValidationGroup="AddSchool" ForeColor="Red" ControlToValidate="TxtSchoolName"
                     ErrorMessage="Tên trường không được để trống" />
+                <asp:CustomValidator ID="SchoolNameCustomValidator" runat="server" ErrorMessage="Đã tồn tại tên trường này ở tỉnh/thành, huyện/quận đã chọn"
+                    ValidationGroup="AddSchool" Display="Dynamic" ControlToValidate="TxtSchoolName"
+                    ForeColor="Red">
+                </asp:CustomValidator>
             </td>
             <td style="width: 20px; padding-left: 20px;">
                 Logo:
@@ -76,8 +80,8 @@
                     ValidationGroup="AddSchool" ErrorMessage="Email không được để trống" Display="Dynamic"
                     ForeColor="Red" />
                 <asp:CustomValidator ID="EmailCustomValidator" runat="server" ErrorMessage="Email không tồn tại"
-                    ValidationGroup="AddSchool" Display="Dynamic" ControlToValidate="TxtEmail"  OnServerValidate="EmailCustomValidator_ServerValidate"
-                    ForeColor="Red" >
+                    ValidationGroup="AddSchool" Display="Dynamic" ControlToValidate="TxtEmail"
+                    ForeColor="Red">
                 </asp:CustomValidator>
             </td>
         </tr>

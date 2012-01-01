@@ -21,7 +21,7 @@
                 <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Images/user_group.png" Style="float: left;
                     height: 50px; width: 50px" />
                 <div style="width: 85%; float: left; padding-left: 10px;">
-                    <asp:HyperLink ID="HlkRoles" runat="server" style="font-size:15px" NavigateUrl="~/modules/nguoi_dung/phanquyen.aspx">Nhóm người dùng</asp:HyperLink>
+                    <asp:HyperLink ID="HlkRoles" runat="server" style="font-size:15px" NavigateUrl="~/modules/nguoi_dung/nhomnguoidung.aspx">Nhóm người dùng</asp:HyperLink>
                     <br />
                     Quản lí danh sách nhóm người dùng
                 </div>

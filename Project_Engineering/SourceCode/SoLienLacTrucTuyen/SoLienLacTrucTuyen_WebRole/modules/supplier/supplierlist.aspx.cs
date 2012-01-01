@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using EContactBook.DataAccess;
 using SoLienLacTrucTuyen.BusinessLogic;
+using EContactBook.BusinessEntity;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -114,7 +115,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             double dTotalRecords;
             ConfigurationProvince province = null;
             ConfigurationDistrict district = null;
-            List<School_School> schools;
+            List<TabularSchool> tabularSchools;
 
             if (DdlProvinces.SelectedIndex > 0)
             {
@@ -128,22 +129,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             strSchoolName = TxtSchoolName.Text;
 
-            schools = schoolBL.GetSchools(province, district, strSchoolName, 
+            tabularSchools = schoolBL.GetTabularSchools(province, district, strSchoolName, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (schools.Count == 0 && dTotalRecords != 0)
+            if (tabularSchools.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptSchools();
                 return;
             }
 
-            RptSchools.DataSource = schools;
+            RptSchools.DataSource = tabularSchools;
             RptSchools.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
 
-            bool bDisplayData = (schools.Count != 0) ? true : false;
+            bool bDisplayData = (tabularSchools.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
 
             // save selections to viewstate
