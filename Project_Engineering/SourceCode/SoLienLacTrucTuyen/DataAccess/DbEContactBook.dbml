@@ -377,7 +377,7 @@
     <Type Name="MessageToParents_Message">
       <Column Name="MessageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="MessageContent" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="MessageContent" Type="System.String" DbType="nvarchar(500)" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsRead" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
@@ -412,6 +412,7 @@
       <Column Name="Logo" Member="Logo" Type="System.Data.Linq.Binary" DbType="image" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" UpdateCheck="Never" />
       <Column Name="Address" Member="Address" Type="System.String" DbType="nvarchar(200) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Column Name="Phone" Member="Phone" Type="System.String" DbType="varchar(20) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="DistrictId" Member="DistrictId" Type="System.Int32" DbType="int" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
       <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_School_Category_Attitude" Member="Category_Attitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Attitude" />
       <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
@@ -425,6 +426,7 @@
       <Association Name="School_School_Configuration_Year" Member="Configuration_Years" ThisKey="SchoolId" OtherKey="SchoolId" Type="Configuration_Year" />
       <Association Name="School_School_Student_Student" Member="Student_Students" ThisKey="SchoolId" OtherKey="SchoolId" Type="Student_Student" />
       <Association Name="School_School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
+      <Association Name="ConfigurationDistrict_School_School" Member="ConfigurationDistrict" ThisKey="DistrictId" OtherKey="DistrictId" Type="ConfigurationDistrict" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Student_Absent" Member="Student_Absents">
@@ -1175,4 +1177,20 @@
     <Parameter Name="Details" Type="System.String" DbType="ntext" />
     <Return Type="int" />
   </Function>
+  <Table Name="dbo.Configuration_Province" Member="ConfigurationProvinces">
+    <Type Name="ConfigurationProvince">
+      <Column Name="ProvinceId" Member="ProvinceId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" IsPrimaryKey="true" />
+      <Column Name="ProvinceName" Member="ProvinceName" Type="System.String" DbType="nvarchar(100) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Association Name="ConfigurationProvince_ConfigurationDistrict" Member="ConfigurationDistricts" ThisKey="ProvinceId" OtherKey="ProvinceId" Type="ConfigurationDistrict" IsForeignKey="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration_District" Member="ConfigurationDistricts">
+    <Type Name="ConfigurationDistrict">
+      <Column Name="DistrictId" Member="DistrictId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" IsPrimaryKey="true" />
+      <Column Name="DistrictName" Member="DistrictName" Type="System.String" DbType="nvarchar(150) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="ProvinceId" Member="ProvinceId" Type="System.Int32" DbType="int NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Association Name="ConfigurationDistrict_School_School" Member="SchoolSchools" ThisKey="DistrictId" OtherKey="DistrictId" Type="School_School" IsForeignKey="false" />
+      <Association Name="ConfigurationProvince_ConfigurationDistrict" Member="ConfigurationProvince" ThisKey="ProvinceId" OtherKey="ProvinceId" Type="ConfigurationProvince" IsForeignKey="true" />
+    </Type>
+  </Table>
 </Database>
