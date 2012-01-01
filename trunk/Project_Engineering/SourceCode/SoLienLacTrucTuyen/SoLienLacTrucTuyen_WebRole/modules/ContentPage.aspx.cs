@@ -117,5 +117,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             return (string)GetGlobalResourceObject("MainResource", key);
         }
 
+        //protected void ProcPermissions()
+        //{
+
+        //    if (accessibilities.Contains(AccessibilityEnum.Add))
+        //    {
+        //        Control ControlAdd = Page.FindControl("BtnAdd");
+        //        if (ControlAdd != null)
+        //        {
+        //            ImageButton BtnAdd = (ImageButton)ControlAdd;
+        //            BtnAdd.Enabled = true;
+        //            BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+        //            PnlPopupAdd.Visible = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        BtnAdd.Visible = false;
+        //        PnlPopupAdd.Visible = false;
+        //    }
+        //}
     }
 }

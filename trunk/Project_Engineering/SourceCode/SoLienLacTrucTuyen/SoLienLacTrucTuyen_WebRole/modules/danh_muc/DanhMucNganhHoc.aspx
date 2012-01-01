@@ -114,12 +114,12 @@
             </asp:ModalPopupExtender>
             <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
                 ToolTip="Sửa ngành học" CssClass="BtnEdit" />
-            <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnEdit"
-                PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
-                PopupDragHandleControlID="PnlDragPopupEdit">
+            <asp:ImageButton ID="BtnFakedEdit" runat="server" style="display: none" />
+            <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakedEdit" PopupControlID="PnlPopupEdit"
+                BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit" PopupDragHandleControlID="PnlDragPopupEdit">
             </asp:ModalPopupExtender>
             <asp:ImageButton ID="BtnDelete" runat="server" ImageUrl="~/Styles/buttons/button_delete.png"
-                ToolTip="Xóa ngành học" CssClass="BtnDelete" />
+                ToolTip="Xóa ngành học" CssClass="BtnDelete"/>
             <asp:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnDelete"
                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -194,7 +194,7 @@
             <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server"></asp:Label>
+                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa ngành học đã chọn hay không?"></asp:Label>
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 15px 0px 5px 0px;">

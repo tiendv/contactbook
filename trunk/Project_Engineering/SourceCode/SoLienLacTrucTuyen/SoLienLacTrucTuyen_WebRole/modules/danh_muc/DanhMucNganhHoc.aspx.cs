@@ -56,7 +56,7 @@ namespace SoLienLacTrucTuyen_WebRole
         private void ProcPermissions()
         {
             if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
+            {   
                 BtnAdd.Enabled = true;
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
                 PnlPopupAdd.Visible = true;
@@ -100,10 +100,22 @@ namespace SoLienLacTrucTuyen_WebRole
                 MainDataPager.CurrentIndex = 1;
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
+
+                BtnDelete.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_DELETE_DISABLED;
+                BtnDelete.Enabled = false;
+
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_MODIFY_DISABLED;
+                BtnEdit.Enabled = false;
             }
             else
             {
                 MainDataPager.Visible = true;
+
+                BtnDelete.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_DELETE;
+                BtnDelete.Enabled = true;
+
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_MODIFY;
+                BtnEdit.Enabled = true;
             }
 
             RptNganhHoc.DataSource = faculties;
@@ -247,15 +259,7 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Repeater event handlers
         protected void RptNganhHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {                
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
+            
         }
 
         protected void RptNganhHoc_ItemCommand(object source, RepeaterCommandEventArgs e)

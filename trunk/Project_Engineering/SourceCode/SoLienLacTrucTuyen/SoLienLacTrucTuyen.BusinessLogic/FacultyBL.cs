@@ -69,8 +69,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             else
             {
                 Category_Faculty faculty = GetFaculty(facultyName);
-                lFaculties.Add(faculty);
-                totalRecords = 1;
+                if (faculty != null)
+                {
+                    lFaculties.Add(faculty);
+                    totalRecords = 1;
+                }
+                else
+                {
+                    totalRecords = 0;
+                }
             }
 
             return lFaculties;            
