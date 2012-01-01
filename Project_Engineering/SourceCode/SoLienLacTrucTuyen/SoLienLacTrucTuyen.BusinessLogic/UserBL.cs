@@ -180,11 +180,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularUser;
         }
 
-        public void CreateUserAdmin(aspnet_User user)
+        public void CreateUserAdministrator(aspnet_User administrator)
         {
             AuthorizationBL authorizationBL = new AuthorizationBL(school);
-            RoleBL roleBL = new RoleBL(school);            
-            authorizationBL.AddUserToRole(user.UserName, roleBL.GetRoleAdministrator());
+            RoleBL roleBL = new RoleBL(school);
+            UserBL userBL = new UserBL(school);
+
+            // add administrator user to administrator role
+            authorizationBL.AddUserToRole(administrator.UserName, roleBL.GetRoleAdministrator());
+
+            // update administrator's membership information
+            userBL.UpdateMembership(administrator, false, administrator.UserName.Split('_')[1], administrator.aspnet_Membership.Email);
         }
 
         public void CreateUserParents(aspnet_User user)

@@ -74,6 +74,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 string strEmailContent = string.Format("Account: {0}, Password: {1}", lastedInsertedSchool.Email, lastedInsertedSchool.Password);
                 MailBL.SendByGmail(supplier.Email, lastedInsertedSchool.Email, "Thông báo tạo thông tin trường thành công", 
                     strEmailContent, supplier.Password);
+
+                // redirect back to previous page
                 BackToPrevPage();
             }
         }
@@ -262,7 +264,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strRoleName;
             StringBuilder strBuilder = null;
 
-            // add default roles
+            // create school's default roles
             roleBL = new RoleBL();
             userBL = new UserBL(school);
             roleCategory = new UserManagement_RoleCategory();
@@ -303,13 +305,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             roleBL.CreateRoleDetail("Giáo viên bộ môn", "", false, parentRole, roleCategory, school);
             authorizationBL.InsertAuthorizations(roleBL.GetRole(strRoleName));
 
-            // create new user parents
+            // create school's default user administrator
             string strAdminUserPassword = "1qazxsw@";
             string strAdminUserName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "admin";
+            // create user by asp .net method
             Membership.CreateUser(strAdminUserName, strAdminUserPassword, school.Email);
+            // update created membership information
             aspnet_User userAdmin = new aspnet_User();
+            userAdmin.aspnet_Membership = new aspnet_Membership();
+            userAdmin.aspnet_Membership.Email = school.Email;
             userAdmin.UserName = strAdminUserName;
-            userBL.CreateUserAdmin(userAdmin);
+            userBL.CreateUserAdministrator(userAdmin);
         }
         #endregion
     }

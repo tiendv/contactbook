@@ -66,17 +66,7 @@
 
                 });
 
-                $(".select input[type='checkbox']").click(function () {
-                    if ($(this).is(':checked')) {
-                        $(this).parents('td').parents('tr').each(function () {
-                            $(this).find('td').addClass('hover');
-                        });
-                    } else {
-                        $(this).parents('td').parents('tr').each(function () {
-                            $(this).find('td').removeClass('hover');
-                        });
-                    }
-                });
+                
             });
         </script>
     </div>

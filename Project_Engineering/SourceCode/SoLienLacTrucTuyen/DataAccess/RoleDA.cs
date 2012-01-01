@@ -285,11 +285,13 @@ namespace EContactBook.DataAccess
             {
                 iqRole = from role in db.aspnet_Roles
                          where role.UserManagement_RoleDetail.ParentRoleId == null
+                         && role.UserManagement_RoleDetail.SchoolId == school.SchoolId
                          select role;
             }
             else
             {
                 iqRole = from role in db.aspnet_Roles
+                         where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
                          select role;
             }
 

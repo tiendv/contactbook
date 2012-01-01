@@ -32,6 +32,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void CreateRoleDetail(string roleName, string description, bool deletable, 
             aspnet_Role roleParent, UserManagement_RoleCategory roleCategory, School_School School)
         {
+            // get role against roleName
             aspnet_Role role = GetRole(School.SchoolId + "_" + roleName);
 
             UserManagement_RoleDetail roleDetail = new UserManagement_RoleDetail();            
@@ -39,6 +40,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             roleDetail.RoleId = role.RoleId;
             roleDetail.IsDeletable = deletable;
             roleDetail.RoleCategoryId = roleCategory.RoleCategoryId;
+            roleDetail.DisplayedName = roleName;
             if (roleParent != null)
             {
                 roleDetail.ParentRoleId = roleParent.RoleId;
