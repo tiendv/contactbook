@@ -9728,7 +9728,7 @@ namespace EContactBook.DataAccess
 		
 		private string _Phone;
 		
-		private System.Nullable<int> _DistrictId;
+		private int _DistrictId;
 		
 		private EntitySet<aspnet_Membership> _aspnet_Memberships;
 		
@@ -9780,7 +9780,7 @@ namespace EContactBook.DataAccess
     partial void OnAddressChanged();
     partial void OnPhoneChanging(string value);
     partial void OnPhoneChanged();
-    partial void OnDistrictIdChanging(System.Nullable<int> value);
+    partial void OnDistrictIdChanging(int value);
     partial void OnDistrictIdChanged();
     #endregion
 		
@@ -9983,8 +9983,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", DbType="int")]
-		public System.Nullable<int> DistrictId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", DbType="int NOT NULL")]
+		public int DistrictId
 		{
 			get
 			{
@@ -10203,7 +10203,7 @@ namespace EContactBook.DataAccess
 					}
 					else
 					{
-						this._DistrictId = default(Nullable<int>);
+						this._DistrictId = default(int);
 					}
 					this.SendPropertyChanged("ConfigurationDistrict");
 				}

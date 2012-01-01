@@ -45,7 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole
 
                 ViewState["SortColumn"] = "FacultyName";
                 ViewState["SortOrder"] = "ASC";
-                BindData();
+                BindRptFaculties();
             }
 
             ProcPermissions();
@@ -68,23 +68,21 @@ namespace SoLienLacTrucTuyen_WebRole
             }
         }
 
-        public void BindData()
+        public void BindRptFaculties()
         {
-            string facultyName = TxtSearchNganhHoc.Text.Trim();
+            string strFacultyName = TxtSearchNganhHoc.Text.Trim();
             double dTotalRecords;
-            List<Category_Faculty> faculties = facultyBL.GetFaculties(facultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<Category_Faculty> faculties = facultyBL.GetFaculties(strFacultyName, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             
             // Decrease page current index when delete
             if (faculties.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindData();
+                BindRptFaculties();
                 return;
             }
 
             bool bDisplayData = (faculties.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptNganhHoc.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -120,7 +118,7 @@ namespace SoLienLacTrucTuyen_WebRole
             MainDataPager.CurrentIndex = 1;
             MainDataPager.ItemCount = 0;
             isSearch = true;
-            BindData();
+            BindRptFaculties();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -158,7 +156,7 @@ namespace SoLienLacTrucTuyen_WebRole
             facultyBL.InsertFaculty(faculty);
 
             MainDataPager.CurrentIndex = 1;
-            BindData();
+            BindRptFaculties();
 
             this.TxtFacultyName.Text = "";
             this.TxtDescriptionNganhHoc.Text = "";
@@ -175,7 +173,7 @@ namespace SoLienLacTrucTuyen_WebRole
             Category_Faculty faculty = facultyBL.GetFaculty(deletedFacultyName);
             facultyBL.DeleteFaculty(faculty);
             isSearch = false;
-            BindData();
+            BindRptFaculties();
         }
 
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
@@ -242,7 +240,7 @@ namespace SoLienLacTrucTuyen_WebRole
             }
 
             facultyBL.UpdateFaculty(editedFacultyName, newFacultyName, newDescription);
-            BindData();
+            BindRptFaculties();
         }
         #endregion
 
@@ -293,7 +291,7 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindData();
+            BindRptFaculties();
         }
         #endregion
     }

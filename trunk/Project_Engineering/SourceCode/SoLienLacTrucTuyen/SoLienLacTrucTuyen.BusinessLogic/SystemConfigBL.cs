@@ -93,7 +93,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return sysConfigDA.GetMessageStatuses();             
         }
-
+        
         public List<ConfigurationProvince> GetProvinces()
         {
             return sysConfigDA.GetProvinces();

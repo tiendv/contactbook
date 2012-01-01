@@ -474,11 +474,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             Response.Redirect(AppConstant.PAGEPATH_SCHEDULEAGGRANGEMENT);
         }
-        #endregion   
-    
+        
         public void RaisePostBackEvent(string eventArgument)
         {
             PrePrint();
         }
+        #endregion
     }
 }

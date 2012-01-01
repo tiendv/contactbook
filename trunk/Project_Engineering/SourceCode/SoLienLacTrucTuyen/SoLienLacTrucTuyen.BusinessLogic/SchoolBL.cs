@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using EContactBook.DataAccess;
+using EContactBook.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -16,14 +17,40 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             schoolDA = new SchoolDA();
         }
 
+        public School_School InsertSchool(ConfigurationDistrict district, string schoolName, string address, string phone,
+            string email, string password, byte[] logo)
+        {
+            School_School school = new School_School();
+            school.DistrictId = district.DistrictId;
+            school.SchoolName = schoolName;
+            school.Address = address;
+            school.Phone = phone;
+            school.Email = email;
+            school.Password = password;
+            school.Logo = new System.Data.Linq.Binary(logo);
+            schoolDA.InsertSchool(school);
+
+            return schoolDA.GetLastedInsertedSchool();
+        }
+
+        public void DeleteSchool(List<School_School> schools)
+        {
+            foreach (School_School school in schools)
+            {
+                schoolDA.DeleteSchool(school);
+            }
+        }
+        
         public List<School_School> GetSchools()
         {
             return schoolDA.GetSchools();
         }
 
-        public List<School_School> GetSchools(ConfigurationProvince province, ConfigurationDistrict district, string schoolName, 
+        public List<TabularSchool> GetTabularSchools(ConfigurationProvince province, ConfigurationDistrict district, string schoolName, 
             int pageIndex, int pageSize, out double totalRecords)
         {
+            List<TabularSchool> tabularSchools = new List<TabularSchool>();
+            TabularSchool tabularSchool = null;
             List<School_School> schools = new List<School_School>();
 
             if (district == null) // disctrict is all
@@ -63,41 +90,43 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            return schools;
-        }
-
-        public void DeleteSchool(List<School_School> schools)
-        {
             foreach (School_School school in schools)
             {
-                schoolDA.DeleteSchool(school);
-            }            
+                tabularSchool = new TabularSchool();
+                tabularSchool.SchoolId = school.SchoolId;
+                tabularSchool.SchoolName = school.SchoolName;
+                tabularSchool.Address = school.Address;
+                tabularSchool.Phone = school.Phone;
+                tabularSchool.Email = school.Email;
+                tabularSchool.Status = (school.Status == true) ? "Đang sử dụng" : "Chưa sử dụng";
+                tabularSchool.DistrictName = school.ConfigurationDistrict.DistrictName;
+                tabularSchool.ProvinceName = school.ConfigurationDistrict.ConfigurationProvince.ProvinceName;
+                tabularSchools.Add(tabularSchool);
+            }
+
+            return tabularSchools;
         }
 
-        public School_School InsertSchool(ConfigurationDistrict district, string schoolName, string address, string phone, 
-            string email, string password, byte[] logo)
+        public School_School GetSupplier()
         {
-            School_School school = new School_School();
-            school.DistrictId = district.DistrictId;
-            school.SchoolName = schoolName;
-            school.Address = address;
-            school.Phone = phone;
-            school.Email = email;
-            school.Password = password;
-            school.Logo = new System.Data.Linq.Binary(logo);
-            schoolDA.InsertSchool(school);
+            return schoolDA.GetSchool(0);
+        }
 
-            return schoolDA.GetLastedInsertedSchool();
+        public bool SchoolNameExists(ConfigurationDistrict district, string schoolName)
+        {
+            return schoolDA.SchoolNameExists(district, schoolName);
+        }
 
-
-
-            /*
-             * 1. Tạo danh sách nhóm người dùng mặc định
-             * 2. Tạo tài khoản 1 admin cho nhóm admin
-             * 2.1. Phân quyền cho tài khoản này
-             * 3. Tạo danh sách loại điểm mặc định
-             * 4. Tạo danh sách tiết mặc định
-             */
+        public bool SchoolNameExists(ConfigurationDistrict district, string oldSchoolName, string newSchoolName)
+        {
+            if (oldSchoolName == newSchoolName)
+            {
+                return false;
+            }
+            else
+            {
+                return SchoolNameExists(district, newSchoolName);
+            }
         }
     }
 }

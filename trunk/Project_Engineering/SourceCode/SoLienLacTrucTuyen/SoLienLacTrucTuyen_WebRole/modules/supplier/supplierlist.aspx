@@ -85,6 +85,12 @@
                             <asp:LinkButton ID="LkBtnSchoolName" runat="server">Trường</asp:LinkButton>
                         </td>
                         <td>
+                            <asp:LinkButton ID="LkBtnProvinceName" runat="server">Tỉnh/Thành</asp:LinkButton>
+                        </td>
+                        <td>
+                            <asp:LinkButton ID="LkBtnDistrictName" runat="server">Huyện/Quận</asp:LinkButton>
+                        </td>
+                        <td>
                             Email
                         </td>
                         <td>
@@ -92,9 +98,6 @@
                         </td>
                         <td>
                             Trạng thái
-                        </td>
-                        <td>
-                            Tổng số người dùng
                         </td>
                         <td class="icon">
                             <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
@@ -111,16 +114,19 @@
                             <%#DataBinder.Eval(Container.DataItem, "SchoolName")%>
                         </td>
                         <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "ProvinceName")%>
+                        </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "DistrictName")%>
+                        </td>
+                        <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Email")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Phone")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#((bool)DataBinder.Eval(Container.DataItem, "Status") == true) ? "Đang sử dụng" : "Chưa sử dụng"%>
-                        </td>
-                        <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TotalOfUsers")%>
+                            <%#DataBinder.Eval(Container.DataItem, "Status")%>
                         </td>
                         <td class="icon" style="height: 40px;">
                             <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
@@ -129,7 +135,7 @@
                 </ItemTemplate>
                 <FooterTemplate>
                     <tr>
-                        <td colspan="7" class="footer ui-corner-bl ui-corner-br">
+                        <td colspan="8" class="footer ui-corner-bl ui-corner-br">
                         </td>
                     </tr>
                 </FooterTemplate>
