@@ -209,6 +209,7 @@
     <Content Include="Styles\Images\calendar.png" />
     <Content Include="Styles\Images\comment_indicator.png" />
     <Content Include="Styles\Images\confirm_icon.gif" />
+    <Content Include="Styles\Images\noImageAvailable.jpg" />
     <Content Include="Styles\Images\School.png" />
     <Content Include="Styles\Images\text_content_background.png" />
     <Content Include="Styles\Images\FeedbackIcon.png" />
@@ -1024,7 +1025,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7535</DevelopmentServerPort>
+          <DevelopmentServerPort>17497</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
