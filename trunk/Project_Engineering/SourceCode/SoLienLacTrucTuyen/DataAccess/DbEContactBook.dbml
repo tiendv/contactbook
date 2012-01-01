@@ -412,7 +412,7 @@
       <Column Name="Logo" Member="Logo" Type="System.Data.Linq.Binary" DbType="image" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" UpdateCheck="Never" />
       <Column Name="Address" Member="Address" Type="System.String" DbType="nvarchar(200) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Column Name="Phone" Member="Phone" Type="System.String" DbType="varchar(20) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="DistrictId" Member="DistrictId" Type="System.Int32" DbType="int" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
+      <Column Name="DistrictId" Member="DistrictId" Type="System.Int32" DbType="int NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_School_Category_Attitude" Member="Category_Attitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Attitude" />
       <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
