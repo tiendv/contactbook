@@ -172,7 +172,7 @@
                 </asp:ContentPlaceHolder>
             </div>
         </div>
-        <div class="footer" style="padding:10px 10px 5px 10px; margin:0px auto 0px auto; text-align:center">
+        <div class="footer" style="padding:10px 10px 5px 10px; margin:0px auto 0px auto; text-align:center; font-family: arial; font-size: 13px">
             © Copyright 2011 UIT, All rights reserved.
             <br />
             ® UIT giữ bản quyền nội dung trên website này.
