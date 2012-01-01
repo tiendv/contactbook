@@ -384,6 +384,13 @@ table.search
 
 .comment_border
 {
+    z-index: 5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     padding: 5px;
     border: 1px solid #9d9d9d;
+}
+
+.BtnDelete_Disable
+{
+    
 }
