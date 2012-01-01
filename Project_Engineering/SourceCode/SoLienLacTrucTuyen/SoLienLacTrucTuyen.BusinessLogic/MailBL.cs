@@ -145,7 +145,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             myBinding.Security.Mode = BasicHttpSecurityMode.None;
             var myEndpointAddress = new EndpointAddress("http://wcf.vikasrana.com/Soap.asmx");
             ServiceEmail.SoapSoapClient obj = new ServiceEmail.SoapSoapClient(myBinding, myEndpointAddress);
-            return obj.EmailValidator(strEmail);
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+            if (!regex.IsMatch(strEmail))
+            {
+                return false;
+            }
+            else
+                return obj.EmailValidator(strEmail);
         }
         public static string SendGmailWithTemplate(string from, string to, string subject, List<DailySchedule> tabularDailySchedule, string id, string pass)
         {
