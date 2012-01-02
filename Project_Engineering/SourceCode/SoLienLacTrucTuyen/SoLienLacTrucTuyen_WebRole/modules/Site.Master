@@ -66,18 +66,17 @@
 
                 });
 
-                
+
             });
         </script>
     </div>
-    <form id="form1" runat="server" class="background">    
+    <form id="form1" runat="server" class="background">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
         <Scripts>
         </Scripts>
     </asp:ScriptManager>
     <asp:UpdatePanel ID="AlwaysUpdatePanel" runat="server" UpdateMode="Always">
         <ContentTemplate>
-
         </ContentTemplate>
     </asp:UpdatePanel>
     <div class="page">
@@ -94,9 +93,8 @@
         <asp:UpdateProgress ID="UpdateProgress1" runat="server" DynamicLayout="true" AssociatedUpdatePanelID="AlwaysUpdatePanel">
             <ProgressTemplate>
                 <asp:Image ID="Image2" runat="server" Width="100px" Height="100px" ImageUrl="~/Styles/Images/inprogress.gif" />
-            </ProgressTemplate>            
+            </ProgressTemplate>
         </asp:UpdateProgress>
-        
         <div class="menu_panel">
             <div class="menu_panel_child">
                 <asp:Panel ID="PnlFixedLevel1MenuTitles" runat="server" CssClass="PnlFixedLevel1MenuTitles">
@@ -157,17 +155,17 @@
             <div id="DivPageTitle" runat="server" class="title_panel">
                 <asp:Label ID="lblTitle" runat="server" CssClass="title"></asp:Label>
             </div>
-            <div id="DivContentPages" style="min-height: 350px">
+            <div id="DivContentPages" class="contentPage" style="min-height: 350px">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder_Main" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
         </div>
-        <div class="footer" style="padding:10px 10px 5px 10px; margin:0px auto 0px auto; text-align:center; font-family: arial; font-size: 13px">
+        <div class="footer" style="padding: 10px 10px 5px 10px; margin: 0px auto 0px auto;
+            text-align: center; font-family: arial; font-size: 13px">
             © Copyright 2011 UIT, All rights reserved.
             <br />
             ® UIT giữ bản quyền nội dung trên website này.
         </div>
-            
         <a href="#topOfPage">
             <img id="ImgGoTop" runat="server" style="width: 34px; height: 48px; border-style: none"
                 src="../Styles/Images/go_top.png" alt="Go to top page" />
