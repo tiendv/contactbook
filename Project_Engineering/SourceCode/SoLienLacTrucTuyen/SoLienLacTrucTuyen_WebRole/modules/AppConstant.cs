@@ -108,13 +108,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string CSSSTYLE_DISPLAY_NONE = "none";
         public const string CSSSTYLE_DISPLAY_BLOCK = "block";
 
-        public const string IMAGESOURCE_SEARCH_DISABLE = "~/Styles/Images/button_search_with_text_disable.png";
-        public const string IMAGESOURCE_ADD_DISABLE = "~/Styles/Images/button_add_with_text_disable.png";
+        public const string IMAGESOURCE_BUTTON_SEARCH = "~/Styles/buttons/button_search.png";
+        public const string IMAGESOURCE_BUTTON_SEARCH_DISABLE = "~/Styles/buttons/button_search_disable.png";
+        public const string IMAGESOURCE_BUTTON_ADD = "~/Styles/buttons/button_add.png";
+        public const string IMAGESOURCE_BUTTON_ADD_DISABLE = "~/Styles/buttons/button_add_disable.png";
+        public const string IMAGESOURCE_BUTTON_IMPORT = "~/Styles/buttons/button_import.png";
+        public const string IMAGESOURCE_BUTTON_IMPORT_DISABLE = "~/Styles/buttons/button_import_disable.png";
         public const string IMAGESOURCE_DELETE_DISABLE = "~/Styles/Images/button_delete_disable.png";
         public const string IMAGESOURCE_BUTTON_MODIFY = "~/Styles/buttons/button_edit.png";        
         public const string IMAGESOURCE_BUTTON_MODIFY_DISABLED = "~/Styles/buttons/button_edit_disable.png";
         public const string IMAGESOURCE_BUTTON_DELETE = "~/Styles/buttons/button_delete.png"; 
         public const string IMAGESOURCE_BUTTON_DELETE_DISABLED = "~/Styles/buttons/button_delete_disable.png";
+        public const string IMAGESOURCE_BUTTON_EXPORT = "~/Styles/buttons/button_export.png";
+        public const string IMAGESOURCE_BUTTON_EXPORT_DISABLED = "~/Styles/buttons/button_export_disable.png";
 
         public const string RESOURCE_SEARCH_NOINFO = "LblSearchResultText";
         public const string RESOURCE_SEARCH_NOMATCH = "LblSearchResultSearchText";

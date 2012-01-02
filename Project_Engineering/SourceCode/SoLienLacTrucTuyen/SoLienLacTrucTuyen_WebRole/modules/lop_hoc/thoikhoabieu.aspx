@@ -4,7 +4,7 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-        <div id="divScript">
+    <div id="divScript">
         <script language="javascript" type="text/javascript">
             function fncOpen() {
                 var pageId = '<%=  Page.ClientID %>';
@@ -72,9 +72,9 @@
     <div class="table_data ui-corner-all">
         <div class="add">
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In thời khóa biểu" OnClientClick="fncOpen();" />&nbsp;&nbsp;&nbsp;
+                ToolTip="In thời khóa biểu" OnClientClick="fncOpen();" CssClass="BtnExport" />&nbsp;&nbsp;&nbsp;
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
-                ToolTip="Sắp xếp thời khóa biểu" OnClick="BtnEdit_Click"/>
+                ToolTip="Sắp xếp thời khóa biểu" OnClick="BtnEdit_Click" CssClass="BtnEdit" />
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"

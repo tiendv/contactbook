@@ -14,13 +14,33 @@
     });
 
     $(".BtnAdd").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_add_with_text.png");
+        if ($(".BtnAdd").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_add_hover.png");
+        }
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_add_with_text.png");
+        if ($(".BtnAdd").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_add.png");
+        }
+    });
+
+    $(".BtnImport").hover(function () {
+        $(this).attr("src", "/Styles/buttons/button_import_hover.png");
+    }, function () {
+        $(this).attr("src", "/Styles/buttons/button_import.png");
+    });
+
+    $(".BtnExport").hover(function () {
+        if ($(".BtnExport").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_export_hover.png");
+        }
+    }, function () {
+        if ($(".BtnExport").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_export.png");
+        }
     });
 
     $(".BtnEdit").hover(function () {
-        if ($(".BtnEdit").is(':disabled') == false) {
+        if ($(".BtnEdit").is(':disabled') == false) {            
             $(this).attr("src", "/Styles/buttons/button_edit_hover.png");
         }
     }, function () {
@@ -137,7 +157,7 @@
         $(".BtnDelete").attr("disabled", "disabled");
 
         $(".BtnEdit").attr("src", "/Styles/buttons/button_edit_disable.png");
-        $(".BtnEdit:disabled").removeAttr('disabled');
+        $(".BtnEdit").attr("disabled", "disabled");
     }
 
     $('.selectAll').click(function () {
@@ -154,7 +174,7 @@
             } else {
                 $(this).parents('td').parents('tr').each(function () {
                     $(this).find('td').removeClass('hover');
-                });            
+                });
             }
         });
 
@@ -169,7 +189,7 @@
             $(".BtnDelete").attr("disabled", "disabled");
 
             $(".BtnEdit").attr("src", "/Styles/buttons/button_edit_disable.png");
-            $(".BtnEdit:disabled").removeAttr('disabled');
+            $(".BtnEdit").attr("disabled", "disabled");
         }
     });
 
@@ -205,5 +225,5 @@
             $(".BtnEdit").attr("src", "/Styles/buttons/button_edit_disable.png");
             $(".BtnEdit").attr("disabled", "disabled");
         }
-    });
+    });   
 });

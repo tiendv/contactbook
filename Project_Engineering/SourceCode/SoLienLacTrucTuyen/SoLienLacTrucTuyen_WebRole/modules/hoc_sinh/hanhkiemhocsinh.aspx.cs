@@ -135,19 +135,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                //BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
-                //BtnSearch.Enabled = false;
-
-                //BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text_disable.png";
-                //BtnAdd.Enabled = false;
-
-                //PnlPopupConfirmDelete.Visible = false;
-                //RptHocSinh.Visible = false;
-                //LblSearchResult.Visible = true;
-                //LblSearchResult.Text = "Chưa có thông tin HocSinh";
-
-                //MainDataPager.ItemCount = 0;
-                //MainDataPager.Visible = false;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
+                BtnSearch.Enabled = false;
 
                 return;
             }
@@ -181,6 +170,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
+
+            if (DdlLopHoc.Items.Count != 0)
+            {
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
+                BtnSearch.Enabled = true;
+            }
+            else
+            {
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
+                BtnSearch.Enabled = false;
+            }
         }
 
         private void BindRptHanhKiemHocSinh()
