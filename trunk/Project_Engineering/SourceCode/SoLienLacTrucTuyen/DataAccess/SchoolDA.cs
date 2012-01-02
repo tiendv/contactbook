@@ -73,6 +73,38 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public List<School_School> GetSchools(ConfigurationProvince province)
+        {
+            IQueryable<School_School> iqSchool = from school in db.School_Schools
+                                                 where school.ConfigurationDistrict.ProvinceId == province.ProvinceId
+                                                 && school.SchoolId != 0
+                                                 select school;
+            if (iqSchool.Count() != 0)
+            {
+                return iqSchool.OrderBy(school => school.SchoolName).ToList();
+            }
+            else
+            {
+                return new List<School_School>();
+            }
+        }
+
+        public List<School_School> GetSchools(ConfigurationDistrict district)
+        {
+            IQueryable<School_School> iqSchool = from school in db.School_Schools
+                                                 where school.DistrictId == district.DistrictId
+                                                 && school.SchoolId != 0
+                                                 select school;
+            if (iqSchool.Count() != 0)
+            {
+                return iqSchool.OrderBy(school => school.SchoolName).ToList();
+            }
+            else
+            {
+                return new List<School_School>();
+            }
+        }
+
         public List<School_School> GetSchools(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools

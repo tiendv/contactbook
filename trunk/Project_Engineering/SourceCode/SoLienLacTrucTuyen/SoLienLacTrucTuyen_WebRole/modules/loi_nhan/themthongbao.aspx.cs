@@ -332,7 +332,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_SEARCH_DISABLE;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
 
                 RptHocSinh.Visible = false;

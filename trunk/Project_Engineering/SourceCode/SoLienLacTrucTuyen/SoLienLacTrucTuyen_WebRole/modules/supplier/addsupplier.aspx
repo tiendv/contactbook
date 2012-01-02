@@ -30,7 +30,7 @@
                     ControlToValidate="FileUploadLogo" ValidationGroup="AddSchool">
                 </asp:RegularExpressionValidator>
             </td>
-        </tr>
+        </tr>        
         <tr>
             <td style="height: 27px; padding-left: 10px">
                 Tỉnh/Thành:

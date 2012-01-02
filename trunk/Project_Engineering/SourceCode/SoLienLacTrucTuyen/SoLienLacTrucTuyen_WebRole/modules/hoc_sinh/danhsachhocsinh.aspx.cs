@@ -344,6 +344,49 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             #endregion
         }
 
+        protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
+        {
+            MainDataPager.CurrentIndex = 1;
+            isSearch = true;
+            BindRptStudents();
+        }
+
+        protected void BtnImport_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("importhocsinh.aspx");
+        }
+
+        protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("themhocsinh.aspx");
+        }
+
+        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
+        {
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+
+            Student_Student student = studentBL.GetStudent(Int32.Parse(this.HdfMaHocSinh.Value));
+            authorizationBL.DeleteAuthorization(student.StudentCode);
+            Membership.DeleteUser(student.StudentCode, true);
+
+            studentBL.DeleteStudent(student);
+
+            isSearch = false;
+            BindDDLClasses();
+            BindRptStudents();
+        }
+        #endregion
+
+        #region Pager event handlers
+        public void pager_Command(object sender, CommandEventArgs e)
+        {
+            int currentPageIndex = Convert.ToInt32(e.CommandArgument);
+            this.MainDataPager.CurrentIndex = currentPageIndex;
+            BindRptStudents();
+        }
+        #endregion
+
+        #region Methods
         protected void PrePrint()
         {
             #region Add Info 2 Session
@@ -410,55 +453,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //Response.Write("<script language='javascript'>window.showModalDialog('indanhsachhocsinh.aspx', '', dialogWidth:300px; dialogHeight:200px; center:yes');</script>");
             #endregion
         }
-
-        protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
-        {
-            MainDataPager.CurrentIndex = 1;
-            isSearch = true;
-            BindRptStudents();
-        }
-
-        protected void BtnImport_Click(object sender, ImageClickEventArgs e)
-        {
-            Response.Redirect("importhocsinh.aspx");
-        }
-        protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
-        {
-            Response.Redirect("themhocsinh.aspx");
-        }
-
-        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {
-            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
-
-            Student_Student student = studentBL.GetStudent(Int32.Parse(this.HdfMaHocSinh.Value));
-            authorizationBL.DeleteAuthorization(student.StudentCode);
-            Membership.DeleteUser(student.StudentCode, true);
-
-            studentBL.DeleteStudent(student);
-
-            isSearch = false;
-            BindDDLClasses();
-            BindRptStudents();
-        }
-        #endregion
-
-        #region Pager event handlers
-        public void pager_Command(object sender, CommandEventArgs e)
-        {
-            int currentPageIndex = Convert.ToInt32(e.CommandArgument);
-            this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRptStudents();
-        }
-        #endregion
-
-        #region Methods
+        
         private void ProcPermissions()
         {
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+                BtnAdd.Visible = true;
             }
             else
             {
@@ -546,10 +546,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
+
+                BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
+                BtnPrint.Enabled = false;
             }
             else
             {
                 MainDataPager.Visible = true;
+
+                BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
+                BtnPrint.Enabled = true;
             }
         }
 
@@ -618,10 +624,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_SEARCH_DISABLE;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
-                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_ADD_DISABLE;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
                 BtnAdd.Enabled = false;
+                BtnImport.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_IMPORT_DISABLE;
+                BtnImport.Enabled = false;
 
                 PnlPopupConfirmDelete.Visible = false;
                 RptHocSinh.Visible = false;
@@ -657,6 +665,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (classes.Count > 1)
             {
                 DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
+
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD;
+                BtnAdd.Enabled = true;
+                BtnImport.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_IMPORT;
+                BtnImport.Enabled = true;
+            }
+            else
+            {
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
+                BtnAdd.Enabled = false;
+                BtnImport.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_IMPORT_DISABLE;
+                BtnImport.Enabled = false;
             }
         }        
 

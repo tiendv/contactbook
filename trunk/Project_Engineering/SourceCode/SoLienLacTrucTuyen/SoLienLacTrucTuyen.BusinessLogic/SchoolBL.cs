@@ -46,6 +46,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return schoolDA.GetSchools();
         }
 
+        public List<School_School> GetSchools(ConfigurationDistrict district)
+        {
+            return schoolDA.GetSchools(district);
+        }
+
+        public List<School_School> GetSchools(ConfigurationProvince province)
+        {
+            return schoolDA.GetSchools(province);
+        }
+        
         public List<TabularSchool> GetTabularSchools(ConfigurationProvince province, ConfigurationDistrict district, string schoolName, 
             int pageIndex, int pageSize, out double totalRecords)
         {

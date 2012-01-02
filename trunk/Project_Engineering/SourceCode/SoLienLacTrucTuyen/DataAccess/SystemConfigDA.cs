@@ -7,6 +7,11 @@ namespace EContactBook.DataAccess
 {
     public class SystemConfigDA : BaseDA
     {
+        public SystemConfigDA()
+            : base()
+        {
+        }
+
         public SystemConfigDA(School_School school)
             : base(school)
         {

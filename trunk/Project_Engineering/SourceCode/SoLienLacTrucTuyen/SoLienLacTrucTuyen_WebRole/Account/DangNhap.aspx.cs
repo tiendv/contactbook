@@ -24,20 +24,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
+                BindDDLProvinces();
+                BindDDLDistricts();
                 BindDDLSchools();
             }
-        }
-
-        private void BindDDLSchools()
-        {
-            SchoolBL schoolBL = new SchoolBL();
-            List<School_School> schools = schoolBL.GetSchools();
-
-            DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
-            ddlSchools.DataSource = schools;
-            ddlSchools.DataTextField = "SchoolName";
-            ddlSchools.DataValueField = "SchoolID";
-            ddlSchools.DataBind();
         }
         #endregion
 
@@ -92,6 +82,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
         #endregion
 
+        #region DropDownList event hanlders
+        protected void DdlProvinces_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindDDLDistricts();
+            BindDDLSchools();
+        }
+
+        protected void DdlDistricts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindDDLSchools();
+        }
+        #endregion
+
         #region Methods
         private bool ValidateUser(string userName, string password)
         {
@@ -107,6 +110,82 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
 
+        }
+
+        private void BindDDLProvinces()
+        {
+            DropDownList DdlProvinces = (DropDownList)LoginCtrl.FindControl("DdlProvinces");
+
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+            List<ConfigurationProvince> provinces = systemConfigBL.GetProvinces();
+            DdlProvinces.DataSource = provinces;
+            DdlProvinces.DataValueField = "ProvinceId";
+            DdlProvinces.DataTextField = "ProvinceName";
+            DdlProvinces.DataBind();
+
+            DdlProvinces.Items.Insert(0, new ListItem("(-- Chọn tỉnh/thành --)", "0"));
+        }
+
+        private void BindDDLDistricts()
+        {
+            DropDownList DdlProvinces = (DropDownList)LoginCtrl.FindControl("DdlProvinces");
+            DropDownList DdlDistricts = (DropDownList)LoginCtrl.FindControl("DdlDistricts");
+            SystemConfigBL systemConfigBL = new SystemConfigBL();
+
+            if (DdlProvinces.SelectedIndex >= 0)
+            {
+                ConfigurationProvince province = new ConfigurationProvince();
+                province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
+
+                if (DdlProvinces.SelectedIndex >= 1)
+                {
+                    List<ConfigurationDistrict> districts = systemConfigBL.GetDistricts(province);
+                    DdlDistricts.DataSource = districts;
+                    DdlDistricts.DataValueField = "DistrictId";
+                    DdlDistricts.DataTextField = "DistrictName";
+                    DdlDistricts.DataBind();
+                }
+                
+                DdlDistricts.Items.Insert(0, new ListItem("(-- Chọn huyện/quận --)", "0"));
+            }
+        }
+
+        private void BindDDLSchools()
+        {
+            DropDownList DdlProvinces = (DropDownList)LoginCtrl.FindControl("DdlProvinces");
+            DropDownList DdlDistricts = (DropDownList)LoginCtrl.FindControl("DdlDistricts");
+            DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
+            SchoolBL schoolBL = new SchoolBL();
+            ConfigurationProvince province = null;
+            ConfigurationDistrict district = null;
+            List<School_School> schools = new List<School_School>();
+
+            if (DdlProvinces.SelectedIndex == 0)
+            {
+                ddlSchools.Items.Clear();
+                ddlSchools.Items.Insert(0, new ListItem("(-- Chọn trường --)", "0"));
+            }
+            else
+            {
+                if (DdlDistricts.SelectedIndex > 0)
+                {
+                    district = new ConfigurationDistrict();
+                    district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
+                    schools = schoolBL.GetSchools(district);
+                }
+                else
+                {
+                    province = new ConfigurationProvince();
+                    province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
+                    schools = schoolBL.GetSchools(province);
+                }
+
+                
+                ddlSchools.DataSource = schools;
+                ddlSchools.DataTextField = "SchoolName";
+                ddlSchools.DataValueField = "SchoolID";
+                ddlSchools.DataBind();
+            }
         }
         #endregion
     }

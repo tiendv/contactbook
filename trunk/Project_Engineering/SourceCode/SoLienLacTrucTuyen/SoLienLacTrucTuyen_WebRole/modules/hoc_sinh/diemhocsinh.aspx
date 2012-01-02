@@ -29,7 +29,7 @@
                             <td>
                                 Khối:
                             </td>
-                            <td style="width: 180px;"> 
+                            <td style="width: 180px;">
                                 <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px" AutoPostBack="true"
                                     OnSelectedIndexChanged="DdlKhoiLop_SelectedIndexChanged">
                                 </asp:DropDownList>
@@ -41,7 +41,7 @@
                                 <asp:DropDownList ID="DdlLopHoc" runat="server" Width="150px" AutoPostBack="true"
                                     OnSelectedIndexChanged="DdlLopHoc_SelectedIndexChanged">
                                 </asp:DropDownList>
-                            </td>                            
+                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -61,7 +61,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:RadioButton ID="RBtnTerm" runat="server" GroupName="GroupTime" Checked="true"/>
+                                <asp:RadioButton ID="RBtnTerm" runat="server" GroupName="GroupTime" Checked="true" />
                                 Học kỳ:
                             </td>
                             <td>
@@ -70,7 +70,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                <asp:RadioButton ID="RBtnMonth" runat="server" GroupName="GroupTime" Checked="false"/>
+                                <asp:RadioButton ID="RBtnMonth" runat="server" GroupName="GroupTime" Checked="false" />
                                 Tháng:
                             </td>
                             <td>
@@ -78,7 +78,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                <asp:RadioButton ID="RBtnWeek" runat="server" GroupName="GroupTime" Checked="false"/>
+                                <asp:RadioButton ID="RBtnWeek" runat="server" GroupName="GroupTime" Checked="false" />
                                 Tuần:
                             </td>
                             <td colspan="3">

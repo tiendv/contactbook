@@ -152,8 +152,8 @@
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
-            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" />
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/buttons/button_export.png"
+                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" CssClass="BtnExport"/>
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm lớp học mới" CssClass="BtnAdd" />
             <ajaxToolkit:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAdd"

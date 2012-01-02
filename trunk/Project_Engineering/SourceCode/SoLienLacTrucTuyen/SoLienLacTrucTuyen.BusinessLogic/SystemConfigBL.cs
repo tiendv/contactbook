@@ -10,6 +10,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
     {
         private SystemConfigDA sysConfigDA;
 
+        public SystemConfigBL()
+            : base()
+        {
+            sysConfigDA = new SystemConfigDA();
+        }
+
         public SystemConfigBL(School_School school)
             : base(school)
         {

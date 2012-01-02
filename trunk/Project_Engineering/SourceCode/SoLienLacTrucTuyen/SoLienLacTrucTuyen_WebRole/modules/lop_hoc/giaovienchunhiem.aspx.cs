@@ -219,8 +219,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+                BtnAdd.Visible = true;
             }
             else
             {
@@ -365,7 +364,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
 
                 BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text_disable.png";
@@ -380,6 +379,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.Visible = false;
 
                 return;
+            }
+            else
+            {
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
+                BtnSearch.Enabled = true;
             }
 
             year = new Configuration_Year();
@@ -425,6 +429,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (lstLop.Count > 1)
             {
                 DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
+
+            if (DdlLopHoc.Items.Count != 0)
+            {
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD;
+                BtnAdd.Enabled = true;
+            }
+            else
+            {
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
+                BtnAdd.Enabled = false;
             }
         }
         #endregion
