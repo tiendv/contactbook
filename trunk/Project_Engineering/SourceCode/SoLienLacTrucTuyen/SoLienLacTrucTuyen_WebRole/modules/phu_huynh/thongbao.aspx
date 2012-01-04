@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="LoiNhanKhan.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.MessageForParentsPage" %>
+    CodeBehind="thongbao.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.ModuleParents.MessageForParentsPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Xác nhận:
+                        Trạng thái:
                     </td>
                     <td style="width: 180px">
                         <asp:DropDownList ID="DdlXacNhan" runat="server" Width="150px">
@@ -79,7 +79,7 @@
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <tr class='<%#((int)DataBinder.Eval(Container.DataItem, "MessageStatusId") < 3) ? "evenRow" : "oddRow"%>'>
+                    <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%> <%#((int)DataBinder.Eval(Container.DataItem, "MessageStatusId") < 3) ? "hover" : ""%> '>
                         <td style="height: 40px; padding: 0px 0px 0px 10px">
                         <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
                             <asp:Image ID="ImgAlreadyReadMsg" runat="server" Height="21" Width="25" ImageUrl="~/Styles/Images/already_read_message.png" />
@@ -90,10 +90,8 @@
                                 CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>'>
                             </asp:LinkButton>
                         </td>
-                        <td style="height: 40px; text-align:center">
-                            <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortTimeString()%>
-                            ,&nbsp;
-                            <%#((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortDateString()%>
+                        <td style="height: 40px; text-align:left">
+                            <%#(DataBinder.Eval(Container.DataItem, "StringDate"))%>
                         </td>
                     </tr>
                 </ItemTemplate>

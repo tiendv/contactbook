@@ -135,12 +135,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
-            TxtBeginDate.Text = beginDateOfMonth.ToShortDateString();
-            DateTime dateOfNextMonth = today.AddMonths(1);
-            DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
-            DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
-            TxtEndDate.Text = endDateOfMonth.ToShortDateString();
+            TxtBeginDate.Text = today.AddMonths(-1).ToShortDateString();
+            TxtEndDate.Text = today.AddMonths(1).ToShortDateString();
+
+            // dont remove this code
+            //DateTime today = DateTime.Now;
+            //DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
+            //TxtTuNgay.Text = beginDateOfMonth.ToShortDateString();
+            //DateTime dateOfNextMonth = today.AddMonths(1);
+            //DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
+            //DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
+            //TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
         }
         #endregion
         

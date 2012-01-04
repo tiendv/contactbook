@@ -107,15 +107,15 @@ namespace EContactBook.DataAccess
                                                           && hs.StudentCode == maHocSinhHienThi && lnk.IsConfirmed == xacNhan
                                                        select new TabularMessage
                                                        {
-                                                           MaLoiNhanKhan = lnk.MessageId,
-                                                           MaHocSinh = hs.StudentId,
-                                                           Ngay = lnk.Date,
-                                                           TieuDe = lnk.Title,
-                                                           StrNgay = lnk.Date.ToShortDateString(),
-                                                           MaHocSinhHienThi = hs.StudentCode,
-                                                           TenHocSinh = hs.FullName,
-                                                           XacNhan = (lnk.IsConfirmed) ? "Có" : "Không"
-                                                       }).OrderBy(loiNhan => loiNhan.Ngay);
+                                                           MessageId = lnk.MessageId,
+                                                           StudentId = hs.StudentId,
+                                                           Date = lnk.Date,
+                                                           Title = lnk.Title,
+                                                           StringDate = lnk.Date.ToShortDateString(),
+                                                           StudentCode = hs.StudentCode,
+                                                           StudentName = hs.FullName,
+                                                           StringMessageStatus = (lnk.IsConfirmed) ? "Có" : "Không"
+                                                       }).OrderBy(loiNhan => loiNhan.Date);
             totalRecords = loiNhanKhans.Count();
             if (totalRecords != 0)
             {

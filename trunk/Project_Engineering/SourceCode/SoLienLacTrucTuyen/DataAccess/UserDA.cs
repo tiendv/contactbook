@@ -214,5 +214,19 @@ namespace EContactBook.DataAccess
 
             return users;
         }
+
+        public void ChangeUserActivation(aspnet_User user, bool activateStatus)
+        {
+            IQueryable<aspnet_Membership> iqMembership;
+            iqMembership = from membership in db.aspnet_Memberships
+                           where membership.aspnet_User.UserId == user.UserId
+                           select membership;
+            if (iqMembership.Count() != 0)
+            {
+                aspnet_Membership membership = iqMembership.First();
+                membership.IsActivated = activateStatus;
+                db.SubmitChanges();
+            }
+        }
     }
 }

@@ -81,14 +81,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             foreach (MessageToParents_Message message in messages)
             {
                 tabularMessage = new TabularMessage();
-                tabularMessage.MaHocSinh = message.Student_StudentInClass.StudentId;
-                tabularMessage.MaHocSinhHienThi = message.Student_StudentInClass.Student_Student.StudentCode;
-                tabularMessage.MaLoiNhanKhan = message.MessageId;
-                tabularMessage.Ngay = message.Date;
-                tabularMessage.StrNgay = message.Date.ToShortDateString();
-                tabularMessage.TenHocSinh = message.Student_StudentInClass.Student_Student.FullName;
-                tabularMessage.TieuDe = message.Title;
-                tabularMessage.XacNhan = (message.IsConfirmed == true) ? "Có": "Không";
+                tabularMessage.StudentId = message.Student_StudentInClass.StudentId;
+                tabularMessage.StudentCode = message.Student_StudentInClass.Student_Student.StudentCode;
+                tabularMessage.MessageId = message.MessageId;
+                tabularMessage.Date = message.Date;
+                tabularMessage.StringDate = message.Date.ToShortDateString();
+                tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
+                tabularMessage.Title = message.Title;
+                tabularMessage.StringMessageStatus = (message.IsConfirmed == true) ? "Có": "Không";
+                tabularMessage.MessageStatusId = (int)message.MessageStatusId;
 
                 tabularMessages.Add(tabularMessage);
             }
@@ -96,19 +97,75 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularMessages;
         }
 
-        public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
+        public List<TabularMessage> GetTabularMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
             Student_Student student, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
+            List<TabularMessage> tabularMessages = new List<TabularMessage>();
+            TabularMessage tabularMessage = null;
+            List<MessageToParents_Message> messages = new List<MessageToParents_Message>();
+
             if (messageStatus == null) // get messages regardless their confirmation
             {
-                return messageDA.GetMessages(year, beginDate, endDate, student, 
+               messages = messageDA.GetMessages(year, beginDate, endDate, student, 
                     pageCurrentIndex, pageSize, out totalRecords);
             }
             else
             {
-                return messageDA.GetMessages(year, beginDate, endDate, student, messageStatus, 
+                messages = messageDA.GetMessages(year, beginDate, endDate, student, messageStatus, 
                     pageCurrentIndex, pageSize, out totalRecords);
             }
+
+            string strTime;
+            string strDate;
+            DateTime dtMsgDate;
+            DateTime dtToday;
+            string strHour;
+            string strMinute;
+            foreach (MessageToParents_Message message in messages)
+            {
+                tabularMessage = new TabularMessage();
+                tabularMessage.StudentId = message.Student_StudentInClass.StudentId;
+                tabularMessage.StudentCode = message.Student_StudentInClass.Student_Student.StudentCode;
+                tabularMessage.MessageId = message.MessageId;
+                tabularMessage.Date = message.Date;
+                dtMsgDate = message.Date;
+                dtToday = DateTime.Now;
+                if (dtMsgDate.Day == dtToday.Day && dtMsgDate.Month == dtToday.Month && dtMsgDate.Year == dtToday.Year)
+                {
+                    strDate = "Hôm nay";
+                }
+                else
+                {
+                    strDate = message.Date.ToShortDateString();
+                }
+                if (dtMsgDate.Hour < 10)
+                {
+                    strHour = string.Format("0{0}", dtMsgDate.Hour);
+                }
+                else
+                {
+                    strHour = string.Format("{0}", dtMsgDate.Hour);
+                }
+                if (dtMsgDate.Minute < 10)
+                {
+                    strMinute = string.Format("0{0}", dtMsgDate.Minute);
+                }
+                else
+                {
+                    strMinute = string.Format("{0}", dtMsgDate.Minute);
+                }
+                strTime = string.Format("{0}:{1}", strHour, strMinute);
+                tabularMessage.StringDate = string.Format("vào lúc {0}, {1}", strTime, strDate);
+
+                tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
+                tabularMessage.Title = message.Title;
+                tabularMessage.MessageStatusId =(int) message.MessageStatusId;
+                tabularMessage.StringMessageStatus = (message.IsConfirmed == true) ? "Có" : "Không";
+
+                tabularMessages.Add(tabularMessage);
+            }
+
+            return tabularMessages;
         }
 
         public int GetNewMessageCount(Student_Student student)

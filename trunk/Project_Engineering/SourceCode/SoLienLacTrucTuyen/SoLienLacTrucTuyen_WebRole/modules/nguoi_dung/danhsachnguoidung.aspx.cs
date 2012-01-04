@@ -142,6 +142,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 this.BtnAddUser.Visible = false;
             }
+
+            if (accessibilities.Contains(AccessibilityEnum.Add))
+            {
+                BtnAddUser.Visible = true;
+            }
+            else
+            {
+                BtnAddUser.Visible = false;
+            }
+
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            {
+                BtnEdit.Visible = true;
+            }
+            else
+            {
+                BtnEdit.Visible = false;
+            }
+
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            {
+                BtnDelete.Visible = true;
+                PnlPopupConfirmDelete.Visible = true;
+            }
+            else
+            {
+                BtnDelete.Visible = false;
+                PnlPopupConfirmDelete.Visible = false;
+            }
         }
         #endregion
 

@@ -152,7 +152,7 @@
                     </tr>
                     <asp:Repeater ID="RptChiTietPhanQuyen" runat="server">
                         <ItemTemplate>
-                            <tr>
+                            <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                                 <td style="padding-left: 20px">
                                     <%--<asp:CheckBox ID="CkBxFunctionAll" runat="server" />--%>
                                     <asp:HiddenField ID="HfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
@@ -187,7 +187,7 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" Visible="false" />
+            <cc1:DataPager ID="MainDataPager" runat="server" Visible="false" PageSize="50"/>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 0px 0px">
             <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ImageUrl="~/Styles/Images/button_save.png"

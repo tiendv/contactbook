@@ -91,14 +91,18 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
         private void InitDates()
         {
-            DateTime dtToday = DateTime.Now;
-            DateTime dtBeginDateOfMonth = new DateTime(dtToday.Year, dtToday.Month, 1);
-            DateTime dtDateOfNextMonth = dtToday.AddMonths(1);
-            DateTime dtBeginDateOfNextMonth = new DateTime(dtDateOfNextMonth.Year, dtDateOfNextMonth.Month, 1);
-            DateTime dtEndDateOfMonth = dtBeginDateOfNextMonth.AddDays(-1);
+            DateTime today = DateTime.Now;
+            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
+            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
 
-            TxtTuNgay.Text = dtBeginDateOfMonth.ToShortDateString();
-            TxtDenNgay.Text = dtEndDateOfMonth.ToShortDateString();
+            // dont remove this code
+            //DateTime today = DateTime.Now;
+            //DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
+            //TxtTuNgay.Text = beginDateOfMonth.ToShortDateString();
+            //DateTime dateOfNextMonth = today.AddMonths(1);
+            //DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
+            //DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
+            //TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
         }
 
         private void BindRptStudentActivities()

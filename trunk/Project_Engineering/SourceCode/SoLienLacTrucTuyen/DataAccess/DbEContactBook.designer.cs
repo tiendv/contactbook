@@ -1683,6 +1683,8 @@ namespace EContactBook.DataAccess
 		
 		private System.Nullable<int> _SchoolId;
 		
+		private bool _IsActivated;
+		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
 		private EntityRef<aspnet_User> _aspnet_User;
@@ -1753,6 +1755,8 @@ namespace EContactBook.DataAccess
     partial void OnIsTeacherChanged();
     partial void OnSchoolIdChanging(System.Nullable<int> value);
     partial void OnSchoolIdChanged();
+    partial void OnIsActivatedChanging(bool value);
+    partial void OnIsActivatedChanged();
     #endregion
 		
 		public aspnet_Membership()
@@ -2371,6 +2375,26 @@ namespace EContactBook.DataAccess
 					this._SchoolId = value;
 					this.SendPropertyChanged("SchoolId");
 					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="bit NOT NULL")]
+		public bool IsActivated
+		{
+			get
+			{
+				return this._IsActivated;
+			}
+			set
+			{
+				if ((this._IsActivated != value))
+				{
+					this.OnIsActivatedChanging(value);
+					this.SendPropertyChanging();
+					this._IsActivated = value;
+					this.SendPropertyChanged("IsActivated");
+					this.OnIsActivatedChanged();
 				}
 			}
 		}

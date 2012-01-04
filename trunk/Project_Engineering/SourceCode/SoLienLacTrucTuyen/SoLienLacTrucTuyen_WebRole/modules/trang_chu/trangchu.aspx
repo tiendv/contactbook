@@ -13,8 +13,8 @@
                             <td style="width: 33%">
                                 <div>
                                     <div style="padding: 10px;">
-                                        <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/user.png" Style="float: left;
-                                            height: 50px; width: 50px" />
+                                        <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/studying_result.png"
+                                            Style="float: left; height: 50px; width: 50px" />
                                         <div style="width: 85%; float: left; padding-left: 10px;">
                                             <asp:HyperLink ID="HlkUsers" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/nguoi_dung/danhsachnguoidung.aspx">Kết quả học tập</asp:HyperLink>
                                             <br />
@@ -22,6 +22,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </td>
                             <td style="width: 33%">
                                 <div>
@@ -71,7 +72,7 @@
                                     <asp:Image ID="Image5" runat="server" ImageUrl="~/Styles/Images/message.png" Style="float: left;
                                         height: 50px; width: 50px" />
                                     <div style="width: 85%; float: left; padding-left: 10px;">
-                                        <asp:HyperLink ID="HyperLink3" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/loinhankhan.aspx">Thông báo</asp:HyperLink>
+                                        <asp:HyperLink ID="HyperLink3" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/thongbao.aspx">Thông báo</asp:HyperLink>
                                         <br />
                                         <asp:Label ID="LblNewMessageStatus" runat="server"></asp:Label><br />
                                         <asp:Label ID="LblUnconfirmedMessageStatus" runat="server"></asp:Label>
@@ -104,7 +105,8 @@
                                     <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/school.png" Style="float: left;
                                         height: 48px; width: 48px" />
                                     <div style="width: 85%; float: left; padding-left: 10px;">
-                                        <asp:HyperLink ID="HlkSchools" runat="server" Style="font-size: 15px; text-decoration: none; font-weight: bold" NavigateUrl="~/modules/supplier/supplierlist.aspx">
+                                        <asp:HyperLink ID="HlkSchools" runat="server" Style="font-size: 15px; text-decoration: none;
+                                            font-weight: bold" NavigateUrl="~/modules/supplier/supplierlist.aspx">
                                             Quản lí trường học</asp:HyperLink>
                                         <br />
                                         Quản lí các trường học đăng kí sử dụng hệ thống sổ liên lạc trực tuyến
