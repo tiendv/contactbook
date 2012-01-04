@@ -35,7 +35,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Contacts.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AjaxControlToolkit, Version=4.1.50401.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
@@ -45,6 +46,10 @@
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="DataPager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DataPager\bin\Debug\DataPager.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -74,7 +79,6 @@
     <Content Include="Account\PhucHoiMatKhau.aspx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="App_Themes\Images\menu_child_pane.png" />
-    <Content Include="Contacts.ico" />
     <Content Include="modules\cau_hinh\cauhinh.aspx" />
     <Content Include="modules\ContentPage.aspx" />
     <Content Include="modules\danh_muc\danhmucdanhhieu.aspx" />
@@ -94,7 +98,7 @@
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
-    <Content Include="modules\loi_nhan\loinhankhan.aspx" />
+    <Content Include="modules\loi_nhan\thongbao.aspx" />
     <Content Include="modules\loi_nhan\themthongbao.aspx" />
     <Content Include="modules\lop_hoc\inthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\indanhsachlophoc.aspx" />
@@ -113,7 +117,7 @@
     <Content Include="modules\phu_huynh\chitietykien.aspx" />
     <Content Include="modules\phu_huynh\hoatdong.aspx" />
     <Content Include="modules\phu_huynh\ketquahoctap.aspx" />
-    <Content Include="modules\phu_huynh\loinhankhan.aspx" />
+    <Content Include="modules\phu_huynh\thongbao.aspx" />
     <Content Include="modules\phu_huynh\lophoc.aspx" />
     <Content Include="modules\phu_huynh\ngaynghihoc.aspx" />
     <Content Include="modules\phu_huynh\PhuHuynhContentPage.aspx" />
@@ -212,6 +216,7 @@
     <Content Include="Styles\Images\confirm_icon.gif" />
     <Content Include="Styles\Images\noImageAvailable.jpg" />
     <Content Include="Styles\Images\School.png" />
+    <Content Include="Styles\Images\studying_result.png" />
     <Content Include="Styles\Images\text_content_background.png" />
     <Content Include="Styles\Images\FeedbackIcon.png" />
     <Content Include="Styles\Images\first_page.png" />
@@ -328,7 +333,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="modules\AppConstant.cs" />
+    <Compile Include="modules\utilities\AppConstant.cs" />
     <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
       <DependentUpon>cauhinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -460,12 +465,12 @@
     <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.designer.cs">
       <DependentUpon>diemhocsinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\loi_nhan\loinhankhan.aspx.cs">
-      <DependentUpon>loinhankhan.aspx</DependentUpon>
+    <Compile Include="modules\loi_nhan\thongbao.aspx.cs">
+      <DependentUpon>thongbao.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="modules\loi_nhan\loinhankhan.aspx.designer.cs">
-      <DependentUpon>loinhankhan.aspx</DependentUpon>
+    <Compile Include="modules\loi_nhan\thongbao.aspx.designer.cs">
+      <DependentUpon>thongbao.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\loi_nhan\themthongbao.aspx.cs">
       <DependentUpon>themthongbao.aspx</DependentUpon>
@@ -627,12 +632,12 @@
     <Compile Include="modules\phu_huynh\ketquahoctap.aspx.designer.cs">
       <DependentUpon>ketquahoctap.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\phu_huynh\loinhankhan.aspx.cs">
-      <DependentUpon>loinhankhan.aspx</DependentUpon>
+    <Compile Include="modules\phu_huynh\thongbao.aspx.cs">
+      <DependentUpon>thongbao.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="modules\phu_huynh\loinhankhan.aspx.designer.cs">
-      <DependentUpon>loinhankhan.aspx</DependentUpon>
+    <Compile Include="modules\phu_huynh\thongbao.aspx.designer.cs">
+      <DependentUpon>thongbao.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\phu_huynh\lophoc.aspx.cs">
       <DependentUpon>lophoc.aspx</DependentUpon>
@@ -929,8 +934,6 @@
     <Compile Include="modules\danh_muc\danhmucnganhhoc.aspx.designer.cs">
       <DependentUpon>danhmucnganhhoc.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SortablePaginationRepeater.cs" />
-    <Compile Include="Student.cs" />
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -955,13 +958,9 @@
       <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
       <Name>EContactBook.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataPager\SoLienLacTrucTuyen.DataPager.csproj">
-      <Project>{59AF6AAF-1294-492A-AA48-3E2B9EB9E12A}</Project>
-      <Name>SoLienLacTrucTuyen.DataPager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SoLienLacTrucTuyen.BusinessLogic\SoLienLacTrucTuyen.BusinessLogic.csproj">
+    <ProjectReference Include="..\SoLienLacTrucTuyen.BusinessLogic\EContactBook.BusinessLogic.csproj">
       <Project>{136FB4E4-9479-4416-A5C4-A8361AEC26C7}</Project>
-      <Name>SoLienLacTrucTuyen.BusinessLogic</Name>
+      <Name>EContactBook.BusinessLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

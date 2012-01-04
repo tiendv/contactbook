@@ -13,7 +13,6 @@ using System.Data.OleDb;
 using System.Net;
 using System.Web.Security;
 using EContactBook.BusinessEntity;
-using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -252,7 +251,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string filename = Path.GetFileName(FileUpload1.FileName);
             if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
             {
-                lbError.Text = "Vui lòng chọn file định dang Microsoft Excel để tiến hành import!";
+                lbError.Text = "Vui lòng chọn file định dang Microsoft Excel để tiến hành import !";
                 return;
             }
 
@@ -270,192 +269,108 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 da.Fill(ds);
             }
 
-            DateTime dtStudentDateOfBirth;
-            DateTime dtFatherDateOfBirth;
-            DateTime dtMotherDateOfBirth;
-            DateTime dtPatronDateOfBirth;
-            bool bImportError = false;
-            bool bLackOfParents = true;
-            StringBuilder strBuilder = new StringBuilder();
-            List<TabularImportedStudent> tabularImportedStudents = new List<TabularImportedStudent>();
-            TabularImportedStudent tabularImportedStudent = null;
-
             for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
             {
-                tabularImportedStudent = new TabularImportedStudent();
-
-                // Mã học sinh (column 0)
-                if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][0].ToString()))
+                if (ds.Tables[0].Rows[i][0].ToString() == string.Empty || ds.Tables[0].Rows[i][1].ToString() == string.Empty)
                 {
-                    strBuilder.Append("Mã học sinh không được để trống <br/>");
+                    lbError.Text = "Mã số học sinh và tên học sinh ko được để trống !";
+                    return;
                 }
                 else if (studentBL.StudentCodeExists(ds.Tables[0].Rows[i][0].ToString()))
                 {
-                    tabularImportedStudent.StudentCode = ds.Tables[0].Rows[i][0].ToString();
-                    strBuilder.Append("Mã học sinh đã tồn tại <br/>");
+                    lbError.Text = "Mã học sinh " + ds.Tables[0].Rows[i][0].ToString() + " đã tồn tại !";
+                    return;
                 }
-                else
+                else if (ds.Tables[0].Rows[i][3].ToString() == string.Empty)
                 {
-                    tabularImportedStudent.StudentCode = ds.Tables[0].Rows[i][0].ToString();
+                    lbError.Text = "Ngày sinh của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không được để trống !";
+                    return;
                 }
-
-                // Họ tên học sinh (column 1)
-                if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][1].ToString()))
+                else if (ds.Tables[0].Rows[i][2].ToString() == string.Empty)
                 {
-                    strBuilder.Append("Họ tên học sinh không được để trống <br/>");
+                    lbError.Text = "Giới tính của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không được để trống !";
+                    return;
                 }
-                else
+                else if ((ds.Tables[0].Rows[i][7].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][8].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][9].ToString() == string.Empty)
+                     && (ds.Tables[0].Rows[i][10].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][11].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][12].ToString() == string.Empty)
+                     && (ds.Tables[0].Rows[i][13].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][14].ToString() == string.Empty
+                        || ds.Tables[0].Rows[i][15].ToString() == string.Empty))
                 {
-                    tabularImportedStudent.FullName = ds.Tables[0].Rows[i][1].ToString();
+                    lbError.Text = "Học sinh " + ds.Tables[0].Rows[i][0].ToString() + " phải có ít nhất thông tin đầy đủ của cha/mẹ hoặc người đỡ đầu !";
+                    return;
                 }
-
-                // Giới tính (column 2)
-                if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][2].ToString()))
+                try
                 {
-                    strBuilder.Append("Giới tính của học sinh không được để trống <br/>");
+                    DateTime.Parse(ds.Tables[0].Rows[i][3].ToString());
+                    if (ds.Tables[0].Rows[i][8].ToString() != string.Empty)
+                        DateTime.Parse(ds.Tables[0].Rows[i][8].ToString());
+                    if (ds.Tables[0].Rows[i][11].ToString() != string.Empty)
+                        DateTime.Parse(ds.Tables[0].Rows[i][11].ToString());
+                    if (ds.Tables[0].Rows[i][14].ToString() != string.Empty)
+                        DateTime.Parse(ds.Tables[0].Rows[i][14].ToString());
                 }
-                else if (ds.Tables[0].Rows[i][2].ToString() != "Nam" && ds.Tables[0].Rows[i][2].ToString() != "Nữ")
+                catch (Exception ex)
                 {
-                    strBuilder.Append("Giới tính của học sinh không hợp lệ <br/>");
-                }
-                else
-                {
-                    tabularImportedStudent.StringGender = ds.Tables[0].Rows[i][2].ToString();
-                    tabularImportedStudent.Gender = tabularImportedStudent.StringGender == "Nam" ? true : false;
-                }
-
-                // Ngày sinh của học sinh (column 3)
-                if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][3].ToString()))
-                {
-                    strBuilder.Append("Ngày sinh của học sinh không được để trống <br/>");
-                }
-                else if (!DateTime.TryParse(ds.Tables[0].Rows[i][3].ToString(), out dtStudentDateOfBirth))
-                {
-                    strBuilder.Append("Ngày sinh của học sinh không hợp lệ <br/>");
-                }
-                else
-                {
-                    tabularImportedStudent.DateOfBirth = dtStudentDateOfBirth;
-                    tabularImportedStudent.StringDateOfBirth = dtStudentDateOfBirth.ToShortDateString();
-                }
-
-                // Nơi sinh (column 4)
-                tabularImportedStudent.BirthPlace = ds.Tables[0].Rows[i][4].ToString();
-
-                // Địa chỉ liên lạc (column 5)
-                if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][5].ToString()))
-                {
-                    strBuilder.Append("Địa chỉ liên lạc không được để trống <br/>");
-                }
-                else
-                {                    
-                    tabularImportedStudent.Address = ds.Tables[0].Rows[i][5].ToString();
-                }
-
-                // Điện thoại (column 6)
-                tabularImportedStudent.Phone = ds.Tables[0].Rows[i][6].ToString();
-
-                // Họ tên bố (column 7)
-                // Ngày sinh bố (column 8)
-                // Nghề nghiệp bố (column 9)
-                if (!CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][7].ToString())
-                    && !CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][8].ToString())
-                    && !CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][9].ToString()))
-                {
-                    bLackOfParents = false;
-                    tabularImportedStudent.FatherName = ds.Tables[0].Rows[i][7].ToString();
-                    tabularImportedStudent.FatherJob = ds.Tables[0].Rows[i][9].ToString();
-                    if (!DateTime.TryParse(ds.Tables[0].Rows[i][8].ToString(), out dtFatherDateOfBirth))
-                    {
-                        strBuilder.Append("Ngày sinh của bố không hợp lệ <br/>");
-                    }
-                    else
-                    {
-                        tabularImportedStudent.FatherDateOfBirth = dtFatherDateOfBirth;
-                        tabularImportedStudent.StringFatherDateOfBirth = dtFatherDateOfBirth.ToShortDateString();
-                    }
-                }
-
-                if (!CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][10].ToString())
-                    && !CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][11].ToString())
-                    && !CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][12].ToString()))
-                {
-                    bLackOfParents = false;
-                    tabularImportedStudent.MotherName = ds.Tables[0].Rows[i][10].ToString();
-                    tabularImportedStudent.MotherJob = ds.Tables[0].Rows[i][12].ToString();
-                    
-                    if (!DateTime.TryParse(ds.Tables[0].Rows[i][11].ToString(), out dtMotherDateOfBirth))
-                    {
-                        strBuilder.Append("Ngày sinh của mẹ không hợp lệ <br/>");
-                    }
-                    else
-                    {
-                        tabularImportedStudent.MotherDateOfBirth = dtMotherDateOfBirth;
-                        tabularImportedStudent.StringMotherDateOfBirth = dtMotherDateOfBirth.ToShortDateString();
-                    }
-                }
-
-                if (!CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][13].ToString())
-                    && !CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][14].ToString())
-                    && !CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][15].ToString()))
-                {
-                    bLackOfParents = false;
-                    tabularImportedStudent.PatronName = ds.Tables[0].Rows[i][13].ToString();
-                    tabularImportedStudent.PatronJob = ds.Tables[0].Rows[i][14].ToString();
-                    
-                    if (!DateTime.TryParse(ds.Tables[0].Rows[i][13].ToString(), out dtPatronDateOfBirth))
-                    {
-                        strBuilder.Append("Ngày sinh của người đỡ đầu không hợp lệ <br/>");
-                    }
-                    else
-                    {
-                        tabularImportedStudent.PatroDateOfBirth = dtPatronDateOfBirth;
-                        tabularImportedStudent.StringPatronDateOfBirth = dtPatronDateOfBirth.ToShortDateString();
-                    }
-                }
-
-                if(bLackOfParents)
-                {
-                    strBuilder.Append("Phải có ít nhất thông tin đầy đủ của bố hoặc mẹ hoặc người đỡ đầu <br/>");
+                    lbError.Text = "Dữ liệu ngày tháng của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không đúng định dạng";
+                    return;
                 }
 
                 DataRow[] dr = ds.Tables[0].Select(ds.Tables[0].Columns[0].ColumnName + "='" + ds.Tables[0].Rows[i][0].ToString() + "'");
                 if (dr.Length > 1)
                 {
-                    strBuilder.Append("Mã số của các học sinh không được trùng nhau <br/>");
+                    lbError.Text = "Mã số của các học sinh không được trùng nhau !";
+                    return;
                 }
+            }
 
-                
-                tabularImportedStudent.Error = strBuilder.ToString();
-                if (CheckUntils.IsNullOrBlank(tabularImportedStudent.Error))
+            List<TabularImportedStudent> tabularImportedStudents = new List<TabularImportedStudent>();
+            TabularImportedStudent tabularImportedStudent = null;
+            for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
+            {
+                if (ds.Tables[0].Rows[i][0].ToString() != string.Empty)
                 {
-                    tabularImportedStudent.ImportStatus = "Thông tin hợp lệ";
-                }
-                else
-                {
-                    tabularImportedStudent.ImportStatus = "Lỗi:<br/>";
-                    bImportError = true;
-                }
-                
-                tabularImportedStudents.Add(tabularImportedStudent);
+                    tabularImportedStudent = new TabularImportedStudent();
+                    tabularImportedStudent.StudentCode = ds.Tables[0].Rows[i][0].ToString();
 
-                strBuilder.Clear();
-                bLackOfParents = true;
+                    tabularImportedStudent.FullName = ds.Tables[0].Rows[i][1].ToString();
+                    
+                    tabularImportedStudent.StringGender = ds.Tables[0].Rows[i][2].ToString();
+                    tabularImportedStudent.Gender = tabularImportedStudent.StringGender == "Nam" ? true : false;
+                    
+                    tabularImportedStudent.StringDateOfBirth = ds.Tables[0].Rows[i][3].ToString();
+                    tabularImportedStudent.DateOfBirth = DateTime.Parse(tabularImportedStudent.StringDateOfBirth);
+                    tabularImportedStudent.StringDateOfBirth = tabularImportedStudent.DateOfBirth.ToShortDateString();
+
+                    tabularImportedStudent.BirthPlace = ds.Tables[0].Rows[i][4].ToString();
+                    tabularImportedStudent.Address = ds.Tables[0].Rows[i][5].ToString();
+                    tabularImportedStudent.Phone = ds.Tables[0].Rows[i][6].ToString();
+
+                    tabularImportedStudent.FatherName = ds.Tables[0].Rows[i][7].ToString();
+                    tabularImportedStudent.FatherJob = ds.Tables[0].Rows[i][9].ToString();
+                    tabularImportedStudent.StringFatherDateOfBirth = ds.Tables[0].Rows[i][8].ToString();
+                    tabularImportedStudent.FatherNameDateOfBirth = DateTime.Parse(tabularImportedStudent.StringFatherDateOfBirth);
+
+                    tabularImportedStudent.MotherName = ds.Tables[0].Rows[i][10].ToString();
+                    tabularImportedStudent.MotherJob = ds.Tables[0].Rows[i][12].ToString();
+                    tabularImportedStudent.StringMotherDateOfBirth = ds.Tables[0].Rows[i][11].ToString();
+                    tabularImportedStudent.MotherNameDateOfBirth = DateTime.Parse(tabularImportedStudent.StringMotherDateOfBirth);
+
+                    tabularImportedStudent.PatronName = ds.Tables[0].Rows[i][13].ToString();
+                    tabularImportedStudent.PatronJob = ds.Tables[0].Rows[i][15].ToString();
+                    tabularImportedStudent.StringPatronDateOfBirth = ds.Tables[0].Rows[i][14].ToString();
+                    tabularImportedStudent.PatronNameDateOfBirth = DateTime.Parse(tabularImportedStudent.StringPatronDateOfBirth);
+                    
+                    tabularImportedStudents.Add(tabularImportedStudent);                    
+                }
             }
 
             RptHocSinh.DataSource = tabularImportedStudents;
             RptHocSinh.DataBind();
-
-            if (bImportError)
-            {
-                BtnSave.Enabled = false;
-                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
-            }
-            else
-            {
-                BtnSave.Enabled = true;
-                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
-            }
         }
         #endregion
 

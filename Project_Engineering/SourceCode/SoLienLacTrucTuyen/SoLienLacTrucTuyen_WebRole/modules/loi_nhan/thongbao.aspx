@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="loinhankhan.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.LoiNhanKhan" %>
+    CodeBehind="thongbao.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.LoiNhanKhan" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -17,8 +17,6 @@
                 $find(mPEDeleteID).hide();
                 return false;
             }
-
-
         </script>
     </div>
     <div id="divSearch">
@@ -131,43 +129,30 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaLoiNhanKhan")%>' />
+                            <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="Label28" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TieuDe")%>'></asp:Label>
-                            <%--<asp:Label ID="LblTieuDe" runat="server" style="display:none"></asp:Label>
-                                <asp:LinkButton ID="LbtnTieuDe" runat="server"
-                                    Text='<%#DataBinder.Eval(Container.DataItem, "TieuDe")%>'
-                                    style="text-decoration:underline; color:Blue;cursor:pointer;"
-                                    CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLoiNhanKhan")%>'>
-                                </asp:LinkButton>--%>
-                            <%--<ajaxToolkit:ModalPopupExtender ID="MPEDetail" runat="server"                                         
-                                    TargetControlID="LblClassName"
-                                    PopupControlID="PnlPopupDetail"
-                                    BackgroundCssClass="modalBackground"
-                                    CancelControlID="ImgClosePopupDetail"
-                                    PopupDragHandleControlID="PnlDragPopupDetail">
-                                </ajaxToolkit:ModalPopupExtender>--%>
+                            <asp:Label ID="Label28" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Title")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "StrNgay")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringDate")%>
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/Modules/Hoc_Sinh/ChiTietHocSinh.aspx?HocSinh=" + DataBinder.Eval(Container.DataItem, "MaHocSinh")%>'
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/Modules/Hoc_Sinh/ChiTietHocSinh.aspx?HocSinh=" + DataBinder.Eval(Container.DataItem, "StudentId")%>'
                                 Target="_blank">
-                                    <%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%>
+                                    <%#DataBinder.Eval(Container.DataItem, "StudentCode")%>
                             </asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StudentName")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "XacNhan")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringMessageStatus")%>
                         </td>
                         <td class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaLoiNhanKhan")%>' />
+                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MessageId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -176,7 +161,7 @@
                         <td class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
                             <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "TieuDe")%>' />
+                                CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Title")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">

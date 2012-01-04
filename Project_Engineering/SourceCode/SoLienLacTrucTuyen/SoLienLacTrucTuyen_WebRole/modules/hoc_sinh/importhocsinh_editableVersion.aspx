@@ -55,33 +55,63 @@
                         <td>
                             Thông tin học sinh
                         </td>
-                        <td style="width: 40%">
-                            Tình trạng
+                        <td>
+                            Địa chỉ
                         </td>
-                        <%--<td id="thDelete" runat="server" class="icon">
+                        <td>
+                            Cha
+                        </td>
+                        <td>
+                            Mẹ
+                        </td>
+                        <td>
+                            Người đỡ đầu
+                        </td>
+                        <td id="thDelete" runat="server" class="icon">
                             <asp:CheckBox ID="CkBxAll" runat="server" />
-                        </td>--%>
+                        </td>
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "StudentCode")%>
+                            <asp:TextBox ID="TextBox1" runat="server" Style="height: 90%; width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "StudentCode")%>'></asp:TextBox>
                         </td>
                         <td style="height: 40px;">
                             Họ tên:
-                            <%#DataBinder.Eval(Container.DataItem, "FullName")%>, &nbsp;&nbsp; Giới tính:
-                            <%#DataBinder.Eval(Container.DataItem, "StringGender")%>, &nbsp;&nbsp; Ngày sinh:
-                            <%#DataBinder.Eval(Container.DataItem, "StringDateOfBirth")%>
+                            <asp:TextBox ID="TextBox2" runat="server" Style="width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "FullName")%>'></asp:TextBox>
+                            <br />
+                            Giới tính:
+                            <%#DataBinder.Eval(Container.DataItem, "StringGender")%>
+                            <br />
+                            Ngày sinh:
+                            <asp:TextBox ID="TextBox4" runat="server" Style="width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "StringDateOfBirth")%>'></asp:TextBox>
+                            <br />
+                            Nơi sinh:
+                            <asp:TextBox ID="TextBox3" runat="server" Style="width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "BirthPlace")%>'></asp:TextBox>
                         </td>
-                        <td style="height: 40px">
-                            <span style="color: Black">
-                                <%#DataBinder.Eval(Container.DataItem, "ImportStatus")%></span> <span style="color: Red">
-                                    <%#DataBinder.Eval(Container.DataItem, "Error")%></span>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "Address")%>
                         </td>
-                        <%--<td style="height: 40px; text-align: center;">
+                        <td style="height: 40px;">
+                            Họ tên:
+                            <asp:TextBox ID="TextBox5" runat="server" Style="width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "FatherName")%>'></asp:TextBox>
+                            <br />
+                            Ngày sinh:
+                            <asp:TextBox ID="TextBox6" runat="server" Style="width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "StringFatherDateOfBirth")%>'></asp:TextBox>
+                            <br />
+                            Nghề nghiệp:
+                            <asp:TextBox ID="TextBox7" runat="server" Style="width: 95%" Text='<%#DataBinder.Eval(Container.DataItem, "FatherJob")%>'></asp:TextBox>
+                        </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "MotherName")%>
+                        </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "PatronName")%>
+                        </td>
+                        <td style="height: 40px; text-align: center">
                             <asp:CheckBox ID="CkBxSelect" runat="server" />
-                        </td>--%>
+                        </td>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>

@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
 
             double dTotalRecords;
-            List<MessageToParents_Message> messages = messageBL.GetMessages(year, dtBeginDate, dtEndDate, LoggedInStudent, messageStatus,
+            List<TabularMessage> messages = messageBL.GetTabularMessages(year, dtBeginDate, dtEndDate, LoggedInStudent, messageStatus,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (messages.Count == 0 && dTotalRecords != 0)
@@ -137,12 +137,17 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
-            TxtTuNgay.Text = beginDateOfMonth.ToShortDateString();
-            DateTime dateOfNextMonth = today.AddMonths(1);
-            DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
-            DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
-            TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
+            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
+            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
+
+            // dont remove this code
+            //DateTime today = DateTime.Now;
+            //DateTime beginDateOfMonth = new DateTime(today.Year, today.Month, 1);
+            //TxtTuNgay.Text = beginDateOfMonth.ToShortDateString();
+            //DateTime dateOfNextMonth = today.AddMonths(1);
+            //DateTime beginDateOfNextMonth = new DateTime(dateOfNextMonth.Year, dateOfNextMonth.Month, 1);
+            //DateTime endDateOfMonth = beginDateOfNextMonth.AddDays(-1);
+            //TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
         }
         
         private void GetSearchSessions()
@@ -189,7 +194,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 Image imgUnreadMsg = (Image)e.Item.FindControl("ImgUnreadMsg");
                 LinkButton lkbtnTitle = (LinkButton)e.Item.FindControl("LkbtnTitle");
 
-                MessageToParents_Message message = (MessageToParents_Message)e.Item.DataItem;
+                TabularMessage message = (TabularMessage)e.Item.DataItem;
                 bool bRead = (message.MessageStatusId > 1) ? true : false;
                 bool bConfirmed = (message.MessageStatusId == 3) ? true : false;
 

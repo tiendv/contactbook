@@ -64,6 +64,8 @@
     <Compile Include="GVCNInfo.cs" />
     <Compile Include="LopHocInfo.cs" />
     <Compile Include="MenuItem.cs" />
+    <Compile Include="TabularImportedStudent.cs" />
+    <Compile Include="TabularMessage.cs" />
     <Compile Include="TabularParentsComment.cs" />
     <Compile Include="TabularSchool.cs" />
     <Compile Include="TabularSubject.cs" />
@@ -82,7 +84,6 @@
     <Compile Include="TabularHoatDong.cs" />
     <Compile Include="TabularHocSinhInfo.cs" />
     <Compile Include="TabularKetQuaMonHoc.cs" />
-    <Compile Include="TabularLoiNhanKhan.cs" />
     <Compile Include="TabularAbsent.cs" />
     <Compile Include="TabularUser.cs" />
     <Compile Include="TabularAuthorization.cs" />

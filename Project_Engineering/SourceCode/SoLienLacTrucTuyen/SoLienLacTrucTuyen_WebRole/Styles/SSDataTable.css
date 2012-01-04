@@ -1,6 +1,6 @@
 ﻿.table_data
 {
-    border: 2px solid #0000C8;
+    border: 2px solid #FFFFFF;
     width: 98%;
     padding: 10px;
     clear: both;
@@ -22,7 +22,7 @@
 
 .table_data .repeater td
 {
-    border: 2px solid #0000C8;
+    border: 2px solid #FFFFFF;
     padding: 0px 5px 0px 5px;
 }
 
@@ -151,13 +151,13 @@
 }
 
 .evenRow
-{
-    background-color: #F8E1E1;
+{    
+    background-color: #cde6fa;
 }
 
 .oddRow
 {
-    background-color: #FDF9F9;
+    background-color: #e0f0fd;
 }
 
 .innerEvenRow

@@ -11,7 +11,7 @@
     <RootNamespace>SoLienLacTrucTuyen</RootNamespace>
     <AssemblyName>SoLienLacTrucTuyen</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
-    <Name>SoLienLacTrucTuyen</Name>
+    <Name>EContactBook_Cloud</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,12 +36,13 @@
     <ServiceConfiguration Include="ServiceConfiguration.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SoLienLacTrucTuyen_WebRole\SoLienLacTrucTuyen_WebRole.csproj">
-      <Name>SoLienLacTrucTuyen_WebRole</Name>
+    <ProjectReference Include="..\SoLienLacTrucTuyen_WebRole\EContactBook_WebRole.csproj">
+      <Name>EContactBook_WebRole</Name>
       <Project>{a907327e-75c6-4c6d-93d8-f908a5b717ca}</Project>
       <Private>True</Private>
       <RoleType>Web</RoleType>
-      <RoleName>SoLienLacTrucTuyen_WebRole</RoleName>
+      <RoleName>EContactBook_WebRole</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>
   <!-- Import the target files for this project template -->

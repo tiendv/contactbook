@@ -39,6 +39,16 @@
         }
     });
 
+    $(".UploadButton").hover(function () {
+        if ($(".UploadButton").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_upload_hover.png");
+        }
+    }, function () {
+        if ($(".UploadButton").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_upload.png");
+        }
+    });
+
     $(".BtnEdit").hover(function () {
         if ($(".BtnEdit").is(':disabled') == false) {            
             $(this).attr("src", "/Styles/buttons/button_edit_hover.png");

@@ -57,14 +57,35 @@ namespace SoLienLacTrucTuyen_WebRole
         {
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {   
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+                BtnAdd.Visible = true;
                 PnlPopupAdd.Visible = true;
             }
             else
             {
                 BtnAdd.Visible = false;
                 PnlPopupAdd.Visible = false;
+            }
+
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            {
+                BtnEdit.Visible = true;
+                PnlPopupEdit.Visible = true;
+            }
+            else
+            {
+                BtnEdit.Visible = false;
+                PnlPopupEdit.Visible = false;
+            }
+
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            {
+                BtnDelete.Visible = true;
+                PnlPopupConfirmDelete.Visible = true;
+            }
+            else
+            {
+                BtnDelete.Visible = false;
+                PnlPopupConfirmDelete.Visible = false;
             }
         }
 

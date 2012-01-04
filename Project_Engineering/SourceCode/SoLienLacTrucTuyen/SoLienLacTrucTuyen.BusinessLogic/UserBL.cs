@@ -28,6 +28,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.GetUser(userName);
         }
 
+        public void DeactivateUser(aspnet_User user)
+        {
+            userDA.ChangeUserActivation(user, false);
+        }
+
+        public void ActivateUser(aspnet_User user)
+        {
+            userDA.ChangeUserActivation(user, false);
+        }
+
         public aspnet_User GetUser(Guid userId)
         {
             return userDA.GetUser(userId);
@@ -114,14 +124,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool ValidateUser(string userName)
         {
             aspnet_User user = GetUser(userName);
-            if (user.aspnet_Membership.Email == null || user.aspnet_Membership.Email == "")
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return user.aspnet_Membership.IsActivated;
         }
 
         public bool IsDeletable(aspnet_User user)
