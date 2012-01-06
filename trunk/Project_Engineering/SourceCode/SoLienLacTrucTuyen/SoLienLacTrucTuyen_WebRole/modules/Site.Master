@@ -75,26 +75,23 @@
         <Scripts>
         </Scripts>
     </asp:ScriptManager>
-    <asp:UpdatePanel ID="AlwaysUpdatePanel" runat="server" UpdateMode="Always">
-        <ContentTemplate>
-        </ContentTemplate>
-    </asp:UpdatePanel>
     <div class="page">
         <div class="page_header">
-            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
-                width="982" height="120">
-                <param name="movie" value='<%= Request.ApplicationPath + "bannertop.swf" %>' />
-                <param name="quality" value="high">
-                <embed src='<%= Request.ApplicationPath + "bannertop.swf" %>' width="980" height="120"
-                    quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
-                    width="980" height="120"></embed>
-            </object>
+        
+            <div class="banner">
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
+                    width="982" height="120">
+                    <param name="movie" value='<%= Request.ApplicationPath + "bannertop.swf" %>' />
+                    <param name="quality" value="transparent" >
+                    <embed src='<%= Request.ApplicationPath + "bannertop.swf" %>' width="980" height="120"
+                        quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
+                        width="980" height="120"></embed>
+                </object>
+            </div>
+            <div class="school_name">
+                Trường tiểu học Võ Thị Sáu
+            </div>    
         </div>
-        <asp:UpdateProgress ID="UpdateProgress1" runat="server" DynamicLayout="true" AssociatedUpdatePanelID="AlwaysUpdatePanel">
-            <ProgressTemplate>
-                <asp:Image ID="Image2" runat="server" Width="100px" Height="100px" ImageUrl="~/Styles/Images/inprogress.gif" />
-            </ProgressTemplate>
-        </asp:UpdateProgress>
         <div class="menu_panel">
             <div class="menu_panel_child">
                 <asp:Panel ID="PnlFixedLevel1MenuTitles" runat="server" CssClass="PnlFixedLevel1MenuTitles">

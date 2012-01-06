@@ -218,5 +218,21 @@ namespace EContactBook.DataAccess
 
             return districts;
         }
+
+        public Configuration_Year GetPreviousYear()
+        {
+            Configuration_Year prevYear = null;
+
+            IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
+                                                    where year.SchoolId == school.SchoolId
+                                                    select year;
+
+            if (iqYear.Count() >= 2)
+            {
+                prevYear = iqYear.OrderByDescending(year => year.YearId).ToList()[1];
+            }
+
+            return prevYear;
+        }
     }
 }

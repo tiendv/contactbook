@@ -109,5 +109,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return sysConfigDA.GetDistricts(province);
         }
+
+        public Configuration_Year GetPreviousYear()
+        {
+            return sysConfigDA.GetPreviousYear();
+        }
     }
 }

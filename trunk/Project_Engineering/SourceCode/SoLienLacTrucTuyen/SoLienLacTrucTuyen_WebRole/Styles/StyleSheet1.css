@@ -21,10 +21,31 @@
 .page_header
 {
     background-position: center;
+    height: 120px;    
+    margin-bottom: -10px;
+    position: relative;
+}
+
+.page_header .banner
+{
+    background-position: center;
     height: 120px;
     background-image: url('Images/header_background.png');
     background-repeat: repeat-x;
     margin-bottom: -10px;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.page_header .school_name
+{
+    height: 50px;
+    position: absolute;
+    width: 100%;
+    top: 50px;
+    left: 0px;
 }
 
 .footer

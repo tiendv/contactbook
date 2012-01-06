@@ -320,7 +320,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             dr["StudentCode"] = tabularStudents[i].StudentCode;
                             dr["StudentId"] = tabularStudents[i].StudentId;
                             dr["Gender"] = tabularStudents[i].Gender;
-                            dr["DayOfBirth"] = tabularStudents[i].DayOfBirth;
+                            dr["DayOfBirth"] = tabularStudents[i].StringDateOfBirth;
                             dtSource.Rows.Add(dr);
                         }
                         ds.Tables.Add(dtSource);

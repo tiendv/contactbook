@@ -112,13 +112,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label lbError;
         
         /// <summary>
-        /// LblSearchResult control.
+        /// LblImportError control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblSearchResult;
+        protected global::System.Web.UI.WebControls.Label LblImportError;
+        
+        /// <summary>
+        /// LblImportSuccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblImportSuccess;
         
         /// <summary>
         /// RptHocSinh control.

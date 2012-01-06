@@ -40,24 +40,6 @@ namespace SoLienLacTrucTuyen_WebRole {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// AlwaysUpdatePanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel AlwaysUpdatePanel;
-        
-        /// <summary>
-        /// UpdateProgress1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdateProgress UpdateProgress1;
-        
-        /// <summary>
         /// PnlFixedLevel1MenuTitles control.
         /// </summary>
         /// <remarks>

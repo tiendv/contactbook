@@ -266,8 +266,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
                 tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
                 tabularStudent.ClassId = studentInClass.ClassId;
-                tabularStudent.DayOfBirth = studentInClass.Student_Student.StudentBirthday.ToString("dd/MM/yyyy");
-                tabularStudent.Gender = studentInClass.Student_Student.Gender == true ? "Nam" : "Nữ";
+                tabularStudent.DateOfBirth = studentInClass.Student_Student.StudentBirthday;
+                tabularStudent.StringDateOfBirth = tabularStudent.DateOfBirth.ToString("dd/MM/yyyy");
+                tabularStudent.Gender = studentInClass.Student_Student.Gender;
+                tabularStudent.StringGender = tabularStudent.Gender == true ? "Nam" : "Nữ"; 
                 tabularStudent.StudentInClassId = studentInClass.StudentInClassId;
                 tabularStudents.Add(tabularStudent);
             }
@@ -407,8 +409,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
                 tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
                 tabularStudent.ClassId = studentInClass.ClassId;
-                tabularStudent.Gender = (studentInClass.Student_Student.Gender == true) ? "Nam" : "Nữ";
-                tabularStudent.DayOfBirth = studentInClass.Student_Student.StudentBirthday.ToShortDateString();
+                tabularStudent.Gender = studentInClass.Student_Student.Gender;
+                tabularStudent.StringGender = (tabularStudent.Gender == true) ? "Nam" : "Nữ";
+                tabularStudent.DateOfBirth = studentInClass.Student_Student.StudentBirthday;
+                tabularStudent.StringDateOfBirth = tabularStudent.DateOfBirth.ToString("dd/MM/yyyy");
                 tabularStudents.Add(tabularStudent);
             }
 

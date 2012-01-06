@@ -93,6 +93,7 @@
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
     <Content Include="modules\hoc_sinh\HocSinhServicePage.aspx" />
     <Content Include="modules\hoc_sinh\ketquahoctap.aspx" />
+    <Content Include="modules\hoc_sinh\lenlophocsinh.aspx" />
     <Content Include="modules\hoc_sinh\ngaynghihoc.aspx" />
     <Content Include="modules\hoc_sinh\PageReportStudents.aspx" />
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
@@ -332,6 +333,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\lenlophocsinh.aspx.cs">
+      <DependentUpon>lenlophocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\lenlophocsinh.aspx.designer.cs">
+      <DependentUpon>lenlophocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\utilities\AppConstant.cs" />
     <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
@@ -1017,7 +1025,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>17497</DevelopmentServerPort>
+          <DevelopmentServerPort>4681</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

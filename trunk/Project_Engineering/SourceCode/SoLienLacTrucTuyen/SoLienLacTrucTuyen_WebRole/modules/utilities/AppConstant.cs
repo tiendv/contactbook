@@ -99,7 +99,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_TODATE = "ToDate";
         public const string SESSION_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
         public const string SESSION_SELECTED_USER = "User";
-        public const string SESSION_DAILYSCHEDULES = "DailySchedules";        
+        public const string SESSION_DAILYSCHEDULES = "DailySchedules";
+        public const string SESSION_IMPORTEDSTUDENTS = "ImportedStudents";    
 
         #region Session Teacher
         public const string SESSION_TEACHERID = "TeacherID";
@@ -134,8 +135,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string UNDERSCORE = "_";
         public const char UNDERSCORE_CHAR = '_';
         public const string USERPARENT_PREFIX = "PH";
+        public const string STRING_MALE = "Nam";
+        public const string STRING_FEMALE = "Nữ";
 
         public const string COMMAND_EDIT = "CommandEdit";
+
 
     }
 }
