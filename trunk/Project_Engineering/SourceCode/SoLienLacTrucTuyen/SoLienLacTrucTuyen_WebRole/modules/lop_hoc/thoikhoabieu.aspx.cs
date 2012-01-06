@@ -11,7 +11,7 @@ using AjaxControlToolkit;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThoiKhoaBieu : BaseContentPage
+    public partial class ThoiKhoaBieu : BaseContentPage, IPostBackEventHandler
     {
         #region Fields
         private ClassBL classBL;
@@ -318,5 +318,64 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
         #endregion   
+    
+        public void RaisePostBackEvent(string eventArgument)
+        {
+            PrePrint();
+        }
+        protected void PrePrint()
+        {
+            #region Add Info 2 Session
+
+            Configuration_Year year = null;
+            Category_Faculty faculty = null;
+            Category_Grade grade = null;
+            Class_Class Class = null;
+            Configuration_Term term = null;
+
+            year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            year.YearName = DdlNamHoc.SelectedItem.Text;
+            try
+            {
+                faculty = new Category_Faculty();
+                faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+                faculty.FacultyName = DdlNganh.SelectedItem.Text; ;
+
+            }
+            catch (Exception) { }
+
+            try
+            {
+
+                grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;
+            }
+            catch (Exception) { }
+            try
+            {
+                Class = new Class_Class();
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+                Class.ClassName = DdlLopHoc.SelectedItem.Text; ;
+            }
+            catch (Exception) { }
+            try
+            {
+                term = new Configuration_Term();
+                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+                term.TermName = DdlHocKy.SelectedItem.Text; ;
+            }
+            catch (Exception) { }
+
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTERM);
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            #endregion
+        }
     }
 }
