@@ -4,6 +4,15 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div id="divScripts">
+        <script language="javascript" type="text/javascript">
+            function fncOpen() {
+                var pageId = '<%=  Page.ClientID %>';
+                __doPostBack(pageId, "myargs");
+                window.showModalDialog("/modules/hoc_sinh/indanhsachhocsinh.aspx", null, "dialogWidth:1000px; dialogHeight:1000px; center:yes");
+            }
+        </script>
+    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
             <asp:UpdatePanel ID="UPDropdownlists" runat="server" UpdateMode="Conditional">
@@ -61,6 +70,10 @@
         </div>
     </div>
     <div class="table_data ui-corner-all">
+        <div class="add">
+            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/buttons/button_export.png"
+                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" CssClass="BtnExport"/>
+        </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
                 Text="Không có thông tin thời khóa biểu"></asp:Label>
