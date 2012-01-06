@@ -42,9 +42,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
                 BindData();
-            }
-
+            }            
             ProcPermissions();
+            PnlPopupAdd.Visible = false;
         }
         #endregion
 

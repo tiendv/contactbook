@@ -44,8 +44,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
                 BindData();
-            }
-
+            }            
             ProcPermissions();
         }
         #endregion
