@@ -14,9 +14,10 @@ namespace EContactBook.BusinessEntity
         public string FacultyName { get; set; }
         public string GradeName { get; set; }
         public string ClassName { get; set; }
-        public string Gender { get; set; }
-        public string DayOfBirth { get; set; }
-
+        public bool Gender { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string StringDateOfBirth { get; set; }
+        public string StringGender { get; set; }
         public int StudentInClassId { get; set; }
     }
 }

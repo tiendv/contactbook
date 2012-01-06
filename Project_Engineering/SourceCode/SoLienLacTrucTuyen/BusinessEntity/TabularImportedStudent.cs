@@ -27,7 +27,7 @@ namespace EContactBook.BusinessEntity
 
         public string FatherName { get; set; }
 
-        public DateTime FatherDateOfBirth { get; set; }
+        public DateTime? FatherDateOfBirth { get; set; }
 
         public string StringFatherDateOfBirth { get; set; }
 
@@ -35,7 +35,7 @@ namespace EContactBook.BusinessEntity
 
         public string MotherName { get; set; }
 
-        public DateTime MotherDateOfBirth { get; set; }
+        public DateTime? MotherDateOfBirth { get; set; }
 
         public string StringMotherDateOfBirth { get; set; }
 
@@ -43,7 +43,7 @@ namespace EContactBook.BusinessEntity
 
         public string PatronName { get; set; }
 
-        public DateTime PatroDateOfBirth { get; set; }
+        public DateTime? PatronDateOfBirth { get; set; }
 
         public string StringPatronDateOfBirth { get; set; }
 

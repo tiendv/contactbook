@@ -211,62 +211,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
                         break;
                     }
-                case "CmdEditItem":
-                    {
-                        Configuration_Year year = new Configuration_Year();
-                        year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-                        AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
-
-                        Category_Faculty faculty = new Category_Faculty();
-                        faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-                        AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
-
-                        Category_Grade grade = new Category_Grade();
-                        grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                        AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
-
-                        Class_Class Class = new Class_Class();
-                        Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
-
-                        String strStudentName = TxtTenHocSinh.Text;
-                        AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, strStudentName);
-
-                        String strStudentCode = TxtMaHocSinh.Text;
-                        AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
-
-                        // Get seleteced student and set to session
-                        Student_Student student = new Student_Student();
-                        student.StudentId = Int32.Parse(e.CommandArgument.ToString());
-                        AddSession(AppConstant.SESSION_STUDENT, student);
-
-                        // Get seleteced class and set to session
-                        Class_Class studentClass = new Class_Class();
-                        studentClass.ClassId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfClassId")).Value);
-                        AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
-
-                        AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
-
-                        // redirect to "Sửa học sinh"
-                        Response.Redirect(AppConstant.PAGEPATH_STUDENTEDIT);
-                        break;
-                    }
-                case "CmdDeleteItem":
-                    {
-                        // Set confirm text and show dialog
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa học sinh <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        // Save current MaHocSinh to global
-                        HiddenField hdfRptMaHocSinh = (HiddenField)e.Item.FindControl("HdfRptMaHocSinh");
-                        this.HdfMaHocSinh.Value = hdfRptMaHocSinh.Value;
-
-                        // Save modal popup ClientID
-                        this.HdfRptHocSinhMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
 
                 default:
                     {
@@ -361,6 +305,56 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Response.Redirect("themhocsinh.aspx");
         }
 
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            foreach (RepeaterItem item in RptHocSinh.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    System.Web.UI.WebControls.CheckBox CkbxSelect = (System.Web.UI.WebControls.CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        Configuration_Year year = new Configuration_Year();
+                        year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+
+                        Category_Faculty faculty = new Category_Faculty();
+                        faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+
+                        Category_Grade grade = new Category_Grade();
+                        grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+
+                        Class_Class Class = new Class_Class();
+                        Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+                        String strStudentName = TxtTenHocSinh.Text;
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENTNAME, strStudentName);
+
+                        String strStudentCode = TxtMaHocSinh.Text;
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
+
+                        // Get seleteced student and set to session
+                        Student_Student student = new Student_Student();
+                        HiddenField HdfRptMaHocSinh = (HiddenField)item.FindControl("HdfRptMaHocSinh");
+                        student.StudentId = Int32.Parse(HdfRptMaHocSinh.Value);
+                        AddSession(AppConstant.SESSION_STUDENT, student);
+
+                        // Get seleteced class and set to session
+                        Class_Class studentClass = new Class_Class();
+                        studentClass.ClassId = Int32.Parse(((HiddenField)item.FindControl("HdfClassId")).Value);
+                        AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
+
+                        AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
+
+                        // redirect to "Sửa học sinh"
+                        Response.Redirect(AppConstant.PAGEPATH_STUDENTEDIT);
+                    }
+                }
+            }
+        }
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);

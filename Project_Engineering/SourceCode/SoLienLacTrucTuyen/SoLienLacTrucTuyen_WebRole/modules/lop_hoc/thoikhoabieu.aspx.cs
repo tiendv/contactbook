@@ -8,11 +8,10 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using EContactBook.BusinessEntity;
 using AjaxControlToolkit;
-using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SchedulePage : BaseContentPage, IPostBackEventHandler
+    public partial class ThoiKhoaBieu : BaseContentPage
     {
         #region Fields
         private ClassBL classBL;
@@ -23,18 +22,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-
-            // Check access denied
             if (accessDenied)
             {
                 return;
-            }
-
-            // Check session's expiration
-            if (sessionExpired)
-            {
-                FormsAuthentication.SignOut();
-                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             classBL = new ClassBL(UserSchool);
@@ -43,7 +33,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
-                BindRptSchedule();
+
+                if (DdlLopHoc.Items.Count != 0)
+                {
+                    if (Request.QueryString["NamHoc"] != null && Request.QueryString["HocKy"] != null
+                            && Request.QueryString["LopHoc"] != null)
+                    {
+                        this.DdlNamHoc.SelectedValue = (Request.QueryString["NamHoc"].ToString());
+                        this.DdlHocKy.SelectedValue = (Request.QueryString["HocKy"].ToString());
+                        this.DdlLopHoc.SelectedValue = (Request.QueryString["LopHoc"].ToString());
+                    }
+
+                    BindRptSchedule();
+                }
+                else
+                {
+                    ProcessDislayInfo(false);
+                }
             }
         }
         #endregion
@@ -117,163 +123,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
         }
+
+        protected void RptMonHocTKB_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "CmdEditItem":
+                    {
+                        string ClassId = ((HiddenField)e.Item.FindControl("HdfRptClassId")).Value;
+                        string TermId = ((HiddenField)e.Item.FindControl("HdfRptTermId")).Value;
+                        string DayInWeekId = ((HiddenField)e.Item.FindControl("HdfRptDayInWeekId")).Value;
+
+                        Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}", 
+                            ClassId, TermId, DayInWeekId));
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
         #endregion
 
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
-            BindRptSchedule();            
-        }
-        
-        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
-        {
-            Class_Class Class = new Class_Class();
-            if (ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != null)
-            {
-                Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
-            }
-            else
-            {
-                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            }
-
-            Configuration_Term term = new Configuration_Term();
-            if (ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] != null)
-            {
-                term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
-            }
-            else
-            {
-                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            }
-
-            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
-            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-
-            RedirectToScheduleArrangementPage();
-        }
-
-        protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
-        {            
-            #region Add Info 2 Session
-
-            Configuration_Year year = null;
-            Category_Faculty faculty = null;
-            Category_Grade grade = null;
-            Class_Class Class = null;
-            Configuration_Term term = null;            
-
-            year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            year.YearName = DdlNamHoc.SelectedItem.Text;
-            try
-            {
-                    faculty = new Category_Faculty();
-                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-                    faculty.FacultyName = DdlNganh.SelectedItem.Text; ;
-
-            }
-            catch (Exception) { }
-
-            try
-            {
-
-                    grade = new Category_Grade();
-                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                    grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;                
-            }
-            catch (Exception) { }
-            try
-            {
-                    Class = new Class_Class();
-                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                    Class.ClassName = DdlLopHoc.SelectedItem.Text; ;               
-            }
-            catch (Exception) { }
-            try
-            {
-                    term = new Configuration_Term();
-                    term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-                    term.TermName = DdlHocKy.SelectedItem.Text; ;
-            }
-            catch (Exception) { }
-
-            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTERM);
-            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
-            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
-            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
-            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
-            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
-            #endregion
-        }
-        protected void PrePrint()
-        {
-            #region Add Info 2 Session
-
-            Configuration_Year year = null;
-            Category_Faculty faculty = null;
-            Category_Grade grade = null;
-            Class_Class Class = null;
-            Configuration_Term term = null;
-
-            year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            year.YearName = DdlNamHoc.SelectedItem.Text;
-            try
-            {
-                faculty = new Category_Faculty();
-                faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-                faculty.FacultyName = DdlNganh.SelectedItem.Text; ;
-
-            }
-            catch (Exception) { }
-
-            try
-            {
-
-                grade = new Category_Grade();
-                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                grade.GradeName = DdlKhoiLop.SelectedItem.Text; ;
-            }
-            catch (Exception) { }
-            try
-            {
-                Class = new Class_Class();
-                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                Class.ClassName = DdlLopHoc.SelectedItem.Text; ;
-            }
-            catch (Exception) { }
-            try
-            {
-                term = new Configuration_Term();
-                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-                term.TermName = DdlHocKy.SelectedItem.Text; ;
-            }
-            catch (Exception) { }
-
-            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTERM);
-            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
-            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
-            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
-            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
-            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
-            #endregion
+            BindRptSchedule();
         }
         #endregion
 
         #region Methods
         private void BindRptSchedule()
         {
-            if (DdlLopHoc.Items.Count == 0)
-            {
-                return;
-            }
-
-            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Int32.Parse(DdlLopHoc.SelectedValue);
-            ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] = Int32.Parse(DdlHocKy.SelectedValue);
-
             Configuration_Term term = null;
             Class_Class Class = null;
             List<DailySchedule> dailySchedules;
@@ -297,12 +179,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            #region Test Send Mail Template
-            SoLienLacTrucTuyen.BusinessLogic.MailBL.SendGmailWithTemplate("econtactcloud@gmail.com", "duyna1989@gmail.com", "TestMail", dailySchedules, "econtactcloud", "1qazxsw@");
-            #endregion
-
             RptMonHocTKB.DataSource = dailySchedules;
             RptMonHocTKB.DataBind();
+
+            //Session["ThoiKhoaBieu_YearId"] = YearId;
+            //Session["ThoiKhoaBieu_TermId"] = TermId;
+            //Session["ThoiKhoaBieu_ClassId"] = ClassId;
+        }
+
+        private void ProcessDislayInfo(bool bDisplayData)
+        {
+            
         }
 
         private void BindDropDownLists()
@@ -317,23 +204,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDlYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> years = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = years;
+            List<Configuration_Year> lstNamHoc = systemConfigBL.GetListYears();
+            DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
-            DdlNamHoc.DataBind();
-
-            if (DdlNamHoc.Items.Count != 0)
+            DdlNamHoc.DataBind();            
+            
+            if (Session["ThoiKhoaBieu_YearId"] != null)
             {
-                if (Session["ThoiKhoaBieu_YearId"] != null)
-                {
-                    DdlNamHoc.SelectedValue = Session["ThoiKhoaBieu_YearId"].ToString();
-                    Session.Remove("ThoiKhoaBieu_YearId");
-                }
-                else
-                {
-                    DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
-                }
+                DdlNamHoc.SelectedValue = Session["ThoiKhoaBieu_YearId"].ToString();
+                Session.Remove("ThoiKhoaBieu_YearId");
+            }
+            else
+            {
+                DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
             }
         }
 
@@ -374,17 +258,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
 
-            if (DdlHocKy.Items.Count != 0)
+            if (Session["ThoiKhoaBieu_TermId"] != null)
             {
-                if (Session["ThoiKhoaBieu_TermId"] != null)
-                {
-                    DdlHocKy.SelectedValue = Session["ThoiKhoaBieu_TermId"].ToString();
-                    Session.Remove("ThoiKhoaBieu_TermId");
-                }
-                else
-                {
-                    DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().ToString();
-                }
+                DdlHocKy.SelectedValue = Session["ThoiKhoaBieu_TermId"].ToString();
+                Session.Remove("ThoiKhoaBieu_TermId");
+            }
+            else
+            {
+                DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().ToString();
             }
         }
 
@@ -396,7 +277,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
+                BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
                 BtnSearch.Enabled = false;
                 return;
             }
@@ -435,51 +316,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 DdlLopHoc.SelectedValue = Session["ThoiKhoaBieu_ClassId"].ToString();
                 Session.Remove("ThoiKhoaBieu_ClassId");
             }
-
-            if (DdlLopHoc.Items.Count != 0)
-            {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
-                BtnSearch.Enabled = true;
-            }
-            else
-            {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
-                BtnSearch.Enabled = false;
-            }
         }
-
-        private void RedirectToScheduleArrangementPage()
-        {
-            Class_Class Class = new Class_Class();
-            if (ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != null)
-            {
-                Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
-            }
-            else
-            {
-                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            }
-
-            Configuration_Term term = new Configuration_Term();
-            if (ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] != null)
-            {
-                term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
-            }
-            else
-            {
-                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            }
-
-            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
-            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-
-            Response.Redirect(AppConstant.PAGEPATH_SCHEDULEAGGRANGEMENT);
-        }
-        
-        public void RaisePostBackEvent(string eventArgument)
-        {
-            PrePrint();
-        }
-        #endregion
+        #endregion   
     }
 }

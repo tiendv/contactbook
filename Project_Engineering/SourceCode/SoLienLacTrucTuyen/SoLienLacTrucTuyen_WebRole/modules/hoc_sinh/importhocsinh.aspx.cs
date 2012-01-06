@@ -39,27 +39,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            lbError.Text = string.Empty;
-            UserSchool = (School_School)Session[AppConstant.SCHOOL];
-            UserBL userBL = new UserBL(UserSchool);
-            RoleBL roleBL = new RoleBL(UserSchool);
-            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
-
-            string pageUrl = Page.Request.Path;
-            List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
-            aspnet_Role role = roles[0];
-
-            Site masterPage = (Site)Page.Master;
-            masterPage.UserName = User.Identity.Name;
-            masterPage.UserRole = role;
-            masterPage.PageUrl = pageUrl;
-            masterPage.UserSchool = UserSchool;
-
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
+                lbError.Text = string.Empty;
                 BindDropDownLists();
+                BtnSave.Enabled = false;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
             }
         }
         #endregion
@@ -107,139 +94,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            #region
-            lbError.ForeColor = System.Drawing.Color.Red;            
-            string filename = Path.GetFileName(FileUpload1.FileName);
-            if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
+            List<TabularImportedStudent> importedStudents;
+            if(CheckSessionKey(AppConstant.SESSION_IMPORTEDSTUDENTS))
             {
-                lbError.Text = "Vui lòng chọn file định dang Microsoft Excel để tiến hành import !";
-                return;
+                importedStudents = (List<TabularImportedStudent>)GetSession(AppConstant.SESSION_IMPORTEDSTUDENTS);
+                Class_Class Class = new Class_Class();
+                Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
+                
+                foreach (TabularImportedStudent importedStudent in importedStudents)
+                {
+                    studentBL.InsertStudent(Class, importedStudent.StudentCode, importedStudent.FullName, importedStudent.Gender,
+                        importedStudent.DateOfBirth, importedStudent.BirthPlace, importedStudent.Address,
+                        importedStudent.Phone, importedStudent.FatherName, importedStudent.FatherJob, importedStudent.FatherDateOfBirth,
+                        importedStudent.MotherName, importedStudent.MotherJob, importedStudent.MotherDateOfBirth,
+                        importedStudent.PatronName, importedStudent.PatronJob, importedStudent.PatronDateOfBirth);
+                }           
             }
-            FileUpload1.SaveAs(Server.MapPath("~/upload/template/") + filename);
-            filename = Server.MapPath("~/upload/template/") + filename;
-            String connString = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + filename + ";" + "Extended Properties='Excel 8.0;HDR=No'";            
-            OleDbConnection oledbConn = new OleDbConnection(connString);            
-            //Check if the Sheet Exists
-            oledbConn.Open();
-            OleDbDataAdapter da = new OleDbDataAdapter("select * from [Sheet1$]", oledbConn);
-            DataSet ds = new DataSet();
-            if (da != null)
-            {
-                da.Fill(ds);
-            }
-            //studentBL.GetTabularStudents(
-            // Validate data : follow this task            
-            for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
-            {
-                if (ds.Tables[0].Rows[i][0].ToString() == string.Empty
-                    || ds.Tables[0].Rows[i][1].ToString() == string.Empty)
-                {
-                    lbError.Text = "Mã số học sinh và tên học sinh ko được để trống !";
-                    return;
-                }
-                else if (studentBL.StudentCodeExists(ds.Tables[0].Rows[i][0].ToString()))
-                {
-                    lbError.Text = "Mã học sinh " + ds.Tables[0].Rows[i][0].ToString() + " đã tồn tại !";
-                    return;                    
-                }
-                else if (ds.Tables[0].Rows[i][3].ToString() == string.Empty)
-                {
-                    lbError.Text = "Ngày sinh của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không được để trống !";
-                    return;
-                }
-                else if (ds.Tables[0].Rows[i][2].ToString() == string.Empty)
-                {
-                    lbError.Text = "Giới tính của học sinh " + ds.Tables[0].Rows[i][0].ToString() + " không được để trống !";
-                    return;
-                }
-                else if ((ds.Tables[0].Rows[i][7].ToString() == string.Empty
-                        || ds.Tables[0].Rows[i][8].ToString() == string.Empty
-                        || ds.Tables[0].Rows[i][9].ToString() == string.Empty)
-                     && (ds.Tables[0].Rows[i][10].ToString() == string.Empty
-                        || ds.Tables[0].Rows[i][11].ToString() == string.Empty
-                        || ds.Tables[0].Rows[i][12].ToString() == string.Empty)
-                     && (ds.Tables[0].Rows[i][13].ToString() == string.Empty
-                        || ds.Tables[0].Rows[i][14].ToString() == string.Empty
-                        || ds.Tables[0].Rows[i][15].ToString() == string.Empty))
-                {
-                    lbError.Text = "Học sinh " + ds.Tables[0].Rows[i][0].ToString() + " phải có ít nhất thông tin đầy đủ của cha/mẹ hoặc người đỡ đầu !";
-                    return;
-                }
-                try
-                {
-                    DateTime.Parse(ds.Tables[0].Rows[i][3].ToString());
-                    if (ds.Tables[0].Rows[i][8].ToString() != string.Empty)
-                        DateTime.Parse(ds.Tables[0].Rows[i][8].ToString());
-                    if (ds.Tables[0].Rows[i][11].ToString() != string.Empty)
-                        DateTime.Parse(ds.Tables[0].Rows[i][11].ToString());
-                    if (ds.Tables[0].Rows[i][14].ToString() != string.Empty)
-                        DateTime.Parse(ds.Tables[0].Rows[i][14].ToString());
-                }
-                catch (Exception ex)
-                {
-                    lbError.Text = "Dữ liệu ngày tháng của học sinh "+ds.Tables[0].Rows[i][0].ToString()+" không đúng định dạng";
-                    return;
-                }
 
-                DataRow[] dr = ds.Tables[0].Select(ds.Tables[0].Columns[0].ColumnName + "='" + ds.Tables[0].Rows[i][0].ToString() + "'");
-                if (dr.Length > 1)
-                {
-                    lbError.Text = "Mã số của các học sinh không được trùng nhau !";
-                    return;                
-                }
-            }
-            // Insert Data
-            #region
-            // Thu tu cac cot trong excel           
-            // 0.[StudentCode]
-            // 1.[FullName]            
-            // 2.[Gender]
-            // 3.[StudentBirthday]
-            // 4.[Birthplace]
-            // 5.[Address]
-            // 6.[ContactPhone]
-            // 7.[Photo]
-            // 8.[FatherName]
-            // 9.[FatherBirthday]
-            // 10.[FatherJob]
-            // 11.[MotherName]
-            // 12.[MotherBirthday]
-            // 13.[MotherJob]
-            // 14.[PatronName]
-            // 15.[PatronBirthday]
-            // 16.[PatronJob]      
-            #endregion
-            Class_Class Class = new Class_Class();
-            Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
-
-            for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
-            {
-                if (ds.Tables[0].Rows[i][0].ToString() != string.Empty)
-                {
-
-                    studentBL.InsertStudent(Class,
-                                            ds.Tables[0].Rows[i][0].ToString(),
-                                            ds.Tables[0].Rows[i][1].ToString(),
-                                            ds.Tables[0].Rows[i][2].ToString()=="Nam"?true:false,
-                                            ds.Tables[0].Rows[i][3].ToString()== string.Empty?DateTime.MinValue:DateTime.Parse(ds.Tables[0].Rows[i][3].ToString()),
-                                            ds.Tables[0].Rows[i][4].ToString(),
-                                            ds.Tables[0].Rows[i][5].ToString(),
-                                            ds.Tables[0].Rows[i][6].ToString(),
-                                            ds.Tables[0].Rows[i][7].ToString(),
-                                            ds.Tables[0].Rows[i][9].ToString(),
-                                            ds.Tables[0].Rows[i][8].ToString()== string.Empty?DateTime.MinValue:DateTime.Parse(ds.Tables[0].Rows[i][8].ToString()),
-                                            ds.Tables[0].Rows[i][10].ToString(),
-                                            ds.Tables[0].Rows[i][12].ToString(),
-                                            DateTime.Parse(ds.Tables[0].Rows[i][11].ToString()),
-                                            ds.Tables[0].Rows[i][13].ToString(),
-                                            ds.Tables[0].Rows[i][15].ToString(),
-                                            ds.Tables[0].Rows[i][14].ToString() == string.Empty?DateTime.MinValue:DateTime.Parse(ds.Tables[0].Rows[i][14].ToString())
-                                            );
-                }
-            }
-            lbError.ForeColor = System.Drawing.Color.Blue;
-            lbError.Text = "Import danh sách học sinh thành công !";
-            #endregion
+            RptHocSinh.DataSource = null;
+            RptHocSinh.DataBind();
+            RemoveSession(AppConstant.SESSION_IMPORTEDSTUDENTS);
+            LblImportSuccess.Visible = true;
+            BtnSave.Enabled = false;
+            BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;         
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
@@ -256,7 +133,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            FileUpload1.SaveAs(Server.MapPath("~/upload/template/") + filename);
+            try
+            {
+                FileUpload1.SaveAs(Server.MapPath("~/upload/template/") + filename);
+            }
+            catch (Exception ex)
+            {
+            }
+
             filename = Server.MapPath("~/upload/template/") + filename;
             String connString = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + filename + ";" + "Extended Properties='Excel 8.0;HDR=No'";
             OleDbConnection oledbConn = new OleDbConnection(connString);
@@ -280,6 +164,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<TabularImportedStudent> tabularImportedStudents = new List<TabularImportedStudent>();
             TabularImportedStudent tabularImportedStudent = null;
 
+            // Loop in imported student informations
             for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
             {
                 tabularImportedStudent = new TabularImportedStudent();
@@ -288,6 +173,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][0].ToString()))
                 {
                     strBuilder.Append("Mã học sinh không được để trống <br/>");
+                    tabularImportedStudent.StudentCode = "(trống)";
                 }
                 else if (studentBL.StudentCodeExists(ds.Tables[0].Rows[i][0].ToString()))
                 {
@@ -296,6 +182,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
+                    // valid studentCode
                     tabularImportedStudent.StudentCode = ds.Tables[0].Rows[i][0].ToString();
                 }
 
@@ -303,6 +190,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][1].ToString()))
                 {
                     strBuilder.Append("Họ tên học sinh không được để trống <br/>");
+                    tabularImportedStudent.FullName = "(trống)";
                 }
                 else
                 {
@@ -313,25 +201,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][2].ToString()))
                 {
                     strBuilder.Append("Giới tính của học sinh không được để trống <br/>");
+                    tabularImportedStudent.StringGender = "(trống)";
                 }
                 else if (ds.Tables[0].Rows[i][2].ToString() != "Nam" && ds.Tables[0].Rows[i][2].ToString() != "Nữ")
                 {
                     strBuilder.Append("Giới tính của học sinh không hợp lệ <br/>");
+                    tabularImportedStudent.StringGender = "(không hợp lệ)";
                 }
                 else
                 {
                     tabularImportedStudent.StringGender = ds.Tables[0].Rows[i][2].ToString();
-                    tabularImportedStudent.Gender = tabularImportedStudent.StringGender == "Nam" ? true : false;
+                    tabularImportedStudent.Gender = tabularImportedStudent.StringGender == AppConstant.STRING_MALE ? true : false;
                 }
 
                 // Ngày sinh của học sinh (column 3)
                 if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][3].ToString()))
                 {
                     strBuilder.Append("Ngày sinh của học sinh không được để trống <br/>");
+                    tabularImportedStudent.StringDateOfBirth = "(trống)";
                 }
                 else if (!DateTime.TryParse(ds.Tables[0].Rows[i][3].ToString(), out dtStudentDateOfBirth))
                 {
                     strBuilder.Append("Ngày sinh của học sinh không hợp lệ <br/>");
+                    tabularImportedStudent.StringDateOfBirth = "(không hợp lệ)";
                 }
                 else
                 {
@@ -368,6 +260,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     if (!DateTime.TryParse(ds.Tables[0].Rows[i][8].ToString(), out dtFatherDateOfBirth))
                     {
                         strBuilder.Append("Ngày sinh của bố không hợp lệ <br/>");
+                        tabularImportedStudent.FatherDateOfBirth = null;
                     }
                     else
                     {
@@ -387,6 +280,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     if (!DateTime.TryParse(ds.Tables[0].Rows[i][11].ToString(), out dtMotherDateOfBirth))
                     {
                         strBuilder.Append("Ngày sinh của mẹ không hợp lệ <br/>");
+                        tabularImportedStudent.MotherDateOfBirth = null;
                     }
                     else
                     {
@@ -406,10 +300,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     if (!DateTime.TryParse(ds.Tables[0].Rows[i][13].ToString(), out dtPatronDateOfBirth))
                     {
                         strBuilder.Append("Ngày sinh của người đỡ đầu không hợp lệ <br/>");
+                        tabularImportedStudent.PatronDateOfBirth = null;
                     }
                     else
                     {
-                        tabularImportedStudent.PatroDateOfBirth = dtPatronDateOfBirth;
+                        tabularImportedStudent.PatronDateOfBirth = dtPatronDateOfBirth;
                         tabularImportedStudent.StringPatronDateOfBirth = dtPatronDateOfBirth.ToShortDateString();
                     }
                 }
@@ -450,11 +345,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BtnSave.Enabled = false;
                 BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+                LblImportError.Visible = true;
             }
             else
             {
                 BtnSave.Enabled = true;
                 BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
+                LblImportError.Visible = false;
+                AddSession(AppConstant.SESSION_IMPORTEDSTUDENTS, tabularImportedStudents);
             }
         }
         #endregion

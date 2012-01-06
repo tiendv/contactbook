@@ -43,13 +43,16 @@
     <br />
     <div class="table_data ui-corner-all">
         <div>
-            <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
+            <asp:Label ID="LblImportError" runat="server" Text="Có lỗi xảy ra! Vui lòng tải lại file"
+                Style="font-size: 14px; font-weight: bold; color: Red" Visible="false"></asp:Label>
+            <asp:Label ID="LblImportSuccess" runat="server" Text="Thêm danh sách học sinh thành công!"
+                Style="font-size: 14px; font-weight: bold;" Visible="false"></asp:Label>
         </div>
         <table class="repeater">
             <asp:Repeater ID="RptHocSinh" runat="server" OnItemDataBound="RptHocSinh_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
-                        <td style="width: 90px;" class="ui-corner-tl">
+                        <td style="width: 150px;" class="ui-corner-tl">
                             Mã học sinh
                         </td>
                         <td>
@@ -58,9 +61,6 @@
                         <td style="width: 40%">
                             Tình trạng
                         </td>
-                        <%--<td id="thDelete" runat="server" class="icon">
-                            <asp:CheckBox ID="CkBxAll" runat="server" />
-                        </td>--%>
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
@@ -79,9 +79,6 @@
                                 <%#DataBinder.Eval(Container.DataItem, "ImportStatus")%></span> <span style="color: Red">
                                     <%#DataBinder.Eval(Container.DataItem, "Error")%></span>
                         </td>
-                        <%--<td style="height: 40px; text-align: center;">
-                            <asp:CheckBox ID="CkBxSelect" runat="server" />
-                        </td>--%>
                     </tr>
                 </ItemTemplate>
             </asp:Repeater>
