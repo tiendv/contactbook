@@ -18,6 +18,7 @@ using CrystalDecisions.ReportSource;
 using CrystalDecisions.Shared;
 using Microsoft.Office.Interop.Excel;
 using System.Web.Security;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -119,57 +120,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptHocSinh_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    Control control = e.Item.FindControl("LbtnMaHocSinhHienThi");
-                    if (control != null)
-                    {
-                        string maHocSinhHienThi = ((LinkButton)control).Text;
-                        if (!studentBL.IsDeletable(maHocSinhHienThi))
-                        {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
+            
         }
 
         protected void RptHocSinh_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -205,7 +156,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
                         Class_Class studentClass = new Class_Class();
-                        studentClass.ClassId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfClassId")).Value);
+                        // studentClass.ClassId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfClassId")).Value);
                         AddSession(AppConstant.SESSION_STUDENTCLASS, Class);
 
                         Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
@@ -344,8 +295,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                         // Get seleteced class and set to session
                         Class_Class studentClass = new Class_Class();
-                        studentClass.ClassId = Int32.Parse(((HiddenField)item.FindControl("HdfClassId")).Value);
-                        AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
+                        // studentClass.ClassId = Int32.Parse(((HiddenField)item.FindControl("HdfClassId")).Value);
+                        AddSession(AppConstant.SESSION_STUDENTCLASS, Class);
 
                         AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
 
@@ -355,15 +306,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
         }
+
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
+            HiddenField hdfRptMaHocSinh = null;
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+            Student_Student student = null;
+            StringBuilder stringBuilder = new StringBuilder();
+            foreach (RepeaterItem item in RptHocSinh.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    hdfRptMaHocSinh = (HiddenField)item.FindControl("HdfRptMaHocSinh");
+                    stringBuilder.Clear();
+                    stringBuilder.Append(AppConstant.USERPARENT_PREFIX);
+                    stringBuilder.Append(AppConstant.UNDERSCORE);
+                    stringBuilder.Append(((LinkButton)item.FindControl("LbtnStudentCode")).Text);
 
-            Student_Student student = studentBL.GetStudent(Int32.Parse(this.HdfMaHocSinh.Value));
-            authorizationBL.DeleteAuthorization(student.StudentCode);
-            Membership.DeleteUser(student.StudentCode, true);
+                    int iStudentId = Int32.Parse(hdfRptMaHocSinh.Value);
+                    if (studentBL.IsDeletable(iStudentId))
+                    {   
+                        authorizationBL.DeleteAuthorization(stringBuilder.ToString());
+                        Membership.DeleteUser(stringBuilder.ToString(), true);
 
-            studentBL.DeleteStudent(student);
+                        student = new Student_Student();
+                        student.StudentId = Int32.Parse(hdfRptMaHocSinh.Value);
+                        studentBL.DeleteStudent(student);
+                    }
+                }
+            }
 
             isSearch = false;
             BindDDLClasses();
@@ -450,14 +421,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnImport.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         private void BindRptStudents()
@@ -524,7 +492,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcessDislayInfo(bool bDisplayData)
         {
-            PnlPopupConfirmDelete.Visible = bDisplayData;
             RptHocSinh.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 

@@ -257,12 +257,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             // declare variables
             Class_Class Class = null;
-            Category_Subject subject = null;
-            Configuration_Term term = null;
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
             List<Category_MarkType> markTypes = new List<Category_MarkType>();            
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
-            double dTotalRecords = 0;
+            StudentBL studentBL = new StudentBL(UserSchool);
 
             // case: there is no Class or schedule subject or marktype
             if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0 || DdlLoaiDiem.Items.Count == 0)
@@ -274,32 +272,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             // init object against user selections
             Class = new Class_Class();
-            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            subject = new Category_Subject();
-            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
-            term = new Configuration_Term();
-            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            if (DdlLoaiDiem.SelectedIndex == 0)
-            {
-                markTypes = markTypeBL.GetListMarkTypes();
-            }
-            else
-            {
-                string markTypeName = DdlLoaiDiem.SelectedValue;
-                markTypes.Add(markTypeBL.GetMarkType(markTypeName));
-            }
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);            
 
-            // get student mark information
-            tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<Student_Student> students = studentBL.GetStudents(Class);
 
             // bind to repeater and datapager
-            this.RptDiemMonHoc.DataSource = tabularStudentMarks;
+            this.RptDiemMonHoc.DataSource = students;
             this.RptDiemMonHoc.DataBind();
-            MainDataPager.ItemCount = dTotalRecords;
+            MainDataPager.ItemCount = students.Count;
 
             // display information
-            bool bDisplayData = (tabularStudentMarks.Count != 0) ? true : false;
+            bool bDisplayData = (students.Count != 0) ? true : false;
             ProcDisplayGUI(bDisplayData);
         }
 
@@ -313,10 +296,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdSTT.Visible = bDisplayData;
             tdMaHocSinh.Visible = bDisplayData;
             tdHoTenHocSinh.Visible = bDisplayData;
-            tdDTB.Visible = bDisplayData;
 
             BtnSave.Visible = bDisplayData;
             BtnCancel.Visible = bDisplayData;
+        }
+
+        private void RedirectToPrevPage()
+        {
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_MARK);
         }
         #endregion
 
@@ -342,6 +329,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
             subject = new Category_Subject();
             subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+
             foreach (RepeaterItem rptItemStudentMark in RptDiemMonHoc.Items)
             {
                 if (rptItemStudentMark.ItemType == ListItemType.Item || rptItemStudentMark.ItemType == ListItemType.AlternatingItem)
@@ -352,16 +340,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         if (rptItemDiem.ItemType == ListItemType.Item || rptItemDiem.ItemType == ListItemType.AlternatingItem)
                         {
+                            // get markType object
                             HiddenField hdfMarkTypeId = (HiddenField)rptItemDiem.FindControl("HdfMarkTypeId");
                             markType = new Category_MarkType();
                             markType.MarkTypeId = Int32.Parse(hdfMarkTypeId.Value);
 
+                            // get mark input
                             TextBox txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
                             string marks = txtDiems.Text.Trim();
 
-                            if (studyingResultBL.ValidateMark(marks, markType))
+                            if (studyingResultBL.ValidateMark(marks, markType)) // in case mark is valid
                             {
-                                if (txtDiems.Text != "")
+                                // get mark values
+                                if (!CheckUntils.IsNullOrBlank(txtDiems.Text))
                                 {
                                     string[] strMarks = txtDiems.Text.Trim().Split(new char[] { ',' });
                                     foreach (string strMark in strMarks)
@@ -383,7 +374,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                     });
                                 }
                             }
-                            else
+                            else // in case mark is not valid
                             {
                                 CustomValidator diemsValidator = (CustomValidator)rptItemDiem.FindControl("DiemsValidator");
                                 diemsValidator.IsValid = false;
@@ -392,6 +383,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         }
                     }
 
+                    // get student object
                     student = new Student_Student();
                     HiddenField hdfStudentId = (HiddenField)rptItemStudentMark.FindControl("HdfMaHocSinh");
                     student.StudentId = Int32.Parse(hdfStudentId.Value);
@@ -402,26 +394,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             foreach (KeyValuePair<Student_Student, List<DetailMark>> pair in dicEnteredStudentMarks)
             {
-                studyingResultBL.UpdateDetailedMark(pair.Key, Class, term, subject, pair.Value);
+                studyingResultBL.AddDetailedMark(pair.Key, Class, term, subject, pair.Value);
             }
 
-            BindRptStudentMarks();
+            RedirectToPrevPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
+            RedirectToPrevPage();
         }
         #endregion
 
         #region Repeater event handlers
         protected void RptDiemMonHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item
-                || e.Item.ItemType == ListItemType.AlternatingItem)
+            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                TabularStudentMark tabularStudentMark = (TabularStudentMark)e.Item.DataItem;
+                if (DdlLoaiDiem.SelectedIndex == 0)
+                {
+                    markTypes = markTypeBL.GetListMarkTypes();
+                }
+                else
+                {
+                    string markTypeName = DdlLoaiDiem.SelectedValue;
+                    markTypes.Add(markTypeBL.GetMarkType(markTypeName));
+                }
+
                 Repeater rptMarkTypeBasedMarks = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
-                rptMarkTypeBasedMarks.DataSource = tabularStudentMark.DiemTheoLoaiDiems;
+                rptMarkTypeBasedMarks.DataSource = markTypes;
                 rptMarkTypeBasedMarks.DataBind();
             }
         }

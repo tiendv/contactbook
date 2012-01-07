@@ -48,6 +48,19 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public void DecreaseStudentAmount(Class_Class Class)
+        {
+            IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
+                                              where cls.ClassId == Class.ClassId
+                                              select cls;
+            if (iqClass.Count() != 0)
+            {
+                Class = iqClass.First();
+                Class.StudentQuantity--;
+                db.SubmitChanges();
+            }
+        }
+
         public void DeleteClass(Class_Class deletedClass)
         {
             Class_Class Class = null;

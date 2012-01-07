@@ -20,6 +20,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_STUDENTINFOR = "/modules/hoc_sinh/thongtincanhan.aspx";
         public const string PAGEPATH_STUDENTEDIT = "/modules/hoc_sinh/suahocsinh.aspx";
         public const string PAGEPATH_PRINTSTUDENTS = "/modules/hoc_sinh/indanhsachhocsinh.aspx";
+        public const string PAGEPATH_CHANGEGRADE_SELECT = "/modules/hoc_sinh/lenlophocsinh.aspx";
+        public const string PAGEPATH_CHANGEGRADE_SAVE = "/modules/hoc_sinh/lenlophocsinh_2.aspx";
+
+        public const string PAGEPATH_STUDENT_ADDMARK = "/modules/hoc_sinh/themdiemhocsinh.aspx";
+        public const string PAGEPATH_STUDENT_MARK = "/modules/hoc_sinh/diemhocsinh.aspx";
 
         public const string PAGEPATH_MESSAGES = "/modules/loi_nhan/thongbao.aspx";
         public const string PAGEPATH_ADDMESSAGES = "/modules/loi_nhan/themthongbao.aspx";
@@ -100,7 +105,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_CONFIRMSTATUS = "ConfirmStatus";
         public const string SESSION_SELECTED_USER = "User";
         public const string SESSION_DAILYSCHEDULES = "DailySchedules";
-        public const string SESSION_IMPORTEDSTUDENTS = "ImportedStudents";    
+        public const string SESSION_IMPORTEDSTUDENTS = "ImportedStudents";
+        public const string SESSION_CHANGEGRADE_STUDENTS = "ChangeGradeStudents";    
 
         #region Session Teacher
         public const string SESSION_TEACHERID = "TeacherID";

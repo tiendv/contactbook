@@ -8,6 +8,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using EContactBook.BusinessEntity;
 using AjaxControlToolkit;
+using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -25,6 +26,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessDenied)
             {
                 return;
+            }
+
+            if (sessionExpired)
+            {
+                FormsAuthentication.SignOut();
+                Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
             classBL = new ClassBL(UserSchool);
@@ -75,8 +82,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptMonHocTKB_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item 
-                || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            {
+                // Do something
+            }
+            else
+            {
+                if (e.Item.ItemType == ListItemType.Header)
+                {
+                    e.Item.FindControl("thEdit").Visible = false;
+                }
+
+                if (e.Item.ItemType == ListItemType.Item ||
+                    e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+                    e.Item.FindControl("tdEdit").Visible = false;
+                }
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 if (e.Item.DataItem != null)
                 {
@@ -317,12 +341,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Session.Remove("ThoiKhoaBieu_ClassId");
             }
         }
-        #endregion   
-    
+
         public void RaisePostBackEvent(string eventArgument)
         {
             PrePrint();
         }
+
         protected void PrePrint()
         {
             #region Add Info 2 Session
@@ -377,5 +401,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
+        #endregion   
     }
 }

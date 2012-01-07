@@ -180,6 +180,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return roleDA.GetRoleSupplier();
         }
+
+        public aspnet_Role GetRoleSubjectTeacher()
+        {
+            return roleDA.GetRoleSubjectTeacher();
+        }
+
+        public aspnet_Role GetRoleFormerTeacher()
+        {
+            return roleDA.GetRoleFormerTeacher();
+        }
+
+        public void AddUserToSubjectTeacherRole(aspnet_User user)
+        {
+            aspnet_Role subjectTeacherRole = roleDA.GetRoleSubjectTeacher();
+            roleDA.AddUserToRole(user, subjectTeacherRole);
+        }
     }
 }
 

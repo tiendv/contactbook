@@ -49,6 +49,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 studyingResultBL.InsertTermSubjectMark(Class, subject, term);
             }
+
+            // insert teacher to SubjectTeacherRole
+            RoleBL roleBL = new RoleBL(school);
+            roleBL.AddUserToSubjectTeacherRole(teacher);
         }
 
         public void UpdateSchedule(Class_Schedule editedSchedule, Category_Subject newSubject, aspnet_User newTeacher)

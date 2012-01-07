@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="lenlophocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ChangeStudentGradeSeletePage" %>
+    CodeBehind="lenlophocsinh_2.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ChangeStudentGradeSavePage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -24,15 +24,6 @@
                                     OnSelectedIndexChanged="DdlKhoiLop_SelectedIndexChanged">
                                 </asp:DropDownList>
                             </td>
-                            <td style="width: 80px;">
-                                Mã học sinh:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:TextBox ID="TxtMaHocSinh" runat="server" Style="width: 150px;"></asp:TextBox>
-                                <ajaxToolkit:TextBoxWatermarkExtender ID="MaHocSinhWatermark" runat="server" TargetControlID="TxtMaHocSinh"
-                                    WatermarkText="Tất cả">
-                                </ajaxToolkit:TextBoxWatermarkExtender>
-                            </td>
                         </tr>
                         <tr>
                             <td>
@@ -50,23 +41,10 @@
                                 <asp:DropDownList ID="DdlLopHoc" runat="server" Width="150px">
                                 </asp:DropDownList>
                             </td>
-                            <td style="width: 70px;">
-                                Tên học sinh:
-                            </td>
-                            <td style="width: 200px;">
-                                <asp:TextBox ID="TxtTenHocSinh" runat="server" Style="width: 150px;"></asp:TextBox>
-                                <ajaxToolkit:TextBoxWatermarkExtender ID="TenHocSinhWatermark" runat="server" TargetControlID="TxtTenHocSinh"
-                                    WatermarkText="Tất cả">
-                                </ajaxToolkit:TextBoxWatermarkExtender>
-                            </td>
                         </tr>
                     </table>
                 </ContentTemplate>
             </asp:UpdatePanel>
-        </div>
-        <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
-                ToolTip="Tìm kiếm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
     <div class="table_data ui-corner-all">
@@ -92,8 +70,8 @@
                         <td class="middle">
                             Hạnh kiểm
                         </td>
-                        <td class="icon">
-                            <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
+                        <td class="middle">
+                            Lớp
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -101,24 +79,24 @@
                     <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1 %>
-                            <asp:HiddenField ID="HdfRptStudentId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>' />
-                            <asp:HiddenField ID="HdfRptClassName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ClassName")%>' />
+                            <asp:HiddenField ID="HdfRptMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>' />
                         </td>
                         <td style="height: 40px;">
                             <asp:LinkButton ID="LbtnStudentCode" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "StudentCode")%>'
                                 Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
-                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>'>                            
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>'>
+                            '<%#DataBinder.Eval(Container.DataItem, "FullName")%>'
                             </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
-                            <asp:Label ID="LblFullName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FullName")%>'></asp:Label>
+                            <%#DataBinder.Eval(Container.DataItem, "FullName")%>
                         </td>
                         <td style="height: 40px;">
                         </td>
                         <td style="height: 40px;">
                         </td>
-                        <td class="icon">
-                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "ClassName")%>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -134,8 +112,10 @@
             <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="pager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
-    <div style="width: 85px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-        <asp:ImageButton ID="BtnNext" runat="server" OnClick="BtnNext_Click" ValidationGroup="SaveChange"
-            ImageUrl="~/Styles/Images/button_next_step.png" CssClass="StepNextButton" />&nbsp;
+    <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
+        <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ValidationGroup="SaveChange"
+            ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />&nbsp;
+        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click"
+            ImageUrl="~/Styles/Images/button_cancel.png" CssClass="CancelButton" />
     </div>
 </asp:Content>

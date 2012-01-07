@@ -352,6 +352,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRptMarkTypes();
             BindRptStudentMarks();
         }
+
+        protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_ADDMARK);
+        }
         #endregion
 
         #region Repeater event handlers

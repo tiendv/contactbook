@@ -95,10 +95,14 @@
                 ToolTip="Tìm kiếm điểm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
-    <div class="table_data ui-corner-all">
+    <div class="table_data ui-corner-all">        
+        <div class="add">
+            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/buttons/button_add.png"
+                ToolTip="Thêm điểm mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />            
+        </div>
         <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
             Text="Không có thông tin điểm học sinh">
-        </asp:Label>
+        </asp:Label>        
         <table class="repeater">
             <tr class="header">
                 <td id="tdSTT" runat="server" class="ui-corner-tl" style="width: 40px">

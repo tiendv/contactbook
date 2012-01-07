@@ -37,7 +37,7 @@
                     Style="float: left; height: 62px; width: 50px" />
                 <div style="width: 85%; float: left; padding-left: 10px;">
                     <asp:HyperLink ID="HyperLink1" runat="server" Style="font-size: 15px; font-weight: bold; text-decoration: none"
-                        NavigateUrl="~/modules/nguoi_dung/nhomnguoidung.aspx">Phân quyền</asp:HyperLink>
+                        NavigateUrl="~/modules/nguoi_dung/phanquyen.aspx">Phân quyền</asp:HyperLink>
                     <br />
                     Quản lí phân quyền truy cập vào hệ thống cho nhóm người dùng
                 </div>

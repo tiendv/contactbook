@@ -150,44 +150,34 @@
                         </td>
                     </ItemTemplate>
                 </asp:Repeater>
-                <td id="tdDTB" runat="server" style="width: 50px">
-                    ĐTB
-                </td>
             </tr>
             <asp:Repeater ID="RptDiemMonHoc" runat="server" OnItemDataBound="RptDiemMonHoc_ItemDataBound">
                 <ItemTemplate>
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>' />
-                            <asp:HiddenField ID="HdfMaDiemHK" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaDiemHK")%>' />
+                            <asp:HiddenField ID="HdfMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>' />
                         </td>
                         <td>
-                            <asp:HyperLink ID="HlkMaHocSinhHienThi" runat="server"><%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkMaHocSinhHienThi" runat="server"><%#DataBinder.Eval(Container.DataItem, "StudentCode")%></asp:HyperLink>
                         </td>
                         <td>
-                            <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "FullName")%></asp:HyperLink>
                         </td>
                         <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
                             <ItemTemplate>
                                 <td style="height: 40px">
                                     <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>' />
-                                    <asp:HiddenField ID="HdfMarkTypeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>' />
-                                    <asp:HiddenField ID="HdfDiem" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>' />
                                     <asp:TextBox ID="TxtDiems" runat="server" CssClass="MarkTextBox" Style="width: 98%;
-                                        height: 25px" Text='<%#DataBinder.Eval(Container.DataItem, "StringDiems")%>'></asp:TextBox>
-                                    <asp:HiddenField ID="HdfIsChange" runat="server" Value="false" />
+                                        height: 25px"></asp:TextBox>
                                     <asp:CustomValidator ID="DiemsValidator" runat="server" ControlToValidate="TxtDiems"
-                                        ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ"
-                                        Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
+                                        ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ" Display="Dynamic"
+                                        ForeColor="Red"></asp:CustomValidator>
                                     <span class="SpanMarkTypeId" style="display: none">
                                         <%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%></span>
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>
-                        <td style="text-align: right">
-                            <%#((double)DataBinder.Eval(Container.DataItem, "DiemTrungBinh") != -1) ? DataBinder.Eval(Container.DataItem, "DiemTrungBinh") : "Chưa xác định"%>
-                        </td>
                     </tr>
                 </ItemTemplate>
                 <FooterTemplate>
@@ -200,7 +190,7 @@
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
             <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
-                ViewStateMode="Enabled" />
+                ViewStateMode="Enabled" PageSize="100" Visible="false" />
         </div>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">

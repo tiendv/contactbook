@@ -11,38 +11,40 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using EContactBook.BusinessEntity;
 using AjaxControlToolkit;
+using CrystalDecisions;
+using CrystalDecisions.CrystalReports;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.ReportSource;
+using CrystalDecisions.Shared;
+using Microsoft.Office.Interop.Excel;
 using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ChangeStudentGradeSeletePage : BaseContentPage
+    public partial class ChangeStudentGradeSavePage : BaseContentPage
     {
         #region Fields
         private StudentBL studentBL;
         private bool isSearch;
-        #endregion        
+        #endregion
 
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if (accessDenied)
-            {
-                return;
-            }            
 
             if (sessionExpired)
             {
                 FormsAuthentication.SignOut();
                 Response.Redirect(FormsAuthentication.LoginUrl);
-            }            
+            }
 
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
-            {                
-                BindDropDownLists();                
-                this.isSearch = false;                
+            {
+                BindDropDownLists();
+                this.isSearch = false;
 
                 if (DdlLopHoc.Items.Count != 0)
                 {
@@ -66,48 +68,37 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLClasses();
         }
-        #endregion        
+        #endregion
 
         #region Button event handlers
-        protected void BtnNext_Click(object sender, ImageClickEventArgs e)
+        protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            List<TabularStudent> tabularStudents = new List<TabularStudent>();
-            TabularStudent tabularStudent = null;
-            HiddenField hdfRptStudentId = null;
-            HiddenField hdfRptClassName = null;
-            LinkButton lbtnStudentCode = null;
-            CheckBox ckbxSelect = null;
-            Label lblFullName = null;
-            foreach(RepeaterItem item in RptHocSinh.Items)
+            if (CheckSessionKey(AppConstant.SESSION_CHANGEGRADE_STUDENTS))
             {
-                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
-                {
-                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
-                    if (ckbxSelect.Checked)
-                    {
-                        hdfRptStudentId = (HiddenField)item.FindControl("HdfRptStudentId");
-                        lbtnStudentCode = (LinkButton)item.FindControl("LbtnStudentCode");
-                        lblFullName = (Label)item.FindControl("LblFullName");
-                        hdfRptClassName = (HiddenField)item.FindControl("hdfRptClassName");
-                        tabularStudent = new TabularStudent();
-                        tabularStudent.StudentId = Int32.Parse(hdfRptStudentId.Value);
-                        tabularStudent.StudentCode = lbtnStudentCode.Text;
-                        tabularStudent.FullName = lblFullName.Text;
-                        tabularStudent.ClassName = DdlLopHoc.SelectedItem.Text;
-                        tabularStudents.Add(tabularStudent);
-                    }
-                }
-            }
+                List<TabularStudent> tabularStudents = (List<TabularStudent>)GetSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
+                List<Student_Student> students = new List<Student_Student>();
+                Student_Student student = null;
 
-            AddSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS, tabularStudents);
-            Response.Redirect(AppConstant.PAGEPATH_CHANGEGRADE_SAVE);
+                foreach (TabularStudent tabularStudent in tabularStudents)
+                {
+                    student = new Student_Student();
+                    student.StudentId = tabularStudent.StudentId;
+                    students.Add(student);
+                }
+                Class_Class Class = new Class_Class();
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+
+                studentBL.UpdateStudentGrade(students, Class);
+
+                RemoveSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
+                Response.Redirect(AppConstant.PAGEPATH_CHANGEGRADE_SELECT);
+            }
         }
 
-        protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
+        protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            MainDataPager.CurrentIndex = 1;
-            isSearch = true;
-            BindRptStudents();
+            RemoveSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_CHANGEGRADE_SELECT);
         }
         #endregion
 
@@ -123,64 +114,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptStudents()
         {
-            List<TabularStudent> tabularStudents = new List<TabularStudent>();
-            double dTotalRecords;
-            Configuration_Year year = null;
-            Category_Faculty faculty = null;
-            Category_Grade grade = null;
-            Class_Class Class = null;
-            string studentName = this.TxtTenHocSinh.Text;
-            string studentCode = this.TxtMaHocSinh.Text;
-
-            year = new Configuration_Year();
-            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
-
-            try
+            if (CheckSessionKey(AppConstant.SESSION_CHANGEGRADE_STUDENTS))
             {
-                if (DdlNganh.SelectedIndex > 0)
-                {
-                    faculty = new Category_Faculty();
-                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-                }
+                List<TabularStudent> tabularStudents = (List<TabularStudent>)GetSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
+                tabularStudents.OrderBy(student => student.StudentCode).ThenBy(student => student.FullName)
+                    .Skip((MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize)
+                    .Take(MainDataPager.PageSize).ToList();
+
+                RptHocSinh.DataSource = tabularStudents;
+                RptHocSinh.DataBind();
+                MainDataPager.ItemCount = tabularStudents.Count;
             }
-            catch (Exception) { }
-
-            try
-            {
-                if (DdlKhoiLop.SelectedIndex > 0)
-                {
-                    grade = new Category_Grade();
-                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                }
-            }
-            catch (Exception) { }
-
-            try
-            {
-                if (DdlLopHoc.SelectedIndex > 0)
-                {
-                    Class = new Class_Class();
-                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                }
-            }
-            catch (Exception) { }
-
-            tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, Class, studentCode, studentName,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
-
-            // Decrease page current index when delete
-            if (tabularStudents.Count == 0 && dTotalRecords != 0)
-            {
-                MainDataPager.CurrentIndex--;
-                BindRptStudents();
-                return;
-            }
-
-            bool bDisplayData = (tabularStudents.Count != 0) ? true : false;
-            ProcessDislayInfo(bDisplayData);
-            RptHocSinh.DataSource = tabularStudents;
-            RptHocSinh.DataBind();
-            MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -192,11 +136,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (!isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin học sinh";
+                    LblSearchResult.Text = "Chưa có thông tin lớp học";
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy học sinh";
+                    LblSearchResult.Text = "Không tìm thấy lớp học";
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
@@ -246,7 +190,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void FillYear()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            Configuration_Year year = systemConfigBL.GetPreviousYear();
+            Configuration_Year year = systemConfigBL.GetLastedYear();
             LblYear.Text = year.YearName;
             ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
         }
@@ -261,14 +205,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] == null || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
-                BtnSearch.Enabled = false;
-                //BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
-                //BtnAdd.Enabled = false;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+                BtnSave.Enabled = false;
 
                 RptHocSinh.Visible = false;
                 LblSearchResult.Visible = true;
-                LblSearchResult.Text = "Chưa có thông tin học sinh";
+                LblSearchResult.Text = "Chưa có thông tin lớp học";
 
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
@@ -295,7 +237,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
-        }       
+        }
         #endregion
     }
 }

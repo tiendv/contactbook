@@ -55,6 +55,37 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             studyingResultDA.CalAvgMark(termSubjectedMark);
         }
 
+        public void AddDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks)
+        {
+            List<int> markTypeIds = new List<int>();         
+
+            int i = 0;
+            // remove empty value
+            while (i < marks.Count)
+            {
+                if (marks[i].GiaTri == -1)
+                {
+                    marks.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            studyingResultDA.InsertDetailedMark(student, Class, term, subject, marks, DateTime.Now);
+            if (NeedResetAvgMark(student, Class, term, subject))
+            {
+                studyingResultDA.ResetAvgMark(student, Class, term, subject);
+            }
+            else
+            {
+                studyingResultDA.CalAvgMark(student, Class, term, subject);
+            }
+
+            studyingResultDA.CalculateStudentTermAvgMark(student, Class, term);
+        }
+
         /// <summary>
         /// Update student's marks
         /// </summary>
@@ -372,6 +403,62 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return tabularTermStudentResults;
+        }
+
+        public List<TabularStudentMark> InitTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, 
+            int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            Student_Student student = new Student_Student();
+            // student
+
+            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
+            TabularStudentMark tabularStudentMark = null;
+            List<Student_TermSubjectMark> termSubjectMarks = null;
+            List<MarkTypedMark> markMypedMarks = null;
+            List<Student_DetailedTermSubjectMark> detailedMarks = null;
+            StringBuilder strB = new StringBuilder();
+            string strMarks = "";
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
+
+            termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
+            foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
+            {
+                tabularStudentMark = new TabularStudentMark();
+                tabularStudentMark.MaDiemHK = termSubjectMark.TermSubjectMarkId;
+                tabularStudentMark.MaHocSinh = termSubjectMark.Student_StudentInClass.StudentId;
+                tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
+                tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
+                tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
+
+                markMypedMarks = new List<MarkTypedMark>();
+                foreach (Category_MarkType markType in markTypes)
+                {
+                    List<double> dMarks = new List<double>();
+                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType);
+                    strMarks = "";
+
+                    foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
+                    {
+                        strB.Append(detailedMark.MarkValue.ToString());
+                        strB.Append(", ");
+                    }
+
+                    strMarks = strB.ToString().Trim().Trim(new char[] { ',' });
+                    strB.Clear();
+
+                    MarkTypedMark markTypedMark = new MarkTypedMark();
+                    markTypedMark.MarkTypeId = markType.MarkTypeId;
+                    markTypedMark.MarkTypeName = markType.MarkTypeName;
+                    markTypedMark.StringDiems = strMarks;
+
+                    markMypedMarks.Add(markTypedMark);
+                }
+
+                tabularStudentMark.DiemTheoLoaiDiems = markMypedMarks;
+                tabularStudentMarks.Add(tabularStudentMark);
+            }
+
+            return tabularStudentMarks;
         }
 
         public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
