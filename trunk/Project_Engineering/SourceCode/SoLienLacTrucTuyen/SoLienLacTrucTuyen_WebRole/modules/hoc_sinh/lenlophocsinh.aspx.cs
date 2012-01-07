@@ -125,14 +125,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
             double dTotalRecords;
-            Configuration_Year year = null;
+            Configuration_Year year = new Configuration_Year();
             Category_Faculty faculty = null;
             Category_Grade grade = null;
             Class_Class Class = null;
             string studentName = this.TxtTenHocSinh.Text;
             string studentCode = this.TxtMaHocSinh.Text;
 
-            year = new Configuration_Year();
             year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
 
             try
@@ -165,16 +164,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, Class, studentCode, studentName,
+            tabularStudents = studentBL.GetUnChangeGradeStudents(year, faculty, grade, Class, studentCode, studentName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
-
-            // Decrease page current index when delete
-            if (tabularStudents.Count == 0 && dTotalRecords != 0)
-            {
-                MainDataPager.CurrentIndex--;
-                BindRptStudents();
-                return;
-            }
 
             bool bDisplayData = (tabularStudents.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
@@ -200,11 +191,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
+
+                BtnNext.Enabled = false;
+                BtnNext.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_NEXT_DISABLED;
             }
             else
             {
+                BtnNext.Enabled = true;
+                BtnNext.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_NEXT;
+
                 MainDataPager.Visible = true;
             }
+
         }
 
         private void BindDropDownLists()
@@ -263,8 +261,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
-                //BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
-                //BtnAdd.Enabled = false;
+                BtnNext.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_NEXT_DISABLED;
+                BtnNext.Enabled = false;
 
                 RptHocSinh.Visible = false;
                 LblSearchResult.Visible = true;
@@ -295,6 +293,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
+
+            if (DdlLopHoc.Items.Count == 0)
+            {
+                BtnNext.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_NEXT_DISABLED;
+                BtnNext.Enabled = false;
+            }
+            else
+            {
+                BtnNext.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_NEXT;
+                BtnNext.Enabled = true;
+
+                if (DdlLopHoc.Items.Count > 1)
+                {
+                    DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
+                }
+            }
         }       
         #endregion
     }

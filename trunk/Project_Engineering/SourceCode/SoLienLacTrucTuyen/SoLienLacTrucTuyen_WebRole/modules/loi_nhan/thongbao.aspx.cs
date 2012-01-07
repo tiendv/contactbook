@@ -41,8 +41,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 isSearch = false;
                 BindDropDownLists();
                 InitDates();
-
-                BindRptMessages();
+                if (DdlNamHoc.Items.Count != 0)
+                {
+                    BindRptMessages();
+                }
             }
         }
         #endregion
@@ -122,7 +124,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
-            DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
+
+            if (DdlNamHoc.Items.Count != 0)
+            {
+                BtnSearch.Enabled = true;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
+
+                BtnAdd.Enabled = true;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD;
+
+                DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
+            }
+            else
+            {
+                BtnSearch.Enabled = false;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
+
+                BtnAdd.Enabled = false;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
+
+                ProcessDislayInfo(false);
+            }  
         }
 
         private void BindDDLMessageStatuses()

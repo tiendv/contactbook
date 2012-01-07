@@ -282,6 +282,117 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudents;
         }
 
+        public List<TabularStudent> GetUnChangeGradeStudents(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
+            Class_Class Class, string studentCode, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<TabularStudent> tabularStudents = new List<TabularStudent>();
+            List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
+            TabularStudent tabularStudent = null;
+            bool bStudentNameIsAll = (string.Compare(studentName, "tất cả", true) == 0) || (studentName == "");
+
+            if ((string.Compare(studentCode, "tất cả", true) != 0) && (studentCode != ""))
+            {
+                Student_Student student = studentDA.GetStudent(studentCode);
+                if (student != null)
+                {
+                    studentInClasses.Add(studentDA.GetStudentInClass(student, year));
+                }
+
+                totalRecords = studentInClasses.Count;
+            }
+            else
+            {
+                if (Class != null)
+                {
+                    if (bStudentNameIsAll)
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(Class, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                    else
+                    {
+                        studentInClasses = studentDA.GetStudentInClasses(Class, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                }
+                else
+                {
+                    if (faculty == null)
+                    {
+                        if (grade == null)
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                        }
+                        else
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, grade, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (grade == null)
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                        }
+                        else
+                        {
+                            if (bStudentNameIsAll)
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                            else
+                            {
+                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (Student_StudentInClass studentInClass in studentInClasses)
+            {
+                if (GetLastedClass(studentInClass.Student_Student).YearId == year.YearId)
+                {
+
+                    tabularStudent = new TabularStudent();
+                    tabularStudent.StudentId = studentInClass.StudentId;
+                    tabularStudent.StudentCode = studentInClass.Student_Student.StudentCode;
+                    tabularStudent.FullName = studentInClass.Student_Student.FullName;
+                    tabularStudent.FacultyName = studentInClass.Class_Class.Category_Faculty.FacultyName;
+                    tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
+                    tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
+                    tabularStudent.ClassId = studentInClass.ClassId;
+                    tabularStudent.DateOfBirth = studentInClass.Student_Student.StudentBirthday;
+                    tabularStudent.StringDateOfBirth = tabularStudent.DateOfBirth.ToString("dd/MM/yyyy");
+                    tabularStudent.Gender = studentInClass.Student_Student.Gender;
+                    tabularStudent.StringGender = tabularStudent.Gender == true ? "Nam" : "Nữ";
+                    tabularStudent.StudentInClassId = studentInClass.StudentInClassId;
+                    tabularStudents.Add(tabularStudent);
+                }
+            }
+
+            return tabularStudents;
+        }        
+
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
             Class_Class Class)
         {

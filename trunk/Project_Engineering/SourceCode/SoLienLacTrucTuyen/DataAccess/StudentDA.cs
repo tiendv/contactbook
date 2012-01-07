@@ -718,7 +718,7 @@ namespace EContactBook.DataAccess
                     db.Student_StudentInClasses.DeleteOnSubmit(studentInClass);
                 }
 
-                db.SubmitChanges();                
+                db.SubmitChanges();
             }
 
             return Class;

@@ -244,8 +244,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Grade grade = null;
             ClassBL lopHocBL = new ClassBL(UserSchool);
 
-            year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            if (DdlNamHoc.Items.Count != 0)
+            {
+                year = new Configuration_Year();
+                year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);                
+            }
+            else
+            {
+                BtnSave.Enabled = false;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+                return;
+            }
 
             try
             {
@@ -273,6 +282,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
 
+            if (DdlLopHoc.Items.Count == 0)
+            {
+                BtnSave.Enabled = false;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+            }
+            else
+            {
+                BtnSave.Enabled = true;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
+            }
         }
 
         private DateTime? ToDateTime(string str)

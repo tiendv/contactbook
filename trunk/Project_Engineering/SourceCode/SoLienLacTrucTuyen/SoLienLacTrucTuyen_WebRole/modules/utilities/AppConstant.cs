@@ -130,6 +130,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string IMAGESOURCE_BUTTON_DELETE_DISABLED = "~/Styles/buttons/button_delete_disable.png";
         public const string IMAGESOURCE_BUTTON_EXPORT = "~/Styles/buttons/button_export.png";
         public const string IMAGESOURCE_BUTTON_EXPORT_DISABLED = "~/Styles/buttons/button_export_disable.png";
+        public const string IMAGESOURCE_BUTTON_NEXT = "~/Styles/buttons/button_next_2.png";
+        public const string IMAGESOURCE_BUTTON_NEXT_DISABLED = "~/Styles/buttons/button_next_2_disable.png";
 
         public const string RESOURCE_SEARCH_NOINFO = "LblSearchResultText";
         public const string RESOURCE_SEARCH_NOMATCH = "LblSearchResultSearchText";
