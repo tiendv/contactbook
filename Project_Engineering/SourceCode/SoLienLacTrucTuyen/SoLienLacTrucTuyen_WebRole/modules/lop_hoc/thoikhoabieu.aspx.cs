@@ -43,14 +43,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 if (DdlLopHoc.Items.Count != 0)
                 {
-                    if (Request.QueryString["NamHoc"] != null && Request.QueryString["HocKy"] != null
-                            && Request.QueryString["LopHoc"] != null)
-                    {
-                        this.DdlNamHoc.SelectedValue = (Request.QueryString["NamHoc"].ToString());
-                        this.DdlHocKy.SelectedValue = (Request.QueryString["HocKy"].ToString());
-                        this.DdlLopHoc.SelectedValue = (Request.QueryString["LopHoc"].ToString());
-                    }
-
                     BindRptSchedule();
                 }
                 else
@@ -232,16 +224,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataSource = lstNamHoc;
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
-            DdlNamHoc.DataBind();            
-            
-            if (Session["ThoiKhoaBieu_YearId"] != null)
+            DdlNamHoc.DataBind();
+
+            if (DdlNamHoc.Items.Count != 0)
             {
-                DdlNamHoc.SelectedValue = Session["ThoiKhoaBieu_YearId"].ToString();
-                Session.Remove("ThoiKhoaBieu_YearId");
-            }
-            else
-            {
-                DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
+                if (Session["ThoiKhoaBieu_YearId"] != null)
+                {
+                    DdlNamHoc.SelectedValue = Session["ThoiKhoaBieu_YearId"].ToString();
+                    Session.Remove("ThoiKhoaBieu_YearId");
+                }
+                else
+                {
+                    DdlNamHoc.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
+                }
             }
         }
 
@@ -301,8 +296,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
+
+                BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
+                BtnPrint.Enabled = false;
                 return;
             }
 
@@ -335,10 +333,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
 
-            if (Session["ThoiKhoaBieu_ClassId"] != null)
+            if (DdlLopHoc.Items.Count > 0)
             {
-                DdlLopHoc.SelectedValue = Session["ThoiKhoaBieu_ClassId"].ToString();
-                Session.Remove("ThoiKhoaBieu_ClassId");
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
+                BtnSearch.Enabled = true;
+
+                BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
+                BtnPrint.Enabled = true;
+
+                if (Session["ThoiKhoaBieu_ClassId"] != null)
+                {
+                    DdlLopHoc.SelectedValue = Session["ThoiKhoaBieu_ClassId"].ToString();
+                    Session.Remove("ThoiKhoaBieu_ClassId");
+                }
+            }
+            else
+            {
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
+                BtnSearch.Enabled = false;
+
+                BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
+                BtnPrint.Enabled = false;
             }
         }
 

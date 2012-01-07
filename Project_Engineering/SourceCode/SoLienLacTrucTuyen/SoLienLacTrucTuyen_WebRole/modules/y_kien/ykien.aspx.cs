@@ -42,7 +42,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BindDropDownLists();
                 InitDates();
 
-                BindRptParentsComments();
+                if (DdlYears.Items.Count != 0)
+                {
+                    BindRptParentsComments();
+                }
             }
         }
         #endregion
@@ -120,7 +123,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlYears.DataValueField = "YearId";
             DdlYears.DataTextField = "YearName";
             DdlYears.DataBind();
-            DdlYears.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
+
+            if (DdlYears.Items.Count == 0)
+            {
+                BtnSearch.Enabled = false;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
+
+                ProcessDislayInfo(false);
+            }
+            else
+            {
+                BtnSearch.Enabled = true;
+                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
+
+                DdlYears.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
+            }
         }
 
         private void BindDDLCommentStatus()
