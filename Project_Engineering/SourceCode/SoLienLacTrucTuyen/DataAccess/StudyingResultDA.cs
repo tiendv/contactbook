@@ -84,6 +84,46 @@ namespace EContactBook.DataAccess
             }
         }
 
+        /// <summary>
+        /// Insert student's mark againts class, term, subject and marks (contains mark type and value)
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="Class"></param>
+        /// <param name="term"></param>
+        /// <param name="subject"></param>
+        /// <param name="marks"></param>
+        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks, DateTime date)
+        {
+            Student_TermSubjectMark termSubjectedMark = null;
+            Student_DetailedTermSubjectMark detailedMark = null;
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectedMark;
+            iqTermSubjectedMark = from termSubjMark in db.Student_TermSubjectMarks
+                                  where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
+                                    && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                    && termSubjMark.TermId == term.TermId && termSubjMark.SubjectId == subject.SubjectId
+                                  select termSubjMark;
+
+            if (iqTermSubjectedMark.Count() != 0)
+            {
+                termSubjectedMark = iqTermSubjectedMark.First();
+                if (marks.Count != 0)
+                {
+                    foreach (DetailMark mark in marks)
+                    {
+                        detailedMark = new Student_DetailedTermSubjectMark();
+                        detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
+                        detailedMark.MarkType = mark.MarkTypeId;
+                        detailedMark.MarkValue = mark.GiaTri;
+                        detailedMark.Date1 = date;
+                        db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);
+
+                    }
+                    db.SubmitChanges();
+                }
+            }
+        }
+
         public void InsertDetailMark(Student_DetailedTermSubjectMark detailedMark)
         {
             db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);

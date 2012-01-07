@@ -352,6 +352,23 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
+        public void AddUserToRole(aspnet_User user, aspnet_Role role)
+        {
+            IQueryable<aspnet_UsersInRole> iqUsersInRole = from userInRole in db.aspnet_UsersInRoles
+                                                           where userInRole.UserId == user.UserId && userInRole.RoleId == role.RoleId
+                                                           select userInRole;
+            if (iqUsersInRole.Count() == 0)
+            {
+                aspnet_UsersInRole usersInRole = new aspnet_UsersInRole
+                {
+                    RoleId = role.RoleId,
+                    UserId = user.UserId
+                };
+                db.aspnet_UsersInRoles.InsertOnSubmit(usersInRole);
+                db.SubmitChanges();
+            }
+        }
+
         public void AddUserToRoleTeacher(string teacherCode)
         {
             Guid userId = (from user in db.aspnet_Users
@@ -472,6 +489,38 @@ namespace EContactBook.DataAccess
             }
 
             return roleAdmin;
+        }
+
+        public aspnet_Role GetRoleSubjectTeacher()
+        {
+            aspnet_Role roleSubjectTeacher = null;
+
+            IQueryable<aspnet_Role> iqRoleSubjectTeacher = from role in db.aspnet_Roles
+                                                           where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                           && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == SUBJECTTEACHER
+                                                           select role;
+            if (iqRoleSubjectTeacher.Count() != 0)
+            {
+                roleSubjectTeacher = iqRoleSubjectTeacher.First();
+            }
+
+            return roleSubjectTeacher;
+        }
+
+        public aspnet_Role GetRoleFormerTeacher()
+        {
+            aspnet_Role roleFormerTeacher = null;
+
+            IQueryable<aspnet_Role> iqRoleFormerTeacher = from role in db.aspnet_Roles
+                                                           where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                           && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == FORMERTEACHER
+                                                           select role;
+            if (iqRoleFormerTeacher.Count() != 0)
+            {
+                roleFormerTeacher = iqRoleFormerTeacher.First();
+            }
+
+            return roleFormerTeacher;
         }
 
         public bool IsRoleParents(aspnet_Role role)
@@ -647,7 +696,7 @@ namespace EContactBook.DataAccess
                 return false;
             }
         }
-        
+
         public aspnet_Role GetRoleParents()
         {
             aspnet_Role roleParents = null;

@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ChangeStudentGradeSeletePage {
+    public partial class ChangeStudentGradeSavePage {
         
         /// <summary>
         /// UpdatePanel1 control.
@@ -40,24 +40,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
         
         /// <summary>
-        /// TxtMaHocSinh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMaHocSinh;
-        
-        /// <summary>
-        /// MaHocSinhWatermark control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.TextBoxWatermarkExtender MaHocSinhWatermark;
-        
-        /// <summary>
         /// DdlNganh control.
         /// </summary>
         /// <remarks>
@@ -74,33 +56,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlLopHoc;
-        
-        /// <summary>
-        /// TxtTenHocSinh control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtTenHocSinh;
-        
-        /// <summary>
-        /// TenHocSinhWatermark control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.TextBoxWatermarkExtender TenHocSinhWatermark;
-        
-        /// <summary>
-        /// BtnSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
         
         /// <summary>
         /// LblSearchResult control.
@@ -130,12 +85,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
         
         /// <summary>
-        /// BtnNext control.
+        /// BtnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnNext;
+        protected global::System.Web.UI.WebControls.ImageButton BtnSave;
+        
+        /// <summary>
+        /// BtnCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnCancel;
     }
 }

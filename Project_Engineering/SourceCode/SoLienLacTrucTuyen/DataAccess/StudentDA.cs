@@ -89,6 +89,61 @@ namespace EContactBook.DataAccess
             return student;
         }
 
+        public bool IsDeletable(int studentId)
+        {
+            IQueryable<Student_DetailedTermSubjectMark> iqTermSubjectMark = from termSubjectMark in db.Student_DetailedTermSubjectMarks
+                                                                            where termSubjectMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == studentId
+                                                                            select termSubjectMark;
+            if (iqTermSubjectMark.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                IQueryable<Student_Absent> iqAbsent = from absent in db.Student_Absents
+                                                      where absent.Student_StudentInClass.StudentId == studentId
+                                                      select absent;
+                if (iqAbsent.Count() != 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    IQueryable<Student_Activity> iqActivity = from activity in db.Student_Activities
+                                                              where activity.Student_StudentInClass.StudentId == studentId
+                                                              select activity;
+                    if (iqActivity.Count() != 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        IQueryable<MessageToParents_Message> IqMessage = from msg in db.MessageToParents_Messages
+                                                                         where msg.Student_StudentInClass.StudentId == studentId
+                                                                         select msg;
+                        if (IqMessage.Count() != 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            IQueryable<ParentComment_Comment> IqComment = from cmt in db.ParentComment_Comments
+                                                                          where cmt.Student_StudentInClass.StudentId == studentId
+                                                                          select cmt;
+                            if (IqComment.Count() != 0)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public bool IsDeletable(string studentCode)
         {
             return true;
@@ -161,6 +216,12 @@ namespace EContactBook.DataAccess
         #endregion
 
         #region StudentInClass
+        /// <summary>
+        /// Insert relationship between a student and a class
+        /// </summary>
+        /// <param name="student">student that need to make a relationship</param>
+        /// <param name="Class">class that need to make a relationship</param>
+        /// <returns>The inserted relationship object </returns>
         public Student_StudentInClass InsertStudentInClass(Student_Student student, Class_Class Class)
         {
             Student_StudentInClass studentInClass = new Student_StudentInClass();
@@ -583,7 +644,7 @@ namespace EContactBook.DataAccess
         private List<Student_StudentInClass> GetStudentInClasses(ref IQueryable<Student_StudentInClass> iqStudentInClass)
         {
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
-    
+
             if (iqStudentInClass.Count() != 0)
             {
                 studentInClasses = iqStudentInClass.OrderBy(student => student.Student_Student.StudentCode).ToList();
@@ -633,7 +694,7 @@ namespace EContactBook.DataAccess
                                     && stdTermResult.TermId == term.TermId
                                     && stdTermResult.Student_StudentInClass.StudentId == student.StudentId
                                   select stdTermResult;
-            if (iqStudentTermResult.Count() != null)
+            if (iqStudentTermResult.Count() != 0)
             {
                 studentTermResult = iqStudentTermResult.First();
                 studentTermResult.TermConductId = conduct.ConductId;
@@ -641,21 +702,26 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public void DeleteStudentInClass(Student_Student deletedStudent)
+        public Class_Class DeleteStudentInClass(Student_Student deletedStudent)
         {
+            Class_Class Class = null;
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
                                where stdInCls.StudentId == deletedStudent.StudentId
                                select stdInCls;
-            if(iqStudentInClass.Count() != 0)
+            if (iqStudentInClass.Count() != 0)
             {
+                Class = iqStudentInClass.First().Class_Class;
+
                 foreach (Student_StudentInClass studentInClass in iqStudentInClass)
                 {
                     db.Student_StudentInClasses.DeleteOnSubmit(studentInClass);
                 }
 
-                db.SubmitChanges();
+                db.SubmitChanges();                
             }
+
+            return Class;
         }
     }
 }

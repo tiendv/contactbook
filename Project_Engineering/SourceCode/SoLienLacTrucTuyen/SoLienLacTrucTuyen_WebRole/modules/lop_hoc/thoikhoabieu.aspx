@@ -94,7 +94,7 @@
                         <td>
                             Chiều
                         </td>
-                        <td class="icon">
+                        <td id="thEdit" runat="server" class="icon">
                             Sắp xếp
                         </td>
                     </tr>
@@ -152,7 +152,7 @@
                                 </asp:Repeater>
                             </table>
                         </td>
-                        <td style="height: 40px; width: 8%; vertical-align: middle; text-align: center">
+                        <td id="tdEdit" runat="server" style="height: 40px; width: 8%; vertical-align: middle; text-align: center">
                             <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
                                 CommandName="CmdEditItem" />
                         </td>

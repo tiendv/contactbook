@@ -40,6 +40,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             classDA.IncreaseStudentAmount(Class);
         }
 
+        public void DecreaseStudentAmount(Class_Class Class)
+        {
+            classDA.DecreaseStudentAmount(Class);
+        }
+
         public void DeleteClass(Class_Class deletedClass)
         {
             classDA.DeleteClass(deletedClass);

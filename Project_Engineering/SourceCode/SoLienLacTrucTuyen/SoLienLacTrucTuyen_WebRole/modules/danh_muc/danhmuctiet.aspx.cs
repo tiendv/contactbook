@@ -69,7 +69,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     e.Item.FindControl("tdEdit").Visible = false;
                 }
 
-                //PnlPopupEdit.Visible = false;
+                PnlPopupEdit.Visible = false;
             }
 
             if (accessibilities.Contains(AccessibilityEnum.Delete))
@@ -250,8 +250,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
                 PnlPopupAdd.Visible = true;
             }
             else

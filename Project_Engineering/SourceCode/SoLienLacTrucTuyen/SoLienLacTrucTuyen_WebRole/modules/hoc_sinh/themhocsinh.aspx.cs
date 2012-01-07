@@ -79,14 +79,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string strStudentName = this.TxtTenHocSinh.Text.Trim();
-            if (strStudentName == "")
+            if (CheckUntils.IsNullOrBlank(strStudentName))
             {
                 TenHocSinhRequired.IsValid = false;
                 return;
             }
 
             string strDayOfBirth = this.TxtNgaySinhHocSinh.Text.Trim();
-            if (strDayOfBirth == "")
+            if (CheckUntils.IsNullOrBlank(strDayOfBirth))
             {
                 NgaySinhHocSinhRequired.IsValid = false;
                 return;
@@ -103,7 +103,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strMotherName = this.TxtHoTenMe.Text.Trim();
             string strPatron = this.TxtHoTenNguoiDoDau.Text;
 
-            if (strFatherName == "" && strMotherName == "" && strPatron == "")
+            if (CheckUntils.IsNullOrBlank(strFatherName) && CheckUntils.IsNullOrBlank(strMotherName) 
+                && CheckUntils.IsNullOrBlank(strPatron))
             {
                 LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, "none");
                 return;

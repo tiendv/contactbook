@@ -55,7 +55,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             // Update Class' quantity student
             classBL.IncreaseStudentAmount(Class);
-            
+
             // Insert created student to specified class
             Student_Student insertedStudent = studentDA.GetStudent(student.StudentCode);
             Student_StudentInClass lastedStudentInClass = studentDA.InsertStudentInClass(insertedStudent, Class);
@@ -79,8 +79,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 // insert new student's TermStudyingResult
                 studyingResultBL.InsertTermStudyingResult(term, lastedStudentInClass, -1, conduct, studyingAptitude);
             }
-
-            // Insert new User
         }
 
         public void UpdateHocSinh(Student_Student editedStudent, Class_Class Class, string studentCode, string studentName,
@@ -118,14 +116,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             StudentActivityBL activityBL = new StudentActivityBL(school);
             MessageBL messageBL = new MessageBL(school);
             ParentsCommentBL parentsCommentBL = new ParentsCommentBL(school);
+            ClassBL classBL = new ClassBL(school);
 
             parentsCommentBL.DeleteParentsComment(deletedStudent);
             messageBL.DeleteMessage(deletedStudent);
             absentBL.DeleteAbsent(deletedStudent);
             activityBL.DeleteStudentActivity(deletedStudent);
             studyingResultBL.DeleteStudyingResult(deletedStudent);
-            studentDA.DeleteStudentInClass(deletedStudent);
+            Class_Class Class = studentDA.DeleteStudentInClass(deletedStudent);
             studentDA.DeleteStudent(deletedStudent);
+            classBL.DecreaseStudentAmount(Class);
+        }
+
+        public bool IsDeletable(int studentId)
+        {
+            return studentDA.IsDeletable(studentId);
         }
 
         public bool IsDeletable(string studentCode)
@@ -269,7 +274,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudent.DateOfBirth = studentInClass.Student_Student.StudentBirthday;
                 tabularStudent.StringDateOfBirth = tabularStudent.DateOfBirth.ToString("dd/MM/yyyy");
                 tabularStudent.Gender = studentInClass.Student_Student.Gender;
-                tabularStudent.StringGender = tabularStudent.Gender == true ? "Nam" : "Nữ"; 
+                tabularStudent.StringGender = tabularStudent.Gender == true ? "Nam" : "Nữ";
                 tabularStudent.StudentInClassId = studentInClass.StudentInClassId;
                 tabularStudents.Add(tabularStudent);
             }
@@ -432,6 +437,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularClass;
         }
 
+        public List<Student_Student> GetStudents(Class_Class Class)
+        {
+            List<Student_StudentInClass> studentInClasses = studentDA.GetStudentInClasses(Class);
+            List<Student_Student> students = new List<Student_Student>();
+
+            foreach (Student_StudentInClass studentInClass in studentInClasses)
+            {
+                students.Add(studentInClass.Student_Student);
+            }
+
+            return students;
+        }
+
         public List<StudentDropdownListItem> GetStudents(Category_Faculty faculty, Category_Grade grade, Class_Class Class)
         {
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
@@ -506,6 +524,52 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void UpdateStudenTermConduct(Class_Class Class, Configuration_Term term, Student_Student student, Category_Conduct conduct)
         {
             studentDA.UpdateStudenTermConduct(Class, term, student, conduct);
+        }
+
+        /// <summary>
+        /// Update student's grade that includes set relationship between student and class and set student studying information
+        /// </summary>
+        /// <param name="students"></param>
+        /// <param name="Class"></param>
+        public void UpdateStudentGrade(List<Student_Student> students, Class_Class Class)
+        {
+            // declare variables
+            ClassBL classBL = new ClassBL(school);
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            ScheduleBL scheduleBL = new ScheduleBL(school);
+            Category_Conduct conduct = null;
+            Category_LearningAptitude studyingAptitude = null;
+            Student_StudentInClass studentInClass = null;
+            List<Configuration_Term> terms = (new SystemConfigBL(school)).GetListTerms();
+            List<Category_Subject> scheduledSubjects;
+
+            foreach (Student_Student student in students)
+            {
+                // insert relationship between student and class
+                studentInClass = studentDA.InsertStudentInClass(student, Class);
+
+                // Update class' quantity student
+                classBL.IncreaseStudentAmount(Class);
+
+                // insert student's studying information                
+                foreach (Configuration_Term term in terms)
+                {
+                    conduct = new Category_Conduct();
+                    conduct.ConductId = -1; // default term conduct value
+                    studyingAptitude = new Category_LearningAptitude();
+                    studyingAptitude.LearningAptitudeId = -1; // default term learning aptitude value
+
+                    // insert student's TermSubjectMark
+                    scheduledSubjects = scheduleBL.GetScheduledSubjects(Class, term);
+                    foreach (Category_Subject scheduledSubject in scheduledSubjects)
+                    {
+                        studyingResultBL.InsertTermSubjectMark(studentInClass, term, scheduledSubject);
+                    }
+
+                    // insert new student's TermStudyingResult
+                    studyingResultBL.InsertTermStudyingResult(term, studentInClass, -1, conduct, studyingAptitude);
+                }
+            }
         }
     }
 }

@@ -7,8 +7,7 @@
     <div id="divScript">
         <script language="javascript" type="text/javascript">
             function popopConfirmDelete_CancelDelete_Click() {
-                var mPEDeleteID = $get('<%=HdfRptHocSinhMPEDelete.ClientID%>').value;
-                $find(mPEDeleteID).hide();
+                $find('<%=MPEDelete.ClientID%>').hide();
                 return false;
             }
             function fncOpen() {
@@ -202,7 +201,7 @@
             <asp:Image ID="Image1" runat="server" Width="32px" Height="32px" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server"></asp:Label>
+                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa học sinh đã chọn không?"></asp:Label>
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 20px 0px 5px 0px">
