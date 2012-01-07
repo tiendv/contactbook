@@ -207,6 +207,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             isSearch = false;
             BindRptUsers();
         }
+
+        protected void BtnActivate_Click(object sender, ImageClickEventArgs e)
+        {
+            TextBox TxtEmail = null;
+            HiddenField HdfactualUserName = null;
+            aspnet_User user = null;
+            foreach (RepeaterItem item in RptUser.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
+                    if (CkbxSelectUser.Checked)
+                    {
+                        HdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
+                        TxtEmail = (TextBox)item.FindControl("TxtEmail");
+                        if (!CheckUntils.IsNullOrBlank(TxtEmail.Text))
+                        {
+                            user = new aspnet_User();
+                            user.UserName = HdfactualUserName.Value;
+                            userBL.ActivateUser(user, TxtEmail.Text.Trim());
+                        }
+                    }
+                }
+            }
+
+            isSearch = false;
+            BindRptUsers();
+        }
         #endregion
 
         #region Repeater event handlers

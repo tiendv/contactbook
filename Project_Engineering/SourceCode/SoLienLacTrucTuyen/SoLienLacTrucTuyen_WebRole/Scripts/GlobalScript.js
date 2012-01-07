@@ -59,6 +59,16 @@
         }
     });
 
+    $(".BtnActivate").hover(function () {
+        if ($(".BtnActivate").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_activate_hover.png");
+        }
+    }, function () {
+        if ($(".BtnActivate").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_activate.png");
+        }
+    });
+
     $(".BtnDelete").hover(function () {
         if ($(".BtnDelete").is(':disabled') == false) {
             $(this).attr("src", "/Styles/buttons/button_delete_hover.png");
@@ -162,12 +172,18 @@
 
         $(".BtnEdit").attr("src", "/Styles/buttons/button_edit.png");
         $(".BtnEdit:disabled").removeAttr('disabled');
+
+        $(".BtnActivate").attr("src", "/Styles/buttons/button_activate.png");
+        $(".BtnActivate:disabled").removeAttr('disabled');
     } else {
         $(".BtnDelete").attr("src", "/Styles/buttons/button_delete_disable.png");
         $(".BtnDelete").attr("disabled", "disabled");
 
         $(".BtnEdit").attr("src", "/Styles/buttons/button_edit_disable.png");
         $(".BtnEdit").attr("disabled", "disabled");
+
+        $(".BtnActivate").attr("src", "/Styles/buttons/button_activate_disable.png");
+        $(".BtnActivate").attr("disabled", "disabled");
     }
 
     $('.selectAll').click(function () {
@@ -194,12 +210,18 @@
 
             $(".BtnEdit").attr("src", "/Styles/buttons/button_edit.png");
             $(".BtnEdit:disabled").removeAttr('disabled');
+
+            $(".BtnActivate").attr("src", "/Styles/buttons/button_activate.png");
+            $(".BtnActivate:disabled").removeAttr('disabled');
         } else {
             $(".BtnDelete").attr("src", "/Styles/buttons/button_delete_disable.png");
             $(".BtnDelete").attr("disabled", "disabled");
 
             $(".BtnEdit").attr("src", "/Styles/buttons/button_edit_disable.png");
             $(".BtnEdit").attr("disabled", "disabled");
+
+            $(".BtnActivate").attr("src", "/Styles/buttons/button_activate_disable.png");
+            $(".BtnActivate").attr("disabled", "disabled");            
         }
     });
 
@@ -228,12 +250,18 @@
 
             $(".BtnEdit").attr("src", "/Styles/buttons/button_edit.png");
             $(".BtnEdit:disabled").removeAttr('disabled');
+
+            $(".BtnActivate").attr("src", "/Styles/buttons/button_activate.png");
+            $(".BtnActivate:disabled").removeAttr('disabled');
         } else {
             $(".BtnDelete").attr("src", "/Styles/buttons/button_delete_disable.png");
             $(".BtnDelete").attr("disabled", "disabled");
 
             $(".BtnEdit").attr("src", "/Styles/buttons/button_edit_disable.png");
             $(".BtnEdit").attr("disabled", "disabled");
+
+            $(".BtnActivate").attr("src", "/Styles/buttons/button_activate_disable.png");
+            $(".BtnActivate").attr("disabled", "disabled");
         }
     });   
 });

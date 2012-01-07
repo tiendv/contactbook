@@ -16,7 +16,7 @@
                                         <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/studying_result.png"
                                             Style="float: left; height: 50px; width: 50px" />
                                         <div style="width: 85%; float: left; padding-left: 10px;">
-                                            <asp:HyperLink ID="HlkUsers" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/nguoi_dung/danhsachnguoidung.aspx">Kết quả học tập</asp:HyperLink>
+                                            <asp:HyperLink ID="HlkUsers" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/ketquahoctap.aspx">Kết quả học tập</asp:HyperLink>
                                             <br />
                                             <div style="clear: both">
                                             </div>
@@ -30,9 +30,9 @@
                                         <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Images/user_group.png" Style="float: left;
                                             height: 50px; width: 50px" />
                                         <div style="width: 85%; float: left; padding-left: 10px;">
-                                            <asp:HyperLink ID="HlkRoles" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/nguoi_dung/phanquyen.aspx">Ngày nghỉ học</asp:HyperLink>
+                                            <asp:HyperLink ID="HlkRoles" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/ngaynghihoc.aspx">Ngày nghỉ học</asp:HyperLink>
                                             <br />
-                                            Ngày nghỉ học
+                                            <asp:Label ID="LblUnconfirmAbsent" runat="server"></asp:Label>
                                         </div>
                                         <div style="clear: both">
                                         </div>
@@ -45,7 +45,7 @@
                                         <asp:Image ID="Image3" runat="server" ImageUrl="~/Styles/Images/activity.png" Style="float: left;
                                             height: 50px; width: 50px" />
                                         <div style="width: 85%; float: left; padding-left: 10px;">
-                                            <asp:HyperLink ID="HyperLink1" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/nguoi_dung/nhomnguoidung.aspx">Hoạt động</asp:HyperLink>
+                                            <asp:HyperLink ID="HyperLink1" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/hoatdong.aspx">Hoạt động</asp:HyperLink>
                                             <br />
                                             Hoạt động
                                         </div>

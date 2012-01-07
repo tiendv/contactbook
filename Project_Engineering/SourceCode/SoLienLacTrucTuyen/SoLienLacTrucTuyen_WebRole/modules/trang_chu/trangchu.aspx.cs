@@ -55,6 +55,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         ((Label)LoginView1.Controls[0].FindControl("LblUnconfirmedMessageStatus")).Text = string.Format("Bạn còn {0} thông báo chưa phản hồi", iUnconfirmedMessageCount);
                     }
+
+                    AbsentBL absentBL = new AbsentBL(UserSchool);
+                    int iUnconfirmAbsent = absentBL.GetUnconfirmAbsentCount(loggedInStudent);
+                    if (iUnconfirmedMessageCount != 0)
+                    {
+                        ((Label)LoginView1.Controls[0].FindControl("LblUnconfirmAbsent")).Text = string.Format("Bạn có {0} ngày nghỉ học chưa xác nhận", iNewMessageCount);
+                    }
                 }
 
                 //LblGreetingHead.Text = string.Format("Chào mừng {0} đến với hệ thống sổ liên lạc trực tuyến eContactBook của {1}",

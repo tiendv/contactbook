@@ -158,5 +158,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             absentDA.DeleteAbsent(deletedStudent);
         }
+
+        public int GetUnconfirmAbsentCount(Student_Student student)
+        {
+            StudentBL studentBL = new StudentBL(school);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            return absentDA.GetUnconfirmAbsentCount(student, Class);
+        }
     }
 }
