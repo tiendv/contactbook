@@ -228,5 +228,19 @@ namespace EContactBook.DataAccess
                 db.SubmitChanges();
             }
         }
+
+        public void UpdateMembership(string userName, string email)
+        {
+            IQueryable<aspnet_Membership> iqMembership;
+            iqMembership = from member in db.aspnet_Memberships
+                           where member.aspnet_User.UserName == userName
+                           select member;
+            if (iqMembership.Count() != 0)
+            {
+                aspnet_Membership membership = iqMembership.First();
+                membership.Email = email;
+                db.SubmitChanges();
+            }
+        }
     }
 }

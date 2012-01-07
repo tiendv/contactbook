@@ -239,5 +239,17 @@ namespace EContactBook.DataAccess
                 db.SubmitChanges();
             }
         }
+
+        public int GetUnconfirmAbsentCount(Student_Student student, Class_Class Class)
+        {
+            List<Student_Absent> absents = new List<Student_Absent>();
+
+            IQueryable<Student_Absent> iqMessages = from a in db.Student_Absents
+                                                    where a.Student_StudentInClass.StudentId == student.StudentId
+                                                     && a.Student_StudentInClass.Class_Class.YearId == Class.YearId
+                                                     && a.IsConfirmed == false
+                                                    select a;
+            return iqMessages.Count();
+        }
     }
 }

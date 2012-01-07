@@ -37,12 +37,14 @@
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
+            <asp:ImageButton ID="BtnActivate" runat="server" ImageUrl="~/Styles/buttons/button_activate.png"
+                ToolTip="Kích hoạt người dùng" OnClick="BtnActivate_Click" CssClass="BtnActivate" />
             <asp:ImageButton ID="BtnAddUser" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm người dùng mới" OnClick="BtnAdd_Click" />
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
-                ToolTip="Sửa người dùng" OnClick="BtnAdd_Click" />
+                ToolTip="Sửa người dùng" OnClick="BtnAdd_Click" CssClass="BtnEdit"/>
             <asp:ImageButton ID="BtnDelete" runat="server" ImageUrl="~/Styles/buttons/button_delete.png"
-                ToolTip="Xóa người dùng" OnClick="BtnAdd_Click" />
+                ToolTip="Xóa người dùng" OnClick="BtnAdd_Click" CssClass="BtnDelete"/>
             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnDelete"
                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">

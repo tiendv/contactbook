@@ -35,7 +35,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void ActivateUser(aspnet_User user)
         {
-            userDA.ChangeUserActivation(user, false);
+            userDA.ChangeUserActivation(user, true);
+        }
+
+        public void ActivateUser(aspnet_User user, string email)
+        {
+            userDA.UpdateMembership(user.UserName, email);
+            userDA.ChangeUserActivation(user, true);
         }
 
         public aspnet_User GetUser(Guid userId)
