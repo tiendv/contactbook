@@ -130,9 +130,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptMarkTypes()
         {
-            List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes();
-            this.RptLoaiDiem.DataSource = markTypes;
-            this.RptLoaiDiem.DataBind();
+            //List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes();
+            //this.RptLoaiDiem.DataSource = markTypes;
+            //this.RptLoaiDiem.DataBind();
         }
 
         private void BindRptKetQuaDiem()

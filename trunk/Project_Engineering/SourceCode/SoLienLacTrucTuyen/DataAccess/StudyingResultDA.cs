@@ -52,7 +52,7 @@ namespace EContactBook.DataAccess
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <param name="marks"></param>
-        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks)
+        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
         {
             Student_TermSubjectMark termSubjectedMark = null;
             Student_DetailedTermSubjectMark detailedMark = null;
@@ -70,7 +70,7 @@ namespace EContactBook.DataAccess
                 termSubjectedMark = iqTermSubjectedMark.First();
                 if (marks.Count != 0)
                 {
-                    foreach (DetailMark mark in marks)
+                    foreach (MarkValueAndTypePair mark in marks)
                     {
                         detailedMark = new Student_DetailedTermSubjectMark();
                         detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
@@ -92,7 +92,7 @@ namespace EContactBook.DataAccess
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <param name="marks"></param>
-        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks, DateTime date)
+        public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks, DateTime date)
         {
             Student_TermSubjectMark termSubjectedMark = null;
             Student_DetailedTermSubjectMark detailedMark = null;
@@ -109,7 +109,7 @@ namespace EContactBook.DataAccess
                 termSubjectedMark = iqTermSubjectedMark.First();
                 if (marks.Count != 0)
                 {
-                    foreach (DetailMark mark in marks)
+                    foreach (MarkValueAndTypePair mark in marks)
                     {
                         detailedMark = new Student_DetailedTermSubjectMark();
                         detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
@@ -596,6 +596,27 @@ namespace EContactBook.DataAccess
             return termSubjectMark;
         }
 
+        public List<Student_DetailedTermSubjectMark> GetDetailedTermSubjectMarks(Student_Student student, Configuration_Year year, Configuration_Term term, Category_Subject subject, Category_MarkType markType)
+        {
+            List<Student_DetailedTermSubjectMark> detailedTermSubjectMarks = new List<Student_DetailedTermSubjectMark>();
+
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
+            iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
+                                        where detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                                        && detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                        && detailedTermSubjectMark.Student_TermSubjectMark.SubjectId == subject.SubjectId 
+                                        && detailedTermSubjectMark.Student_TermSubjectMark.TermId == term.TermId
+                                        && detailedTermSubjectMark.MarkType == markType.MarkTypeId
+                                        select detailedTermSubjectMark;
+
+            if (iqDetailedTermSubjectMark.Count() != 0)
+            {
+                detailedTermSubjectMarks = iqDetailedTermSubjectMark.ToList();
+            }
+
+            return detailedTermSubjectMarks;
+        }
+
         public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
@@ -644,7 +665,7 @@ namespace EContactBook.DataAccess
 
             IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
             iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
-                                join detailTermSubjMark in db.Student_DetailedTermSubjectMarks 
+                                join detailTermSubjMark in db.Student_DetailedTermSubjectMarks
                                     on termSubjMark.TermSubjectMarkId equals detailTermSubjMark.TermSubjectMarkId
                                 where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
                                     && termSubjMark.SubjectId == subject.SubjectId
@@ -789,7 +810,7 @@ namespace EContactBook.DataAccess
             IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
             iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
                                         where detailedTermSubjectMark.MarkType == markType.MarkTypeId
-                                        && detailedTermSubjectMark.Category_MarkType.SchoolId == school.SchoolId
+                                        && detailedTermSubjectMark.Category_MarkType.CategoryGrade.SchoolId == school.SchoolId
                                         select detailedTermSubjectMark;
 
             if (iqDetailedTermSubjectMark.Count() != 0)

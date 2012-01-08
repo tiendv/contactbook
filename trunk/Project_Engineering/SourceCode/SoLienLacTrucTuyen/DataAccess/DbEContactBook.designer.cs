@@ -1683,7 +1683,7 @@ namespace EContactBook.DataAccess
 		
 		private System.Nullable<int> _SchoolId;
 		
-		private bool _IsActivated;
+		private System.Nullable<bool> _IsActivated;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -1755,7 +1755,7 @@ namespace EContactBook.DataAccess
     partial void OnIsTeacherChanged();
     partial void OnSchoolIdChanging(System.Nullable<int> value);
     partial void OnSchoolIdChanged();
-    partial void OnIsActivatedChanging(bool value);
+    partial void OnIsActivatedChanging(System.Nullable<bool> value);
     partial void OnIsActivatedChanged();
     #endregion
 		
@@ -2379,8 +2379,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="bit NOT NULL")]
-		public bool IsActivated
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="bit")]
+		public System.Nullable<bool> IsActivated
 		{
 			get
 			{
@@ -5569,6 +5569,8 @@ namespace EContactBook.DataAccess
 		
 		private int _SchoolId;
 		
+		private EntitySet<Category_MarkType> _CategoryMarkTypes;
+		
 		private EntitySet<Category_Subject> _Category_Subjects;
 		
 		private EntitySet<Class_Class> _Class_Classes;
@@ -5591,6 +5593,7 @@ namespace EContactBook.DataAccess
 		
 		public Category_Grade()
 		{
+			this._CategoryMarkTypes = new EntitySet<Category_MarkType>(new Action<Category_MarkType>(this.attach_CategoryMarkTypes), new Action<Category_MarkType>(this.detach_CategoryMarkTypes));
 			this._Category_Subjects = new EntitySet<Category_Subject>(new Action<Category_Subject>(this.attach_Category_Subjects), new Action<Category_Subject>(this.detach_Category_Subjects));
 			this._Class_Classes = new EntitySet<Class_Class>(new Action<Class_Class>(this.attach_Class_Classes), new Action<Class_Class>(this.detach_Class_Classes));
 			this._School_School = default(EntityRef<School_School>);
@@ -5681,6 +5684,19 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_MarkType", Storage="_CategoryMarkTypes", ThisKey="GradeId", OtherKey="GradeId")]
+		public EntitySet<Category_MarkType> CategoryMarkTypes
+		{
+			get
+			{
+				return this._CategoryMarkTypes;
+			}
+			set
+			{
+				this._CategoryMarkTypes.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_Subject", Storage="_Category_Subjects", ThisKey="GradeId", OtherKey="GradeId")]
 		public EntitySet<Category_Subject> Category_Subjects
 		{
@@ -5759,6 +5775,18 @@ namespace EContactBook.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_CategoryMarkTypes(Category_MarkType entity)
+		{
+			this.SendPropertyChanging();
+			entity.CategoryGrade = this;
+		}
+		
+		private void detach_CategoryMarkTypes(Category_MarkType entity)
+		{
+			this.SendPropertyChanging();
+			entity.CategoryGrade = null;
 		}
 		
 		private void attach_Category_Subjects(Category_Subject entity)
@@ -6208,11 +6236,11 @@ namespace EContactBook.DataAccess
 		
 		private bool _IsUsedForCalculatingAvg;
 		
-		private int _SchoolId;
+		private int _GradeId;
 		
 		private EntitySet<Student_DetailedTermSubjectMark> _Student_DetailedTermSubjectMarks;
 		
-		private EntityRef<School_School> _School_School;
+		private EntityRef<Category_Grade> _CategoryGrade;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -6228,14 +6256,14 @@ namespace EContactBook.DataAccess
     partial void OnMaxQuantityChanged();
     partial void OnIsUsedForCalculatingAvgChanging(bool value);
     partial void OnIsUsedForCalculatingAvgChanged();
-    partial void OnSchoolIdChanging(int value);
-    partial void OnSchoolIdChanged();
+    partial void OnGradeIdChanging(int value);
+    partial void OnGradeIdChanged();
     #endregion
 		
 		public Category_MarkType()
 		{
 			this._Student_DetailedTermSubjectMarks = new EntitySet<Student_DetailedTermSubjectMark>(new Action<Student_DetailedTermSubjectMark>(this.attach_Student_DetailedTermSubjectMarks), new Action<Student_DetailedTermSubjectMark>(this.detach_Student_DetailedTermSubjectMarks));
-			this._School_School = default(EntityRef<School_School>);
+			this._CategoryGrade = default(EntityRef<Category_Grade>);
 			OnCreated();
 		}
 		
@@ -6339,26 +6367,26 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
-		public int SchoolId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GradeId", DbType="int NOT NULL")]
+		public int GradeId
 		{
 			get
 			{
-				return this._SchoolId;
+				return this._GradeId;
 			}
 			set
 			{
-				if ((this._SchoolId != value))
+				if ((this._GradeId != value))
 				{
-					if (this._School_School.HasLoadedOrAssignedValue)
+					if (this._CategoryGrade.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnSchoolIdChanging(value);
+					this.OnGradeIdChanging(value);
 					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
+					this._GradeId = value;
+					this.SendPropertyChanged("GradeId");
+					this.OnGradeIdChanged();
 				}
 			}
 		}
@@ -6376,36 +6404,36 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_MarkType", Storage="_School_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
-		public School_School School_School
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_MarkType", Storage="_CategoryGrade", ThisKey="GradeId", OtherKey="GradeId", IsForeignKey=true)]
+		public Category_Grade CategoryGrade
 		{
 			get
 			{
-				return this._School_School.Entity;
+				return this._CategoryGrade.Entity;
 			}
 			set
 			{
-				School_School previousValue = this._School_School.Entity;
+				Category_Grade previousValue = this._CategoryGrade.Entity;
 				if (((previousValue != value) 
-							|| (this._School_School.HasLoadedOrAssignedValue == false)))
+							|| (this._CategoryGrade.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._School_School.Entity = null;
-						previousValue.Category_MarkTypes.Remove(this);
+						this._CategoryGrade.Entity = null;
+						previousValue.CategoryMarkTypes.Remove(this);
 					}
-					this._School_School.Entity = value;
+					this._CategoryGrade.Entity = value;
 					if ((value != null))
 					{
-						value.Category_MarkTypes.Add(this);
-						this._SchoolId = value.SchoolId;
+						value.CategoryMarkTypes.Add(this);
+						this._GradeId = value.GradeId;
 					}
 					else
 					{
-						this._SchoolId = default(int);
+						this._GradeId = default(int);
 					}
-					this.SendPropertyChanged("School_School");
+					this.SendPropertyChanged("CategoryGrade");
 				}
 			}
 		}
@@ -9768,8 +9796,6 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<Category_LearningResult> _Category_LearningResults;
 		
-		private EntitySet<Category_MarkType> _Category_MarkTypes;
-		
 		private EntitySet<Category_TeachingPeriod> _Category_TeachingPeriods;
 		
 		private EntitySet<Class_Class> _Class_Classes;
@@ -9817,7 +9843,6 @@ namespace EContactBook.DataAccess
 			this._Category_Grades = new EntitySet<Category_Grade>(new Action<Category_Grade>(this.attach_Category_Grades), new Action<Category_Grade>(this.detach_Category_Grades));
 			this._Category_LearningAptitudes = new EntitySet<Category_LearningAptitude>(new Action<Category_LearningAptitude>(this.attach_Category_LearningAptitudes), new Action<Category_LearningAptitude>(this.detach_Category_LearningAptitudes));
 			this._Category_LearningResults = new EntitySet<Category_LearningResult>(new Action<Category_LearningResult>(this.attach_Category_LearningResults), new Action<Category_LearningResult>(this.detach_Category_LearningResults));
-			this._Category_MarkTypes = new EntitySet<Category_MarkType>(new Action<Category_MarkType>(this.attach_Category_MarkTypes), new Action<Category_MarkType>(this.detach_Category_MarkTypes));
 			this._Category_TeachingPeriods = new EntitySet<Category_TeachingPeriod>(new Action<Category_TeachingPeriod>(this.attach_Category_TeachingPeriods), new Action<Category_TeachingPeriod>(this.detach_Category_TeachingPeriods));
 			this._Class_Classes = new EntitySet<Class_Class>(new Action<Class_Class>(this.attach_Class_Classes), new Action<Class_Class>(this.detach_Class_Classes));
 			this._Configuration_Years = new EntitySet<Configuration_Year>(new Action<Configuration_Year>(this.attach_Configuration_Years), new Action<Configuration_Year>(this.detach_Configuration_Years));
@@ -10122,19 +10147,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_MarkType", Storage="_Category_MarkTypes", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_MarkType> Category_MarkTypes
-		{
-			get
-			{
-				return this._Category_MarkTypes;
-			}
-			set
-			{
-				this._Category_MarkTypes.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_TeachingPeriod", Storage="_Category_TeachingPeriods", ThisKey="SchoolId", OtherKey="SchoolId")]
 		public EntitySet<Category_TeachingPeriod> Category_TeachingPeriods
 		{
@@ -10333,18 +10345,6 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Category_LearningResults(Category_LearningResult entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_MarkTypes(Category_MarkType entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_MarkTypes(Category_MarkType entity)
 		{
 			this.SendPropertyChanging();
 			entity.School_School = null;

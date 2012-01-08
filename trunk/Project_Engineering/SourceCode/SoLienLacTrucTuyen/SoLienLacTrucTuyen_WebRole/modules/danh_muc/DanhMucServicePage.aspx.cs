@@ -63,33 +63,6 @@ namespace SoLienLacTrucTuyen_WebRole
         //}
 
         [WebMethod]
-        public static bool MarkTypeNameExists(string markTypeName)
-        {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-
-            markTypeName = Uri.UnescapeDataString(markTypeName);            
-            return loaiDiemBL.MarkTypeNameExists(markTypeName);
-        }
-
-        [WebMethod]
-        public static bool MarkTypeNameExists(string oldMarkTypeName, string newMarkTypeName)
-        {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-
-            oldMarkTypeName = Uri.UnescapeDataString(oldMarkTypeName);
-            newMarkTypeName = Uri.UnescapeDataString(newMarkTypeName);
-
-            if (oldMarkTypeName == "" || oldMarkTypeName == newMarkTypeName)
-            {
-                return false;
-            }
-            else
-            {
-                return loaiDiemBL.MarkTypeNameExists(newMarkTypeName);
-            }
-        }
-
-        [WebMethod]
         public static bool AttitudeNameExists(string oldAttitudeName, string newAttitudeName)
         {
             AttitudeBL thaiDoThamGiaBL = new AttitudeBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);

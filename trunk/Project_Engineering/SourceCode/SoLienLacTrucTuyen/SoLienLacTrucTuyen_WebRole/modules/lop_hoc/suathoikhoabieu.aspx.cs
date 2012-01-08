@@ -164,6 +164,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptThoiKhoaBieu.DataSource = lTKBTheoTiets;
             RptThoiKhoaBieu.DataBind();
+
+            if (lTKBTheoTiets.Count == 0)
+            {
+                PnlPopupConfirmDelete.Visible = false;
+            }
+            else
+            {
+                PnlPopupConfirmDelete.Visible = true;
+            }
         }
         #endregion
 

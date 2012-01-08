@@ -94,7 +94,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            UserBL userBL = new UserBL(UserSchool);
             List<TabularImportedStudent> importedStudents;
+            string strGeneratedPassword;
+            string strUserName;
+            aspnet_User userParents = null;
+
             if(CheckSessionKey(AppConstant.SESSION_IMPORTEDSTUDENTS))
             {
                 importedStudents = (List<TabularImportedStudent>)GetSession(AppConstant.SESSION_IMPORTEDSTUDENTS);
@@ -108,6 +113,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         importedStudent.Phone, importedStudent.FatherName, importedStudent.FatherJob, importedStudent.FatherDateOfBirth,
                         importedStudent.MotherName, importedStudent.MotherJob, importedStudent.MotherDateOfBirth,
                         importedStudent.PatronName, importedStudent.PatronJob, importedStudent.PatronDateOfBirth);
+
+                    // create new user parents
+                    //strGeneratedPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
+                    //    Membership.Provider.MinRequiredNonAlphanumericCharacters);
+                    strGeneratedPassword = "1qazxsw@";
+                    strUserName = UserSchool.SchoolId.ToString() + "_PH" + importedStudent.StudentCode;
+                    Membership.CreateUser(strUserName, strGeneratedPassword);                    
+                    userParents = new aspnet_User();
+                    userParents.UserName = strUserName;
+                    userBL.CreateUserParents(userParents);
                 }           
             }
 
@@ -295,9 +310,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     bLackOfParents = false;
                     tabularImportedStudent.PatronName = ds.Tables[0].Rows[i][13].ToString();
-                    tabularImportedStudent.PatronJob = ds.Tables[0].Rows[i][14].ToString();
+                    tabularImportedStudent.PatronJob = ds.Tables[0].Rows[i][15].ToString();
                     
-                    if (!DateTime.TryParse(ds.Tables[0].Rows[i][13].ToString(), out dtPatronDateOfBirth))
+                    if (!DateTime.TryParse(ds.Tables[0].Rows[i][14].ToString(), out dtPatronDateOfBirth))
                     {
                         strBuilder.Append("Ngày sinh của người đỡ đầu không hợp lệ <br/>");
                         tabularImportedStudent.PatronDateOfBirth = null;

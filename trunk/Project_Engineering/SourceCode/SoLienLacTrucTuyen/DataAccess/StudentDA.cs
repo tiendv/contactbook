@@ -707,11 +707,11 @@ namespace EContactBook.DataAccess
             Class_Class Class = null;
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                               where stdInCls.StudentId == deletedStudent.StudentId
+                               where stdInCls.StudentId == deletedStudent.StudentId                              
                                select stdInCls;
             if (iqStudentInClass.Count() != 0)
             {
-                Class = iqStudentInClass.First().Class_Class;
+                Class = iqStudentInClass.OrderByDescending(stdInCls => stdInCls.StudentInClassId).First().Class_Class;
 
                 foreach (Student_StudentInClass studentInClass in iqStudentInClass)
                 {

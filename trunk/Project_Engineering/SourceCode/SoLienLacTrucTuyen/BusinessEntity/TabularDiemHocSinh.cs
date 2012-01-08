@@ -18,7 +18,7 @@ namespace EContactBook.BusinessEntity
         public List<MarkTypedMark> DiemTheoLoaiDiems { get; set; }
     }
 
-    public struct DetailMark
+    public struct MarkValueAndTypePair
     {
         public int MarkTypeId { get; set; }
         public double GiaTri { get; set; }

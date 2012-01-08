@@ -92,10 +92,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MainDataPager.CurrentIndex = 1;
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
+
+                BtnExport.Enabled = false;
+                BtnExport.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
             }
             else
             {
                 MainDataPager.Visible = true;
+
+                BtnExport.Enabled = true;
+                BtnExport.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
             }
 
             RptGiaoVien.DataSource = tabularTeachers;
@@ -114,6 +120,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BtnAddGiaoVien.Visible = false;
             }
+        }
+        
+        public void RaisePostBackEvent(string eventArgument)
+        {
+            PrePrint();
         }
         #endregion
 
@@ -277,10 +288,5 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindRptTeachers();
         }
         #endregion
-
-        public void RaisePostBackEvent(string eventArgument)
-        {
-            PrePrint();
-        }
     }
 }

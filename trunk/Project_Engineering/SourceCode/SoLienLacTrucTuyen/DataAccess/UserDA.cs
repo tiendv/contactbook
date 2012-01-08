@@ -182,6 +182,25 @@ namespace EContactBook.DataAccess
                 membership.IsTeacher = isTeacher;
                 membership.FullName = realName;
                 membership.Email = email;
+                membership.IsActivated = true;
+                db.SubmitChanges();
+            }
+        }
+
+        public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email, bool activated, bool deletable)
+        {
+            IQueryable<aspnet_Membership> iqMembership = from mem in db.aspnet_Memberships
+                                                         where mem.aspnet_User.UserName == user.UserName
+                                                         select mem;
+            if (iqMembership.Count() != 0)
+            {
+                aspnet_Membership membership = iqMembership.First();
+                membership.SchoolId = school.SchoolId;
+                membership.IsTeacher = isTeacher;
+                membership.FullName = realName;
+                membership.Email = email;
+                membership.IsActivated = activated;
+                membership.IsDeletable = deletable;
                 db.SubmitChanges();
             }
         }
@@ -229,7 +248,7 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public void UpdateMembership(string userName, string email)
+        public void UpdateMembership(string userName, string email, bool activation)
         {
             IQueryable<aspnet_Membership> iqMembership;
             iqMembership = from member in db.aspnet_Memberships
@@ -239,6 +258,7 @@ namespace EContactBook.DataAccess
             {
                 aspnet_Membership membership = iqMembership.First();
                 membership.Email = email;
+                membership.IsActivated = activation;
                 db.SubmitChanges();
             }
         }

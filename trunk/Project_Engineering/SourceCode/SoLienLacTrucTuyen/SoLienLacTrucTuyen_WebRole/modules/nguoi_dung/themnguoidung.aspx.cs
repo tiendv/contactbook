@@ -33,7 +33,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private const string VIEWSTATE_ISCHOSEROLEPARENTS = "IsChoseRoleParents";
         private const string VIEWSTATE_ISCHOSEROLETEACHERS = "IsChoseRoleTeachers";
-
         public Guid SeletedRoleId
         {
             get
@@ -299,6 +298,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             string strGeneratedPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
                 Membership.Provider.MinRequiredNonAlphanumericCharacters);
+            ViewState["genatedPassword"] = strGeneratedPassword;
             TextBox txtPassword = (TextBox)CreateUserStep.ContentTemplateContainer.FindControl("Password");
             txtPassword.Text = strGeneratedPassword;
             TextBox txtConfirmPassword = (TextBox)CreateUserStep.ContentTemplateContainer.FindControl("ConfirmPassword");
@@ -348,10 +348,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
 
-            MailBL.SendByGmail("duyna1989@gmail.com", RegisterUserWizard.Email, 
+            MailBL.SendByGmail(UserSchool.Email, RegisterUserWizard.Email, 
                 "Tạo tài khoản thành công", 
-                string.Format("pass:{0}", RegisterUserWizard.Password), 
-                "duyna1989", "1qazxsw@");
+                string.Format("Account: {0}, pass:{1}", createdUser.UserName, (string)ViewState["genatedPassword"]),
+                UserSchool.Email.Split('@')[0], UserSchool.Password);
 
             SchoolBL schoolBL = new SchoolBL();
             //schoolBL.UpdateTotalOfUser(UserSchool);

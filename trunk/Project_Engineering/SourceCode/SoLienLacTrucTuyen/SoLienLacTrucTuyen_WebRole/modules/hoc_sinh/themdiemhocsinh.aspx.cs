@@ -46,17 +46,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region DropDownList event hanlders
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDDLLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDDLLopHoc();
+            BindDDLClasses();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDDLLopHoc();
+            BindDDLClasses();
+            BindDDLMarkTypes();
         }
 
         protected void DdlHocKy_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,10 +77,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindDDLNamHoc();
             BindDDLHocKy();
             BindDDLNganhHoc();
-            BindDDLKhoiLop();
-            BindDDLLopHoc();
+            BindDDLGrades();
+            BindDDLClasses();
             BindDDLMonHoc();
-            BindDDLoaiDiem();
+            BindDDLMarkTypes();
         }
 
         private void BindDDLNamHoc()
@@ -122,35 +123,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDDLKhoiLop()
+        private void BindDDLGrades()
         {
-            GradeBL grades = new GradeBL(UserSchool);
-            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
-            DdlKhoiLop.DataSource = lstKhoiLop;
+            GradeBL gradeBL = new GradeBL(UserSchool);
+            List<Category_Grade> grades = gradeBL.GetListGrades();
+
+            DdlKhoiLop.DataSource = grades;
             DdlKhoiLop.DataValueField = "GradeId";
             DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
-            if (lstKhoiLop.Count > 1)
-            {
-                DdlKhoiLop.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
         }
 
-        private void BindDDLoaiDiem()
+        private void BindDDLMarkTypes()
         {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
-            DdlLoaiDiem.DataSource = lstLoaiDiem;
-            DdlLoaiDiem.DataValueField = "MarkTypeName";
-            DdlLoaiDiem.DataTextField = "MarkTypeName";
-            DdlLoaiDiem.DataBind();
-            if (lstLoaiDiem.Count > 1)
+            if (DdlKhoiLop.Items.Count != 0)
             {
-                DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
+                Category_Grade grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+
+                MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
+                List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes(grade);
+                DdlLoaiDiem.DataSource = markTypes;
+                DdlLoaiDiem.DataValueField = "MarkTypeName";
+                DdlLoaiDiem.DataTextField = "MarkTypeName";
+                DdlLoaiDiem.DataBind();
+
+                if (markTypes.Count > 1)
+                {
+                    DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
+                }
             }
         }
 
-        private void BindDDLLopHoc()
+        private void BindDDLClasses()
         {
             Configuration_Year year = null;
             Category_Faculty faculty = null;
@@ -233,24 +238,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptMarkTypes()
         {
-            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();
-
-            if (DdlLoaiDiem.Items.Count != 0)
+            if (DdlKhoiLop.Items.Count != 0)
             {
-                if (DdlLoaiDiem.SelectedIndex == 0)
-                {
-                    markTypes = markTypeBL.GetListMarkTypes();
-                }
-                else
-                {
-                    string markTypeName = DdlLoaiDiem.SelectedValue;
-                    markTypes.Add(markTypeBL.GetMarkType(markTypeName));
-                }
-            }
+                Category_Grade grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
+                List<Category_MarkType> markTypes = new List<Category_MarkType>();
 
-            this.RptLoaiDiem.DataSource = markTypes;
-            this.RptLoaiDiem.DataBind();
+                if (DdlLoaiDiem.Items.Count != 0)
+                {
+                    if (DdlLoaiDiem.SelectedIndex == 0)
+                    {
+                        markTypes = markTypeBL.GetListMarkTypes(grade);
+                    }
+                    else
+                    {
+                        string markTypeName = DdlLoaiDiem.SelectedValue;
+                        markTypes.Add(markTypeBL.GetMarkType(grade, markTypeName));
+                    }
+                }
+
+                this.RptLoaiDiem.DataSource = markTypes;
+                this.RptLoaiDiem.DataBind();
+            }
         }
 
         private void BindRptStudentMarks()
@@ -311,45 +321,52 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             MainDataPager.CurrentIndex = 1;
-            //isSearch = true;
             BindRptMarkTypes();
             BindRptStudentMarks();
         }
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            Dictionary<Student_Student, List<DetailMark>> dicEnteredStudentMarks = new Dictionary<Student_Student, List<DetailMark>>();
-            Student_Student student = null;
+            Dictionary<Student_Student, List<MarkValueAndTypePair>> dicEnteredStudentMarks = new Dictionary<Student_Student, List<MarkValueAndTypePair>>();
+            List<MarkValueAndTypePair> markValueAndTypePairs;
+            Student_Student student = null;            
+            Category_MarkType markType = null;
+            HiddenField hdfMarkTypeId = null;
+            TextBox txtDiems = null;
+            HiddenField hdfStudentId = null;            
             Class_Class Class = new Class_Class();
             Configuration_Term term = new Configuration_Term();
-            Category_Subject subject = null;
-            Category_MarkType markType = null;
-
+            Category_Subject subject = new Category_Subject();
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
             Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            subject = new Category_Subject();
             subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
 
             foreach (RepeaterItem rptItemStudentMark in RptDiemMonHoc.Items)
             {
                 if (rptItemStudentMark.ItemType == ListItemType.Item || rptItemStudentMark.ItemType == ListItemType.AlternatingItem)
                 {
-                    List<DetailMark> detailMarks = new List<DetailMark>();
-                    Repeater rptDetailMark = (Repeater)rptItemStudentMark.FindControl("RptDiemTheoLoaiDiem");
-                    foreach (RepeaterItem rptItemDiem in rptDetailMark.Items)
+                    // get student object
+                    student = new Student_Student();
+                    hdfStudentId = (HiddenField)rptItemStudentMark.FindControl("HdfMaHocSinh");
+                    student.StudentId = Int32.Parse(hdfStudentId.Value);
+
+                    markValueAndTypePairs = new List<MarkValueAndTypePair>();
+                    Repeater rptStudentSpecificDetailMark = (Repeater)rptItemStudentMark.FindControl("RptDiemTheoLoaiDiem");
+                    foreach (RepeaterItem rptItemDiem in rptStudentSpecificDetailMark.Items)
                     {
                         if (rptItemDiem.ItemType == ListItemType.Item || rptItemDiem.ItemType == ListItemType.AlternatingItem)
                         {
                             // get markType object
-                            HiddenField hdfMarkTypeId = (HiddenField)rptItemDiem.FindControl("HdfMarkTypeId");
+                            hdfMarkTypeId = (HiddenField)rptItemDiem.FindControl("HdfMarkTypeId");
                             markType = new Category_MarkType();
                             markType.MarkTypeId = Int32.Parse(hdfMarkTypeId.Value);
 
                             // get mark input
-                            TextBox txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
-                            string marks = txtDiems.Text.Trim();
-
-                            if (studyingResultBL.ValidateMark(marks, markType)) // in case mark is valid
+                            txtDiems = (TextBox)rptItemDiem.FindControl("TxtDiems");
+                            StudyingResultBL.ADDINGMARKERROR error = studyingResultBL.ValidateMark(student, year, term, subject, markType, txtDiems.Text.Trim());
+                            if (StudyingResultBL.ADDINGMARKERROR.NOERROR == error) // in case mark is valid
                             {
                                 // get mark values
                                 if (!CheckUntils.IsNullOrBlank(txtDiems.Text))
@@ -358,7 +375,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                     foreach (string strMark in strMarks)
                                     {
                                         double dMark = double.Parse(strMark.Trim());
-                                        detailMarks.Add(new DetailMark
+                                        markValueAndTypePairs.Add(new MarkValueAndTypePair
                                         {
                                             MarkTypeId = Int32.Parse(hdfMarkTypeId.Value),
                                             GiaTri = dMark
@@ -367,7 +384,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                 }
                                 else
                                 {
-                                    detailMarks.Add(new DetailMark
+                                    markValueAndTypePairs.Add(new MarkValueAndTypePair
                                     {
                                         MarkTypeId = Int32.Parse(hdfMarkTypeId.Value),
                                         GiaTri = -1
@@ -378,21 +395,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             {
                                 CustomValidator diemsValidator = (CustomValidator)rptItemDiem.FindControl("DiemsValidator");
                                 diemsValidator.IsValid = false;
+                                switch (error)
+                                {
+                                    case StudyingResultBL.ADDINGMARKERROR.NOTANUMBER:
+                                        {
+                                            diemsValidator.ErrorMessage = "Điểm phải là giá trị số";
+                                            break;
+                                        }
+                                    case StudyingResultBL.ADDINGMARKERROR.EXCEEDVALUETEN:
+                                        {
+                                            diemsValidator.ErrorMessage = "Giá trị điểm không được vượt quá 10";
+                                            break;
+                                        }
+                                    case StudyingResultBL.ADDINGMARKERROR.EXCEEDQUANTITY:
+                                        {
+                                            diemsValidator.ErrorMessage = "Số lượng điểm không được vượt quá số lượng qui định";
+                                            break;
+                                        }
+                                    default:
+                                        break;
+                                }
                                 return;
                             }
                         }
                     }
 
-                    // get student object
-                    student = new Student_Student();
-                    HiddenField hdfStudentId = (HiddenField)rptItemStudentMark.FindControl("HdfMaHocSinh");
-                    student.StudentId = Int32.Parse(hdfStudentId.Value);
+                    
 
-                    dicEnteredStudentMarks.Add(student, detailMarks);
+                    dicEnteredStudentMarks.Add(student, markValueAndTypePairs);
                 }
             }
 
-            foreach (KeyValuePair<Student_Student, List<DetailMark>> pair in dicEnteredStudentMarks)
+            foreach (KeyValuePair<Student_Student, List<MarkValueAndTypePair>> pair in dicEnteredStudentMarks)
             {
                 studyingResultBL.AddDetailedMark(pair.Key, Class, term, subject, pair.Value);
             }
@@ -409,23 +443,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptDiemMonHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (DdlKhoiLop.Items.Count != 0)
             {
-                if (DdlLoaiDiem.SelectedIndex == 0)
-                {
-                    markTypes = markTypeBL.GetListMarkTypes();
-                }
-                else
-                {
-                    string markTypeName = DdlLoaiDiem.SelectedValue;
-                    markTypes.Add(markTypeBL.GetMarkType(markTypeName));
-                }
+                Category_Grade grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
 
-                Repeater rptMarkTypeBasedMarks = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
-                rptMarkTypeBasedMarks.DataSource = markTypes;
-                rptMarkTypeBasedMarks.DataBind();
+                MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
+                List<Category_MarkType> markTypes = new List<Category_MarkType>();
+                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+                {
+                    if (DdlLoaiDiem.SelectedIndex == 0)
+                    {
+                        markTypes = markTypeBL.GetListMarkTypes(grade);
+                    }
+                    else
+                    {
+                        string markTypeName = DdlLoaiDiem.SelectedValue;
+                        markTypes.Add(markTypeBL.GetMarkType(grade, markTypeName));
+                    }
+
+                    Repeater rptMarkTypeBasedMarks = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
+                    rptMarkTypeBasedMarks.DataSource = markTypes;
+                    rptMarkTypeBasedMarks.DataBind();
+                }
             }
         }
         #endregion

@@ -38,10 +38,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             userDA.ChangeUserActivation(user, true);
         }
 
-        public void ActivateUser(aspnet_User user, string email)
+        public void ActivateUser(aspnet_User user, string email, bool activation)
         {
-            userDA.UpdateMembership(user.UserName, email);
-            userDA.ChangeUserActivation(user, true);
+            userDA.UpdateMembership(user.UserName, email, true);
         }
 
         public aspnet_User GetUser(Guid userId)
@@ -130,7 +129,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool ValidateUser(string userName)
         {
             aspnet_User user = GetUser(userName);
-            return user.aspnet_Membership.IsActivated;
+            return (bool)user.aspnet_Membership.IsActivated;
         }
 
         public bool IsDeletable(aspnet_User user)
@@ -140,7 +139,20 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email)
         {
-            userDA.UpdateMembership(user, isTeacher, realName, email);
+            bool activated = false;
+            bool deletable = true;
+
+            if (!CheckUntils.IsNullOrBlank(email))
+            {
+                activated = true;
+            }
+
+            userDA.UpdateMembership(user, isTeacher, realName, email, activated, deletable);
+        }
+
+        public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email, bool activated, bool deletable)
+        {
+            userDA.UpdateMembership(user, isTeacher, realName, email, activated, deletable);
         }
 
         private TabularUser ConvertToTabular(aspnet_User user)
@@ -187,6 +199,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return tabularUser;
+        }
+
+        public void CreateUserMasterAdministrator(aspnet_User masterAdministrator)
+        {
+            AuthorizationBL authorizationBL = new AuthorizationBL(school);
+            RoleBL roleBL = new RoleBL(school);
+            UserBL userBL = new UserBL(school);
+
+            // add administrator user to administrator role
+            authorizationBL.AddUserToRole(masterAdministrator.UserName, roleBL.GetRoleAdministrator());
+
+            // update administrator's membership information
+            userBL.UpdateMembership(masterAdministrator, false, masterAdministrator.UserName.Split('_')[1], masterAdministrator.aspnet_Membership.Email, true, false);
         }
 
         public void CreateUserAdministrator(aspnet_User administrator)

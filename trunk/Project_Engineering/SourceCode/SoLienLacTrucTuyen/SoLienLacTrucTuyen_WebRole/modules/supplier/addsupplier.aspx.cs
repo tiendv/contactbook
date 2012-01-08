@@ -305,13 +305,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             roleBL.CreateRoleDetail("Giáo viên bộ môn", "", false, parentRole, roleCategory, school);
             authorizationBL.InsertAuthorizations(roleBL.GetRole(strRoleName));
 
-            // create school's default user administrator
+            // create school's default user master administrator
             string strAdminUserPassword = "1qazxsw@";
-            string strAdminUserName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "admin";
+            string strAdminUserName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "masteradmin";
             // create user by asp .net method
             Membership.CreateUser(strAdminUserName, strAdminUserPassword, school.Email);
             // update created membership information
             aspnet_User userAdmin = new aspnet_User();
+            userAdmin.aspnet_Membership = new aspnet_Membership();
+            userAdmin.aspnet_Membership.Email = school.Email;
+            userAdmin.UserName = strAdminUserName;
+            userBL.CreateUserMasterAdministrator(userAdmin);
+
+            // create school's default user administrator
+            strAdminUserPassword = "1qazxsw@";
+            strAdminUserName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "admin";
+            // create user by asp .net method
+            Membership.CreateUser(strAdminUserName, strAdminUserPassword, school.Email);
+            // update created membership information
+            userAdmin = new aspnet_User();
             userAdmin.aspnet_Membership = new aspnet_Membership();
             userAdmin.aspnet_Membership.Email = school.Email;
             userAdmin.UserName = strAdminUserName;
