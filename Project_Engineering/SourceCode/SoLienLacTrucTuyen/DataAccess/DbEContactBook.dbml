@@ -57,7 +57,7 @@
       <Column Name="IsDeletable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsTeacher" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsActivated" Member="IsActivated" Type="System.Boolean" DbType="bit NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="IsActivated" Member="IsActivated" Type="System.Boolean" DbType="bit" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
       <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
       <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="School_School_aspnet_Membership" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
@@ -216,6 +216,7 @@
       <Association Name="Category_Grade_Category_Subject" Member="Category_Subjects" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Subject" />
       <Association Name="Category_Grade_Class_Class" Member="Class_Classes" ThisKey="GradeId" OtherKey="GradeId" Type="Class_Class" />
       <Association Name="School_School_Category_Grade" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
+      <Association Name="Category_Grade_Category_MarkType" Member="CategoryMarkTypes" ThisKey="GradeId" OtherKey="GradeId" Type="Category_MarkType" IsForeignKey="false" />
     </Type>
   </Table>
   <Table Name="dbo.Category_LearningAptitude" Member="Category_LearningAptitudes">
@@ -245,9 +246,9 @@
       <Column Name="MarkRatio" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="MaxQuantity" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
       <Column Name="IsUsedForCalculatingAvg" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GradeId" Member="GradeId" Type="System.Int32" DbType="int NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Student_DetailedTermSubjectMarks" ThisKey="MarkTypeId" OtherKey="MarkType" Type="Student_DetailedTermSubjectMark" />
-      <Association Name="School_School_Category_MarkType" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
+      <Association Name="Category_Grade_Category_MarkType" Member="CategoryGrade" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Grade" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Category_Subject" Member="Category_Subjects">
@@ -421,7 +422,6 @@
       <Association Name="School_School_Category_Grade" Member="Category_Grades" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Grade" />
       <Association Name="School_School_Category_LearningAptitude" Member="Category_LearningAptitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_LearningAptitude" />
       <Association Name="School_School_Category_LearningResult" Member="Category_LearningResults" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_LearningResult" />
-      <Association Name="School_School_Category_MarkType" Member="Category_MarkTypes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_MarkType" />
       <Association Name="School_School_Category_TeachingPeriod" Member="Category_TeachingPeriods" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_TeachingPeriod" />
       <Association Name="School_School_Class_Class" Member="Class_Classes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Class_Class" />
       <Association Name="School_School_Configuration_Year" Member="Configuration_Years" ThisKey="SchoolId" OtherKey="SchoolId" Type="Configuration_Year" />

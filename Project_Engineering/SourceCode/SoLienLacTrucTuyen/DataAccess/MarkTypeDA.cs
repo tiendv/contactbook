@@ -14,7 +14,7 @@ namespace EContactBook.DataAccess
 
         public void InsertMarkType(Category_MarkType markType)
         {
-            markType.SchoolId = school.SchoolId;
+            // markType.SchoolId = school.SchoolId;
             db.Category_MarkTypes.InsertOnSubmit(markType);
             db.SubmitChanges();
         }
@@ -63,13 +63,13 @@ namespace EContactBook.DataAccess
             return markType;
         }
 
-        public Category_MarkType GetMarkType(string markTypeName)
+        public Category_MarkType GetMarkType(Category_Grade grade, string markTypeName)
         {
             Category_MarkType markType = null;
 
             IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
                                                        where markTp.MarkTypeName == markTypeName
-                                                       && markTp.SchoolId == school.SchoolId
+                                                       && markTp.GradeId == grade.GradeId
                                                        select markTp;
             if (iqMarkType.Count() != 0)
             {
@@ -79,12 +79,12 @@ namespace EContactBook.DataAccess
             return markType;
         }
 
-        public List<Category_MarkType> GetMarkTypes()
+        public List<Category_MarkType> GetMarkTypes(Category_Grade grade)
         {
             List<Category_MarkType> markTypes = new List<Category_MarkType>();
 
             IQueryable<Category_MarkType> iqMarkType = from markType in db.Category_MarkTypes
-                                                       where markType.SchoolId == school.SchoolId
+                                                       where markType.GradeId == grade.GradeId
                                                        select markType;
 
             if (iqMarkType.Count() != 0)
@@ -96,12 +96,12 @@ namespace EContactBook.DataAccess
             return markTypes;
         }
 
-        public List<Category_MarkType> GetMarkTypes(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<Category_MarkType> GetMarkTypes(Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<Category_MarkType> markTypes = new List<Category_MarkType>();
 
             IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
-                                                       where markTp.SchoolId == school.SchoolId
+                                                       where markTp.GradeId == grade.GradeId
                                                        select markTp;
 
             totalRecords = iqMarkType.Count();
@@ -115,11 +115,11 @@ namespace EContactBook.DataAccess
             return markTypes;
         }
 
-        public bool MarkTypeExists(string markTypeName)
+        public bool MarkTypeExists(Category_Grade grade, string markTypeName)
         {
             IQueryable<Category_MarkType> iqMarkType = from markType in db.Category_MarkTypes
                                                        where markType.MarkTypeName == markTypeName
-                                                       && markType.SchoolId == school.SchoolId
+                                                       && markType.GradeId == grade.GradeId
                                                        select markType;
             if (iqMarkType.Count() != 0)
             {
@@ -131,13 +131,13 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public Category_MarkType GetAppliedCalculateAvgMarkType()
+        public Category_MarkType GetAppliedCalculateAvgMarkType(Category_Grade grade)
         {
             Category_MarkType markType = null;
 
             IQueryable<Category_MarkType> iqMarkType = from markTp in db.Category_MarkTypes
                                                        where markTp.IsUsedForCalculatingAvg == true
-                                                       && markTp.SchoolId == school.SchoolId
+                                                       && markTp.GradeId == grade.GradeId
                                                        select markTp;
             if (iqMarkType.Count() != 0)
             {

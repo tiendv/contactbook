@@ -36,16 +36,15 @@
             <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
                 ToolTip="Tìm kiếm giáo viên" OnClick="BtnSearch_Click" />
         </div>
-        <div  id="divButtonSearch">
-            <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/Images/button_print.png"
-                ToolTip="In danh sach học sinh" OnClientClick="fncOpen();" />
-        </div>
         <br />
     </div>
     <div class="table_data ui-corner-all">
-        <div class="add" style="display: none">
+        <div class="add">
             <asp:ImageButton ID="BtnAddGiaoVien" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
                 ToolTip="Thêm giáo viên mới" OnClick="BtnAdd_Click" />
+            <asp:ImageButton ID="BtnExport" runat="server" ImageUrl="~/Styles/buttons/button_export.png"
+                ToolTip="In danh sach học sinh" OnClientClick="fncOpen();" CssClass="BtnExport"
+                Visible="true" />
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>

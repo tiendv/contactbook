@@ -57,6 +57,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLLopHoc();
+            BindDDLMarkTypes();
         }
 
         protected void DdlHocKy_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,10 +78,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindDDLHocKy();
             BindDDLMonths();
             BindDDLNganhHoc();
-            BindDDLKhoiLop();
+            BindDDLGrades();
             BindDDLLopHoc();
             BindDDLMonHoc();
-            BindDDLoaiDiem();
+            BindDDLMarkTypes();
         }
 
         private void BindDDLNamHoc()
@@ -140,31 +141,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDDLKhoiLop()
+        private void BindDDLGrades()
         {
-            GradeBL grades = new GradeBL(UserSchool);
-            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
-            DdlKhoiLop.DataSource = lstKhoiLop;
+            GradeBL gradeBL = new GradeBL(UserSchool);
+            List<Category_Grade> grades = gradeBL.GetListGrades();
+            DdlKhoiLop.DataSource = grades;
             DdlKhoiLop.DataValueField = "GradeId";
             DdlKhoiLop.DataTextField = "GradeName";
-            DdlKhoiLop.DataBind();
-            if (lstKhoiLop.Count > 1)
-            {
-                DdlKhoiLop.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
+            DdlKhoiLop.DataBind();            
         }
 
-        private void BindDDLoaiDiem()
+        private void BindDDLMarkTypes()
         {
-            MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> lstLoaiDiem = loaiDiemBL.GetListMarkTypes();
-            DdlLoaiDiem.DataSource = lstLoaiDiem;
-            DdlLoaiDiem.DataValueField = "MarkTypeName";
-            DdlLoaiDiem.DataTextField = "MarkTypeName";
-            DdlLoaiDiem.DataBind();
-            if (lstLoaiDiem.Count > 1)
+            if (DdlKhoiLop.Items.Count != 0)
             {
-                DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
+                Category_Grade grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+
+                MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
+                List<Category_MarkType> lstLoaiDiem = loaiDiemBL.GetListMarkTypes(grade);
+                DdlLoaiDiem.DataSource = lstLoaiDiem;
+                DdlLoaiDiem.DataValueField = "MarkTypeName";
+                DdlLoaiDiem.DataTextField = "MarkTypeName";
+                DdlLoaiDiem.DataBind();
+                if (lstLoaiDiem.Count > 1)
+                {
+                    DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
+                }
             }
         }
 
@@ -194,15 +197,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            try
+            if(DdlKhoiLop.Items.Count != 0)
             {
-                if (DdlKhoiLop.SelectedIndex > 0)
+                if (DdlKhoiLop.SelectedIndex >= 0)
                 {
                     grade = new Category_Grade();
                     grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
                 }
             }
-            catch (Exception) { }
 
             ClassBL lopHocBL = new ClassBL(UserSchool);
             List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
@@ -250,24 +252,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptMarkTypes()
         {
-            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();
-
-            if (DdlLoaiDiem.Items.Count != 0)
+            if (DdlKhoiLop.Items.Count != 0)
             {
-                if (DdlLoaiDiem.SelectedIndex == 0)
-                {
-                    markTypes = markTypeBL.GetListMarkTypes();
-                }
-                else
-                {
-                    string markTypeName = DdlLoaiDiem.SelectedValue;
-                    markTypes.Add(markTypeBL.GetMarkType(markTypeName));
-                }
-            }
+                Category_Grade grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
+                List<Category_MarkType> markTypes = new List<Category_MarkType>();
 
-            this.RptLoaiDiem.DataSource = markTypes;
-            this.RptLoaiDiem.DataBind();
+                if (DdlLoaiDiem.Items.Count != 0)
+                {
+                    if (DdlLoaiDiem.SelectedIndex == 0)
+                    {
+                        markTypes = markTypeBL.GetListMarkTypes(grade);
+                    }
+                    else
+                    {
+                        string markTypeName = DdlLoaiDiem.SelectedValue;
+                        markTypes.Add(markTypeBL.GetMarkType(grade, markTypeName));
+                    }
+                }
+
+                this.RptLoaiDiem.DataSource = markTypes;
+                this.RptLoaiDiem.DataBind();
+            }
         }
 
         private void BindRptStudentMarks()
@@ -296,14 +303,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
             term = new Configuration_Term();
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            if (DdlLoaiDiem.SelectedIndex == 0)
+            
+            if (DdlKhoiLop.Items.Count != 0)
             {
-                markTypes = markTypeBL.GetListMarkTypes();
-            }
-            else
-            {
-                string markTypeName = DdlLoaiDiem.SelectedValue;
-                markTypes.Add(markTypeBL.GetMarkType(markTypeName));
+                Category_Grade grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+                if (DdlLoaiDiem.SelectedIndex == 0)
+                {
+                    markTypes = markTypeBL.GetListMarkTypes(grade);
+                }
+                else
+                {
+                    string markTypeName = DdlLoaiDiem.SelectedValue;
+                    markTypes.Add(markTypeBL.GetMarkType(grade, markTypeName));
+                }
             }
 
             if (RBtnTerm.Checked)
@@ -362,11 +375,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptDiemMonHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item
-                || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 TabularStudentMark tabularStudentMark = (TabularStudentMark)e.Item.DataItem;
                 Repeater rptMarkTypeBasedMarks = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
+
                 rptMarkTypeBasedMarks.DataSource = tabularStudentMark.DiemTheoLoaiDiems;
                 rptMarkTypeBasedMarks.DataBind();
             }

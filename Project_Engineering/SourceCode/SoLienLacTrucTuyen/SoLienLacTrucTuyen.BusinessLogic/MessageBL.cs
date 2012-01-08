@@ -39,9 +39,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             messageDA.UpdateMessage(message, messageStatus);
         }
 
-        public void DeleteMessage(int maLopNhanKhan)
+        public void DeleteMessage(MessageToParents_Message message)
         {
-            messageDA.DeleteLoiNhanKhan(maLopNhanKhan);
+            messageDA.DeleteMessage(message);
         }
 
         public MessageToParents_Message GetMessage(int maLoiNhanKhan)

@@ -41,9 +41,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
-                isSearch = false;
-                PagerMain.CurrentIndex = 1;
-                BindRptLoaiDiem();
+                BindDDLGrades();
+
+                if (DdlGradeSearch.Items.Count != 0)
+                {
+                    isSearch = false;
+                    PagerMain.CurrentIndex = 1;
+                    BindRptLoaiDiem();
+                }
             }
 
             ProcPermissions();
@@ -56,13 +61,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD;
                 PnlPopupAdd.Visible = true;
             }
             else
             {
-                BtnAdd.Visible = false;
+                BtnAdd.Enabled = false;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
                 PnlPopupAdd.Visible = false;
+            }
+
+            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            {
+                BtnEdit.Enabled = true;
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_MODIFY;
+                PnlPopupEdit.Visible = true;
+            }
+            else
+            {
+                BtnEdit.Enabled = false;
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_MODIFY_DISABLED;
+                PnlPopupEdit.Visible = false;
+            }
+
+            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            {
+                BtnDelete.Enabled = true;
+                BtnDelete.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
+                PnlPopupConfirmDelete.Visible = true;
+            }
+            else
+            {
+                BtnDelete.Enabled = false;
+                BtnDelete.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_DELETE_DISABLED;
+                PnlPopupConfirmDelete.Visible = false;
             }
         }
 
@@ -70,23 +102,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string MarkTypeName = TxtSearchLoaiDiem.Text.Trim();
             double dTotalRecords = 0;
-            
-            List<Category_MarkType> lstLoaiDiem = loaiDiemBL.GetListMarkTypes(
-                MarkTypeName,
-                PagerMain.CurrentIndex, PagerMain.PageSize, out dTotalRecords);
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = Int32.Parse(DdlGradeSearch.SelectedValue);
+
+            List<TabularMarkType> tabularMarkTypes = loaiDiemBL.GetTabularMarkTypes(
+                MarkTypeName, grade, PagerMain.CurrentIndex, PagerMain.PageSize, out dTotalRecords);
             PagerMain.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
-            if (lstLoaiDiem.Count == 0 && dTotalRecords != 0)
+            if (tabularMarkTypes.Count == 0 && dTotalRecords != 0)
             {
                 PagerMain.CurrentIndex--;
                 BindRptLoaiDiem();
                 return;
             }
 
-            bool bDisplayData = (lstLoaiDiem.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
+            bool bDisplayData = (tabularMarkTypes.Count != 0) ? true : false;           
             RptLoaiDiem.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -110,13 +141,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 PagerMain.Visible = true;
             }
 
-            RptLoaiDiem.DataSource = lstLoaiDiem;
+            RptLoaiDiem.DataSource = tabularMarkTypes;
             RptLoaiDiem.DataBind();
         }
 
-        private bool ValidateForAdd(string MarkTypeName, string maxMarksPerTerm)
+        private bool ValidateForAdd(Category_Grade grade, string MarkTypeName, string maxMarksPerTerm)
         {
-            if (MarkTypeName == "")
+            if (CheckUntils.IsNullOrBlank(MarkTypeName))
             {
                 MarkTypeNameRequiredAdd.IsValid = false;
                 TxtMarkTypeName.Focus();
@@ -133,7 +164,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    if (loaiDiemBL.MarkTypeNameExists(MarkTypeName))
+                    if (loaiDiemBL.MarkTypeNameExists(grade, MarkTypeName))
                     {
                         MarkTypeNameValidatorAdd.IsValid = false;
                         TxtMarkTypeName.Focus();
@@ -157,7 +188,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (RbtnYesAdd.Checked)
             {
-                Category_MarkType appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType();
+                Category_MarkType appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType(grade);
                 if (appliedCalAvgMarkType != null)
                 {
                     LblAppCalAvgMarkAdd.Visible = true;
@@ -172,7 +203,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             return true;
         }
 
-        private bool ValidateForEdit(string editedMarkTypeName, string MarkTypeName, string maxMarksPerTerm)
+        private bool ValidateForEdit(Category_Grade grade, string editedMarkTypeName, string markTypeName, string maxMarksPerTerm)
         {
             // validate page
             if (!Page.IsValid)
@@ -180,25 +211,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
 
-            // get modalPopupEdit
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptLoaiDiem.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptLoaiDiemMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
-
             // validate blank
-            if (MarkTypeName == "")
+            if (markTypeName == "")
             {
                 MarkTypeNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return false;
             }
             else
@@ -206,15 +223,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (!Regex.IsMatch(TxtMarkRatioLoaiDiemSua.Text.Trim(), MarkRatioRegExpEdit.ValidationExpression))
                 {
                     MarkRatioRegExpEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return false;
                 }
                 else
                 {
-                    if (loaiDiemBL.MarkTypeNameExists(editedMarkTypeName, MarkTypeName))
+                    if (loaiDiemBL.MarkTypeNameExists(grade, editedMarkTypeName, markTypeName))
                     {
                         MarkTypeNameValidatorEdit.IsValid = false;
-                        modalPopupEdit.Show();
+                        MPEEdit.Show();
                         return false;
                     }
                 }
@@ -227,19 +244,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             catch (Exception)
             {
                 MaxMarksPerTermRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return false;
             }
 
             if (RbtnYesEdit.Checked)
             {
-                Category_MarkType appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType();
+                Category_MarkType appliedCalAvgMarkType = loaiDiemBL.GetAppliedCalAvgMarkType(grade);
                 if (appliedCalAvgMarkType != null)
                 {
                     if (appliedCalAvgMarkType.MarkTypeName != editedMarkTypeName)
                     {
                         LblAppCalAvgMarkEdit.Visible = true;
-                        modalPopupEdit.Show();
+                        MPEEdit.Show();
                         return false;
                     }
                 }                
@@ -250,6 +267,29 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             return true;
 
+        }
+
+        private void BindDDLGrades()
+        {
+            GradeBL gradeBL = new GradeBL(UserSchool);
+            List<Category_Grade> grades = gradeBL.GetListGrades();
+            DdlGradeSearch.DataSource = grades;
+            DdlGradeSearch.DataValueField = "GradeId";
+            DdlGradeSearch.DataTextField = "GradeName";
+            DdlGradeSearch.DataBind();
+
+            if (DdlGradeSearch.Items.Count == 0)
+            {
+                BtnAdd.Enabled = false;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
+            }
+            else
+            {
+                DdlGradeAdd.DataSource = grades;
+                DdlGradeAdd.DataValueField = "GradeId";
+                DdlGradeAdd.DataTextField = "GradeName";
+                DdlGradeAdd.DataBind();
+            }
         }
         #endregion
 
@@ -269,12 +309,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MarkRatioLoaiDiem = Math.Round(MarkRatioLoaiDiem, 1, MidpointRounding.AwayFromZero);
             string maxMarksPerTerm = this.TxtMaxMarksPerTermAdd.Text.Trim();
             bool calAverageMark = this.RbtnYesAdd.Checked;
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = Int32.Parse(DdlGradeAdd.SelectedValue);
 
-            bool bValidInput = ValidateForAdd(MarkTypeName, maxMarksPerTerm);
+            bool bValidInput = ValidateForAdd(grade, MarkTypeName, maxMarksPerTerm);
             if (bValidInput)
             {
                 loaiDiemBL.InsertLoaiDiem(MarkTypeName, MarkRatioLoaiDiem,
-                    short.Parse(maxMarksPerTerm), calAverageMark);
+                    short.Parse(maxMarksPerTerm), calAverageMark, grade);
 
                 PagerMain.CurrentIndex = 1;
                 BindRptLoaiDiem();
@@ -293,13 +335,59 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }        
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {            
-            Category_MarkType markType = new Category_MarkType();
-            markType.MarkTypeId = Int32.Parse(this.HdfSltMarkTypeId.Value);
-
-            loaiDiemBL.DeleteMarkType(markType);
+        {
+            HiddenField HdfRptMarkTypeId = null;
+            Category_MarkType markType = null;
+            foreach (RepeaterItem item in RptLoaiDiem.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptMarkTypeId = (HiddenField)item.FindControl("HdfRptMarkTypeId");
+                        markType = loaiDiemBL.GetMarkType(Int32.Parse(HdfRptMarkTypeId.Value));
+                        if (loaiDiemBL.IsDeletable(markType))
+                        {
+                            loaiDiemBL.DeleteMarkType(markType);
+                        }
+                    }
+                }
+            }          
+            
             isSearch = false;
             BindRptLoaiDiem();
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMarkTypeId = null;
+            Category_MarkType markType = null;
+            foreach (RepeaterItem item in RptLoaiDiem.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptMarkTypeId = (HiddenField)item.FindControl("HdfRptMarkTypeId");
+                        markType = loaiDiemBL.GetMarkType(Int32.Parse(HdfRptMarkTypeId.Value));
+
+                        TxtSuaMarkTypeName.Text = markType.MarkTypeName;
+                        TxtMarkRatioLoaiDiemSua.Text = markType.MarkRatio.ToString();
+                        TxtMaxMarksPerTermEdit.Text = markType.MaxQuantity.ToString();
+                        RbtnYesEdit.Checked = markType.IsUsedForCalculatingAvg;
+                        RbtnCancelEdit.Checked = !markType.IsUsedForCalculatingAvg;
+                        LblGradeName.Text = markType.CategoryGrade.GradeName;
+                        HdfGradeId.Value = markType.GradeId.ToString();
+                        LblAppCalAvgMarkEdit.Visible = false;
+
+                        HdfEditedMarkTypeName.Value = markType.MarkTypeName;
+                        MPEEdit.Show();
+                        return;
+                    }
+                }
+            }
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
@@ -309,11 +397,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             double MarkRatio = Double.Parse(TxtMarkRatioLoaiDiemSua.Text.Trim());
             string maxMarksPerTerm = this.TxtMaxMarksPerTermEdit.Text.Trim();
             bool calAverageMark = this.RbtnYesEdit.Checked;
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = Int32.Parse(HdfGradeId.Value);
 
-            bool bValidInput = ValidateForEdit(editedMarkTypeName, newMarkTypeName, maxMarksPerTerm);
+            bool bValidInput = ValidateForEdit(grade, editedMarkTypeName, newMarkTypeName, maxMarksPerTerm);
+            
             if (bValidInput)
             {
-                loaiDiemBL.UpdateMarkType(editedMarkTypeName, newMarkTypeName, MarkRatio,
+                loaiDiemBL.UpdateMarkType(grade, editedMarkTypeName, newMarkTypeName, MarkRatio,
                     short.Parse(maxMarksPerTerm), calAverageMark);
                 BindRptLoaiDiem();
             }
@@ -323,97 +414,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptLoaiDiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        Category_MarkType markType = (Category_MarkType)e.Item.DataItem;
-                        if (!loaiDiemBL.IsDeletable(markType.MarkTypeName))
-                        {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
+            
         }
 
         protected void RptLoaiDiem_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
             {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa loại điểm <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptMarkTypeId = (HiddenField)e.Item.FindControl("HdfRptMarkTypeId");
-                        this.HdfSltMarkTypeId.Value = hdfRptMarkTypeId.Value;
-
-                        this.HdfRptLoaiDiemMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        string markTypeName = (string)e.CommandArgument;
-                        Category_MarkType markType = loaiDiemBL.GetMarkType(markTypeName);
-                        this.HdfSltMarkTypeId.Value = markType.MarkTypeId.ToString();
-                        TxtSuaMarkTypeName.Text = markType.MarkTypeName;
-                        TxtMarkRatioLoaiDiemSua.Text = markType.MarkRatio.ToString();
-                        TxtMaxMarksPerTermEdit.Text = markType.MaxQuantity.ToString();
-                        RbtnYesEdit.Checked = markType.IsUsedForCalculatingAvg;
-                        RbtnCancelEdit.Checked = !markType.IsUsedForCalculatingAvg;
-                        LblAppCalAvgMarkEdit.Visible = false;
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfRptLoaiDiemMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfEditedMarkTypeName.Value = markTypeName;
-
-                        break;
-                    }
-                default:
+               default:
                     {
                         break;
                     }

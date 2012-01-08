@@ -40,7 +40,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 schoolDA.DeleteSchool(school);
             }
         }
-        
+
+        public School_School GetSchool(int schoolId)
+        {
+            return schoolDA.GetSchool(schoolId);
+        }
+
         public List<School_School> GetSchools()
         {
             return schoolDA.GetSchools();

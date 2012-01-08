@@ -202,9 +202,24 @@ namespace SoLienLacTrucTuyen_WebRole
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            string deletedFacultyName = this.HdfDeletedFacultyName.Value;
-            Category_Faculty faculty = facultyBL.GetFaculty(deletedFacultyName);
-            facultyBL.DeleteFaculty(faculty);
+            HiddenField hdfRptFacultyId = null;
+            Category_Faculty faculty = null;
+
+            foreach (RepeaterItem item in RptNganhHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    hdfRptFacultyId = (HiddenField)item.FindControl("HdfRptFacultyId");
+                    faculty = new Category_Faculty();
+                    faculty.FacultyId = Int32.Parse(hdfRptFacultyId.Value);
+                    
+                    if (facultyBL.IsDeletable(faculty))
+                    {
+                        facultyBL.DeleteFaculty(faculty);
+                    }
+                }
+            }
+
             isSearch = false;
             BindRptFaculties();
         }

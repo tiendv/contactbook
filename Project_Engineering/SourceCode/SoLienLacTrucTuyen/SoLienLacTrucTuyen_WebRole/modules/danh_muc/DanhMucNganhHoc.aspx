@@ -114,7 +114,6 @@
             </asp:ModalPopupExtender>
             <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
                 ToolTip="Sửa ngành học" CssClass="BtnEdit" />
-            <asp:ImageButton ID="BtnFakedEdit" runat="server" style="display: none" />
             <asp:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakedEdit" PopupControlID="PnlPopupEdit"
                 BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit" PopupDragHandleControlID="PnlDragPopupEdit">
             </asp:ModalPopupExtender>

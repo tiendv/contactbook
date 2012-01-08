@@ -529,7 +529,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
+            BindDDLYears();
 
             BindDDLFaculties();
 
@@ -576,7 +576,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNganhHocThem.DataBind();
         }
 
-        private void BindDropDownListNamHoc()
+        private void BindDDLYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<Configuration_Year> years = systemConfigBL.GetListYears();
@@ -584,19 +584,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
-            if (DdlNamHoc.Items.Count != 0)
-            {
-
-            }
-
+            
             DdlNamHocThem.DataSource = years;
             DdlNamHocThem.DataValueField = "YearId";
             DdlNamHocThem.DataTextField = "YearName";
             DdlNamHocThem.DataBind();
-            if (DdlNamHocThem.Items.Count != 0)
-            {
 
-            }
         }
 
         private void BindDDLClasses()
@@ -669,17 +662,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlLopHoc.Items.Count != 0)
             {
-                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD;
-                BtnAdd.Enabled = true;
-
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
                 BtnPrint.Enabled = true;
             }
             else
             {
-                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
-                BtnAdd.Enabled = false;
-
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
                 BtnPrint.Enabled = false;
             }

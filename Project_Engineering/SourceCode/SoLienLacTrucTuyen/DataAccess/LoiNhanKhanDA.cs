@@ -70,14 +70,17 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
-        public void DeleteLoiNhanKhan(int maLoiNhanKhan)
+        public void DeleteMessage(MessageToParents_Message message)
         {
-            MessageToParents_Message loiNhanKhan = (from lnk in db.MessageToParents_Messages
-                                                    where lnk.MessageId == maLoiNhanKhan
-                                                    select lnk).First();
-            db.MessageToParents_Messages.DeleteOnSubmit(loiNhanKhan);
-            db.SubmitChanges();
-
+            IQueryable<MessageToParents_Message> iqMessage = from msg in db.MessageToParents_Messages
+                                                             where msg.MessageId == message.MessageId
+                                                             select msg;
+            if (iqMessage.Count() != 0)
+            {
+                message = iqMessage.First();
+                db.MessageToParents_Messages.DeleteOnSubmit(message);
+                db.SubmitChanges();
+            }
         }
 
         public MessageToParents_Message GetLoiNhanKhan(int maLoiNhanKhan)

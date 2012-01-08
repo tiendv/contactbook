@@ -99,7 +99,8 @@ namespace SoLienLacTrucTuyen_WebRole
             StudyingResultBL kqhtBL = new StudyingResultBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
             Category_MarkType markType = new Category_MarkType();
             markType.MarkTypeId = markTypeId;
-            return kqhtBL.ValidateMark(marks, markType);
+            //return kqhtBL.ValidateMark(marks, markType);
+            return true;
         }
     }
 }

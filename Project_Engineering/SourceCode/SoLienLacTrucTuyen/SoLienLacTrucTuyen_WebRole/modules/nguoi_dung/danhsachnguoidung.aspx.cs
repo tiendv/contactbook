@@ -190,6 +190,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
+            HiddenField hdfactualUserName = null;
             foreach(RepeaterItem item in RptUser.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
@@ -197,9 +198,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
                     if (CkbxSelectUser.Checked)
                     {
-                        HiddenField HdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
-                        authorizationBL.DeleteAuthorization(HdfactualUserName.Value);
-                        Membership.DeleteUser(HdfactualUserName.Value, true);            
+                        hdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
+                        authorizationBL.DeleteAuthorization(hdfactualUserName.Value);
+                        Membership.DeleteUser(hdfactualUserName.Value, true);            
                     }
                 }
             }
@@ -226,7 +227,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             user = new aspnet_User();
                             user.UserName = HdfactualUserName.Value;
-                            userBL.ActivateUser(user, TxtEmail.Text.Trim());
+                            userBL.ActivateUser(user, TxtEmail.Text.Trim(), true);
                         }
                     }
                 }

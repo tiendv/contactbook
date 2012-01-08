@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private bool isSearch;
-        private MessageBL loiNhanKhanBL;
+        private MessageBL messageBL;
         #endregion
 
         #region Page event handlers
@@ -35,7 +35,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            loiNhanKhanBL = new MessageBL(UserSchool);
+            messageBL = new MessageBL(UserSchool);
             if (!Page.IsPostBack)
             {
                 isSearch = false;
@@ -65,7 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             double dTotalRecords;
-            List<TabularMessage> lstTabularLoiNhanKhan = loiNhanKhanBL.GetTabularMessages(
+            List<TabularMessage> lstTabularLoiNhanKhan = messageBL.GetTabularMessages(
                 year, tuNgay, denNgay,
                 strStudentCode, messageStatus, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
@@ -86,8 +86,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcessDislayInfo(bool bDisplayData)
         {
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptLoiNhanKhan.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -144,7 +142,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
 
                 ProcessDislayInfo(false);
-            }  
+            }
         }
 
         private void BindDDLMessageStatuses()
@@ -156,7 +154,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlXacNhan.DataTextField = "MessageStatusName";
             DdlXacNhan.DataBind();
 
-            DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0")); 
+            DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0"));
         }
 
         private void InitDates()
@@ -179,76 +177,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptLoiNhanKhan_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                //LopHocInfo lopHoc = (LopHocInfo)e.Item.DataItem;
-                //if (lopHoc != null)
-                //{
-                //    int ClassId = lopHoc.ClassId;
-                //    if (!lopHocBL.CheckCanDeleteLopHoc(ClassId))
-                //    {
-                //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                //        btnDeleteItem.Enabled = false;
-                //    }
-                //}
-            }
+            
         }
 
         protected void RptLoiNhanKhan_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
             {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa lời nhắn khẩn <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptMaLoiNhanKhan = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
-                        this.HdfMaLoiNhanKhan.Value = hdfRptMaLoiNhanKhan.Value;
-
-                        this.HdfRptLoiNhanKhanMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int maLoiNhanKhan = Int32.Parse(e.CommandArgument.ToString());
-                        MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetMessage(maLoiNhanKhan);
-
-                        LblTieuDeSua.Text = loiNhanKhan.Title;
-                        TxtNoiDungSua.Text = TxtNoiDungSua.Text;
-                        TxtNgaySua.Text = loiNhanKhan.Date.ToShortDateString();
-
-                        Student_StudentInClass hocSinhLopHoc = (new StudentBL(UserSchool)).GetStudentInClass(loiNhanKhan.StudentInClassId);
-                        LblMaHocSinhSua.Text = (new StudentBL(UserSchool)).GetStudent(hocSinhLopHoc.StudentId).StudentCode;                        
-                        LblNganhHocSua.Text = hocSinhLopHoc.Class_Class.Category_Faculty.FacultyName;
-                        LblKhoiSua.Text = hocSinhLopHoc.Class_Class.Category_Grade.GradeName;
-                        LblLopSua.Text = hocSinhLopHoc.Class_Class.ClassName;
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfMaLoiNhanKhan.Value = maLoiNhanKhan.ToString();
-                        this.HdfRptLoiNhanKhanMPEEdit.Value = mPEEdit.ClientID;
-
-                        break;
-                    }
                 case "CmdDetailItem":
                     {
-                        //int ClassId = Int32.Parse(e.CommandArgument.ToString());
-                        //Class_Class lophoc = lopHocBL.GetLopHoc(ClassId);
+                        //int maLoiNhanKhan = Int32.Parse(e.CommandArgument.ToString());
+                        //MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetMessage(maLoiNhanKhan);
 
-                        //LblClassNameChiTiet.Text = lophoc.ClassName;
-                        //LblFacultyNameChiTiet.Text = (new facultyBL(UserSchool)).GetNganhHoc(lophoc.FacultyId).FacultyName;
-                        //LblGradeNameChiTiet.Text = (new grades(UserSchool)).GetKhoiLop(lophoc.GradeId).GradeName;
-                        //LblSiSoChiTiet.Text = lophoc.SiSo.ToString();
-                        //ModalPopupExtender mPEDetail = (ModalPopupExtender)e.Item.FindControl("MPEDetail");
-                        //mPEDetail.Show();
+                        //LblTieuDeSua.Text = loiNhanKhan.Title;
+                        //TxtNoiDungSua.Text = TxtNoiDungSua.Text;
+                        //TxtNgaySua.Text = loiNhanKhan.Date.ToShortDateString();
 
-                        //this.HdfClassId.Value = ClassId.ToString();
-                        //this.HdfRptLopHocMPEDetail.Value = mPEDetail.ClientID;
+                        //Student_StudentInClass hocSinhLopHoc = (new StudentBL(UserSchool)).GetStudentInClass(loiNhanKhan.StudentInClassId);
+                        //LblMaHocSinhSua.Text = (new StudentBL(UserSchool)).GetStudent(hocSinhLopHoc.StudentId).StudentCode;                        
+                        //LblNganhHocSua.Text = hocSinhLopHoc.Class_Class.Category_Faculty.FacultyName;
+                        //LblKhoiSua.Text = hocSinhLopHoc.Class_Class.Category_Grade.GradeName;
+                        //LblLopSua.Text = hocSinhLopHoc.Class_Class.ClassName;
+
+                        //ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
+                        //mPEEdit.Show();
+
+                        //this.HdfMaLoiNhanKhan.Value = maLoiNhanKhan.ToString();
+                        //this.HdfRptLoiNhanKhanMPEEdit.Value = mPEEdit.ClientID;
+
                         break;
                     }
                 default:
@@ -271,18 +227,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Response.Redirect(AppConstant.PAGEPATH_ADDMESSAGES);
         }
-        
-        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            int maLoiNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            loiNhanKhanBL.UpdateMessage(maLoiNhanKhan, TxtNoiDungSua.Text, DateTime.Parse(TxtNgaySua.Text));
-            BindRptMessages();
+            
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maLopNhanKhan = Int32.Parse(this.HdfMaLoiNhanKhan.Value);
-            loiNhanKhanBL.DeleteMessage(maLopNhanKhan);
+            HiddenField hdfRptMaLoiNhanKhan = null;
+            MessageToParents_Message mesage = null;
+            foreach (RepeaterItem item in RptLoiNhanKhan.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        hdfRptMaLoiNhanKhan = (HiddenField)item.FindControl("HdfRptMaLoiNhanKhan");
+                        mesage = new MessageToParents_Message();
+                        mesage.MessageId = Int32.Parse(hdfRptMaLoiNhanKhan.Value);
+
+                        messageBL.DeleteMessage(mesage);
+                    }
+                }
+            }
+
+            
             isSearch = false;
             BindRptMessages();
         }

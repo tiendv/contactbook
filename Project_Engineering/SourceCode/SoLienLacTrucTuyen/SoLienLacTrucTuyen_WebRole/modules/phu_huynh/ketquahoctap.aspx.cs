@@ -86,9 +86,23 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
         private void BindRptMarkTypes()
         {
-            List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes();
-            this.RptLoaiDiem.DataSource = markTypes;
-            this.RptLoaiDiem.DataBind();
+            //if (DdlNamHoc.Items.Count != 0)
+            //{
+            //    Category_Grade grade = null;
+            //    int iSelectedYear = Int32.Parse(DdlNamHoc.SelectedValue);
+            //    //IQueryable<Student_StudentInClass> studentInClasses = LoggedInStudent.Student_StudentInClasses.AsQueryable();
+            //    foreach (Student_StudentInClass studentInClass in studentInClasses)
+            //    {
+            //        if (studentInClass.Class_Class.YearId == iSelectedYear)
+            //        {
+            //            grade = studentInClass.Class_Class.Category_Grade;
+            //        }
+            //    }
+                
+            //    List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes(grade);
+            //    this.RptLoaiDiem.DataSource = markTypes;
+            //}
+            //this.RptLoaiDiem.DataBind();
         }
 
         private void BindRptKetQuaDiem()

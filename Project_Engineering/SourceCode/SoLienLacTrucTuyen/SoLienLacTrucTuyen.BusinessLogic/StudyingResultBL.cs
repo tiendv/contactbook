@@ -9,6 +9,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 {
     public class StudyingResultBL : BaseBL
     {
+        public enum ADDINGMARKERROR
+        {
+            NOERROR,
+            EXCEEDVALUETEN,
+            NOTANUMBER,
+            EXCEEDQUANTITY
+        }
+
         private StudyingResultDA studyingResultDA;
 
         public StudyingResultBL(School_School school)
@@ -55,9 +63,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             studyingResultDA.CalAvgMark(termSubjectedMark);
         }
 
-        public void AddDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks)
+        public void AddDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
         {
-            List<int> markTypeIds = new List<int>();         
+            List<int> markTypeIds = new List<int>();
 
             int i = 0;
             // remove empty value
@@ -94,14 +102,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         /// <param name="term"></param>
         /// <param name="subject"></param>
         /// <param name="marks"></param>
-        public void UpdateDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<DetailMark> marks)
+        public void UpdateDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
         {
             List<Category_MarkType> markTypes = new List<Category_MarkType>();
             Category_MarkType markType = null;
             List<int> markTypeIds = new List<int>();
 
             // Lấy danh sách phân biệt LoaiDiem
-            foreach (DetailMark mark in marks)
+            foreach (MarkValueAndTypePair mark in marks)
             {
                 markType = new Category_MarkType();
                 markType.MarkTypeId = mark.MarkTypeId;
@@ -275,7 +283,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tbChiTietDiemMonHocLoaiDiems;
         }
 
-        public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year, 
+        public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularTermStudentResult> tabularTermStudentResults = null;
@@ -303,7 +311,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     tabularTermStudentResult.AverageMark = (int)termResult.TermAverageMark;
                     tabularTermStudentResult.StringAverageMark = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
                     tabularTermStudentResult.LearningAptitudeId = (int)termResult.TermLearningAptitudeId;
-                    learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularTermStudentResult.AverageMark);                    
+                    learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularTermStudentResult.AverageMark);
                     if (learningAptitude != null)
                     {
                         tabularTermStudentResult.LearningAptitudeName = learningAptitude.LearningAptitudeName;
@@ -311,7 +319,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     else
                     {
                         tabularTermStudentResult.LearningAptitudeName = "(Chưa xác định)";
-                    } 
+                    }
                     tabularTermStudentResult.ConductId = termResult.TermConductId;
                     conduct = conductBL.GetConduct((int)tabularTermStudentResult.ConductId);
                     if (conduct != null)
@@ -332,11 +340,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         else
                         {
                             tabularTermStudentResult.LearningResultName = "(Chưa xác định)";
-                        } 
+                        }
                     }
                     else
                     {
-                        tabularTermStudentResult.LearningResultName = "(Chưa xác định)";                        
+                        tabularTermStudentResult.LearningResultName = "(Chưa xác định)";
                     }
                     tabularTermStudentResults.Add(tabularTermStudentResult);
                 }
@@ -365,17 +373,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     tabularFinalStudentResult.ConductId = -1;
                 }
                 conduct = conductBL.GetConduct((int)tabularFinalStudentResult.ConductId);
-                if(conduct != null)
+                if (conduct != null)
                 {
                     tabularFinalStudentResult.ConductName = conduct.ConductName;
                 }
                 else
                 {
                     tabularFinalStudentResult.ConductName = "(Chưa xác định)";
-                }                
+                }
                 learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularFinalStudentResult.AverageMark);
                 if (learningAptitude != null)
-                {                    
+                {
                     tabularFinalStudentResult.LearningAptitudeName = learningAptitude.LearningAptitudeName;
                 }
                 else
@@ -405,7 +413,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularTermStudentResults;
         }
 
-        public List<TabularStudentMark> InitTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, 
+        public List<TabularStudentMark> InitTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes,
             int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             Student_Student student = new Student_Student();
@@ -535,7 +543,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, month, pageCurrentIndex, pageSize, out totalRecord);
             }
-            
+
             foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
             {
                 tabularStudentMark = new TabularStudentMark();
@@ -624,26 +632,25 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         //    return true;
         //}
 
-        public bool ValidateMark(string marks, Category_MarkType markType)
+        public ADDINGMARKERROR ValidateMark(Student_Student student, Configuration_Year year, Configuration_Term term, Category_Subject subject, Category_MarkType markType, string markTexts)
         {
-            bool bValid = true;
-
-            marks = marks.Trim();
-            if (marks != "") // Only validate when marks has value
+            double dMark;
+            List<Student_DetailedTermSubjectMark> existedDetailedTermSubjectMarks;
+            markTexts = markTexts.Trim();
+            if (!CheckUntils.IsNullOrBlank(markTexts)) // Only validate when markTexts is not blank
             {
-                string[] strMarks = marks.Split(',');
-                short markCount = 0;
+                string[] strMarks = markTexts.Split(',');
+                short markCount = 0; // count of mark
 
                 // loop in each mark
                 foreach (string strMark in strMarks)
                 {
-                    double dMark = 0;
+                    dMark = 0;
                     if (double.TryParse(strMark.Trim(), out dMark))
                     {
                         if (dMark > 10) // mark over 10
                         {
-                            bValid = false;
-                            break;
+                            return ADDINGMARKERROR.EXCEEDVALUETEN;
                         }
                         else
                         {
@@ -653,29 +660,30 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     else
                     {
                         // mark is not a double
-                        bValid = false;
-                        break;
+                        return ADDINGMARKERROR.NOTANUMBER;
                     }
                 }
 
-                if (bValid)
+                existedDetailedTermSubjectMarks = studyingResultDA.GetDetailedTermSubjectMarks(student, year, term, subject, markType);
+                markCount += (short)existedDetailedTermSubjectMarks.Count;
+
+                MarkTypeBL markTypeBL = new MarkTypeBL(school);
+                markType = markTypeBL.GetMarkType(markType.MarkTypeId);
+                if (markCount > markType.MaxQuantity)
                 {
-                    MarkTypeBL markTypeBL = new MarkTypeBL(school);
-                    markType = markTypeBL.GetMarkType(markType.MarkTypeId);
-                    if (markCount > markType.MaxQuantity)
-                    {
-                        bValid = false;
-                    }
+                    return ADDINGMARKERROR.EXCEEDQUANTITY;
                 }
+
             }
 
-            return bValid;
+            return ADDINGMARKERROR.NOERROR;
         }
 
         private List<List<double>> GetDoubleSubjectMarks(Student_TermSubjectMark termSubjectedMark)
         {
+            termSubjectedMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
-            List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes();
+            List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes(termSubjectedMark.Student_StudentInClass.Class_Class.Category_Grade);
 
             List<List<double>> subjectMarks = new List<List<double>>();
             List<double> innerSubjectMarks = null;
@@ -699,7 +707,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             studyingResultDA.InsertTermSubjectMark(Class, subject, term);
         }
-        
+
         internal void DeleteTermSubjectMark(Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             studyingResultDA.DeleteTermSubjectMark(Class, subject, term);
@@ -731,7 +739,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         internal void DeleteStudyingResult(Student_Student deletedStudent)
         {
-            studyingResultDA.DeleteStudyingResult(deletedStudent);            
+            studyingResultDA.DeleteStudyingResult(deletedStudent);
         }
     }
 }

@@ -34,6 +34,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Login event handlers
         protected void LoginCtrl_Authenticate(object sender, AuthenticateEventArgs e)
         {
+            SchoolBL schoolBL = new SchoolBL();
             // Make actual UserName
             DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
             int iSltSchool = Int32.Parse(ddlSchools.SelectedValue);
@@ -44,9 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 e.Authenticated = true;
 
                 // add School to session
-                School_School school = new School_School();
-                school.SchoolId = iSltSchool;
-                school.SchoolName = ddlSchools.SelectedItem.Text;
+                School_School school = schoolBL.GetSchool(iSltSchool);
                 Session[AppConstant.SCHOOL] = school;
 
                 aspnet_Role role = (new UserBL(school)).GetRole(LoginCtrl.UserName);
@@ -54,8 +53,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (authorizationBL.IsRoleParents(role))
                 {
                     StudentBL studentBL = new StudentBL(school);
-                    //string strStudentCode = LoginCtrl.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
-                    string strStudentCode = LoginCtrl.UserName.Substring(4);
+                    string strStudentCode = LoginCtrl.UserName.Split(new char[]{AppConstant.UNDERSCORE_CHAR})[1];
+                    strStudentCode = strStudentCode.Substring(2);
                     string strMembershipStudentSessionKey = LoginCtrl.UserName
                         + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
                     Session[strMembershipStudentSessionKey] = studentBL.GetStudent(strStudentCode);
@@ -108,7 +107,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return false;
             }
-
         }
 
         private void BindDDLProvinces()
