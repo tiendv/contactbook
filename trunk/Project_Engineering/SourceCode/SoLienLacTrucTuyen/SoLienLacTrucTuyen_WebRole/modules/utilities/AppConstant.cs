@@ -25,6 +25,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         public const string PAGEPATH_STUDENT_ADDMARK = "/modules/hoc_sinh/themdiemhocsinh.aspx";
         public const string PAGEPATH_STUDENT_MARK = "/modules/hoc_sinh/diemhocsinh.aspx";
+        public const string PAGEPATH_STUDENT_EDITMARK = "/modules/hoc_sinh/suadiemhocsinh.aspx";
 
         public const string PAGEPATH_MESSAGES = "/modules/loi_nhan/thongbao.aspx";
         public const string PAGEPATH_ADDMESSAGES = "/modules/loi_nhan/themthongbao.aspx";
@@ -90,11 +91,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_TERM = "Term";
         public const string SESSION_SELECTED_FACULTY = "Faculty";
         public const string SESSION_SELECTED_GRADE = "Grade";
+        public const string SESSION_SELECTED_STUDENT = "Student";
         public const string SESSION_SELECTED_STUDENTCODE = "StudentName";
         public const string SESSION_SELECTED_STUDENTNAME = "StudenCode";
         public const string SESSION_SELECTED_PROVINCE = "Province";
         public const string SESSION_SELECTED_DISTRICT = "District";
         public const string SESSION_SELECTED_SCHOOLNAME = "SchoolName";
+        public const string SESSION_SELECTED_MARKTYPES = "MarkTypes";
+        public const string SESSION_SELECTED_SUBJECT = "Subject";
 
         public const string SESSION_STUDENTCLASS = "StudenClass";
         public const string SESSION_PREV_PAGE = "PrevPage";

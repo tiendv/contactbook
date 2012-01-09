@@ -95,24 +95,26 @@
                 ToolTip="Tìm kiếm điểm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
-    <div class="table_data ui-corner-all">        
+    <div class="table_data ui-corner-all">
         <div class="add">
             <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/buttons/button_add.png"
-                ToolTip="Thêm điểm mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />            
+                ToolTip="Thêm điểm mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />
+            <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
+                ToolTip="Sửa điểm" CssClass="BtnEdit" />
         </div>
         <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
             Text="Không có thông tin điểm học sinh">
-        </asp:Label>        
+        </asp:Label>
         <table class="repeater">
             <tr class="header">
                 <td id="tdSTT" runat="server" class="ui-corner-tl" style="width: 40px">
                     STT
                 </td>
                 <td id="tdMaHocSinh" runat="server" style="width: 85px">
-                    <asp:LinkButton ID="LlkBtnMaHocSinh" runat="server">Mã học sinh</asp:LinkButton>
+                    <asp:LinkButton ID="LlkBtnStudentCode" runat="server">Mã học sinh</asp:LinkButton>
                 </td>
                 <td id="tdHoTenHocSinh" runat="server" style="width: 150px">
-                    <asp:LinkButton ID="LlkBtnHoTenHocSinh" runat="server">Họ tên</asp:LinkButton>
+                    <asp:LinkButton ID="LlkBtnStudentFullName" runat="server">Họ tên</asp:LinkButton>
                 </td>
                 <asp:Repeater ID="RptLoaiDiem" runat="server">
                     <ItemTemplate>
@@ -124,28 +126,37 @@
                 <td id="tdDTB" runat="server" style="width: 50px">
                     ĐTB
                 </td>
+                <td id="tdSelectAll" runat="server" class="icon">
+                    <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
+                </td>
             </tr>
             <asp:Repeater ID="RptDiemMonHoc" runat="server" OnItemDataBound="RptDiemMonHoc_ItemDataBound">
                 <ItemTemplate>
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
+                            <asp:HiddenField ID="HdfStudentId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>'/>                            
                         </td>
                         <td>
-                            <asp:HyperLink ID="HlkMaHocSinhHienThi" runat="server"><%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkStudentCode" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%>'></asp:HyperLink>
                         </td>
                         <td>
-                            <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkStudentFullName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TenHocSinh")%>'></asp:HyperLink>
                         </td>
                         <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
                             <ItemTemplate>
                                 <td style="height: 40px">
+                                    <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>'/>
+                                    <asp:HiddenField ID="HdfMarkTypeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>'/>
                                     <%#DataBinder.Eval(Container.DataItem, "StringDiems")%>
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>
                         <td style="text-align: right">
                             <%#((double)DataBinder.Eval(Container.DataItem, "DiemTrungBinh") != -1) ? DataBinder.Eval(Container.DataItem, "DiemTrungBinh") : "Chưa xác định"%>
+                        </td>
+                        <td class="icon">
+                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
                         </td>
                     </tr>
                 </ItemTemplate>

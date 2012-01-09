@@ -148,7 +148,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlKhoiLop.DataSource = grades;
             DdlKhoiLop.DataValueField = "GradeId";
             DdlKhoiLop.DataTextField = "GradeName";
-            DdlKhoiLop.DataBind();            
+            DdlKhoiLop.DataBind();
         }
 
         private void BindDDLMarkTypes()
@@ -197,7 +197,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            if(DdlKhoiLop.Items.Count != 0)
+            if (DdlKhoiLop.Items.Count != 0)
             {
                 if (DdlKhoiLop.SelectedIndex >= 0)
                 {
@@ -284,7 +284,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Subject subject = null;
             Configuration_Term term = null;
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();            
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
             double dTotalRecords = 0;
 
@@ -303,7 +303,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
             term = new Configuration_Term();
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            
+
             if (DdlKhoiLop.Items.Count != 0)
             {
                 Category_Grade grade = new Category_Grade();
@@ -324,7 +324,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // get student mark information
                 tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
                     MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
-            } else if(RBtnMonth.Checked)
+            }
+            else if (RBtnMonth.Checked)
             {
                 int month = Int32.Parse(DddMonths.SelectedValue);
                 // get student mark information
@@ -354,6 +355,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdMaHocSinh.Visible = bDisplayData;
             tdHoTenHocSinh.Visible = bDisplayData;
             tdDTB.Visible = bDisplayData;
+            tdSelectAll.Visible = bDisplayData;
         }
         #endregion
 
@@ -361,7 +363,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             MainDataPager.CurrentIndex = 1;
-            //isSearch = true;
             BindRptMarkTypes();
             BindRptStudentMarks();
         }
@@ -369,6 +370,58 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
             Response.Redirect(AppConstant.PAGEPATH_STUDENT_ADDMARK);
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            Class_Class Class = new Class_Class();
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
+
+            Category_Subject subject = new Category_Subject();
+            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+
+            Student_Student student = new Student_Student();
+
+            foreach (RepeaterItem item in RptDiemMonHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        Repeater rptMarkTypeBasedMarks = (Repeater)item.FindControl("RptDiemTheoLoaiDiem");
+                        foreach (RepeaterItem innerItem in rptMarkTypeBasedMarks.Items)
+                        {
+                            if (innerItem.ItemType == ListItemType.Item || innerItem.ItemType == ListItemType.AlternatingItem)
+                            {
+                                HiddenField hdfMarkTypeId = (HiddenField)innerItem.FindControl("HdfMarkTypeId");
+                                HiddenField hdfMarkTypeName = (HiddenField)innerItem.FindControl("HdfMarkTypeName");
+                                markTypes.Add(new Category_MarkType { MarkTypeId = Int32.Parse(hdfMarkTypeId.Value), MarkTypeName = hdfMarkTypeName.Value});
+                            }
+                        }
+
+                        HiddenField hdfStudentId = (HiddenField)item.FindControl("HdfStudentId");
+                        HyperLink HlkStudentCode = (HyperLink)item.FindControl("HlkStudentCode");
+                        HyperLink HlkStudentFullName = (HyperLink)item.FindControl("HlkStudentFullName");
+                        student.StudentId = Int32.Parse(hdfStudentId.Value);
+                        student.StudentCode = HlkStudentCode.Text;
+                        student.FullName = HlkStudentFullName.Text;
+
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENT, student);
+                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+                        AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+                        AddSession(AppConstant.SESSION_SELECTED_MARKTYPES, markTypes);
+                        AddSession(AppConstant.SESSION_SELECTED_SUBJECT, subject);
+
+                        Response.Redirect(AppConstant.PAGEPATH_STUDENT_EDITMARK);
+                    }
+                }
+            }
         }
         #endregion
 

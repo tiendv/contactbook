@@ -543,6 +543,25 @@ namespace EContactBook.DataAccess
             return detailMarks;
         }
 
+        public List<Student_DetailedTermSubjectMark> GetDetailedTermSubjectMarks(Student_Student student, Category_MarkType markType,
+            Category_Subject subject, Class_Class Class, Configuration_Term term)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                       where dtlMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                                                                       && dtlMark.MarkType == markType.MarkTypeId
+                                                                       && dtlMark.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && dtlMark.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && dtlMark.Student_TermSubjectMark.TermId == term.TermId
+                                                                       select dtlMark;
+            if (iqDetailMark.Count() != 0)
+            {
+                detailMarks = iqDetailMark.OrderBy(dtlMark => dtlMark.Date1).ToList();
+            }
+
+            return detailMarks;
+        }
+
         public List<Category_Subject> GetScheduledSubjects(Student_Student student, Configuration_Year year, Configuration_Term term)
         {
             // Get list of SubjectId based on schedule
@@ -669,7 +688,7 @@ namespace EContactBook.DataAccess
                                     on termSubjMark.TermSubjectMarkId equals detailTermSubjMark.TermSubjectMarkId
                                 where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
                                     && termSubjMark.SubjectId == subject.SubjectId
-                                    && detailTermSubjMark.Date1.Value.Month == month
+                                    && detailTermSubjMark.Date1.Month == month
                                 select termSubjMark;
 
             totalRecord = iqTermSubjectMark.Count();

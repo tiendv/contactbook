@@ -741,5 +741,35 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             studyingResultDA.DeleteStudyingResult(deletedStudent);
         }
+
+        public List<TabularTermSubjectMark> GetTabularTermSubjectMarks(Student_Student student, List<Category_MarkType> markTypes,
+            Category_Subject subject, Class_Class Class, Configuration_Term term)
+        {
+            List<TabularTermSubjectMark> tabularTermSubjectMarks = new List<TabularTermSubjectMark>();
+            TabularTermSubjectMark tabularTermSubjectMark = null;
+            List<Student_DetailedTermSubjectMark> detailedTermSubjectMarks = new List<Student_DetailedTermSubjectMark>();
+            TabularDetailTermSubjectMark tabularDetailTermSubjectMark = null;
+
+            foreach (Category_MarkType markType in markTypes)
+            {
+                tabularTermSubjectMark = new TabularTermSubjectMark();
+                tabularTermSubjectMark.MarkTypeId = markType.MarkTypeId;
+                tabularTermSubjectMark.MarkTypeName = markType.MarkTypeName;
+                detailedTermSubjectMarks = studyingResultDA.GetDetailedTermSubjectMarks(student, markType, subject, Class, term);
+                tabularTermSubjectMark.TabularDetailTermSubjectMarks = new List<TabularDetailTermSubjectMark>();
+                foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in detailedTermSubjectMarks)
+                {
+                    tabularDetailTermSubjectMark = new TabularDetailTermSubjectMark();
+                    tabularDetailTermSubjectMark.DetailTermSubjectMarkId = detailedTermSubjectMark.DetailedTermSubjectMark; 
+                    tabularDetailTermSubjectMark.Date = detailedTermSubjectMark.Date1;
+                    tabularDetailTermSubjectMark.MarkValue = detailedTermSubjectMark.MarkValue;
+                    tabularTermSubjectMark.TabularDetailTermSubjectMarks.Add(tabularDetailTermSubjectMark);
+                }
+
+                tabularTermSubjectMarks.Add(tabularTermSubjectMark);
+            }
+
+            return tabularTermSubjectMarks;
+        }
     }
 }

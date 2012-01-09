@@ -97,6 +97,7 @@
     <Content Include="modules\hoc_sinh\lenlophocsinh_2.aspx" />
     <Content Include="modules\hoc_sinh\ngaynghihoc.aspx" />
     <Content Include="modules\hoc_sinh\PageReportStudents.aspx" />
+    <Content Include="modules\hoc_sinh\suadiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
@@ -348,6 +349,13 @@
     </Compile>
     <Compile Include="modules\hoc_sinh\lenlophocsinh_2.aspx.designer.cs">
       <DependentUpon>lenlophocsinh_2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\suadiemhocsinh.aspx.cs">
+      <DependentUpon>suadiemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\suadiemhocsinh.aspx.designer.cs">
+      <DependentUpon>suadiemhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\utilities\AppConstant.cs" />
     <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">

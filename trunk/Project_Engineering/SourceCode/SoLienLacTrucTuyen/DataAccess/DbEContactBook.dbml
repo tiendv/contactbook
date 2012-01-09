@@ -463,7 +463,7 @@
       <Column Name="TermSubjectMarkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="[Date]" Member="Date1" Type="System.DateTime" DbType="datetime" CanBeNull="true" />
+      <Column Name="[Date]" Member="Date1" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
       <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Category_MarkType" ThisKey="MarkType" OtherKey="MarkTypeId" Type="Category_MarkType" IsForeignKey="true" />
       <Association Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark" Member="Student_TermSubjectMark" ThisKey="TermSubjectMarkId" OtherKey="TermSubjectMarkId" Type="Student_TermSubjectMark" IsForeignKey="true" />
     </Type>

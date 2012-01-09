@@ -30,4 +30,22 @@ namespace EContactBook.BusinessEntity
         public string StringDiems { get; set; }
         public string MarkTypeName { get; set; }
     }
+
+    public class TabularTermSubjectMark
+    {
+        public int TermSubjectMarkId { get; set; }
+
+        public int MarkTypeId { get; set; }
+        public string MarkTypeName { get; set; }
+
+        public List<TabularDetailTermSubjectMark> TabularDetailTermSubjectMarks { get; set; }
+    }
+
+    public class TabularDetailTermSubjectMark
+    {
+        public int DetailTermSubjectMarkId { get; set; }
+
+        public double MarkValue { get; set; }
+        public DateTime Date { get; set; }
+    }
 }
