@@ -11025,7 +11025,7 @@ namespace EContactBook.DataAccess
 		
 		private double _MarkValue;
 		
-		private System.Nullable<System.DateTime> _Date1;
+		private System.DateTime _Date1;
 		
 		private EntityRef<Category_MarkType> _Category_MarkType;
 		
@@ -11043,7 +11043,7 @@ namespace EContactBook.DataAccess
     partial void OnMarkTypeChanged();
     partial void OnMarkValueChanging(double value);
     partial void OnMarkValueChanged();
-    partial void OnDate1Changing(System.Nullable<System.DateTime> value);
+    partial void OnDate1Changing(System.DateTime value);
     partial void OnDate1Changed();
     #endregion
 		
@@ -11142,8 +11142,8 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Date]", Storage="_Date1", DbType="datetime")]
-		public System.Nullable<System.DateTime> Date1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Date]", Storage="_Date1", DbType="datetime NOT NULL")]
+		public System.DateTime Date1
 		{
 			get
 			{

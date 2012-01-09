@@ -148,6 +148,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.ImageButton BtnAdd;
         
         /// <summary>
+        /// BtnEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnEdit;
+        
+        /// <summary>
         /// LblSearchResult control.
         /// </summary>
         /// <remarks>
@@ -175,13 +184,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdMaHocSinh;
         
         /// <summary>
-        /// LlkBtnMaHocSinh control.
+        /// LlkBtnStudentCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LlkBtnMaHocSinh;
+        protected global::System.Web.UI.WebControls.LinkButton LlkBtnStudentCode;
         
         /// <summary>
         /// tdHoTenHocSinh control.
@@ -193,13 +202,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdHoTenHocSinh;
         
         /// <summary>
-        /// LlkBtnHoTenHocSinh control.
+        /// LlkBtnStudentFullName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LlkBtnHoTenHocSinh;
+        protected global::System.Web.UI.WebControls.LinkButton LlkBtnStudentFullName;
         
         /// <summary>
         /// RptLoaiDiem control.
@@ -218,6 +227,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdDTB;
+        
+        /// <summary>
+        /// tdSelectAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSelectAll;
+        
+        /// <summary>
+        /// CkbxSelectAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox CkbxSelectAll;
         
         /// <summary>
         /// RptDiemMonHoc control.
