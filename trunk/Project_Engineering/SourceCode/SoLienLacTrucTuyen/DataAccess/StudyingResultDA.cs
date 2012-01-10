@@ -254,6 +254,14 @@ namespace EContactBook.DataAccess
 
         }
 
+        /// <summary>
+        /// Check whether reset average mark
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="Class"></param>
+        /// <param name="term"></param>
+        /// <param name="subject"></param>
+        /// <returns></returns>
         public bool NeedResetAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             bool bResult = true;

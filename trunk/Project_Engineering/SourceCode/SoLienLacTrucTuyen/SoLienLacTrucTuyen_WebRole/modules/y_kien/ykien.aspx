@@ -102,10 +102,6 @@
                                 color: Blue; cursor: pointer;" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'>
                             <%#DataBinder.Eval(Container.DataItem, "Title")%>
                             </asp:LinkButton>
-                            <%--<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%#"~/modules/y_kien/chitietykien.aspx?id=" + DataBinder.Eval(Container.DataItem, "CommentId")%>'
-                                Target="_blank">
-                                    <%#DataBinder.Eval(Container.DataItem, "Title")%>
-                            </asp:HyperLink>--%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Date")%>

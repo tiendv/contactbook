@@ -38,8 +38,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BindDropDownLists();
                 BindRptMarkTypes();
+
+                if (GetSessions())
+                {
+
+                }
                 BindRptStudentMarks();
             }
+        }
+
+        private bool GetSessions()
+        {
+            //Class_Class Class = new Class_Class();
+            //Configuration_Term term = new Configuration_Term();
+            //Category_Subject subject = new Category_Subject();
+            //Category_MarkType markType = new Category_MarkType();
+            //Category_Faculty faculty = new Category_Faculty();
+            //Category_Grade grade = new Category_Grade();
+
+            //Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            //subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_SUBJECT, subject);
+            //term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+            //markType.MarkTypeId = Int32.Parse(DdlLoaiDiem.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_MARKTYPE, markType);
+            //faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            //grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+
+            return true;
         }
         #endregion
 
@@ -102,8 +132,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLHocKy()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
-            DdlHocKy.DataSource = lstHocKy;
+            List<Configuration_Term> terms = systemConfigBL.GetListTerms();
+            DdlHocKy.DataSource = terms;
             DdlHocKy.DataValueField = "TermId";
             DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
@@ -420,15 +450,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         }
                     }
 
-                    
-
                     dicEnteredStudentMarks.Add(student, markValueAndTypePairs);
                 }
             }
 
             foreach (KeyValuePair<Student_Student, List<MarkValueAndTypePair>> pair in dicEnteredStudentMarks)
             {
-                studyingResultBL.AddDetailedMark(pair.Key, Class, term, subject, pair.Value);
+                studyingResultBL.AddMark(pair.Key, Class, term, subject, pair.Value);
             }
 
             RedirectToPrevPage();

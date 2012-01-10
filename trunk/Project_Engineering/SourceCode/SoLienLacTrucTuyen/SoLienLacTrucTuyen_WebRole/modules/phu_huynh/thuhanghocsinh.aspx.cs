@@ -14,7 +14,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 {
-    public partial class StudentStudyingResultPage : BaseContentPage
+    public partial class StudentRatingPage : BaseContentPage
     {
         #region Fields
         private StudentBL studentBL;

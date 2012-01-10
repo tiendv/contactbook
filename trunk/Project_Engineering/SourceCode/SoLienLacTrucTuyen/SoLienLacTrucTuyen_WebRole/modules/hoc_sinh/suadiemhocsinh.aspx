@@ -93,10 +93,12 @@
                         <td>
                             <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
                                 <ItemTemplate>
+                                    <asp:HiddenField ID="HdfDetailTermSubjectMarkId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DetailTermSubjectMarkId")%>' />        
+                                    <asp:HiddenField ID="HdfOldMarkValue" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkValue")%>' />        
                                     <asp:TextBox ID="TxtMarkValue" runat="server" CssClass="MarkTextBox" Text='<%#DataBinder.Eval(Container.DataItem, "MarkValue")%>'></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="MarkValueRequired" runat="server" ErrorMessage="Điểm không được để trống"
+                                    <%--<asp:RequiredFieldValidator ID="MarkValueRequired" runat="server" ErrorMessage="Điểm không được để trống"
                                         ControlToValidate="TxtMarkValue" Display="Dynamic" ForeColor="Red" ValidationGroup="ModifyMark">
-                                    </asp:RequiredFieldValidator>
+                                    </asp:RequiredFieldValidator>--%>
                                     <asp:RegularExpressionValidator ID="MarkValueRegularExpression" runat="server" ErrorMessage="Giá trị điểm không hợp lệ"
                                         ControlToValidate="TxtMarkValue" Display="Dynamic" ForeColor="Red" ValidationExpression="^(10|[0-9]|0[0-9])$"
                                         ValidationGroup="ModifyMark">

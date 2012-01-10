@@ -342,6 +342,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // display information
             bool bDisplayData = (tabularStudentMarks.Count != 0) ? true : false;
             ProcDisplayGUI(bDisplayData);
+
+            // save selection
+            // ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Int32.Parse(DdlLopHoc.SelectedValue);
+
         }
 
         private void ProcDisplayGUI(bool bDisplayData)
@@ -369,6 +373,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
+            //Class_Class Class = new Class_Class();
+            //Configuration_Term term = new Configuration_Term(); 
+            //Category_Subject subject = new Category_Subject();            
+            //Category_MarkType markType = new Category_MarkType();
+            //Category_Faculty faculty = new Category_Faculty();
+            //Category_Grade grade = new Category_Grade();
+
+            //Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);            
+            //AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            //subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_SUBJECT, subject);
+            //term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+            //markType.MarkTypeId = Int32.Parse(DdlLoaiDiem.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_MARKTYPE, markType);
+            //faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            //grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
+            //AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+
             Response.Redirect(AppConstant.PAGEPATH_STUDENT_ADDMARK);
         }
 

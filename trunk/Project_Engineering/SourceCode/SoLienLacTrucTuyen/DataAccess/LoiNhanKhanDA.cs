@@ -269,8 +269,6 @@ namespace EContactBook.DataAccess
 
         public int GetUnconfirmedMessageCount(Student_Student student, Class_Class Class)
         {
-            List<MessageToParents_Message> messages = new List<MessageToParents_Message>();
-
             IQueryable<MessageToParents_Message> iqMessages = from msg in db.MessageToParents_Messages
                                                               where msg.Student_StudentInClass.StudentId == student.StudentId
                                                                && msg.Student_StudentInClass.Class_Class.YearId == Class.YearId
