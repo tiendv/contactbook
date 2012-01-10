@@ -65,6 +65,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_TERM = "Term";
         public const string VIEWSTATE_SELECTED_FACULTY = "Faculty";
         public const string VIEWSTATE_SELECTED_GRADE = "Grade";
+        public const string VIEWSTATE_SELECTED_SUBJECT = "Subject";
         public const string VIEWSTATE_SELECTED_STUDENTCODE = "StudentName";
         public const string VIEWSTATE_SELECTED_STUDENTNAME = "StudenCode";
         public const string VIEWSTATE_STUDENTCLASS_ID = "StudentClassId";
@@ -79,6 +80,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_PROVINCEID = "Province";
         public const string VIEWSTATE_SELECTED_DISTRICTID = "District";
         public const string VIEWSTATE_SELECTED_SCHOOLNAME = "SchoolName";
+        public const string VIEWSTATE_SELECTED_STUDENTID = "StudentId";
 
         public const string SESSION_PAGEPATH = "PagePath";
         public const string SESSION_MEMBERSHIP_STUDENT = "MembershipStudent";
@@ -98,6 +100,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_DISTRICT = "District";
         public const string SESSION_SELECTED_SCHOOLNAME = "SchoolName";
         public const string SESSION_SELECTED_MARKTYPES = "MarkTypes";
+        public const string SESSION_SELECTED_MARKTYPE = "MarkType";
         public const string SESSION_SELECTED_SUBJECT = "Subject";
 
         public const string SESSION_STUDENTCLASS = "StudenClass";

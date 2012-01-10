@@ -49,8 +49,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     MessageBL messageBL = new MessageBL(UserSchool);
                     int iNewMessageCount = messageBL.GetNewMessageCount(loggedInStudent);
-                    int iUnconfirmedMessageCount = messageBL.GetUnconfirmedMessageCount(loggedInStudent);
-                    ((Label)LoginView1.Controls[0].FindControl("LblNewMessageStatus")).Text = string.Format("Bạn có {0} thông báo mới", iNewMessageCount);
+                    if (iNewMessageCount != 0)
+                    {
+                        ((Label)LoginView1.Controls[0].FindControl("LblNewMessageStatus")).Text = string.Format("Bạn có {0} thông báo mới", iNewMessageCount);
+                    }
+                    int iUnconfirmedMessageCount = messageBL.GetUnconfirmedMessageCount(loggedInStudent);                    
                     if (iUnconfirmedMessageCount != 0)
                     {
                         ((Label)LoginView1.Controls[0].FindControl("LblUnconfirmedMessageStatus")).Text = string.Format("Bạn còn {0} thông báo chưa phản hồi", iUnconfirmedMessageCount);
@@ -58,9 +61,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     AbsentBL absentBL = new AbsentBL(UserSchool);
                     int iUnconfirmAbsent = absentBL.GetUnconfirmAbsentCount(loggedInStudent);
-                    if (iUnconfirmedMessageCount != 0)
+                    if (iUnconfirmAbsent != 0)
                     {
-                        ((Label)LoginView1.Controls[0].FindControl("LblUnconfirmAbsent")).Text = string.Format("Bạn có {0} ngày nghỉ học chưa xác nhận", iNewMessageCount);
+                        ((Label)LoginView1.Controls[0].FindControl("LblUnconfirmAbsent")).Text = string.Format("Bạn có {0} ngày nghỉ học chưa xác nhận", iUnconfirmAbsent);
+                    }
+
+                    ParentsCommentBL parentsCommentBL = new ParentsCommentBL(UserSchool);
+                    int iUnConfirmedFedbackCommentCount = parentsCommentBL.GetUnConfirmedFedbackComment(loggedInStudent);
+                    if (iUnConfirmedFedbackCommentCount != 0)
+                    {
+                        ((Label)LoginView1.Controls[0].FindControl("LblCommentStatus")).Text = string.Format("Bạn có {0} phản hồi góp ý chưa xem qua", iUnConfirmedFedbackCommentCount);
                     }
                 }
 

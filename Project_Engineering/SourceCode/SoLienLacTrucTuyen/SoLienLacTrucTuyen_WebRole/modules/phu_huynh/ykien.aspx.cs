@@ -127,7 +127,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
         private void BindDDLCommentStatus()
         {
-            List<Configuration_CommentStatus> commentStatuses = parentsCommentBL.GetCommentStatuses();
+            List<Configuration_CommentStatus> commentStatuses = parentsCommentBL.GetCommentStatuses(false);
             DdlXacNhan.DataSource = commentStatuses;
             DdlXacNhan.DataValueField = "CommentStatusId";
             DdlXacNhan.DataTextField = "CommentStatusName";
@@ -181,9 +181,18 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             {
                 case "CmdDetailItem":
                     {
+                        ParentComment_Comment comment = null;
+                        Configuration_CommentStatus commentStatus = new Configuration_CommentStatus(); 
+
                         int iCommentId = Int32.Parse(e.CommandArgument.ToString());
+                        comment = parentsCommentBL.GetParentsComments(iCommentId);
+
+                        if (comment.CommentStatusId == 2) // Đã xác nhận (PH chưa xem)
+                        {
+                            commentStatus.CommentStatusId = 3;
+                            parentsCommentBL.UpdateParentsComment(comment, commentStatus);
+                        }
                         
-                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
                         AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
 
                         Response.Redirect(AppConstant.PAGEPATH_DETAILEDCOMMENT);

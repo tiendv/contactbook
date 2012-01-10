@@ -19,6 +19,11 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
+        /// <summary>
+        /// Update parent's comment
+        /// </summary>
+        /// <param name="editedParentsComment"></param>
+        /// <param name="feedback"></param>
         public void UpdateParentsComments(ParentComment_Comment editedParentsComment, string feedback)
         {
             ParentComment_Comment parentsComment = null;
@@ -30,7 +35,7 @@ namespace EContactBook.DataAccess
             {
                 parentsComment = iqParentsComments.First();
                 parentsComment.Feedback = feedback;
-                parentsComment.CommentStatusId = 2; // fed back
+                parentsComment.CommentStatusId = 2; // Đã phản hồi (PH chưa xem)
 
                 db.SubmitChanges();
             }
@@ -41,6 +46,17 @@ namespace EContactBook.DataAccess
             IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
                                                                   where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
                                                                   && cmt.Date >= beginDate && cmt.Date <= endDate
+                                                                  select cmt;
+
+            return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<ParentComment_Comment> GetFedbackParentsComments(Configuration_Year year, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                                  where cmt.Student_StudentInClass.Class_Class.YearId == year.YearId
+                                                                  && cmt.Date >= beginDate && cmt.Date <= endDate
+                                                                  && cmt.CommentStatusId > 1
                                                                   select cmt;
 
             return GetParentsComments(ref iqParentsComments, pageCurrentIndex, pageSize, out totalRecords);
@@ -168,6 +184,30 @@ namespace EContactBook.DataAccess
 
                 db.SubmitChanges();
             }
+        }
+
+        public void UpdateParentsComment(ParentComment_Comment comment, Configuration_CommentStatus commentStatus)
+        {
+            IQueryable<ParentComment_Comment> iqParentsComments = from cmt in db.ParentComment_Comments
+                                                                  where cmt.CommentId == comment.CommentId
+                                                                  select cmt;
+            if (iqParentsComments.Count() != 0)
+            {
+                comment = iqParentsComments.First();
+                comment.CommentStatusId = commentStatus.CommentStatusId;
+
+                db.SubmitChanges();
+            }
+        }
+
+        public int GetUnConfirmedFedbackComment(Student_Student student, Class_Class Class)
+        {
+            IQueryable<ParentComment_Comment> iqComments = from comment in db.ParentComment_Comments
+                                                           where comment.Student_StudentInClass.StudentId == student.StudentId
+                                                           && comment.Student_StudentInClass.Class_Class.YearId == Class.YearId
+                                                           && comment.CommentStatusId == 2
+                                                           select comment;
+            return iqComments.Count();
         }
     }
 }

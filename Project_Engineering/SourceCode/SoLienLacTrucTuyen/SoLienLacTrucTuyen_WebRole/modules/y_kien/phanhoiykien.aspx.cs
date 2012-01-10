@@ -72,18 +72,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            ParentComment_Comment comment = new ParentComment_Comment(); 
             string strFeedback = TxtFeedback.Text.Trim();
 
-            if (strFeedback == "")
+            if (CheckUntils.IsNullOrBlank(strFeedback))
             {
                 RequiredFeedback.IsValid = false;
                 return;
             }
-
-            ParentComment_Comment comment = new ParentComment_Comment();
+            
             comment.CommentId = (int)ViewState[AppConstant.VIEWSTATE_PARENTSCOMMENTID];
             parentsCommentBL.Feedback(comment, strFeedback);
 
+            // redirect to page [Góp Ý]
             Response.Redirect(AppConstant.PAGEPATH_PARENTSCOMMENTS);
         }
 

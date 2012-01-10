@@ -62,8 +62,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             studyingResultDA.InsertDetailMark(detailedMark);
             studyingResultDA.CalAvgMark(termSubjectedMark);
         }
-
-        public void AddDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
+        
+        /// <summary>
+        /// Add new marks for student
+        /// </summary>
+        /// <param name="student"></param>
+        /// <param name="Class"></param>
+        /// <param name="term"></param>
+        /// <param name="subject"></param>
+        /// <param name="marks"></param>
+        public void AddMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
         {
             List<int> markTypeIds = new List<int>();
 
@@ -770,6 +778,46 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return tabularTermSubjectMarks;
+        }
+
+        public void UpdateDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<TabularTermSubjectMark> tabularTermSubjectMarks)
+        {
+            List<Student_DetailedTermSubjectMark> detailedTermSubjectMarks = new List<Student_DetailedTermSubjectMark>();
+            Student_DetailedTermSubjectMark detailedTermSubjectMark = null;
+            foreach (TabularTermSubjectMark tabularTermSubjectMark in tabularTermSubjectMarks)
+            {
+                foreach (TabularDetailTermSubjectMark tabularDetailTermSubjectMark in tabularTermSubjectMark.TabularDetailTermSubjectMarks)
+                {
+                    detailedTermSubjectMark = new Student_DetailedTermSubjectMark();
+                    detailedTermSubjectMark.DetailedTermSubjectMark = tabularDetailTermSubjectMark.DetailTermSubjectMarkId;
+                    detailedTermSubjectMark.MarkType = tabularTermSubjectMark.MarkTypeId;
+                    detailedTermSubjectMark.MarkValue = tabularDetailTermSubjectMark.MarkValue;
+
+                    if (detailedTermSubjectMark.MarkValue != -1)
+                    {
+                        // update mark
+                        studyingResultDA.UpdateDetailedMark(detailedTermSubjectMark);
+                    }
+                    else
+                    {
+                        // delete mark
+                        studyingResultDA.DeleteDetailedMark(detailedTermSubjectMark);
+                    }
+
+                    // send mail here
+                }
+            }
+
+            if (NeedResetAvgMark(student, Class, term, subject))
+            {
+                studyingResultDA.ResetAvgMark(student, Class, term, subject);
+            }
+            else
+            {
+                studyingResultDA.CalAvgMark(student, Class, term, subject);
+            }
+
+            studyingResultDA.CalculateStudentTermAvgMark(student, Class, term);
         }
     }
 }

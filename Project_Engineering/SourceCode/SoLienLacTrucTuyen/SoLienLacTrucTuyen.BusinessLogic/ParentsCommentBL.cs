@@ -35,13 +35,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             parentsCommentDA = new ParentsCommentDA(school);
         }
 
+        /// <summary>
+        /// Feed back parent's comment with feedback content
+        /// </summary>
+        /// <param name="parentsComment"></param>
+        /// <param name="feedback"></param>
         public void Feedback(ParentComment_Comment parentsComment, string feedback)
         {
             parentsCommentDA.UpdateParentsComments(parentsComment, feedback);
         }
 
         public List<TabularParentsComment> GetTabularParentsComments(Configuration_Year year, Configuration_CommentStatus commentStatus,
-            DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
+            DateTime beginDate, DateTime endDate, bool combineIsConfirmedStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             // Declare variables
             List<TabularParentsComment> tabularParentsComments;
@@ -51,13 +56,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             // get list GopY_YKien
             if (commentStatus != null)
             {
-                parentsComments = parentsCommentDA.GetParentsComments(year, commentStatus, beginDate, endDate,
-                    pageCurrentIndex, pageSize, out totalRecords);
+                if (combineIsConfirmedStatus && commentStatus.CommentStatusId != 1)
+                {
+                    parentsComments = parentsCommentDA.GetFedbackParentsComments(year, beginDate, endDate,
+                        pageCurrentIndex, pageSize, out totalRecords);
+                }
+                else
+                {
+                    parentsComments = parentsCommentDA.GetParentsComments(year, commentStatus, beginDate, endDate,
+                        pageCurrentIndex, pageSize, out totalRecords);
+                }
             }
             else
-            {
+            {                
                 parentsComments = parentsCommentDA.GetParentsComments(year, beginDate, endDate,
-                    pageCurrentIndex, pageSize, out totalRecords);
+                        pageCurrentIndex, pageSize, out totalRecords);
             }
 
             // Convert ParentComment_Comments to TabularParentsComments
@@ -65,12 +78,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             foreach (ParentComment_Comment parentsComment in parentsComments)
             {
                 tabularParentsComment = new TabularParentsComment();
+
                 tabularParentsComment.CommentId = parentsComment.CommentId;
                 tabularParentsComment.Title = parentsComment.Title;
                 tabularParentsComment.Content = parentsComment.CommentContent;
-                tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
+                if (combineIsConfirmedStatus && parentsComment.CommentStatusId != 1)
+                {
+                    tabularParentsComment.CommentStatusName = "Đã phản hồi";
+                }
+                else
+                {
+                    tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
+                }
                 tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
                 tabularParentsComment.Feedback = parentsComment.Feedback;
+                
                 tabularParentsComments.Add(tabularParentsComment);
             }
 
@@ -114,9 +136,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularParentsComments;
         }
 
-        public List<Configuration_CommentStatus> GetCommentStatuses()
+        public List<Configuration_CommentStatus> GetCommentStatuses(bool combineIsConfirmed)
         {
-            return parentsCommentDA.GetCommentStatuses();
+            List<Configuration_CommentStatus> commentStatuses = parentsCommentDA.GetCommentStatuses();
+            if (commentStatuses.Count != 0 && combineIsConfirmed)
+            {
+                commentStatuses = commentStatuses.Take(2).ToList();
+                commentStatuses[1].CommentStatusName = "Đã phản hồi";
+            }
+
+            return commentStatuses;
         }
 
         public ParentComment_Comment GetParentsComments(int commentId)
@@ -137,6 +166,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         internal void DeleteParentsComment(Student_Student deletedStudent)
         {
             parentsCommentDA.DeleteParentsComment(deletedStudent);
+        }
+
+        public void UpdateParentsComment(ParentComment_Comment comment, Configuration_CommentStatus commentStatus)
+        {
+            parentsCommentDA.UpdateParentsComment(comment, commentStatus);
+        }
+
+        public int GetUnConfirmedFedbackComment(Student_Student student)
+        {
+            StudentBL studentBL = new StudentBL(school);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            return parentsCommentDA.GetUnConfirmedFedbackComment(student, Class);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime dtBeginDate = DateTime.Parse(TxtBeginDate.Text);
             DateTime dtEndDate = DateTime.Parse(TxtEndDate.Text);
             Configuration_CommentStatus commentStatus = null;
-            if (DdlXacNhan.SelectedIndex == 0 || DdlXacNhan.SelectedIndex == 1)
+            if (DdlXacNhan.SelectedIndex > 0)
             {
                 commentStatus = new Configuration_CommentStatus();
                 commentStatus.CommentStatusId = Int32.Parse(DdlXacNhan.SelectedValue);
@@ -68,7 +68,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             double dTotalRecords;
 
             tabularParentsComments = parentsCommentBL.GetTabularParentsComments(year, commentStatus, dtBeginDate, dtEndDate, 
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                true, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (tabularParentsComments.Count == 0 && dTotalRecords != 0)
             {
@@ -142,11 +142,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLCommentStatus()
         {
-            List<Configuration_CommentStatus> commentStatuses = parentsCommentBL.GetCommentStatuses();
+            List<Configuration_CommentStatus> commentStatuses = parentsCommentBL.GetCommentStatuses(true);
             DdlXacNhan.DataSource = commentStatuses;
             DdlXacNhan.DataValueField = "CommentStatusId";
             DdlXacNhan.DataTextField = "CommentStatusName";
             DdlXacNhan.DataBind();
+
+            if (DdlXacNhan.Items.Count > 1)
+            {
+                DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
         }
 
         private void InitDates()
@@ -224,7 +229,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             isSearch = true;
             BindRptParentsComments();
         }
-
         #endregion
 
         #region Pager event handlers
