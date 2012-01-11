@@ -83,6 +83,7 @@
                     width="982" height="120">
                     <param name="movie" value='<%= Request.ApplicationPath + "bannertop.swf" %>' />
                     <param name="quality" value="transparent" >
+                    <param name="wmode" value="transparent">
                     <embed src='<%= Request.ApplicationPath + "bannertop.swf" %>' width="980" height="120"
                         quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
                         width="980" height="120"></embed>

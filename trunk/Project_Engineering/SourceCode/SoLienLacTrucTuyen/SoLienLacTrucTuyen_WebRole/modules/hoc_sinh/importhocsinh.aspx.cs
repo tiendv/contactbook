@@ -21,6 +21,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     {
         #region Fields
         private StudentBL studentBL;
+        string filename = string.Empty;
         #endregion
 
         #region Page event handlers
@@ -131,7 +132,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_IMPORTEDSTUDENTS);
             LblImportSuccess.Visible = true;
             BtnSave.Enabled = false;
-            BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;         
+            BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
@@ -141,7 +142,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
-            string filename = Path.GetFileName(FileUpload1.FileName);
+            filename = Path.GetFileName(FileUpload1.FileName);
             if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
             {
                 lbError.Text = "Vui lòng chọn file định dang Microsoft Excel để tiến hành import!";
@@ -369,6 +370,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 LblImportError.Visible = false;
                 AddSession(AppConstant.SESSION_IMPORTEDSTUDENTS, tabularImportedStudents);
             }
+
         }
         #endregion
 
