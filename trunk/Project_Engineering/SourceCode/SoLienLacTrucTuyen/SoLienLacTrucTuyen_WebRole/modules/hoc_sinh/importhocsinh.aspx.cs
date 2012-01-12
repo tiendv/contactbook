@@ -133,6 +133,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             LblImportSuccess.Visible = true;
             BtnSave.Enabled = false;
             BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+
+            if (CheckSessionKey(AppConstant.SESSION_FILEIMPORTEDSTUDENTS))
+            {
+                string file = (string)GetSession(AppConstant.SESSION_FILEIMPORTEDSTUDENTS);
+                File.Delete(file);
+            }
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
@@ -369,6 +375,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
                 LblImportError.Visible = false;
                 AddSession(AppConstant.SESSION_IMPORTEDSTUDENTS, tabularImportedStudents);
+                AddSession(AppConstant.SESSION_FILEIMPORTEDSTUDENTS, filename);
             }
 
         }
