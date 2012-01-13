@@ -113,6 +113,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_USER = "User";
         public const string SESSION_DAILYSCHEDULES = "DailySchedules";
         public const string SESSION_IMPORTEDSTUDENTS = "ImportedStudents";
+        public const string SESSION_FILEIMPORTEDSTUDENTS = "FileImportedStudents";        
         public const string SESSION_CHANGEGRADE_STUDENTS = "ChangeGradeStudents";    
 
         #region Session Teacher
