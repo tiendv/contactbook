@@ -127,7 +127,7 @@
     <Content Include="modules\phu_huynh\suaykien.aspx" />
     <Content Include="modules\phu_huynh\thoikhoabieu.aspx" />
     <Content Include="modules\phu_huynh\thongtincanhan.aspx" />
-    <Content Include="modules\phu_huynh\thuhanghocsinh.aspx" />
+    <Content Include="modules\phu_huynh\xephang.aspx" />
     <Content Include="modules\phu_huynh\ykien.aspx" />
     <Content Include="modules\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="modules\Scripts\jquery-1.4.1.js" />
@@ -175,6 +175,7 @@
     <Content Include="Styles\Buttons\button_import.png" />
     <Content Include="Styles\Buttons\button_next.png" />
     <Content Include="Styles\button_edit_disable.png" />
+    <Content Include="Styles\Icons\green_arrow_up.png" />
     <Content Include="Styles\Icons\icon-warning.png" />
     <Content Include="Styles\Icons\icon_add.png" />
     <Content Include="Styles\Icons\icon_add_disabled.png" />
@@ -182,6 +183,8 @@
     <Content Include="Styles\Icons\icon_edit.png" />
     <Content Include="Styles\Icons\icon_edit_disabled.png" />
     <Content Include="Styles\Icons\icon_feedback.png" />
+    <Content Include="Styles\Icons\orange_arrow_down.png" />
+    <Content Include="Styles\Images\absent.png" />
     <Content Include="Styles\Images\activity.png" />
     <Content Include="Styles\Images\already_read_message.png" />
     <Content Include="Styles\Images\avatar.png" />
@@ -358,12 +361,12 @@
     <Compile Include="modules\hoc_sinh\suadiemhocsinh.aspx.designer.cs">
       <DependentUpon>suadiemhocsinh.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\phu_huynh\thuhanghocsinh.aspx.cs">
-      <DependentUpon>thuhanghocsinh.aspx</DependentUpon>
+    <Compile Include="modules\phu_huynh\xephang.aspx.cs">
+      <DependentUpon>xephang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="modules\phu_huynh\thuhanghocsinh.aspx.designer.cs">
-      <DependentUpon>thuhanghocsinh.aspx</DependentUpon>
+    <Compile Include="modules\phu_huynh\xephang.aspx.designer.cs">
+      <DependentUpon>xephang.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\utilities\AppConstant.cs" />
     <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">

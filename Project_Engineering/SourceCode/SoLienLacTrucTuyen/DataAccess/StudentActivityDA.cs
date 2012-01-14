@@ -184,5 +184,22 @@ namespace EContactBook.DataAccess
                 db.SubmitChanges();
             }
         }
+
+        public bool HasNewActivities(Student_Student student, Class_Class Class, int limitDays)
+        {
+            IQueryable<Student_Activity> iqActivities = from activity in db.Student_Activities
+                                                        where activity.Student_StudentInClass.StudentId == student.StudentId
+                                                        && activity.Student_StudentInClass.ClassId == Class.ClassId
+                                                        && DateTime.Now < activity.Date.AddDays(limitDays)
+                                                        select activity;
+            if (iqActivities.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -40,6 +40,15 @@ namespace SoLienLacTrucTuyen_WebRole {
         protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
+        /// LblSchoolName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblSchoolName;
+        
+        /// <summary>
         /// PnlFixedLevel1MenuTitles control.
         /// </summary>
         /// <remarks>

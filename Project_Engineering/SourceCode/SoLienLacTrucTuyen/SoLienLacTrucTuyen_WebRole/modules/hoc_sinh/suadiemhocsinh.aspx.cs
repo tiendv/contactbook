@@ -46,30 +46,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindRptStudentMarks()
         {
             List<TabularTermSubjectMark> tabularTermSubjectMarks = new List<TabularTermSubjectMark>();
+
             // declare variables
-            if (CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENT)
-                && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
-                && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM)
-                && CheckSessionKey(AppConstant.SESSION_SELECTED_MARKTYPES)
-                && CheckSessionKey(AppConstant.SESSION_SELECTED_SUBJECT))
-            {
-                Student_Student student = (Student_Student)GetSession(AppConstant.SESSION_SELECTED_STUDENT);
-                List<Category_MarkType> markTypes = (List<Category_MarkType>)GetSession(AppConstant.SESSION_SELECTED_MARKTYPES);
-                Category_Subject subject = (Category_Subject)GetSession(AppConstant.SESSION_SELECTED_SUBJECT);
-                Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
-                Configuration_Term term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
+            Student_Student student = (Student_Student)GetSession(AppConstant.SESSION_SELECTED_STUDENT);
+            RemoveSession(AppConstant.SESSION_SELECTED_STUDENT);
 
-                tabularTermSubjectMarks = studyingResultBL.GetTabularTermSubjectMarks(student, markTypes, subject, Class, term);
-                this.RptDiemMonHoc.DataSource = tabularTermSubjectMarks;
-                this.RptDiemMonHoc.DataBind();
-                MainDataPager.ItemCount = tabularTermSubjectMarks.Count;
+            List<Category_MarkType> markTypes = (List<Category_MarkType>)GetSession(AppConstant.SESSION_SELECTED_MARKTYPES);
+            RemoveSession(AppConstant.SESSION_SELECTED_MARKTYPES);
 
+            Category_Subject subject = new Category_Subject();
+            subject.SubjectId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT];
 
-                ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTID] = student.StudentId;
-                ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.ClassId;
-                ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] = term.TermId;
-                ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT] = subject.SubjectId;
-            }
+            Class_Class Class = new Class_Class();
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
+
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
+
+            tabularTermSubjectMarks = studyingResultBL.GetTabularTermSubjectMarks(student, markTypes, subject, Class, term);
+            this.RptDiemMonHoc.DataSource = tabularTermSubjectMarks;
+            this.RptDiemMonHoc.DataBind();
+            MainDataPager.ItemCount = tabularTermSubjectMarks.Count;
+
         }
 
         private void FillStudentInfo()
@@ -77,18 +75,74 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (CheckSessionKey(AppConstant.SESSION_SELECTED_STUDENT)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_MARKTYPE)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_MARKTYPES)
-               && CheckSessionKey(AppConstant.SESSION_SELECTED_SUBJECT))
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_SUBJECT)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE))
             {
                 Student_Student student = (Student_Student)GetSession(AppConstant.SESSION_SELECTED_STUDENT);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTID] = student.StudentId;
+
                 List<Category_MarkType> markTypes = (List<Category_MarkType>)GetSession(AppConstant.SESSION_SELECTED_MARKTYPES);
+
                 Category_Subject subject = (Category_Subject)GetSession(AppConstant.SESSION_SELECTED_SUBJECT);
                 Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+
                 Configuration_Term term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
 
                 LblStudentName.Text = student.FullName;
                 LblStudentCode.Text = student.StudentCode;
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = ((Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR)).YearId;
+                RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = ((Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY)).FacultyId;
+                RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = ((Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE)).GradeId;
+                RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = ((Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS)).ClassId;
+                RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT] = ((Category_Subject)GetSession(AppConstant.SESSION_SELECTED_SUBJECT)).SubjectId;
+                RemoveSession(AppConstant.SESSION_SELECTED_SUBJECT);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_MARKTYPE] = ((Category_MarkType)GetSession(AppConstant.SESSION_SELECTED_MARKTYPE)).MarkTypeId;
+                RemoveSession(AppConstant.SESSION_SELECTED_MARKTYPE);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] = ((Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM)).TermId;
+                RemoveSession(AppConstant.SESSION_SELECTED_TERM);
             }
+        }
+
+        private void RedirectToPrevPage()
+        {
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY];
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE];
+            Class_Class Class = new Class_Class();
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
+            Category_Subject subject = new Category_Subject();
+            subject.SubjectId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT];
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
+            Category_MarkType markType = new Category_MarkType();
+            markType.MarkTypeId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_MARKTYPE];
+
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+            AddSession(AppConstant.SESSION_SELECTED_SUBJECT, subject);
+            AddSession(AppConstant.SESSION_SELECTED_MARKTYPE, markType);
+
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_MARK);
         }
         #endregion
 
@@ -111,7 +165,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
             subject.SubjectId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT];
 
-            foreach(RepeaterItem item in RptDiemMonHoc.Items)
+            foreach (RepeaterItem item in RptDiemMonHoc.Items)
             {
                 hdfMarkTypeId = (HiddenField)item.FindControl("HdfMarkTypeId");
                 tabularTermSubjectMark = new TabularTermSubjectMark();
@@ -127,7 +181,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         detailTermSubjectMark = new TabularDetailTermSubjectMark();
                         detailTermSubjectMark.DetailTermSubjectMarkId = Int32.Parse(((HiddenField)innerItem.FindControl("HdfDetailTermSubjectMarkId")).Value);
-                        if (txtMarkValue.Text != "")
+                        if (!CheckUntils.IsNullOrBlank(txtMarkValue.Text))
                         {
                             detailTermSubjectMark.MarkValue = double.Parse(txtMarkValue.Text);
                         }
@@ -135,22 +189,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             detailTermSubjectMark.MarkValue = -1;
                         }
-                        
+
                         tabularTermSubjectMark.TabularDetailTermSubjectMarks.Add(detailTermSubjectMark);
                     }
                 }
 
-                tabularTermSubjectMarks.Add(tabularTermSubjectMark);
+                if (tabularTermSubjectMark.TabularDetailTermSubjectMarks.Count != 0)
+                {
+                    tabularTermSubjectMarks.Add(tabularTermSubjectMark);
+                }
             }
 
-            studyingResultBL.UpdateDetailedMark(student, Class, term, subject, tabularTermSubjectMarks);
+            if (tabularTermSubjectMarks.Count != 0)
+            {
+                studyingResultBL.UpdateDetailedMark(student, Class, term, subject, tabularTermSubjectMarks);
+            }
 
-            Response.Redirect(AppConstant.PAGEPATH_STUDENT_MARK);
+            RedirectToPrevPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_STUDENT_MARK);
+            RedirectToPrevPage();
         }
         #endregion
 

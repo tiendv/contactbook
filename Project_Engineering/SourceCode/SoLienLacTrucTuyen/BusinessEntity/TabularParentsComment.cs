@@ -11,6 +11,7 @@ namespace EContactBook.BusinessEntity
         public string Title { get; set; }
         public string Content { get; set; }
         public string Feedback { get; set; }
+        public int CommentStatusId { get; set; }
         public string CommentStatusName { get; set; }
         public string Date { get; set; }
     }

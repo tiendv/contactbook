@@ -18,6 +18,9 @@
                                         <div style="width: 85%; float: left; padding-left: 10px;">
                                             <asp:HyperLink ID="HlkUsers" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/ketquahoctap.aspx">Kết quả học tập</asp:HyperLink>
                                             <br />
+                                            <asp:Label ID="LblHasNewMarkStt" runat="server"></asp:Label>
+                                            <br />
+                                            <asp:Label ID="LblHasNewFinalMarkStt" runat="server"></asp:Label>
                                             <div style="clear: both">
                                             </div>
                                         </div>
@@ -27,7 +30,7 @@
                             <td style="width: 33%">
                                 <div>
                                     <div style="padding: 10px;">
-                                        <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Images/user_group.png" Style="float: left;
+                                        <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Images/absent.png" Style="float: left;
                                             height: 50px; width: 50px" />
                                         <div style="width: 85%; float: left; padding-left: 10px;">
                                             <asp:HyperLink ID="HlkRoles" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/ngaynghihoc.aspx">Ngày nghỉ học</asp:HyperLink>
@@ -47,7 +50,7 @@
                                         <div style="width: 85%; float: left; padding-left: 10px;">
                                             <asp:HyperLink ID="HyperLink1" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/hoatdong.aspx">Hoạt động</asp:HyperLink>
                                             <br />
-                                            Hoạt động
+                                            <asp:Label ID="LblActivityStt" runat="server"></asp:Label>
                                         </div>
                                         <div style="clear: both">
                                         </div>
@@ -63,7 +66,7 @@
                                     <div style="width: 85%; float: left; padding: 5px 0px 0px 10px;">
                                         <asp:HyperLink ID="HyperLink2" runat="server" Style="font-size: 15px;" NavigateUrl="~/modules/phu_huynh/thoikhoabieu.aspx">Thời khóa biểu</asp:HyperLink>
                                         <br />
-                                        <asp:Label ID="Label1" runat="server" Text="Thời khóa biểu thay đổi"></asp:Label>
+                                        <asp:Label ID="LblScheduleStt" runat="server" ></asp:Label>
                                     </div>
                                 </div>
                             </td>

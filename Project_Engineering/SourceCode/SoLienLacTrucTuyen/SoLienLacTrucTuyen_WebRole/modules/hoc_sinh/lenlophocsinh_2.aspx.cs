@@ -114,7 +114,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptStudents()
         {
-            if (CheckSessionKey(AppConstant.SESSION_CHANGEGRADE_STUDENTS))
+            if (DdlLopHoc.Items.Count != 0 && CheckSessionKey(AppConstant.SESSION_CHANGEGRADE_STUDENTS))
             {
                 List<TabularStudent> tabularStudents = (List<TabularStudent>)GetSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
                 tabularStudents.OrderBy(student => student.StudentCode).ThenBy(student => student.FullName)
@@ -124,6 +124,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 RptHocSinh.DataSource = tabularStudents;
                 RptHocSinh.DataBind();
                 MainDataPager.ItemCount = tabularStudents.Count;
+            }
+            else
+            {
+                BtnSave.Enabled = false;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
             }
         }
 
@@ -144,6 +149,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
+
+                BtnSave.Enabled = false;
+                BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
             }
             else
             {

@@ -37,6 +37,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
+                GetSessions();
                 BindRptMarkTypes();
                 BindRptStudentMarks();
             }
@@ -47,6 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLLopHoc();
+            BindDDLMonHoc();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
@@ -161,12 +163,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 MarkTypeBL loaiDiemBL = new MarkTypeBL(UserSchool);
                 List<Category_MarkType> lstLoaiDiem = loaiDiemBL.GetListMarkTypes(grade);
                 DdlLoaiDiem.DataSource = lstLoaiDiem;
-                DdlLoaiDiem.DataValueField = "MarkTypeName";
+                DdlLoaiDiem.DataValueField = "MarkTypeId";
                 DdlLoaiDiem.DataTextField = "MarkTypeName";
                 DdlLoaiDiem.DataBind();
                 if (lstLoaiDiem.Count > 1)
                 {
-                    DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", ""));
+                    DdlLoaiDiem.Items.Insert(0, new ListItem("Tất cả", "0"));
                 }
             }
         }
@@ -314,7 +316,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    string markTypeName = DdlLoaiDiem.SelectedValue;
+                    string markTypeName = DdlLoaiDiem.SelectedItem.Text;
                     markTypes.Add(markTypeBL.GetMarkType(grade, markTypeName));
                 }
             }
@@ -344,8 +346,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcDisplayGUI(bDisplayData);
 
             // save selection
-            // ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Int32.Parse(DdlLopHoc.SelectedValue);
-
+            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = Int32.Parse(DdlNamHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = Int32.Parse(DdlNganh.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = Int32.Parse(DdlKhoiLop.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Int32.Parse(DdlLopHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT] = Int32.Parse(DdlMonHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_MARKTYPE] = Int32.Parse(DdlLoaiDiem.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_TERM] = Int32.Parse(DdlHocKy.SelectedValue);
         }
 
         private void ProcDisplayGUI(bool bDisplayData)
@@ -360,6 +367,43 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdHoTenHocSinh.Visible = bDisplayData;
             tdDTB.Visible = bDisplayData;
             tdSelectAll.Visible = bDisplayData;
+        }
+
+        /// <summary>
+        /// Get session from previous page
+        /// </summary>
+        private void GetSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE) 
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_MARKTYPE)
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_SUBJECT))
+            {
+                // get session and save key value to viewstate, then remove session
+                DdlNamHoc.SelectedValue = ((Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR)).YearId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
+
+                DdlNganh.SelectedValue = ((Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY)).FacultyId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_FACULTY); 
+                
+                DdlKhoiLop.SelectedValue = ((Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE)).GradeId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_GRADE); 
+                
+                DdlLopHoc.SelectedValue = ((Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS)).ClassId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_CLASS); 
+                
+                DdlMonHoc.SelectedValue = ((Category_Subject)GetSession(AppConstant.SESSION_SELECTED_SUBJECT)).SubjectId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_SUBJECT); 
+                
+                DdlLoaiDiem.SelectedValue = ((Category_MarkType)GetSession(AppConstant.SESSION_SELECTED_MARKTYPE)).MarkTypeId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_MARKTYPE); 
+                
+                DdlHocKy.SelectedValue = ((Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM)).TermId.ToString();
+                RemoveSession(AppConstant.SESSION_SELECTED_TERM); 
+            }
         }
         #endregion
 
@@ -398,16 +442,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY];
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE];
             Class_Class Class = new Class_Class();
-            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();
-
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS];
             Category_Subject subject = new Category_Subject();
-            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
-
+            subject.SubjectId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECT];
             Configuration_Term term = new Configuration_Term();
-            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERM];
+            Category_MarkType markType = new Category_MarkType();
+            markType.MarkTypeId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_MARKTYPE];
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
 
             Student_Student student = new Student_Student();
 
@@ -436,12 +485,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         student.StudentCode = HlkStudentCode.Text;
                         student.FullName = HlkStudentFullName.Text;
 
-                        AddSession(AppConstant.SESSION_SELECTED_STUDENT, student);
-                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+                        AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
                         AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-                        AddSession(AppConstant.SESSION_SELECTED_MARKTYPES, markTypes);
+                        AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+                        AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
                         AddSession(AppConstant.SESSION_SELECTED_SUBJECT, subject);
-
+                        AddSession(AppConstant.SESSION_SELECTED_MARKTYPE, markType);
+                        AddSession(AppConstant.SESSION_SELECTED_MARKTYPES, markTypes);                        
+                        AddSession(AppConstant.SESSION_SELECTED_STUDENT, student);
                         Response.Redirect(AppConstant.PAGEPATH_STUDENT_EDITMARK);
                     }
                 }

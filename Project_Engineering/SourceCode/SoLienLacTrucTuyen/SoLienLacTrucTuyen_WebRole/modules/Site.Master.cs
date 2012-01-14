@@ -49,6 +49,10 @@ namespace SoLienLacTrucTuyen_WebRole
                 {
                     Label lblUserName = (Label)LoginView1.Controls[0].FindControl("LblUserName");
                     lblUserName.Text = string.Format("Xin chào {0}!", Page.User.Identity.Name.Split(AppConstant.UNDERSCORE_CHAR)[1]);
+                    if(Session[AppConstant.SCHOOL] != null)
+                    {
+                        LblSchoolName.Text = ((School_School)Session[AppConstant.SCHOOL]).SchoolName;
+                    }
                 }
                 catch (Exception ex) { }
             }

@@ -90,7 +90,7 @@
                 </object>
             </div>
             <div class="school_name">
-                Trường tiểu học Võ Thị Sáu
+                <asp:Label ID="LblSchoolName" runat="server"></asp:Label>
             </div>    
         </div>
         <div class="menu_panel">

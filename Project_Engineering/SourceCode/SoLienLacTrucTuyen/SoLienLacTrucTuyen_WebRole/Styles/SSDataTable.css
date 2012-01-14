@@ -175,3 +175,10 @@
     background-color: #EBFEEB;
     color: #000000;
 }
+
+.emphasizedRow
+{
+    background-color: #FFFF00;
+    color: #000000;
+    font-weight: bold;
+}

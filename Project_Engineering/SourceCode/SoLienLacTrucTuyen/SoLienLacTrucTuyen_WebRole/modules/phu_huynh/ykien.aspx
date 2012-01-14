@@ -93,7 +93,7 @@
                         <td style="width: 100px">
                             Ngày góp ý
                         </td>
-                        <td style="width: 100px">
+                        <td style="width: 90px">
                             Tình trạng
                         </td>
                         <td class="icon">
@@ -111,15 +111,18 @@
                             <asp:HiddenField ID="HdfRptMaLoiNhanKhan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
                         </td>
                         <td style="height: 40px;">
+                            <asp:Image ID="ImgConfirmed" runat="server" ImageUrl="~/Styles/Icons/orange_arrow_down.png" Visible='<%#((int)DataBinder.Eval(Container.DataItem, "CommentStatusId") != 1)%>' />
+                            <asp:Image ID="ImgUnconfirmed" runat="server" ImageUrl="~/Styles/Icons/green_arrow_up.png" Visible='<%#((int)DataBinder.Eval(Container.DataItem, "CommentStatusId") == 1)%>' />
                             <asp:LinkButton ID="LbtnCommentTitle" runat="server" Style="text-decoration: underline;
-                                color: Blue; cursor: pointer;" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'>
+                                color: Blue; cursor: pointer;" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>'
+                                Font-Bold='<%#((int)DataBinder.Eval(Container.DataItem, "CommentStatusId") == 2)%>'>
                             <%#DataBinder.Eval(Container.DataItem, "Title")%>
                             </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "Date")%>
                         </td>
-                        <td style="height: 40px;">
+                        <td style="height: 40px; text-align: center">
                             <%#DataBinder.Eval(Container.DataItem, "CommentStatusName")%>
                         </td>
                         <td style="height: 40px; text-align: center">
