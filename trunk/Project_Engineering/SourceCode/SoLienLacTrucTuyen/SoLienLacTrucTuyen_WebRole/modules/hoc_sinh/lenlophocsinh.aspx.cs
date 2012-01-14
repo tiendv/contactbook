@@ -40,17 +40,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
-            {                
-                BindDropDownLists();                
-                this.isSearch = false;                
-
-                if (DdlLopHoc.Items.Count != 0)
+            {
+                if (BindDropDownLists())
                 {
-                    BindRptStudents();
+                    this.isSearch = false;
+
+                    if (DdlLopHoc.Items.Count != 0)
+                    {
+                        BindRptStudents();
+                    }
+                    else
+                    {
+                        ProcessDislayInfo(false);
+                    }
                 }
                 else
                 {
-                    ProcessDislayInfo(false);
+                    PnlLinkToCategory.Visible = true;
+                    PnlData.Visible = false;
                 }
             }
         }
@@ -205,12 +212,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         }
 
-        private void BindDropDownLists()
+        private bool BindDropDownLists()
         {
-            FillYear();
-            BindDDLFaculties();
-            BindDDLGrades();
-            BindDDLClasses();
+            if (FillYear())
+            {
+                BindDDLFaculties();
+                BindDDLGrades();
+                BindDDLClasses();
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void BindDDLFaculties()
@@ -241,12 +256,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void FillYear()
+        private bool FillYear()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             Configuration_Year year = systemConfigBL.GetPreviousYear();
-            LblYear.Text = year.YearName;
-            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+            if (year == null)
+            {
+                return false;
+            }
+            else
+            {
+                LblYear.Text = year.YearName;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+                return true;
+            }
         }
 
         private void BindDDLClasses()

@@ -82,6 +82,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularParentsComment.CommentId = parentsComment.CommentId;
                 tabularParentsComment.Title = parentsComment.Title;
                 tabularParentsComment.Content = parentsComment.CommentContent;
+                tabularParentsComment.CommentStatusId = parentsComment.CommentStatusId;
                 if (combineIsConfirmedStatus && parentsComment.CommentStatusId != 1)
                 {
                     tabularParentsComment.CommentStatusName = "Đã phản hồi";
@@ -130,6 +131,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
                 tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
                 tabularParentsComment.Feedback = parentsComment.Feedback;
+                tabularParentsComment.CommentStatusId = parentsComment.CommentStatusId;
                 tabularParentsComments.Add(tabularParentsComment);
             }
 

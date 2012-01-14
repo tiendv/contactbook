@@ -69,6 +69,7 @@
     <Compile Include="TabularMessage.cs" />
     <Compile Include="TabularParentsComment.cs" />
     <Compile Include="TabularSchool.cs" />
+    <Compile Include="TabularStudentRating.cs" />
     <Compile Include="TabularSubject.cs" />
     <Compile Include="TabularDiemHocSinh.cs" />
     <Compile Include="TabularHanhKiemHocSinh.cs" />

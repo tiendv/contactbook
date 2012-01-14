@@ -72,6 +72,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         ((Label)LoginView1.Controls[0].FindControl("LblCommentStatus")).Text = string.Format("Bạn có {0} phản hồi góp ý chưa xem qua", iUnConfirmedFedbackCommentCount);
                     }
+
+                    StudyingResultBL studyingResultBL = new StudyingResultBL(UserSchool);
+                    List<Category_Subject> newMarkSubjects = studyingResultBL.HasNewMarks(loggedInStudent);
+                    if (newMarkSubjects.Count != 0)
+                    {
+                        ((Label)LoginView1.Controls[0].FindControl("LblHasNewMarkStt")).Text = string.Format("Có điểm mới");
+                    }
+
+                    List<Category_Subject> newFinalMarkSubjects = studyingResultBL.HasFinalNewMarks(loggedInStudent);
+                    if (newFinalMarkSubjects.Count != 0)
+                    {
+                        ((Label)LoginView1.Controls[0].FindControl("LblHasNewFinalMarkStt")).Text = string.Format("Có điểm thi cuối kì");
+                    }
+
+                    StudentActivityBL studentActivityBL = new StudentActivityBL(UserSchool);
+                    bool bHasNewActivities = studentActivityBL.HasNewActivities(loggedInStudent);
+                    if (bHasNewActivities)
+                    {
+                        ((Label)LoginView1.Controls[0].FindControl("LblActivityStt")).Text = string.Format("Học sinh có tham gia hoạt động mới");
+                    }
                 }
 
                 //LblGreetingHead.Text = string.Format("Chào mừng {0} đến với hệ thống sổ liên lạc trực tuyến eContactBook của {1}",

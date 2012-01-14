@@ -62,7 +62,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             studyingResultDA.InsertDetailMark(detailedMark);
             studyingResultDA.CalAvgMark(termSubjectedMark);
         }
-        
+
         /// <summary>
         /// Add new marks for student
         /// </summary>
@@ -73,10 +73,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         /// <param name="marks"></param>
         public void AddMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
         {
-            List<int> markTypeIds = new List<int>();
-
             int i = 0;
-            // remove empty value
             while (i < marks.Count)
             {
                 if (marks[i].GiaTri == -1)
@@ -89,17 +86,20 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
-            studyingResultDA.InsertDetailedMark(student, Class, term, subject, marks, DateTime.Now);
-            if (NeedResetAvgMark(student, Class, term, subject))
+            if (marks.Count > 0)
             {
-                studyingResultDA.ResetAvgMark(student, Class, term, subject);
-            }
-            else
-            {
-                studyingResultDA.CalAvgMark(student, Class, term, subject);
-            }
+                studyingResultDA.InsertDetailedMark(student, Class, term, subject, marks, DateTime.Now);
+                if (NeedResetAvgMark(student, Class, term, subject))
+                {
+                    studyingResultDA.ResetAvgMark(student, Class, term, subject);
+                }
+                else
+                {
+                    studyingResultDA.CalculateTermSubjectAvgMark(student, Class, term, subject);
+                }
 
-            studyingResultDA.CalculateStudentTermAvgMark(student, Class, term);
+                studyingResultDA.CalculateTermAvgMark(student, Class, term);
+            }
         }
 
         /// <summary>
@@ -148,10 +148,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                studyingResultDA.CalAvgMark(student, Class, term, subject);
+                studyingResultDA.CalculateTermSubjectAvgMark(student, Class, term, subject);
             }
 
-            studyingResultDA.CalculateStudentTermAvgMark(student, Class, term);
+            studyingResultDA.CalculateTermAvgMark(student, Class, term);
         }
 
         /// <summary>
@@ -419,6 +419,167 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return tabularTermStudentResults;
+        }
+
+        public List<TabularStudentRating> GetTabularStudentRating(Student_Student student, Configuration_Year year, Configuration_Term term,
+            int pageCurrentIndex, int pageSize, out double totalRecords, out int orderNo)
+        {
+            List<TabularStudentRating> tabularStudentRatings = null;
+            TabularStudentRating tabularStudentRating = null;
+            LearningAptitudeBL learningAptitudeBL = null;
+            ConductBL conductBL = null;
+            DanhHieuBL learningResultBL = null;
+            Category_Conduct conduct = null;
+            Category_LearningAptitude learningAptitude = null;
+            Category_LearningResult learningResult = null;
+            List<Student_TermLearningResult> termResults = null;
+            TabularTermStudentResult tabularFinalStudentResult = null;
+            StudentBL studentBL = new StudentBL(school);
+
+            Class_Class Class = studentBL.GetClass(student, year);
+
+            if (term == null)
+            {
+                termResults = studyingResultDA.GetStudentTermResults(Class, student, pageCurrentIndex, pageSize, out totalRecords, out orderNo);
+            }
+            else
+            {
+                termResults = studyingResultDA.GetStudentTermResults(Class, term, student, pageCurrentIndex, pageSize, out totalRecords, out orderNo);
+            }
+
+            if (totalRecords != 0)
+            {
+                learningAptitudeBL = new LearningAptitudeBL(school);
+                conductBL = new ConductBL(school);
+                learningResultBL = new DanhHieuBL(school);
+                tabularStudentRatings = new List<TabularStudentRating>(); // init result list
+                if (term != null)
+                {
+                    foreach (Student_TermLearningResult termResult in termResults)
+                    {
+                        tabularStudentRating = new TabularStudentRating();
+                        tabularStudentRating.StudentCode = termResult.Student_StudentInClass.Student_Student.StudentCode;
+                        tabularStudentRating.StudentFullName = termResult.Student_StudentInClass.Student_Student.FullName;
+                        tabularStudentRating.TermName = termResult.Configuration_Term.TermName;
+                        tabularStudentRating.AverageMark = (int)termResult.TermAverageMark;
+                        tabularStudentRating.StringAverageMark = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
+                        // Thông tin học lực
+                        learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularStudentRating.AverageMark);
+                        if (learningAptitude != null)
+                        {
+                            tabularStudentRating.LearningAptitudeName = learningAptitude.LearningAptitudeName;
+                        }
+                        else
+                        {
+                            tabularStudentRating.LearningAptitudeName = "(Chưa xác định)";
+                        }
+                        // Thông tin hạnh kiểm
+                        conduct = conductBL.GetConduct((int)termResult.TermConductId);
+                        if (conduct != null)
+                        {
+                            tabularStudentRating.ConductName = conduct.ConductName;
+                        }
+                        else
+                        {
+                            tabularStudentRating.ConductName = "(Chưa xác định)";
+                        }
+                        // Thông tin danh hiệu
+                        if (conduct != null && learningAptitude != null)
+                        {
+                            learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
+                            if (learningResult != null)
+                            {
+                                tabularStudentRating.LearningResultName = learningResult.LearningResultName;
+                            }
+                            else
+                            {
+                                tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                            }
+                        }
+                        else
+                        {
+                            tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                        }
+                        tabularStudentRatings.Add(tabularStudentRating);
+                    }
+
+                    return tabularStudentRatings;
+                }
+
+                for (int i = 0; i < termResults.Count - 1; i++)
+                {
+                    tabularStudentRating = new TabularStudentRating();
+                    tabularStudentRating.StudentCode = termResults[i].Student_StudentInClass.Student_Student.StudentCode;
+                    tabularStudentRating.StudentFullName = termResults[i].Student_StudentInClass.Student_Student.FullName;
+                    tabularStudentRating.TermName = "Cả năm";
+
+                    if ((termResults[i].TermAverageMark != -1) && (termResults[i + 1].TermAverageMark != -1))
+                    {
+                        tabularStudentRating.AverageMark = Math.Round(
+                            ((double)termResults[i].TermAverageMark + 2 * (double)termResults[i+1].TermAverageMark) / 3, 1
+                        );
+                        tabularStudentRating.StringAverageMark = tabularStudentRating.AverageMark.ToString();
+                    }
+                    else
+                    {
+                        tabularStudentRating.StringAverageMark = "(Chưa xác định)";
+                    }
+                    // Nếu đã xác định được hạnh kiểm cả 2 học kì
+                    if (termResults[i].TermConductId != -1 && termResults[i + 1].TermConductId != -1)
+                    {
+                        // hạnh kiểm cuối năm = hạnh kiểm học kì 2
+                        tabularStudentRating.ConductId = (int)termResults[i + 1].TermConductId;
+                    }
+                    else
+                    {
+                        tabularStudentRating.ConductId = -1;
+                    }
+                    conduct = conductBL.GetConduct((int)tabularStudentRating.ConductId);
+                    if (conduct != null)
+                    {
+                        tabularStudentRating.ConductName = conduct.ConductName;
+                    }
+                    else
+                    {
+                        tabularStudentRating.ConductName = "(Chưa xác định)";
+                    }
+                    learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularStudentRating.AverageMark);
+                    if (learningAptitude != null)
+                    {
+                        tabularStudentRating.LearningAptitudeName = learningAptitude.LearningAptitudeName;
+                    }
+                    else
+                    {
+                        tabularStudentRating.LearningAptitudeName = "(Chưa xác định)";
+                    }
+
+                    if (conduct != null && learningAptitude != null)
+                    {
+                        learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
+                        if (learningResult != null)
+                        {
+                            tabularStudentRating.LearningResultName = learningResult.LearningResultName;
+                        }
+                        else
+                        {
+                            tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                        }
+                    }
+                    else
+                    {
+                        tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                    }
+                    
+                    tabularStudentRatings.Add(tabularStudentRating);
+                    i++;
+
+                }
+
+                tabularStudentRatings = tabularStudentRatings.OrderByDescending(result => result.AverageMark).ThenBy(result => result.StudentCode).ToList();
+                return tabularStudentRatings;
+            }
+
+            return tabularStudentRatings;
         }
 
         public List<TabularStudentMark> InitTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes,
@@ -768,7 +929,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in detailedTermSubjectMarks)
                 {
                     tabularDetailTermSubjectMark = new TabularDetailTermSubjectMark();
-                    tabularDetailTermSubjectMark.DetailTermSubjectMarkId = detailedTermSubjectMark.DetailedTermSubjectMark; 
+                    tabularDetailTermSubjectMark.DetailTermSubjectMarkId = detailedTermSubjectMark.DetailedTermSubjectMark;
                     tabularDetailTermSubjectMark.Date = detailedTermSubjectMark.Date1;
                     tabularDetailTermSubjectMark.MarkValue = detailedTermSubjectMark.MarkValue;
                     tabularTermSubjectMark.TabularDetailTermSubjectMarks.Add(tabularDetailTermSubjectMark);
@@ -814,10 +975,28 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             else
             {
-                studyingResultDA.CalAvgMark(student, Class, term, subject);
+                studyingResultDA.CalculateTermSubjectAvgMark(student, Class, term, subject);
             }
 
-            studyingResultDA.CalculateStudentTermAvgMark(student, Class, term);
+            studyingResultDA.CalculateTermAvgMark(student, Class, term);
+        }
+
+        public List<Category_Subject> HasNewMarks(Student_Student student)
+        {
+            StudentBL studentBL = new StudentBL(school);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            int iLimitDays = 3;
+            return studyingResultDA.GetNewMarkSubjects(student, Class, iLimitDays);
+        }
+
+        public List<Category_Subject> HasFinalNewMarks(Student_Student student)
+        {
+            StudentBL studentBL = new StudentBL(school);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
+            Category_MarkType markType = markTypeBL.GetAppliedCalAvgMarkType(Class.Category_Grade);
+            int iLimitDays = 3;
+            return studyingResultDA.GetNewMarkSubjects(student, Class, iLimitDays, markType);
         }
     }
 }

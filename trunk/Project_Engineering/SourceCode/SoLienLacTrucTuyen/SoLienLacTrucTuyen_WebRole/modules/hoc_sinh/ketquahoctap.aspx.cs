@@ -130,9 +130,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptMarkTypes()
         {
-            //List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes();
-            //this.RptLoaiDiem.DataSource = markTypes;
-            //this.RptLoaiDiem.DataBind();
+            Student_Student student = new Student_Student();
+            student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+            Class_Class Class = studentBL.GetClass(student, year);
+
+            List<Category_MarkType> markTypes = markTypeBL.GetListMarkTypes(Class.Category_Grade);
+            this.RptLoaiDiem.DataSource = markTypes;
+            this.RptLoaiDiem.DataBind();
         }
 
         private void BindRptKetQuaDiem()

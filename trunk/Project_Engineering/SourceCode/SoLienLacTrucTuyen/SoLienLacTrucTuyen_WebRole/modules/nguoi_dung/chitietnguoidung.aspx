@@ -4,7 +4,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">    
         <table style="width: 100%" class="ui-corner-all">
             <tr>
-                <td style="height: 23px">
+                <td style="height: 23px;">
                     Tên người dùng:
                 </td>
                 <td style="width: 300px">
@@ -44,7 +44,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="height: 23px">
+                <td style="height: 23px;  width: 200px">
                     Ngày đăng nhập gần nhất:
                 </td>
                 <td style="width: 150px;" class="input_textbox">

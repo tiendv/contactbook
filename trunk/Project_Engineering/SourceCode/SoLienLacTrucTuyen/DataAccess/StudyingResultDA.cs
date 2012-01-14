@@ -291,7 +291,7 @@ namespace EContactBook.DataAccess
             return bResult;
         }
 
-        public void CalAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
+        public void CalculateTermSubjectAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             double dAvgMark = -1;
             Student_TermSubjectMark termSubjectedMark = null;
@@ -631,7 +631,7 @@ namespace EContactBook.DataAccess
             iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
                                         where detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == student.StudentId
                                         && detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class.YearId == year.YearId
-                                        && detailedTermSubjectMark.Student_TermSubjectMark.SubjectId == subject.SubjectId 
+                                        && detailedTermSubjectMark.Student_TermSubjectMark.SubjectId == subject.SubjectId
                                         && detailedTermSubjectMark.Student_TermSubjectMark.TermId == term.TermId
                                         && detailedTermSubjectMark.MarkType == markType.MarkTypeId
                                         select detailedTermSubjectMark;
@@ -727,6 +727,61 @@ namespace EContactBook.DataAccess
             return studentTermResults;
         }
 
+        public List<Student_TermLearningResult> GetStudentTermResults(Class_Class Class, Configuration_Term term, Student_Student student,
+            int pageCurrentIndex, int pageSize, out double totalRecords, out int orderNo)
+        {
+            List<Student_TermLearningResult> studentTermResults = new List<Student_TermLearningResult>();
+            IQueryable<Student_TermLearningResult> iqStudentTermResult = from termLearningResult in db.Student_TermLearningResults
+                                                                         where termLearningResult.Student_StudentInClass.ClassId == Class.ClassId
+                                                                            && termLearningResult.TermId == term.TermId
+                                                                         select termLearningResult;
+
+            orderNo = 0;
+            totalRecords = iqStudentTermResult.Count();
+            if (totalRecords != 0)
+            {
+                studentTermResults = iqStudentTermResult.OrderByDescending(result => result.TermAverageMark)
+                   .ThenBy(result => result.Student_StudentInClass.Student_Student.StudentCode).ToList();
+                for (int i = 0; i < studentTermResults.Count; i++)
+                {
+                    if (studentTermResults[i].Student_StudentInClass.StudentId == student.StudentId)
+                    {
+                        orderNo = i;
+                        break;
+                    }
+                }
+            }
+
+            return studentTermResults;
+        }
+
+        public List<Student_TermLearningResult> GetStudentTermResults(Class_Class Class, Student_Student student,
+            int pageCurrentIndex, int pageSize, out double totalRecords, out int orderNo)
+        {
+            List<Student_TermLearningResult> studentTermResults = new List<Student_TermLearningResult>();
+            IQueryable<Student_TermLearningResult> iqStudentTermResult = from termLearningResult in db.Student_TermLearningResults
+                                                                         where termLearningResult.Student_StudentInClass.ClassId == Class.ClassId
+                                                                         select termLearningResult;
+
+            orderNo = 0;
+            totalRecords = iqStudentTermResult.Count();
+            if (totalRecords != 0)
+            {
+                studentTermResults = iqStudentTermResult.OrderByDescending(result => result.Student_StudentInClass.Student_Student.StudentCode)
+                   .ThenBy(result => result.TermAverageMark).ToList();
+                for (int i = 0; i < studentTermResults.Count; i++)
+                {
+                    if (studentTermResults[i].Student_StudentInClass.StudentId == student.StudentId)
+                    {
+                        orderNo = i;
+                        break;
+                    }
+                }
+            }
+
+            return studentTermResults;
+        }
+
         public void InsertTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
         {
             IQueryable<Student_StudentInClass> iqStudentsInClass = from stdsInCls in db.Student_StudentInClasses
@@ -788,7 +843,7 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
-        public void CalculateStudentTermAvgMark(Student_Student student, Class_Class Class, Configuration_Term term)
+        public void CalculateTermAvgMark(Student_Student student, Class_Class Class, Configuration_Term term)
         {
             double dTermAvgMark = -1;
 
@@ -797,7 +852,6 @@ namespace EContactBook.DataAccess
                                   where termSubjMark.Student_StudentInClass.StudentId == student.StudentId
                                     && termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
                                     && termSubjMark.TermId == term.TermId
-                                    && termSubjMark.AverageMark >= 0
                                   select termSubjMark;
 
             IQueryable<Student_TermLearningResult> iqTermLearningResult = from termLearningResult in db.Student_TermLearningResults
@@ -810,18 +864,28 @@ namespace EContactBook.DataAccess
             {
                 if (iqTermSubjectedMark.Count() != 0)
                 {
-                    double dTotalSubjectMarkRatio = 0;
-                    double dTotalMarks = 0;
-                    foreach (Student_TermSubjectMark termSubjectedMark in iqTermSubjectedMark)
+                    int iUnCalculateTermSubjectAvg = (from result in iqTermSubjectedMark
+                                                      where result.AverageMark < 0
+                                                      select result).Count();
+                    if (iUnCalculateTermSubjectAvg == 0)
                     {
-                        dTotalSubjectMarkRatio += termSubjectedMark.Category_Subject.MarkRatio;
-                        dTotalMarks += termSubjectedMark.Category_Subject.MarkRatio * termSubjectedMark.AverageMark;
+                        double dTotalSubjectMarkRatio = 0;
+                        double dTotalMarks = 0;
+                        foreach (Student_TermSubjectMark termSubjectedMark in iqTermSubjectedMark)
+                        {
+                            dTotalSubjectMarkRatio += termSubjectedMark.Category_Subject.MarkRatio;
+                            dTotalMarks += termSubjectedMark.Category_Subject.MarkRatio * termSubjectedMark.AverageMark;
+                        }
+
+                        dTermAvgMark = dTotalMarks / dTotalSubjectMarkRatio;
+                        dTermAvgMark = Math.Round(dTermAvgMark, 1, MidpointRounding.AwayFromZero);
+
+                        termLearningResult.TermAverageMark = dTermAvgMark;
                     }
-
-                    dTermAvgMark = dTotalMarks / dTotalSubjectMarkRatio;
-                    dTermAvgMark = Math.Round(dTermAvgMark, 1, MidpointRounding.AwayFromZero);
-
-                    termLearningResult.TermAverageMark = dTermAvgMark;
+                    else
+                    {
+                        termLearningResult.TermAverageMark = -1;
+                    }
                 }
                 else
                 {
@@ -912,6 +976,39 @@ namespace EContactBook.DataAccess
 
                 db.SubmitChanges();
             }
+        }
+
+        public List<Category_Subject> GetNewMarkSubjects(Student_Student student, Class_Class Class, int limitDays)
+        {
+            List<Category_Subject> newMarkSubjects = new List<Category_Subject>();
+            IQueryable<Category_Subject> iqSubject = from termSubjectMark in db.Student_TermSubjectMarks
+                                                     join detail in db.Student_DetailedTermSubjectMarks on termSubjectMark.TermSubjectMarkId equals detail.TermSubjectMarkId
+                                                     where termSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                                                     && termSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                     && DateTime.Now < detail.Date1.AddDays(limitDays)
+                                                     select termSubjectMark.Category_Subject;
+            if (iqSubject.Count() != 0)
+            {
+                newMarkSubjects = iqSubject.ToList();
+            }
+            return newMarkSubjects;
+        }
+
+        public List<Category_Subject> GetNewMarkSubjects(Student_Student student, Class_Class Class, int limitDays, Category_MarkType markType)
+        {
+            List<Category_Subject> newMarkSubjects = new List<Category_Subject>();
+            IQueryable<Category_Subject> iqSubject = from termSubjectMark in db.Student_TermSubjectMarks
+                                                     join detail in db.Student_DetailedTermSubjectMarks on termSubjectMark.TermSubjectMarkId equals detail.TermSubjectMarkId
+                                                     where termSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                                                     && termSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                     && DateTime.Now < detail.Date1.AddDays(limitDays)
+                                                     && detail.MarkType == markType.MarkTypeId
+                                                     select termSubjectMark.Category_Subject;
+            if (iqSubject.Count() != 0)
+            {
+                newMarkSubjects = iqSubject.ToList();
+            }
+            return newMarkSubjects;
         }
     }
 }

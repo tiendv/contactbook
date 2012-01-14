@@ -112,5 +112,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             studentActivityDA.DeleteStudentActivity(deletedStudent);
         }
+
+        public bool HasNewActivities(Student_Student student)
+        {
+            StudentBL studentBL = new StudentBL(school);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            int iLimitDays = 3;
+
+            return studentActivityDA.HasNewActivities(student, Class, iLimitDays);
+        }
     }
 }
