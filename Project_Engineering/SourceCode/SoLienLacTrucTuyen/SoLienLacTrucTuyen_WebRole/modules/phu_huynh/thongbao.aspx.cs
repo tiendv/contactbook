@@ -57,10 +57,10 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
             DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
-            ConfigurationMessageStatus messageStatus = null;
+            Configuration_MessageStatus messageStatus = null;
             if (DdlXacNhan.SelectedIndex > 0)
             {
-                messageStatus = new ConfigurationMessageStatus();
+                messageStatus = new Configuration_MessageStatus();
                 messageStatus.MessageStatusId = Int32.Parse(DdlXacNhan.SelectedValue);
             }
 
@@ -125,7 +125,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void BindDDLMessageStatuses()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);            
-            List<ConfigurationMessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
+            List<Configuration_MessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
             DdlXacNhan.DataSource = messageStatuses;
             DdlXacNhan.DataValueField = "MessageStatusId";
             DdlXacNhan.DataTextField = "MessageStatusName";

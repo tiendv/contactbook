@@ -47,7 +47,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // add School to session
                 School_School school = schoolBL.GetSchool(iSltSchool);
                 Session[AppConstant.SCHOOL] = school;
-
+                SystemConfigBL systemConfigBL = new SystemConfigBL(school);
+                Session[AppConstant.SESSION_CURRENT_YEAR] = systemConfigBL.GetLastedYear();
                 aspnet_Role role = (new UserBL(school)).GetRole(LoginCtrl.UserName);
                 AuthorizationBL authorizationBL = new AuthorizationBL(school);
                 if (authorizationBL.IsRoleParents(role))
@@ -76,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void LoginCtrl_OnLoggedIn(object sender, EventArgs e)
         {
             aspnet_Role role = (new UserBL()).GetRole(LoginCtrl.UserName);
-            string strDefaultPage = role.UserManagement_RoleDetail.UserManagement_RoleCategory.UserManagementPagePath.PhysicalPath;
+            string strDefaultPage = role.UserManagement_RoleDetail.UserManagement_RoleCategory.UserManagement_PagePath.PhysicalPath;
             Response.Redirect(strDefaultPage);
         }
         #endregion
@@ -114,7 +115,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DropDownList DdlProvinces = (DropDownList)LoginCtrl.FindControl("DdlProvinces");
 
             SystemConfigBL systemConfigBL = new SystemConfigBL();
-            List<ConfigurationProvince> provinces = systemConfigBL.GetProvinces();
+            List<Configuration_Province> provinces = systemConfigBL.GetProvinces();
             DdlProvinces.DataSource = provinces;
             DdlProvinces.DataValueField = "ProvinceId";
             DdlProvinces.DataTextField = "ProvinceName";
@@ -131,12 +132,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlProvinces.SelectedIndex >= 0)
             {
-                ConfigurationProvince province = new ConfigurationProvince();
+                Configuration_Province province = new Configuration_Province();
                 province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
 
                 if (DdlProvinces.SelectedIndex >= 1)
                 {
-                    List<ConfigurationDistrict> districts = systemConfigBL.GetDistricts(province);
+                    List<Configuration_District> districts = systemConfigBL.GetDistricts(province);
                     DdlDistricts.DataSource = districts;
                     DdlDistricts.DataValueField = "DistrictId";
                     DdlDistricts.DataTextField = "DistrictName";
@@ -153,8 +154,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DropDownList DdlDistricts = (DropDownList)LoginCtrl.FindControl("DdlDistricts");
             DropDownList ddlSchools = (DropDownList)LoginCtrl.FindControl("DdlSchools");
             SchoolBL schoolBL = new SchoolBL();
-            ConfigurationProvince province = null;
-            ConfigurationDistrict district = null;
+            Configuration_Province province = null;
+            Configuration_District district = null;
             List<School_School> schools = new List<School_School>();
 
             if (DdlProvinces.SelectedIndex == 0)
@@ -166,13 +167,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (DdlDistricts.SelectedIndex > 0)
                 {
-                    district = new ConfigurationDistrict();
+                    district = new Configuration_District();
                     district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
                     schools = schoolBL.GetSchools(district);
                 }
                 else
                 {
-                    province = new ConfigurationProvince();
+                    province = new Configuration_Province();
                     province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
                     schools = schoolBL.GetSchools(province);
                 }

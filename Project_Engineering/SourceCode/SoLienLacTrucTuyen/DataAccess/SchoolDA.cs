@@ -73,10 +73,10 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public List<School_School> GetSchools(ConfigurationProvince province)
+        public List<School_School> GetSchools(Configuration_Province province)
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
-                                                 where school.ConfigurationDistrict.ProvinceId == province.ProvinceId
+                                                 where school.Configuration_District.ProvinceId == province.ProvinceId
                                                  && school.SchoolId != 0
                                                  select school;
             if (iqSchool.Count() != 0)
@@ -89,7 +89,7 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public List<School_School> GetSchools(ConfigurationDistrict district)
+        public List<School_School> GetSchools(Configuration_District district)
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.DistrictId == district.DistrictId
@@ -123,7 +123,7 @@ namespace EContactBook.DataAccess
             return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<School_School> GetSchools(ConfigurationDistrict district, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<School_School> GetSchools(Configuration_District district, int pageCurrentIndex, int pageSize, out double totalRecords)
         {            
             IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.SchoolId != 0 && school.DistrictId == district.DistrictId
@@ -132,7 +132,7 @@ namespace EContactBook.DataAccess
             return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<School_School> GetSchools(ConfigurationDistrict district, string schoolName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<School_School> GetSchools(Configuration_District district, string schoolName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
            IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.SchoolId != 0 && school.DistrictId == district.DistrictId
@@ -142,20 +142,20 @@ namespace EContactBook.DataAccess
            return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<School_School> GetSchools(ConfigurationProvince province, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<School_School> GetSchools(Configuration_Province province, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
-                                                 join district in db.ConfigurationDistricts on school.DistrictId equals district.DistrictId
+                                                 join district in db.Configuration_Districts on school.DistrictId equals district.DistrictId
                                                  where school.SchoolId != 0 && district.ProvinceId == province.ProvinceId
                                                  select school;
 
             return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<School_School> GetSchools(ConfigurationProvince province, string schoolName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<School_School> GetSchools(Configuration_Province province, string schoolName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
-                                                 join district in db.ConfigurationDistricts on school.DistrictId equals district.DistrictId
+                                                 join district in db.Configuration_Districts on school.DistrictId equals district.DistrictId
                                                  where school.SchoolId != 0 && district.ProvinceId == province.ProvinceId
                                                  && school.SchoolName == schoolName
                                                  select school;
@@ -177,7 +177,7 @@ namespace EContactBook.DataAccess
             return schools;
         }
 
-        public bool SchoolNameExists(ConfigurationDistrict district, string schoolName)
+        public bool SchoolNameExists(Configuration_District district, string schoolName)
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.SchoolId != 0 && school.DistrictId == district.DistrictId

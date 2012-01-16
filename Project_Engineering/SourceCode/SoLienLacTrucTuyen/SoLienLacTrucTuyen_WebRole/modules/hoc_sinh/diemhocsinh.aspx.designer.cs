@@ -76,15 +76,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlLoaiDiem;
         
         /// <summary>
-        /// RBtnTerm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton RBtnTerm;
-        
-        /// <summary>
         /// DdlHocKy control.
         /// </summary>
         /// <remarks>
@@ -121,13 +112,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.RadioButton RBtnWeek;
         
         /// <summary>
-        /// DddWeeks control.
+        /// DdlWeeks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DddWeeks;
+        protected global::System.Web.UI.WebControls.DropDownList DdlWeeks;
         
         /// <summary>
         /// BtnSearch control.

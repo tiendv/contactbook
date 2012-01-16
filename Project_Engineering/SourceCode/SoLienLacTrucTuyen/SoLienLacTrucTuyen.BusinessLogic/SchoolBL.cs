@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             schoolDA = new SchoolDA();
         }
 
-        public School_School InsertSchool(ConfigurationDistrict district, string schoolName, string address, string phone,
+        public School_School InsertSchool(Configuration_District district, string schoolName, string address, string phone,
             string email, string password, byte[] logo)
         {
             School_School school = new School_School();
@@ -51,17 +51,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return schoolDA.GetSchools();
         }
 
-        public List<School_School> GetSchools(ConfigurationDistrict district)
+        public List<School_School> GetSchools(Configuration_District district)
         {
             return schoolDA.GetSchools(district);
         }
 
-        public List<School_School> GetSchools(ConfigurationProvince province)
+        public List<School_School> GetSchools(Configuration_Province province)
         {
             return schoolDA.GetSchools(province);
         }
         
-        public List<TabularSchool> GetTabularSchools(ConfigurationProvince province, ConfigurationDistrict district, string schoolName, 
+        public List<TabularSchool> GetTabularSchools(Configuration_Province province, Configuration_District district, string schoolName, 
             int pageIndex, int pageSize, out double totalRecords)
         {
             List<TabularSchool> tabularSchools = new List<TabularSchool>();
@@ -114,8 +114,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularSchool.Phone = school.Phone;
                 tabularSchool.Email = school.Email;
                 tabularSchool.Status = (school.Status == true) ? "Đang sử dụng" : "Chưa sử dụng";
-                tabularSchool.DistrictName = school.ConfigurationDistrict.DistrictName;
-                tabularSchool.ProvinceName = school.ConfigurationDistrict.ConfigurationProvince.ProvinceName;
+                tabularSchool.DistrictName = school.Configuration_District.DistrictName;
+                tabularSchool.ProvinceName = school.Configuration_District.Configuration_Province.ProvinceName;
                 tabularSchools.Add(tabularSchool);
             }
 
@@ -127,12 +127,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return schoolDA.GetSchool(0);
         }
 
-        public bool SchoolNameExists(ConfigurationDistrict district, string schoolName)
+        public bool SchoolNameExists(Configuration_District district, string schoolName)
         {
             return schoolDA.SchoolNameExists(district, schoolName);
         }
 
-        public bool SchoolNameExists(ConfigurationDistrict district, string oldSchoolName, string newSchoolName)
+        public bool SchoolNameExists(Configuration_District district, string oldSchoolName, string newSchoolName)
         {
             if (oldSchoolName == newSchoolName)
             {

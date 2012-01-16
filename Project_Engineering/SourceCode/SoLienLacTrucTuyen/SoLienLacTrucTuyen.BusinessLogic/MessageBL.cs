@@ -34,7 +34,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void ConfirmMessage(MessageToParents_Message message)
         {
-            ConfigurationMessageStatus messageStatus = new ConfigurationMessageStatus();
+            Configuration_MessageStatus messageStatus = new Configuration_MessageStatus();
             messageStatus.MessageStatusId = 3; // confirmed
             messageDA.UpdateMessage(message, messageStatus);
         }
@@ -50,7 +50,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public List<TabularMessage> GetTabularMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            string studentCode, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
+            string studentCode, Configuration_MessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularMessage> tabularMessages = new List<TabularMessage>();
             TabularMessage tabularMessage = null;
@@ -98,7 +98,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public List<TabularMessage> GetTabularMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            Student_Student student, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
+            Student_Student student, Configuration_MessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularMessage> tabularMessages = new List<TabularMessage>();
             TabularMessage tabularMessage = null;

@@ -638,6 +638,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudentMarks;
         }
 
+        /// <summary>
+        /// Get list of TabularStudentMark
+        /// </summary>
+        /// <param name="Class"></param>
+        /// <param name="subject"></param>
+        /// <param name="term"></param>
+        /// <param name="markTypes"></param>
+        /// <param name="pageCurrentIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecord"></param>
+        /// <returns></returns>
         public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             Student_Student student = new Student_Student();
@@ -661,7 +672,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
                 tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
                 tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
-
+                tabularStudentMark.TermName = termSubjectMark.Configuration_Term.TermName;
                 markMypedMarks = new List<MarkTypedMark>();
                 foreach (Category_MarkType markType in markTypes)
                 {
@@ -693,7 +704,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudentMarks;
         }
 
-        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, int month, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int month, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
             TabularStudentMark tabularStudentMark = null;
@@ -704,14 +715,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             string strMarks = "";
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
 
-            if (month == 0)
-            {
-                termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, pageCurrentIndex, pageSize, out totalRecord);
-            }
-            else
-            {
-                termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, month, pageCurrentIndex, pageSize, out totalRecord);
-            }
+            termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
 
             foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
             {
@@ -721,12 +725,65 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
                 tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
                 tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
-
+                tabularStudentMark.TermName = termSubjectMark.Configuration_Term.TermName;
                 markMypedMarks = new List<MarkTypedMark>();
                 foreach (Category_MarkType markType in markTypes)
                 {
                     List<double> dMarks = new List<double>();
-                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType);
+                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType, month);
+                    strMarks = "";
+
+                    foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
+                    {
+                        strB.Append(detailedMark.MarkValue.ToString());
+                        strB.Append(", ");
+                    }
+
+                    strMarks = strB.ToString().Trim().Trim(new char[] { ',' });
+                    strB.Clear();
+
+                    MarkTypedMark markTypedMark = new MarkTypedMark();
+                    markTypedMark.MarkTypeId = markType.MarkTypeId;
+                    markTypedMark.MarkTypeName = markType.MarkTypeName;
+                    markTypedMark.StringDiems = strMarks;
+
+                    markMypedMarks.Add(markTypedMark);
+                }
+
+                tabularStudentMark.DiemTheoLoaiDiems = markMypedMarks;
+                tabularStudentMarks.Add(tabularStudentMark);
+            }
+
+            return tabularStudentMarks;
+        }
+
+        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, DateTime beginDate, DateTime endDate, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
+            TabularStudentMark tabularStudentMark = null;
+            List<Student_TermSubjectMark> termSubjectMarks = null;
+            List<MarkTypedMark> markMypedMarks = null;
+            List<Student_DetailedTermSubjectMark> detailedMarks = null;
+            StringBuilder strB = new StringBuilder();
+            string strMarks = "";
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
+
+            termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
+
+            foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
+            {
+                tabularStudentMark = new TabularStudentMark();
+                tabularStudentMark.MaDiemHK = termSubjectMark.TermSubjectMarkId;
+                tabularStudentMark.MaHocSinh = termSubjectMark.Student_StudentInClass.StudentId;
+                tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
+                tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
+                tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
+                tabularStudentMark.TermName = termSubjectMark.Configuration_Term.TermName;
+                markMypedMarks = new List<MarkTypedMark>();
+                foreach (Category_MarkType markType in markTypes)
+                {
+                    List<double> dMarks = new List<double>();
+                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType, beginDate, endDate);
                     strMarks = "";
 
                     foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
@@ -930,7 +987,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     tabularDetailTermSubjectMark = new TabularDetailTermSubjectMark();
                     tabularDetailTermSubjectMark.DetailTermSubjectMarkId = detailedTermSubjectMark.DetailedTermSubjectMark;
-                    tabularDetailTermSubjectMark.Date = detailedTermSubjectMark.Date1;
+                    tabularDetailTermSubjectMark.Date = detailedTermSubjectMark.Date;
                     tabularDetailTermSubjectMark.MarkValue = detailedTermSubjectMark.MarkValue;
                     tabularTermSubjectMark.TabularDetailTermSubjectMarks.Add(tabularDetailTermSubjectMark);
                 }

@@ -42,7 +42,7 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
-        public void UpdateMessage(MessageToParents_Message editedMessage, ConfigurationMessageStatus messageStatus)
+        public void UpdateMessage(MessageToParents_Message editedMessage, Configuration_MessageStatus messageStatus)
         {
             MessageToParents_Message message = null;
             IQueryable<MessageToParents_Message> iqMessage = from msg in db.MessageToParents_Messages
@@ -144,7 +144,7 @@ namespace EContactBook.DataAccess
             return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, ConfigurationMessageStatus messageStatus,
+        public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, Configuration_MessageStatus messageStatus,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
@@ -171,7 +171,7 @@ namespace EContactBook.DataAccess
             return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, string studentCode, ConfigurationMessageStatus messageStatus,
+        public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, string studentCode, Configuration_MessageStatus messageStatus,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
@@ -186,7 +186,7 @@ namespace EContactBook.DataAccess
         }
 
         public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            Student_Student student, ConfigurationMessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
+            Student_Student student, Configuration_MessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<MessageToParents_Message> messages = new List<MessageToParents_Message>();
 

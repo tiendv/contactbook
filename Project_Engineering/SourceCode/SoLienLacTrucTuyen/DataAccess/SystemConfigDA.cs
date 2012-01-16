@@ -93,7 +93,7 @@ namespace EContactBook.DataAccess
 
             if (iqTerm.Count() != 0)
             {
-                lTerms = iqTerm.OrderByDescending(t => t.TermId).ToList();
+                lTerms = iqTerm.OrderBy(t => t.TermId).ToList();
             }
 
             return lTerms;
@@ -103,9 +103,10 @@ namespace EContactBook.DataAccess
         {
             Configuration_Term term = null;
 
-            IQueryable<Configuration_Term> iqTerm = from sysConfig in db.Configuration_Configurations
-                                                    join t in db.Configuration_Terms on sysConfig.CurrentTerm equals t.TermId
-                                                    select t;
+            IQueryable<Configuration_Term> iqTerm = from termsInYear in db.Configuration_TermsInYears
+                                                    where termsInYear.BeginDate <= DateTime.Now && termsInYear.EndDate >= DateTime.Now
+                                                    && termsInYear.Configuration_Year.SchoolId == school.SchoolId
+                                                    select termsInYear.Configuration_Term;
             if (iqTerm.Count() != 0)
             {
                 term = iqTerm.First();
@@ -180,10 +181,10 @@ namespace EContactBook.DataAccess
             return sesssion;
         }
 
-        public List<ConfigurationMessageStatus> GetMessageStatuses()
+        public List<Configuration_MessageStatus> GetMessageStatuses()
         {
-            List<ConfigurationMessageStatus> messageStatuses = new List<ConfigurationMessageStatus>();
-            IQueryable<ConfigurationMessageStatus> iqMessageStatus = from msgStt in db.ConfigurationMessageStatuses
+            List<Configuration_MessageStatus> messageStatuses = new List<Configuration_MessageStatus>();
+            IQueryable<Configuration_MessageStatus> iqMessageStatus = from msgStt in db.Configuration_MessageStatus
                                                                      select msgStt;
             if (iqMessageStatus.Count() != 0)
             {
@@ -192,10 +193,10 @@ namespace EContactBook.DataAccess
             return messageStatuses;
         }
 
-        public List<ConfigurationProvince> GetProvinces()
+        public List<Configuration_Province> GetProvinces()
         {
-            List<ConfigurationProvince> provinces = new List<ConfigurationProvince>();
-            IQueryable<ConfigurationProvince> iqProvince = from province in db.ConfigurationProvinces
+            List<Configuration_Province> provinces = new List<Configuration_Province>();
+            IQueryable<Configuration_Province> iqProvince = from province in db.Configuration_Provinces
                                                            select province;
             if (iqProvince.Count() != 0)
             {
@@ -205,10 +206,10 @@ namespace EContactBook.DataAccess
             return provinces;
         }
 
-        public List<ConfigurationDistrict> GetDistricts(ConfigurationProvince province)
+        public List<Configuration_District> GetDistricts(Configuration_Province province)
         {
-            List<ConfigurationDistrict> districts = new List<ConfigurationDistrict>();
-            IQueryable<ConfigurationDistrict> iqDistrict = from district in db.ConfigurationDistricts
+            List<Configuration_District> districts = new List<Configuration_District>();
+            IQueryable<Configuration_District> iqDistrict = from district in db.Configuration_Districts
                                                            where district.ProvinceId == province.ProvinceId
                                                            select district;
             if (iqDistrict.Count() != 0)

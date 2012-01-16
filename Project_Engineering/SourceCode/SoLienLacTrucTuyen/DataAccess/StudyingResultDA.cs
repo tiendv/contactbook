@@ -115,7 +115,7 @@ namespace EContactBook.DataAccess
                         detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
                         detailedMark.MarkType = mark.MarkTypeId;
                         detailedMark.MarkValue = mark.GiaTri;
-                        detailedMark.Date1 = date;
+                        detailedMark.Date = date;
                         db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);
 
                     }
@@ -127,6 +127,33 @@ namespace EContactBook.DataAccess
         public void InsertDetailMark(Student_DetailedTermSubjectMark detailedMark)
         {
             db.Student_DetailedTermSubjectMarks.InsertOnSubmit(detailedMark);
+            db.SubmitChanges();
+        }
+
+        public void InsertTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        {
+            IQueryable<Student_StudentInClass> iqStudentsInClass = from stdsInCls in db.Student_StudentInClasses
+                                                                   where stdsInCls.ClassId == Class.ClassId
+                                                                   select stdsInCls;
+
+            Student_TermSubjectMark studentTermSubjectMark = null;
+            foreach (Student_StudentInClass studentInClass in iqStudentsInClass)
+            {
+                studentTermSubjectMark = new Student_TermSubjectMark();
+                studentTermSubjectMark.StudentInClassId = studentInClass.StudentInClassId;
+                studentTermSubjectMark.SubjectId = subject.SubjectId;
+                studentTermSubjectMark.TermId = term.TermId;
+                studentTermSubjectMark.AverageMark = -1;
+
+                db.Student_TermSubjectMarks.InsertOnSubmit(studentTermSubjectMark);
+            }
+
+            db.SubmitChanges();
+        }
+
+        public void InsertTermSubjectMark(Student_TermSubjectMark termSubjectMark)
+        {
+            db.Student_TermSubjectMarks.InsertOnSubmit(termSubjectMark);
             db.SubmitChanges();
         }
 
@@ -507,6 +534,89 @@ namespace EContactBook.DataAccess
             }
         }
 
+        /// <summary>
+        /// Delete all learing result of specified student
+        /// </summary>
+        /// <param name="student"></param>
+        public void DeleteStudyingResult(Student_Student student)
+        {
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
+            iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
+                                        where detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                                        select detailedTermSubjectMark;
+            if (iqDetailedTermSubjectMark.Count() != 0)
+            {
+                foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in iqDetailedTermSubjectMark)
+                {
+                    db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedTermSubjectMark);
+                }
+
+                db.SubmitChanges();
+            }
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
+            iqTermSubjectMark = from termSubjectMark in db.Student_TermSubjectMarks
+                                where termSubjectMark.Student_StudentInClass.StudentId == student.StudentId
+                                select termSubjectMark;
+            if (iqTermSubjectMark.Count() != 0)
+            {
+                foreach (Student_TermSubjectMark termSubjectMark in iqTermSubjectMark)
+                {
+                    db.Student_TermSubjectMarks.DeleteOnSubmit(termSubjectMark);
+                }
+
+                db.SubmitChanges();
+            }
+
+            IQueryable<Student_TermLearningResult> iqTermLearningResult;
+            iqTermLearningResult = from termLearningResult in db.Student_TermLearningResults
+                                   where termLearningResult.Student_StudentInClass.StudentId == student.StudentId
+                                   select termLearningResult;
+            if (iqTermLearningResult.Count() != 0)
+            {
+                foreach (Student_TermLearningResult termLearningResult in iqTermLearningResult)
+                {
+                    db.Student_TermLearningResults.DeleteOnSubmit(termLearningResult);
+                }
+
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
+        {
+            IQueryable<Student_TermSubjectMark> iqStudentTermSubjectMark;
+            iqStudentTermSubjectMark = from studTermSubjMark in db.Student_TermSubjectMarks
+                                       where studTermSubjMark.TermId == term.TermId
+                                         && studTermSubjMark.SubjectId == subject.SubjectId
+                                         && studTermSubjMark.Student_StudentInClass.ClassId == Class.ClassId
+                                       select studTermSubjMark;
+            if (iqStudentTermSubjectMark.Count() != 0)
+            {
+                foreach (Student_TermSubjectMark studentTermSubjectMark in iqStudentTermSubjectMark)
+                {
+                    IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
+                    iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
+                                                where detailedTermSubjectMark.TermSubjectMarkId == studentTermSubjectMark.TermSubjectMarkId
+                                                select detailedTermSubjectMark;
+                    if (iqDetailedTermSubjectMark.Count() != 0)
+                    {
+                        foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in iqDetailedTermSubjectMark)
+                        {
+                            // delete student's DetailedTermSubjectMark
+
+                            db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedTermSubjectMark);
+                        }
+                        db.SubmitChanges();
+                    }
+
+                    // delete student's TermSubjectMarks
+                    db.Student_TermSubjectMarks.DeleteOnSubmit(studentTermSubjectMark);
+                }
+                db.SubmitChanges();
+            }
+        }
+
         public Student_DetailedTermSubjectMark GetDetailedMark(int detailedMarkId)
         {
             Student_DetailedTermSubjectMark detailedMark = null;
@@ -527,6 +637,38 @@ namespace EContactBook.DataAccess
             IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from dtlMark in db.Student_DetailedTermSubjectMarks
                                                                        where dtlMark.MarkType == markType.MarkTypeId
                                                                        && dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       select dtlMark;
+            if (iqDetailMark.Count() != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, int month)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.MarkType == markType.MarkTypeId
+                                                                       && detail.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       && detail.Date.Month == month
+                                                                       select detail;
+            if (iqDetailMark.Count() != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, DateTime beginDate, DateTime endDate)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                       where dtlMark.MarkType == markType.MarkTypeId
+                                                                       && dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       && dtlMark.Date >= beginDate && dtlMark.Date <= endDate
                                                                        select dtlMark;
             if (iqDetailMark.Count() != 0)
             {
@@ -564,7 +706,7 @@ namespace EContactBook.DataAccess
                                                                        select dtlMark;
             if (iqDetailMark.Count() != 0)
             {
-                detailMarks = iqDetailMark.OrderBy(dtlMark => dtlMark.Date1).ToList();
+                detailMarks = iqDetailMark.OrderBy(dtlMark => dtlMark.Date).ToList();
             }
 
             return detailMarks;
@@ -644,26 +786,6 @@ namespace EContactBook.DataAccess
             return detailedTermSubjectMarks;
         }
 
-        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecord)
-        {
-            List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
-
-            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
-            iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
-                                where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
-                                && termSubjMark.SubjectId == subject.SubjectId && termSubjMark.TermId == term.TermId
-                                select termSubjMark;
-
-            totalRecord = iqTermSubjectMark.Count();
-            if (totalRecord != 0)
-            {
-                termSubjectMarks = iqTermSubjectMark.OrderBy(termSubjMark => termSubjMark.Student_StudentInClass.Student_Student.StudentCode)
-                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
-            }
-
-            return termSubjectMarks;
-        }
-
         public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
@@ -686,18 +808,37 @@ namespace EContactBook.DataAccess
             return termSubjectMarks;
         }
 
-        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, int month, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
 
             IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
             iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
-                                join detailTermSubjMark in db.Student_DetailedTermSubjectMarks
-                                    on termSubjMark.TermSubjectMarkId equals detailTermSubjMark.TermSubjectMarkId
                                 where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId
-                                    && termSubjMark.SubjectId == subject.SubjectId
-                                    && detailTermSubjMark.Date1.Month == month
+                                && termSubjMark.SubjectId == subject.SubjectId && termSubjMark.TermId == term.TermId
                                 select termSubjMark;
+
+            totalRecord = iqTermSubjectMark.Count();
+            if (totalRecord != 0)
+            {
+                termSubjectMarks = iqTermSubjectMark.OrderBy(termSubjMark => termSubjMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return termSubjectMarks;
+        }
+
+        public List<Student_TermSubjectMark> GetTermSubjectedMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int month, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_TermSubjectMark> termSubjectMarks = new List<Student_TermSubjectMark>();
+
+            IQueryable<Student_TermSubjectMark> iqTermSubjectMark = from termSubjMark in db.Student_TermSubjectMarks
+                                                                    join detail in db.Student_DetailedTermSubjectMarks
+                                                                        on termSubjMark.TermSubjectMarkId equals detail.TermSubjectMarkId
+                                                                    where termSubjMark.Student_StudentInClass.ClassId == Class.ClassId 
+                                                                        && termSubjMark.SubjectId == subject.SubjectId
+                                                                        && detail.Student_TermSubjectMark.TermId == term.TermId && detail.Date.Month == month
+                                                                    select termSubjMark;
 
             totalRecord = iqTermSubjectMark.Count();
             if (totalRecord != 0)
@@ -782,67 +923,6 @@ namespace EContactBook.DataAccess
             return studentTermResults;
         }
 
-        public void InsertTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
-        {
-            IQueryable<Student_StudentInClass> iqStudentsInClass = from stdsInCls in db.Student_StudentInClasses
-                                                                   where stdsInCls.ClassId == Class.ClassId
-                                                                   select stdsInCls;
-
-            Student_TermSubjectMark studentTermSubjectMark = null;
-            foreach (Student_StudentInClass studentInClass in iqStudentsInClass)
-            {
-                studentTermSubjectMark = new Student_TermSubjectMark();
-                studentTermSubjectMark.StudentInClassId = studentInClass.StudentInClassId;
-                studentTermSubjectMark.SubjectId = subject.SubjectId;
-                studentTermSubjectMark.TermId = term.TermId;
-                studentTermSubjectMark.AverageMark = -1;
-
-                db.Student_TermSubjectMarks.InsertOnSubmit(studentTermSubjectMark);
-            }
-
-            db.SubmitChanges();
-        }
-
-        public void DeleteTermSubjectMark(Class_Class Class, Category_Subject subject, Configuration_Term term)
-        {
-            IQueryable<Student_TermSubjectMark> iqStudentTermSubjectMark;
-            iqStudentTermSubjectMark = from studTermSubjMark in db.Student_TermSubjectMarks
-                                       where studTermSubjMark.TermId == term.TermId
-                                         && studTermSubjMark.SubjectId == subject.SubjectId
-                                         && studTermSubjMark.Student_StudentInClass.ClassId == Class.ClassId
-                                       select studTermSubjMark;
-            if (iqStudentTermSubjectMark.Count() != 0)
-            {
-                foreach (Student_TermSubjectMark studentTermSubjectMark in iqStudentTermSubjectMark)
-                {
-                    IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
-                    iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
-                                                where detailedTermSubjectMark.TermSubjectMarkId == studentTermSubjectMark.TermSubjectMarkId
-                                                select detailedTermSubjectMark;
-                    if (iqDetailedTermSubjectMark.Count() != 0)
-                    {
-                        foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in iqDetailedTermSubjectMark)
-                        {
-                            // delete student's DetailedTermSubjectMark
-
-                            db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedTermSubjectMark);
-                        }
-                        db.SubmitChanges();
-                    }
-
-                    // delete student's TermSubjectMarks
-                    db.Student_TermSubjectMarks.DeleteOnSubmit(studentTermSubjectMark);
-                }
-                db.SubmitChanges();
-            }
-        }
-
-        public void InsertTermSubjectMark(Student_TermSubjectMark termSubjectMark)
-        {
-            db.Student_TermSubjectMarks.InsertOnSubmit(termSubjectMark);
-            db.SubmitChanges();
-        }
-
         public void CalculateTermAvgMark(Student_Student student, Class_Class Class, Configuration_Term term)
         {
             double dTermAvgMark = -1;
@@ -901,7 +981,7 @@ namespace EContactBook.DataAccess
             IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
             iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
                                         where detailedTermSubjectMark.MarkType == markType.MarkTypeId
-                                        && detailedTermSubjectMark.Category_MarkType.CategoryGrade.SchoolId == school.SchoolId
+                                        && detailedTermSubjectMark.Category_MarkType.Category_Grade.SchoolId == school.SchoolId
                                         select detailedTermSubjectMark;
 
             if (iqDetailedTermSubjectMark.Count() != 0)
@@ -933,51 +1013,6 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public void DeleteStudyingResult(Student_Student deletedStudent)
-        {
-            IQueryable<Student_DetailedTermSubjectMark> iqDetailedTermSubjectMark;
-            iqDetailedTermSubjectMark = from detailedTermSubjectMark in db.Student_DetailedTermSubjectMarks
-                                        where detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.StudentId == deletedStudent.StudentId
-                                        select detailedTermSubjectMark;
-            if (iqDetailedTermSubjectMark.Count() != 0)
-            {
-                foreach (Student_DetailedTermSubjectMark detailedTermSubjectMark in iqDetailedTermSubjectMark)
-                {
-                    db.Student_DetailedTermSubjectMarks.DeleteOnSubmit(detailedTermSubjectMark);
-                }
-
-                db.SubmitChanges();
-            }
-
-            IQueryable<Student_TermSubjectMark> iqTermSubjectMark;
-            iqTermSubjectMark = from termSubjectMark in db.Student_TermSubjectMarks
-                                where termSubjectMark.Student_StudentInClass.StudentId == deletedStudent.StudentId
-                                select termSubjectMark;
-            if (iqTermSubjectMark.Count() != 0)
-            {
-                foreach (Student_TermSubjectMark termSubjectMark in iqTermSubjectMark)
-                {
-                    db.Student_TermSubjectMarks.DeleteOnSubmit(termSubjectMark);
-                }
-
-                db.SubmitChanges();
-            }
-
-            IQueryable<Student_TermLearningResult> iqTermLearningResult;
-            iqTermLearningResult = from termLearningResult in db.Student_TermLearningResults
-                                   where termLearningResult.Student_StudentInClass.StudentId == deletedStudent.StudentId
-                                   select termLearningResult;
-            if (iqTermLearningResult.Count() != 0)
-            {
-                foreach (Student_TermLearningResult termLearningResult in iqTermLearningResult)
-                {
-                    db.Student_TermLearningResults.DeleteOnSubmit(termLearningResult);
-                }
-
-                db.SubmitChanges();
-            }
-        }
-
         public List<Category_Subject> GetNewMarkSubjects(Student_Student student, Class_Class Class, int limitDays)
         {
             List<Category_Subject> newMarkSubjects = new List<Category_Subject>();
@@ -985,7 +1020,7 @@ namespace EContactBook.DataAccess
                                                      join detail in db.Student_DetailedTermSubjectMarks on termSubjectMark.TermSubjectMarkId equals detail.TermSubjectMarkId
                                                      where termSubjectMark.Student_StudentInClass.StudentId == student.StudentId
                                                      && termSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
-                                                     && DateTime.Now < detail.Date1.AddDays(limitDays)
+                                                     && DateTime.Now < detail.Date.AddDays(limitDays)
                                                      select termSubjectMark.Category_Subject;
             if (iqSubject.Count() != 0)
             {
@@ -1001,7 +1036,7 @@ namespace EContactBook.DataAccess
                                                      join detail in db.Student_DetailedTermSubjectMarks on termSubjectMark.TermSubjectMarkId equals detail.TermSubjectMarkId
                                                      where termSubjectMark.Student_StudentInClass.StudentId == student.StudentId
                                                      && termSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
-                                                     && DateTime.Now < detail.Date1.AddDays(limitDays)
+                                                     && DateTime.Now < detail.Date.AddDays(limitDays)
                                                      && detail.MarkType == markType.MarkTypeId
                                                      select termSubjectMark.Category_Subject;
             if (iqSubject.Count() != 0)

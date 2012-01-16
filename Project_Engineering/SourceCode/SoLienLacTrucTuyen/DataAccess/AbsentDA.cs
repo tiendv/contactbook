@@ -244,12 +244,22 @@ namespace EContactBook.DataAccess
         {
             List<Student_Absent> absents = new List<Student_Absent>();
 
-            IQueryable<Student_Absent> iqMessages = from a in db.Student_Absents
-                                                    where a.Student_StudentInClass.StudentId == student.StudentId
-                                                     && a.Student_StudentInClass.Class_Class.YearId == Class.YearId
-                                                     && a.IsConfirmed == false
-                                                    select a;
-            return iqMessages.Count();
+            IQueryable<Student_Absent> iqAbsent = from a in db.Student_Absents
+                                                  where a.Student_StudentInClass.StudentId == student.StudentId
+                                                   && a.Student_StudentInClass.Class_Class.YearId == Class.YearId
+                                                   && a.IsConfirmed == false
+                                                  select a;
+            return iqAbsent.Count();
+        }
+
+        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term, bool confirmed)
+        {
+            IQueryable<Student_Absent> iqAbsent = from a in db.Student_Absents
+                                                  where a.Student_StudentInClass.StudentId == student.StudentId
+                                                   && a.Student_StudentInClass.ClassId == Class.ClassId
+                                                   && a.TermId == term.TermId && a.IsConfirmed == confirmed
+                                                  select a;
+            return iqAbsent.Count();
         }
     }
 }

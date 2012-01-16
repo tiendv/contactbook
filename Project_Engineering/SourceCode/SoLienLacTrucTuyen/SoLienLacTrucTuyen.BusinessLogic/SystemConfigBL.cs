@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EContactBook.DataAccess;
+using EContactBook.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
@@ -37,6 +38,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return sysConfigDA.GetLastedYear();
         }
 
+        public Configuration_Year GetPreviousYear()
+        {
+            return sysConfigDA.GetPreviousYear();
+        }
+
         public void UpdateYearIdHienHanh(int YearIdHienHanh)
         {
             sysConfigDA.UpdateYearIdHienHanh(YearIdHienHanh);
@@ -54,12 +60,122 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public Configuration_Term GetCurrentTerm()
         {
-            return sysConfigDA.GetCurrentTerm();
+            Configuration_Year currentYear = GetLastedYear();
+            if (DateTime.Now < currentYear.BeginSecondTermDate)
+            {
+                return GetTerm(1);
+            }
+            else
+            {
+                return GetTerm(2);
+            }
         }
 
         public void UpdateTermIdHienHanh(int TermIdHienHanh)
         {
             sysConfigDA.UpdateTermIdHienHanh(TermIdHienHanh);
+        }
+
+        public List<Month> GetMonths(Configuration_Year year, Configuration_Term term)
+        {
+            List<Month> months = new List<Month>();
+            int iMonth;
+            year = GetYear(year.YearId);
+            DateTime dtBeginTermDate;
+            DateTime dtEndTermDate;
+
+            if (term.TermId == 1)
+            {
+                dtBeginTermDate = year.BeginFirstTermDate;
+                dtEndTermDate = year.EndFirstTermDate;
+            }
+            else
+            {
+                dtBeginTermDate = year.BeginSecondTermDate;
+                dtEndTermDate = year.EndSecondTermDate;
+            }
+
+            Month month = null;
+            do
+            {
+                iMonth = dtBeginTermDate.Month;
+                month = new Month();
+                month.MonthId = iMonth;
+                month.MonthName = Month.GetMonthName(iMonth);
+                months.Add(month);
+
+                dtBeginTermDate = dtBeginTermDate.AddMonths(1);
+            } while (dtBeginTermDate <= dtEndTermDate);
+
+
+
+            return months;
+        }
+
+        public List<Week> GetWeeks(Configuration_Year year, Configuration_Term term)
+        {
+            List<Week> weeks = new List<Week>();
+            int index = 1;
+            Week week = null;
+            year = GetYear(year.YearId);
+            DateTime dtBeginTermDate;
+            DateTime dtEndTermDate;
+
+            if (term.TermId == 1)
+            {
+                dtBeginTermDate = year.BeginFirstTermDate;
+                dtEndTermDate = year.EndFirstTermDate;
+            }
+            else
+            {
+                dtBeginTermDate = year.BeginSecondTermDate;
+                dtEndTermDate = year.EndSecondTermDate;
+            }
+
+            // in case begin date is Sunday
+            if ((int)dtBeginTermDate.DayOfWeek == 0)
+            {
+                dtBeginTermDate = dtBeginTermDate.AddDays(1);
+            }
+
+            week = new Week();
+            week.WeekIndex = index;
+            week.BeginDate = dtBeginTermDate;
+            dtBeginTermDate = dtBeginTermDate.AddDays(5 - week.WeekIndex);
+            week.EndDate = dtBeginTermDate;
+            weeks.Add(week);
+
+            if (dtBeginTermDate <= dtEndTermDate)
+            {
+                dtBeginTermDate = dtBeginTermDate.AddDays(2);
+                do
+                {
+                    index++;
+                    week = new Week();
+                    week.WeekIndex = index;
+                    week.BeginDate = dtBeginTermDate;
+                    dtBeginTermDate = dtBeginTermDate.AddDays(5);
+                    week.EndDate = dtBeginTermDate;
+                    weeks.Add(week);
+                    dtBeginTermDate = dtBeginTermDate.AddDays(2);
+                } while (dtBeginTermDate.AddDays(5) <= dtEndTermDate);
+
+                if (dtBeginTermDate <= dtEndTermDate)
+                {
+                    index++;
+                    week = new Week();
+                    week.WeekIndex = index;
+                    week.BeginDate = dtBeginTermDate;
+                    if ((int)dtEndTermDate.DayOfWeek != 0)
+                    {
+                        dtBeginTermDate = dtBeginTermDate.AddDays((int)dtEndTermDate.DayOfWeek - 1);
+                    }
+                    week.EndDate = dtBeginTermDate;
+                    weeks.Add(week);
+                }
+            }
+
+            return weeks;
         }
 
         public List<Configuration_DayInWeek> GetDayInWeeks()
@@ -95,24 +211,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return sysConfigDA.GetSession(sessionId);
         }
 
-        public List<ConfigurationMessageStatus> GetMessageStatuses()
+        public List<Configuration_MessageStatus> GetMessageStatuses()
         {
-            return sysConfigDA.GetMessageStatuses();             
+            return sysConfigDA.GetMessageStatuses();
         }
-        
-        public List<ConfigurationProvince> GetProvinces()
+
+        public List<Configuration_Province> GetProvinces()
         {
             return sysConfigDA.GetProvinces();
         }
 
-        public List<ConfigurationDistrict> GetDistricts(ConfigurationProvince province)
+        public List<Configuration_District> GetDistricts(Configuration_Province province)
         {
             return sysConfigDA.GetDistricts(province);
-        }
-
-        public Configuration_Year GetPreviousYear()
-        {
-            return sysConfigDA.GetPreviousYear();
         }
     }
 }

@@ -58,6 +58,25 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
         }
 
+        public Configuration_Year CurrentYear
+        {
+            get
+            {
+                Configuration_Year currentYear = null;
+                if (Session[AppConstant.SESSION_CURRENT_YEAR] != null)
+                {
+                    currentYear = (Configuration_Year)Session[AppConstant.SESSION_CURRENT_YEAR];
+                }
+
+                return currentYear;
+            }
+
+            set
+            {
+                Session[AppConstant.SESSION_CURRENT_YEAR] = value;
+            }
+        }
+
         #region Fields
         protected List<AccessibilityEnum> accessibilities;
         protected bool accessDenied = false;

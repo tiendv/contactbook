@@ -113,18 +113,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             string strSchoolName = "";
             double dTotalRecords;
-            ConfigurationProvince province = null;
-            ConfigurationDistrict district = null;
+            Configuration_Province province = null;
+            Configuration_District district = null;
             List<TabularSchool> tabularSchools;
 
             if (DdlProvinces.SelectedIndex > 0)
             {
-                province = new ConfigurationProvince();
+                province = new Configuration_Province();
                 province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
             }
             if (DdlDistricts.SelectedIndex > 0)
             {
-                district = new ConfigurationDistrict();
+                district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
             }
             strSchoolName = TxtSchoolName.Text;
@@ -162,7 +162,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLProvinces()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<ConfigurationProvince> provinces = systemConfigBL.GetProvinces();
+            List<Configuration_Province> provinces = systemConfigBL.GetProvinces();
             DdlProvinces.DataSource = provinces;
             DdlProvinces.DataValueField = "ProvinceId";
             DdlProvinces.DataTextField = "ProvinceName";
@@ -178,14 +178,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (DdlProvinces.Items.Count != 0)
             {
-                ConfigurationProvince province = null;
+                Configuration_Province province = null;
                 if (DdlProvinces.SelectedIndex > 0)
                 {
-                    province = new ConfigurationProvince();
+                    province = new Configuration_Province();
                     province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
 
                     SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-                    List<ConfigurationDistrict> districts = systemConfigBL.GetDistricts(province);
+                    List<Configuration_District> districts = systemConfigBL.GetDistricts(province);
                     DdlDistricts.DataSource = districts;
                     DdlDistricts.DataValueField = "DistrictId";
                     DdlDistricts.DataTextField = "DistrictName";
