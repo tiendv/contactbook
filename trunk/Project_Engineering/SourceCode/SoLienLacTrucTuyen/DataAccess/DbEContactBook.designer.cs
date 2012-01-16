@@ -111,6 +111,15 @@ namespace EContactBook.DataAccess
     partial void InsertConfiguration_DayInWeek(Configuration_DayInWeek instance);
     partial void UpdateConfiguration_DayInWeek(Configuration_DayInWeek instance);
     partial void DeleteConfiguration_DayInWeek(Configuration_DayInWeek instance);
+    partial void InsertConfiguration_District(Configuration_District instance);
+    partial void UpdateConfiguration_District(Configuration_District instance);
+    partial void DeleteConfiguration_District(Configuration_District instance);
+    partial void InsertConfiguration_MessageStatus(Configuration_MessageStatus instance);
+    partial void UpdateConfiguration_MessageStatus(Configuration_MessageStatus instance);
+    partial void DeleteConfiguration_MessageStatus(Configuration_MessageStatus instance);
+    partial void InsertConfiguration_Province(Configuration_Province instance);
+    partial void UpdateConfiguration_Province(Configuration_Province instance);
+    partial void DeleteConfiguration_Province(Configuration_Province instance);
     partial void InsertConfiguration_Session(Configuration_Session instance);
     partial void UpdateConfiguration_Session(Configuration_Session instance);
     partial void DeleteConfiguration_Session(Configuration_Session instance);
@@ -174,19 +183,13 @@ namespace EContactBook.DataAccess
     partial void InsertUserManagement_RoleDetail(UserManagement_RoleDetail instance);
     partial void UpdateUserManagement_RoleDetail(UserManagement_RoleDetail instance);
     partial void DeleteUserManagement_RoleDetail(UserManagement_RoleDetail instance);
-    partial void InsertConfigurationMessageStatus(ConfigurationMessageStatus instance);
-    partial void UpdateConfigurationMessageStatus(ConfigurationMessageStatus instance);
-    partial void DeleteConfigurationMessageStatus(ConfigurationMessageStatus instance);
-    partial void InsertConfigurationProvince(ConfigurationProvince instance);
-    partial void UpdateConfigurationProvince(ConfigurationProvince instance);
-    partial void DeleteConfigurationProvince(ConfigurationProvince instance);
-    partial void InsertConfigurationDistrict(ConfigurationDistrict instance);
-    partial void UpdateConfigurationDistrict(ConfigurationDistrict instance);
-    partial void DeleteConfigurationDistrict(ConfigurationDistrict instance);
+    partial void InsertConfiguration_TermsInYear(Configuration_TermsInYear instance);
+    partial void UpdateConfiguration_TermsInYear(Configuration_TermsInYear instance);
+    partial void DeleteConfiguration_TermsInYear(Configuration_TermsInYear instance);
     #endregion
 		
 		public DbEContactBookDataContext() : 
-				base(global::EContactBook.DataAccess.Properties.Settings.Default.DbEContactBookConnectionString, mappingSource)
+				base(global::EContactBook.DataAccess.Properties.Settings.Default.DbEContactBookConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -439,6 +442,30 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		public System.Data.Linq.Table<Configuration_District> Configuration_Districts
+		{
+			get
+			{
+				return this.GetTable<Configuration_District>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Configuration_MessageStatus> Configuration_MessageStatus
+		{
+			get
+			{
+				return this.GetTable<Configuration_MessageStatus>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Configuration_Province> Configuration_Provinces
+		{
+			get
+			{
+				return this.GetTable<Configuration_Province>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Configuration_Session> Configuration_Sessions
 		{
 			get
@@ -687,27 +714,11 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<ConfigurationMessageStatus> ConfigurationMessageStatuses
+		public System.Data.Linq.Table<Configuration_TermsInYear> Configuration_TermsInYears
 		{
 			get
 			{
-				return this.GetTable<ConfigurationMessageStatus>();
-			}
-		}
-		
-		public System.Data.Linq.Table<ConfigurationProvince> ConfigurationProvinces
-		{
-			get
-			{
-				return this.GetTable<ConfigurationProvince>();
-			}
-		}
-		
-		public System.Data.Linq.Table<ConfigurationDistrict> ConfigurationDistricts
-		{
-			get
-			{
-				return this.GetTable<ConfigurationDistrict>();
+				return this.GetTable<Configuration_TermsInYear>();
 			}
 		}
 		
@@ -2379,7 +2390,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="bit")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit")]
 		public System.Nullable<bool> IsActivated
 		{
 			get
@@ -5569,7 +5580,7 @@ namespace EContactBook.DataAccess
 		
 		private int _SchoolId;
 		
-		private EntitySet<Category_MarkType> _CategoryMarkTypes;
+		private EntitySet<Category_MarkType> _Category_MarkTypes;
 		
 		private EntitySet<Category_Subject> _Category_Subjects;
 		
@@ -5593,7 +5604,7 @@ namespace EContactBook.DataAccess
 		
 		public Category_Grade()
 		{
-			this._CategoryMarkTypes = new EntitySet<Category_MarkType>(new Action<Category_MarkType>(this.attach_CategoryMarkTypes), new Action<Category_MarkType>(this.detach_CategoryMarkTypes));
+			this._Category_MarkTypes = new EntitySet<Category_MarkType>(new Action<Category_MarkType>(this.attach_Category_MarkTypes), new Action<Category_MarkType>(this.detach_Category_MarkTypes));
 			this._Category_Subjects = new EntitySet<Category_Subject>(new Action<Category_Subject>(this.attach_Category_Subjects), new Action<Category_Subject>(this.detach_Category_Subjects));
 			this._Class_Classes = new EntitySet<Class_Class>(new Action<Class_Class>(this.attach_Class_Classes), new Action<Class_Class>(this.detach_Class_Classes));
 			this._School_School = default(EntityRef<School_School>);
@@ -5684,16 +5695,16 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_MarkType", Storage="_CategoryMarkTypes", ThisKey="GradeId", OtherKey="GradeId")]
-		public EntitySet<Category_MarkType> CategoryMarkTypes
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_MarkType", Storage="_Category_MarkTypes", ThisKey="GradeId", OtherKey="GradeId")]
+		public EntitySet<Category_MarkType> Category_MarkTypes
 		{
 			get
 			{
-				return this._CategoryMarkTypes;
+				return this._Category_MarkTypes;
 			}
 			set
 			{
-				this._CategoryMarkTypes.Assign(value);
+				this._Category_MarkTypes.Assign(value);
 			}
 		}
 		
@@ -5777,16 +5788,16 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		private void attach_CategoryMarkTypes(Category_MarkType entity)
+		private void attach_Category_MarkTypes(Category_MarkType entity)
 		{
 			this.SendPropertyChanging();
-			entity.CategoryGrade = this;
+			entity.Category_Grade = this;
 		}
 		
-		private void detach_CategoryMarkTypes(Category_MarkType entity)
+		private void detach_Category_MarkTypes(Category_MarkType entity)
 		{
 			this.SendPropertyChanging();
-			entity.CategoryGrade = null;
+			entity.Category_Grade = null;
 		}
 		
 		private void attach_Category_Subjects(Category_Subject entity)
@@ -6240,7 +6251,7 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<Student_DetailedTermSubjectMark> _Student_DetailedTermSubjectMarks;
 		
-		private EntityRef<Category_Grade> _CategoryGrade;
+		private EntityRef<Category_Grade> _Category_Grade;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -6263,7 +6274,7 @@ namespace EContactBook.DataAccess
 		public Category_MarkType()
 		{
 			this._Student_DetailedTermSubjectMarks = new EntitySet<Student_DetailedTermSubjectMark>(new Action<Student_DetailedTermSubjectMark>(this.attach_Student_DetailedTermSubjectMarks), new Action<Student_DetailedTermSubjectMark>(this.detach_Student_DetailedTermSubjectMarks));
-			this._CategoryGrade = default(EntityRef<Category_Grade>);
+			this._Category_Grade = default(EntityRef<Category_Grade>);
 			OnCreated();
 		}
 		
@@ -6367,7 +6378,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GradeId", DbType="int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GradeId", DbType="Int NOT NULL")]
 		public int GradeId
 		{
 			get
@@ -6378,7 +6389,7 @@ namespace EContactBook.DataAccess
 			{
 				if ((this._GradeId != value))
 				{
-					if (this._CategoryGrade.HasLoadedOrAssignedValue)
+					if (this._Category_Grade.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -6404,36 +6415,36 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_MarkType", Storage="_CategoryGrade", ThisKey="GradeId", OtherKey="GradeId", IsForeignKey=true)]
-		public Category_Grade CategoryGrade
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Grade_Category_MarkType", Storage="_Category_Grade", ThisKey="GradeId", OtherKey="GradeId", IsForeignKey=true)]
+		public Category_Grade Category_Grade
 		{
 			get
 			{
-				return this._CategoryGrade.Entity;
+				return this._Category_Grade.Entity;
 			}
 			set
 			{
-				Category_Grade previousValue = this._CategoryGrade.Entity;
+				Category_Grade previousValue = this._Category_Grade.Entity;
 				if (((previousValue != value) 
-							|| (this._CategoryGrade.HasLoadedOrAssignedValue == false)))
+							|| (this._Category_Grade.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._CategoryGrade.Entity = null;
-						previousValue.CategoryMarkTypes.Remove(this);
+						this._Category_Grade.Entity = null;
+						previousValue.Category_MarkTypes.Remove(this);
 					}
-					this._CategoryGrade.Entity = value;
+					this._Category_Grade.Entity = value;
 					if ((value != null))
 					{
-						value.CategoryMarkTypes.Add(this);
+						value.Category_MarkTypes.Add(this);
 						this._GradeId = value.GradeId;
 					}
 					else
 					{
 						this._GradeId = default(int);
 					}
-					this.SendPropertyChanged("CategoryGrade");
+					this.SendPropertyChanged("Category_Grade");
 				}
 			}
 		}
@@ -8537,6 +8548,413 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_District")]
+	public partial class Configuration_District : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _DistrictId;
+		
+		private string _DistrictName;
+		
+		private int _ProvinceId;
+		
+		private EntitySet<School_School> _School_Schools;
+		
+		private EntityRef<Configuration_Province> _Configuration_Province;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDistrictIdChanging(int value);
+    partial void OnDistrictIdChanged();
+    partial void OnDistrictNameChanging(string value);
+    partial void OnDistrictNameChanged();
+    partial void OnProvinceIdChanging(int value);
+    partial void OnProvinceIdChanged();
+    #endregion
+		
+		public Configuration_District()
+		{
+			this._School_Schools = new EntitySet<School_School>(new Action<School_School>(this.attach_School_Schools), new Action<School_School>(this.detach_School_Schools));
+			this._Configuration_Province = default(EntityRef<Configuration_Province>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int DistrictId
+		{
+			get
+			{
+				return this._DistrictId;
+			}
+			set
+			{
+				if ((this._DistrictId != value))
+				{
+					this.OnDistrictIdChanging(value);
+					this.SendPropertyChanging();
+					this._DistrictId = value;
+					this.SendPropertyChanged("DistrictId");
+					this.OnDistrictIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictName", DbType="NVarChar(150) NOT NULL", CanBeNull=false)]
+		public string DistrictName
+		{
+			get
+			{
+				return this._DistrictName;
+			}
+			set
+			{
+				if ((this._DistrictName != value))
+				{
+					this.OnDistrictNameChanging(value);
+					this.SendPropertyChanging();
+					this._DistrictName = value;
+					this.SendPropertyChanged("DistrictName");
+					this.OnDistrictNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProvinceId", DbType="Int NOT NULL")]
+		public int ProvinceId
+		{
+			get
+			{
+				return this._ProvinceId;
+			}
+			set
+			{
+				if ((this._ProvinceId != value))
+				{
+					if (this._Configuration_Province.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProvinceIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProvinceId = value;
+					this.SendPropertyChanged("ProvinceId");
+					this.OnProvinceIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_District_School_School", Storage="_School_Schools", ThisKey="DistrictId", OtherKey="DistrictId")]
+		public EntitySet<School_School> School_Schools
+		{
+			get
+			{
+				return this._School_Schools;
+			}
+			set
+			{
+				this._School_Schools.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Province_Configuration_District", Storage="_Configuration_Province", ThisKey="ProvinceId", OtherKey="ProvinceId", IsForeignKey=true)]
+		public Configuration_Province Configuration_Province
+		{
+			get
+			{
+				return this._Configuration_Province.Entity;
+			}
+			set
+			{
+				Configuration_Province previousValue = this._Configuration_Province.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_Province.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_Province.Entity = null;
+						previousValue.Configuration_Districts.Remove(this);
+					}
+					this._Configuration_Province.Entity = value;
+					if ((value != null))
+					{
+						value.Configuration_Districts.Add(this);
+						this._ProvinceId = value.ProvinceId;
+					}
+					else
+					{
+						this._ProvinceId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_Province");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_School_Schools(School_School entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_District = this;
+		}
+		
+		private void detach_School_Schools(School_School entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_District = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_MessageStatus")]
+	public partial class Configuration_MessageStatus : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MessageStatusId;
+		
+		private string _MessageStatusName;
+		
+		private EntitySet<MessageToParents_Message> _MessageToParents_Messages;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMessageStatusIdChanging(int value);
+    partial void OnMessageStatusIdChanged();
+    partial void OnMessageStatusNameChanging(string value);
+    partial void OnMessageStatusNameChanged();
+    #endregion
+		
+		public Configuration_MessageStatus()
+		{
+			this._MessageToParents_Messages = new EntitySet<MessageToParents_Message>(new Action<MessageToParents_Message>(this.attach_MessageToParents_Messages), new Action<MessageToParents_Message>(this.detach_MessageToParents_Messages));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MessageStatusId
+		{
+			get
+			{
+				return this._MessageStatusId;
+			}
+			set
+			{
+				if ((this._MessageStatusId != value))
+				{
+					this.OnMessageStatusIdChanging(value);
+					this.SendPropertyChanging();
+					this._MessageStatusId = value;
+					this.SendPropertyChanged("MessageStatusId");
+					this.OnMessageStatusIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string MessageStatusName
+		{
+			get
+			{
+				return this._MessageStatusName;
+			}
+			set
+			{
+				if ((this._MessageStatusName != value))
+				{
+					this.OnMessageStatusNameChanging(value);
+					this.SendPropertyChanging();
+					this._MessageStatusName = value;
+					this.SendPropertyChanged("MessageStatusName");
+					this.OnMessageStatusNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_MessageStatus_MessageToParents_Message", Storage="_MessageToParents_Messages", ThisKey="MessageStatusId", OtherKey="MessageStatusId")]
+		public EntitySet<MessageToParents_Message> MessageToParents_Messages
+		{
+			get
+			{
+				return this._MessageToParents_Messages;
+			}
+			set
+			{
+				this._MessageToParents_Messages.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MessageToParents_Messages(MessageToParents_Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_MessageStatus = this;
+		}
+		
+		private void detach_MessageToParents_Messages(MessageToParents_Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_MessageStatus = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_Province")]
+	public partial class Configuration_Province : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ProvinceId;
+		
+		private string _ProvinceName;
+		
+		private EntitySet<Configuration_District> _Configuration_Districts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProvinceIdChanging(int value);
+    partial void OnProvinceIdChanged();
+    partial void OnProvinceNameChanging(string value);
+    partial void OnProvinceNameChanged();
+    #endregion
+		
+		public Configuration_Province()
+		{
+			this._Configuration_Districts = new EntitySet<Configuration_District>(new Action<Configuration_District>(this.attach_Configuration_Districts), new Action<Configuration_District>(this.detach_Configuration_Districts));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProvinceId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ProvinceId
+		{
+			get
+			{
+				return this._ProvinceId;
+			}
+			set
+			{
+				if ((this._ProvinceId != value))
+				{
+					this.OnProvinceIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProvinceId = value;
+					this.SendPropertyChanged("ProvinceId");
+					this.OnProvinceIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProvinceName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string ProvinceName
+		{
+			get
+			{
+				return this._ProvinceName;
+			}
+			set
+			{
+				if ((this._ProvinceName != value))
+				{
+					this.OnProvinceNameChanging(value);
+					this.SendPropertyChanging();
+					this._ProvinceName = value;
+					this.SendPropertyChanged("ProvinceName");
+					this.OnProvinceNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Province_Configuration_District", Storage="_Configuration_Districts", ThisKey="ProvinceId", OtherKey="ProvinceId")]
+		public EntitySet<Configuration_District> Configuration_Districts
+		{
+			get
+			{
+				return this._Configuration_Districts;
+			}
+			set
+			{
+				this._Configuration_Districts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Configuration_Districts(Configuration_District entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Province = this;
+		}
+		
+		private void detach_Configuration_Districts(Configuration_District entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Province = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_Session")]
 	public partial class Configuration_Session : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -8699,6 +9117,8 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<Student_TermSubjectMark> _Student_TermSubjectMarks;
 		
+		private EntitySet<Configuration_TermsInYear> _Configuration_TermsInYears;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -8716,6 +9136,7 @@ namespace EContactBook.DataAccess
 			this._Student_Activities = new EntitySet<Student_Activity>(new Action<Student_Activity>(this.attach_Student_Activities), new Action<Student_Activity>(this.detach_Student_Activities));
 			this._Student_TermLearningResults = new EntitySet<Student_TermLearningResult>(new Action<Student_TermLearningResult>(this.attach_Student_TermLearningResults), new Action<Student_TermLearningResult>(this.detach_Student_TermLearningResults));
 			this._Student_TermSubjectMarks = new EntitySet<Student_TermSubjectMark>(new Action<Student_TermSubjectMark>(this.attach_Student_TermSubjectMarks), new Action<Student_TermSubjectMark>(this.detach_Student_TermSubjectMarks));
+			this._Configuration_TermsInYears = new EntitySet<Configuration_TermsInYear>(new Action<Configuration_TermsInYear>(this.attach_Configuration_TermsInYears), new Action<Configuration_TermsInYear>(this.detach_Configuration_TermsInYears));
 			OnCreated();
 		}
 		
@@ -8824,6 +9245,19 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Configuration_TermsInYear", Storage="_Configuration_TermsInYears", ThisKey="TermId", OtherKey="TermId")]
+		public EntitySet<Configuration_TermsInYear> Configuration_TermsInYears
+		{
+			get
+			{
+				return this._Configuration_TermsInYears;
+			}
+			set
+			{
+				this._Configuration_TermsInYears.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -8903,6 +9337,18 @@ namespace EContactBook.DataAccess
 			this.SendPropertyChanging();
 			entity.Configuration_Term = null;
 		}
+		
+		private void attach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Term = this;
+		}
+		
+		private void detach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Term = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_Year")]
@@ -8921,7 +9367,17 @@ namespace EContactBook.DataAccess
 		
 		private int _SchoolId;
 		
+		private System.DateTime _BeginFirstTermDate;
+		
+		private System.DateTime _EndFirstTermDate;
+		
+		private System.DateTime _BeginSecondTermDate;
+		
+		private System.DateTime _EndSecondTermDate;
+		
 		private EntitySet<Class_Class> _Class_Classes;
+		
+		private EntitySet<Configuration_TermsInYear> _Configuration_TermsInYears;
 		
 		private EntityRef<School_School> _School_School;
 		
@@ -8939,11 +9395,20 @@ namespace EContactBook.DataAccess
     partial void OnEndYearChanged();
     partial void OnSchoolIdChanging(int value);
     partial void OnSchoolIdChanged();
+    partial void OnBeginFirstTermDateChanging(System.DateTime value);
+    partial void OnBeginFirstTermDateChanged();
+    partial void OnEndFirstTermDateChanging(System.DateTime value);
+    partial void OnEndFirstTermDateChanged();
+    partial void OnBeginSecondTermDateChanging(System.DateTime value);
+    partial void OnBeginSecondTermDateChanged();
+    partial void OnEndSecondTermDateChanging(System.DateTime value);
+    partial void OnEndSecondTermDateChanged();
     #endregion
 		
 		public Configuration_Year()
 		{
 			this._Class_Classes = new EntitySet<Class_Class>(new Action<Class_Class>(this.attach_Class_Classes), new Action<Class_Class>(this.detach_Class_Classes));
+			this._Configuration_TermsInYears = new EntitySet<Configuration_TermsInYear>(new Action<Configuration_TermsInYear>(this.attach_Configuration_TermsInYears), new Action<Configuration_TermsInYear>(this.detach_Configuration_TermsInYears));
 			this._School_School = default(EntityRef<School_School>);
 			OnCreated();
 		}
@@ -9052,6 +9517,86 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginFirstTermDate", DbType="datetime NOT NULL")]
+		public System.DateTime BeginFirstTermDate
+		{
+			get
+			{
+				return this._BeginFirstTermDate;
+			}
+			set
+			{
+				if ((this._BeginFirstTermDate != value))
+				{
+					this.OnBeginFirstTermDateChanging(value);
+					this.SendPropertyChanging();
+					this._BeginFirstTermDate = value;
+					this.SendPropertyChanged("BeginFirstTermDate");
+					this.OnBeginFirstTermDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndFirstTermDate", DbType="datetime NOT NULL")]
+		public System.DateTime EndFirstTermDate
+		{
+			get
+			{
+				return this._EndFirstTermDate;
+			}
+			set
+			{
+				if ((this._EndFirstTermDate != value))
+				{
+					this.OnEndFirstTermDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndFirstTermDate = value;
+					this.SendPropertyChanged("EndFirstTermDate");
+					this.OnEndFirstTermDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginSecondTermDate", DbType="datetime NOT NULL")]
+		public System.DateTime BeginSecondTermDate
+		{
+			get
+			{
+				return this._BeginSecondTermDate;
+			}
+			set
+			{
+				if ((this._BeginSecondTermDate != value))
+				{
+					this.OnBeginSecondTermDateChanging(value);
+					this.SendPropertyChanging();
+					this._BeginSecondTermDate = value;
+					this.SendPropertyChanged("BeginSecondTermDate");
+					this.OnBeginSecondTermDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndSecondTermDate", DbType="datetime NOT NULL")]
+		public System.DateTime EndSecondTermDate
+		{
+			get
+			{
+				return this._EndSecondTermDate;
+			}
+			set
+			{
+				if ((this._EndSecondTermDate != value))
+				{
+					this.OnEndSecondTermDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndSecondTermDate = value;
+					this.SendPropertyChanged("EndSecondTermDate");
+					this.OnEndSecondTermDateChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Year_Class_Class", Storage="_Class_Classes", ThisKey="YearId", OtherKey="YearId")]
 		public EntitySet<Class_Class> Class_Classes
 		{
@@ -9062,6 +9607,19 @@ namespace EContactBook.DataAccess
 			set
 			{
 				this._Class_Classes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Year_Configuration_TermsInYear", Storage="_Configuration_TermsInYears", ThisKey="YearId", OtherKey="YearId")]
+		public EntitySet<Configuration_TermsInYear> Configuration_TermsInYears
+		{
+			get
+			{
+				return this._Configuration_TermsInYears;
+			}
+			set
+			{
+				this._Configuration_TermsInYears.Assign(value);
 			}
 		}
 		
@@ -9130,6 +9688,18 @@ namespace EContactBook.DataAccess
 			this.SendPropertyChanging();
 			entity.Configuration_Year = null;
 		}
+		
+		private void attach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Year = this;
+		}
+		
+		private void detach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Year = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MessageToParents_Message")]
@@ -9156,9 +9726,9 @@ namespace EContactBook.DataAccess
 		
 		private System.Nullable<int> _MessageStatusId;
 		
-		private EntityRef<Student_StudentInClass> _Student_StudentInClass;
+		private EntityRef<Configuration_MessageStatus> _Configuration_MessageStatus;
 		
-		private EntityRef<ConfigurationMessageStatus> _ConfigurationMessageStatus;
+		private EntityRef<Student_StudentInClass> _Student_StudentInClass;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9186,8 +9756,8 @@ namespace EContactBook.DataAccess
 		
 		public MessageToParents_Message()
 		{
+			this._Configuration_MessageStatus = default(EntityRef<Configuration_MessageStatus>);
 			this._Student_StudentInClass = default(EntityRef<Student_StudentInClass>);
-			this._ConfigurationMessageStatus = default(EntityRef<ConfigurationMessageStatus>);
 			OnCreated();
 		}
 		
@@ -9231,7 +9801,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageContent", DbType="nvarchar(500)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageContent", DbType="NVarChar(500)")]
 		public string MessageContent
 		{
 			get
@@ -9291,7 +9861,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRead", DbType="bit NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRead", DbType="Bit NOT NULL")]
 		public bool IsRead
 		{
 			get
@@ -9335,7 +9905,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Feedback", DbType="nvarchar(500)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Feedback", DbType="NVarChar(500)")]
 		public string Feedback
 		{
 			get
@@ -9355,7 +9925,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusId", DbType="int")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusId", DbType="Int")]
 		public System.Nullable<int> MessageStatusId
 		{
 			get
@@ -9366,7 +9936,7 @@ namespace EContactBook.DataAccess
 			{
 				if ((this._MessageStatusId != value))
 				{
-					if (this._ConfigurationMessageStatus.HasLoadedOrAssignedValue)
+					if (this._Configuration_MessageStatus.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -9375,6 +9945,40 @@ namespace EContactBook.DataAccess
 					this._MessageStatusId = value;
 					this.SendPropertyChanged("MessageStatusId");
 					this.OnMessageStatusIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_MessageStatus_MessageToParents_Message", Storage="_Configuration_MessageStatus", ThisKey="MessageStatusId", OtherKey="MessageStatusId", IsForeignKey=true)]
+		public Configuration_MessageStatus Configuration_MessageStatus
+		{
+			get
+			{
+				return this._Configuration_MessageStatus.Entity;
+			}
+			set
+			{
+				Configuration_MessageStatus previousValue = this._Configuration_MessageStatus.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_MessageStatus.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_MessageStatus.Entity = null;
+						previousValue.MessageToParents_Messages.Remove(this);
+					}
+					this._Configuration_MessageStatus.Entity = value;
+					if ((value != null))
+					{
+						value.MessageToParents_Messages.Add(this);
+						this._MessageStatusId = value.MessageStatusId;
+					}
+					else
+					{
+						this._MessageStatusId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Configuration_MessageStatus");
 				}
 			}
 		}
@@ -9409,40 +10013,6 @@ namespace EContactBook.DataAccess
 						this._StudentInClassId = default(int);
 					}
 					this.SendPropertyChanged("Student_StudentInClass");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConfigurationMessageStatus_MessageToParents_Message", Storage="_ConfigurationMessageStatus", ThisKey="MessageStatusId", OtherKey="MessageStatusId", IsForeignKey=true)]
-		public ConfigurationMessageStatus ConfigurationMessageStatus
-		{
-			get
-			{
-				return this._ConfigurationMessageStatus.Entity;
-			}
-			set
-			{
-				ConfigurationMessageStatus previousValue = this._ConfigurationMessageStatus.Entity;
-				if (((previousValue != value) 
-							|| (this._ConfigurationMessageStatus.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ConfigurationMessageStatus.Entity = null;
-						previousValue.MessageToParentsMessages.Remove(this);
-					}
-					this._ConfigurationMessageStatus.Entity = value;
-					if ((value != null))
-					{
-						value.MessageToParentsMessages.Add(this);
-						this._MessageStatusId = value.MessageStatusId;
-					}
-					else
-					{
-						this._MessageStatusId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("ConfigurationMessageStatus");
 				}
 			}
 		}
@@ -9806,7 +10376,7 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
 		
-		private EntityRef<ConfigurationDistrict> _ConfigurationDistrict;
+		private EntityRef<Configuration_District> _Configuration_District;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9848,7 +10418,7 @@ namespace EContactBook.DataAccess
 			this._Configuration_Years = new EntitySet<Configuration_Year>(new Action<Configuration_Year>(this.attach_Configuration_Years), new Action<Configuration_Year>(this.detach_Configuration_Years));
 			this._Student_Students = new EntitySet<Student_Student>(new Action<Student_Student>(this.attach_Student_Students), new Action<Student_Student>(this.detach_Student_Students));
 			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
-			this._ConfigurationDistrict = default(EntityRef<ConfigurationDistrict>);
+			this._Configuration_District = default(EntityRef<Configuration_District>);
 			OnCreated();
 		}
 		
@@ -9932,7 +10502,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="varchar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
 		public string Email
 		{
 			get
@@ -9952,7 +10522,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="varchar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
 		public string Password
 		{
 			get
@@ -9972,7 +10542,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="image", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="Image", UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Logo
 		{
 			get
@@ -9992,7 +10562,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="nvarchar(200) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
 		public string Address
 		{
 			get
@@ -10012,7 +10582,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="varchar(20) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
 		public string Phone
 		{
 			get
@@ -10032,7 +10602,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", DbType="int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", DbType="Int NOT NULL")]
 		public int DistrictId
 		{
 			get
@@ -10043,7 +10613,7 @@ namespace EContactBook.DataAccess
 			{
 				if ((this._DistrictId != value))
 				{
-					if (this._ConfigurationDistrict.HasLoadedOrAssignedValue)
+					if (this._Configuration_District.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -10212,36 +10782,36 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConfigurationDistrict_School_School", Storage="_ConfigurationDistrict", ThisKey="DistrictId", OtherKey="DistrictId", IsForeignKey=true)]
-		public ConfigurationDistrict ConfigurationDistrict
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_District_School_School", Storage="_Configuration_District", ThisKey="DistrictId", OtherKey="DistrictId", IsForeignKey=true)]
+		public Configuration_District Configuration_District
 		{
 			get
 			{
-				return this._ConfigurationDistrict.Entity;
+				return this._Configuration_District.Entity;
 			}
 			set
 			{
-				ConfigurationDistrict previousValue = this._ConfigurationDistrict.Entity;
+				Configuration_District previousValue = this._Configuration_District.Entity;
 				if (((previousValue != value) 
-							|| (this._ConfigurationDistrict.HasLoadedOrAssignedValue == false)))
+							|| (this._Configuration_District.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._ConfigurationDistrict.Entity = null;
-						previousValue.SchoolSchools.Remove(this);
+						this._Configuration_District.Entity = null;
+						previousValue.School_Schools.Remove(this);
 					}
-					this._ConfigurationDistrict.Entity = value;
+					this._Configuration_District.Entity = value;
 					if ((value != null))
 					{
-						value.SchoolSchools.Add(this);
+						value.School_Schools.Add(this);
 						this._DistrictId = value.DistrictId;
 					}
 					else
 					{
 						this._DistrictId = default(int);
 					}
-					this.SendPropertyChanged("ConfigurationDistrict");
+					this.SendPropertyChanged("Configuration_District");
 				}
 			}
 		}
@@ -11025,7 +11595,7 @@ namespace EContactBook.DataAccess
 		
 		private double _MarkValue;
 		
-		private System.DateTime _Date1;
+		private System.DateTime _Date;
 		
 		private EntityRef<Category_MarkType> _Category_MarkType;
 		
@@ -11043,8 +11613,8 @@ namespace EContactBook.DataAccess
     partial void OnMarkTypeChanged();
     partial void OnMarkValueChanging(double value);
     partial void OnMarkValueChanged();
-    partial void OnDate1Changing(System.DateTime value);
-    partial void OnDate1Changed();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
     #endregion
 		
 		public Student_DetailedTermSubjectMark()
@@ -11142,22 +11712,22 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Date]", Storage="_Date1", DbType="datetime NOT NULL")]
-		public System.DateTime Date1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
 		{
 			get
 			{
-				return this._Date1;
+				return this._Date;
 			}
 			set
 			{
-				if ((this._Date1 != value))
+				if ((this._Date != value))
 				{
-					this.OnDate1Changing(value);
+					this.OnDateChanging(value);
 					this.SendPropertyChanging();
-					this._Date1 = value;
-					this.SendPropertyChanged("Date1");
-					this.OnDate1Changed();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
 				}
 			}
 		}
@@ -14007,7 +14577,7 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<UserManagement_Menu> _UserManagement_Menus;
 		
-		private EntitySet<UserManagement_RoleCategory> _UserManagementRoleCategories;
+		private EntitySet<UserManagement_RoleCategory> _UserManagement_RoleCategories;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -14025,7 +14595,7 @@ namespace EContactBook.DataAccess
 		{
 			this._UserManagement_AuthorizedPages = new EntitySet<UserManagement_AuthorizedPage>(new Action<UserManagement_AuthorizedPage>(this.attach_UserManagement_AuthorizedPages), new Action<UserManagement_AuthorizedPage>(this.detach_UserManagement_AuthorizedPages));
 			this._UserManagement_Menus = new EntitySet<UserManagement_Menu>(new Action<UserManagement_Menu>(this.attach_UserManagement_Menus), new Action<UserManagement_Menu>(this.detach_UserManagement_Menus));
-			this._UserManagementRoleCategories = new EntitySet<UserManagement_RoleCategory>(new Action<UserManagement_RoleCategory>(this.attach_UserManagementRoleCategories), new Action<UserManagement_RoleCategory>(this.detach_UserManagementRoleCategories));
+			this._UserManagement_RoleCategories = new EntitySet<UserManagement_RoleCategory>(new Action<UserManagement_RoleCategory>(this.attach_UserManagement_RoleCategories), new Action<UserManagement_RoleCategory>(this.detach_UserManagement_RoleCategories));
 			OnCreated();
 		}
 		
@@ -14115,16 +14685,16 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_PagePath_UserManagement_RoleCategory", Storage="_UserManagementRoleCategories", ThisKey="PagePathId", OtherKey="DefaultPageId")]
-		public EntitySet<UserManagement_RoleCategory> UserManagementRoleCategories
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_PagePath_UserManagement_RoleCategory", Storage="_UserManagement_RoleCategories", ThisKey="PagePathId", OtherKey="DefaultPageId")]
+		public EntitySet<UserManagement_RoleCategory> UserManagement_RoleCategories
 		{
 			get
 			{
-				return this._UserManagementRoleCategories;
+				return this._UserManagement_RoleCategories;
 			}
 			set
 			{
-				this._UserManagementRoleCategories.Assign(value);
+				this._UserManagement_RoleCategories.Assign(value);
 			}
 		}
 		
@@ -14172,16 +14742,16 @@ namespace EContactBook.DataAccess
 			entity.UserManagement_PagePath = null;
 		}
 		
-		private void attach_UserManagementRoleCategories(UserManagement_RoleCategory entity)
+		private void attach_UserManagement_RoleCategories(UserManagement_RoleCategory entity)
 		{
 			this.SendPropertyChanging();
-			entity.UserManagementPagePath = this;
+			entity.UserManagement_PagePath = this;
 		}
 		
-		private void detach_UserManagementRoleCategories(UserManagement_RoleCategory entity)
+		private void detach_UserManagement_RoleCategories(UserManagement_RoleCategory entity)
 		{
 			this.SendPropertyChanging();
-			entity.UserManagementPagePath = null;
+			entity.UserManagement_PagePath = null;
 		}
 	}
 	
@@ -14199,7 +14769,7 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
 		
-		private EntityRef<UserManagement_PagePath> _UserManagementPagePath;
+		private EntityRef<UserManagement_PagePath> _UserManagement_PagePath;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -14216,7 +14786,7 @@ namespace EContactBook.DataAccess
 		public UserManagement_RoleCategory()
 		{
 			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
-			this._UserManagementPagePath = default(EntityRef<UserManagement_PagePath>);
+			this._UserManagement_PagePath = default(EntityRef<UserManagement_PagePath>);
 			OnCreated();
 		}
 		
@@ -14260,7 +14830,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultPageId", DbType="int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefaultPageId", DbType="Int NOT NULL")]
 		public int DefaultPageId
 		{
 			get
@@ -14271,7 +14841,7 @@ namespace EContactBook.DataAccess
 			{
 				if ((this._DefaultPageId != value))
 				{
-					if (this._UserManagementPagePath.HasLoadedOrAssignedValue)
+					if (this._UserManagement_PagePath.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -14297,36 +14867,36 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_PagePath_UserManagement_RoleCategory", Storage="_UserManagementPagePath", ThisKey="DefaultPageId", OtherKey="PagePathId", IsForeignKey=true)]
-		public UserManagement_PagePath UserManagementPagePath
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_PagePath_UserManagement_RoleCategory", Storage="_UserManagement_PagePath", ThisKey="DefaultPageId", OtherKey="PagePathId", IsForeignKey=true)]
+		public UserManagement_PagePath UserManagement_PagePath
 		{
 			get
 			{
-				return this._UserManagementPagePath.Entity;
+				return this._UserManagement_PagePath.Entity;
 			}
 			set
 			{
-				UserManagement_PagePath previousValue = this._UserManagementPagePath.Entity;
+				UserManagement_PagePath previousValue = this._UserManagement_PagePath.Entity;
 				if (((previousValue != value) 
-							|| (this._UserManagementPagePath.HasLoadedOrAssignedValue == false)))
+							|| (this._UserManagement_PagePath.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._UserManagementPagePath.Entity = null;
-						previousValue.UserManagementRoleCategories.Remove(this);
+						this._UserManagement_PagePath.Entity = null;
+						previousValue.UserManagement_RoleCategories.Remove(this);
 					}
-					this._UserManagementPagePath.Entity = value;
+					this._UserManagement_PagePath.Entity = value;
 					if ((value != null))
 					{
-						value.UserManagementRoleCategories.Add(this);
+						value.UserManagement_RoleCategories.Add(this);
 						this._DefaultPageId = value.PagePathId;
 					}
 					else
 					{
 						this._DefaultPageId = default(int);
 					}
-					this.SendPropertyChanged("UserManagementPagePath");
+					this.SendPropertyChanged("UserManagement_PagePath");
 				}
 			}
 		}
@@ -15740,376 +16310,197 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_MessageStatus")]
-	public partial class ConfigurationMessageStatus : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_TermsInYear")]
+	public partial class Configuration_TermsInYear : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _MessageStatusId;
+		private int _YearId;
 		
-		private string _MessageStatusName;
+		private int _TermId;
 		
-		private EntitySet<MessageToParents_Message> _MessageToParentsMessages;
+		private System.DateTime _BeginDate;
+		
+		private System.DateTime _EndDate;
+		
+		private EntityRef<Configuration_Term> _Configuration_Term;
+		
+		private EntityRef<Configuration_Year> _Configuration_Year;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnMessageStatusIdChanging(int value);
-    partial void OnMessageStatusIdChanged();
-    partial void OnMessageStatusNameChanging(string value);
-    partial void OnMessageStatusNameChanged();
+    partial void OnYearIdChanging(int value);
+    partial void OnYearIdChanged();
+    partial void OnTermIdChanging(int value);
+    partial void OnTermIdChanged();
+    partial void OnBeginDateChanging(System.DateTime value);
+    partial void OnBeginDateChanged();
+    partial void OnEndDateChanging(System.DateTime value);
+    partial void OnEndDateChanged();
     #endregion
 		
-		public ConfigurationMessageStatus()
+		public Configuration_TermsInYear()
 		{
-			this._MessageToParentsMessages = new EntitySet<MessageToParents_Message>(new Action<MessageToParents_Message>(this.attach_MessageToParentsMessages), new Action<MessageToParents_Message>(this.detach_MessageToParentsMessages));
+			this._Configuration_Term = default(EntityRef<Configuration_Term>);
+			this._Configuration_Year = default(EntityRef<Configuration_Year>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusId", AutoSync=AutoSync.OnInsert, DbType="int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MessageStatusId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int YearId
 		{
 			get
 			{
-				return this._MessageStatusId;
+				return this._YearId;
 			}
 			set
 			{
-				if ((this._MessageStatusId != value))
+				if ((this._YearId != value))
 				{
-					this.OnMessageStatusIdChanging(value);
-					this.SendPropertyChanging();
-					this._MessageStatusId = value;
-					this.SendPropertyChanged("MessageStatusId");
-					this.OnMessageStatusIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusName", DbType="nvarchar(100) NOT NULL", CanBeNull=false)]
-		public string MessageStatusName
-		{
-			get
-			{
-				return this._MessageStatusName;
-			}
-			set
-			{
-				if ((this._MessageStatusName != value))
-				{
-					this.OnMessageStatusNameChanging(value);
-					this.SendPropertyChanging();
-					this._MessageStatusName = value;
-					this.SendPropertyChanged("MessageStatusName");
-					this.OnMessageStatusNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConfigurationMessageStatus_MessageToParents_Message", Storage="_MessageToParentsMessages", ThisKey="MessageStatusId", OtherKey="MessageStatusId")]
-		public EntitySet<MessageToParents_Message> MessageToParentsMessages
-		{
-			get
-			{
-				return this._MessageToParentsMessages;
-			}
-			set
-			{
-				this._MessageToParentsMessages.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_MessageToParentsMessages(MessageToParents_Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.ConfigurationMessageStatus = this;
-		}
-		
-		private void detach_MessageToParentsMessages(MessageToParents_Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.ConfigurationMessageStatus = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_Province")]
-	public partial class ConfigurationProvince : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ProvinceId;
-		
-		private string _ProvinceName;
-		
-		private EntitySet<ConfigurationDistrict> _ConfigurationDistricts;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnProvinceIdChanging(int value);
-    partial void OnProvinceIdChanged();
-    partial void OnProvinceNameChanging(string value);
-    partial void OnProvinceNameChanged();
-    #endregion
-		
-		public ConfigurationProvince()
-		{
-			this._ConfigurationDistricts = new EntitySet<ConfigurationDistrict>(new Action<ConfigurationDistrict>(this.attach_ConfigurationDistricts), new Action<ConfigurationDistrict>(this.detach_ConfigurationDistricts));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProvinceId", AutoSync=AutoSync.OnInsert, DbType="int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ProvinceId
-		{
-			get
-			{
-				return this._ProvinceId;
-			}
-			set
-			{
-				if ((this._ProvinceId != value))
-				{
-					this.OnProvinceIdChanging(value);
-					this.SendPropertyChanging();
-					this._ProvinceId = value;
-					this.SendPropertyChanged("ProvinceId");
-					this.OnProvinceIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProvinceName", DbType="nvarchar(100) NOT NULL", CanBeNull=false)]
-		public string ProvinceName
-		{
-			get
-			{
-				return this._ProvinceName;
-			}
-			set
-			{
-				if ((this._ProvinceName != value))
-				{
-					this.OnProvinceNameChanging(value);
-					this.SendPropertyChanging();
-					this._ProvinceName = value;
-					this.SendPropertyChanged("ProvinceName");
-					this.OnProvinceNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConfigurationProvince_ConfigurationDistrict", Storage="_ConfigurationDistricts", ThisKey="ProvinceId", OtherKey="ProvinceId")]
-		public EntitySet<ConfigurationDistrict> ConfigurationDistricts
-		{
-			get
-			{
-				return this._ConfigurationDistricts;
-			}
-			set
-			{
-				this._ConfigurationDistricts.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ConfigurationDistricts(ConfigurationDistrict entity)
-		{
-			this.SendPropertyChanging();
-			entity.ConfigurationProvince = this;
-		}
-		
-		private void detach_ConfigurationDistricts(ConfigurationDistrict entity)
-		{
-			this.SendPropertyChanging();
-			entity.ConfigurationProvince = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_District")]
-	public partial class ConfigurationDistrict : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _DistrictId;
-		
-		private string _DistrictName;
-		
-		private int _ProvinceId;
-		
-		private EntitySet<School_School> _SchoolSchools;
-		
-		private EntityRef<ConfigurationProvince> _ConfigurationProvince;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnDistrictIdChanging(int value);
-    partial void OnDistrictIdChanged();
-    partial void OnDistrictNameChanging(string value);
-    partial void OnDistrictNameChanged();
-    partial void OnProvinceIdChanging(int value);
-    partial void OnProvinceIdChanged();
-    #endregion
-		
-		public ConfigurationDistrict()
-		{
-			this._SchoolSchools = new EntitySet<School_School>(new Action<School_School>(this.attach_SchoolSchools), new Action<School_School>(this.detach_SchoolSchools));
-			this._ConfigurationProvince = default(EntityRef<ConfigurationProvince>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", AutoSync=AutoSync.OnInsert, DbType="int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int DistrictId
-		{
-			get
-			{
-				return this._DistrictId;
-			}
-			set
-			{
-				if ((this._DistrictId != value))
-				{
-					this.OnDistrictIdChanging(value);
-					this.SendPropertyChanging();
-					this._DistrictId = value;
-					this.SendPropertyChanged("DistrictId");
-					this.OnDistrictIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictName", DbType="nvarchar(150) NOT NULL", CanBeNull=false)]
-		public string DistrictName
-		{
-			get
-			{
-				return this._DistrictName;
-			}
-			set
-			{
-				if ((this._DistrictName != value))
-				{
-					this.OnDistrictNameChanging(value);
-					this.SendPropertyChanging();
-					this._DistrictName = value;
-					this.SendPropertyChanged("DistrictName");
-					this.OnDistrictNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProvinceId", DbType="int NOT NULL")]
-		public int ProvinceId
-		{
-			get
-			{
-				return this._ProvinceId;
-			}
-			set
-			{
-				if ((this._ProvinceId != value))
-				{
-					if (this._ConfigurationProvince.HasLoadedOrAssignedValue)
+					if (this._Configuration_Year.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnProvinceIdChanging(value);
+					this.OnYearIdChanging(value);
 					this.SendPropertyChanging();
-					this._ProvinceId = value;
-					this.SendPropertyChanged("ProvinceId");
-					this.OnProvinceIdChanged();
+					this._YearId = value;
+					this.SendPropertyChanged("YearId");
+					this.OnYearIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConfigurationDistrict_School_School", Storage="_SchoolSchools", ThisKey="DistrictId", OtherKey="DistrictId")]
-		public EntitySet<School_School> SchoolSchools
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int TermId
 		{
 			get
 			{
-				return this._SchoolSchools;
+				return this._TermId;
 			}
 			set
 			{
-				this._SchoolSchools.Assign(value);
+				if ((this._TermId != value))
+				{
+					if (this._Configuration_Term.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTermIdChanging(value);
+					this.SendPropertyChanging();
+					this._TermId = value;
+					this.SendPropertyChanged("TermId");
+					this.OnTermIdChanged();
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConfigurationProvince_ConfigurationDistrict", Storage="_ConfigurationProvince", ThisKey="ProvinceId", OtherKey="ProvinceId", IsForeignKey=true)]
-		public ConfigurationProvince ConfigurationProvince
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime NOT NULL")]
+		public System.DateTime BeginDate
 		{
 			get
 			{
-				return this._ConfigurationProvince.Entity;
+				return this._BeginDate;
 			}
 			set
 			{
-				ConfigurationProvince previousValue = this._ConfigurationProvince.Entity;
+				if ((this._BeginDate != value))
+				{
+					this.OnBeginDateChanging(value);
+					this.SendPropertyChanging();
+					this._BeginDate = value;
+					this.SendPropertyChanged("BeginDate");
+					this.OnBeginDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDate
+		{
+			get
+			{
+				return this._EndDate;
+			}
+			set
+			{
+				if ((this._EndDate != value))
+				{
+					this.OnEndDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndDate = value;
+					this.SendPropertyChanged("EndDate");
+					this.OnEndDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Configuration_TermsInYear", Storage="_Configuration_Term", ThisKey="TermId", OtherKey="TermId", IsForeignKey=true)]
+		public Configuration_Term Configuration_Term
+		{
+			get
+			{
+				return this._Configuration_Term.Entity;
+			}
+			set
+			{
+				Configuration_Term previousValue = this._Configuration_Term.Entity;
 				if (((previousValue != value) 
-							|| (this._ConfigurationProvince.HasLoadedOrAssignedValue == false)))
+							|| (this._Configuration_Term.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._ConfigurationProvince.Entity = null;
-						previousValue.ConfigurationDistricts.Remove(this);
+						this._Configuration_Term.Entity = null;
+						previousValue.Configuration_TermsInYears.Remove(this);
 					}
-					this._ConfigurationProvince.Entity = value;
+					this._Configuration_Term.Entity = value;
 					if ((value != null))
 					{
-						value.ConfigurationDistricts.Add(this);
-						this._ProvinceId = value.ProvinceId;
+						value.Configuration_TermsInYears.Add(this);
+						this._TermId = value.TermId;
 					}
 					else
 					{
-						this._ProvinceId = default(int);
+						this._TermId = default(int);
 					}
-					this.SendPropertyChanged("ConfigurationProvince");
+					this.SendPropertyChanged("Configuration_Term");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Year_Configuration_TermsInYear", Storage="_Configuration_Year", ThisKey="YearId", OtherKey="YearId", IsForeignKey=true)]
+		public Configuration_Year Configuration_Year
+		{
+			get
+			{
+				return this._Configuration_Year.Entity;
+			}
+			set
+			{
+				Configuration_Year previousValue = this._Configuration_Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_Year.Entity = null;
+						previousValue.Configuration_TermsInYears.Remove(this);
+					}
+					this._Configuration_Year.Entity = value;
+					if ((value != null))
+					{
+						value.Configuration_TermsInYears.Add(this);
+						this._YearId = value.YearId;
+					}
+					else
+					{
+						this._YearId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_Year");
 				}
 			}
 		}
@@ -16132,18 +16523,6 @@ namespace EContactBook.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_SchoolSchools(School_School entity)
-		{
-			this.SendPropertyChanging();
-			entity.ConfigurationDistrict = this;
-		}
-		
-		private void detach_SchoolSchools(School_School entity)
-		{
-			this.SendPropertyChanging();
-			entity.ConfigurationDistrict = null;
 		}
 	}
 	

@@ -47,8 +47,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             studentBL = new StudentBL(UserSchool);
 
             if (!Page.IsPostBack)
-            {                
-                BindDropDownLists();                
+            {
+                BindDDLYears();
+                BindDDLFaculties();
+                BindDDLGrades();
+                BindDDLClasses();
                 this.isSearch = false;
 
                 // Khôi phục lại thông tin khi chuyển sang trang khác rồi trở về trang này
@@ -428,6 +431,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
+        /// <summary>
+        /// Bind data to repeater
+        /// </summary>
         private void BindRptStudents()
         {
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
@@ -519,18 +525,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BtnPrint.Enabled = true;
             }
         }
-
-        private void BindDropDownLists()
-        {
-            BindDDLYears();
-
-            BindDDLFaculties();
-
-            BindDDLGrades();
-
-            BindDDLClasses();
-        }
-
+                
         private void BindDDLFaculties()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
@@ -623,7 +618,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
-            if (classes.Count > 1)
+
+            if (classes.Count > 0)
             {
                 DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
 

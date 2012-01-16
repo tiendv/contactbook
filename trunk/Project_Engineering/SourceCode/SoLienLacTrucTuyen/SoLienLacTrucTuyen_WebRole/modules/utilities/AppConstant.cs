@@ -8,6 +8,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public static class AppConstant
     {
         public const string SCHOOL = "SCHOOL";
+        public const string SESSION_CURRENT_YEAR = "CurrentYear";
 
         public const string PAGEPATH_HOMEPAGE = "/modules/trang_chu/trangchu.aspx"; 
         

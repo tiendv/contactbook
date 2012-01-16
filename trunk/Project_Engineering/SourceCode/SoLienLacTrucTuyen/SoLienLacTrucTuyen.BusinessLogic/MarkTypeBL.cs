@@ -85,7 +85,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularMarkType = new TabularMarkType();
                 tabularMarkType.MarkTypeId = markType.MarkTypeId;
                 tabularMarkType.GradeId = markType.GradeId;
-                tabularMarkType.GradeName = markType.CategoryGrade.GradeName;
+                tabularMarkType.GradeName = markType.Category_Grade.GradeName;
                 tabularMarkType.IsUsedForCalculatingAvg = markType.IsUsedForCalculatingAvg;
                 tabularMarkType.MarkRatio = markType.MarkRatio;
                 tabularMarkType.MarkTypeName = markType.MarkTypeName;

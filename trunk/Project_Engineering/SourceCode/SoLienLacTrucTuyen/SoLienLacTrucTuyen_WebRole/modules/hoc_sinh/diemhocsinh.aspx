@@ -61,7 +61,6 @@
                         </tr>
                         <tr>
                             <td>
-                                <asp:RadioButton ID="RBtnTerm" runat="server" GroupName="GroupTime" Checked="true" />
                                 Học kỳ:
                             </td>
                             <td>
@@ -70,7 +69,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                <asp:RadioButton ID="RBtnMonth" runat="server" GroupName="GroupTime" Checked="false" />
+                                <asp:RadioButton ID="RBtnMonth" runat="server" GroupName="GroupTime" Checked="true" />
                                 Tháng:
                             </td>
                             <td>
@@ -82,7 +81,7 @@
                                 Tuần:
                             </td>
                             <td colspan="3">
-                                <asp:DropDownList ID="DddWeeks" runat="server" Width="200px">
+                                <asp:DropDownList ID="DdlWeeks" runat="server" Width="200px">
                                 </asp:DropDownList>
                             </td>
                         </tr>
@@ -135,7 +134,7 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfStudentId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>'/>                            
+                            <asp:HiddenField ID="HdfStudentId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>' />
                         </td>
                         <td>
                             <asp:HyperLink ID="HlkStudentCode" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%>'></asp:HyperLink>
@@ -146,14 +145,14 @@
                         <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
                             <ItemTemplate>
                                 <td style="height: 40px">
-                                    <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>'/>
-                                    <asp:HiddenField ID="HdfMarkTypeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>'/>
+                                    <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>' />
+                                    <asp:HiddenField ID="HdfMarkTypeName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>' />
                                     <%#DataBinder.Eval(Container.DataItem, "StringDiems")%>
                                 </td>
                             </ItemTemplate>
                         </asp:Repeater>
                         <td style="text-align: right">
-                            <%#((double)DataBinder.Eval(Container.DataItem, "DiemTrungBinh") != -1) ? DataBinder.Eval(Container.DataItem, "DiemTrungBinh") : "Chưa xác định"%>
+                            <%#((double)DataBinder.Eval(Container.DataItem, "DiemTrungBinh") != -1) ? DataBinder.Eval(Container.DataItem, "DiemTrungBinh") : ""%>
                         </td>
                         <td class="icon">
                             <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />

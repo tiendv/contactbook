@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (ValidateInput())
             {
-                ConfigurationDistrict district = new ConfigurationDistrict();
+                Configuration_District district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
                 string strSchoolName = TxtSchoolName.Text.Trim();
                 string strAddress = TxtAddress.Text.Trim();
@@ -134,7 +134,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlDistricts.Items.Count != 0)
             {
-                ConfigurationDistrict district = new ConfigurationDistrict();
+                Configuration_District district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
                 if (schoolBL.SchoolNameExists(district, TxtSchoolName.Text.Trim()))
                 {
@@ -164,7 +164,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if(DdlDistricts.Items.Count != 0)
             {
-                ConfigurationDistrict district = new ConfigurationDistrict();
+                Configuration_District district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
                 if (schoolBL.SchoolNameExists(district, TxtSchoolName.Text.Trim()))
                 {
@@ -222,7 +222,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLProvinces()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<ConfigurationProvince> provinces = systemConfigBL.GetProvinces();
+            List<Configuration_Province> provinces = systemConfigBL.GetProvinces();
             DdlProvinces.DataSource = provinces;
             DdlProvinces.DataValueField = "ProvinceId";
             DdlProvinces.DataTextField = "ProvinceName";
@@ -233,11 +233,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (DdlProvinces.Items.Count != 0)
             {
-                ConfigurationProvince province = new ConfigurationProvince();
+                Configuration_Province province = new Configuration_Province();
                 province.ProvinceId = Int32.Parse(DdlProvinces.SelectedValue);
 
                 SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-                List<ConfigurationDistrict> districts = systemConfigBL.GetDistricts(province);
+                List<Configuration_District> districts = systemConfigBL.GetDistricts(province);
                 DdlDistricts.DataSource = districts;
                 DdlDistricts.DataValueField = "DistrictId";
                 DdlDistricts.DataTextField = "DistrictName";

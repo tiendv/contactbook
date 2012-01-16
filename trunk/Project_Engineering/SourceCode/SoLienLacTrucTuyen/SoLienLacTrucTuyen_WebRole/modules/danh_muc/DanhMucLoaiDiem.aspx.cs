@@ -378,7 +378,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         TxtMaxMarksPerTermEdit.Text = markType.MaxQuantity.ToString();
                         RbtnYesEdit.Checked = markType.IsUsedForCalculatingAvg;
                         RbtnCancelEdit.Checked = !markType.IsUsedForCalculatingAvg;
-                        LblGradeName.Text = markType.CategoryGrade.GradeName;
+                        LblGradeName.Text = markType.Category_Grade.GradeName;
                         HdfGradeId.Value = markType.GradeId.ToString();
                         LblAppCalAvgMarkEdit.Visible = false;
 

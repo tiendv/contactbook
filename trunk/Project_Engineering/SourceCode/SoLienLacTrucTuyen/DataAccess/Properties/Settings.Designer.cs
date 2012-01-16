@@ -26,11 +26,34 @@ namespace EContactBook.DataAccess.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Securi" +
-            "ty=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=localhost\\SQLEXpress;Integrated Security=SSPI;initial catalog=DbECont" +
+            "actBook")]
         public string DbEContactBookConnectionString {
             get {
                 return ((string)(this["DbEContactBookConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Program Files\\Microsoft SQL Server\\" +
+            "MSSQL10.SQLEXPRESS\\MSSQL\\DATA\\DbEContactBook.mdf\";Integrated Security=True;Conne" +
+            "ct Timeout=30;User Instance=True")]
+        public string DbEContactBookConnectionString1 {
+            get {
+                return ((string)(this["DbEContactBookConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Securi" +
+            "ty=True")]
+        public string DbEContactBookConnectionString2 {
+            get {
+                return ((string)(this["DbEContactBookConnectionString2"]));
             }
         }
     }

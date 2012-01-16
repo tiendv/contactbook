@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Security=True" SettingsObjectName="EContactBook.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Security=True" SettingsObjectName="EContactBook.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Applications" Member="aspnet_Applications">
     <Type Name="aspnet_Application">
       <Column Name="ApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
@@ -57,7 +57,7 @@
       <Column Name="IsDeletable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsTeacher" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsActivated" Member="IsActivated" Type="System.Boolean" DbType="bit" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
       <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="School_School_aspnet_Membership" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
@@ -213,10 +213,10 @@
       <Column Name="GradeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="DisplayedOrder" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Category_Grade_Category_MarkType" Member="Category_MarkTypes" ThisKey="GradeId" OtherKey="GradeId" Type="Category_MarkType" />
       <Association Name="Category_Grade_Category_Subject" Member="Category_Subjects" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Subject" />
       <Association Name="Category_Grade_Class_Class" Member="Class_Classes" ThisKey="GradeId" OtherKey="GradeId" Type="Class_Class" />
       <Association Name="School_School_Category_Grade" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
-      <Association Name="Category_Grade_Category_MarkType" Member="CategoryMarkTypes" ThisKey="GradeId" OtherKey="GradeId" Type="Category_MarkType" IsForeignKey="false" />
     </Type>
   </Table>
   <Table Name="dbo.Category_LearningAptitude" Member="Category_LearningAptitudes">
@@ -246,9 +246,9 @@
       <Column Name="MarkRatio" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Column Name="MaxQuantity" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
       <Column Name="IsUsedForCalculatingAvg" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="GradeId" Member="GradeId" Type="System.Int32" DbType="int NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="GradeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Student_DetailedTermSubjectMarks" ThisKey="MarkTypeId" OtherKey="MarkType" Type="Student_DetailedTermSubjectMark" />
-      <Association Name="Category_Grade_Category_MarkType" Member="CategoryGrade" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Grade" IsForeignKey="true" />
+      <Association Name="Category_Grade_Category_MarkType" Member="Category_Grade" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Grade" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Category_Subject" Member="Category_Subjects">
@@ -345,6 +345,29 @@
       <Association Name="Configuration_DayInWeek_Class_Schedule" Member="Class_Schedules" ThisKey="DayInWeekId" OtherKey="DayInWeekId" Type="Class_Schedule" />
     </Type>
   </Table>
+  <Table Name="dbo.Configuration_District" Member="Configuration_Districts">
+    <Type Name="Configuration_District">
+      <Column Name="DistrictId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DistrictName" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="ProvinceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Configuration_District_School_School" Member="School_Schools" ThisKey="DistrictId" OtherKey="DistrictId" Type="School_School" />
+      <Association Name="Configuration_Province_Configuration_District" Member="Configuration_Province" ThisKey="ProvinceId" OtherKey="ProvinceId" Type="Configuration_Province" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration_MessageStatus" Member="Configuration_MessageStatus">
+    <Type Name="Configuration_MessageStatus">
+      <Column Name="MessageStatusId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MessageStatusName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Configuration_MessageStatus_MessageToParents_Message" Member="MessageToParents_Messages" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="MessageToParents_Message" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration_Province" Member="Configuration_Provinces">
+    <Type Name="Configuration_Province">
+      <Column Name="ProvinceId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProvinceName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Configuration_Province_Configuration_District" Member="Configuration_Districts" ThisKey="ProvinceId" OtherKey="ProvinceId" Type="Configuration_District" />
+    </Type>
+  </Table>
   <Table Name="dbo.Configuration_Session" Member="Configuration_Sessions">
     <Type Name="Configuration_Session">
       <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -362,6 +385,7 @@
       <Association Name="Configuration_Term_Student_Activity" Member="Student_Activities" ThisKey="TermId" OtherKey="TermId" Type="Student_Activity" />
       <Association Name="Configuration_Term_Student_TermLearningResult" Member="Student_TermLearningResults" ThisKey="TermId" OtherKey="TermId" Type="Student_TermLearningResult" />
       <Association Name="Configuration_Term_Student_TermSubjectMark" Member="Student_TermSubjectMarks" ThisKey="TermId" OtherKey="TermId" Type="Student_TermSubjectMark" />
+      <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_TermsInYears" ThisKey="TermId" OtherKey="TermId" Type="Configuration_TermsInYear" />
     </Type>
   </Table>
   <Table Name="dbo.Configuration_Year" Member="Configuration_Years">
@@ -371,7 +395,12 @@
       <Column Name="BeginYear" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="EndYear" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BeginFirstTermDate" Member="BeginFirstTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="EndFirstTermDate" Member="EndFirstTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="BeginSecondTermDate" Member="BeginSecondTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="EndSecondTermDate" Member="EndSecondTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Association Name="Configuration_Year_Class_Class" Member="Class_Classes" ThisKey="YearId" OtherKey="YearId" Type="Class_Class" />
+      <Association Name="Configuration_Year_Configuration_TermsInYear" Member="Configuration_TermsInYears" ThisKey="YearId" OtherKey="YearId" Type="Configuration_TermsInYear" />
       <Association Name="School_School_Configuration_Year" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
     </Type>
   </Table>
@@ -379,15 +408,15 @@
     <Type Name="MessageToParents_Message">
       <Column Name="MessageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="MessageContent" Type="System.String" DbType="nvarchar(500)" CanBeNull="true" />
+      <Column Name="MessageContent" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsRead" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Feedback" Type="System.String" DbType="nvarchar(500)" CanBeNull="true" />
-      <Column Name="MessageStatusId" Type="System.Int32" DbType="int" CanBeNull="true" />
+      <Column Name="Feedback" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="MessageStatusId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Configuration_MessageStatus_MessageToParents_Message" Member="Configuration_MessageStatus" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="Configuration_MessageStatus" IsForeignKey="true" />
       <Association Name="Student_StudentInClass_MessageToParents_Message" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
-      <Association Name="ConfigurationMessageStatus_MessageToParents_Message" Member="ConfigurationMessageStatus" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="ConfigurationMessageStatus" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ParentComment_Comment" Member="ParentComment_Comments">
@@ -409,12 +438,12 @@
       <Column Name="SchoolName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="TotalOfUsers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="varchar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="varchar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Logo" Member="Logo" Type="System.Data.Linq.Binary" DbType="image" IsDbGenerated="false" CanBeNull="true" IsPrimaryKey="false" UpdateCheck="Never" />
-      <Column Name="Address" Member="Address" Type="System.String" DbType="nvarchar(200) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="Phone" Member="Phone" Type="System.String" DbType="varchar(20) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="DistrictId" Member="DistrictId" Type="System.Int32" DbType="int NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="DistrictId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_School_Category_Attitude" Member="Category_Attitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Attitude" />
       <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
@@ -427,7 +456,7 @@
       <Association Name="School_School_Configuration_Year" Member="Configuration_Years" ThisKey="SchoolId" OtherKey="SchoolId" Type="Configuration_Year" />
       <Association Name="School_School_Student_Student" Member="Student_Students" ThisKey="SchoolId" OtherKey="SchoolId" Type="Student_Student" />
       <Association Name="School_School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
-      <Association Name="ConfigurationDistrict_School_School" Member="ConfigurationDistrict" ThisKey="DistrictId" OtherKey="DistrictId" Type="ConfigurationDistrict" IsForeignKey="true" />
+      <Association Name="Configuration_District_School_School" Member="Configuration_District" ThisKey="DistrictId" OtherKey="DistrictId" Type="Configuration_District" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Student_Absent" Member="Student_Absents">
@@ -463,7 +492,7 @@
       <Column Name="TermSubjectMarkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="[Date]" Member="Date1" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Category_MarkType" ThisKey="MarkType" OtherKey="MarkTypeId" Type="Category_MarkType" IsForeignKey="true" />
       <Association Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark" Member="Student_TermSubjectMark" ThisKey="TermSubjectMarkId" OtherKey="TermSubjectMarkId" Type="Student_TermSubjectMark" IsForeignKey="true" />
     </Type>
@@ -602,16 +631,16 @@
       <Column Name="PhysicalPath" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Association Name="UserManagement_PagePath_UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_AuthorizedPage" />
       <Association Name="UserManagement_PagePath_UserManagement_Menu" Member="UserManagement_Menus" ThisKey="PagePathId" OtherKey="PagePathId" Type="UserManagement_Menu" />
-      <Association Name="UserManagement_PagePath_UserManagement_RoleCategory" Member="UserManagementRoleCategories" ThisKey="PagePathId" OtherKey="DefaultPageId" Type="UserManagement_RoleCategory" />
+      <Association Name="UserManagement_PagePath_UserManagement_RoleCategory" Member="UserManagement_RoleCategories" ThisKey="PagePathId" OtherKey="DefaultPageId" Type="UserManagement_RoleCategory" />
     </Type>
   </Table>
   <Table Name="dbo.UserManagement_RoleCategory" Member="UserManagement_RoleCategories">
     <Type Name="UserManagement_RoleCategory">
       <Column Name="RoleCategoryId" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="FunctionFlag" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="DefaultPageId" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
+      <Column Name="DefaultPageId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="UserManagement_RoleCategory_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="RoleCategoryId" OtherKey="RoleCategoryId" Type="UserManagement_RoleDetail" />
-      <Association Name="UserManagement_PagePath_UserManagement_RoleCategory" Member="UserManagementPagePath" ThisKey="DefaultPageId" OtherKey="PagePathId" Type="UserManagement_PagePath" IsForeignKey="true" />
+      <Association Name="UserManagement_PagePath_UserManagement_RoleCategory" Member="UserManagement_PagePath" ThisKey="DefaultPageId" OtherKey="PagePathId" Type="UserManagement_PagePath" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.UserManagement_RoleDetail" Member="UserManagement_RoleDetails">
@@ -718,11 +747,14 @@
       <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.Configuration_MessageStatus" Member="ConfigurationMessageStatuses">
-    <Type Name="ConfigurationMessageStatus">
-      <Column Name="MessageStatusId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="MessageStatusName" Type="System.String" DbType="nvarchar(100) NOT NULL" CanBeNull="false" />
-      <Association Name="ConfigurationMessageStatus_MessageToParents_Message" Member="MessageToParentsMessages" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="MessageToParents_Message" />
+  <Table Name="dbo.Configuration_TermsInYear" Member="Configuration_TermsInYears">
+    <Type Name="Configuration_TermsInYear">
+      <Column Name="YearId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BeginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_Term" ThisKey="TermId" OtherKey="TermId" Type="Configuration_Term" IsForeignKey="true" />
+      <Association Name="Configuration_Year_Configuration_TermsInYear" Member="Configuration_Year" ThisKey="YearId" OtherKey="YearId" Type="Configuration_Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Function Name="dbo.aspnet_AnyDataInTables" Method="aspnetAnyDataInTables">
@@ -1178,20 +1210,4 @@
     <Parameter Name="Details" Type="System.String" DbType="ntext" />
     <Return Type="int" />
   </Function>
-  <Table Name="dbo.Configuration_Province" Member="ConfigurationProvinces">
-    <Type Name="ConfigurationProvince">
-      <Column Name="ProvinceId" Member="ProvinceId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" IsPrimaryKey="true" />
-      <Column Name="ProvinceName" Member="ProvinceName" Type="System.String" DbType="nvarchar(100) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Association Name="ConfigurationProvince_ConfigurationDistrict" Member="ConfigurationDistricts" ThisKey="ProvinceId" OtherKey="ProvinceId" Type="ConfigurationDistrict" IsForeignKey="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Configuration_District" Member="ConfigurationDistricts">
-    <Type Name="ConfigurationDistrict">
-      <Column Name="DistrictId" Member="DistrictId" Type="System.Int32" DbType="int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" IsPrimaryKey="true" />
-      <Column Name="DistrictName" Member="DistrictName" Type="System.String" DbType="nvarchar(150) NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="ProvinceId" Member="ProvinceId" Type="System.Int32" DbType="int NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Association Name="ConfigurationDistrict_School_School" Member="SchoolSchools" ThisKey="DistrictId" OtherKey="DistrictId" Type="School_School" IsForeignKey="false" />
-      <Association Name="ConfigurationProvince_ConfigurationDistrict" Member="ConfigurationProvince" ThisKey="ProvinceId" OtherKey="ProvinceId" Type="ConfigurationProvince" IsForeignKey="true" />
-    </Type>
-  </Table>
 </Database>

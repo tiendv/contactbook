@@ -49,22 +49,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLLopHoc();
             BindDDLMonHoc();
+            BindDDLMonths();
+            BindDDLWeeks();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLLopHoc();
+            BindDDLMonHoc();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLLopHoc();
+            BindDDLMonHoc();
             BindDDLMarkTypes();
         }
 
         protected void DdlHocKy_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLMonHoc();
+            BindDDLMonths();
+            BindDDLWeeks();
         }
 
         protected void DdlLopHoc_SelectedIndexChanged(object sender, EventArgs e)
@@ -77,8 +83,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDropDownLists()
         {
             BindDDLNamHoc();
-            BindDDLHocKy();
+            BindDDLTerms();
             BindDDLMonths();
+            BindDDLWeeks();
             BindDDLNganhHoc();
             BindDDLGrades();
             BindDDLLopHoc();
@@ -102,31 +109,68 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDDLHocKy()
+        private void BindDDLTerms()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
-            DdlHocKy.DataSource = lstHocKy;
+            List<Configuration_Term> terms = systemConfigBL.GetListTerms();
+
+            DdlHocKy.DataSource = terms;
             DdlHocKy.DataValueField = "TermId";
             DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
+
+            if (DdlNamHoc.Items.Count != 0)
+            {
+                if (CurrentYear.YearId == Int32.Parse(DdlNamHoc.SelectedValue))
+                {
+                    DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().TermId.ToString();
+
+                }
+            }
         }
 
         private void BindDDLMonths()
         {
-            DddMonths.Items.Add(new ListItem("Tất cả", "0"));
-            DddMonths.Items.Add(new ListItem("Tháng 1", "1"));
-            DddMonths.Items.Add(new ListItem("Tháng 2", "2"));
-            DddMonths.Items.Add(new ListItem("Tháng 3", "3"));
-            DddMonths.Items.Add(new ListItem("Tháng 4", "4"));
-            DddMonths.Items.Add(new ListItem("Tháng 5", "5"));
-            DddMonths.Items.Add(new ListItem("Tháng 6", "6"));
-            DddMonths.Items.Add(new ListItem("Tháng 7", "7"));
-            DddMonths.Items.Add(new ListItem("Tháng 8", "8"));
-            DddMonths.Items.Add(new ListItem("Tháng 9", "9"));
-            DddMonths.Items.Add(new ListItem("Tháng 10", "10"));
-            DddMonths.Items.Add(new ListItem("Tháng 11", "11"));
-            DddMonths.Items.Add(new ListItem("Tháng 12", "12"));
+            if (DdlNamHoc.Items.Count != 0 && DdlHocKy.Items.Count != 0)
+            {
+                Configuration_Year year = new Configuration_Year();
+                year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+
+                Configuration_Term term = new Configuration_Term();
+                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+
+                SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+
+                List<Month> months = systemConfigBL.GetMonths(year, term);
+                DddMonths.DataSource = months;
+                DddMonths.DataValueField = "MonthId";
+                DddMonths.DataTextField = "MonthName";
+                DddMonths.DataBind();
+
+                DddMonths.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
+        }
+
+        private void BindDDLWeeks()
+        {
+            if (DdlNamHoc.Items.Count != 0 && DdlHocKy.Items.Count != 0)
+            {
+                Configuration_Year year = new Configuration_Year();
+                year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+
+                Configuration_Term term = new Configuration_Term();
+                term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+
+                SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+
+                List<Week> months = systemConfigBL.GetWeeks(year, term);
+                DdlWeeks.DataSource = months;
+                DdlWeeks.DataValueField = "WeekId";
+                DdlWeeks.DataTextField = "WeekName";
+                DdlWeeks.DataBind();
+
+                DdlWeeks.Items.Insert(0, new ListItem("Tất cả", "0"));
+            }
         }
 
         private void BindDDLNganhHoc()
@@ -227,6 +271,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
+        /// <summary>
+        /// Bind dropdownlist subjects
+        /// </summary>
         private void BindDDLMonHoc()
         {
             Class_Class Class = null;
@@ -281,15 +328,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindRptStudentMarks()
         {
-            // declare variables
-            Class_Class Class = null;
-            Category_Subject subject = null;
-            Configuration_Term term = null;
-            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();
-            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
-            double dTotalRecords = 0;
-
             // case: there is no Class or schedule subject or marktype
             if (DdlLopHoc.Items.Count == 0 || DdlMonHoc.Items.Count == 0 || DdlLoaiDiem.Items.Count == 0)
             {
@@ -298,12 +336,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            // init object against user selections
-            Class = new Class_Class();
+            // declare variables
+            Class_Class Class = new Class_Class();
+            Category_Subject subject = new Category_Subject();
+            Configuration_Term term = new Configuration_Term();
+            MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
+            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
+            double dTotalRecords = 0;
+
             Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            subject = new Category_Subject();
             subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
-            term = new Configuration_Term();
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
 
             if (DdlKhoiLop.Items.Count != 0)
@@ -321,18 +364,36 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (RBtnTerm.Checked)
+            if (RBtnMonth.Checked)
             {
-                // get student mark information
-                tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
-                    MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                if (DddMonths.SelectedIndex > 0)
+                {
+                    int month = Int32.Parse(DddMonths.SelectedValue);
+                    tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, month, markTypes,
+                        MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                }
+                else
+                {
+                    tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
+                     MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                }
             }
-            else if (RBtnMonth.Checked)
-            {
-                int month = Int32.Parse(DddMonths.SelectedValue);
-                // get student mark information
-                tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, month, markTypes,
-                    MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            else if (RBtnWeek.Checked)
+            {                
+                if (DdlWeeks.SelectedIndex > 0)
+                {
+                    string[] strDates = DdlWeeks.SelectedValue.Split('-');                    
+                    DateTime dtBeginDate = DateTime.Parse(strDates[0]);
+                    DateTime dtEndDate = DateTime.Parse(strDates[1]);
+                    // get student mark information
+                    tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, dtBeginDate, dtEndDate, markTypes, 
+                        MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                }
+                else
+                {
+                    tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, markTypes,
+                     MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+                }
             }
 
 
@@ -376,7 +437,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY)
-               && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE) 
+               && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM)
                && CheckSessionKey(AppConstant.SESSION_SELECTED_MARKTYPE)
@@ -387,22 +448,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
 
                 DdlNganh.SelectedValue = ((Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY)).FacultyId.ToString();
-                RemoveSession(AppConstant.SESSION_SELECTED_FACULTY); 
-                
+                RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
+
                 DdlKhoiLop.SelectedValue = ((Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE)).GradeId.ToString();
-                RemoveSession(AppConstant.SESSION_SELECTED_GRADE); 
-                
+                RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
+
                 DdlLopHoc.SelectedValue = ((Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS)).ClassId.ToString();
-                RemoveSession(AppConstant.SESSION_SELECTED_CLASS); 
-                
+                RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
+
                 DdlMonHoc.SelectedValue = ((Category_Subject)GetSession(AppConstant.SESSION_SELECTED_SUBJECT)).SubjectId.ToString();
-                RemoveSession(AppConstant.SESSION_SELECTED_SUBJECT); 
-                
+                RemoveSession(AppConstant.SESSION_SELECTED_SUBJECT);
+
                 DdlLoaiDiem.SelectedValue = ((Category_MarkType)GetSession(AppConstant.SESSION_SELECTED_MARKTYPE)).MarkTypeId.ToString();
-                RemoveSession(AppConstant.SESSION_SELECTED_MARKTYPE); 
-                
+                RemoveSession(AppConstant.SESSION_SELECTED_MARKTYPE);
+
                 DdlHocKy.SelectedValue = ((Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM)).TermId.ToString();
-                RemoveSession(AppConstant.SESSION_SELECTED_TERM); 
+                RemoveSession(AppConstant.SESSION_SELECTED_TERM);
             }
         }
         #endregion
@@ -474,7 +535,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             {
                                 HiddenField hdfMarkTypeId = (HiddenField)innerItem.FindControl("HdfMarkTypeId");
                                 HiddenField hdfMarkTypeName = (HiddenField)innerItem.FindControl("HdfMarkTypeName");
-                                markTypes.Add(new Category_MarkType { MarkTypeId = Int32.Parse(hdfMarkTypeId.Value), MarkTypeName = hdfMarkTypeName.Value});
+                                markTypes.Add(new Category_MarkType { MarkTypeId = Int32.Parse(hdfMarkTypeId.Value), MarkTypeName = hdfMarkTypeName.Value });
                             }
                         }
 
@@ -492,7 +553,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
                         AddSession(AppConstant.SESSION_SELECTED_SUBJECT, subject);
                         AddSession(AppConstant.SESSION_SELECTED_MARKTYPE, markType);
-                        AddSession(AppConstant.SESSION_SELECTED_MARKTYPES, markTypes);                        
+                        AddSession(AppConstant.SESSION_SELECTED_MARKTYPES, markTypes);
                         AddSession(AppConstant.SESSION_SELECTED_STUDENT, student);
                         Response.Redirect(AppConstant.PAGEPATH_STUDENT_EDITMARK);
                     }

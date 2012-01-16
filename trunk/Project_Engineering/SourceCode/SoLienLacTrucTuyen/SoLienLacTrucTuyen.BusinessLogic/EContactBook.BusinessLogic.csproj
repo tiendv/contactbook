@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SoLienLacTrucTuyen.BusinessLogic</RootNamespace>
-    <AssemblyName>SoLienLacTrucTuyen.BusinessLogic</AssemblyName>
+    <AssemblyName>EContactBook.BusinessLogic</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -48,6 +48,14 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EContactBook.BusinessEntity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BusinessEntity\bin\Debug\EContactBook.BusinessEntity.dll</HintPath>
+    </Reference>
+    <Reference Include="EContactBook.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DataAccess\bin\Debug\EContactBook.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -97,16 +105,6 @@
     <Compile Include="AttitudeBL.cs" />
     <Compile Include="TeachingPeriodBL.cs" />
     <Compile Include="UserBL.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BusinessEntity\EContactBook.BusinessEntity.csproj">
-      <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
-      <Name>EContactBook.BusinessEntity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataAccess\EContactBook.DataAccess.csproj">
-      <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
-      <Name>EContactBook.DataAccess</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

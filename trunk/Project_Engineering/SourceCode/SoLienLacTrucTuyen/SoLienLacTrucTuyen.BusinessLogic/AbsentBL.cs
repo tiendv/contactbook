@@ -165,5 +165,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             Class_Class Class = studentBL.GetLastedClass(student);
             return absentDA.GetUnconfirmAbsentCount(student, Class);
         }
+
+        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term, bool confirmed)
+        {
+            return absentDA.GetTotalDayOfAbsent(student, Class, term, confirmed);
+        }
     }
 }

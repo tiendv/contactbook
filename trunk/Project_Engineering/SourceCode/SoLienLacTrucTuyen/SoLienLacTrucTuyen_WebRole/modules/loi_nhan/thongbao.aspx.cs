@@ -57,10 +57,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
             DateTime denNgay = DateTime.Parse(TxtDenNgay.Text);
             string strStudentCode = TxtMaHS.Text;
-            ConfigurationMessageStatus messageStatus = null;
+            Configuration_MessageStatus messageStatus = null;
             if (DdlXacNhan.SelectedIndex > 0)
             {
-                messageStatus = new ConfigurationMessageStatus();
+                messageStatus = new Configuration_MessageStatus();
                 messageStatus.MessageStatusId = Int32.Parse(DdlXacNhan.SelectedValue);
             }
 
@@ -148,7 +148,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void BindDDLMessageStatuses()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<ConfigurationMessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
+            List<Configuration_MessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
             DdlXacNhan.DataSource = messageStatuses;
             DdlXacNhan.DataValueField = "MessageStatusId";
             DdlXacNhan.DataTextField = "MessageStatusName";
