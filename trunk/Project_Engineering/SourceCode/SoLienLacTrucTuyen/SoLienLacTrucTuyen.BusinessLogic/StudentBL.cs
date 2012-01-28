@@ -175,7 +175,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return studentDA.GetStudentInClass(student, year);
         }
 
-        public List<TabularStudent> GetTabularStudents(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
+        public List<TabularStudent> GetTabularStudents(aspnet_User user, bool isFormerTeacher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
             Class_Class Class, string studentCode, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
@@ -214,22 +214,50 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         {
                             if (bStudentNameIsAll)
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                             else
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                         }
                         else
                         {
                             if (bStudentNameIsAll)
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, grade, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, grade, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, grade, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                             else
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                         }
                     }
@@ -239,22 +267,51 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         {
                             if (bStudentNameIsAll)
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, faculty, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, faculty, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                             else
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, faculty, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, faculty, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                         }
                         else
                         {
                             if (bStudentNameIsAll)
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, faculty, grade, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+
                             }
                             else
                             {
-                                studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                if (isFormerTeacher)
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(user, year, faculty, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
+                                else
+                                {
+                                    studentInClasses = studentDA.GetStudentInClasses(year, faculty, grade, studentName, pageCurrentIndex, pageSize, out totalRecords);
+                                }
                             }
                         }
                     }
@@ -391,7 +448,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return tabularStudents;
-        }        
+        }
 
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
             Class_Class Class)
@@ -626,7 +683,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return studentDA.GetLastedClass(student);
         }
 
-        public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularStudentConduct> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             return studentDA.GetListHanhKiemHocSinh(ClassId, TermId,
                 pageCurrentIndex, pageSize, out totalRecords);

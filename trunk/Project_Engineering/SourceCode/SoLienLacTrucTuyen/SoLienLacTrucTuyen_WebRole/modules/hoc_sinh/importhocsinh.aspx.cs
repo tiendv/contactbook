@@ -46,6 +46,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 lbError.Text = string.Empty;
                 BindDropDownLists();
+                if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] == null || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
+                }
                 BtnSave.Enabled = false;
                 BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
             }
@@ -143,7 +147,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
 
         protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
@@ -393,9 +397,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void FillYear()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            Configuration_Year year = systemConfigBL.GetLastedYear();
-            LblYear.Text = year.YearName;
-            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+            Configuration_Year lastedYear = systemConfigBL.GetLastedYear();
+            if (lastedYear != null)
+            {
+                LblYear.Text = lastedYear.YearName;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = lastedYear.YearId;
+            }
         }
 
         private void BindDDLGrades()
@@ -420,13 +427,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLClasses()
         {
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] == null)
+            {
+                return;
+            }
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
             ClassBL lopHocBL = new ClassBL(UserSchool);
 
             year = new Configuration_Year();
-            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
             try
             {
@@ -448,7 +459,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
+            List<Class_Class> lstLop = lopHocBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";

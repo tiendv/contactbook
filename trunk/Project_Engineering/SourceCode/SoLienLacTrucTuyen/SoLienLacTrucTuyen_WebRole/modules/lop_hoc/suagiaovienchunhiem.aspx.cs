@@ -11,12 +11,11 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class SuaGiaoVienChuNhiemPage : BaseContentPage
+    public partial class FormerTeacherModifyPage : BaseContentPage
     {
         #region Fields
-        private FormerTeacherBL giaoVienChuNhiemBL;
+        private FormerTeacherBL formerTeacherBL;
         private TeacherBL teacherBL;
-        private int maGVCN;
         private int YearId;
         private Guid UserIdHienHanh;
         private bool isSearch;
@@ -37,27 +36,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            giaoVienChuNhiemBL = new FormerTeacherBL(UserSchool);
+            formerTeacherBL = new FormerTeacherBL(UserSchool);
             teacherBL = new TeacherBL(UserSchool);
 
-            if (Request.QueryString["id"] != null)
+            Class_FormerTeacher formerTeacher = null;
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_FORMERTEACHER))
             {
-                maGVCN = Int32.Parse(Request.QueryString["id"]);
-                ViewState["maGVCN"] = maGVCN;
+                formerTeacher = (Class_FormerTeacher)GetSession(AppConstant.SESSION_SELECTED_FORMERTEACHER);
+                ViewState["maGVCN"] = formerTeacher.FormerTeacherId;
             }
             else
             {
-                maGVCN = (int)ViewState["maGVCN"];
+                
+                if (ViewState["maGVCN"] != null)
+                {
+                    formerTeacher = new Class_FormerTeacher();
+                    formerTeacher.FormerTeacherId = (int)ViewState["maGVCN"];
+                }
+                else
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_FORMERTEACHER_LIST);
+                }
             }
 
-            Class_FormerTeacher giaoVienChuNhiem = giaoVienChuNhiemBL.GetFormerTeacher(maGVCN);
-            TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(giaoVienChuNhiem.Class_Class);
+            formerTeacher = formerTeacherBL.GetFormerTeacher(formerTeacher.FormerTeacherId);
+            TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(formerTeacher.Class_Class);
             YearId = lopHoc.YearId;
 
             if (!Page.IsPostBack)
             {
                 LblLopHoc.Text = lopHoc.ClassName;
-                UserIdHienHanh = giaoVienChuNhiem.TeacherId;
+                ViewState["CurrentTeacherId"] = formerTeacher.TeacherId;
+                UserIdHienHanh = formerTeacher.TeacherId;
                 LblCurrentGiaoVienChuNhiem.Text = lopHoc.TenGVCN;
                 LblTitleTeacherList.Text = string.Format("DANH SÁCH GIÁO VIÊN CHƯA PHÂN CÔNG CHỦ NHIỆM (NĂM HỌC {0})",
                     lopHoc.YearName);
@@ -95,6 +105,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            aspnet_User oldTeacher = new aspnet_User();
+            oldTeacher.UserId = new Guid(ViewState["CurrentTeacherId"].ToString());
+
             foreach (RepeaterItem item in RptGiaoVien.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
@@ -107,10 +120,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             HiddenField hdfRptUserId = (HiddenField)item.FindControl("HdfRptUserId");
                             Guid UserId = new Guid(hdfRptUserId.Value);
-                            aspnet_User teacher = new aspnet_User();
-                            teacher.UserId = UserId;
-                            giaoVienChuNhiemBL.Update(maGVCN, teacher);
-                            Response.Redirect("giaovienchunhiem.aspx");
+                            aspnet_User newTeacher = new aspnet_User();
+                            newTeacher.UserId = UserId;
+                            formerTeacherBL.Update((int)ViewState["maGVCN"], oldTeacher, newTeacher);
+                            Response.Redirect(AppConstant.PAGEPATH_FORMERTEACHER_LIST);
                         }
                     }
                 }
@@ -186,7 +199,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptGiaoVien.Visible = bDisplay;
             LblSearchResult.Visible = !bDisplay;
             BtnSave.Enabled = bDisplay;
-            BtnSave.ImageUrl = (bDisplay) ? "~/Styles/Images/button_save.png" : "~/Styles/Images/button_save_disable.png";
+            BtnSave.ImageUrl = (bDisplay) ? "~/Styles/buttons/button_save.png" : "~/Styles/buttons/button_save_disable.png";
             if (LblSearchResult.Visible)
             {
                 if (!isSearch)

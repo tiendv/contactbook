@@ -65,34 +65,47 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
 
             double dTotalRecords;
-            List<TabularMessage> messages = messageBL.GetTabularMessages(year, dtBeginDate, dtEndDate, LoggedInStudent, messageStatus,
+            List<TabularMessage> tabularMessages = messageBL.GetTabularMessages(year, dtBeginDate, dtEndDate, LoggedInStudent, messageStatus,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if (messages.Count == 0 && dTotalRecords != 0)
+            if (tabularMessages.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptMessages();
                 return;
             }
 
-            bool bDisplayData = (messages.Count != 0) ? true : false;
+            bool bDisplayData = (tabularMessages.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
 
-            RptLoiNhanKhan.DataSource = messages;
+            RptLoiNhanKhan.DataSource = tabularMessages;
             RptLoiNhanKhan.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
+
+            int iNewMessageCount = messageBL.GetNewMessageCount(LoggedInStudent);
+            if (iNewMessageCount != 0)
+            {
+                PnlMessageStatus.Visible = true;
+                LblMessageStatus.Text = iNewMessageCount.ToString();
+            }
+            else
+            {
+                PnlMessageStatus.Visible = false;
+            }
+
+            PnlNote.Visible = bDisplayData;
         }
 
-        private void ProcessDislayInfo(bool bDisplayData)
+        private void ProcessDislayInfo(bool displayData)
         {
-            RptLoiNhanKhan.Visible = bDisplayData;
-            LblSearchResult.Visible = !bDisplayData;
+            RptLoiNhanKhan.Visible = displayData;
+            LblSearchResult.Visible = !displayData;
 
             if (LblSearchResult.Visible)
             {
                 if (!isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin thông báo";
+                    LblSearchResult.Text = "Chưa có thông báo";
                 }
                 else
                 {
@@ -157,9 +170,9 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 && CheckSessionKey(AppConstant.SESSION_SELECTED_TODATE)
                 && CheckSessionKey(AppConstant.SESSION_SELECTED_CONFIRMSTATUS))
             {
-                ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = (Int32)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                 RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
-                DdlNamHoc.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR].ToString();
+                DdlNamHoc.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID].ToString();
 
                 ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE] = (DateTime)GetSession(AppConstant.SESSION_SELECTED_FROMDATE);
                 RemoveSession(AppConstant.SESSION_SELECTED_FROMDATE);
@@ -177,7 +190,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         
         private void SaveSearchSessions()
         {   
-            AddSession(AppConstant.SESSION_SELECTED_YEAR, ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR]);
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID]);
             AddSession(AppConstant.SESSION_SELECTED_FROMDATE, ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE]);
             AddSession(AppConstant.SESSION_SELECTED_TODATE, ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE]);
             AddSession(AppConstant.SESSION_SELECTED_CONFIRMSTATUS, ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS]);
@@ -221,7 +234,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
                         AddSession(AppConstant.SESSION_MESSAGE, message);
                         SaveSearchSessions();
-                        Response.Redirect(AppConstant.PAGEPATH_PARENTS_DETAILEDMESSAGE);
+                        Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE_DETAIL);
 
                         break;
                     }
@@ -241,7 +254,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             BindRptMessages();
 
             // save selections to viewstate
-            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = Int32.Parse(DdlNamHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = Int32.Parse(DdlNamHoc.SelectedValue);
             ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE] = DateTime.Parse(TxtTuNgay.Text);
             ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE] = DateTime.Parse(TxtDenNgay.Text);
             ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS] = Int32.Parse(DdlXacNhan.SelectedValue);

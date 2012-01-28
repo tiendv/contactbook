@@ -16,16 +16,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             conductDA = new ConductDA(school);
         }
 
-        public void InsertConduct(Category_Conduct conduct)
+        public void InsertConduct(string conductName)
         {
+            Category_Conduct conduct = new Category_Conduct();
+            conduct.ConductName = conductName;
             conductDA.InsertConduct(conduct);
         }
 
-        public void UpdateConduct(string editedConductName, string newConductName)
-        {
-            Category_Conduct conduct = GetConduct(editedConductName);            
+        public void UpdateConduct(Category_Conduct conduct, string newConductName)
+        {   
             conduct.ConductName = newConductName;
-
             conductDA.UpdateConduct(conduct);
         }
 
@@ -110,6 +110,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return bResult;
+        }
+
+        public bool IsDeletable(Category_Conduct conduct)
+        {
+            return conductDA.IsDeletable(conduct);
         }
     }
 }

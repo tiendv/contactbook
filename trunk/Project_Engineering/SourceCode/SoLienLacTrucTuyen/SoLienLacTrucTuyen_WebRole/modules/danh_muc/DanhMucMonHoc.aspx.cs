@@ -49,119 +49,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
         #endregion
 
-        #region Repeater event handlers
-        protected void RptMonHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        TabularSubject tabularSubject = (TabularSubject)e.Item.DataItem;
-                        Category_Subject subject = subjectBL.GetSubject(tabularSubject.SubjectName, tabularSubject.FacultyName, tabularSubject.GradeName);
-                        if (!subjectBL.IsDeletable(subject))
-                        {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptMonHoc_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            this.HfdSelectedSubjectName.Value = (string)e.CommandArgument;
-            string strSubjectName = (string)e.CommandArgument;
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        // Set confirm text and show dialog
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa môn học <b>" + strSubjectName + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        // Save current SubjectId to global
-                        HiddenField hdfRptSubjectId = (HiddenField)e.Item.FindControl("HdfRptSubjectId");
-                        this.HdfSubjectId.Value = hdfRptSubjectId.Value;
-
-                        // Save modal popup ClientID
-                        this.HdfRptMonHocMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        string facultyName = ((Label)e.Item.FindControl("LblFacultyName")).Text;
-                        string gradeName = ((Label)e.Item.FindControl("LblGradeName")).Text;
-
-                        Category_Subject subject = subjectBL.GetSubject(strSubjectName, facultyName, gradeName);
-
-                        TxtSubjectNameSua.Text = subject.SubjectName;
-                        LblFacultyNameSua.Text = subject.Category_Faculty.FacultyName;
-                        HdfFacultyIdSua.Value = subject.FacultyId.ToString();
-                        LblGradeNameSua.Text = subject.Category_Grade.GradeName;
-                        HdfGradeIdSua.Value = subject.GradeId.ToString();
-                        TxtMarkRatioSua.Text = subject.MarkRatio.ToString();
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfSubjectId.Value = subject.SubjectId.ToString();
-                        this.HdfRptMonHocMPEEdit.Value = mPEEdit.ClientID;
-
-                        this.HdfFacultyName.Value = subject.Category_Faculty.FacultyName;
-                        this.HdfGradeName.Value = subject.Category_Grade.GradeName;
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        #endregion
-
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
@@ -237,39 +124,54 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             return true;
         }
 
-        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptMonHoc.Items)
+            HiddenField hdfRptSubjectId = null;
+            foreach (RepeaterItem item in RptSubject.Items)
             {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptMonHocMPEEdit.Value)
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
                     {
-                        break;
+                        hdfRptSubjectId = (HiddenField)item.FindControl("HdfRptSubjectId");
+                        Category_Subject subject = subjectBL.GetSubject(Int32.Parse(hdfRptSubjectId.Value));
+
+                        TxtSubjectNameSua.Text = subject.SubjectName;
+                        LblFacultyNameSua.Text = subject.Category_Faculty.FacultyName;
+                        HdfFacultyIdSua.Value = subject.FacultyId.ToString();
+                        LblGradeNameSua.Text = subject.Category_Grade.GradeName;
+                        HdfGradeIdSua.Value = subject.GradeId.ToString();
+                        TxtMarkRatioSua.Text = subject.MarkRatio.ToString();
+                        HdfSubjectId.Value = subject.SubjectId.ToString();
+                        HfdSelectedSubjectName.Value = subject.SubjectName;
+                        MPEEdit.Show();
+                        return;
                     }
                 }
             }
+        }
 
+        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
+        {
             if (!Page.IsValid)
             {
                 return;
             }
 
-            int SubjectId = Int32.Parse(this.HdfSubjectId.Value);
+            int iSubjectId = Int32.Parse(this.HdfSubjectId.Value);
             string editedSubjectName = this.HfdSelectedSubjectName.Value;
             string facultyName = this.HdfFacultyName.Value;
             string gradeName = this.HdfGradeName.Value;
 
             string newSubjectName = this.TxtSubjectNameSua.Text.Trim();
             double newMarkRatio = double.Parse(this.TxtMarkRatioSua.Text.Trim());
-            Category_Subject editedSubject = subjectBL.GetSubject(editedSubjectName, facultyName, gradeName);
+            Category_Subject editedSubject = subjectBL.GetSubject(iSubjectId);
 
             if (newSubjectName == "")
             {
                 SubjectNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return;
             }
             else
@@ -277,7 +179,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (subjectBL.SubjectNameExists(editedSubject, newSubjectName))
                 {
                     SubjectNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return;
                 }
             }
@@ -287,13 +189,42 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {            
-            Category_Subject subject = new Category_Subject();
-            subject.SubjectId = Int32.Parse(this.HdfSubjectId.Value);
-            subjectBL.DeleteSubject(subject);
+        {
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField hdfRptSubjectId = null;
+            Category_Subject subject = null;
+
+            foreach (RepeaterItem item in RptSubject.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        hdfRptSubjectId = (HiddenField)item.FindControl("HdfRptSubjectId");
+                        subject = new Category_Subject();
+                        subject.SubjectId = Int32.Parse(hdfRptSubjectId.Value);
+
+                        if (subjectBL.IsDeletable(subject))
+                        {
+                            subjectBL.DeleteSubject(subject);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
 
             isSearch = false;
             BindRepeater();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
         }
         #endregion
 
@@ -309,17 +240,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
+            BtnAdd.Visible = (DdlKhoiLop.Items.Count != 0 && accessibilities.Contains(AccessibilityEnum.Add));
+            PnlPopupAdd.Visible = BtnAdd.Visible;
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         private void BindRepeater()
@@ -356,9 +281,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             bool bDisplayData = (lTabularSubjects.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
-            RptMonHoc.Visible = bDisplayData;
+            RptSubject.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
             if (LblSearchResult.Visible)
@@ -378,8 +301,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 MainDataPager.Visible = true;
             }
-            RptMonHoc.DataSource = lTabularSubjects;
-            RptMonHoc.DataBind();
+            RptSubject.DataSource = lTabularSubjects;
+            RptSubject.DataBind();
         }
 
         private void BindDropDownLists()
@@ -392,20 +315,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             GradeBL gradeBL = new GradeBL(UserSchool);
 
-            List<Category_Grade> lGrades = gradeBL.GetListGrades();
-            DdlKhoiLop.DataSource = lGrades;
+            List<Category_Grade> grades = gradeBL.GetListGrades();            
+            DdlKhoiLop.DataSource = grades;
             DdlKhoiLop.DataValueField = "GradeName";
             DdlKhoiLop.DataTextField = "GradeName";
             DdlKhoiLop.DataBind();
-            if (lGrades.Count > 1)
+            if (grades.Count > 1)
             {
                 DdlKhoiLop.Items.Insert(0, new ListItem("Tất cả", "Tất cả"));
             }
 
-            DdlKhoiLopThem.DataSource = lGrades;
+            DdlKhoiLopThem.DataSource = grades;
             DdlKhoiLopThem.DataValueField = "GradeName";
             DdlKhoiLopThem.DataTextField = "GradeName";
             DdlKhoiLopThem.DataBind();
+
+            if (grades.Count != 0)
+            {
+                BtnAdd.Visible = true;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD;
+                PnlPopupAdd.Visible = true;
+            }
+            else
+            {
+                BtnAdd.Visible = false;
+                BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
+                PnlPopupAdd.Visible = false;
+            }
         }
 
         private void BindDDLFaculties()
@@ -426,6 +362,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNganhHocThem.DataValueField = "FacultyName";
             DdlNganhHocThem.DataTextField = "FacultyName";
             DdlNganhHocThem.DataBind();
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptSubject_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
         }
         #endregion
     }

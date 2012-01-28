@@ -17,6 +17,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private bool isSearch;
         private ParentsCommentBL parentsCommentBL;
+        bool firstItemIsChecked = false;
+        bool hasNoCheckableItem = true;
         #endregion
 
         #region Page event handlers
@@ -56,7 +58,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<TabularParentsComment> tabularParentsComments = null;
 
             Configuration_Year year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlYears.SelectedValue); 
+            year.YearId = Int32.Parse(DdlYears.SelectedValue);
             DateTime dtBeginDate = DateTime.Parse(TxtBeginDate.Text);
             DateTime dtEndDate = DateTime.Parse(TxtEndDate.Text);
             Configuration_CommentStatus commentStatus = null;
@@ -67,7 +69,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             double dTotalRecords;
 
-            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(year, commentStatus, dtBeginDate, dtEndDate, 
+            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(year, commentStatus, dtBeginDate, dtEndDate,
                 true, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (tabularParentsComments.Count == 0 && dTotalRecords != 0)
@@ -83,6 +85,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptLoiNhanKhan.DataSource = tabularParentsComments;
             RptLoiNhanKhan.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
+
+            if (hasNoCheckableItem)
+            {
+                BtnFeedback.Enabled = false;
+                BtnFeedback.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_FEEDBACK_DISABLED;
+            }
+            else
+            {
+                BtnFeedback.Enabled = true;
+                BtnFeedback.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_FEEDBACK;
+            }
+
+            PnlCommentStatus.Visible = bDisplayData;
+            if (bDisplayData)
+            {
+                int iUnfeedbackCommentCount = parentsCommentBL.GetUnfeedbackCommentCount();
+                if (iUnfeedbackCommentCount != 0)
+                {
+                    PnlCommentStatus.Visible = true;
+                    LblCommentStatus.Text = iUnfeedbackCommentCount.ToString();
+                }
+                else
+                {
+                    PnlCommentStatus.Visible = false;
+                }
+            }
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -129,12 +157,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BtnSearch.Enabled = false;
                 BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
 
+                BtnFeedback.Enabled = false;
+                BtnFeedback.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_FEEDBACK_DISABLED;
+
                 ProcessDislayInfo(false);
+
+                PnlCommentStatus.Visible = false;
             }
             else
             {
                 BtnSearch.Enabled = true;
                 BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
+
+                BtnFeedback.Enabled = true;
+                BtnFeedback.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_FEEDBACK;
+
+                PnlCommentStatus.Visible = true;
 
                 DdlYears.SelectedValue = (new SystemConfigBL(UserSchool)).GetLastedYear().ToString();
             }
@@ -170,23 +208,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
         }
         #endregion
-        
+
         #region Repeater event handlers
         protected void RptLoiNhanKhan_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                //LopHocInfo lopHoc = (LopHocInfo)e.Item.DataItem;
-                //if (lopHoc != null)
-                //{
-                //    int ClassId = lopHoc.ClassId;
-                //    if (!lopHocBL.CheckCanDeleteLopHoc(ClassId))
-                //    {
-                //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                //        btnDeleteItem.Enabled = false;
-                //    }
-                //}
+                HiddenField HdfCommentStatusId = (HiddenField)e.Item.FindControl("HdfCommentStatusId");
+                RadioButton RBtnSelect = (RadioButton)e.Item.FindControl("RBtnSelect");
+                if (HdfCommentStatusId.Value.ToString() == "2" || HdfCommentStatusId.Value.ToString() == "3")
+                {
+                    RBtnSelect.Visible = false;
+                }
+                else
+                {
+                    hasNoCheckableItem = false;
+                    if (!firstItemIsChecked)
+                    {
+                        RBtnSelect.Checked = true;
+                        firstItemIsChecked = true;
+                    }
+                }
             }
         }
 
@@ -201,17 +243,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
                         AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
 
-                        Response.Redirect(AppConstant.PAGEPATH_DETAILEDPARENTSCOMMENTS);
+                        Response.Redirect(AppConstant.PAGEPATH_COMMENT_DETAIL);
                         break;
                     }
                 case "CmdEditItem":
                     {
-                        int iCommentId = Int32.Parse(e.CommandArgument.ToString());
 
-                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
-                        AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
-
-                        Response.Redirect(AppConstant.PAGEPATH_FEEDBACKPARENTSCOMMENTS);
                         break;
                     }
                 default:
@@ -228,6 +265,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
             BindRptParentsComments();
+        }
+
+        protected void BtnFeedback_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMaLoiNhanKhan = null;
+            RadioButton RBtnSelect = null;
+            foreach (RepeaterItem item in RptLoiNhanKhan.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    RBtnSelect = (RadioButton)item.FindControl("RBtnSelect");
+                    if (RBtnSelect.Checked)
+                    {
+                        HdfRptMaLoiNhanKhan = (HiddenField)item.FindControl("HdfRptMaLoiNhanKhan");
+                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(Int32.Parse(HdfRptMaLoiNhanKhan.Value));
+                        AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
+
+                        Response.Redirect(AppConstant.PAGEPATH_COMMENT_FEEDBACK);
+                        return;
+                    }
+                }
+            }
         }
         #endregion
 

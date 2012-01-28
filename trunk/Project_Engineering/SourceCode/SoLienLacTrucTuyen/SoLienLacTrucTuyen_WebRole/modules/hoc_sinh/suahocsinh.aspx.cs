@@ -37,6 +37,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             currentYear = systemConfigBL.GetLastedYear();
 
+            if (currentYear == null)
+            {
+                Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
+            }
+
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
@@ -57,15 +62,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                     RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.FacultyId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = faculty.FacultyId;
 
                     Category_Grade grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
                     RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.GradeId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade.GradeId;
 
                     Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
                     RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.ClassId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Class.ClassId;
 
                     String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
                     RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
@@ -197,11 +202,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string strNewFatherJob = this.TxtNgheNghiepBo.Text.Trim();
-            DateTime? dtNewFatherBirthday = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
+            //DateTime? dtNewFatherBirthday = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
+            DateTime? dtNewFatherBirthday = DateTime.Parse(this.TxtNgaySinhBo.Text.Trim());
             string strNewMotherJob = this.TxtNgheNghiepMe.Text.Trim();
-            DateTime? dtNewMotherBirthday = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
+            //DateTime? dtNewMotherBirthday = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
+            DateTime? dtNewMotherBirthday = DateTime.Parse(this.TxtNgaySinhMe.Text.Trim());
             string strNewPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
-            DateTime? dtNewPatronBirthday = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+            //DateTime? dtNewPatronBirthday = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+            DateTime? dtNewPatronBirthday = DateTime.Parse(this.TxtNgaySinhNguoiDoDau.Text.Trim());
 
             bool bNewStudentGender = this.RbtnNam.Checked;
             DateTime dtBirthday = DateTime.Parse(strBirthday);
@@ -310,7 +318,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<Class_Class> classes = classBL.GetListClasses(currentYear, faculty, grade);
+            List<Class_Class> classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, currentYear, faculty, grade, null);
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
@@ -338,15 +346,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
             Category_Faculty faculty = new Category_Faculty();
-            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
             Category_Grade grade = new Category_Grade();
-            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
             Class_Class Class = new Class_Class();
-            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
             String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -357,7 +365,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             string strPrevPage = (string)ViewState[AppConstant.VIEWSTATE_PREV_PAGE];
 
-            if (strPrevPage == AppConstant.PAGEPATH_STUDENTINFOR)
+            if (strPrevPage == AppConstant.PAGEPATH_STUDENT_INFOR)
             {
                 Student_Student student = new Student_Student();
                 student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
@@ -367,11 +375,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 studentClass.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTCLASS_ID].ToString());
                 AddSession(AppConstant.SESSION_STUDENTCLASS, studentClass);
 
-                Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
+                Response.Redirect(AppConstant.PAGEPATH_STUDENT_INFOR);
             }
             else
             {
-                Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+                Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
             }
         }
         #endregion

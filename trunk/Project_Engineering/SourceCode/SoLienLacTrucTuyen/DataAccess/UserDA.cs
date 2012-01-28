@@ -63,19 +63,6 @@ namespace EContactBook.DataAccess
             return role;
         }
 
-        public Guid GetApplicationId(string userName)
-        {
-            IQueryable<Guid> appIds = from user in db.aspnet_Users
-                                      where user.UserName == userName
-                                      select user.ApplicationId;
-            return appIds.First();
-        }
-
-        public bool ValidateUser(string userName)
-        {
-            return true;
-        }
-
         public List<aspnet_User> GetUsers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqUser = from user in db.aspnet_Users
@@ -134,41 +121,37 @@ namespace EContactBook.DataAccess
 
         public bool IsDeletable(aspnet_User user)
         {
-            bool bCanDelete = (from membership in db.aspnet_Memberships
+            bool bDeletable = (from membership in db.aspnet_Memberships
                                where membership.UserId == user.UserId
                                select membership.IsDeletable).First();
-            return bCanDelete;
+
+            if (bDeletable)
+            {
+                IQueryable<Class_Schedule> iqSchedule = from schedule in db.Class_Schedules
+                                                        where schedule.TeacherId == user.UserId
+                                                        select schedule;
+                if (iqSchedule.Count() == 0)
+                {
+                    IQueryable<Class_FormerTeacher> iqFormerTeacher = from f in db.Class_FormerTeachers
+                                                                      where f.TeacherId == user.UserId
+                                                                      select f;
+                    if (iqFormerTeacher.Count() != 0)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
         }
-
-        //public bool UserInRolePARENTS(string userName)
-        //{
-        //    aspnet_Role roleParent = from rl in db.aspnet_Roles
-        //                             where 
-        //    Guid roleParentsId = (from param in db.System_Parameters
-        //                          select param.ParentsRoleId).First();
-
-        //    IQueryable<Guid> childRoleParentsIds;
-        //    childRoleParentsIds = from role in db.aspnet_Roles
-        //                          join roleDetail in db.UserManagement_RoleDetails on role.RoleId equals roleDetail.RoleId
-        //                          where roleDetail.ParentRoleId == roleParentsId
-        //                          select role.RoleId;
-        //    foreach (Guid childRoleParentsId in childRoleParentsIds)
-        //    {
-        //        IQueryable<aspnet_UsersInRole> usersInRoles;
-        //        usersInRoles = from usersInRole in db.aspnet_UsersInRoles
-        //                       join user in db.aspnet_Users
-        //                            on usersInRole.UserId equals user.UserId
-        //                       where usersInRole.RoleId == childRoleParentsId
-        //                            && user.UserName == userName
-        //                       select usersInRole;
-        //        if (usersInRoles.Count() != 0)
-        //        {
-        //            return true;
-        //        }
-        //    }
-
-        //    return false;
-        //}
 
         public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email)
         {
@@ -232,35 +215,30 @@ namespace EContactBook.DataAccess
             }
 
             return users;
-        }
+        }        
 
-        public void ChangeUserActivation(aspnet_User user, bool activateStatus)
+        public void ChangeUserActivation(List<aspnet_User> users, bool activateStatus)
         {
+            List<Guid> gUserIds = new List<Guid>();
+            foreach (aspnet_User user in users)
+            {
+                gUserIds.Add(user.UserId);
+            }
+
             IQueryable<aspnet_Membership> iqMembership;
             iqMembership = from membership in db.aspnet_Memberships
-                           where membership.aspnet_User.UserId == user.UserId
+                           where gUserIds.Contains(membership.aspnet_User.UserId)
                            select membership;
-            if (iqMembership.Count() != 0)
-            {
-                aspnet_Membership membership = iqMembership.First();
-                membership.IsActivated = activateStatus;
-                db.SubmitChanges();
-            }
-        }
 
-        public void UpdateMembership(string userName, string email, bool activation)
-        {
-            IQueryable<aspnet_Membership> iqMembership;
-            iqMembership = from member in db.aspnet_Memberships
-                           where member.aspnet_User.UserName == userName
-                           select member;
             if (iqMembership.Count() != 0)
             {
-                aspnet_Membership membership = iqMembership.First();
-                membership.Email = email;
-                membership.IsActivated = activation;
+                foreach (aspnet_Membership membership in iqMembership)
+                {
+                    membership.IsActivated = activateStatus;
+                }                
+                
                 db.SubmitChanges();
             }
-        }
+        }        
     }
 }

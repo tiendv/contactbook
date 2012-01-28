@@ -163,5 +163,21 @@ namespace EContactBook.DataAccess
                 return false;
             }
         }
+
+        public bool IsDeletable(Category_Conduct conduct)
+        {
+            IQueryable<Category_Conduct> iqConduct = from c in db.Category_Conducts
+                                                     join result in db.Student_TermLearningResults on c.ConductId equals result.TermConductId
+                                                     where c.ConductId == conduct.ConductId
+                                                     select c;
+            if (iqConduct.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

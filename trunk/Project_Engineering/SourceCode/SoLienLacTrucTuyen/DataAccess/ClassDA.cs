@@ -104,6 +104,22 @@ namespace EContactBook.DataAccess
             return lClasses;
         }
 
+        public List<Class_Class> GetClasses(aspnet_User teacher, Configuration_Year year)
+        {
+            List<Class_Class> lClasses = new List<Class_Class>();
+
+            IQueryable<Class_Class> iqClass = from f in db.Class_FormerTeachers
+                                              where f.Class_Class.YearId == year.YearId
+                                              && f.TeacherId == teacher.UserId
+                                              select f.Class_Class;
+            if (iqClass.Count() != 0)
+            {
+                lClasses = iqClass.ToList();
+            }
+
+            return lClasses;
+        }
+
         public List<Class_Class> GetClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
             List<Class_Class> lClasses = new List<Class_Class>();
@@ -112,6 +128,23 @@ namespace EContactBook.DataAccess
                                               where cls.YearId == year.YearId
                                               && cls.GradeId == grade.GradeId && cls.FacultyId == faculty.FacultyId
                                               select cls;
+            if (iqClass.Count() != 0)
+            {
+                lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
+            }
+
+            return lClasses;
+        }
+
+        public List<Class_Class> GetClasses(aspnet_User teacher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
+        {
+            List<Class_Class> lClasses = new List<Class_Class>();
+
+            IQueryable<Class_Class> iqClass = from f in db.Class_FormerTeachers
+                                              where f.Class_Class.YearId == year.YearId
+                                              && f.Class_Class.GradeId == grade.GradeId && f.Class_Class.FacultyId == faculty.FacultyId
+                                              && f.TeacherId == teacher.UserId
+                                              select f.Class_Class;
             if (iqClass.Count() != 0)
             {
                 lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
@@ -137,6 +170,24 @@ namespace EContactBook.DataAccess
             return lClasses;
         }
 
+        public List<Class_Class> GetClasses(aspnet_User teacher, Configuration_Year year, Category_Faculty faculty)
+        {
+            List<Class_Class> lClasses = new List<Class_Class>();
+
+            IQueryable<Class_Class> iqClass = from f in db.Class_FormerTeachers
+                                              where f.Class_Class.YearId == year.YearId
+                                              && f.Class_Class.FacultyId == faculty.FacultyId
+                                              && f.TeacherId == teacher.UserId
+                                              select f.Class_Class;
+
+            if (iqClass.Count() != 0)
+            {
+                lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
+            }
+
+            return lClasses;
+        }
+
         public List<Class_Class> GetClasses(Configuration_Year year, Category_Grade grade)
         {
             List<Class_Class> lClasses = new List<Class_Class>();
@@ -145,6 +196,24 @@ namespace EContactBook.DataAccess
                                               where cls.YearId == year.YearId
                                               && cls.GradeId == grade.GradeId
                                               select cls;
+
+            if (iqClass.Count() != 0)
+            {
+                lClasses = iqClass.OrderBy(cls => cls.ClassName).ToList();
+            }
+
+            return lClasses;
+        }
+
+        public List<Class_Class> GetClasses(aspnet_User teacher, Configuration_Year year, Category_Grade grade)
+        {
+            List<Class_Class> lClasses = new List<Class_Class>();
+
+            IQueryable<Class_Class> iqClass = from f in db.Class_FormerTeachers
+                                              where f.Class_Class.YearId == year.YearId
+                                              && f.Class_Class.GradeId == grade.GradeId
+                                              && f.TeacherId == teacher.UserId
+                                              select f.Class_Class;
 
             if (iqClass.Count() != 0)
             {

@@ -48,14 +48,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EContactBook.BusinessEntity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BusinessEntity\bin\Debug\EContactBook.BusinessEntity.dll</HintPath>
-    </Reference>
-    <Reference Include="EContactBook.DataAccess, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DataAccess\bin\Debug\EContactBook.DataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -80,7 +72,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="SystemConfigBL.cs" />
-    <Compile Include="DanhHieuBL.cs" />
+    <Compile Include="LearningResultBL.cs" />
     <Compile Include="FunctionsBL.cs" />
     <Compile Include="TeacherBL.cs" />
     <Compile Include="FormerTeacherBL.cs" />
@@ -154,6 +146,16 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessEntity\EContactBook.BusinessEntity.csproj">
+      <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
+      <Name>EContactBook.BusinessEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\EContactBook.DataAccess.csproj">
+      <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
+      <Name>EContactBook.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

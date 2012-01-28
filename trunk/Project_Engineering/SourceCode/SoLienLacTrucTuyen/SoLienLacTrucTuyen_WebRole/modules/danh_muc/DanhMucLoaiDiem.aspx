@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhmucloaidiem.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DanhMucLoaiDiem" %>
+    CodeBehind="danhmucloaidiem.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.CategoryMarkType" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
@@ -29,6 +29,11 @@
 
             function popopEdit_Cancel_Click() {
                 $find('<%=MPEEdit.ClientID%>').hide();
+                return false;
+            }
+
+            function popopInfoInUse_Close() {
+                $find('<%=MPEInfoInUse.ClientID%>').hide();
                 return false;
             }
 
@@ -135,14 +140,14 @@
             &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm loại điểm" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
         <br />
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
-            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
+            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/buttons/button_add.png"
                 ToolTip="Thêm loại điểm mới" CssClass="BtnAdd" />
             <ajaxToolkit:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAdd"
                 PopupControlID="PnlPopupAdd" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupAdd"
@@ -150,7 +155,7 @@
             </ajaxToolkit:ModalPopupExtender>
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
                 ToolTip="Sửa loại điểm" CssClass="BtnEdit" OnClick="BtnEdit_Click" />
-            <asp:ImageButton ID="BtnFakedEdit" runat="server" style="display: none" />
+            <asp:ImageButton ID="BtnFakedEdit" runat="server" Style="display: none" />
             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakedEdit"
                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
                 PopupDragHandleControlID="PnlDragPopupEdit">
@@ -171,14 +176,13 @@
             <asp:HiddenField ID="HdfEditedMarkTypeName" runat="server" />
             <asp:HiddenField ID="HdfRptLoaiDiemMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptLoaiDiemMPEEdit" runat="server" />
-            <asp:Repeater ID="RptLoaiDiem" runat="server" OnItemCommand="RptLoaiDiem_ItemCommand"
-                OnItemDataBound="RptLoaiDiem_ItemDataBound">
+            <asp:Repeater ID="RptLoaiDiem" runat="server" OnItemDataBound="RptLoaiDiem_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
                             STT
                         </td>
-                        <td  style="width: 20%">
+                        <td style="width: 20%">
                             <asp:LinkButton ID="LinkButton1" runat="server">Loại điểm</asp:LinkButton>
                         </td>
                         <td style="width: 100px">
@@ -190,10 +194,10 @@
                         <td>
                             Dùng tính điểm trung bình
                         </td>
-                        <td>
+                        <td style="width: 100px">
                             Khối
                         </td>
-                        <td class="icon">
+                        <td id="thSelectAll" runat="server" class="icon" style="height: 40px;">
                             <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                         </td>
                     </tr>
@@ -217,11 +221,11 @@
                         <td style="height: 40px; text-align: right">
                             <%#((bool)DataBinder.Eval(Container.DataItem, "IsUsedForCalculatingAvg") == true)? "Có": "Không" %>
                         </td>
-                        <td style="height: 40px; text-align: right">
-                             <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
-                            <asp:HiddenField ID="HiddenField1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "GradeId")%>'/>                            
+                        <td style="height: 40px; text-align: center">
+                            <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
+                            <asp:HiddenField ID="HiddenField1" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "GradeId")%>' />
                         </td>
-                        <td class="icon" style="height: 40px;">
+                        <td id="tdSelect" runat="server" class="icon" style="height: 40px;">
                             <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
                         </td>
                     </tr>
@@ -242,21 +246,21 @@
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa loại điểm" CssClass="popup_header_title"></asp:Label>
-            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
             <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa loại điểm đã chọn hay không?"></asp:Label>
+                <asp:Label ID="LblConfirmDelete" runat="server" Text="Bạn có chắc xóa loại điểm đã chọn không?"></asp:Label>
             </div>
         </div>
-        <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; clear: both">
+            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
@@ -264,7 +268,7 @@
         <asp:Panel ID="PnlDragPopupAdd" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupAddTitle" runat="server" CssClass="popup_header_title"
                 Text="Thêm loại điểm"></asp:Label>
-            <img id="ImgClosePopupAdd" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="ImgClosePopupAdd" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 5px 7px 10px 7px;">
@@ -343,10 +347,10 @@
             <asp:Label ID="Label1" runat="server" Text="Thêm tiếp sau khi lưu"></asp:Label>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-            <asp:ImageButton ID="BtnSaveAdd" runat="server" ValidationGroup="AddLoaiDiem" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnSaveAdd" runat="server" ValidationGroup="AddLoaiDiem" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnSaveAdd_Click" CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancelAdd" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelAdd" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopAdd_CancelSave_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
@@ -354,7 +358,7 @@
         <asp:Panel ID="PnlDragPopupEdit" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupEditTitle" runat="server" CssClass="popup_header_title"
                 Text="Sửa loại điểm"></asp:Label>
-            <img id="ImgClosePopupEdit" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="ImgClosePopupEdit" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 5px 7px 10px 7px;">
@@ -431,10 +435,34 @@
             <asp:Label ID="Label12" runat="server" Text=":Thông tin bắt buộc nhập"></asp:Label>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-            <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnSaveEdit_Click" ValidationGroup="EditLoaiDiem" CssClass="SaveButton" />&nbsp;
-            <asp:ImageButton ID="BtnCancelEdit" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelEdit" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopEdit_Cancel_Click();" CssClass="CancelButton" />
+        </div>
+    </asp:Panel>
+    <asp:ImageButton ID="BtnFakedInUse" runat="server" Style="display: none" />
+    <ajaxToolkit:ModalPopupExtender ID="MPEInfoInUse" runat="server" TargetControlID="BtnFakedInUse"
+        PopupControlID="PnlInfoInUse" BackgroundCssClass="modalBackground" CancelControlID="imgPnlInfoInUse"
+        PopupDragHandleControlID="PnlInfoInUseDrag">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PnlInfoInUse" runat="server" CssClass="popup ui-corner-all" Width="350px">
+        <asp:Panel ID="PnlInfoInUseDrag" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="Label9" runat="server" Text="Thông tin đang được sử dụng" CssClass="popup_header_title"></asp:Label>
+            <img id="imgPnlInfoInUse" class="button_close" src="../../Styles/buttons/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="Label13" runat="server" Text="Một vài tiết học không thể xóa vì thông tin đang được sử dụng"></asp:Label>
+                <br />
+            </div>
+        </div>
+        <div style="width: 85px; margin: 0px auto 0px auto; padding-bottom: 5px;">
+            <asp:ImageButton ID="BtnClose" runat="server" ImageUrl="~/Styles/buttons/button_close.png"
+                OnClientClick="return popopInfoInUse_Close();" CssClass="BtnClose" />
         </div>
     </asp:Panel>
 </asp:Content>

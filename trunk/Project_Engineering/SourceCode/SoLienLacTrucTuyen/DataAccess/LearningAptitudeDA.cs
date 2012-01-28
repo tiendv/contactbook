@@ -88,7 +88,7 @@ namespace EContactBook.DataAccess
 
             IQueryable<Category_LearningAptitude> iqLearningAptitude = from lA in db.Category_LearningAptitudes
                                                                        where lA.BeginAverageMark <= averageMark
-                                                                       && lA.BeginAverageMark >= averageMark
+                                                                       && lA.EndAverageMark >= averageMark
                                                                        && lA.SchoolId == school.SchoolId
                                                                        select lA;
             if (iqLearningAptitude.Count() != 0)
@@ -98,7 +98,7 @@ namespace EContactBook.DataAccess
 
             return learningAptitude;
         }
-        
+
         public List<Category_LearningAptitude> GetLearningAptitudes()
         {
             IQueryable<Category_LearningAptitude> iqLearningAptitude = from learningAptitude in db.Category_LearningAptitudes
@@ -122,7 +122,7 @@ namespace EContactBook.DataAccess
             totalRecords = iqLearningAptitude.Count();
             if (totalRecords != 0)
             {
-                return iqLearningAptitude.OrderBy(learningAptitude => learningAptitude.LearningAptitudeName)
+                return iqLearningAptitude.OrderBy(learningAptitude => learningAptitude.BeginAverageMark)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
             else
@@ -140,8 +140,8 @@ namespace EContactBook.DataAccess
             totalRecords = iqLearningAptitude.Count();
             if (totalRecords != 0)
             {
-                return iqLearningAptitude.OrderBy(learningAptitude => learningAptitude.LearningAptitudeName)
-                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                return iqLearningAptitude.OrderBy(learningAptitude => learningAptitude.BeginAverageMark)
+                   .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
             else
             {
@@ -163,6 +163,21 @@ namespace EContactBook.DataAccess
             {
                 return false;
             }
+        }
+
+        public Category_LearningAptitude LearningAptitudeMarkExists(double averageMark)
+        {
+            Category_LearningAptitude learningAptitude = null;
+            IQueryable<Category_LearningAptitude> iqLearningAptitude = from l in db.Category_LearningAptitudes
+                                                                       where l.SchoolId == school.SchoolId && l.BeginAverageMark <= averageMark
+                                                                        && l.EndAverageMark >= averageMark
+                                                                       select l;
+            if (iqLearningAptitude.Count() != 0)
+            {
+                learningAptitude = iqLearningAptitude.First();
+            }
+
+            return learningAptitude;
         }
     }
 }

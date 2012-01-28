@@ -17,7 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DanhMucTietPage : BaseContentPage
     {
         #region Fields
-        private TeachingPeriodBL tietBL;
+        private TeachingPeriodBL teachingPeriodBL;
         private bool isSearch;
         #endregion
 
@@ -36,7 +36,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            tietBL = new TeachingPeriodBL(UserSchool);
+            teachingPeriodBL = new TeachingPeriodBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
@@ -48,118 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcPermissions();
         }
         #endregion
-
-        #region Repeater event handlers
-        protected void RptTietHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        TabularTeachingPeriod tiet = (TabularTeachingPeriod)e.Item.DataItem;
-                        Category_TeachingPeriod teachingPeriodTime = new Category_TeachingPeriod();
-                        teachingPeriodTime.TeachingPeriodId = tiet.TeachingPeriodId;
-                        if (!tietBL.IsDeletable(teachingPeriodTime))
-                        {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptTietHoc_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        // Set confirm text and show dialog
-                        this.LblConfirmDelete.Text = string.Format("Bạn có chắc xóa tiết học \"<b>{0}</b>\" này không?", e.CommandArgument);
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        // Save current TeachingPeriodIdHoc to global
-                        HiddenField hdfRptTeachingPeriodIdHoc = (HiddenField)e.Item.FindControl("HdfRptTeachingPeriodIdHoc");
-                        this.HdfTeachingPeriodIdHoc.Value = hdfRptTeachingPeriodIdHoc.Value;
-
-                        // Save modal popup ClientID
-                        this.HdfRptTietHocMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int TeachingPeriodId = Int32.Parse(e.CommandArgument.ToString());
-
-                        Category_TeachingPeriod teachingPeriod = tietBL.GetTeachingPeriod(TeachingPeriodId);
-                        this.HdfSltTeachingPeriodName.Value = teachingPeriod.TeachingPeriodName;
-
-                        TxtTeachingPeriodNameHocEdit.Text = teachingPeriod.TeachingPeriodName;
-                        TxtThuTuEdit.Text = teachingPeriod.TeachingPeriodOrder.ToString();
-                        DdlBuoiEdit.SelectedValue = teachingPeriod.SessionId.ToString();
-                        DateTime dtThoiGianBatDau = teachingPeriod.BeginTime;
-                        TxtThoiGianBatDauEdit.Text = string.Format("{0}:{1}",
-                            dtThoiGianBatDau.Hour, dtThoiGianBatDau.Minute);
-                        DateTime dtThoiGianKetThuc = teachingPeriod.EndTime;
-                        TxtThoiGianKetThucEdit.Text = string.Format("{0}:{1}",
-                            dtThoiGianKetThuc.Hour, dtThoiGianKetThuc.Minute);
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfTeachingPeriodIdHoc.Value = TeachingPeriodId.ToString();
-                        this.HdfRptTietHocMPEEdit.Value = mPEEdit.ClientID;
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        #endregion
-
+        
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
@@ -184,7 +73,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strThoiGianBatDau = TxtThoiGianBatDauAdd.Text.Trim();
             string strThoiGianKetThuc = TxtThoiGianKetThucAdd.Text.Trim();
 
-            tietBL.InsertTeachingPeriod(TeachingPeriodNameHoc, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
+            teachingPeriodBL.InsertTeachingPeriod(TeachingPeriodNameHoc, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
 
             MainDataPager.CurrentIndex = 1;
             BindRepeater();
@@ -204,6 +93,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptTeachingPeriodId = null;
+            foreach (RepeaterItem item in RptTietHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptTeachingPeriodId = (HiddenField)item.FindControl("HdfRptTeachingPeriodId");
+                        Category_TeachingPeriod teachingPeriod = teachingPeriodBL.GetTeachingPeriod(Int32.Parse(HdfRptTeachingPeriodId.Value));
+                        this.HdfSltTeachingPeriodName.Value = teachingPeriod.TeachingPeriodName;
+
+                        TxtTeachingPeriodNameHocEdit.Text = teachingPeriod.TeachingPeriodName;
+                        TxtThuTuEdit.Text = teachingPeriod.TeachingPeriodOrder.ToString();
+                        DdlBuoiEdit.SelectedValue = teachingPeriod.SessionId.ToString();
+                        DateTime dtThoiGianBatDau = teachingPeriod.BeginTime;
+                        TxtThoiGianBatDauEdit.Text = string.Format("{0}:{1}",
+                            dtThoiGianBatDau.Hour, dtThoiGianBatDau.Minute);
+                        DateTime dtThoiGianKetThuc = teachingPeriod.EndTime;
+                        TxtThoiGianKetThucEdit.Text = string.Format("{0}:{1}",
+                            dtThoiGianKetThuc.Hour, dtThoiGianKetThuc.Minute);
+
+                        HdfTeachingPeriodId.Value = teachingPeriod.TeachingPeriodId.ToString();
+                        MPEEdit.Show();
+                        return;
+                    }
+                }
+            }
+        }
+
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             Category_TeachingPeriod teachingPeriod = new Category_TeachingPeriod();
@@ -213,7 +134,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            int TeachingPeriodId = Int32.Parse(this.HdfTeachingPeriodIdHoc.Value);
+            int TeachingPeriodId = Int32.Parse(this.HdfTeachingPeriodId.Value);
             string TeachingPeriodNameMoi = this.TxtTeachingPeriodNameHocEdit.Text.Trim();
             int buoi = Int32.Parse(DdlBuoiEdit.SelectedValue);
             session.SessionId = buoi;
@@ -221,18 +142,47 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strThoiGianBatDau = TxtThoiGianBatDauEdit.Text.Trim();
             string strThoiGianKetThuc = TxtThoiGianKetThucEdit.Text.Trim();
             teachingPeriod.TeachingPeriodId = TeachingPeriodId;
-            tietBL.UpdateTiet(teachingPeriod, TeachingPeriodNameMoi, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
+            teachingPeriodBL.UpdateTiet(teachingPeriod, TeachingPeriodNameMoi, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
             BindRepeater();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int TeachingPeriodIdHoc = Int32.Parse(this.HdfTeachingPeriodIdHoc.Value);
-            Category_TeachingPeriod teachingPeriod = new Category_TeachingPeriod();
-            teachingPeriod.TeachingPeriodId = TeachingPeriodIdHoc;
-            tietBL.DeleteTeachingPeriod(teachingPeriod);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptTeachingPeriodId = null;
+            Category_TeachingPeriod teachingPeriod = null;
+
+            foreach (RepeaterItem item in RptTietHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptTeachingPeriodId = (HiddenField)item.FindControl("HdfRptTeachingPeriodId");
+                        teachingPeriod = new Category_TeachingPeriod();
+                        teachingPeriod.TeachingPeriodId = Int32.Parse(HdfRptTeachingPeriodId.Value);
+
+                        if (teachingPeriodBL.IsDeletable(teachingPeriod))
+                        {
+                            teachingPeriodBL.DeleteTeachingPeriod(teachingPeriod);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
+
             isSearch = false;
             BindRepeater();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
         }
         #endregion
 
@@ -248,15 +198,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         private void BindRepeater()
@@ -271,7 +217,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 session.SessionId = Int32.Parse(DdlBuoi.SelectedValue);
             }
 
-            List<TabularTeachingPeriod> listTbTiets = tietBL.GetTabularTeachingPeriods(TeachingPeriodName, session,
+            List<TabularTeachingPeriod> listTbTiets = teachingPeriodBL.GetTabularTeachingPeriods(TeachingPeriodName, session,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
@@ -284,8 +230,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             MainDataPager.ItemCount = dTotalRecords;
             bool bDisplayData = (listTbTiets.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptTietHoc.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -354,7 +298,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (tietBL.TeachingPeriodNameExists(TeachingPeriodNameHoc))
+                if (teachingPeriodBL.TeachingPeriodNameExists(TeachingPeriodNameHoc))
                 {
                     TeachingPeriodNameHocValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -379,20 +323,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
 
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptTietHoc.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptTietHocMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            int TeachingPeriodId = Int32.Parse(this.HdfTeachingPeriodIdHoc.Value);
+            int TeachingPeriodId = Int32.Parse(this.HdfTeachingPeriodId.Value);
             string oldTeachingPeriodName = this.HdfSltTeachingPeriodName.Value;
             string TeachingPeriodNameMoi = this.TxtTeachingPeriodNameHocEdit.Text.Trim();
             string thuTu = TxtThuTuEdit.Text.Trim();
@@ -400,15 +331,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (TeachingPeriodNameMoi == "")
             {
                 TeachingPeriodNameHocRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return false;
             }
             else
             {
-                if (tietBL.TeachingPeriodNameExists(oldTeachingPeriodName, TeachingPeriodNameMoi))
+                if (teachingPeriodBL.TeachingPeriodNameExists(oldTeachingPeriodName, TeachingPeriodNameMoi))
                 {
                     TeachingPeriodNameHocValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return false;
                 }
             }
@@ -416,11 +347,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Regex.IsMatch(thuTu, ThuTuRegExp.ValidationExpression))
             {
                 ThuTuRegExp.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return false;
             }
 
             return true;
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptTietHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
         }
         #endregion
     }

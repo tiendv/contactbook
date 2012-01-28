@@ -13,10 +13,10 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class LearningResultPage : BaseContentPage
+    public partial class LearningResultListPage : BaseContentPage
     {
         #region Fields
-        private DanhHieuBL danhHieuBL;
+        private LearningResultBL learningResultBL;
         private bool isSearch;
         #endregion
 
@@ -35,16 +35,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            danhHieuBL = new DanhHieuBL(UserSchool);
+            learningResultBL = new LearningResultBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
-                isSearch = false;
-                MainDataPager.CurrentIndex = 1;
-                BindData();
-            }            
+                LearningAptitudeBL learningAptitudeBL = new LearningAptitudeBL(UserSchool);
+                ConductBL conductBL = new ConductBL(UserSchool);
+                if (learningAptitudeBL.GetLearningAptitudes().Count != 0 && conductBL.GetListConducts(false).Count != 0)
+                {
+                    isSearch = false;
+                    MainDataPager.CurrentIndex = 1;
+                    BindRptLearningResults();
+                }
+                else
+                {
+                    ProccessDisplayGUI(false);
+                    BtnAdd.Visible = false;
+                }
+            }
+
             ProcPermissions();
-            PnlPopupAdd.Visible = false;
         }
         #endregion
 
@@ -53,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindData();
+            BindRptLearningResults();
         }
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
@@ -61,183 +71,92 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Response.Redirect("themdanhhieu.aspx");
         }
 
-        protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            string LearningResultName = this.TxtLearningResultName.Text.Trim();
-
-            if (LearningResultName == "")
+            HiddenField HdfRptLearningResultId = null;
+            foreach (RepeaterItem item in RptDanhHieu.Items)
             {
-                LearningResultNameRequiredAdd.IsValid = false;
-                TxtLearningResultName.Focus();
-                return;
-            }
-            else
-            {
-                if (danhHieuBL.DanhHieuExists(LearningResultName))
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
-                    LearningResultNameValidatorAdd.IsValid = false;
-                    TxtLearningResultName.Focus();
-                    return;
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptLearningResultId = (HiddenField)item.FindControl("HdfRptLearningResultId");
+                        Category_LearningResult learningResult = learningResultBL.GetLearningResult(Int32.Parse(HdfRptLearningResultId.Value));
+
+                        AddSession(AppConstant.SESSION_SELECTED_LEARNINGRESULT, learningResult);
+                        Response.Redirect(AppConstant.PAGEPATH_CATEGORY_LEARNINGRESULT_MODIFY);
+                        return;
+                    }
                 }
-            }
-
-            danhHieuBL.InsertDanhHieu(LearningResultName, new Dictionary<int, int>());
-
-            MainDataPager.CurrentIndex = 1;
-            BindData();
-
-            this.TxtLearningResultName.Text = "";
-
-            if (this.CkbAddAfterSave.Checked)
-            {
-                
             }
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int LearningResultId = Int32.Parse(this.HdfLearningResultId.Value);
-            danhHieuBL.DeleteDanhHieu(LearningResultId);
-            isSearch = false;
-            BindData();
-        }
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptLearningResultId = null;
 
-        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
-        {
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptDanhHieu.Items)
+            foreach (RepeaterItem item in RptDanhHieu.Items)
             {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptDanhHieuMPEEdit.Value)
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
                     {
-                        break;
+                        HdfRptLearningResultId = (HiddenField)item.FindControl("HdfRptLearningResultId");
+                        Category_LearningResult learningResult = new Category_LearningResult();
+                        learningResult.LearningResultId = Int32.Parse(HdfRptLearningResultId.Value);
+
+                        if (learningResultBL.IsDeletable(learningResult))
+                        {
+                            learningResultBL.DeleteLearningResult(learningResult);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
                     }
                 }
             }
 
-            if (!Page.IsValid)
-            {
-                return;
-            }
+            isSearch = false;
+            BindRptLearningResults();
 
-            int LearningResultId = Int32.Parse(this.HdfLearningResultId.Value);
-            string LearningResultName = TxtSuaLearningResultName.Text.Trim();
-
-            if (LearningResultName == "")
+            if (bInfoInUse)
             {
-                LearningResultNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
-                return;
+                MPEInfoInUse.Show();
             }
-            else
-            {
-                if (danhHieuBL.DanhHieuExists(LearningResultId, LearningResultName))
-                {
-                    LearningResultNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
-                    return;
-                }
-            }
-
-            danhHieuBL.UpdateDanhHieu(LearningResultId, LearningResultName);
-            BindData();
         }
         #endregion
 
         #region Repeater event handlers
         protected void RptDanhHieu_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            if (e.Item.ItemType == ListItemType.Header)
             {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
 
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+
+                Repeater rptDetailedLearningResult = (Repeater)e.Item.FindControl("RptDetailedLearningResult");
+
+                HiddenField HdfRptLearningResultId = (HiddenField)e.Item.FindControl("HdfRptLearningResultId");
+
+                List<TabularLearningResult> tabularLearningResults = (List<TabularLearningResult>)RptDanhHieu.DataSource;
+                foreach (TabularLearningResult tabularLearningResult in tabularLearningResults)
                 {
-                    if (e.Item.DataItem != null)
+                    if (tabularLearningResult.LearningResultId.ToString() == HdfRptLearningResultId.Value)
                     {
-                        Category_LearningResult DanhHieu = (Category_LearningResult)e.Item.DataItem;
-                        if (!danhHieuBL.CanDeleteDanhHieu(DanhHieu.LearningResultId))
-                        {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
-                        }
+                        rptDetailedLearningResult.DataSource = tabularLearningResult.DetailLearningResults;
+                        rptDetailedLearningResult.DataBind();
+                        return;
                     }
                 }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptDanhHieu_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa danh hiệu <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptLearningResultId = (HiddenField)e.Item.FindControl("HdfRptLearningResultId");
-                        this.HdfLearningResultId.Value = hdfRptLearningResultId.Value;
-
-                        this.HdfRptDanhHieuMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int LearningResultId = Int32.Parse(e.CommandArgument.ToString());
-                        Category_LearningResult DanhHieu = danhHieuBL.GetDanhHieu(LearningResultId);
-
-                        TxtSuaLearningResultName.Text = DanhHieu.LearningResultName;
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfRptDanhHieuMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfLearningResultId.Value = LearningResultId.ToString();
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
             }
         }
         #endregion
@@ -247,45 +166,45 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
-            BindData();
+            BindRptLearningResults();
         }
         #endregion
 
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
+            BtnAdd.Visible = BtnAdd.Visible && accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
-        public void BindData()
+        private void BindRptLearningResults()
         {
-            string LearningResultName = TxtSearchDanhHieu.Text.Trim();
+            string strLearningResultName = TxtSearchDanhHieu.Text.Trim();
 
             double totalRecord;
-            List<Category_LearningResult> lstDanhHieu = danhHieuBL.GetListDanhHieus(LearningResultName,
+            List<TabularLearningResult> learningResults = learningResultBL.GetTabularLearningResults(strLearningResultName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out totalRecord);
 
             // Decrease page current index when delete
-            if (lstDanhHieu.Count == 0 && MainDataPager.ItemCount != 0)
+            if (learningResults.Count == 0 && totalRecord != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindData();
+                BindRptLearningResults();
                 return;
             }
 
-            bool bDisplayData = (lstDanhHieu.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
+            bool bDisplayData = (learningResults.Count != 0) ? true : false;
+            ProccessDisplayGUI(bDisplayData);
+
+            RptDanhHieu.DataSource = learningResults;
+            RptDanhHieu.DataBind();
+            MainDataPager.ItemCount = totalRecord;
+        }
+
+        private void ProccessDisplayGUI(bool bDisplayData)
+        {
             RptDanhHieu.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
             MainDataPager.Visible = bDisplayData;
@@ -305,10 +224,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 MainDataPager.Visible = true;
             }
-
-            RptDanhHieu.DataSource = lstDanhHieu;
-            RptDanhHieu.DataBind();
-            MainDataPager.ItemCount = totalRecord;
         }
         #endregion
     }

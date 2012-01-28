@@ -971,8 +971,20 @@ namespace EContactBook.DataAccess
                 {
                     termLearningResult.TermAverageMark = -1;
                 }
+
+                LearningAptitudeDA learningAptitudeDA = new LearningAptitudeDA(school);
+                Category_LearningAptitude learningAptitude = learningAptitudeDA.GetLearningAptitude((double)termLearningResult.TermAverageMark);
+                if (learningAptitude != null)
+                {
+                    termLearningResult.TermLearningAptitudeId = learningAptitude.LearningAptitudeId;
+                }
+                else
+                {
+                    termLearningResult.TermLearningAptitudeId = -1;
+                }
             }
 
+            
             db.SubmitChanges();
         }
 

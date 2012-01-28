@@ -13,7 +13,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class UsersPage : BaseContentPage
+    public partial class UserListPage : BaseContentPage
     {
         #region Fields
         private UserBL userBL;
@@ -38,6 +38,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             userBL = new UserBL(UserSchool);
             authorizationBL = new AuthorizationBL(UserSchool);
+
             if (!Page.IsPostBack)
             {
                 BindDDLRoles();
@@ -67,7 +68,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        public void BindRptUsers()
+        private void BindRptUsers()
         {
             aspnet_Role role = null;
             List<TabularUser> tabularUsers;
@@ -94,7 +95,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             bool bDisplayData = (tabularUsers.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
             RptUser.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -125,52 +125,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                if (DdlRoles.Items.Count == 0)
-                {
-                    BtnAddUser.Enabled = false;
-                    BtnAddUser.ImageUrl = "~/Styles/Images/button_add_with_text_disable.png";
-                }
-                else
-                {
-                    BtnAddUser.Enabled = true;
-                    BtnAddUser.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                }
-            }
-            else
-            {
-                this.BtnAddUser.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAddUser.Visible = true;
-            }
-            else
-            {
-                BtnAddUser.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                BtnEdit.Visible = true;
-            }
-            else
-            {
-                BtnEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                BtnDelete.Visible = true;
-                PnlPopupConfirmDelete.Visible = true;
-            }
-            else
-            {
-                BtnDelete.Visible = false;
-                PnlPopupConfirmDelete.Visible = false;
-            }
+            BtnAddUser.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
         #endregion
 
@@ -185,12 +143,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_ADDUSER);
+            Response.Redirect(AppConstant.PAGEPATH_USER_ADD);
         }
 
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMaNhomNguoiDung = null;
+            aspnet_User user = null;
+            foreach (RepeaterItem item in RptUser.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelectUser");
+                    
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
+                        user = new aspnet_User();
+                        user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
+                        AddSession(AppConstant.SESSION_SELECTED_USER, user);
+                        Response.Redirect(AppConstant.PAGEPATH_USER_EDIT);
+                        return;
+                    }
+                }
+            }
+        }
+        
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
+            bool bInfoInUse = false;
             HiddenField hdfactualUserName = null;
+            HiddenField HdfRptMaNhomNguoiDung = null;
+            aspnet_User user = null;
             foreach(RepeaterItem item in RptUser.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
@@ -198,21 +182,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
                     if (CkbxSelectUser.Checked)
                     {
-                        hdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
-                        authorizationBL.DeleteAuthorization(hdfactualUserName.Value);
-                        Membership.DeleteUser(hdfactualUserName.Value, true);            
+                        HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
+                        user = new aspnet_User();
+                        user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
+                        if (userBL.IsDeletable(user))
+                        {
+                            hdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
+                            authorizationBL.DeleteAuthorization(hdfactualUserName.Value);
+                            Membership.DeleteUser(hdfactualUserName.Value, true);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
                     }
                 }
             }
 
             isSearch = false;
             BindRptUsers();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
         }
 
         protected void BtnActivate_Click(object sender, ImageClickEventArgs e)
         {
-            TextBox TxtEmail = null;
-            HiddenField HdfactualUserName = null;
+            bool bHasEmptyEmail = false;
+            HiddenField HdfRptMaNhomNguoiDung = null;
+            Label LblEmail = null;
+            List<aspnet_User> users = new List<aspnet_User>();
             aspnet_User user = null;
             foreach (RepeaterItem item in RptUser.Items)
             {
@@ -221,61 +222,71 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
                     if (CkbxSelectUser.Checked)
                     {
-                        HdfactualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
-                        TxtEmail = (TextBox)item.FindControl("TxtEmail");
-                        if (!CheckUntils.IsNullOrBlank(TxtEmail.Text))
+                        LblEmail = (Label)item.FindControl("LblEmail");
+                        if (CheckUntils.IsNullOrBlank(LblEmail.Text) == false)
                         {
+                            HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
                             user = new aspnet_User();
-                            user.UserName = HdfactualUserName.Value;
-                            userBL.ActivateUser(user, TxtEmail.Text.Trim(), true);
+                            user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
+                            users.Add(user);
+                        }
+                        else
+                        {
+                            bHasEmptyEmail = true;
                         }
                     }
                 }
             }
 
+            userBL.ActivateUsers(users);
+            isSearch = false;
+            BindRptUsers();
+
+            if (bHasEmptyEmail)
+            {
+                MPEActivateReport.Show();
+            }
+        }
+
+        protected void BtnDeactivate_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMaNhomNguoiDung = null;
+            List<aspnet_User> users = new List<aspnet_User>();
+            aspnet_User user = null;
+            foreach (RepeaterItem item in RptUser.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
+                    if (CkbxSelectUser.Checked)
+                    {
+                        HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
+                        user = new aspnet_User();
+                        user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
+                        users.Add(user);
+                    }
+                }
+            }
+
+            userBL.DeactivateUsers(users);
             isSearch = false;
             BindRptUsers();
         }
         #endregion
 
         #region Repeater event handlers
-        protected void RptUser_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-             
-            }
-        }
-
         protected void RptUser_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa người dùng <b>\""
-                            + e.CommandArgument + "\"</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        this.HdfUserName.Value = ((HiddenField)e.Item.FindControl("HdfRptActualUserName")).Value;
-                        this.HdfRptUserMPEDelete.Value = mPEDelete.ClientID;                        
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        Response.Redirect(string.Format(AppConstant.PAGEPATH_EDITUSER + "?UserId={0}", e.CommandArgument));
-                        break;
-                    }
+            {   
                 case "CmdDetailItem":
                     {
                         aspnet_User user = new aspnet_User();
                         user.UserId = new Guid(e.CommandArgument.ToString());
                         AddSession(AppConstant.SESSION_SELECTED_USER, user);
-                        Response.Redirect(AppConstant.PAGEPATH_DETAILUSER);
+                        Response.Redirect(AppConstant.PAGEPATH_USER_DETAIL);
                         break;
-                    }    
+                    }
                 default:
                     {
                         break;

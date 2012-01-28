@@ -2,15 +2,15 @@
     $('.header td').last().addClass('ui-corner-tr');
 
     $(".BtnLogin").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_login.png");
+        $(this).attr("src", "/Styles/buttons/button_login_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_login.png");
+        $(this).attr("src", "/Styles/buttons/button_login.png");
     });
 
     $(".BtnSearch").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_search_with_text.png");
+        $(this).attr("src", "/Styles/buttons/button_search_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_search_with_text.png");
+        $(this).attr("src", "/Styles/buttons/button_search.png");
     });
 
     $(".BtnAdd").hover(function () {
@@ -49,13 +49,43 @@
         }
     });
 
+    $(".BtnEditWithouDisable").hover(function () {
+        if ($(".BtnEditWithouDisable").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_edit_hover.png");
+        }
+    }, function () {
+        if ($(".BtnEditWithouDisable").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_edit.png");
+        }
+    });
+
     $(".BtnEdit").hover(function () {
-        if ($(".BtnEdit").is(':disabled') == false) {            
+        if ($(".BtnEdit").is(':disabled') == false) {
             $(this).attr("src", "/Styles/buttons/button_edit_hover.png");
         }
     }, function () {
         if ($(".BtnEdit").is(':disabled') == false) {
             $(this).attr("src", "/Styles/buttons/button_edit.png");
+        }
+    });
+
+    $(".BtnArrage").hover(function () {
+        if ($(".BtnArrage").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_arrange_hover.png");
+        }
+    }, function () {
+        if ($(".BtnArrage").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_arrange.png");
+        }
+    });
+
+    $(".ButtonFeedback").hover(function () {
+        if ($(".ButtonFeedback").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_feedback_hover.png");
+        }
+    }, function () {
+        if ($(".ButtonFeedback").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_feedback.png");
         }
     });
 
@@ -66,6 +96,16 @@
     }, function () {
         if ($(".BtnActivate").is(':disabled') == false) {
             $(this).attr("src", "/Styles/buttons/button_activate.png");
+        }
+    });
+
+    $(".BtnDeactivate").hover(function () {
+        if ($(".BtnDeactivate").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_deactivate_hover.png");
+        }
+    }, function () {
+        if ($(".BtnDeactivate").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_deactivate.png");
         }
     });
 
@@ -92,64 +132,64 @@
     });
 
     $(".StepNextButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_next_step.png");
+        $(this).attr("src", "/Styles/buttons/button_next_step_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_next_step.png");
+        $(this).attr("src", "/Styles/buttons/button_next_step.png");
     });
 
     $(".StepPreviousButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_prev_step.png");
+        $(this).attr("src", "/Styles/buttons/button_prev_step_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_prev_step.png");
+        $(this).attr("src", "/Styles/buttons/button_prev_step.png");
     });
 
     $(".ContinueButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_complete.png");
+        $(this).attr("src", "/Styles/buttons/button_complete_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_complete.png");
+        $(this).attr("src", "/Styles/buttons/button_complete.png");
     });
 
 
     $(".DeleteItemButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_delete.png");
+        $(this).attr("src", "/Styles/buttons/button_delete_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_delete.png");
+        $(this).attr("src", "/Styles/buttons/button_delete.png");
     });
 
     $(".EditItemButton").hover(function () {
         $(this).attr("src", "/Styles/Images/MouseHover/button_edit.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_edit.png");
+        $(this).attr("src", "/Styles/buttons/button_edit.png");
     });
 
     $(".SaveButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_save.png");
+        $(this).attr("src", "/Styles/buttons/button_save_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_save.png");
+        $(this).attr("src", "/Styles/buttons/button_save.png");
     });
 
     $(".CancelButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_cancel.png");
+        $(this).attr("src", "/Styles/buttons/button_cancel_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_cancel.png");
+        $(this).attr("src", "/Styles/buttons/button_cancel.png");
     });
 
     $(".YesButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_yes.png");
+        $(this).attr("src", "/Styles/buttons/button_yes_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_yes.png");
+        $(this).attr("src", "/Styles/buttons/button_yes.png");
     });
 
     $(".NoButton").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/button_no.png");
+        $(this).attr("src", "/Styles/buttons/button_no_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/button_no.png");
+        $(this).attr("src", "/Styles/buttons/button_no.png");
     });
 
     $(".button_close").hover(function () {
-        $(this).attr("src", "/Styles/Images/MouseHover/popup_button_close.png");
+        $(this).attr("src", "/Styles/buttons/popup_button_close_hover.png");
     }, function () {
-        $(this).attr("src", "/Styles/Images/popup_button_close.png");
+        $(this).attr("src", "/Styles/buttons/popup_button_close.png");
     });
 
     var bSelected = false;
@@ -166,6 +206,7 @@
             });
         }
     });
+
     if (bSelected == true) {
         $(".BtnDelete").attr("src", "/Styles/buttons/button_delete.png");
         $(".BtnDelete:disabled").removeAttr('disabled');
@@ -175,6 +216,9 @@
 
         $(".BtnActivate").attr("src", "/Styles/buttons/button_activate.png");
         $(".BtnActivate:disabled").removeAttr('disabled');
+
+        $(".BtnDeactivate").attr("src", "/Styles/buttons/button_deactivate.png");
+        $(".BtnDeactivate:disabled").removeAttr('disabled');
     } else {
         $(".BtnDelete").attr("src", "/Styles/buttons/button_delete_disable.png");
         $(".BtnDelete").attr("disabled", "disabled");
@@ -184,6 +228,9 @@
 
         $(".BtnActivate").attr("src", "/Styles/buttons/button_activate_disable.png");
         $(".BtnActivate").attr("disabled", "disabled");
+
+        $(".BtnDeactivate").attr("src", "/Styles/buttons/button_deactivate_disable.png");
+        $(".BtnDeactivate").attr("disabled", "disabled");
     }
 
     $('.selectAll').click(function () {
@@ -213,6 +260,9 @@
 
             $(".BtnActivate").attr("src", "/Styles/buttons/button_activate.png");
             $(".BtnActivate:disabled").removeAttr('disabled');
+
+            $(".BtnDeactivate").attr("src", "/Styles/buttons/button_deactivate.png");
+            $(".BtnDeactivate:disabled").removeAttr('disabled');
         } else {
             $(".BtnDelete").attr("src", "/Styles/buttons/button_delete_disable.png");
             $(".BtnDelete").attr("disabled", "disabled");
@@ -221,7 +271,10 @@
             $(".BtnEdit").attr("disabled", "disabled");
 
             $(".BtnActivate").attr("src", "/Styles/buttons/button_activate_disable.png");
-            $(".BtnActivate").attr("disabled", "disabled");            
+            $(".BtnActivate").attr("disabled", "disabled");
+
+            $(".BtnDeactivate").attr("src", "/Styles/buttons/button_deactivate_disable.png");
+            $(".BtnDeactivate").attr("disabled", "disabled");
         }
     });
 
@@ -253,6 +306,9 @@
 
             $(".BtnActivate").attr("src", "/Styles/buttons/button_activate.png");
             $(".BtnActivate:disabled").removeAttr('disabled');
+
+            $(".BtnDeactivate").attr("src", "/Styles/buttons/button_deactivate.png");
+            $(".BtnDeactivate:disabled").removeAttr('disabled');
         } else {
             $(".BtnDelete").attr("src", "/Styles/buttons/button_delete_disable.png");
             $(".BtnDelete").attr("disabled", "disabled");
@@ -262,6 +318,21 @@
 
             $(".BtnActivate").attr("src", "/Styles/buttons/button_activate_disable.png");
             $(".BtnActivate").attr("disabled", "disabled");
+
+            $(".BtnDeactivate").attr("src", "/Styles/buttons/button_deactivate_disable.png");
+            $(".BtnDeactivate").attr("disabled", "disabled");
         }
-    });   
+    });
+
+    $(".radio input[type='radio']").each(function () {
+        if ($(this).is(':checked')) {
+            $(this).parents('td').parents('tr').each(function () {
+                $(this).find('td').addClass('hover');
+            });
+        } else {
+            $(this).parents('td').parents('tr').each(function () {
+                $(this).find('td').removeClass('hover');
+            });
+        }
+    });
 });

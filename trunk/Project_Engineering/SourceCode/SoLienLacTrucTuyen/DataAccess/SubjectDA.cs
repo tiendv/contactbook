@@ -49,6 +49,21 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public Category_Subject GetSubject(int subjectId)
+        {
+            Category_Subject subject = null;
+            IQueryable<Category_Subject> iqSubject = from subj in db.Category_Subjects
+                                                     where subj.SubjectId == subjectId
+                                                     select subj;
+
+            if (iqSubject.Count() != 0)
+            {
+                subject = iqSubject.First();
+            }
+
+            return subject;
+        }
+
         public Category_Subject GetSubject(string subjectName, string facultyName, string gradeName)
         {
             Category_Subject subject = null;

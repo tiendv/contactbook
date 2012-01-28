@@ -13,12 +13,10 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class DanhMucHanhKiem : BaseContentPage
+    public partial class CategoryConduct : BaseContentPage
     {
-        private const string EDITED_ConductId = "EditedConductId";
-
         #region Fields
-        private ConductBL hanhKiemBL;
+        private ConductBL conductBL;
         private bool isSearch;
         #endregion
 
@@ -37,14 +35,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            hanhKiemBL = new ConductBL(UserSchool);
+            conductBL = new ConductBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
                 isSearch = false;
                 MainDataPager.CurrentIndex = 1;
                 BindData();
-            }            
+            }          
+  
             ProcPermissions();
         }
         #endregion
@@ -59,30 +58,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string ConductName = this.TxtConductName.Text;
-
-            if (ConductName == "")
+            if (!ValidateInputsForAdd())
             {
-                ConductNameRequiredAdd.IsValid = false;
-                TxtConductName.Focus();
-                MPEAdd.Show();
                 return;
             }
-            else
-            {
-                if (hanhKiemBL.ConductNameExists(ConductName))
-                {
-                    ConductNameValidatorAdd.IsValid = false;
-                    TxtConductName.Focus();
-                    MPEAdd.Show();
-                    return;
-                }
-            }
 
-            hanhKiemBL.InsertConduct(new Category_Conduct
-            {
-                ConductName = ConductName
-            });
+            string strConductName = this.TxtConductName.Text.Trim();
+
+            conductBL.InsertConduct(strConductName);
 
             MainDataPager.CurrentIndex = 1;
             BindData();
@@ -97,158 +80,75 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int ConductId = Int32.Parse(this.HdfConductId.Value);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField hdfRptConductId = null;
+            Category_Conduct conduct = null;
 
-            Category_Conduct conduct = new Category_Conduct();
-            conduct.ConductId = ConductId;
-
-            hanhKiemBL.DeleteConduct(conduct);
-            isSearch = false;
-            BindData();
-        }
-
-        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
-        {
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptHanhKiem.Items)
+            foreach (RepeaterItem item in RptHanhKiem.Items)
             {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptHanhKiemMPEEdit.Value)
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
                     {
-                        break;
-                    }
-                }
-            }
+                        hdfRptConductId = (HiddenField)item.FindControl("HdfRptConductId");
+                        conduct = new Category_Conduct();
+                        conduct.ConductId = Int32.Parse(hdfRptConductId.Value);
 
-            if (!Page.IsValid)
-            {
-                return;
-            }
-            
-            string editedConductName = (string)HdfEditedConductName.Value;
-            string newConductName = TxtSuaConductName.Text.Trim();
-
-            if (newConductName == "")
-            {
-                ConductNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
-                return;
-            }
-            else
-            {
-                if (hanhKiemBL.ConductNameExists(editedConductName, newConductName))
-                {
-                    ConductNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
-                    return;
-                }
-            }
-
-            int editedConductId = Int32.Parse(this.HdfConductId.Value);
-            hanhKiemBL.UpdateConduct(editedConductName, newConductName);
-            BindData();
-        }
-        #endregion
-
-        #region Repeater event handlers
-        protected void RptHanhKiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        Category_Conduct conduct = (Category_Conduct)e.Item.DataItem;
-
-                        if (!hanhKiemBL.IsDeletable(conduct.ConductName))
+                        if (conductBL.IsDeletable(conduct))
                         {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
+                            conductBL.DeleteConduct(conduct);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
                         }
                     }
                 }
             }
-            else
+
+            isSearch = false;
+            BindData();
+
+            if (bInfoInUse)
             {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
+                MPEInfoInUse.Show();
             }
         }
 
-        protected void RptHanhKiem_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            switch (e.CommandName)
+            HiddenField hdfRptConductId = null;
+            foreach (RepeaterItem item in RptHanhKiem.Items)
             {
-                case "CmdDeleteItem":
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
                     {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa hạnh kiểm <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptConductId = (HiddenField)e.Item.FindControl("HdfRptConductId");
-                        this.HdfConductId.Value = hdfRptConductId.Value;
-
-                        this.HdfRptHanhKiemMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        string conductName = (string)e.CommandArgument;
-
-                        Category_Conduct conduct = hanhKiemBL.GetConduct(conductName);
-                        ViewState[EDITED_ConductId] = conduct.ConductId;
-
+                        hdfRptConductId = (HiddenField)item.FindControl("HdfRptConductId");
+                        Category_Conduct conduct = conductBL.GetConduct(Int32.Parse(hdfRptConductId.Value));
                         TxtSuaConductName.Text = conduct.ConductName;
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfRptHanhKiemMPEEdit.Value = mPEEdit.ClientID;
                         this.HdfConductId.Value = conduct.ConductId.ToString();
                         this.HdfEditedConductName.Value = conduct.ConductName;
 
-                        break;
+                        MPEEdit.Show();
+                        return;
                     }
-                default:
-                    {
-                        break;
-                    }
+                }
             }
+        }
+
+        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
+        {   
+            string editedConductName = (string)HdfEditedConductName.Value;
+            string newConductName = TxtSuaConductName.Text.Trim();
+            Category_Conduct conduct = new Category_Conduct();
+            conduct.ConductId = Int32.Parse(this.HdfConductId.Value);
+
+            conductBL.UpdateConduct(conduct, newConductName);
+            BindData();
         }
         #endregion
 
@@ -264,17 +164,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         public void BindData()
@@ -283,7 +177,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             double dTotalRecords;
             List<Category_Conduct> conducts;
-            conducts = hanhKiemBL.GetListConducts(strConductName, MainDataPager.CurrentIndex, MainDataPager.PageSize, 
+            conducts = conductBL.GetListConducts(strConductName, MainDataPager.CurrentIndex, MainDataPager.PageSize, 
                 out dTotalRecords);
             MainDataPager.ItemCount = dTotalRecords;
 
@@ -296,8 +190,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             bool bDisplayData = (conducts.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptHanhKiem.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -323,6 +215,76 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             RptHanhKiem.DataSource = conducts;
             RptHanhKiem.DataBind();
+        }
+
+        private bool ValidateInputsForAdd()
+        {
+            string ConductName = this.TxtConductName.Text.Trim();
+            if (CheckUntils.IsNullOrBlank(ConductName))
+            {
+                ConductNameRequiredAdd.IsValid = false;
+                TxtConductName.Focus();
+                MPEAdd.Show();
+                return false;
+            }
+            else
+            {
+                if (conductBL.ConductNameExists(ConductName))
+                {
+                    ConductNameValidatorAdd.IsValid = false;
+                    TxtConductName.Focus();
+                    MPEAdd.Show();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool ValidateInputsForModify()
+        {
+            if (!Page.IsValid)
+            {
+                return false;
+            }
+
+            string strOldConductName = this.HdfEditedConductName.Value;
+            string strNewConductName = TxtSuaConductName.Text.Trim();
+
+            if (CheckUntils.IsNullOrBlank(strNewConductName))
+            {
+                ConductNameRequiredEdit.IsValid = false;
+                TxtSuaConductName.Focus();
+                MPEEdit.Show();
+                return false;
+            }
+            else
+            {
+                if (conductBL.ConductNameExists(strOldConductName, strNewConductName))
+                {
+                    ConductNameValidatorEdit.IsValid = false;
+                    TxtSuaConductName.Focus();
+                    MPEEdit.Show();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptHanhKiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
         }
         #endregion
     }

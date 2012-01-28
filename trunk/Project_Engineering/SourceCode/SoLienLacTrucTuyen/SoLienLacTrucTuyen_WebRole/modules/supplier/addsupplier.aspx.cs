@@ -15,7 +15,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public partial class AddSchoolPage : BaseContentPage
     {
+        #region Field(s)
         SchoolBL schoolBL;
+        #endregion
 
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
@@ -50,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             School_School lastedInsertedSchool = null;
             School_School supplier = null;
 
-            if (ValidateInput())
+            if (ValidateInputs())
             {
                 Configuration_District district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
@@ -60,19 +62,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 string strPhone = TxtPhone.Text.Trim();
                 byte[] bLogo = FileUploadLogo.FileBytes;
                 string strEmailPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
-                    Membership.Provider.MinRequiredNonAlphanumericCharacters);                
+                    Membership.Provider.MinRequiredNonAlphanumericCharacters);
 
                 // insert new school and then return it generated id
                 schoolBL = new SchoolBL();
                 lastedInsertedSchool = schoolBL.InsertSchool(district, strSchoolName, strAddress, strPhone, strEmail, strEmailPassword, bLogo);
 
                 // create default information for school
-                CreateSchoolDefaultInfomation(lastedInsertedSchool);
+                CreateSchoolDefaultInfomations(lastedInsertedSchool);
 
                 // send confirmation mail to school
                 supplier = schoolBL.GetSupplier();
                 string strEmailContent = string.Format("Account: {0}, Password: {1}", lastedInsertedSchool.Email, lastedInsertedSchool.Password);
-                MailBL.SendByGmail(supplier.Email, lastedInsertedSchool.Email, "Thông báo tạo thông tin trường thành công", 
+                MailBL.SendByGmail(supplier.Email, lastedInsertedSchool.Email, "Thông báo tạo thông tin trường thành công",
                     strEmailContent, supplier.Password);
 
                 // redirect back to previous page
@@ -94,7 +96,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private bool ValidateInput()
+        private bool ValidateInputs()
         {
             if (CheckUntils.IsNullOrBlank(DdlDistricts.Text.Trim()))
             {
@@ -147,22 +149,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (MailBL.CheckEmailExist(TxtEmail.Text))
-            {
-                EmailCustomValidator.IsValid = true;
-            }
-            else
-            {
-                EmailCustomValidator.IsValid = false;
-                return false;
-            }
+            //if (MailBL.CheckEmailExist(TxtEmail.Text))
+            //{
+            //    EmailCustomValidator.IsValid = true;
+            //}
+            //else
+            //{
+            //    EmailCustomValidator.IsValid = false;
+            //    return false;
+            //}
 
             return true;
         }
 
         protected void SchoolNameCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
         {
-            if(DdlDistricts.Items.Count != 0)
+            if (DdlDistricts.Items.Count != 0)
             {
                 Configuration_District district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
@@ -174,7 +176,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     e.IsValid = true;
                 }
-            }            
+            }
         }
 
         protected void EmailCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
@@ -254,23 +256,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void CreateSchoolDefaultInfomation(School_School school)
+        private void CreateSchoolDefaultInfomations(School_School school)
         {
-            RoleBL roleBL = null;
-            UserBL userBL = null;
-            AuthorizationBL authorizationBL = null;
+            RoleBL roleBL = new RoleBL();
+            UserBL userBL = new UserBL(school);
+            AuthorizationBL authorizationBL = new AuthorizationBL(school);
             aspnet_Role parentRole = null;
-            UserManagement_RoleCategory roleCategory = null;
+            UserManagement_RoleCategory roleCategory = new UserManagement_RoleCategory();
             string strRoleName;
-            StringBuilder strBuilder = null;
+            StringBuilder strBuilder = new StringBuilder();
 
             // create school's default roles
-            roleBL = new RoleBL();
-            userBL = new UserBL(school);
-            roleCategory = new UserManagement_RoleCategory();
-            authorizationBL = new AuthorizationBL(school);
-            strBuilder = new StringBuilder();
-
             strBuilder.Append(school.SchoolId.ToString());
             strBuilder.Append(AppConstant.UNDERSCORE);
             strBuilder.Append("Quản trị");
@@ -280,26 +276,42 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             roleBL.CreateRoleDetail("Quản trị", "", false, null, roleCategory, school);
             authorizationBL.InsertAuthorizations(roleBL.GetRole(strRoleName));
 
-            strRoleName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "Giáo viên";
+            strBuilder.Clear();
+            strBuilder.Append(school.SchoolId.ToString());
+            strBuilder.Append(AppConstant.UNDERSCORE);
+            strBuilder.Append("Giáo viên");
+            strRoleName = strBuilder.ToString();
             Roles.CreateRole(strRoleName);
             roleCategory.RoleCategoryId = "TEACHER";
             roleBL.CreateRoleDetail("Giáo viên", "", false, null, roleCategory, school);
             authorizationBL.InsertAuthorizations(roleBL.GetRole(strRoleName));
 
-            strRoleName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "Phụ huynh";
+            strBuilder.Clear();
+            strBuilder.Append(school.SchoolId.ToString());
+            strBuilder.Append(AppConstant.UNDERSCORE);
+            strBuilder.Append("Phụ huynh");
+            strRoleName = strBuilder.ToString();
             Roles.CreateRole(strRoleName);
             roleCategory.RoleCategoryId = "PARENTS";
             roleBL.CreateRoleDetail("Phụ huynh", "", false, null, roleCategory, school);
             authorizationBL.InsertAuthorizations(roleBL.GetRole(strRoleName));
 
-            strRoleName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "Giáo viên chủ nhiệm";
+            strBuilder.Clear();
+            strBuilder.Append(school.SchoolId.ToString());
+            strBuilder.Append(AppConstant.UNDERSCORE);
+            strBuilder.Append("Giáo viên chủ nhiệm");
+            strRoleName = strBuilder.ToString();
             Roles.CreateRole(strRoleName);
             roleCategory.RoleCategoryId = "FORMERTEACHER";
             parentRole = roleBL.GetRole(school.SchoolId.ToString() + AppConstant.UNDERSCORE + "Giáo viên");
             roleBL.CreateRoleDetail("Giáo viên chủ nhiệm", "", false, parentRole, roleCategory, school);
             authorizationBL.InsertAuthorizations(roleBL.GetRole(strRoleName));
 
-            strRoleName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "Giáo viên bộ môn";
+            strBuilder.Clear();
+            strBuilder.Append(school.SchoolId.ToString());
+            strBuilder.Append(AppConstant.UNDERSCORE);
+            strBuilder.Append("Giáo viên bộ môn");
+            strRoleName = strBuilder.ToString();
             Roles.CreateRole(strRoleName);
             roleCategory.RoleCategoryId = "SUBJECTTEACHER";
             roleBL.CreateRoleDetail("Giáo viên bộ môn", "", false, parentRole, roleCategory, school);

@@ -15,7 +15,7 @@
         </div>
         <div id="divButtonSearch">
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>

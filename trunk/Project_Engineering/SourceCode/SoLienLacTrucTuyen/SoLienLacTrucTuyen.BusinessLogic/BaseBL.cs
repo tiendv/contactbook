@@ -8,6 +8,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 {
     public class BaseBL
     {
+        protected const string STRING_UNDEFINED = "(Chưa xác định)";
+        
         protected School_School school;
 
         public BaseBL(School_School school)

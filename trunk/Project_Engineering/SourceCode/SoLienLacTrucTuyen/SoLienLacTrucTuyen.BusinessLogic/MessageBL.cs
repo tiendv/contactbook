@@ -50,7 +50,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public List<TabularMessage> GetTabularMessages(Configuration_Year year, DateTime beginDate, DateTime endDate,
-            string studentCode, Configuration_MessageStatus messageStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
+            string studentCode, Configuration_MessageStatus messageStatus, bool combineStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularMessage> tabularMessages = new List<TabularMessage>();
             TabularMessage tabularMessage = null;
@@ -63,7 +63,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    messages = messageDA.GetMessages(year, beginDate, endDate, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                    if (combineStatus && messageStatus.MessageStatusId != 1)
+                    {
+                        messages = messageDA.GetConfirmedMessages(year, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                    else
+                    {
+                        messages = messageDA.GetMessages(year, beginDate, endDate, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                    }
                 }
             }
             else
@@ -74,7 +81,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 else
                 {
-                    messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                    if (combineStatus && messageStatus.MessageStatusId != 1)
+                    {
+                        messages = messageDA.GetConfirmedMessages(year, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                    else
+                    {
+                        messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                    }                    
                 }
             }
 
@@ -88,7 +102,132 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularMessage.StringDate = message.Date.ToShortDateString();
                 tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
                 tabularMessage.Title = message.Title;
-                tabularMessage.StringMessageStatus = (message.IsConfirmed == true) ? "Có": "Không";
+                if (combineStatus && message.MessageStatusId != 1)
+                {
+                    tabularMessage.StringMessageStatus = "Đã xác nhận";
+                }
+                else
+                {
+                    tabularMessage.StringMessageStatus = message.Configuration_MessageStatus.MessageStatusName;
+                }
+                tabularMessage.MessageStatusId = (int)message.MessageStatusId;
+
+                tabularMessages.Add(tabularMessage);
+            }
+
+            return tabularMessages;
+        }
+
+        public List<TabularMessage> GetTabularMessages(aspnet_User user, bool isFormerTeacher, Configuration_Year year, DateTime beginDate, DateTime endDate,
+            string studentCode, Configuration_MessageStatus messageStatus, bool combineStatus, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            FormerTeacherBL formerTeacherBL = new FormerTeacherBL(school); 
+            Class_Class Class = null;            
+            if (isFormerTeacher)
+            {
+                Class = formerTeacherBL.GetClass(user, year);
+            }
+            
+            List<TabularMessage> tabularMessages = new List<TabularMessage>();
+            TabularMessage tabularMessage = null;
+            List<MessageToParents_Message> messages;
+            if (CheckUntils.IsAllOrBlank(studentCode))
+            {
+                if (messageStatus == null)
+                {
+                    if (Class != null)
+                    {
+                        messages = messageDA.GetMessages(Class, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                    else
+                    {
+                        messages = messageDA.GetMessages(year, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                }
+                else
+                {
+                    if (combineStatus && messageStatus.MessageStatusId != 1)
+                    {
+                        if (Class != null)
+                        {
+                            messages = messageDA.GetConfirmedMessages(Class, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+                        }
+                        else
+                        {
+                            messages = messageDA.GetConfirmedMessages(year, beginDate, endDate, pageCurrentIndex, pageSize, out totalRecords);
+                        }
+                    }
+                    else
+                    {
+                        if (Class != null)
+                        {
+                            messages = messageDA.GetMessages(Class, beginDate, endDate, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                        }
+                        else
+                        {
+                            messages = messageDA.GetMessages(year, beginDate, endDate, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                        }                        
+                    }
+                }
+            }
+            else
+            {
+                if (messageStatus == null)
+                {
+                    if (Class != null)
+                    {
+                        messages = messageDA.GetMessages(Class, beginDate, endDate, studentCode, pageCurrentIndex, pageSize, out totalRecords);
+                    }
+                    else
+                    {
+                        messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, pageCurrentIndex, pageSize, out totalRecords);
+                    }                    
+                }
+                else
+                {
+                    if (combineStatus && messageStatus.MessageStatusId != 1)
+                    {
+                        if (Class != null)
+                        {
+                            messages = messageDA.GetConfirmedMessages(Class, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                        }
+                        else
+                        {
+                            messages = messageDA.GetConfirmedMessages(year, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                        }
+                    }
+                    else
+                    {
+                        if (Class != null)
+                        {
+                            messages = messageDA.GetMessages(Class, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                        }
+                        else
+                        {
+                            messages = messageDA.GetMessages(year, beginDate, endDate, studentCode, messageStatus, pageCurrentIndex, pageSize, out totalRecords);
+                        }                        
+                    }
+                }
+            }
+
+            foreach (MessageToParents_Message message in messages)
+            {
+                tabularMessage = new TabularMessage();
+                tabularMessage.StudentId = message.Student_StudentInClass.StudentId;
+                tabularMessage.StudentCode = message.Student_StudentInClass.Student_Student.StudentCode;
+                tabularMessage.MessageId = message.MessageId;
+                tabularMessage.Date = message.Date;
+                tabularMessage.StringDate = message.Date.ToShortDateString();
+                tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
+                tabularMessage.Title = message.Title;
+                if (combineStatus && message.MessageStatusId != 1)
+                {
+                    tabularMessage.StringMessageStatus = "Đã xác nhận";
+                }
+                else
+                {
+                    tabularMessage.StringMessageStatus = message.Configuration_MessageStatus.MessageStatusName;
+                }
                 tabularMessage.MessageStatusId = (int)message.MessageStatusId;
 
                 tabularMessages.Add(tabularMessage);
@@ -132,7 +271,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 dtToday = DateTime.Now;
                 if (dtMsgDate.Day == dtToday.Day && dtMsgDate.Month == dtToday.Month && dtMsgDate.Year == dtToday.Year)
                 {
-                    strDate = "Hôm nay";
+                    strDate = "hôm nay";
                 }
                 else
                 {
@@ -155,7 +294,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     strMinute = string.Format("{0}", dtMsgDate.Minute);
                 }
                 strTime = string.Format("{0}:{1}", strHour, strMinute);
-                tabularMessage.StringDate = string.Format("vào lúc {0}, {1}", strTime, strDate);
+                tabularMessage.StringDate = string.Format("Vào lúc {0}, {1}", strTime, strDate);
 
                 tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
                 tabularMessage.Title = message.Title;
@@ -190,6 +329,29 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void MarkMessageAsRead(MessageToParents_Message message)
         {
             messageDA.MarkMessageAsRead(message);
+        }
+
+        public bool IsDeletable(MessageToParents_Message message)
+        {
+            return messageDA.IsDeletable(message);
+        }
+
+        public List<Configuration_MessageStatus> GetMessageStatuses(bool combineIsConfirmed)
+        {
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
+            List<Configuration_MessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
+            if (messageStatuses.Count != 0 && combineIsConfirmed)
+            {
+                messageStatuses = messageStatuses.Take(2).ToList();
+                messageStatuses[1].MessageStatusName = "Đã xác nhận";
+            }
+
+            return messageStatuses;
+        }
+
+        public void UpdateMessage(MessageToParents_Message message, string title, string content)
+        {
+            messageDA.UpdateMessage(message, title, content);
         }
     }
 }

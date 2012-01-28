@@ -92,16 +92,16 @@
                 </table>
                 <div style="margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; text-align: center">
                     <asp:ImageButton ID="ChangePasswordPushButtons" runat="server" CommandName="ChangePassword"
-                        ValidationGroup="ChangeUserPasswordValidationGroup" ImageUrl="~/Styles/Images/button_save.png" />&nbsp;&nbsp;
+                        ValidationGroup="ChangeUserPasswordValidationGroup" ImageUrl="~/Styles/buttons/button_save.png" />&nbsp;&nbsp;
                     <asp:ImageButton ID="CancelPushButton" runat="server" CausesValidation="False" CommandName="Cancel"
-                        ImageUrl="~/Styles/Images/button_cancel.png" />
+                        ImageUrl="~/Styles/buttons/button_cancel.png" />
                 </div>
             </ChangePasswordTemplate>
             <SuccessTemplate>
                 <div style="margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; text-align: center">
                     Mật khẩu đã được thay đổi thành công!
                     <br /><br />
-                    <asp:ImageButton ID="ContinuePushButton" runat="server" CommandName="Continue" ImageUrl="~/Styles/Images/button_complete.png" />
+                    <asp:ImageButton ID="ContinuePushButton" runat="server" CommandName="Continue" ImageUrl="~/Styles/buttons/button_complete.png" />
                 </div>
             </SuccessTemplate>
         </asp:ChangePassword>

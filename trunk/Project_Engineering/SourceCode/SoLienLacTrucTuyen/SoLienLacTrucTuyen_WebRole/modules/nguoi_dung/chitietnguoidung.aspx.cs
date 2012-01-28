@@ -12,12 +12,13 @@ using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ChiTietNguoiDung : BaseContentPage
+    public partial class DetailUserPage : BaseContentPage
     {
         #region Fields
         UserBL userBL;
         #endregion
 
+        #region Page event handler(s)
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
@@ -44,7 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_USERS);
+                    Response.Redirect(AppConstant.PAGEPATH_USER_LIST);
                 }
             }
             else
@@ -55,25 +56,53 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_USERS);
+                    Response.Redirect(AppConstant.PAGEPATH_USER_LIST);
                 }
             }
 
             aspnet_User user = userBL.GetUser(gUserId);
             LblUserName.Text = user.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
-            TxtFullName.Text = user.aspnet_Membership.FullName;
+            LblFullName.Text = user.aspnet_Membership.FullName;
             List<aspnet_Role> roles = userBL.GetRoles(user.UserName);
             StringBuilder strb = new StringBuilder();
-            foreach(aspnet_Role role in roles)
+            foreach (aspnet_Role role in roles)
             {
                 strb.Append(role.UserManagement_RoleDetail.DisplayedName);
                 strb.Append(", ");
             }
 
             LblRoleName.Text = strb.ToString().Trim().Trim(new char[] { ',' });
-            TxtEmail.Text = user.aspnet_Membership.Email;
+            LblEmail.Text = user.aspnet_Membership.Email;
             LblCreatedDate.Text = user.aspnet_Membership.CreateDate.ToShortDateString();
             LblLastedLoginDate.Text = user.aspnet_Membership.LastLoginDate.ToShortDateString();
+            if (user.aspnet_Membership.IsActivated == null)
+            {
+                LblStatus.Text = "Chưa kích hoạt";
+            }
+            else if ((bool)user.aspnet_Membership.IsActivated)
+            {
+                LblStatus.Text = "Đã kích hoạt";
+            }
+            else
+            {
+                LblStatus.Text = "Chưa kích hoạt";
+            }
         }
+        #endregion
+
+        #region Button event handler(s)
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            aspnet_User user = new aspnet_User();
+            user.UserId = new Guid(ViewState[AppConstant.VIEWSTATE_USER].ToString());
+            AddSession(AppConstant.SESSION_SELECTED_USER, user);
+            Response.Redirect(AppConstant.PAGEPATH_USER_EDIT);
+        }
+
+        protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect(AppConstant.PAGEPATH_USER_LIST);
+        }
+        #endregion
     }
 }

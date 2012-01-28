@@ -28,9 +28,9 @@ namespace EContactBook.DataAccess
 
         public void UpdateFormerTeacher(int formerTeacherId, aspnet_User teacher)
         {
-            IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
-                                                      where fTchr.FormerTeacherId == formerTeacherId
-                                                      select fTchr;
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from f in db.Class_FormerTeachers
+                                                              where f.FormerTeacherId == formerTeacherId
+                                                              select f;
             if (iqFormerTeacher.Count() != 0)
             {
                 Class_FormerTeacher formerTeacher = iqFormerTeacher.First();
@@ -39,14 +39,14 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public void DeleteFormerTeacher(Class_FormerTeacher frmrTeacher)
+        public void DeleteFormerTeacher(Class_FormerTeacher formerTeacher)
         {
-            IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
-                                                      where fTchr.FormerTeacherId == frmrTeacher.FormerTeacherId
-                                                      select fTchr;
+            IQueryable<Class_FormerTeacher> iqFormerTeacher = from f in db.Class_FormerTeachers
+                                                              where f.FormerTeacherId == formerTeacher.FormerTeacherId
+                                                              select f;
             if (iqFormerTeacher.Count() != 0)
             {
-                Class_FormerTeacher formerTeacher = iqFormerTeacher.First();
+                formerTeacher = iqFormerTeacher.First();
                 db.Class_FormerTeachers.DeleteOnSubmit(formerTeacher);
                 db.SubmitChanges();
             }
@@ -249,8 +249,8 @@ namespace EContactBook.DataAccess
         public Class_FormerTeacher GetFormerTeacher(int formerTeacherId)
         {
             Class_FormerTeacher giaoVienChuNhiem = (from gvcn in db.Class_FormerTeachers
-                                            where gvcn.FormerTeacherId == formerTeacherId
-                                            select gvcn).First();
+                                                    where gvcn.FormerTeacherId == formerTeacherId
+                                                    select gvcn).First();
             return giaoVienChuNhiem;
         }
 
@@ -259,8 +259,8 @@ namespace EContactBook.DataAccess
             Class_FormerTeacher formerTeacher = null;
 
             IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
-                                                      where fTchr.ClassId == Class.ClassId
-                                                      select fTchr;
+                                                              where fTchr.ClassId == Class.ClassId
+                                                              select fTchr;
             if (iqFormerTeacher.Count() != 0)
             {
                 formerTeacher = iqFormerTeacher.First();
@@ -272,8 +272,8 @@ namespace EContactBook.DataAccess
         public bool FormerTeacherExists(aspnet_User teacher)
         {
             IQueryable<Class_FormerTeacher> iqFormerTeacher = from fTchr in db.Class_FormerTeachers
-                                                      where fTchr.TeacherId == teacher.UserId
-                                                      select fTchr;
+                                                              where fTchr.TeacherId == teacher.UserId
+                                                              select fTchr;
             if (iqFormerTeacher.Count() != 0)
             {
                 return true;
@@ -282,6 +282,29 @@ namespace EContactBook.DataAccess
             {
                 return false;
             }
+        }
+
+        public Class_Class GetClass(aspnet_User user, Configuration_Year year)
+        {
+            Class_Class Class = null;
+            IQueryable<Class_Class> iqClass = from f in db.Class_FormerTeachers
+                                              where f.TeacherId == user.UserId
+                                              && f.Class_Class.YearId == year.YearId
+                                              select f.Class_Class;
+            if (iqClass.Count() != 0)
+            {
+                Class = iqClass.First();
+            }
+
+            return Class;
+        }
+
+        public int GetFormeredClassCount(aspnet_User teacher)
+        {
+            IQueryable<Class_FormerTeacher> iqClass = from f in db.Class_FormerTeachers
+                                                      where f.TeacherId == teacher.UserId
+                                                      select f;
+            return iqClass.Count();
         }
     }
 }

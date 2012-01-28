@@ -52,13 +52,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BindDropDownLists();
                 this.isSearch = false;
 
-                if (DdlLopHoc.Items.Count != 0)
+                if (CheckUntils.IsNullOrBlank(LblYear.Text) || DdlKhoiLop.Items.Count == 0
+                    || DdlNganh.Items.Count == 0)
                 {
-                    BindRptStudents();
+                    Response.Redirect(AppConstant.PAGEPATH_MESSAGE_LIST);
                 }
                 else
                 {
-                    ProcessDislayInfo(false);
+                    if (DdlLopHoc.Items.Count != 0)
+                    {
+                        BindRptStudents();
+                    }
+                    else
+                    {
+                        ProcessDislayInfo(false);
+                    }
                 }
             }
         }
@@ -102,6 +110,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
             BindRptStudents();
+
+            RbtnSelectAll.Checked = true;
+            RbtnSelectSome.Checked = false;
         }
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
@@ -114,7 +125,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Class_Class Class = null;
 
                 year = new Configuration_Year();
-                year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+                year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
                 try
                 {
@@ -147,7 +158,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 catch (Exception) { }
 
                 List<Student_StudentInClass> studentInClasses = studentBL.GetStudentInClasses(year, faculty, grade, Class);
-                foreach(Student_StudentInClass studentInClass in studentInClasses)
+                foreach (Student_StudentInClass studentInClass in studentInClasses)
                 {
                     messageBL.InsertMessage(studentInClass.StudentInClassId, TxtTitle.Text, TxtContent.Text, DateTime.Now);
                 }
@@ -205,6 +216,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptHocSinh.DataSource = tabularStudents;
             RptHocSinh.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
+            PnlStudentSelection.Visible = bDisplayData;
+            BtnSaveEdit.Enabled = bDisplayData;
+            if (bDisplayData)
+            {
+                BtnSaveEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
+            }
+            else
+            {
+                BtnSaveEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+            }
         }
 
         private double GetStudents(ref List<TabularStudent> tabularStudents)
@@ -217,7 +238,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string studentCode = "";
 
             year = new Configuration_Year();
-            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
             try
             {
@@ -249,7 +270,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, Class, studentCode, "",
+            tabularStudents = studentBL.GetTabularStudents(LogedInUser, IsFormerTeacher, year, faculty, grade, Class, studentCode, "",
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
             return dTotalRecords;
         }
@@ -318,8 +339,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             Configuration_Year year = systemConfigBL.GetLastedYear();
-            LblYear.Text = year.YearName;
-            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+            if (year != null)
+            {
+                LblYear.Text = year.YearName;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
+            }
         }
 
         private void BindDDLClasses()
@@ -346,7 +370,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             year = new Configuration_Year();
-            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
             if ((DdlNganh.Items.Count == 1) || (DdlNganh.Items.Count > 1 && DdlNganh.SelectedIndex > 0))
             {
@@ -360,7 +384,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
 
-            classes = classBL.GetListClasses(year, faculty, grade);
+            classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
@@ -373,7 +397,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BacktoPrevPage()
         {
-            Response.Redirect(AppConstant.PAGEPATH_MESSAGES);
+            Response.Redirect(AppConstant.PAGEPATH_MESSAGE_LIST);
         }
         #endregion
     }

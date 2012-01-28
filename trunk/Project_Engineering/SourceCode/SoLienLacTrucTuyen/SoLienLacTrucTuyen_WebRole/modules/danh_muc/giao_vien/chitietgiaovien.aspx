@@ -4,22 +4,18 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <div id="divScript">
-        <script language="javascript" type="text/javascript">
-        </script>
+    <div style="float: right; padding: 5px 0px 20px 0px">
+        <asp:ImageButton ID="BtnSua" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
+            OnClick="BtnSua_Click" CssClass="BtnEditWithouDisable" />
     </div>
-    <div style="float: right; padding: 5px 0px 5px 0px">
-        <asp:ImageButton ID="BtnSua" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
-            OnClick="BtnSua_Click" />
-    </div>
-    <div style="width: 600px; padding: 10px;" class="loginBox ui-corner-all">
+    <div style="width: 90%; padding: 10px; clear: both" class="loginBox ui-corner-all">
         <table style="width: 400px; float: left">
             <tr>
                 <td style="width: 90px; height: 27px;">
                     Mã giáo viên:
                 </td>
                 <td>
-                    <asp:Label ID="LblUserIdHienThi" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblUserIdHienThi" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -27,7 +23,7 @@
                     Họ tên:
                 </td>
                 <td>
-                    <asp:Label ID="LblTenGiaoVien" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblTenGiaoVien" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -35,7 +31,7 @@
                     Ngày sinh:
                 </td>
                 <td>
-                    <asp:Label ID="LblNgaySinh" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblNgaySinh" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -43,7 +39,7 @@
                     Giới tính:
                 </td>
                 <td>
-                    <asp:Label ID="LblGioiTinh" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblGioiTinh" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -51,7 +47,7 @@
                     Địa chỉ:
                 </td>
                 <td>
-                    <asp:Label ID="LblDiaChi" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblDiaChi" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
             <tr>
@@ -59,7 +55,7 @@
                     Điện thoại:
                 </td>
                 <td>
-                    <asp:Label ID="LblDienThoai" runat="server" Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblDienThoai" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
         </table>
@@ -70,7 +66,7 @@
         <div style="clear: both">
         </div>
     </div>
-    <div class="table_data ui-corner-all" style="width: 600px; margin: 0px auto 0px auto">
+    <div class="table_data ui-corner-all" style="width: 90%; margin: 0px auto 0px auto">
         HOẠT ĐỘNG CHỦ NHIỆM<br />
         <br />
         <div>
@@ -115,15 +111,11 @@
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
             <cc1:DataPager ID="DataPagerChuNhiem" runat="server" OnCommand="DataPagerChuNhiem_Command"
-                PageSize="10" ViewStateMode="Enabled" PageClause="Trang" OfClause="/" FirstClause="<<"
-                BackToFirstClause="Trở về trang đầu" LastClause=">>" GoToLastClause="Đến trang cuối"
-                PreviousClause="<" NextClause=">" CompactModePageCount="3" GenerateFirstLastSection="True"
-                BackToPageClause="Trở về trang" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+                ViewStateMode="Enabled" />
         </div>
     </div>
     <br />
-    <div class="table_data ui-corner-all" style="width: 600px; margin: 0px auto 0px auto">
+    <div class="table_data ui-corner-all" style="width: 90%; margin: 0px auto 0px auto">
         HOẠT ĐỘNG GIẢNG DẠY<br />
         <br />
         <div>
@@ -180,15 +172,11 @@
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
             <cc1:DataPager ID="DataPagerGiangDay" runat="server" OnCommand="DataPagerGiangDay_Command"
-                PageSize="10" ViewStateMode="Enabled" PageClause="Trang" OfClause="/" FirstClause="<<"
-                BackToFirstClause="Trở về trang đầu" LastClause=">>" GoToLastClause="Đến trang cuối"
-                PreviousClause="<" NextClause=">" CompactModePageCount="3" GenerateFirstLastSection="True"
-                BackToPageClause="Trở về trang" NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả"
-                ToClause="đến" />
+                ViewStateMode="Enabled" />
         </div>
     </div>
     <div style="padding: 5px; vertical-align: middle;">
-        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back.png"
             OnClick="BtnBackPrevPage_Click" />
     </div>
 </asp:Content>

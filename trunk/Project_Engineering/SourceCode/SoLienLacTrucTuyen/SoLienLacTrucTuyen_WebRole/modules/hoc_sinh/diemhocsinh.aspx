@@ -45,6 +45,14 @@
                         </tr>
                         <tr>
                             <td>
+                                Học kỳ:
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px" AutoPostBack="true"
+                                    OnSelectedIndexChanged="DdlHocKy_SelectedIndexChanged">
+                                </asp:DropDownList>
+                            </td>
+                            <td>
                                 Môn học:
                             </td>
                             <td>
@@ -60,14 +68,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                Học kỳ:
-                            </td>
-                            <td>
-                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px" AutoPostBack="true"
-                                    OnSelectedIndexChanged="DdlHocKy_SelectedIndexChanged">
-                                </asp:DropDownList>
-                            </td>
                             <td>
                                 <asp:RadioButton ID="RBtnMonth" runat="server" GroupName="GroupTime" Checked="true" />
                                 Tháng:
@@ -90,7 +90,7 @@
             </asp:UpdatePanel>
         </div>
         <div style="width: 30px; margin: 0px auto 0px auto">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm điểm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
@@ -125,7 +125,7 @@
                 <td id="tdDTB" runat="server" style="width: 50px">
                     ĐTB
                 </td>
-                <td id="tdSelectAll" runat="server" class="icon">
+                <td id="thSelectAll" runat="server" class="icon" style="height: 40px;">
                     <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                 </td>
             </tr>
@@ -154,7 +154,7 @@
                         <td style="text-align: right">
                             <%#((double)DataBinder.Eval(Container.DataItem, "DiemTrungBinh") != -1) ? DataBinder.Eval(Container.DataItem, "DiemTrungBinh") : ""%>
                         </td>
-                        <td class="icon">
+                        <td id="tdSelect" runat="server" class="icon" style="height: 40px;">
                             <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
                         </td>
                     </tr>

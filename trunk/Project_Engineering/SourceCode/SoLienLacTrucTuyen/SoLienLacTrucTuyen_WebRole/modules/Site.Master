@@ -166,7 +166,7 @@
         </div>
         <a href="#topOfPage">
             <img id="ImgGoTop" runat="server" style="width: 34px; height: 48px; border-style: none"
-                src="../Styles/Images/go_top.png" alt="Go to top page" />
+                src="../Styles/buttons/go_top.png" alt="Go to top page" />
         </a>
         <ajaxToolkit:AlwaysVisibleControlExtender ID="GoTopPageAlwaysVisible" runat="server"
             TargetControlID="ImgGoTop" HorizontalSide="Right" VerticalSide="Bottom" HorizontalOffset="130"

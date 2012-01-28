@@ -86,10 +86,64 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            string strGradeName = this.HdfSeletedGradeName.Value;
-            gradeBL.DeleteGrade(strGradeName);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptGradeId = null;
+            Category_Grade grade = null;
+
+            foreach (RepeaterItem item in RptKhoiLop.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptGradeId = (HiddenField)item.FindControl("HdfRptGradeId");
+                        grade = new Category_Grade();
+                        grade.GradeId = Int32.Parse(HdfRptGradeId.Value);
+
+                        if (gradeBL.IsDeletable(grade))
+                        {
+                            gradeBL.DeleteGrade(grade);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
+
             isSearch = false;
             BindRptGrades();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField hdfRptGradeId = null;
+            foreach (RepeaterItem item in RptKhoiLop.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        hdfRptGradeId = (HiddenField)item.FindControl("HdfRptGradeId");
+                        Category_Grade grade = gradeBL.GetGrade(Int32.Parse(hdfRptGradeId.Value));
+                        TxtSuaGradeName.Text = grade.GradeName;
+                        TxtOrderEdit.Text = grade.DisplayedOrder.ToString();
+                        HdfSeletedGradeName.Value = grade.GradeName;
+
+                        MPEEdit.Show();
+                        return;
+                    }
+                }
+            }
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
@@ -112,103 +166,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BindRptGrades();
             }
         }
-        #endregion
-
-        #region Repeater event handlers
-        protected void RptKhoiLop_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    Category_Grade grade = (Category_Grade)e.Item.DataItem;
-                    if (!gradeBL.IsDeletable(grade.GradeName))
-                    {
-                        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                        btnDeleteItem.Enabled = false;
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptKhoiLop_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa khối lớp <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptGradeId = (HiddenField)e.Item.FindControl("HdfRptGradeId");
-                        this.HdfGradeId.Value = hdfRptGradeId.Value;
-                        this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
-                        this.HdfRptKhoiLopMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        this.HdfSeletedGradeName.Value = (string)e.CommandArgument;
-                        string gradeName = (string)e.CommandArgument;
-
-                        Category_Grade grade = gradeBL.GetGrade(gradeName);
-
-                        TxtSuaGradeName.Text = grade.GradeName;
-                        TxtOrderEdit.Text = grade.DisplayedOrder.ToString();
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfRptKhoiLopMPEEdit.Value = mPEEdit.ClientID;
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        #endregion
+        #endregion        
 
         #region Pager event handlers
         public void pager_Command(object sender, CommandEventArgs e)
@@ -222,17 +180,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         public void BindRptGrades()
@@ -253,8 +205,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             bool bDisplayData = (grades.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptKhoiLop.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -282,14 +232,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptKhoiLop.DataBind();
         }
 
-        private bool ValidateForAdd(string GradeName, string thuTuHienThi)
+        private bool ValidateForAdd(string gradeName, string displayOrder)
         {
             if (!Page.IsValid)
             {
                 return false;
             }
 
-            if (GradeName == "")
+            if (CheckUntils.IsNullOrBlank(gradeName))
             {
                 GradeNameRequiredAdd.IsValid = false;
                 MPEAdd.Show();
@@ -297,7 +247,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (gradeBL.GradeNameExists(GradeName))
+                if (gradeBL.GradeNameExists(gradeName))
                 {
                     GradeNameValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -307,7 +257,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     try
                     {
-                        short.Parse(thuTuHienThi);
+                        short.Parse(displayOrder);
                     }
                     catch (Exception)
                     {
@@ -327,25 +277,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return false;
             }
-
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptKhoiLop.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptKhoiLopMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
-
-
-            if (newGradeName == "")
+           
+            if (CheckUntils.IsNullOrBlank(newGradeName))
             {
                 GradeNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return false;
             }
             else
@@ -353,7 +289,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (gradeBL.GradeNameExists(editedGradeName, newGradeName))
                 {
                     GradeNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return false;
                 }
                 else
@@ -365,13 +301,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     catch (Exception)
                     {
                         OrderRequiredEdit.IsValid = false;
-                        modalPopupEdit.Show();
+                        MPEEdit.Show();
                         return false;
                     }
                 }
             }
 
             return true;
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptGrades_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
         }
         #endregion
     }

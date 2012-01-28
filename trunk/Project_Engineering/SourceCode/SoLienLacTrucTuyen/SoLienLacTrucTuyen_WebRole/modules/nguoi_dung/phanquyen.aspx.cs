@@ -112,13 +112,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
-            aspnet_Role role = null;            
-            List<TabularDetailedAuthorization> detailedAuthorizations = new List<TabularDetailedAuthorization>();
+            aspnet_Role role = new aspnet_Role();
+            role.RoleId = new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_ROLEID].ToString());
+            bool bRoleParents = authorizationBL.IsRoleParents(role);
+            List<TabularDetailedAuthorization> detailedAuthorizations;
+
             foreach (RepeaterItem rptItemAuthorization in RptPhanQuyen.Items)
             {
                 if (rptItemAuthorization.ItemType == ListItemType.Item || rptItemAuthorization.ItemType == ListItemType.AlternatingItem)
                 {
                     Repeater RptDetailedAuthorization = (Repeater)rptItemAuthorization.FindControl("RptChiTietPhanQuyen");
+                    detailedAuthorizations = new List<TabularDetailedAuthorization>();
                     foreach (RepeaterItem rptItemDetailedAuthorization in RptDetailedAuthorization.Items)
                     {
                         if (rptItemDetailedAuthorization.ItemType == ListItemType.Item || rptItemDetailedAuthorization.ItemType == ListItemType.AlternatingItem)
@@ -143,12 +147,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             detailedAuthorizations.Add(detailedAuthorization);
                         }
                     }
+
+                    authorizationBL.AuthorizeCategorizedFunctions(role, detailedAuthorizations, bRoleParents);
                 }
             }
-
-            role = new aspnet_Role();
-            role.RoleId = new Guid(DdlRoles.SelectedValue); 
-            authorizationBL.Authorize(role, detailedAuthorizations);
+            
             BindRptAuthorizations();            
         }
         #endregion
@@ -172,6 +175,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tabularAuthorizations = authorizationBL.GetTabularAuthorizations(role);
             RptPhanQuyen.DataSource = tabularAuthorizations;
             RptPhanQuyen.DataBind();
+
+            ViewState[AppConstant.VIEWSTATE_SELECTED_ROLEID] = role.RoleId;
         }
         #endregion
     }

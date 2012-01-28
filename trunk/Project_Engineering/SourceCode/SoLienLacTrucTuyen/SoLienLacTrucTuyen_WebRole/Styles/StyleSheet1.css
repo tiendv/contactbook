@@ -85,13 +85,14 @@
 }
 
 .menu_title_level0
-{    
-    text-align:center;
-    text-transform: capitalize;    
-    text-decoration:none;  
-    font-family: 'uvn mang Tre';
-    font-size: 15px;    
+{
+    text-align: center;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
     color: #FFFFFF;
+    font-weight: bold;
 }
 
 .menu_title_level0_footer
@@ -109,14 +110,14 @@
     background-image: url('Images/menu_parent_highlight.png');
     background-repeat: no-repeat;
     margin-top: -10px;
-    padding-top:10px;
-    
-    text-align:center;
+    padding-top: 10px;
+    text-align: center;
     text-transform: capitalize;
-    text-decoration:none;  
-    font-family: 'uvn mang Tre';
-    font-size: 15px;    
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
     color: #FFFFFF;
+    font-weight: bold;
 }
 
 .menu_title_hover_footer
@@ -179,7 +180,7 @@
 
 .title
 {
-    font-family: 'UVN Thang Vu';
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 11pt;
     font-weight: bold;
     text-transform: uppercase;
@@ -191,7 +192,7 @@
 
 .subTitle
 {
-    font-family: 'UVN Thang Vu';
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 11pt;
     font-weight: bold;
     text-transform: uppercase;
@@ -281,10 +282,11 @@ table.search
 
 .tabHeader
 {
-    font-family: 'UVN Thang Vu';
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 10pt;
     text-transform: uppercase;
     color: #0000FF;
+    font-weight: bold;
 }
 
 .hidden
@@ -408,9 +410,7 @@ table.search
 }
 
 .comment_border
-{
-    z-index: 5;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+{   
     padding: 5px;
     border: 1px solid #9d9d9d;
 }
@@ -441,4 +441,10 @@ table.search
     padding: 0px;
     margin: 0px;
     cursor: hand;
+}
+
+.alertNumber
+{
+    color: #FF6600;
+    font-weight: bold;
 }

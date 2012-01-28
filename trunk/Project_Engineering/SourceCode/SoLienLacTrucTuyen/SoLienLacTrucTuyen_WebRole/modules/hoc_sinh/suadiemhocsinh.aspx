@@ -31,11 +31,38 @@
             <table class="search">
                 <tr>
                     <td>
-                        Học sinh:
+                        Họ tên học sinh:
                     </td>
                     <td style="width: 180px;">
                         <asp:Label ID="LblStudentName" runat="server" Text="Label"></asp:Label>
+                    </td>
+                    <td>
+                        Mã học sinh:
+                    </td>
+                    <td>
                         <asp:Label ID="LblStudentCode" runat="server" Text="Label"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Môn học:
+                    </td>
+                    <td>
+                        <asp:Label ID="LblSubjectName" runat="server" Text="Label"></asp:Label>
+                    </td>
+                    <td>
+                        Loại điểm:
+                    </td>
+                    <td style="width: 150px;">
+                        <asp:Label ID="LblMarkTypeName" runat="server" Text="Label"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Học kì:
+                    </td>
+                    <td style="width: 180px;">
+                        <asp:Label ID="LblTermName" runat="server" Text="Label"></asp:Label>
                     </td>
                     <td>
                         Lớp:
@@ -44,30 +71,10 @@
                         <asp:Label ID="LblClassName" runat="server" Text="Label"></asp:Label>
                     </td>
                     <td>
-                        Môn học:
-                    </td>
-                    <td>
-                        <asp:Label ID="LblSubjectName" runat="server" Text="Label"></asp:Label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Loại điểm:
-                    </td>
-                    <td style="width: 150px;">
-                        <asp:Label ID="LblMarkTypeName" runat="server" Text="Label"></asp:Label>
-                    </td>
-                    <td>
                         Năm học:
                     </td>
                     <td style="width: 180px;">
-                        <asp:Label ID="LblYear" runat="server" Text="Label"></asp:Label>
-                    </td>
-                    <td>
-                        Học kì:
-                    </td>
-                    <td style="width: 180px;">
-                        <asp:Label ID="LblTerm" runat="server" Text="Label"></asp:Label>
+                        <asp:Label ID="LblYearName" runat="server" Text="Label"></asp:Label>
                     </td>
                 </tr>
             </table>
@@ -93,12 +100,9 @@
                         <td>
                             <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
                                 <ItemTemplate>
-                                    <asp:HiddenField ID="HdfDetailTermSubjectMarkId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DetailTermSubjectMarkId")%>' />        
-                                    <asp:HiddenField ID="HdfOldMarkValue" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkValue")%>' />        
+                                    <asp:HiddenField ID="HdfDetailTermSubjectMarkId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DetailTermSubjectMarkId")%>' />
+                                    <asp:HiddenField ID="HdfOldMarkValue" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkValue")%>' />
                                     <asp:TextBox ID="TxtMarkValue" runat="server" CssClass="MarkTextBox" Text='<%#DataBinder.Eval(Container.DataItem, "MarkValue")%>'></asp:TextBox>
-                                    <%--<asp:RequiredFieldValidator ID="MarkValueRequired" runat="server" ErrorMessage="Điểm không được để trống"
-                                        ControlToValidate="TxtMarkValue" Display="Dynamic" ForeColor="Red" ValidationGroup="ModifyMark">
-                                    </asp:RequiredFieldValidator>--%>
                                     <asp:RegularExpressionValidator ID="MarkValueRegularExpression" runat="server" ErrorMessage="Giá trị điểm không hợp lệ"
                                         ControlToValidate="TxtMarkValue" Display="Dynamic" ForeColor="Red" ValidationExpression="^(10|[0-9]|0[0-9])$"
                                         ValidationGroup="ModifyMark">
@@ -122,8 +126,8 @@
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
         <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ValidationGroup="ModifyMark"
-            ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />&nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/Images/button_cancel.png"
+            ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />&nbsp;
+        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/buttons/button_cancel.png"
             CssClass="CancelButton" />
     </div>
 </asp:Content>

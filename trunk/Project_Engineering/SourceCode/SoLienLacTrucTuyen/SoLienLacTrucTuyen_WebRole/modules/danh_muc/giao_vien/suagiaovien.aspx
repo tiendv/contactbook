@@ -14,12 +14,12 @@
                     <asp:Label ID="Label2" runat="server" Text="Mã giáo viên:"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="LblUserIdHienThi" runat="server"  Width="293px" CssClass="readOnlyTextBox"></asp:Label>
+                    <asp:Label ID="LblUserIdHienThi" runat="server" Width="293px"></asp:Label>
                 </td>
             </tr>
             <tr>
                 <td style="height: 27px;">
-                    <asp:Label ID="Label12" runat="server" Text="Họ tên:"></asp:Label>
+                    Họ tên:
                     <asp:Label ID="Label13" runat="server" Text="*" ForeColor="Red"></asp:Label>
                 </td>
                 <td>
@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <td style="height: 27px;">
-                    <asp:Label ID="Label16" runat="server" Text="Ngày sinh:"></asp:Label>
+                    Ngày sinh:
                     <asp:Label ID="Label17" runat="server" Text="*" ForeColor="Red"></asp:Label>
                 </td>
                 <td>
@@ -40,6 +40,7 @@
                     <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtNgaySinh"
                         PopupButtonID="BtnCalendarSua" PopupPosition="Right">
                     </ajaxToolkit:CalendarExtender>
+                    <br />
                     <asp:RequiredFieldValidator ID="NgaySinhRequired" runat="server" ControlToValidate="TxtNgaySinh"
                         ValidationGroup="EditGiaoVien" ErrorMessage="Ngày sinh không được để trống" Display="Dynamic"
                         ForeColor="Red"></asp:RequiredFieldValidator>
@@ -47,19 +48,19 @@
             </tr>
             <tr>
                 <td style="height: 27px;">
-                    <asp:Label ID="Label35" runat="server" Text="Giới tính:"></asp:Label>
+                    Giới tính:
                     <asp:Label ID="Label36" runat="server" Text="*" ForeColor="Red"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="Label37" runat="server" Text="Nam:"></asp:Label>
+                    Nam
                     <asp:RadioButton ID="RbtnNam" runat="server" GroupName="GioiTinh" />&nbsp;&nbsp;
-                    <asp:Label ID="Label38" runat="server" Text="Nữ"></asp:Label>
+                    Nữ
                     <asp:RadioButton ID="RbtnNu" runat="server" Checked="true" GroupName="GioiTinh" />
                 </td>
             </tr>
             <tr>
                 <td style="height: 27px;">
-                    <asp:Label ID="Label39" runat="server" Text="Địa chỉ:"></asp:Label>
+                    Địa chỉ:
                     <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red"></asp:Label>
                 </td>
                 <td>
@@ -71,7 +72,7 @@
             </tr>
             <tr>
                 <td style="height: 27px;">
-                    <asp:Label ID="Label40" runat="server" Text="Điện thoại:"></asp:Label>
+                    Điện thoại:
                 </td>
                 <td style="width: auto;">
                     <asp:TextBox ID="TxtDienThoai" runat="server" CssClass="input_textbox"></asp:TextBox>
@@ -84,15 +85,15 @@
         <div style="width: 100px; text-align: center; vertical-align: top; float: right">
             <asp:Image ID="ImgHinhAnh" runat="server" Width="90px" Height="120px" ImageUrl="~/Styles/Images/avatar.png"
                 AlternateText="Hình ảnh" BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
-            <asp:ImageButton ID="BtnDuyetAnhSua" runat="server" Style="padding-top: 5px" ImageUrl="~/Styles/Images/button_browse.png" />
+            <asp:ImageButton ID="BtnDuyetAnhSua" runat="server" Style="padding-top: 5px" ImageUrl="~/Styles/buttons/button_browse.png" />
         </div>
         <div style="clear: both">
         </div>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px; clear: both">
-        <asp:ImageButton ID="BtnSaveAdd" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <asp:ImageButton ID="BtnSaveAdd" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSave_Click" ValidationGroup="EditGiaoVien" CssClass="SaveButton" />&nbsp;&nbsp;&nbsp;
-        <asp:ImageButton ID="BtnCancelAdd" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancelAdd" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
     </div>
 </asp:Content>

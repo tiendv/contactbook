@@ -14,7 +14,7 @@
                                 <div>
                                     <div style="padding: 10px;">
                                         <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/studying_result.png"
-                                            Style="float: left; height: 50px; width: 50px" />
+                                            Style="float: left; height: 47px; width: 49px" />
                                         <div style="width: 85%; float: left; padding-left: 10px;">
                                             <asp:HyperLink ID="HlkUsers" runat="server" Style="font-size: 15px" NavigateUrl="~/modules/phu_huynh/ketquahoctap.aspx">Kết quả học tập</asp:HyperLink>
                                             <br />

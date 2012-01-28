@@ -7,18 +7,66 @@
     <div id="divScript">
         <script language="javascript" type="text/javascript">
             $(document).ready(function () {
-                $(".select input[type='checkbox']").each(function () {
+                $(".messageAll input[type='checkbox']").attr('checked', 'true');
+                $(".messageAll input[type='checkbox']").attr("disabled", "disabled");
+
+                $(".message input[type='checkbox']").each(function () {
                     $(this).attr('checked', 'true');
+                    $(this).attr("disabled", "disabled");
+                    $(this).parents('td').parents('tr').each(function () {
+                        $(this).find('td').addClass('hover');
+                    });
                 });
 
-                $("input[type='checkbox']").attr('checked', 'true');
+                $(".RbtnSelectAll input[type='radio']").each(function () {
+                    if ($(this).is(':checked')) {
+                        $(".messageAll input[type='checkbox']").attr('checked', 'true');
+                        $(".messageAll input[type='checkbox']").attr("disabled", "disabled");
+
+                        $(".message input[type='checkbox']").each(function () {
+                            $(this).attr('checked', 'true');
+                            $(this).attr("disabled", "disabled");
+                            $(this).parents('td').parents('tr').each(function () {
+                                $(this).find('td').addClass('hover');
+                            });
+                        });
+                    } else {
+                        $(".messageAll input[type='checkbox']").attr('checked', 'false');
+                        $(".messageAll input[type='checkbox']").removeAttr('disabled');
+
+                        $(".message input[type='checkbox']").each(function () {
+                            $(this).attr('checked', 'false');
+                            $(this).removeAttr('disabled');
+
+                            $(this).parents('td').parents('tr').each(function () {
+                                $(this).find('td').removeClass('hover');
+                            });
+                        });
+                    }
+                });
+
 
                 $('.RbtnSelectAll').click(function () {
-                    $("input[type='checkbox']").attr('checked', 'true');
+                    $(".messageAll input[type='checkbox']").attr('checked', 'true');
+                    $(".messageAll input[type='checkbox']").attr("disabled", "disabled");
+
+                    $(".message input[type='checkbox']").each(function () {
+                        $(this).attr('checked', 'true');
+                        $(this).attr("disabled", "disabled");
+                        $(this).parents('td').parents('tr').each(function () {
+                            $(this).find('td').addClass('hover');
+                        });
+                    });
                 });
 
                 $('.RbtnSelectSome').click(function () {
-                    $("input[type='checkbox']").attr('checked', 'false');
+                    $(".messageAll input[type='checkbox']").attr('checked', 'false');
+                    $(".messageAll input[type='checkbox']").removeAttr('disabled');
+
+                    $(".message input[type='checkbox']").each(function () {
+                        $(this).attr('checked', 'false');
+                        $(this).removeAttr('disabled');
+                    });
                 });
             });
         </script>
@@ -109,18 +157,20 @@
                 </asp:UpdatePanel>
             </div>
             <div style="width: 30px; margin: 0px auto 0px auto">
-                <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                     ToolTip="Tìm kiếm điểm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
             </div>
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
-        <asp:RadioButton ID="RbtnSelectAll" runat="server" CssClass="RbtnSelectAll" GroupName="SelectStudent"
-            Checked="true" Text="Tất cả học sinh từ kết quả tìm kiếm" />
-        &nbsp;&nbsp;&nbsp;
-        <asp:RadioButton ID="RbtnSelectSome" runat="server" CssClass="RbtnSelectSome" GroupName="SelectStudent"
-            Text="Tùy chọn" />
+        <asp:Panel ID="PnlStudentSelection" runat="server">
+            <asp:RadioButton ID="RbtnSelectAll" runat="server" CssClass="RbtnSelectAll" GroupName="SelectStudent"
+                Checked="true" Text="Tất cả học sinh từ kết quả tìm kiếm" />
+            &nbsp;&nbsp;&nbsp;
+            <asp:RadioButton ID="RbtnSelectSome" runat="server" CssClass="RbtnSelectSome" GroupName="SelectStudent"
+                Text="Tùy chọn" />
+        </asp:Panel>
         <table style="margin: 20px 0px 0px 0px" class="repeater">
             <asp:HiddenField ID="HdfMaHocSinh" runat="server" />
             <asp:HiddenField ID="HdfClassId" runat="server" />
@@ -148,7 +198,7 @@
                             <asp:LinkButton ID="LinkButton4" runat="server">Khối</asp:LinkButton>
                         </td>
                         <td class="icon">
-                            <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
+                            <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll messageAll" />
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -179,7 +229,7 @@
                             <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
                         </td>
                         <td class="icon">
-                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
+                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select message" />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -197,9 +247,9 @@
         </div>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 15px 0px 5px 0px">
-        <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSave_Click" ValidationGroup="AddMessage" CssClass="SaveButton" />&nbsp;
-        <asp:ImageButton ID="BtnCancelEdit" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancelEdit" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
     </div>
 </asp:Content>

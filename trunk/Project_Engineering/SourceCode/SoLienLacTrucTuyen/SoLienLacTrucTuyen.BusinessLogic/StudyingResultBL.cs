@@ -47,22 +47,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             studyingResultDA.InsertTermStudyingResult(termStudyingResult);
         }
 
-        //public void InsertDetailedMark(Student_Student student, Class_Class Class, Configuration_Term, Category_Subject subject, Category_MarkType markType, double mark)
-        //{
-        //    studyingResultDA.InsertDetailedMark(student, Class, term, subject, markType, mark);
-        //}
-
-        public void InsertDetailedMark(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, double mark)
-        {
-            Student_DetailedTermSubjectMark detailedMark = new Student_DetailedTermSubjectMark();
-            detailedMark.TermSubjectMarkId = termSubjectedMark.TermSubjectMarkId;
-            detailedMark.MarkType = markType.MarkTypeId;
-            detailedMark.MarkValue = mark;
-
-            studyingResultDA.InsertDetailMark(detailedMark);
-            studyingResultDA.CalAvgMark(termSubjectedMark);
-        }
-
         /// <summary>
         /// Add new marks for student
         /// </summary>
@@ -103,58 +87,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         /// <summary>
-        /// Update student's marks
-        /// </summary>
-        /// <param name="student"></param>
-        /// <param name="Class"></param>
-        /// <param name="term"></param>
-        /// <param name="subject"></param>
-        /// <param name="marks"></param>
-        public void UpdateDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<MarkValueAndTypePair> marks)
-        {
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();
-            Category_MarkType markType = null;
-            List<int> markTypeIds = new List<int>();
-
-            // Lấy danh sách phân biệt LoaiDiem
-            foreach (MarkValueAndTypePair mark in marks)
-            {
-                markType = new Category_MarkType();
-                markType.MarkTypeId = mark.MarkTypeId;
-                markTypes.Add(markType);
-            }
-            markTypes = markTypes.GroupBy(c => c.MarkTypeId).Select(g => g.First()).ToList();
-
-            // Xoa cac diem cua hoc sinh theo MarkTypeId
-            studyingResultDA.DeleteDetailedMark(student, Class, term, subject, markTypes);
-
-            int i = 0;
-            while (i < marks.Count)
-            {
-                if (marks[i].GiaTri == -1)
-                {
-                    marks.RemoveAt(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-
-            studyingResultDA.InsertDetailedMark(student, Class, term, subject, marks);
-            if (NeedResetAvgMark(student, Class, term, subject))
-            {
-                studyingResultDA.ResetAvgMark(student, Class, term, subject);
-            }
-            else
-            {
-                studyingResultDA.CalculateTermSubjectAvgMark(student, Class, term, subject);
-            }
-
-            studyingResultDA.CalculateTermAvgMark(student, Class, term);
-        }
-
-        /// <summary>
         /// Check if need to reset avg mark
         /// </summary>
         /// <param name="student"></param>
@@ -165,28 +97,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         private bool NeedResetAvgMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject)
         {
             return studyingResultDA.NeedResetAvgMark(student, Class, term, subject);
-        }
-
-        public void UpdateDetailedMark(Student_DetailedTermSubjectMark editedDetailedMark, double mark)
-        {
-            editedDetailedMark.MarkValue = mark;
-            studyingResultDA.UpdateDetailedMark(editedDetailedMark);
-        }
-
-        public void UpdateStudentTermResult(Student_TermLearningResult editedTermResult, Category_Conduct conduct)
-        {
-            editedTermResult.TermConductId = conduct.ConductId;
-            studyingResultDA.UpdateStudentTermResult(editedTermResult);
-        }
-
-        public void DeleteDetailedMark(Student_DetailedTermSubjectMark deletedDetailedMark)
-        {
-            studyingResultDA.DeleteDetailedMark(deletedDetailedMark);
-        }
-
-        public Student_DetailedTermSubjectMark GetDetailedMark(int detailedMarkId)
-        {
-            return studyingResultDA.GetDetailedMark(detailedMarkId);
         }
 
         public List<TabularSubjectTermResult> GetTabularSubjectTermResults(Student_Student student, Configuration_Year year, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecords)
@@ -243,62 +153,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lstStringDiemMonHoc;
         }
 
-        public Student_Student GetStudent(Student_TermSubjectMark termSubjectedMark)
-        {
-            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
-            return termSubjectedMark.Student_StudentInClass.Student_Student;
-        }
-
-        public Configuration_Year GetYear(Student_TermSubjectMark termSubjectedMark)
-        {
-            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
-            return termSubjectedMark.Student_StudentInClass.Class_Class.Configuration_Year;
-        }
-
-        public Configuration_Term GetTerm(Student_TermSubjectMark termSubjectedMark)
-        {
-            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
-            return termSubjectedMark.Configuration_Term;
-        }
-
-        public Category_Subject GetSubject(Student_TermSubjectMark termSubjectedMark)
-        {
-            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
-            return termSubjectedMark.Category_Subject;
-        }
-
-        public double GetAVGMark(Student_TermSubjectMark termSubjectedMark)
-        {
-            Student_TermSubjectMark termSubjMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
-            return termSubjectedMark.AverageMark;
-        }
-
-        public List<TabularChiTietDiemMonHocLoaiDiem> GetListTabularChiTietDiemMonHocLoaiDiem(Student_TermSubjectMark termSubjectedMark, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {
-            List<TabularChiTietDiemMonHocLoaiDiem> tbChiTietDiemMonHocLoaiDiems = new List<TabularChiTietDiemMonHocLoaiDiem>();
-            List<Student_DetailedTermSubjectMark> detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectedMark, pageCurrentIndex, pageSize, out totalRecords);
-            TabularChiTietDiemMonHocLoaiDiem tbChiTietDiemMonHocLoaiDiem = null;
-            foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
-            {
-                tbChiTietDiemMonHocLoaiDiem = new TabularChiTietDiemMonHocLoaiDiem();
-                tbChiTietDiemMonHocLoaiDiem.MaChiTietDiem = detailedMark.DetailedTermSubjectMark;
-                tbChiTietDiemMonHocLoaiDiem.MarkTypeName = detailedMark.Category_MarkType.MarkTypeName;
-                tbChiTietDiemMonHocLoaiDiem.Diem = detailedMark.MarkValue;
-
-                tbChiTietDiemMonHocLoaiDiems.Add(tbChiTietDiemMonHocLoaiDiem);
-            }
-
-            return tbChiTietDiemMonHocLoaiDiems;
-        }
-
         public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularTermStudentResult> tabularTermStudentResults = null;
-            TabularTermStudentResult tabularTermStudentResult = null;
+            TabularTermStudentResult tabularTermStudentResult = null; // used in loop
             LearningAptitudeBL learningAptitudeBL = null;
             ConductBL conductBL = null;
-            DanhHieuBL learningResultBL = null;
+            LearningResultBL learningResultBL = null;
             Category_Conduct conduct = null;
             Category_LearningAptitude learningAptitude = null;
             Category_LearningResult learningResult = null;
@@ -308,17 +170,26 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             termResults = studyingResultDA.GetStudentTermResults(student, year, pageCurrentIndex, pageSize, out totalRecords);
             if (totalRecords != 0)
             {
+                // init BLs
                 learningAptitudeBL = new LearningAptitudeBL(school);
                 conductBL = new ConductBL(school);
-                learningResultBL = new DanhHieuBL(school);
-                tabularTermStudentResults = new List<TabularTermStudentResult>(); // init result list
+                learningResultBL = new LearningResultBL(school);
+
+                // init result list
+                tabularTermStudentResults = new List<TabularTermStudentResult>(); 
+
                 foreach (Student_TermLearningResult termResult in termResults)
                 {
                     tabularTermStudentResult = new TabularTermStudentResult();
+                    // term's name
                     tabularTermStudentResult.TermName = termResult.Configuration_Term.TermName;
-                    tabularTermStudentResult.AverageMark = (int)termResult.TermAverageMark;
+                    // average mark
+                    tabularTermStudentResult.AverageMark = (double)termResult.TermAverageMark;
+                    // average mark in string format
                     tabularTermStudentResult.StringAverageMark = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
-                    tabularTermStudentResult.LearningAptitudeId = (int)termResult.TermLearningAptitudeId;
+
+                    tabularTermStudentResult.LearningAptitudeId = (int)termResult.TermLearningAptitudeId; // default is -1
+                    // get name of learning aptitude
                     learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularTermStudentResult.AverageMark);
                     if (learningAptitude != null)
                     {
@@ -328,7 +199,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     {
                         tabularTermStudentResult.LearningAptitudeName = "(Chưa xác định)";
                     }
-                    tabularTermStudentResult.ConductId = termResult.TermConductId;
+
+                    tabularTermStudentResult.ConductId = (int)termResult.TermConductId;
+                    // get name of conduct
                     conduct = conductBL.GetConduct((int)tabularTermStudentResult.ConductId);
                     if (conduct != null)
                     {
@@ -338,6 +211,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     {
                         tabularTermStudentResult.ConductName = "(Chưa xác định)";
                     }
+
+                    // get name of learningResult
                     if (conduct != null && learningAptitude != null)
                     {
                         learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
@@ -354,9 +229,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     {
                         tabularTermStudentResult.LearningResultName = "(Chưa xác định)";
                     }
+
                     tabularTermStudentResults.Add(tabularTermStudentResult);
                 }
 
+                // final result
                 tabularFinalStudentResult = new TabularTermStudentResult();
                 tabularFinalStudentResult.LearningAptitudeId = -1;
                 tabularFinalStudentResult.TermName = "Cả năm";
@@ -370,6 +247,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     tabularFinalStudentResult.AverageMark = -1;
                     tabularFinalStudentResult.StringAverageMark = "(Chưa xác định)";
                 }
+
                 // Nếu đã xác định được hạnh kiểm cả 2 học kì
                 if (tabularTermStudentResults[0].ConductId != -1 && tabularTermStudentResults[1].ConductId != -1)
                 {
@@ -380,6 +258,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     tabularFinalStudentResult.ConductId = -1;
                 }
+
                 conduct = conductBL.GetConduct((int)tabularFinalStudentResult.ConductId);
                 if (conduct != null)
                 {
@@ -389,6 +268,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     tabularFinalStudentResult.ConductName = "(Chưa xác định)";
                 }
+
+
                 learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularFinalStudentResult.AverageMark);
                 if (learningAptitude != null)
                 {
@@ -415,6 +296,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     tabularFinalStudentResult.LearningResultName = "(Chưa xác định)";
                 }
+
                 tabularTermStudentResults.Add(tabularFinalStudentResult);
             }
 
@@ -428,7 +310,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             TabularStudentRating tabularStudentRating = null;
             LearningAptitudeBL learningAptitudeBL = null;
             ConductBL conductBL = null;
-            DanhHieuBL learningResultBL = null;
+            LearningResultBL learningResultBL = null;
             Category_Conduct conduct = null;
             Category_LearningAptitude learningAptitude = null;
             Category_LearningResult learningResult = null;
@@ -451,7 +333,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 learningAptitudeBL = new LearningAptitudeBL(school);
                 conductBL = new ConductBL(school);
-                learningResultBL = new DanhHieuBL(school);
+                learningResultBL = new LearningResultBL(school);
                 tabularStudentRatings = new List<TabularStudentRating>(); // init result list
                 if (term != null)
                 {
@@ -516,7 +398,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     if ((termResults[i].TermAverageMark != -1) && (termResults[i + 1].TermAverageMark != -1))
                     {
                         tabularStudentRating.AverageMark = Math.Round(
-                            ((double)termResults[i].TermAverageMark + 2 * (double)termResults[i+1].TermAverageMark) / 3, 1
+                            ((double)termResults[i].TermAverageMark + 2 * (double)termResults[i + 1].TermAverageMark) / 3, 1
                         );
                         tabularStudentRating.StringAverageMark = tabularStudentRating.AverageMark.ToString();
                     }
@@ -569,7 +451,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     {
                         tabularStudentRating.LearningResultName = "(Chưa xác định)";
                     }
-                    
+
                     tabularStudentRatings.Add(tabularStudentRating);
                     i++;
 
@@ -581,63 +463,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return tabularStudentRatings;
         }
-
-        public List<TabularStudentMark> InitTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, List<Category_MarkType> markTypes,
-            int pageCurrentIndex, int pageSize, out double totalRecord)
-        {
-            Student_Student student = new Student_Student();
-            // student
-
-            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
-            TabularStudentMark tabularStudentMark = null;
-            List<Student_TermSubjectMark> termSubjectMarks = null;
-            List<MarkTypedMark> markMypedMarks = null;
-            List<Student_DetailedTermSubjectMark> detailedMarks = null;
-            StringBuilder strB = new StringBuilder();
-            string strMarks = "";
-            MarkTypeBL markTypeBL = new MarkTypeBL(school);
-
-            termSubjectMarks = studyingResultDA.GetTermSubjectedMarks(Class, subject, term, pageCurrentIndex, pageSize, out totalRecord);
-            foreach (Student_TermSubjectMark termSubjectMark in termSubjectMarks)
-            {
-                tabularStudentMark = new TabularStudentMark();
-                tabularStudentMark.MaDiemHK = termSubjectMark.TermSubjectMarkId;
-                tabularStudentMark.MaHocSinh = termSubjectMark.Student_StudentInClass.StudentId;
-                tabularStudentMark.MaHocSinhHienThi = termSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
-                tabularStudentMark.TenHocSinh = termSubjectMark.Student_StudentInClass.Student_Student.FullName;
-                tabularStudentMark.DiemTrungBinh = termSubjectMark.AverageMark;
-
-                markMypedMarks = new List<MarkTypedMark>();
-                foreach (Category_MarkType markType in markTypes)
-                {
-                    List<double> dMarks = new List<double>();
-                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType);
-                    strMarks = "";
-
-                    foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
-                    {
-                        strB.Append(detailedMark.MarkValue.ToString());
-                        strB.Append(", ");
-                    }
-
-                    strMarks = strB.ToString().Trim().Trim(new char[] { ',' });
-                    strB.Clear();
-
-                    MarkTypedMark markTypedMark = new MarkTypedMark();
-                    markTypedMark.MarkTypeId = markType.MarkTypeId;
-                    markTypedMark.MarkTypeName = markType.MarkTypeName;
-                    markTypedMark.StringDiems = strMarks;
-
-                    markMypedMarks.Add(markTypedMark);
-                }
-
-                tabularStudentMark.DiemTheoLoaiDiems = markMypedMarks;
-                tabularStudentMarks.Add(tabularStudentMark);
-            }
-
-            return tabularStudentMarks;
-        }
-
+        
         /// <summary>
         /// Get list of TabularStudentMark
         /// </summary>
@@ -810,66 +636,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudentMarks;
         }
 
-        //public List<TabularDiemHocSinh> GetListDiemHocSinh(int ClassId, int SubjectId,
-        //    int TermId, int MarkTypeId,
-        //    int pageCurrentIndex, int pageSize, out double totalRecord)
-        //{
-        //    MarkTypeBL loaiDiemBL = new MarkTypeBL();
-        //    List<Category_MarkType> lLoaiDiems = loaiDiemBL.GetListLoaiDiem(MarkTypeId);
-        //    return kqhtDA.GetListDiemHocSinh(ClassId, SubjectId, TermId,
-        //        lLoaiDiems,
-        //        pageCurrentIndex, pageSize, out totalRecord);
-        //}
-
-        //public bool ValidateMark(string marks, int markTypeCode)
-        //{
-        //    marks = marks.Trim();
-        //    if (marks != "")
-        //    {
-        //        string[] strMarks = marks.Split(',');
-        //        short totalMarkCount = 0;
-        //        foreach (string strMark in strMarks)
-        //        {
-        //            double dMark = -1;
-        //            if (double.TryParse(strMark.Trim(), out dMark))
-        //            {
-        //                if (dMark > 10)
-        //                {
-        //                    return false;
-        //                }
-        //                else
-        //                {
-        //                    totalMarkCount++;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                return false;
-        //            }
-        //        }
-
-        //        MarkTypeBL loaiDiemBL = new MarkTypeBL();
-        //        Category_MarkType loaiDiem = loaiDiemBL.GetLoaiDiem(markTypeCode);
-        //        if (totalMarkCount > loaiDiem.MaxQuantity)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
-
         public ADDINGMARKERROR ValidateMark(Student_Student student, Configuration_Year year, Configuration_Term term, Category_Subject subject, Category_MarkType markType, string markTexts)
         {
+            // declare variables
             double dMark;
             List<Student_DetailedTermSubjectMark> existedDetailedTermSubjectMarks;
+
             markTexts = markTexts.Trim();
+
             if (!CheckUntils.IsNullOrBlank(markTexts)) // Only validate when markTexts is not blank
             {
-                string[] strMarks = markTexts.Split(',');
-                short markCount = 0; // count of mark
+                string[] strMarkElements = markTexts.Split(',');
+                short sMarkCount = 0; // count of mark
 
                 // loop in each mark
-                foreach (string strMark in strMarks)
+                foreach (string strMark in strMarkElements)
                 {
                     dMark = 0;
                     if (double.TryParse(strMark.Trim(), out dMark))
@@ -880,7 +661,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         }
                         else
                         {
-                            markCount++;
+                            sMarkCount++;
                         }
                     }
                     else
@@ -891,18 +672,34 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
 
                 existedDetailedTermSubjectMarks = studyingResultDA.GetDetailedTermSubjectMarks(student, year, term, subject, markType);
-                markCount += (short)existedDetailedTermSubjectMarks.Count;
+                sMarkCount += (short)existedDetailedTermSubjectMarks.Count;
 
                 MarkTypeBL markTypeBL = new MarkTypeBL(school);
                 markType = markTypeBL.GetMarkType(markType.MarkTypeId);
-                if (markCount > markType.MaxQuantity)
+                if (sMarkCount > markType.MaxQuantity)
                 {
                     return ADDINGMARKERROR.EXCEEDQUANTITY;
                 }
-
             }
 
             return ADDINGMARKERROR.NOERROR;
+        }
+
+        public bool MarkExceedQuantity(Student_Student student, Configuration_Year year, Configuration_Term term, Category_Subject subject, Category_MarkType markType)
+        {
+            // declare variables
+            List<Student_DetailedTermSubjectMark> existedDetailedTermSubjectMarks;
+
+            existedDetailedTermSubjectMarks = studyingResultDA.GetDetailedTermSubjectMarks(student, year, term, subject, markType);
+
+            MarkTypeBL markTypeBL = new MarkTypeBL(school);
+            markType = markTypeBL.GetMarkType(markType.MarkTypeId);
+            if (existedDetailedTermSubjectMarks.Count == markType.MaxQuantity)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private List<List<double>> GetDoubleSubjectMarks(Student_TermSubjectMark termSubjectedMark)
@@ -998,7 +795,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularTermSubjectMarks;
         }
 
-        public void UpdateDetailedMark(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<TabularTermSubjectMark> tabularTermSubjectMarks)
+        public void UpdateDetailedMarks(Student_Student student, Class_Class Class, Configuration_Term term, Category_Subject subject, List<TabularTermSubjectMark> tabularTermSubjectMarks)
         {
             List<Student_DetailedTermSubjectMark> detailedTermSubjectMarks = new List<Student_DetailedTermSubjectMark>();
             Student_DetailedTermSubjectMark detailedTermSubjectMark = null;
@@ -1040,19 +837,33 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<Category_Subject> HasNewMarks(Student_Student student)
         {
-            StudentBL studentBL = new StudentBL(school);
-            Class_Class Class = studentBL.GetLastedClass(student);
             int iLimitDays = 3;
+
+            // declare BLs
+            StudentBL studentBL = new StudentBL(school);
+
+            // get lasted class that student joins
+            Class_Class Class = studentBL.GetLastedClass(student);
+
+            // get list of subjects that have new mark
             return studyingResultDA.GetNewMarkSubjects(student, Class, iLimitDays);
         }
 
-        public List<Category_Subject> HasFinalNewMarks(Student_Student student)
+        public List<Category_Subject> HasNewFinalMarks(Student_Student student)
         {
-            StudentBL studentBL = new StudentBL(school);
-            Class_Class Class = studentBL.GetLastedClass(student);
-            MarkTypeBL markTypeBL = new MarkTypeBL(school);
-            Category_MarkType markType = markTypeBL.GetAppliedCalAvgMarkType(Class.Category_Grade);
             int iLimitDays = 3;
+            
+            // declare BLs
+            StudentBL studentBL = new StudentBL(school);
+            MarkTypeBL markTypeBL = new MarkTypeBL(school); 
+            
+            // get lasted class that student joins
+            Class_Class Class = studentBL.GetLastedClass(student);
+
+            // get markType that used to calculate average mark
+            Category_MarkType markType = markTypeBL.GetAppliedCalAvgMarkType(Class.Category_Grade);
+
+            // get list of subjects that have new final mark
             return studyingResultDA.GetNewMarkSubjects(student, Class, iLimitDays, markType);
         }
     }

@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ThemTietThoiKhoaBieuPage {
+    public partial class AddDetailSchedulePage {
         
         /// <summary>
         /// LblTenLop control.

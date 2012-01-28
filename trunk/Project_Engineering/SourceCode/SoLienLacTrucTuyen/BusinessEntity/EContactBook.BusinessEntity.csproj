@@ -66,6 +66,7 @@
     <Compile Include="MenuItem.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="TabularImportedStudent.cs" />
+    <Compile Include="TabularLearningResult.cs" />
     <Compile Include="TabularMarkType.cs" />
     <Compile Include="TabularMessage.cs" />
     <Compile Include="TabularParentsComment.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="TabularStudentRating.cs" />
     <Compile Include="TabularSubject.cs" />
     <Compile Include="TabularDiemHocSinh.cs" />
-    <Compile Include="TabularHanhKiemHocSinh.cs" />
+    <Compile Include="TabularStudentConduct.cs" />
     <Compile Include="TabularTeachingPeriod.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="TabularUser.cs" />
     <Compile Include="TabularAuthorization.cs" />
     <Compile Include="TabularRole.cs" />
+    <Compile Include="TabularYear.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

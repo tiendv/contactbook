@@ -208,7 +208,7 @@ namespace EContactBook.DataAccess
                                                     select year;
             if (iqYear.Count() != 0)
             {
-                years = iqYear.OrderByDescending(year => year.BeginYear).ToList();
+                years = iqYear.OrderByDescending(year => year.YearId).ToList();
             }
 
             return years;
@@ -443,6 +443,17 @@ namespace EContactBook.DataAccess
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Student_StudentInClass> iqStudentInClass;
@@ -454,11 +465,34 @@ namespace EContactBook.DataAccess
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+           IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
                                where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
                                && stdInCls.Class_Class.GradeId == grade.GradeId
                                select stdInCls;
 
@@ -477,6 +511,19 @@ namespace EContactBook.DataAccess
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, Category_Grade grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
+                                && stdInCls.Class_Class.GradeId == grade.GradeId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Student_StudentInClass> iqStudentInClass;
@@ -488,11 +535,36 @@ namespace EContactBook.DataAccess
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, Category_Faculty faculty, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
                                where stdInCls.Class_Class.YearId == year.YearId
+                               && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, Category_Faculty faculty, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
                                && stdInCls.Class_Class.FacultyId == faculty.FacultyId
                                && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
@@ -512,12 +584,39 @@ namespace EContactBook.DataAccess
             return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
+                                && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<Student_StudentInClass> GetStudentInClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
                                where stdInCls.Class_Class.YearId == year.YearId
                                && stdInCls.Class_Class.FacultyId == faculty.FacultyId
+                               && stdInCls.Class_Class.GradeId == grade.GradeId
+                               && stdInCls.Student_Student.FullName == studentName
+                               select stdInCls;
+
+            return GetStudentInClasses(ref iqStudentInClass, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Student_StudentInClass> iqStudentInClass;
+            iqStudentInClass = from f in db.Class_FormerTeachers
+                               join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
+                               where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId
+                                && stdInCls.Class_Class.FacultyId == faculty.FacultyId
                                && stdInCls.Class_Class.GradeId == grade.GradeId
                                && stdInCls.Student_Student.FullName == studentName
                                select stdInCls;
@@ -655,33 +754,41 @@ namespace EContactBook.DataAccess
 
         #endregion
 
-        public List<TabularHanhKiemHocSinh> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<TabularStudentConduct> GetListHanhKiemHocSinh(int ClassId, int TermId, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            IQueryable<TabularHanhKiemHocSinh> iqDanhHieuHK;
-            iqDanhHieuHK = from danhHieuHK in db.Student_TermLearningResults
+            AbsentDA absentDA = new AbsentDA(school);
+            Class_Class Class = new Class_Class();
+            Class.ClassId = ClassId;
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = TermId;
+            IQueryable<TabularStudentConduct> iqDanhHieuHK;
+            iqDanhHieuHK = from termLearningResult in db.Student_TermLearningResults
                            join hocSinhLop in db.Student_StudentInClasses
-                                on danhHieuHK.StudentInClassId equals hocSinhLop.StudentInClassId
+                                on termLearningResult.StudentInClassId equals hocSinhLop.StudentInClassId
                            join hocSinh in db.Student_Students
                                 on hocSinhLop.StudentId equals hocSinh.StudentId
-                           where hocSinhLop.ClassId == ClassId && danhHieuHK.TermId == TermId
-                           select new TabularHanhKiemHocSinh
+                           where hocSinhLop.ClassId == ClassId && termLearningResult.TermId == TermId
+                           select new TabularStudentConduct
                            {
-                               MaHocSinh = hocSinhLop.StudentId,
-                               MaHocSinhHienThi = hocSinh.StudentCode,
-                               HoTenHocSinh = hocSinh.FullName,
-                               ConductId = danhHieuHK.TermConductId
+                               StudentID = hocSinhLop.StudentId,
+                               StudentCode = hocSinh.StudentCode,
+                               StudentName = hocSinh.FullName,
+                               ConductId = termLearningResult.TermConductId,
+                               TotalOfAbsentDays = absentDA.GetTotalDayOfAbsent(hocSinhLop.Student_Student, Class, term),
+                               TotalOfAskedAbsentDays = absentDA.GetTotalDayOfAbsent(hocSinhLop.Student_Student, Class, term, true),
+                               TotalOfUnaskedAbsentDays = absentDA.GetTotalDayOfAbsent(hocSinhLop.Student_Student, Class, term, false)
                            };
 
             totalRecords = iqDanhHieuHK.Count();
             if (totalRecords != 0)
             {
-                return iqDanhHieuHK.OrderBy(hocSinh => hocSinh.MaHocSinhHienThi)
-                    .ThenBy(hocSinh => hocSinh.HoTenHocSinh)
+                return iqDanhHieuHK.OrderBy(hocSinh => hocSinh.StudentCode)
+                    .ThenBy(hocSinh => hocSinh.StudentName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
             else
             {
-                return new List<TabularHanhKiemHocSinh>();
+                return new List<TabularStudentConduct>();
             }
         }
 
@@ -707,7 +814,7 @@ namespace EContactBook.DataAccess
             Class_Class Class = null;
             IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from stdInCls in db.Student_StudentInClasses
-                               where stdInCls.StudentId == deletedStudent.StudentId                              
+                               where stdInCls.StudentId == deletedStudent.StudentId
                                select stdInCls;
             if (iqStudentInClass.Count() != 0)
             {

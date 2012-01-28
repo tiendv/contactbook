@@ -4,6 +4,21 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div id="divScript">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(this).find(".radio input[type='radio']").change(function () {
+                    if ($(this).is(':checked')) {
+                        $(this).parents('td').parents('tr').siblings().each(function () {
+                            $(this).find(".radio input[type='radio']").each(function () {
+                                $(this).attr('checked', false);
+                            });
+                        });
+                    }
+                });
+            });
+        </script>
+    </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
             <table class="search">
@@ -55,21 +70,30 @@
                 </tr>
             </table>
         </div>
-        <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+        <div id="divButtonSearch" style="margin: 5px 0px 0px 0px">
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm ý kiến phụ huynh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
     <div class="table_data ui-corner-all">
+        <div class="add">
+            <asp:ImageButton ID="BtnFeedback" runat="server" ImageUrl="~/Styles/buttons/button_feedback.png"
+                OnClick="BtnFeedback_Click" ToolTip="Phản hồi ý kiến" CssClass="ButtonFeedback" />
+        </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
+        <asp:Panel ID="PnlCommentStatus" runat="server" Style="font-weight: bold">
+            <span style="clear: both">
+                <br />
+            </span>
+            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/alert.png" />
+            Bạn có
+            <asp:Label ID="LblCommentStatus" runat="server" CssClass="alertNumber"></asp:Label>
+            góp ý chưa phản hồi
+        </asp:Panel>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaLoiNhanKhan" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDelete" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEEdit" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetail" runat="server" />
-            <asp:HiddenField ID="HdfRptLoiNhanKhanMPEDetailHS" runat="server" />
             <asp:Repeater ID="RptLoiNhanKhan" runat="server" OnItemCommand="RptLoiNhanKhan_ItemCommand"
                 OnItemDataBound="RptLoiNhanKhan_ItemDataBound">
                 <HeaderTemplate>
@@ -86,8 +110,8 @@
                         <td style="width: 100px">
                             Tình trạng
                         </td>
-                        <td style="width: 80px">
-                            Phản hồi
+                        <td id="thSelectAll" runat="server" class="icon" style="height: 40px;">
+                            Chọn
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -107,11 +131,12 @@
                             <%#DataBinder.Eval(Container.DataItem, "Date")%>
                         </td>
                         <td style="height: 40px;">
+                            <asp:HiddenField ID="HdfCommentStatusId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "CommentStatusId")%>' />
                             <%#DataBinder.Eval(Container.DataItem, "CommentStatusName")%>
                         </td>
-                        <td style="height: 40px; text-align: center">
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Icons/icon_feedback.png"
-                                CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "CommentId")%>' />
+                        <td id="tdSelect" runat="server" class="icon" style="height: 40px;">
+                            <%--<asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />--%>
+                            <asp:RadioButton ID="RBtnSelect" runat="server" CssClass="radio" />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -124,7 +149,7 @@
             </asp:Repeater>
         </table>
     </div>
-    <div style="float: right; margin-top: -35px; padding-right: 30px;">
+    <div style="float: right; margin-top: -45px; padding-right: 30px;">
         <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
             ViewStateMode="Enabled" />
     </div>

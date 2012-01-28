@@ -28,20 +28,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.GetUser(userName);
         }
 
-        public void DeactivateUser(aspnet_User user)
+        public void ActivateUsers(List<aspnet_User> users)
         {
-            userDA.ChangeUserActivation(user, false);
+            if (users.Count != 0)
+            {
+                userDA.ChangeUserActivation(users, true);
+            }
         }
 
-        public void ActivateUser(aspnet_User user)
+        public void DeactivateUsers(List<aspnet_User> users)
         {
-            userDA.ChangeUserActivation(user, true);
-        }
-
-        public void ActivateUser(aspnet_User user, string email, bool activation)
-        {
-            userDA.UpdateMembership(user.UserName, email, true);
-        }
+            if (users.Count != 0)
+            {
+                userDA.ChangeUserActivation(users, false);
+            }
+        }        
 
         public aspnet_User GetUser(Guid userId)
         {
@@ -81,7 +82,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             foreach (aspnet_User user in users)
             {
-                tabularUser = ConvertToTabular(user);
+                tabularUser = ConvertToTabularUser(user);
                 tabularUsers.Add(tabularUser);
             }
 
@@ -95,35 +96,41 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<aspnet_Role> GetRoles(string userName)
         {
-            return userDA.GetRoles(userName);
-        }
+            List<aspnet_Role> roles = userDA.GetRoles(userName);
+            List<aspnet_Role> returnedRoles = new List<aspnet_Role>();
 
-        public Guid GetApplicationId(string userName)
-        {
-            return userDA.GetApplicationId(userName);
-        }
+            RoleBL roleBL = new RoleBL(school);
+            aspnet_Role roleFormerTeacher = roleBL.GetRoleFormerTeacher();
+            aspnet_Role roleSubjectTeacher = null;
+            bool bFormerOrSubject = false;
 
-        public bool ValidateUser(string newUserName, aspnet_Role selectedRole)
-        {
-            AuthorizationBL authorizationBL = new AuthorizationBL(school);
-            StudentBL studentBL = null;
-            if (authorizationBL.IsRoleParents(selectedRole))
+            if (roleFormerTeacher != null)
             {
-                studentBL = new StudentBL(school);
-                if (!studentBL.StudentCodeExists(newUserName))
+                roleSubjectTeacher = roleBL.GetRoleSubjectTeacher();
+                foreach(aspnet_Role role in roles)
                 {
-                    return false;
+                    if (role.RoleId == roleFormerTeacher.RoleId)
+                    {
+                        returnedRoles.Add(roleFormerTeacher);
+                        bFormerOrSubject = true;
+                    }
+
+                    if (role.RoleId == roleSubjectTeacher.RoleId)
+                    {
+                        returnedRoles.Add(roleSubjectTeacher);
+                        bFormerOrSubject = true;
+                    }
                 }
             }
 
-            bool bUserNameExists = UserNameExists(newUserName);
-
-            return (!bUserNameExists);
-        }
-
-        private bool UserNameExists(string newUserName)
-        {
-            return true;
+            if (bFormerOrSubject)
+            {
+                return returnedRoles;
+            }
+            else
+            {
+                return roles;
+            }            
         }
 
         public bool ValidateUser(string userName)
@@ -152,10 +159,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void UpdateMembership(aspnet_User user, bool isTeacher, string realName, string email, bool activated, bool deletable)
         {
+            if (!user.UserName.Contains('_'))
+            {
+                user.UserName = school.SchoolId + "_" + user.UserName;
+            }
             userDA.UpdateMembership(user, isTeacher, realName, email, activated, deletable);
         }
 
-        private TabularUser ConvertToTabular(aspnet_User user)
+        private TabularUser ConvertToTabularUser(aspnet_User user)
         {
             RoleDA roleDA = new RoleDA(school);
             TabularUser tabularUser = new TabularUser();
@@ -168,11 +179,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularUser.ActualUserName = user.UserName;
                 tabularUser.UserName = user.UserName.Split('_')[1];
                 tabularUser.Email = user.aspnet_Membership.Email;
-                if (user.aspnet_Membership.Email != null)
+                if (user.aspnet_Membership.IsActivated == null)
+                {
+                    tabularUser.Actived = false;
+                }
+                else if ((bool)user.aspnet_Membership.IsActivated)
                 {
                     tabularUser.Actived = true;
-                    tabularUser.StringStatus = "Được kích hoạt";
-                }                
+                }
+                else
+                {
+                    tabularUser.Actived = false;
+                }
+
                 roles = userDA.GetRoles(user);
                 foreach (aspnet_Role role in roles)
                 {
@@ -227,14 +246,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             userBL.UpdateMembership(administrator, false, administrator.UserName.Split('_')[1], administrator.aspnet_Membership.Email);
         }
 
+        /// <summary>
+        /// Create new user of role Parents
+        /// </summary>
+        /// <param name="user">User will be created</param>
         public void CreateUserParents(aspnet_User user)
         {
-            UpdateMembership(user, false, "(Chưa xác định)", null);
+            // Update membership information
+            UpdateMembership(user, false, STRING_UNDEFINED, null);
+
             AuthorizationBL authorizationBL = new AuthorizationBL(school);
             RoleBL roleBL = new RoleBL(school);
 
+            // Add user to role "Parents"
             authorizationBL.AddUserToRole(user.UserName, roleBL.GetRoleParents());
 
+            // Get all role "Parents" 's authorizations and add them to new user
             List<UserManagement_Authorization> authorizations = authorizationBL.GetSupliedRoleParentsAuthorizations();
             authorizationBL.AddParentsUserRegisteredServices(user, authorizations);
         }

@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="hanhkiemhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.HanhKiemHocSinhPage" %>
+    CodeBehind="hanhkiemhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ViewStudentConductPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -42,22 +42,6 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                Lớp:
-                            </td>
-                            <td style="width: 180px">
-                                <asp:DropDownList ID="DdlLopHoc" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Học kỳ:
-                            </td>
-                            <td>
-                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
-                                </asp:DropDownList>
-                            </td>
-                            <td>
                                 Khối:
                             </td>
                             <td>
@@ -66,13 +50,29 @@
                                 </asp:DropDownList>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                Lớp:
+                            </td>
+                            <td style="width: 180px">
+                                <asp:DropDownList ID="DdlLopHoc" runat="server" Width="150px">
+                                </asp:DropDownList>
+                            </td>
+                            <td>
+                                Học kỳ:
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="DdlHocKy" runat="server" Width="150px">
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
                     </table>
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
-        <div id="divButtonSearch" style="margin: 3px 0px 0px 0px">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
-                ToolTip="Tìm kiếm hạnh kiểm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
+        <div id="divButtonSearch" style="margin: 3px 0px 0px 10px">
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
+                ToolTip="Tìm kiếm thông tin hạnh kiểm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
     <div class="table_data ui-corner-all">
@@ -90,8 +90,11 @@
                 <td id="tdHoTenHocSinh" runat="server" style="width: 150px">
                     <asp:LinkButton ID="LlkBtnHoTenHocSinh" runat="server">Họ tên</asp:LinkButton>
                 </td>
+                <td id="tdAbsent" runat="server">
+                    Ngày nghỉ
+                </td>
                 <td id="tdDTB" runat="server">
-                    Sếp loại hạnh kiểm
+                    Hạnh kiểm
                 </td>
             </tr>
             <asp:Repeater ID="RptHanhKiemHocSinh" runat="server" OnItemDataBound="RptHanhKiemHocSinh_ItemDataBound">
@@ -99,13 +102,23 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MaHocSinh")%>' />
+                            <asp:HiddenField ID="HdfMaHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "StudentID")%>' />
                         </td>
                         <td>
-                            <asp:HyperLink ID="HlkMaHocSinhHienThi" runat="server"><%#DataBinder.Eval(Container.DataItem, "MaHocSinhHienThi")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkMaHocSinhHienThi" runat="server"><%#DataBinder.Eval(Container.DataItem, "StudentCode")%></asp:HyperLink>
                         </td>
                         <td>
-                            <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "HoTenHocSinh")%></asp:HyperLink>
+                            <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "StudentName")%></asp:HyperLink>
+                        </td>
+                        <td>
+                            Tổng cộng:
+                            <%#DataBinder.Eval(Container.DataItem, "TotalOfAbsentDays")%>
+                            <span style='<%#((int)DataBinder.Eval(Container.DataItem, "TotalOfAbsentDays") != 0) ? "": "display:none"%>'>
+                                , có phép:
+                                <%#DataBinder.Eval(Container.DataItem, "TotalOfAskedAbsentDays")%>
+                                , không phép:
+                                <%#DataBinder.Eval(Container.DataItem, "TotalOfUnaskedAbsentDays")%>
+                            </span>
                         </td>
                         <td style="text-align: center">
                             <asp:HiddenField ID="HdfConductIdHocSinh" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ConductId")%>' />
@@ -133,9 +146,9 @@
         </div>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-        <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSave_Click" ValidationGroup="AddDiemHocSinh" CssClass="SaveButton" />&nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
     </div>
 </asp:Content>

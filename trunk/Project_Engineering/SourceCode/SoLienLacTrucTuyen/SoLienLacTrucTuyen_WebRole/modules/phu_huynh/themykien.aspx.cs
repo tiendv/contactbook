@@ -62,13 +62,13 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             else
             {
-                Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+                Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
             }
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
         }
         #endregion
     }

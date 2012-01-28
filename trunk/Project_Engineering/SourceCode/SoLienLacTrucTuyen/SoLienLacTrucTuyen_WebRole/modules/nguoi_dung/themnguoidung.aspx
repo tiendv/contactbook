@@ -30,7 +30,6 @@
                     });
                 });
 
-
                 $(".checkServiceAll input[type='checkbox']").attr('checked', 'checked');
                 $(".checkService input[type='checkbox']").attr('checked', 'checked');
                 $(".checkEmailAll input[type='checkbox']").attr('checked', 'checked');
@@ -50,7 +49,7 @@
             OnCreatingUser="RegisterUserWizard_CreatingUser" OnCreatedUser="RegisterUserWizard_CreatedUser">
             <StartNavigationTemplate>
                 <asp:ImageButton ID="StartNextButton" runat="server" Style="margin: 10px" CssClass="StepNextButton"
-                    CommandName="MoveNext" ImageUrl="~/Styles/Images/button_next_step.png" OnClick="BtnNext_Click" />
+                    CommandName="MoveNext" ImageUrl="~/Styles/buttons/button_next_step.png" OnClick="BtnNext_Click" />
             </StartNavigationTemplate>
             <SideBarTemplate>
                 <asp:ListView ID="SideBarList" runat="server" Style="vertical-align: top">
@@ -76,45 +75,40 @@
                             <asp:View ID="ViewDefault" runat="server">
                             </asp:View>
                             <asp:View ID="ViewPhuHuynh" runat="server">
-                                <div style="border: 1px solid blue" class="ui-corner-all">
-                                    <div style="padding: 3px 0px 3px 0px; border-bottom: 1px solid blue; text-align: center;
-                                        font-weight: bold; font-size: 15px">
+                                <div class="table_data ui-corner-all" style="border-style:none">
+                                    <div style="padding: 3px 0px 3px 0px; text-align: center; font-weight: bold; font-size: 15px">
                                         Dịch vụ
                                     </div>
-                                    <table style="width: 100%; padding: 5px">
+                                    <table class="repeater" style="width: 100%; padding: 5px">
                                         <asp:Repeater ID="RptRoleBasedFunctions" runat="server">
                                             <HeaderTemplate>
-                                                <tr>
-                                                    <td style="width: 30px; text-align:center">
-                                                        <asp:CheckBox ID="ChkBxAllFunctions" runat="server" CssClass="checkServiceAll" />
+                                                <tr class="header ui-corner-right ui-corner-left">
+                                                    <td class="ui-corner-tl">
+                                                        Dịch vụ<br />
+                                                        <asp:CheckBox ID="ChkBxAllFunctions" runat="server" CssClass="checkServiceAll" style="float:left"/>
                                                     </td>
-                                                    <td>
-                                                        Dịch vụ
+                                                    <td style="width: 50px;">
+                                                        E-mail<br />
+                                                        <asp:CheckBox ID="CheckBox1" runat="server" CssClass="checkEmailAll" />
                                                     </td>
-                                                    <td style="width: 55px; padding:0px 5px 0px 20px">
-                                                        E-mail
-                                                        <asp:CheckBox ID="CheckBox1" runat="server" CssClass="checkEmailAll" style="float:right" />
-                                                    </td>
-                                                    <td style="width: 45px; padding:0px 5px 0px 20px">
-                                                        SMS
-                                                        <asp:CheckBox ID="CheckBox2" runat="server" CssClass="checkSMSAll" style="float:right"/>
+                                                    <td style="width: 50px;">
+                                                        SMS<br />
+                                                        <asp:CheckBox ID="CheckBox2" runat="server" CssClass="checkSMSAll" />
                                                     </td>
                                                 </tr>
                                             </HeaderTemplate>
                                             <ItemTemplate>
-                                                <tr>
-                                                    <td style="width: 30px; text-align:center">
+                                                <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
+                                                    <td style="height: 25px">
                                                         <asp:CheckBox ID="ChkBxSelectedFunction" runat="server" CssClass="checkService" />
-                                                    </td>
-                                                    <td>
                                                         <asp:HiddenField ID="HdfFunctionId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "FunctionId")%>' />
                                                         <asp:Label ID="LblFunctionName" runat="server"><%#DataBinder.Eval(Container.DataItem, "FunctionName")%></asp:Label>
                                                     </td>
-                                                    <td style="padding:0px 5px 0px 20px">
-                                                        <asp:CheckBox ID="ChkBxGetEmail" runat="server" CssClass="checkEmail" style="float:right"/>
+                                                    <td style="text-align: center">
+                                                        <asp:CheckBox ID="ChkBxGetEmail" runat="server" CssClass="checkEmail" />
                                                     </td>
-                                                    <td style="padding:0px 5px 0px 20px">
-                                                        <asp:CheckBox ID="ChkBxGetSMS" runat="server" CssClass="checkSMS" style="float:right"/>
+                                                    <td style="text-align: center">
+                                                        <asp:CheckBox ID="ChkBxGetSMS" runat="server" CssClass="checkSMS" />
                                                     </td>
                                                 </tr>
                                             </ItemTemplate>
@@ -131,9 +125,9 @@
                     <CustomNavigationTemplate>
                         <asp:ImageButton ID="StepPreviousButton" runat="server" CommandName="MovePrevious"
                             CausesValidation="False" CssClass="StepPreviousButton" Style="float: left; margin: 15px"
-                            ImageUrl="~/Styles/Images/button_prev_step.png" />
+                            ImageUrl="~/Styles/buttons/button_prev_step.png" />
                         <asp:ImageButton ID="StepNextButton" runat="server" CssClass="StepNextButton" CommandName="MoveNext"
-                            ValidationGroup="CreateUser" Style="float: right; margin: 15px" ImageUrl="~/Styles/Images/button_next_step.png" />
+                            ValidationGroup="CreateUser" Style="float: right; margin: 15px" ImageUrl="~/Styles/buttons/button_next_step.png" />
                     </CustomNavigationTemplate>
                     <ContentTemplate>
                         <asp:HiddenField ID="HdfIsSelectRoleParents" runat="server" Value="false" />
@@ -242,7 +236,7 @@
                             Thông tin người dùng được tạo thành công!
                             <br />
                             <asp:ImageButton ID="ContinueButton" runat="server" CommandName="ContinueButton"
-                                ImageUrl="~/Styles/Images/button_complete.png" CssClass="ContinueButton" OnClick="RegisterUserWizard_ContinueButtonClick" />
+                                ImageUrl="~/Styles/buttons/button_complete.png" CssClass="ContinueButton" OnClick="RegisterUserWizard_ContinueButtonClick" />
                         </div>
                     </ContentTemplate>
                 </asp:CompleteWizardStep>

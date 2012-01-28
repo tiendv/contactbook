@@ -117,8 +117,8 @@ namespace EContactBook.DataAccess
             totalRecords = iqParentsComment.Count();
             if (totalRecords != 0)
             {
-                parentsComments = iqParentsComment.OrderByDescending(cmt => cmt.CommentStatusId)
-                    .ThenByDescending(cmt => cmt.Date).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                parentsComments = iqParentsComment.OrderByDescending(cmt => cmt.Date)
+                    .ThenBy(cmt => cmt.CommentStatusId).Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return parentsComments;
@@ -207,6 +207,31 @@ namespace EContactBook.DataAccess
                                                            && comment.Student_StudentInClass.Class_Class.YearId == Class.YearId
                                                            && comment.CommentStatusId == 2
                                                            select comment;
+            return iqComments.Count();
+        }
+
+        public bool IsDeletable(ParentComment_Comment comment)
+        {
+            IQueryable<ParentComment_Comment> iqComments = from c in db.ParentComment_Comments
+                                                           where c.CommentId == comment.CommentId 
+                                                            && (c.CommentStatusId == 2 || c.CommentStatusId == 3) // read or replied
+                                                           select c;
+            if (iqComments.Count() == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetUnfeedbackCommentCount()
+        {
+            IQueryable<ParentComment_Comment> iqComments = from c in db.ParentComment_Comments
+                                                           where c.Student_StudentInClass.Class_Class.SchoolId == school.SchoolId
+                                                            && c.CommentStatusId == 1
+                                                           select c;
             return iqComments.Count();
         }
     }

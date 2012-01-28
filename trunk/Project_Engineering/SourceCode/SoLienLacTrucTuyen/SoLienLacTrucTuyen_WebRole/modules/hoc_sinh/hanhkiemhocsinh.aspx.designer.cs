@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class HanhKiemHocSinhPage {
+    public partial class ViewStudentConductPage {
         
         /// <summary>
         /// UPDropdownlists control.
@@ -40,6 +40,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlNganh;
         
         /// <summary>
+        /// DdlKhoiLop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
+        
+        /// <summary>
         /// DdlLopHoc control.
         /// </summary>
         /// <remarks>
@@ -56,15 +65,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
-        
-        /// <summary>
-        /// DdlKhoiLop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
         
         /// <summary>
         /// BtnSearch control.
@@ -128,6 +128,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton LlkBtnHoTenHocSinh;
+        
+        /// <summary>
+        /// tdAbsent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAbsent;
         
         /// <summary>
         /// tdDTB control.

@@ -17,6 +17,56 @@ namespace EContactBook.DataAccess
         {
         }
 
+        public void InsertYear(Configuration_Year year)
+        {
+            db.Configuration_Years.InsertOnSubmit(year);
+            db.SubmitChanges();
+        }
+
+        public void UpdateYear(Configuration_Year year, DateTime firstTermBeginDate, DateTime firstTermEndDate, DateTime secondTermBeginDate, DateTime secondTermEndDate)
+        {
+            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
+                                                    where y.YearId == year.YearId
+                                                    select y;
+            if (iqYear.Count() != 0)
+            {
+                year = iqYear.First();
+                year.BeginFirstTermDate = firstTermBeginDate;
+                year.EndFirstTermDate = firstTermEndDate;
+                year.BeginSecondTermDate = secondTermBeginDate;
+                year.EndSecondTermDate = secondTermEndDate;
+
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteYear(Configuration_Year year)
+        {
+            // Firstly, delete term in year 
+            IQueryable<Configuration_TermsInYear> queryTermsInYear = from termInYear in db.Configuration_TermsInYears
+                                                                  where termInYear.YearId == year.YearId
+                                                                  select termInYear;
+            if (queryTermsInYear.Count() != 0)
+            {
+                foreach(Configuration_TermsInYear termsInYear in queryTermsInYear)
+                {
+                    db.Configuration_TermsInYears.DeleteOnSubmit(termsInYear);                    
+                }
+                db.SubmitChanges();
+            }
+
+            // Secondly, delete year 
+            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
+                                                    where y.YearId == year.YearId
+                                                    select y;
+            if (iqYear.Count() != 0)
+            {
+                year = iqYear.First();
+                db.Configuration_Years.DeleteOnSubmit(year);
+                db.SubmitChanges();
+            }
+        }
+
         public Configuration_Year GetYear(int yearId)
         {
             Configuration_Year year = null;
@@ -31,7 +81,7 @@ namespace EContactBook.DataAccess
             return year;
         }
 
-        public List<Configuration_Year> GetListYears()
+        public List<Configuration_Year> GetYears()
         {
             List<Configuration_Year> years = new List<Configuration_Year>();
             IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
@@ -59,6 +109,35 @@ namespace EContactBook.DataAccess
             }
 
             return lastedYear;
+        }
+
+        public Configuration_Year GetPreviousYear()
+        {
+            Configuration_Year prevYear = null;
+
+            IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
+                                                    where year.SchoolId == school.SchoolId
+                                                    select year;
+
+            if (iqYear.Count() >= 2)
+            {
+                prevYear = iqYear.OrderByDescending(year => year.YearId).ToList()[1];
+            }
+
+            return prevYear;
+        }
+
+        public bool IsDeletable(Configuration_Year year)
+        {
+            IQueryable<Class_Class> iqClass = from Class in db.Class_Classes
+                                              where Class.YearId == year.YearId
+                                              select Class;
+            if (iqClass.Count() != 0)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void UpdateYearIdHienHanh(int YearIdHienHanh)
@@ -123,6 +202,37 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
+        public List<Configuration_Year> GetYears(string yearName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
+                                                    where y.SchoolId == school.SchoolId && y.YearName == yearName
+                                                    select y;
+
+            return GetYears(ref iqYear, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<Configuration_Year> GetYears(int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<Configuration_Year> iqYear = from y in db.Configuration_Years
+                                                    where y.SchoolId == school.SchoolId
+                                                    select y;
+
+            return GetYears(ref iqYear, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        private List<Configuration_Year> GetYears(ref IQueryable<Configuration_Year> iqYear, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<Configuration_Year> years = new List<Configuration_Year>();
+            totalRecords = iqYear.Count();
+            if (totalRecords != 0)
+            {
+                years = iqYear.OrderBy(year => year.YearId)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return years;
+        }
+
         public Configuration_DayInWeek GetDayInWeek(int dayInWeekId)
         {
             Configuration_DayInWeek dayInWeek = null;
@@ -185,7 +295,7 @@ namespace EContactBook.DataAccess
         {
             List<Configuration_MessageStatus> messageStatuses = new List<Configuration_MessageStatus>();
             IQueryable<Configuration_MessageStatus> iqMessageStatus = from msgStt in db.Configuration_MessageStatus
-                                                                     select msgStt;
+                                                                      select msgStt;
             if (iqMessageStatus.Count() != 0)
             {
                 messageStatuses = iqMessageStatus.ToList();
@@ -197,7 +307,7 @@ namespace EContactBook.DataAccess
         {
             List<Configuration_Province> provinces = new List<Configuration_Province>();
             IQueryable<Configuration_Province> iqProvince = from province in db.Configuration_Provinces
-                                                           select province;
+                                                            select province;
             if (iqProvince.Count() != 0)
             {
                 provinces = iqProvince.OrderBy(province => province.ProvinceName).ToList();
@@ -210,30 +320,14 @@ namespace EContactBook.DataAccess
         {
             List<Configuration_District> districts = new List<Configuration_District>();
             IQueryable<Configuration_District> iqDistrict = from district in db.Configuration_Districts
-                                                           where district.ProvinceId == province.ProvinceId
-                                                           select district;
+                                                            where district.ProvinceId == province.ProvinceId
+                                                            select district;
             if (iqDistrict.Count() != 0)
             {
                 districts = iqDistrict.OrderBy(district => district.DistrictName).ToList();
             }
 
             return districts;
-        }
-
-        public Configuration_Year GetPreviousYear()
-        {
-            Configuration_Year prevYear = null;
-
-            IQueryable<Configuration_Year> iqYear = from year in db.Configuration_Years
-                                                    where year.SchoolId == school.SchoolId
-                                                    select year;
-
-            if (iqYear.Count() >= 2)
-            {
-                prevYear = iqYear.OrderByDescending(year => year.YearId).ToList()[1];
-            }
-
-            return prevYear;
         }
     }
 }

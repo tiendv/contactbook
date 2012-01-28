@@ -71,7 +71,7 @@
             </table>
         </div>
         <div id="divButtonSearch" style="padding-top: 5px">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm ngày nghỉ học" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
@@ -165,7 +165,7 @@
         <asp:Panel ID="PnlDragPopupConfirm" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmTitle" runat="server" Text="Xác nhận ngày nghỉ học"
                 CssClass="popup_header_title"></asp:Label>
-            <img id="imgClosePopupConfirm" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="imgClosePopupConfirm" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
@@ -176,10 +176,10 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
@@ -187,7 +187,7 @@
         <asp:Panel ID="PnlDragPopupUnConfirm" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupUnConfirmTitle" runat="server" Text="Xác nhận ngày nghỉ học"
                 CssClass="popup_header_title"></asp:Label>
-            <img id="imgClosePopupUnConfirm" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="imgClosePopupUnConfirm" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
@@ -198,10 +198,10 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
-            <asp:ImageButton ID="BtnOKUnConfirm" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnOKUnConfirm" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnOKUnConfirm_Click" CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancelUnConfirmBtn" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelUnConfirmBtn" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopUnConfirm_Cancel_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>

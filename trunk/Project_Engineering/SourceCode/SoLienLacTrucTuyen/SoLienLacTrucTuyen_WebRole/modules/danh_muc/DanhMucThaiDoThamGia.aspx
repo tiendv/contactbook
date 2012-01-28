@@ -100,14 +100,14 @@
         </div>
         <div id="divButtonSearch">
             <asp:ImageButton ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" ToolTip="Tìm kiếm thái độ tham gia"
-                Width="78px" Height="28px" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                Width="78px" Height="28px" ImageUrl="~/Styles/buttons/button_search.png"
                 CssClass="BtnSearch" />
         </div>
         <br />
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
-            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
+            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/buttons/button_add.png"
                 ToolTip="Thêm thái độ tham gia mới" CssClass="BtnAdd" />
             <ajaxToolkit:ModalPopupExtender ID="MPEAdd" runat="server" TargetControlID="BtnAdd"
                 PopupControlID="PnlPopupAdd" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupAdd"
@@ -152,7 +152,7 @@
                         </td>
                         <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeEditItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
+                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
                                 CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AttitudeId")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEEdit" runat="server" TargetControlID="BtnFakeEditItem"
                                 PopupControlID="PnlPopupEdit" BackgroundCssClass="modalBackground" CancelControlID="ImgClosePopupEdit"
@@ -161,7 +161,7 @@
                         </td>
                         <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                             <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
+                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_delete.png"
                                 CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "AttitudeName")%>' />
                             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
                                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
@@ -192,7 +192,7 @@
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa thái độ tham gia"
                 CssClass="popup_header_title"></asp:Label>
-            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
@@ -203,10 +203,10 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
@@ -214,7 +214,7 @@
         <asp:Panel ID="PnlDragPopupAdd" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupAddTitle" runat="server" CssClass="popup_header_title"
                 Text="Thêm thái độ tham gia"></asp:Label>
-            <img id="ImgClosePopupAdd" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="ImgClosePopupAdd" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 5px 7px 10px 7px;">
@@ -245,17 +245,17 @@
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
             <asp:ImageButton ID="BtnSaveAdd" runat="server" OnClick="BtnSaveAdd_Click" ValidationGroup="AddThaiDoThamGia"
-                ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />
+                ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />
             &nbsp;
             <asp:ImageButton ID="BtnCancelAdd" runat="server" OnClientClick="return popopAdd_CancelSave_Click();"
-                ImageUrl="~/Styles/Images/button_cancel.png" CssClass="CancelButton" />
+                ImageUrl="~/Styles/buttons/button_cancel.png" CssClass="CancelButton" />
         </div>
     </asp:Panel>
     <asp:Panel ID="PnlPopupEdit" runat="server" CssClass="popup ui-corner-all" Width="400px">
         <asp:Panel ID="PnlDragPopupEdit" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupEditTitle" runat="server" CssClass="popup_header_title"
                 Text="Sửa thái độ tham gia"></asp:Label>
-            <img id="ImgClosePopupEdit" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="ImgClosePopupEdit" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 5px 7px 10px 7px;">
@@ -284,10 +284,10 @@
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
             <asp:ImageButton ID="BtnSaveEdit" runat="server" OnClick="BtnSaveEdit_Click" ValidationGroup="EditThaiDoThamGia"
-                ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />
+                ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />
             &nbsp;
             <asp:ImageButton ID="BtnCancelEdit" runat="server" OnClientClick="return popopEdit_Cancel_Click();"
-                ImageUrl="~/Styles/Images/button_cancel.png" CssClass="CancelButton" />
+                ImageUrl="~/Styles/buttons/button_cancel.png" CssClass="CancelButton" />
         </div>
     </asp:Panel>
 </asp:Content>

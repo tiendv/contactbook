@@ -9,7 +9,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 {
     public class ParentsCommentBL : BaseBL
     {
-        ParentsCommentDA parentsCommentDA;
+        ParentsCommentDA parentsCommentDA;        
+
+        public ParentsCommentBL(School_School school)
+            : base(school)
+        {
+            parentsCommentDA = new ParentsCommentDA(school);
+        }
 
         public void InsertParentsComment(Student_Student student, string title, string content)
         {
@@ -29,10 +35,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             parentsCommentDA.InsertParentsComment(parentsComment);
         }
 
-        public ParentsCommentBL(School_School school)
-            : base(school)
+        public void UpdateParentsComment(ParentComment_Comment comment, string newContent)
         {
-            parentsCommentDA = new ParentsCommentDA(school);
+            parentsCommentDA.UpdateParentsComment(comment, newContent);
+        }
+
+        public void UpdateParentsComment(ParentComment_Comment comment, Configuration_CommentStatus commentStatus)
+        {
+            parentsCommentDA.UpdateParentsComment(comment, commentStatus);
+        }
+        
+        public void DeleteParentsComment(ParentComment_Comment comment)
+        {
+            parentsCommentDA.DeleteParentsComment(comment);
         }
 
         /// <summary>
@@ -155,31 +170,26 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return parentsCommentDA.GetParentsComments(commentId);
         }
 
-        public void DeleteParentsComment(ParentComment_Comment comment)
-        {
-            parentsCommentDA.DeleteParentsComment(comment);
-        }
-
-        public void UpdateParentsComment(ParentComment_Comment comment, string newContent)
-        {
-            parentsCommentDA.UpdateParentsComment(comment, newContent);
-        }
-
-        internal void DeleteParentsComment(Student_Student deletedStudent)
-        {
-            parentsCommentDA.DeleteParentsComment(deletedStudent);
-        }
-
-        public void UpdateParentsComment(ParentComment_Comment comment, Configuration_CommentStatus commentStatus)
-        {
-            parentsCommentDA.UpdateParentsComment(comment, commentStatus);
-        }
-
         public int GetUnConfirmedFedbackComment(Student_Student student)
         {
             StudentBL studentBL = new StudentBL(school);
             Class_Class Class = studentBL.GetLastedClass(student);
             return parentsCommentDA.GetUnConfirmedFedbackComment(student, Class);
+        }
+
+        public int GetUnfeedbackCommentCount()
+        {
+            return parentsCommentDA.GetUnfeedbackCommentCount();
+        }
+
+        public bool IsDeletable(ParentComment_Comment comment)
+        {
+            return parentsCommentDA.IsDeletable(comment);
+        }
+
+        internal void DeleteParentsComment(Student_Student deletedStudent)
+        {
+            parentsCommentDA.DeleteParentsComment(deletedStudent);
         }
     }
 }

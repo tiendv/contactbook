@@ -72,7 +72,7 @@
                 </asp:UpdatePanel>
             </div>
             <div id="divButtonSearch">
-                <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                     ToolTip="Tìm kiếm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
             </div>
         </div>
@@ -143,7 +143,7 @@
         </div>
         <div style="width: 85px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
             <asp:ImageButton ID="BtnNext" runat="server" OnClick="BtnNext_Click" ValidationGroup="SaveChange"
-                ImageUrl="~/Styles/Images/button_next_step.png" CssClass="StepNextButton" />&nbsp;
+                ImageUrl="~/Styles/buttons/button_next_step.png" CssClass="StepNextButton" />&nbsp;
         </div>
     </asp:Panel>
 </asp:Content>

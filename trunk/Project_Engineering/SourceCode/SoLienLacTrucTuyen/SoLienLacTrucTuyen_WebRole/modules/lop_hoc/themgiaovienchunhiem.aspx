@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="themgiaovienchunhiem.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ThemGiaoVienChuNhiemPage" %>
+    CodeBehind="themgiaovienchunhiem.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.FormerTeacherAddPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -22,9 +22,7 @@
     <div id="divSearch">
         <div>
             Năm học:
-            <asp:DropDownList ID="DdlNamHoc" runat="server" Width="150px" AutoPostBack="true"
-                OnSelectedIndexChanged="DdlNamHoc_SelectedIndexChanged">
-            </asp:DropDownList>
+            <asp:Label ID="LblYear" runat="server" Width="150px" CssClass="readOnlyTextBox"></asp:Label>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Khối:
             <asp:DropDownList ID="DdlKhoiLop" runat="server" Width="150px" AutoPostBack="true"
                 OnSelectedIndexChanged="DdlKhoiLop_SelectedIndexChanged">
@@ -60,7 +58,7 @@
                 &nbsp;&nbsp;
             </div>
             <div style="float: left; width: 80px; margin-top: -5px;">
-                <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/buttons/button_search.png"
                     ToolTip="Tìm kiếm giáo viên" OnClick="BtnSearch_Click" />
             </div>
         </div>
@@ -126,18 +124,14 @@
             </asp:Repeater>
         </table>
         <div style="float: right; margin-top: -35px; padding-right: 30px;">
-            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" PageSize="10"
-                ViewStateMode="Enabled" PageClause="Trang" OfClause="/" FirstClause="<<" BackToFirstClause="Trở về trang đầu"
-                LastClause=">>" GoToLastClause="Đến trang cuối" PreviousClause="<" NextClause=">"
-                CompactModePageCount="3" GenerateFirstLastSection="True" BackToPageClause="Trở về trang"
-                NextToPageClause="Đến trang" ShowResultClause="Hiển thị kết quả" ToClause="đến" />
+            <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 0px 0px">
         <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ValidationGroup="AddGiaoVienChuNhiem"
-            ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />
+            ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />
         &nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/buttons/button_cancel.png"
             CssClass="CancelButton" />
     </div>
 </asp:Content>

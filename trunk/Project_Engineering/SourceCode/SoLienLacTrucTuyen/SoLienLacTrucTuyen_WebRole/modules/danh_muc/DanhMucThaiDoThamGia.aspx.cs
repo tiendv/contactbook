@@ -174,7 +174,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         if (!attitudeBL.IsDeletable(attitude))
                         {
                             ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
+                            btnDeleteItem.ImageUrl = "~/Styles/buttons/button_delete_disable.png";
                             btnDeleteItem.Enabled = false;
                         }
                     }
@@ -251,7 +251,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+                BtnAdd.ImageUrl = "~/Styles/buttons/button_add.png";
                 PnlPopupAdd.Visible = true;
             }
             else

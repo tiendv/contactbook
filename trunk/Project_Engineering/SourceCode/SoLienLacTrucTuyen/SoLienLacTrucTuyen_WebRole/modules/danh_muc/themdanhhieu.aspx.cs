@@ -8,40 +8,23 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using AjaxControlToolkit;
 using System.Web.Security;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThemDanhHieuPage : BaseContentPage
+    public partial class LearningResultAddPage : BaseContentPage
     {
         #region Fields
-        public struct SelectedHocLucHanhKiem
+        public class SelectedDetailLearningResult
         {
-            public int ThuTu { get; set; }
             public int LearningAptitudeId { get; set; }
-            public string LearningAptitudeName { get; set; }
             public int ConductId { get; set; }
-            public string ConductName { get; set; }
         }
-        private DanhHieuBL danhHieuBL;
-        public List<SelectedHocLucHanhKiem> SelectedHocLucHanhKiems 
-        { 
-            get
-            {
-                if (Session["SltHocLucHanhKiems"] != null)
-                {
-                    return (List<SelectedHocLucHanhKiem>)Session["SltHocLucHanhKiems"];
-                }
-                else
-                {
-                    return new List<SelectedHocLucHanhKiem>();
-                }
-            }
+        List<SelectedDetailLearningResult> selectedDetailLearningResults;
 
-            set
-            {
-                Session["SltHocLucHanhKiems"] = value;
-            }
-        }
+        private LearningResultBL learningResultBL;
+        List<Category_LearningAptitude> learningAptitudes;
+        List<Category_Conduct> conducts;
         #endregion
 
         #region Page event handlers
@@ -59,24 +42,73 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            danhHieuBL = new DanhHieuBL(UserSchool);
+            learningResultBL = new LearningResultBL(UserSchool);
+            LearningAptitudeBL learningAptitudeBL = new LearningAptitudeBL(UserSchool);
+            learningAptitudes = learningAptitudeBL.GetLearningAptitudes();
+            ConductBL conductBL = new ConductBL(UserSchool);
+            conducts = conductBL.GetListConducts(false);
 
-            if (!Page.IsPostBack)
+            if (learningAptitudes.Count != 0 && conducts.Count != 0)
             {
-                Session.Remove("SltHocLucHanhKiems");
-
-                BindRptDescriptionDanhHieu();
-                BindDropdownlists();
+                if (!Page.IsPostBack)
+                {
+                    selectedDetailLearningResults = new List<SelectedDetailLearningResult>();
+                    BindRptDetailLearningResult();
+                }
             }
-        }        
+            else
+            {
+                Response.Redirect(AppConstant.PAGEPATH_CATEGORY_LEARNINGRESULT_LIST);
+            }
+        }
         #endregion
 
         #region Button click event handlers
-        protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
+        protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            string LearningResultName = this.TxtLearningResultName.Text.Trim();
+            if (CheckSessionKey(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS))
+            {
+                selectedDetailLearningResults = (List<SelectedDetailLearningResult>)GetSession(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS);
+            }
+            else
+            {
+                selectedDetailLearningResults = new List<SelectedDetailLearningResult>();
+            }
 
-            if (LearningResultName == "")
+            for (int i = 0; i < RptDetailLearningResult.Items.Count; i++)
+            {
+                if (RptDetailLearningResult.Items[i].ItemType == ListItemType.Item || RptDetailLearningResult.Items[i].ItemType == ListItemType.AlternatingItem)
+                {
+                    DropDownList DLLearningAptitudes = (DropDownList)RptDetailLearningResult.Items[i].FindControl("DDLLearningAptitudes");
+                    if (DLLearningAptitudes.Items.Count != 0)
+                    {
+                        selectedDetailLearningResults[i].LearningAptitudeId = Int32.Parse(DLLearningAptitudes.SelectedValue);
+                    }
+
+                    DropDownList DDLConducts = (DropDownList)RptDetailLearningResult.Items[i].FindControl("DDLConducts");
+                    if (DDLConducts.Items.Count != 0)
+                    {
+                        selectedDetailLearningResults[i].ConductId = Int32.Parse(DDLConducts.SelectedValue);
+                    }
+                }
+            }
+
+            SelectedDetailLearningResult detailLearningResult = new SelectedDetailLearningResult();
+            detailLearningResult.LearningAptitudeId = learningAptitudes[0].LearningAptitudeId;
+            detailLearningResult.ConductId = conducts[0].ConductId;
+            selectedDetailLearningResults.Add(detailLearningResult);
+
+            BindRptDetailLearningResult();
+            this.LblError.Text = "";
+        }
+
+        protected void BtnSave_Click(object sender, ImageClickEventArgs e)
+        {
+            List<KeyValuePair<Category_LearningAptitude, Category_Conduct>> detailLearningResults = new List<KeyValuePair<Category_LearningAptitude, Category_Conduct>>();
+
+            string strLearningResultName = this.TxtLearningResultName.Text.Trim();
+
+            if (CheckUntils.IsNullOrBlank(strLearningResultName))
             {
                 LearningResultNameRequiredAdd.IsValid = false;
                 TxtLearningResultName.Focus();
@@ -84,7 +116,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (danhHieuBL.DanhHieuExists(LearningResultName))
+                if (learningResultBL.LearningResultNameExists(strLearningResultName))
                 {
                     LearningResultNameValidatorAdd.IsValid = false;
                     TxtLearningResultName.Focus();
@@ -92,167 +124,186 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            danhHieuBL.InsertDanhHieu(LearningResultName, new Dictionary<int, int>());
+            if (CheckSessionKey(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS))
+            {
+                selectedDetailLearningResults = (List<SelectedDetailLearningResult>)GetSession(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS);
+            }
+            else
+            {
+                selectedDetailLearningResults = new List<SelectedDetailLearningResult>();
+            }
+
+            Category_Conduct conduct = null;
+            Category_LearningAptitude learningAptitude = null;
+            List<int> iErrorRowIndexes = new List<int>();
+            for (int i = 0; i < RptDetailLearningResult.Items.Count; i++)
+            {
+                if (RptDetailLearningResult.Items[i].ItemType == ListItemType.Item || RptDetailLearningResult.Items[i].ItemType == ListItemType.AlternatingItem)
+                {
+                    learningAptitude = new Category_LearningAptitude();
+                    conduct = new Category_Conduct();
+
+                    DropDownList DLLearningAptitudes = (DropDownList)RptDetailLearningResult.Items[i].FindControl("DDLLearningAptitudes");
+                    if (DLLearningAptitudes.Items.Count != 0)
+                    {
+                        learningAptitude.LearningAptitudeId = Int32.Parse(DLLearningAptitudes.SelectedValue);
+                    }
+
+                    DropDownList DDLConducts = (DropDownList)RptDetailLearningResult.Items[i].FindControl("DDLConducts");
+                    if (DDLConducts.Items.Count != 0)
+                    {
+                        conduct.ConductId = Int32.Parse(DDLConducts.SelectedValue);
+                    }
+
+                    if (learningResultBL.DetailLearningResultExists(null, learningAptitude, conduct))
+                    {
+                        iErrorRowIndexes.Add(i);
+                    }
+                    else
+                    {
+                        detailLearningResults.Add(new KeyValuePair<Category_LearningAptitude, Category_Conduct>(learningAptitude, conduct));
+                    }
+                }
+            }
+
+            if (iErrorRowIndexes.Count == 0)
+            {
+                learningResultBL.InsertLearningResult(strLearningResultName, detailLearningResults);
+            }
+            else
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("Chi tiết danh hiệu thứ ");
+                for (int i = 0; i < iErrorRowIndexes.Count - 1; i++)
+                {
+                    stringBuilder.Append(i + 1);
+                    stringBuilder.Append(", ");
+                }
+                stringBuilder.Append(iErrorRowIndexes[iErrorRowIndexes.Count - 1] + 1);
+                stringBuilder.Append(" đã tồn tại ở danh hiệu khác!");
+                LblError.Text = stringBuilder.ToString();
+
+                return;
+            }
 
             if (this.CkbAddAfterSave.Checked)
             {
                 this.TxtLearningResultName.Text = "";
+                this.LblError.Text = "";
             }
             else
             {
-                RedirectPage();
+                RedirectToPreviousPage();
             }
         }
 
-        protected void BtnCancelAdd_Click(object sender, ImageClickEventArgs e)
+        protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            RedirectPage();
-        }
-
-        protected void BtnSelect_Click(object sender, ImageClickEventArgs e)
-        {
-            List<Category_LearningAptitude> sltHocLucs = new List<Category_LearningAptitude>();
-            int iSltLearningAptitudeId = Int32.Parse(DdlHocLucAdd.SelectedValue);
-            if(iSltLearningAptitudeId == 0)
-            {
-                LearningAptitudeBL hocLucBL = new LearningAptitudeBL(UserSchool);
-                sltHocLucs = hocLucBL.GetLearningAptitudes();
-            }
-            else
-            {
-                sltHocLucs.Add(new Category_LearningAptitude{
-                    LearningAptitudeId = iSltLearningAptitudeId,
-                    LearningAptitudeName = DdlHocLucAdd.SelectedItem.Text
-                });
-            }
-
-            int iSltConductId = Int32.Parse(DdlHanhKiemAdd.SelectedValue);
-            List<SelectedHocLucHanhKiem> sltHocLucHanhKiems = SelectedHocLucHanhKiems;
-            foreach(Category_LearningAptitude sltHocLuc in sltHocLucs)
-            {
-                SelectedHocLucHanhKiem sltHocLucHanhKiem = new SelectedHocLucHanhKiem();
-                sltHocLucHanhKiem.ThuTu = sltHocLucHanhKiems.Count;
-                sltHocLucHanhKiem.LearningAptitudeId = sltHocLuc.LearningAptitudeId; 
-                sltHocLucHanhKiem.LearningAptitudeName = sltHocLuc.LearningAptitudeName;
-                sltHocLucHanhKiem.ConductId = iSltConductId;
-                sltHocLucHanhKiem.ConductName = DdlHanhKiemAdd.SelectedItem.Text;
-                sltHocLucHanhKiems.Add(sltHocLucHanhKiem);
-            }
-
-            SelectedHocLucHanhKiems = sltHocLucHanhKiems;
-            BindRptDescriptionDanhHieu();
+            RedirectToPreviousPage();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {            
-            List<SelectedHocLucHanhKiem> sltHocLucHanhKiems = SelectedHocLucHanhKiems;
-            int i = 0;
-            while (i < sltHocLucHanhKiems.Count)
+        {
+            CheckBox ckbxSelect = null;
+            if (CheckSessionKey(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS))
             {
-                SelectedHocLucHanhKiem sltHocLucHanhKiem = sltHocLucHanhKiems[i];
+                selectedDetailLearningResults = (List<SelectedDetailLearningResult>)GetSession(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS);
+            }
+            else
+            {
+                selectedDetailLearningResults = new List<SelectedDetailLearningResult>();
+            }
 
-                if (this.HdfThuTu.Value.ToString() == sltHocLucHanhKiem.ThuTu.ToString())
+            int k = 0;
+            for (int i = 0; i < RptDetailLearningResult.Items.Count; i++)
+            {
+                if (RptDetailLearningResult.Items[i].ItemType == ListItemType.Item || RptDetailLearningResult.Items[i].ItemType == ListItemType.AlternatingItem)
                 {
-                    sltHocLucHanhKiems.RemoveAt(i);
-                    break;
+                    DropDownList DLLearningAptitudes = (DropDownList)RptDetailLearningResult.Items[i].FindControl("DDLLearningAptitudes");
+                    if (DLLearningAptitudes.Items.Count != 0)
+                    {
+                        selectedDetailLearningResults[i - k].LearningAptitudeId = Int32.Parse(DLLearningAptitudes.SelectedValue);
+                    }
+
+                    DropDownList DDLConducts = (DropDownList)RptDetailLearningResult.Items[i].FindControl("DDLConducts");
+                    if (DDLConducts.Items.Count != 0)
+                    {
+                        selectedDetailLearningResults[i - k].ConductId = Int32.Parse(DDLConducts.SelectedValue);
+                    }
+
+                    ckbxSelect = (CheckBox)RptDetailLearningResult.Items[i].FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        selectedDetailLearningResults.RemoveAt(i - k);
+                        k++;
+                    }
                 }
             }
 
-            SelectedHocLucHanhKiems = sltHocLucHanhKiems;
-            //int GradeId = Int32.Parse(this.HdfGradeId.Value);
-            //grades.DeleteKhoiLop(GradeId);
-            BindRptDescriptionDanhHieu();
-        }
-
-        #endregion
-
-        #region Repeater event handlers
-        protected void RptDescriptionDanhHieu_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa khối lớp <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfThuTu = (HiddenField)e.Item.FindControl("HdfThuTu");
-                        this.HdfThuTu.Value = hdfThuTu.Value;
-
-                        this.HdfRptDescriptionDanhHieuMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        //int GradeId = Int32.Parse(e.CommandArgument.ToString());
-                        //Category_Grade khoiLop = grades.GetKhoiLop(GradeId);
-
-                        //TxtSuaGradeName.Text = khoiLop.GradeName;
-                        //TxtOrderEdit.Text = khoiLop.ThuTuHienThi.ToString();
-
-                        //ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        //mPEEdit.Show();
-
-                        //this.HdfRptKhoiLopMPEEdit.Value = mPEEdit.ClientID;
-                        //this.HdfGradeId.Value = GradeId.ToString();
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
+            BindRptDetailLearningResult();
+            this.LblError.Text = "";
         }
         #endregion
 
         #region Methods
-        private void BindRptDescriptionDanhHieu()
+        private void BindRptDetailLearningResult()
         {
-            RptDescriptionDanhHieu.DataSource = SelectedHocLucHanhKiems;
-            RptDescriptionDanhHieu.DataBind();
+            RptDetailLearningResult.DataSource = selectedDetailLearningResults;
+            RptDetailLearningResult.DataBind();
 
-            bool bDisplayData = (SelectedHocLucHanhKiems.Count != 0);
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-        }
+            bool bDisplayData = (selectedDetailLearningResults.Count != 0);
+            RptDetailLearningResult.Visible = bDisplayData;
+            LblSearchResult.Visible = !bDisplayData;
 
-        private void BindDropdownlists()
-        {
-            BindDDLHocLuc();
-            BindDDLHanhKiem();
-        }
+            AddSession(AppConstant.SESSION_SELECTEDDETAILLEARNINGRESULTS, selectedDetailLearningResults);
 
-        private void BindDDLHocLuc()
-        {
-            LearningAptitudeBL hocLucBL = new LearningAptitudeBL(UserSchool);
-            List<Category_LearningAptitude> hocLucs = hocLucBL.GetLearningAptitudes();
-            DdlHocLucAdd.DataSource = hocLucs;
-            DdlHocLucAdd.DataValueField = "LearningAptitudeId";
-            DdlHocLucAdd.DataTextField = "LearningAptitudeName";
-            DdlHocLucAdd.DataBind();
-
-            if (hocLucs.Count != 0)
+            if (selectedDetailLearningResults.Count != 0)
             {
-                DdlHocLucAdd.Items.Insert(0, new ListItem("Tất cả", "0"));
+                BtnSaveAdd.Enabled = true;
+                BtnSaveAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
+            }
+            else
+            {
+                BtnSaveAdd.Enabled = false;
+                BtnSaveAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
             }
         }
 
-        private void BindDDLHanhKiem()
-        {
-            ConductBL HanhKiemBL = new ConductBL(UserSchool);
-            List<Category_Conduct> HanhKiems = HanhKiemBL.GetListConducts(false);
-            DdlHanhKiemAdd.DataSource = HanhKiems;
-            DdlHanhKiemAdd.DataValueField = "ConductId";
-            DdlHanhKiemAdd.DataTextField = "ConductName";
-            DdlHanhKiemAdd.DataBind();
-        }
-
-        private void RedirectPage()
+        private void RedirectToPreviousPage()
         {
             Response.Redirect("danhmucdanhhieu.aspx");
-            Session.Remove("SltHocLucHanhKiems");
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptDetailLearningResult_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                DropDownList DLLearningAptitudes = (DropDownList)e.Item.FindControl("DDLLearningAptitudes");
+                DLLearningAptitudes.DataSource = learningAptitudes;
+                DLLearningAptitudes.DataValueField = "LearningAptitudeId";
+                DLLearningAptitudes.DataTextField = "LearningAptitudeName";
+                DLLearningAptitudes.DataBind();
+
+                HiddenField HdfLearningAptitudeId = (HiddenField)e.Item.FindControl("HdfLearningAptitudeId");
+                if (DLLearningAptitudes.Items.Count != 0)
+                {
+                    DLLearningAptitudes.SelectedValue = HdfLearningAptitudeId.Value;
+                }
+
+                DropDownList DDLConducts = (DropDownList)e.Item.FindControl("DDLConducts");
+                DDLConducts.DataSource = conducts;
+                DDLConducts.DataValueField = "ConductId";
+                DDLConducts.DataTextField = "ConductName";
+                DDLConducts.DataBind();
+
+                HiddenField HdfConductId = (HiddenField)e.Item.FindControl("HdfConductId");
+                if (DDLConducts.Items.Count != 0)
+                {
+                    DDLConducts.SelectedValue = HdfConductId.Value;
+                }
+            }
         }
         #endregion
     }

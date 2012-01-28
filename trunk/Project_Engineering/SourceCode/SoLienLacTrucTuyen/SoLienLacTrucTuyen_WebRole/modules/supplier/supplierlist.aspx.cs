@@ -40,7 +40,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BindDropDownLists();
 
-                GetSearchedSessions();
+                RetrieveSessions();
                 isSearch = false;
                 BindRptSchools();
             }
@@ -111,7 +111,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindRptSchools()
         {
-            string strSchoolName = "";
             double dTotalRecords;
             Configuration_Province province = null;
             Configuration_District district = null;
@@ -127,7 +126,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 district = new Configuration_District();
                 district.DistrictId = Int32.Parse(DdlDistricts.SelectedValue);
             }
-            strSchoolName = TxtSchoolName.Text;
+            string strSchoolName = TxtSchoolName.Text;
 
             tabularSchools = schoolBL.GetTabularSchools(province, district, strSchoolName, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
@@ -145,7 +144,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.ItemCount = dTotalRecords;
 
             bool bDisplayData = (tabularSchools.Count != 0) ? true : false;
-            ProcessDislayInfo(bDisplayData);
+            ProcessDisplayGUI(bDisplayData);
 
             // save selections to viewstate
             ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID] = Int32.Parse(DdlProvinces.SelectedValue);
@@ -204,10 +203,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }            
         }
 
-        private void ProcessDislayInfo(bool bDisplayData)
+        private void ProcessDisplayGUI(bool displayData)
         {
-            LblSearchResult.Visible = !bDisplayData;
-            RptSchools.Visible = bDisplayData;
+            LblSearchResult.Visible = !displayData;
+            RptSchools.Visible = displayData;
 
             if (LblSearchResult.Visible)
             {
@@ -235,7 +234,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_SCHOOLNAME, ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME]);
         }
 
-        private void GetSearchedSessions()
+        private void RetrieveSessions()
         {
             if (CheckSessionKey(AppConstant.SESSION_SELECTED_PROVINCE)
                 && CheckSessionKey(AppConstant.SESSION_SELECTED_DISTRICT)

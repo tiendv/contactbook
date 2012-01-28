@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div style="padding:5px 0px 5px 0px; float:right">
-        <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
+        <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit_with_text.png"
             OnClick="BtnEdit_Click" />
     </div>
     <table style="width: 100%; padding: 10px 20px 10px 20px; clear:both" class="loginBox ui-corner-all">
@@ -35,9 +35,9 @@
         </tr>
     </table>    
     <div style="vertical-align: middle;">
-        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back.png"
             OnClick="BtnBackPrevPage_Click" />
-        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back_text.png"
+        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back_text.png"
             OnClick="BtnBackPrevPage_Click" />
     </div>
 </asp:Content>

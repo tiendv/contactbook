@@ -20,8 +20,8 @@ using System.Web.Security;
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
     public partial class PrintStudentsPage : System.Web.UI.Page
-    {                
-        private ReportDocument RptDocument = new ReportDocument();     
+    {
+        private ReportDocument RptDocument = new ReportDocument();
         private string strPagePath;
 
         public School_School UserSchool
@@ -43,6 +43,34 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
+        public aspnet_User LogedInUser
+        {
+            get
+            {
+                aspnet_User logedInUser = null;
+                if (Session[AppConstant.SESSION_LOGEDIN_USER] != null)
+                {
+                    logedInUser = (aspnet_User)Session[AppConstant.SESSION_LOGEDIN_USER];
+                }
+
+                return logedInUser;
+            }
+        }
+
+        public bool IsFormerTeacher
+        {
+            get
+            {
+                bool bIsFormerTeacher = false;
+                if (Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER] != null)
+                {
+                    bIsFormerTeacher = (bool)Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER];
+                }
+
+                return bIsFormerTeacher;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session[AppConstant.SCHOOL] == null)
@@ -51,17 +79,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             UserSchool = (School_School)Session[AppConstant.SCHOOL];
-            
+
             #region Variables
 
-            DataSet ds = new DataSet();            
-            
+            DataSet ds = new DataSet();
+
             StudentBL studentBL = new StudentBL(UserSchool);
             TeacherBL teacherBL = new TeacherBL(UserSchool);
             ClassBL classBL = new ClassBL(UserSchool);
-            ScheduleBL schiduleBL = new ScheduleBL(UserSchool);            
-            double dTotalRecords;            
-            
+            ScheduleBL schiduleBL = new ScheduleBL(UserSchool);
+            double dTotalRecords;
+
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
@@ -71,8 +99,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             String strStudentCode = null;
 
             String strTeacherID = null;
-            String strTeacherName= null;
-            
+            String strTeacherName = null;
+
 
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
             List<TabularTeacher> tabularTeachers = new List<TabularTeacher>();
@@ -83,23 +111,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
-                #region 
-                
+                #region
+
                 strPagePath = (string)GetSession(AppConstant.SESSION_PAGEPATH);
-                ViewState[AppConstant.SESSION_PAGEPATH] = strPagePath;                
+                ViewState[AppConstant.SESSION_PAGEPATH] = strPagePath;
                 RemoveSession(AppConstant.SESSION_PAGEPATH);
 
                 switch (strPagePath)
                 {
-                    case AppConstant.PAGEPATH_PRINTSTUDENTS:
+                    case AppConstant.PAGEPATH_STUDENT_PRINT:
                         {
                             #region
                             year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
                             RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
 
                             faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.FacultyId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = faculty.FacultyId;
                             RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
                             if (faculty.FacultyId == 0)
                             {
@@ -107,7 +135,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             }
 
                             grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.GradeId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade.GradeId;
                             RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
                             if (grade.GradeId == 0)
                             {
@@ -115,7 +143,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             }
 
                             classes = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = classes.ClassId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = classes.ClassId;
                             RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
                             if (classes.ClassId == 0)
                             {
@@ -149,15 +177,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             #region
                             year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = (year==null?0:year.YearId);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = (year == null ? 0 : year.YearId);
                             RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
 
                             faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = (faculty==null?0:faculty.FacultyId);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = (faculty == null ? 0 : faculty.FacultyId);
                             RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
 
                             grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade==null?0:grade.GradeId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade == null ? 0 : grade.GradeId;
                             RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
                             #endregion
                             break;
@@ -166,27 +194,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             #region
                             year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
                             RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
 
                             faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = (faculty == null ? 0 : faculty.FacultyId);
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = (faculty == null ? 0 : faculty.FacultyId);
                             RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
 
                             grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade == null ? 0 : grade.GradeId;
-                            RemoveSession(AppConstant.SESSION_SELECTED_GRADE);        
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade == null ? 0 : grade.GradeId;
+                            RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
 
                             classes = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
-                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = classes==null?0:classes.ClassId;
+                            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = classes == null ? 0 : classes.ClassId;
                             RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
 
                             term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
-                            ViewState[AppConstant.SESSION_SELECTED_TERM] = term==null?0:term.TermId;
+                            ViewState[AppConstant.SESSION_SELECTED_TERM] = term == null ? 0 : term.TermId;
                             RemoveSession(AppConstant.SESSION_SELECTED_TERM);
-                            #endregion                            
+                            #endregion
                             break;
-                        }                        
+                        }
                     default:
                         break;
                 }
@@ -201,26 +229,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 strPagePath = (string)ViewState[AppConstant.SESSION_PAGEPATH];
                 switch (strPagePath)
                 {
-                    case AppConstant.PAGEPATH_PRINTSTUDENTS:
+                    case AppConstant.PAGEPATH_STUDENT_PRINT:
                         {
                             #region
                             year = new Configuration_Year();
-                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
                             year = (new SystemConfigBL(UserSchool)).GetYear(year.YearId);
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] != 0)
                             {
-                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY]);
+                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID]);
                             }
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] != 0)
                             {
-                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE]);
+                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID]);
                             }
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] != 0)
                             {
-                                classes = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS]);
+                                classes = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID]);
                             }
 
                             strStudentName = (string)ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME];
@@ -240,17 +268,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         {
                             #region
                             year = new Configuration_Year();
-                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
                             year = (new SystemConfigBL(UserSchool)).GetYear(year.YearId);
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] != 0)
                             {
-                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY]);
+                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID]);
                             }
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] != 0)
                             {
-                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE]);
+                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID]);
                             }
                             #endregion
                             break;
@@ -258,22 +286,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     case AppConstant.PAGEPATH_PRINTTERM:
                         {
                             year = new Configuration_Year();
-                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+                            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
                             year = (new SystemConfigBL(UserSchool)).GetYear(year.YearId);
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] != 0)
                             {
-                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY]);
+                                faculty = (new FacultyBL(UserSchool)).GetFaculty((int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID]);
                             }
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] != 0)
                             {
-                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE]);
+                                grade = (new GradeBL(UserSchool)).GetGrade((int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID]);
                             }
 
-                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] != 0)
+                            if ((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] != 0)
                             {
-                                classes = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS]);
+                                classes = new ClassBL(UserSchool).GetClass((int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID]);
                             }
                             if ((int)ViewState[AppConstant.SESSION_SELECTED_TERM] != 0)
                             {
@@ -289,14 +317,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             #region
-            
+
             switch (strPagePath)
             {
-                case AppConstant.PAGEPATH_PRINTSTUDENTS:
+                case AppConstant.PAGEPATH_STUDENT_PRINT:
                     {
                         #region
-                        tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, classes, strStudentCode, strStudentName,
-                        
+                        tabularStudents = studentBL.GetTabularStudents(LogedInUser, IsFormerTeacher, year, faculty, grade, classes, strStudentCode, strStudentName,
+
                         1, 50, out dTotalRecords);
                         ds = new DataSet();
                         DataTable dtSource = new DataTable();
@@ -339,7 +367,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case AppConstant.PAGEPATH_PRINTTEACHERS:
                     {
                         #region
-                        tabularTeachers = teacherBL.GetTabularTeachers(strTeacherID, strTeacherName,1, 20, out dTotalRecords);
+                        tabularTeachers = teacherBL.GetTabularTeachers(strTeacherID, strTeacherName, 1, 20, out dTotalRecords);
                         ds = new DataSet();
                         DataTable dtSource = new DataTable();
                         dtSource.Columns.Add("MaHienThiGiaoVien", Type.GetType("System.String"));
@@ -365,7 +393,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 case AppConstant.PAGEPATH_PRINTCLASSES:
                     {
                         #region
-                        tabularClasses = classBL.GetTabularClasses(year, faculty, grade,1, 50, out dTotalRecords);
+                        tabularClasses = classBL.GetTabularClasses(year, faculty, grade, 1, 50, out dTotalRecords);
 
                         DataTable dtSource = new DataTable();
                         dtSource.Columns.Add("ClassId", Type.GetType("System.Int32"));
@@ -394,7 +422,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
                         RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
                         RptDocument.SetParameterValue("Fal", faculty == null ? "Tất cả" : faculty.FacultyName);
-                        RptDocument.SetParameterValue("Grade", grade == null ? "Tất cả" : grade.GradeName);   
+                        RptDocument.SetParameterValue("Grade", grade == null ? "Tất cả" : grade.GradeName);
                         #endregion
                         break;
                     }
@@ -422,7 +450,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             if (_count == 0)
                             {
                                 DataRow drSource = dtSource.NewRow();
-                                drSource["DayInWeekName"] = "Thứ " +(tabularDailySchedule[i].DayInWeekId + 1).ToString();
+                                drSource["DayInWeekName"] = "Thứ " + (tabularDailySchedule[i].DayInWeekId + 1).ToString();
                                 dtSource.Rows.Add(drSource);
                             }
                             else
@@ -465,7 +493,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
 
                         }
-                        ds.Tables.Add(dtSource);                                                
+                        ds.Tables.Add(dtSource);
                         RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Term.rpt"));
                         RptDocument.SetDataSource(ds.Tables[0]);
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
@@ -499,7 +527,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 return null;
             }
-            
+
         }
 
         protected void RemoveSession(string key)

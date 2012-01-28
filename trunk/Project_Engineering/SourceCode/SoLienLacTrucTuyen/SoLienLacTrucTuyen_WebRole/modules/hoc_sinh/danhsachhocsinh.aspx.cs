@@ -156,13 +156,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                         Student_Student student = new Student_Student();
                         student.StudentId = Int32.Parse(e.CommandArgument.ToString());
+                        System.Web.UI.WebControls.Label lblFullName = (System.Web.UI.WebControls.Label)e.Item.FindControl("LblFullName");
+                        student.FullName = lblFullName.Text;
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
                         Class_Class studentClass = new Class_Class();
                         // studentClass.ClassId = Int32.Parse(((HiddenField)e.Item.FindControl("HdfClassId")).Value);
                         AddSession(AppConstant.SESSION_STUDENTCLASS, Class);
 
-                        Response.Redirect(AppConstant.PAGEPATH_STUDENTINFOR);
+                        Response.Redirect(AppConstant.PAGEPATH_STUDENT_INFOR);
                         break;
                     }
 
@@ -224,7 +226,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTSTUDENTS);
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_STUDENT_PRINT);
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
@@ -304,7 +306,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_PREV_PAGE, Request.Path);
 
                         // redirect to "Sửa học sinh"
-                        Response.Redirect(AppConstant.PAGEPATH_STUDENTEDIT);
+                        Response.Redirect(AppConstant.PAGEPATH_STUDENT_EDIT);
                     }
                 }
             }
@@ -404,7 +406,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTSTUDENTS);
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_STUDENT_PRINT);
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
@@ -468,17 +470,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            try
-            {
-                if (DdlLopHoc.SelectedIndex > 0)
-                {
-                    Class = new Class_Class();
-                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                }
-            }
-            catch (Exception) { }
 
-            tabularStudents = studentBL.GetTabularStudents(year, faculty, grade, Class, studentCode, studentName,
+            if((DdlLopHoc.Items.Count == 1) || (DdlLopHoc.Items.Count > 1 && DdlLopHoc.SelectedIndex > 0))
+            {
+                Class = new Class_Class();
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            }
+
+            tabularStudents = studentBL.GetTabularStudents(LogedInUser, IsFormerTeacher, year, faculty, grade, Class, studentCode, studentName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
@@ -613,13 +612,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
 
-            classes = classBL.GetListClasses(year, faculty, grade);
+            classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
 
-            if (classes.Count > 0)
+            if (classes.Count > 1)
             {
                 DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
 

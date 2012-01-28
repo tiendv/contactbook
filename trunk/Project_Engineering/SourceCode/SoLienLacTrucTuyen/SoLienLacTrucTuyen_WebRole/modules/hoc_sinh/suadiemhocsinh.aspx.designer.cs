@@ -31,15 +31,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblStudentCode;
         
         /// <summary>
-        /// LblClassName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblClassName;
-        
-        /// <summary>
         /// LblSubjectName control.
         /// </summary>
         /// <remarks>
@@ -58,22 +49,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblMarkTypeName;
         
         /// <summary>
-        /// LblYear control.
+        /// LblTermName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblYear;
+        protected global::System.Web.UI.WebControls.Label LblTermName;
         
         /// <summary>
-        /// LblTerm control.
+        /// LblClassName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblTerm;
+        protected global::System.Web.UI.WebControls.Label LblClassName;
+        
+        /// <summary>
+        /// LblYearName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblYearName;
         
         /// <summary>
         /// RptDiemMonHoc control.

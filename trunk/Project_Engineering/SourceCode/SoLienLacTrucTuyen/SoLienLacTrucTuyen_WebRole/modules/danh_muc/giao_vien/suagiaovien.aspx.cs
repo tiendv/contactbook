@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class suagiaovien : BaseContentPage
     {
         #region Fields
-        TeacherBL giaoVienBL;
+        TeacherBL teacherBL;
         #endregion
 
         #region Page event handlers
@@ -31,15 +31,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            giaoVienBL = new TeacherBL(UserSchool);
+            teacherBL = new TeacherBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
-                ViewState["prevpageid"] = Request.QueryString["prevpageid"];
-
-                string UserId = Request.QueryString["giaovien"];
-                ViewState["giaovien"] = UserId;
-                FillGiaoVien(new Guid(UserId));
+                if (RetrieveSessions())
+                {
+                    FillGiaoVien(new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_USERID].ToString()));
+                }
+                else
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_TEACHER_LIST);
+                }
             }
         }
         #endregion
@@ -80,38 +83,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ngaySinh = DateTime.Parse(strNgaySinh);
 
             aspnet_Membership editedTeacher = new aspnet_Membership();
-            editedTeacher.UserId = giaoVienBL.GetTeacher(UserId).UserId;
-            giaoVienBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
+            editedTeacher.UserId = teacherBL.GetTeacher(UserId).UserId;
+            teacherBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
 
-            if ((string)ViewState["prevpageid"] == "1")
-            {
-                Response.Redirect("/modules/danh_muc/giao_vien/danhsachgiaovien.aspx");
-            }
-            else
-            {
-                Response.Redirect("/modules/danh_muc/giao_vien/chitietgiaovien.aspx?giaovien="
-                    + ViewState["giaovien"]);
-            }
+            BackToPrevPage();            
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            if ((string)ViewState["prevpageid"] == "1")
-            {
-                Response.Redirect("/modules/danh_muc/giao_vien/danhsachgiaovien.aspx");
-            }
-            else
-            {
-                Response.Redirect("/modules/danh_muc/giao_vien/chitietgiaovien.aspx?giaovien="
-                    + ViewState["giaovien"]);
-            }
+            BackToPrevPage();
         }
         #endregion
 
         #region Methods
         private void FillGiaoVien(Guid teacherId)
         {
-            aspnet_User teacher = giaoVienBL.GetTeacher(teacherId);
+            aspnet_User teacher = teacherBL.GetTeacher(teacherId);
             LblUserIdHienThi.Text = teacher.UserName.Split('_')[1];
             TxtTenGiaoVien.Text = teacher.aspnet_Membership.FullName;
             if (teacher.aspnet_Membership.Birthday != null)
@@ -126,6 +113,36 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             TxtDiaChi.Text = teacher.aspnet_Membership.Address;
             TxtDienThoai.Text = (teacher.aspnet_Membership.Phone != "") ? teacher.aspnet_Membership.Phone : "(không có)";
+        }
+
+        private bool RetrieveSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_USER)
+                && CheckSessionKey(AppConstant.SESSION_PREVIOUSPAGE))
+            {
+                aspnet_User teacher = (aspnet_User)GetSession(AppConstant.SESSION_SELECTED_USER);
+                RemoveSession(AppConstant.SESSION_SELECTED_USER);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_USERID] = teacher.UserId;
+
+                ViewState[AppConstant.VIEWSTATE_PREV_PAGE] = (string)GetSession(AppConstant.SESSION_PREVIOUSPAGE);
+                RemoveSession(AppConstant.SESSION_PREVIOUSPAGE);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void BackToPrevPage()
+        {
+            String strPrevPage = (string)ViewState[AppConstant.VIEWSTATE_PREV_PAGE];
+            if (strPrevPage == AppConstant.PAGEPATH_TEACHER_DETAIL)
+            {
+                aspnet_User teacher = new aspnet_User();
+                teacher.UserId = new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_USERID].ToString());
+                AddSession(AppConstant.SESSION_SELECTED_USER, teacher);
+            }
+
+            Response.Redirect(strPrevPage);
         }
         #endregion
     }

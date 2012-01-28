@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="ThoiKhoaBieu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ThoiKhoaBieu" %>
+    CodeBehind="ThoiKhoaBieu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.SchedulePage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -11,6 +11,19 @@
                 __doPostBack(pageId, "myargs");
                 window.showModalDialog("/modules/hoc_sinh/indanhsachhocsinh.aspx", null, "dialogWidth:1000px; dialogHeight:1000px; center:yes");
             }
+        </script>
+        <script language="javascript" type="text/javascript">
+            $(document).ready(function () {
+                $(".ButtonEdit").hover(function () {
+                    if ($(".ButtonEdit").is(':disabled') == false) {
+                        $(this).attr("src", "/Styles/buttons/button_edit_hover.png");
+                    }
+                }, function () {
+                    if ($(".ButtonEdit").is(':disabled') == false) {
+                        $(this).attr("src", "/Styles/buttons/button_edit.png");
+                    }
+                });
+            });	
         </script>
     </div>
     <div id="divSearch">
@@ -65,22 +78,23 @@
             </asp:UpdatePanel>
         </div>
         <div id="divButtonSearch" style="margin: 3px 0px 0px 0px">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm thời khóa biểu" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
             <asp:ImageButton ID="BtnPrint" runat="server" ImageUrl="~/Styles/buttons/button_export.png"
-                ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" CssClass="BtnExport"/>
+                ToolTip="Báo cáo" OnClientClick="fncOpen();" CssClass="BtnExport" />
+            <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_arrange.png"
+                ToolTip="Sắp xếp thời khóa biểu" CssClass="BtnArrage" />
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
                 Text="Không có thông tin thời khóa biểu"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:Repeater ID="RptMonHocTKB" runat="server" OnItemCommand="RptMonHocTKB_ItemCommand"
-                OnItemDataBound="RptMonHocTKB_ItemDataBound">
+            <asp:Repeater ID="RptMonHocTKB" runat="server" OnItemDataBound="RptMonHocTKB_ItemDataBound">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="left_2 ui-corner-tl" style="width: 78px;">
@@ -93,9 +107,6 @@
                         </td>
                         <td>
                             Chiều
-                        </td>
-                        <td id="thEdit" runat="server" class="icon">
-                            Sắp xếp
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -151,10 +162,6 @@
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </table>
-                        </td>
-                        <td id="tdEdit" runat="server" style="height: 40px; width: 8%; vertical-align: middle; text-align: center">
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CommandName="CmdEditItem" />
                         </td>
                     </tr>
                 </ItemTemplate>

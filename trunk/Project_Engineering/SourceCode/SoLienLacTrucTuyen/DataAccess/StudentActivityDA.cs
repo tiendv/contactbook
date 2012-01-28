@@ -201,5 +201,10 @@ namespace EContactBook.DataAccess
                 return false;
             }
         }
+
+        public bool IsDeletable(Student_Activity studentActivity)
+        {
+            return true;
+        }
     }
 }

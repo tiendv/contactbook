@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="danhsachnguoidung.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.UsersPage" %>
+    CodeBehind="danhsachnguoidung.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.UserListPage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
@@ -10,13 +10,17 @@
                 $find('<%=MPEDelete.ClientID%>').hide();
                 return false;
             }
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('.selectAllUser').click(function () {
-                    $(".selectUser input[type='checkbox']").attr('checked', $(".selectAllUser input[type='checkbox']").is(':checked'));
-                });
-            });
+
+            function popopInfoInUse_Close() {
+                $find('<%=MPEInfoInUse.ClientID%>').hide();
+                return false;
+            }
+
+            function popopActivateReport_Close() {
+                $find('<%=MPEActivateReport.ClientID%>').hide();
+                return false;
+            }
+            
         </script>
     </div>
     <div id="divSearch">
@@ -30,7 +34,7 @@
             </ajaxToolkit:TextBoxWatermarkExtender>
         </div>
         <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm người dùng" OnClick="BtnSearch_Click" />
         </div>
         <br />
@@ -39,12 +43,15 @@
         <div class="add">
             <asp:ImageButton ID="BtnActivate" runat="server" ImageUrl="~/Styles/buttons/button_activate.png"
                 ToolTip="Kích hoạt người dùng" OnClick="BtnActivate_Click" CssClass="BtnActivate" />
-            <asp:ImageButton ID="BtnAddUser" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
+            <asp:ImageButton ID="BtnDeactivate" runat="server" ImageUrl="~/Styles/buttons/button_deactivate.png"
+                ToolTip="Hủy kích hoạt người dùng" OnClick="BtnDeactivate_Click" CssClass="BtnDeactivate" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:ImageButton ID="BtnAddUser" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/buttons/button_add.png"
                 ToolTip="Thêm người dùng mới" OnClick="BtnAdd_Click" />
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
-                ToolTip="Sửa người dùng" OnClick="BtnAdd_Click" CssClass="BtnEdit"/>
+                ToolTip="Sửa người dùng" OnClick="BtnEdit_Click" CssClass="BtnEdit" />
             <asp:ImageButton ID="BtnDelete" runat="server" ImageUrl="~/Styles/buttons/button_delete.png"
-                ToolTip="Xóa người dùng" OnClick="BtnAdd_Click" CssClass="BtnDelete"/>
+                ToolTip="Xóa người dùng" OnClick="BtnOKDeleteItem_Click" CssClass="BtnDelete" />
             <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnDelete"
                 PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
                 PopupDragHandleControlID="PnlDragPopupConfirmDelete">
@@ -57,7 +64,7 @@
             <asp:HiddenField ID="HdfUserName" runat="server" />
             <asp:HiddenField ID="HdfRptUserMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptUserMPEEdit" runat="server" />
-            <asp:Repeater ID="RptUser" runat="server" OnItemCommand="RptUser_ItemCommand" OnItemDataBound="RptUser_ItemDataBound">
+            <asp:Repeater ID="RptUser" runat="server" OnItemCommand="RptUser_ItemCommand">
                 <HeaderTemplate>
                     <tr class="header ui-corner-right ui-corner-left">
                         <td class="ui-corner-tl orderNo">
@@ -76,7 +83,7 @@
                             Trạng thái
                         </td>
                         <td class="icon">
-                            <asp:CheckBox ID="CkbxSelectAllUser" runat="server" CssClass="selectAllUser" />
+                            <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                         </td>
                     </tr>
                 </HeaderTemplate>
@@ -96,14 +103,13 @@
                             <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>
                         </td>
                         <td style="height: 40px">
-                            <asp:TextBox ID="TxtEmail" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Email")%>'
-                                Style="width: 97%; height: 80%; padding: 0px 3px 0px 3px"></asp:TextBox>
+                            <asp:Label ID="LblEmail" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Email")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "StringStatus")%>
                         </td>
                         <td class="icon">
-                            <asp:CheckBox ID="CkbxSelectUser" CssClass="selectUser select" runat="server" />
+                            <asp:CheckBox ID="CkbxSelectUser" CssClass="select" runat="server" />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -124,7 +130,7 @@
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa người dùng"></asp:Label>
-            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
@@ -135,11 +141,59 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 5px 0px; clear: both">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_yes.png"
-                OnClick="BtnOKDeleteItem_Click" CssClass="YesButton" />
+            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
+                OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />
             &nbsp;&nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_no.png"
-                OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="NoButton" />
+            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
+                OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
+        </div>
+    </asp:Panel>
+    <asp:ImageButton ID="BtnFakedInUse" runat="server" Style="display: none" />
+    <ajaxToolkit:ModalPopupExtender ID="MPEInfoInUse" runat="server" TargetControlID="BtnFakedInUse"
+        PopupControlID="PnlInfoInUse" BackgroundCssClass="modalBackground" CancelControlID="imgPnlInfoInUse"
+        PopupDragHandleControlID="PnlInfoInUseDrag">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PnlInfoInUse" runat="server" CssClass="popup ui-corner-all" Width="350px">
+        <asp:Panel ID="PnlInfoInUseDrag" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="Label4" runat="server" Text="Thông tin đang được sử dụng" CssClass="popup_header_title"></asp:Label>
+            <img id="imgPnlInfoInUse" class="button_close" src="../../Styles/buttons/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="Label6" runat="server" Text="Một vài người dùng không thể xóa vì thông tin đang được sử dụng"></asp:Label>
+                <br />
+            </div>
+        </div>
+        <div style="width: 85px; margin: 0px auto 0px auto; padding-bottom: 5px;">
+            <asp:ImageButton ID="BtnClose" runat="server" ImageUrl="~/Styles/buttons/button_close.png"
+                OnClientClick="return popopInfoInUse_Close();" CssClass="BtnClose" />
+        </div>
+    </asp:Panel>
+    <asp:ImageButton ID="BtnFakedCantActivate" runat="server" Style="display: none" />
+    <ajaxToolkit:ModalPopupExtender ID="MPEActivateReport" runat="server" TargetControlID="BtnFakedCantActivate"
+        PopupControlID="PnlActivateReport" BackgroundCssClass="modalBackground" CancelControlID="imgActivateReport"
+        PopupDragHandleControlID="PnlActivateReportDrag">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PnlActivateReport" runat="server" CssClass="popup ui-corner-all" Width="350px">
+        <asp:Panel ID="PnlActivateReportDrag" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="Label1" runat="server" Text="Thông báo kích hoạt" CssClass="popup_header_title"></asp:Label>
+            <img id="imgActivateReport" class="button_close" src="../../Styles/buttons/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image3" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="Label2" runat="server" Text="Một vài người dùng không thể kích hoạt vì không có thông tin email"></asp:Label>
+                <br />
+            </div>
+        </div>
+        <div style="width: 85px; margin: 0px auto 0px auto; padding-bottom: 5px;">
+            <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/Styles/buttons/button_close.png"
+                OnClientClick="return popopActivateReport_Close();" CssClass="BtnClose" />
         </div>
     </asp:Panel>
 </asp:Content>

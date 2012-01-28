@@ -58,6 +58,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlLopHoc;
         
         /// <summary>
+        /// DdlHocKy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
+        
+        /// <summary>
         /// DdlMonHoc control.
         /// </summary>
         /// <remarks>
@@ -74,15 +83,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DdlLoaiDiem;
-        
-        /// <summary>
-        /// DdlHocKy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
         /// RBtnMonth control.
@@ -220,13 +220,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdDTB;
         
         /// <summary>
-        /// tdSelectAll control.
+        /// thSelectAll control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSelectAll;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell thSelectAll;
         
         /// <summary>
         /// CkbxSelectAll control.

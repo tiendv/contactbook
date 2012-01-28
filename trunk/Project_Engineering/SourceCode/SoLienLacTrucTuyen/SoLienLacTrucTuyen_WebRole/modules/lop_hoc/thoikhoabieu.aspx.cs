@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThoiKhoaBieu : BaseContentPage, IPostBackEventHandler
+    public partial class SchedulePage : BaseContentPage, IPostBackEventHandler
     {
         #region Fields
         private ClassBL classBL;
@@ -40,6 +40,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
+                RetrieveSessions();
 
                 if (DdlLopHoc.Items.Count != 0)
                 {
@@ -50,6 +51,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     ProcessDislayInfo(false);
                 }
             }
+
+            ProcPermissions();
         }
         #endregion
 
@@ -74,24 +77,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptMonHocTKB_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-            }
-
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 if (e.Item.DataItem != null)
@@ -139,30 +124,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
         }
-
-        protected void RptMonHocTKB_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdEditItem":
-                    {
-                        string ClassId = ((HiddenField)e.Item.FindControl("HdfRptClassId")).Value;
-                        string TermId = ((HiddenField)e.Item.FindControl("HdfRptTermId")).Value;
-                        string DayInWeekId = ((HiddenField)e.Item.FindControl("HdfRptDayInWeekId")).Value;
-
-                        Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}", 
-                            ClassId, TermId, DayInWeekId));
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
         #endregion
 
         #region Button event handlers
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            // get class information from viewstate and set to session
+            Class_Class Class = new Class_Class();
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+            // get term information from viewstate and set to session
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
+            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+
+            // redirect to "sapxepthoikhoabieu.aspx" page
+            Response.Redirect(AppConstant.PAGEPATH_SCHEDULE_AGGRANGE);
+        }
+
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             BindRptSchedule();
@@ -170,21 +150,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
+        private void ProcPermissions()
+        {
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+        }
+
         private void BindRptSchedule()
         {
-            Configuration_Term term = null;
             Class_Class Class = null;
-            List<DailySchedule> dailySchedules;
+            List<DailySchedule> weeklySchedule;
 
             // Get search criterias
-            term = new Configuration_Term();
+            Configuration_Term term = new Configuration_Term();
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
             
             if (DdlLopHoc.Items.Count != 0)
             {
                 Class = new Class_Class();
                 Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                dailySchedules = scheduleBL.GetDailySchedules(Class, term);
+                weeklySchedule = scheduleBL.GetDailySchedules(Class, term);
                 this.LblSearchResult.Visible = false;
                 this.RptMonHocTKB.Visible = true;
             }
@@ -195,12 +179,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            RptMonHocTKB.DataSource = dailySchedules;
+            RptMonHocTKB.DataSource = weeklySchedule;
             RptMonHocTKB.DataBind();
 
-            //Session["ThoiKhoaBieu_YearId"] = YearId;
-            //Session["ThoiKhoaBieu_TermId"] = TermId;
-            //Session["ThoiKhoaBieu_ClassId"] = ClassId;
+            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Class.ClassId;
+            ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = term.TermId;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
@@ -284,7 +267,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().ToString();
+                Configuration_Term currentTerm = systemConfigBL.GetCurrentTerm();
+                if (currentTerm != null)
+                {
+                    DdlHocKy.SelectedValue = currentTerm.TermId.ToString();
+                }
             }
         }
 
@@ -301,6 +288,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
                 BtnPrint.Enabled = false;
+
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ARRANGE_DISABLE;
+                BtnEdit.Enabled = false;
                 return;
             }
 
@@ -327,8 +317,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<Class_Class> lstLop = classBL.GetListClasses(year, faculty, grade);
-            DdlLopHoc.DataSource = lstLop;
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+
+            List<Class_Class> Classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, term);
+            DdlLopHoc.DataSource = Classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
@@ -354,6 +347,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
                 BtnPrint.Enabled = false;
+
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ARRANGE_DISABLE;
+                BtnEdit.Enabled = false;
             }
         }
 
@@ -415,6 +411,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_TERM, term);
             //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
+        }
+
+        private bool RetrieveSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS) && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM))
+            {
+                Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                RemoveSession(AppConstant.SESSION_SELECTED_CLASS); 
+                DdlLopHoc.SelectedValue = Class.ClassId.ToString();
+                
+                Configuration_Term term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
+                RemoveSession(AppConstant.SESSION_SELECTED_TERM);
+                DdlHocKy.SelectedValue = term.TermId.ToString();
+
+                return true;
+            }
+
+            return false;
         }
         #endregion   
     }

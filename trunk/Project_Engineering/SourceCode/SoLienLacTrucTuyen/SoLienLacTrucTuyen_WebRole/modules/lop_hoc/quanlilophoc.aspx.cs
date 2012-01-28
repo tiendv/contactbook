@@ -24,6 +24,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 FormsAuthentication.SignOut();
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
+
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+            string strUserName = User.Identity.Name;
+            string strPagePath = HlkClass.NavigateUrl.TrimStart('~');
+            PnlClass.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
+            strPagePath = HlkFormerTeacher.NavigateUrl.TrimStart('~');
+            PnlFormerTeacher.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
+            strPagePath = HlkSchedule.NavigateUrl.TrimStart('~');
+            PnlSchedule.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
         }
     }
 }

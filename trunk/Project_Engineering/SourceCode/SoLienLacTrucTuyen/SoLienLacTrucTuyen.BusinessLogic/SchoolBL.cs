@@ -107,6 +107,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             foreach (School_School school in schools)
             {
+                if (school.Status == false)
+                {
+
+                }
+
                 tabularSchool = new TabularSchool();
                 tabularSchool.SchoolId = school.SchoolId;
                 tabularSchool.SchoolName = school.SchoolName;
@@ -142,6 +147,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 return SchoolNameExists(district, newSchoolName);
             }
+        }
+
+        private bool CheckStatus(School_School school)
+        {
+            return schoolDA.CheckStatus(school);
         }
     }
 }

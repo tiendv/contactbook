@@ -153,5 +153,14 @@ namespace EContactBook.DataAccess
 
             return teachingPeriods;
         }
+
+        public int GetTeachingPeriodCount()
+        {
+            IQueryable<Category_TeachingPeriod> iqTeachingPeriod = from t in db.Category_TeachingPeriods
+                                                                   where t.SchoolId == school.SchoolId
+                                                                   select t;
+
+            return iqTeachingPeriod.Count();
+        }
     }
 }

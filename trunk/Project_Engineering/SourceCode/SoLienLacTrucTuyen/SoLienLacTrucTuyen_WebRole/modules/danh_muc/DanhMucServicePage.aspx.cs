@@ -102,8 +102,8 @@ namespace SoLienLacTrucTuyen_WebRole
         public static bool CheckExistLearningResultName(string LearningResultName)
         {
             LearningResultName = Uri.UnescapeDataString(LearningResultName);
-            DanhHieuBL danhHieuBL = new DanhHieuBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
-            return danhHieuBL.DanhHieuExists(LearningResultName);
+            LearningResultBL danhHieuBL = new LearningResultBL((School_School)HttpContext.Current.Session[AppConstant.SCHOOL]);
+            return danhHieuBL.LearningResultNameExists(LearningResultName);
         }
     }
 }
