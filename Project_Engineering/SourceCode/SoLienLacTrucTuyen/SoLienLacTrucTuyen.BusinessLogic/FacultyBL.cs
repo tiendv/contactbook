@@ -17,8 +17,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             facultyDA = new FacultyDA(school);
         }
 
-        public void InsertFaculty(Category_Faculty faculty)
+        public void InsertFaculty(string facultyName, string description)
         {
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyName = facultyName;
+            faculty.Description = description;
+
             facultyDA.InsertFaculty(faculty);
         }
 

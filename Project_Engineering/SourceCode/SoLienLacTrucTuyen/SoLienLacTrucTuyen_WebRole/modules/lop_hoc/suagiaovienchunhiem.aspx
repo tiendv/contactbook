@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="suagiaovienchunhiem.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.SuaGiaoVienChuNhiemPage" %>
+    CodeBehind="suagiaovienchunhiem.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.FormerTeacherModifyPage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -48,7 +48,7 @@
                 &nbsp;&nbsp;
             </div>
             <div style="float: left; width: 80px; margin-top: -5px;">
-                <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/buttons/button_search.png"
                     ToolTip="Tìm kiếm giáo viên" OnClick="BtnSearch_Click" />
             </div>
         </div>
@@ -123,9 +123,9 @@
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 0px 0px">
         <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ValidationGroup="EditGiaoVienChuNhiem"
-            ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />
+            ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />
         &nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/buttons/button_cancel.png"
             CssClass="CancelButton" />
     </div>
 </asp:Content>

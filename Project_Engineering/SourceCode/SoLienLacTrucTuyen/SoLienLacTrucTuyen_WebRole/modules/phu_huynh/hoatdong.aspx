@@ -56,7 +56,7 @@
             </table>
         </div>
         <div id="divButtonSearch" style="padding-top: 5px">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm hoạt động" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>

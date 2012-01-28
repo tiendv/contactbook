@@ -28,34 +28,41 @@ namespace EContactBook.BusinessEntity
 
         public int TeachingPeriodOrder { get; set; }
 
-        private DateTime beginTime;
-        public DateTime BeginTime
-        {
-            get
-            {
-                return beginTime;
-            }
-            set
-            {
-                beginTime = value;
-                StringBeginTime = beginTime.ToShortTimeString();
-            }
-        }
-        public string StringBeginTime { get; set; }
+        public DateTime BeginTime { get; set; }
 
-        private DateTime endTime;
-        public DateTime EndTime
+        public string StringBeginTime
         {
             get
             {
-                return endTime;
-            }
-            set
-            {
-                endTime = value;
-                StringEndTime = endTime.ToShortTimeString();
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(BeginTime.Hour);
+                stringBuilder.Append(" giờ ");
+                if (BeginTime.Minute != 0)
+                {
+                    stringBuilder.Append(BeginTime.Minute);
+                    stringBuilder.Append(" phút ");
+                }
+                return stringBuilder.ToString();
             }
         }
-        public string StringEndTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+
+        public string StringEndTime
+        {
+            get
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(EndTime.Hour);
+                stringBuilder.Append(" giờ ");
+                if (EndTime.Minute != 0)
+                {
+                    stringBuilder.Append(EndTime.Minute);
+                    stringBuilder.Append(" phút ");
+                }
+
+                return stringBuilder.ToString();
+            }
+        }
     }
 }

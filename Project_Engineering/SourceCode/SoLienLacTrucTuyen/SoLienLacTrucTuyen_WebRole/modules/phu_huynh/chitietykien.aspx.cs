@@ -42,7 +42,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+                    Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
                 }
             }
         }
@@ -71,12 +71,12 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
             AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
 
-            Response.Redirect(AppConstant.PAGEPATH_EDITCOMMENT);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_EDIT);
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
         }
         #endregion
     }

@@ -109,7 +109,7 @@
             &nbsp; &nbsp; &nbsp;
         </div>
         <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" OnClick="BtnSearch_Click" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm phân quyền" CssClass="BtnSearch" />
         </div>
         <br />
@@ -190,10 +190,10 @@
             <cc1:DataPager ID="MainDataPager" runat="server" Visible="false" PageSize="50"/>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 10px 0px 0px 0px">
-            <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ImageUrl="~/Styles/buttons/button_save.png"
                 CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 CssClass="CancelButton" />
         </div>
     </div>

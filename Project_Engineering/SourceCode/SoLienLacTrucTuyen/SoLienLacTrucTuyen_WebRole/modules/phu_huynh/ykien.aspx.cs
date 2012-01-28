@@ -51,12 +51,20 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         #endregion
 
         #region Methods
+        private void ProcPermissions()
+        {
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+        }
+
         private void BindRptParentsComments()
         {
             List<TabularParentsComment> tabularParentsComments = null;
 
             Configuration_Year year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlYears.SelectedValue); 
+            year.YearId = Int32.Parse(DdlYears.SelectedValue);
             DateTime dtBeginDate = DateTime.Parse(TxtBeginDate.Text);
             DateTime dtEndDate = DateTime.Parse(TxtEndDate.Text);
             Configuration_CommentStatus commentStatus = null;
@@ -67,7 +75,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             double dTotalRecords;
 
-            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(LoggedInStudent, year, commentStatus, dtBeginDate, dtEndDate, 
+            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(LoggedInStudent, year, commentStatus, dtBeginDate, dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (tabularParentsComments.Count == 0 && dTotalRecords != 0)
@@ -78,28 +86,38 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
 
             bool bDisplayData = (tabularParentsComments.Count != 0) ? true : false;
-            ProcessDislayInfo(bDisplayData);
+            ProcessDisplayGUI(bDisplayData);
 
             RptLoiNhanKhan.DataSource = tabularParentsComments;
             RptLoiNhanKhan.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
+
+            int iUnConfirmedFedbackCommentCount = parentsCommentBL.GetUnConfirmedFedbackComment(LoggedInStudent);
+            if (iUnConfirmedFedbackCommentCount != 0)
+            {
+                PnlCommentStatus.Visible = true;
+                LblCommentStatus.Text = iUnConfirmedFedbackCommentCount.ToString();
+            }
+            else
+            {
+                PnlCommentStatus.Visible = false;
+            }
         }
 
-        private void ProcessDislayInfo(bool bDisplayData)
+        private void ProcessDisplayGUI(bool displayData)
         {
-            RptLoiNhanKhan.Visible = bDisplayData;
-            LblSearchResult.Visible = !bDisplayData;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
+            RptLoiNhanKhan.Visible = displayData;
+            LblSearchResult.Visible = !displayData;
 
             if (LblSearchResult.Visible)
             {
-                if (!isSearch)
+                if (isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin góp ý của phụ huynh";
+                    LblSearchResult.Text = "Không tìm thấy thông tin góp ý của phụ huynh"; 
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy thông tin góp ý của phụ huynh";
+                    LblSearchResult.Text = "Chưa có thông tin góp ý của phụ huynh";
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
@@ -108,6 +126,8 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             {
                 MainDataPager.Visible = true;
             }
+
+            PnlNote.Visible = displayData;
         }
 
         private void BindDropDownLists()
@@ -155,23 +175,20 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             //TxtDenNgay.Text = endDateOfMonth.ToShortDateString();
         }
         #endregion
-        
+
         #region Repeater event handlers
         protected void RptLoiNhanKhan_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                TabularParentsComment tabularParentsComment = (TabularParentsComment)e.Item.DataItem;
-                if (tabularParentsComment.Feedback != "")
-                {
-                    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                    btnDeleteItem.Enabled = false;
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
 
-                    ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
-                    btnEditItem.ImageUrl = "~/Styles/Images/button_edit_disable.png";
-                    btnEditItem.Enabled = false;
-                }
+
             }
         }
 
@@ -182,7 +199,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 case "CmdDetailItem":
                     {
                         ParentComment_Comment comment = null;
-                        Configuration_CommentStatus commentStatus = new Configuration_CommentStatus(); 
+                        Configuration_CommentStatus commentStatus = new Configuration_CommentStatus();
 
                         int iCommentId = Int32.Parse(e.CommandArgument.ToString());
                         comment = parentsCommentBL.GetParentsComments(iCommentId);
@@ -192,32 +209,10 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                             commentStatus.CommentStatusId = 3;
                             parentsCommentBL.UpdateParentsComment(comment, commentStatus);
                         }
-                        
+
                         AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
 
-                        Response.Redirect(AppConstant.PAGEPATH_DETAILEDCOMMENT);
-                        break;
-                    }
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa góp ý <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptCommentId = (HiddenField)e.Item.FindControl("HdfRptMaLoiNhanKhan");
-                        this.HdfCommentId.Value = hdfRptCommentId.Value;
-                        this.HdfRptCommentMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }                
-                case "CmdEditItem":
-                    {
-                        int iCommentId = Int32.Parse(e.CommandArgument.ToString());
-
-                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(iCommentId);
-                        AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
-
-                        Response.Redirect(AppConstant.PAGEPATH_EDITCOMMENT);
+                        Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_DETAIL);
                         break;
                     }
                 default:
@@ -238,16 +233,67 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_ADDCOMMENT);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_ADD);
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMaLoiNhanKhan = null;
+            foreach (RepeaterItem item in RptLoiNhanKhan.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptMaLoiNhanKhan = (HiddenField)item.FindControl("HdfRptMaLoiNhanKhan");
+                        ParentComment_Comment comment = parentsCommentBL.GetParentsComments(Int32.Parse(HdfRptMaLoiNhanKhan.Value));
+                        AddSession(AppConstant.SESSION_PARENTSCOMMENTID, comment);
+
+                        Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_EDIT);
+                        return;
+                    }
+                }
+            }
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            ParentComment_Comment comment = new ParentComment_Comment();
-            comment.CommentId = Int32.Parse(HdfCommentId.Value);
-            parentsCommentBL.DeleteParentsComment(comment);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptMaLoiNhanKhan = null;
+            ParentComment_Comment comment = null;
+
+            foreach (RepeaterItem item in RptLoiNhanKhan.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptMaLoiNhanKhan = (HiddenField)item.FindControl("HdfRptMaLoiNhanKhan");
+                        comment = new ParentComment_Comment();
+                        comment.CommentId = Int32.Parse(HdfRptMaLoiNhanKhan.Value);
+
+                        if (parentsCommentBL.IsDeletable(comment))
+                        {
+                            parentsCommentBL.DeleteParentsComment(comment);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
+
             isSearch = false;
             BindRptParentsComments();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
         }
         #endregion
 

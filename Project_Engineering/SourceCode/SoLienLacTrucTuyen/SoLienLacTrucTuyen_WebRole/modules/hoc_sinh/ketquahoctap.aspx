@@ -4,18 +4,23 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <div>
-        <div>
-            <asp:Repeater ID="RptStudentFunctions" runat="server" OnItemDataBound="RptStudentFunctions_ItemDataBound"
-                OnItemCommand="RptStudentFunctions_ItemCommand">
-                <ItemTemplate>
-                    <asp:LinkButton ID="LkBtnStudentPage" runat="server" CssClass="tabHeader" CommandName="Redirect"
-                        CommandArgument='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'><%#DataBinder.Eval(Container.DataItem, "PageTitle")%></asp:LinkButton>
-                    <asp:HiddenField ID="HdfPhysicalPath" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>' />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                </ItemTemplate>
-            </asp:Repeater>
-        </div>
+    <div style="padding: 10px 0px 10px 0px; font-size: 14px; font-weight: bold">
+        Họ và tên:
+        <asp:Label ID="LblStudentName" runat="server"></asp:Label>
+        &nbsp;&nbsp;&nbsp;&nbsp;Mã học sinh:
+        <asp:Label ID="LblStudentCode" runat="server"></asp:Label>
+        <br />
+    </div>
+    <div style="padding: 0px 0px 20px 0px">
+        <asp:Repeater ID="RptStudentFunctions" runat="server" OnItemDataBound="RptStudentFunctions_ItemDataBound"
+            OnItemCommand="RptStudentFunctions_ItemCommand">
+            <ItemTemplate>
+                <asp:LinkButton ID="LkBtnStudentPage" runat="server" CssClass="tabHeader" CommandName="Redirect"
+                    CommandArgument='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>'><%#DataBinder.Eval(Container.DataItem, "PageTitle")%></asp:LinkButton>
+                <asp:HiddenField ID="HdfPhysicalPath" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "PhysicalPath")%>' />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
     <div id="divSearch">
         <div id="divSearchCriteria">
@@ -28,7 +33,7 @@
         </div>
         <div id="divButtonSearch">
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
@@ -160,9 +165,9 @@
         </div>
     </div>
     <div style="padding: 5px; vertical-align: middle;">
-        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back.png"
             OnClick="BtnBackPrevPage_Click" />
-        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back_text.png"
+        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back_text.png"
             OnClick="BtnBackPrevPage_Click" />
     </div>
     <asp:HiddenField ID="HdfMaHocSinh" runat="server" />

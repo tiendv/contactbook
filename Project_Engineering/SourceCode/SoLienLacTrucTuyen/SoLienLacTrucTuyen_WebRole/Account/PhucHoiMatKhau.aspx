@@ -60,7 +60,7 @@
                     </tr>
                 </table>
                 <div style="margin:0px auto 0px auto; padding:10px 0px 5px 0px; text-align:center" >
-                    <asp:ImageButton ID="Login" runat="server" CommandName="Login" ImageUrl="~/Styles/Images/button_login.png"/>
+                    <asp:ImageButton ID="Login" runat="server" CommandName="Login" ImageUrl="~/Styles/buttons/button_login.png"/>
                 </div>
             </LayoutTemplate>            
         </asp:Login>

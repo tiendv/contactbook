@@ -192,5 +192,10 @@ namespace EContactBook.DataAccess
                 return false;
             }
         }
+
+        public bool CheckStatus(School_School school)
+        {
+            return true;
+        }
     }
 }

@@ -1,28 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DbEContactBook" Class="DbEContactBookDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=localhost\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Security=True" SettingsObjectName="EContactBook.DataAccess.Properties.Settings" SettingsPropertyName="DbEContactBookConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.aspnet_Applications" Member="aspnet_Applications">
     <Type Name="aspnet_Application">
       <Column Name="ApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="LoweredApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
       <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Memberships" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Membership" />
       <Association Name="aspnet_Application_aspnet_Path" Member="aspnet_Paths" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Path" />
       <Association Name="aspnet_Application_aspnet_Role" Member="aspnet_Roles" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Role" />
       <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Users" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_User" />
-    </Type>
-  </Table>
-  <Table Name="dbo.UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations">
-    <Type Name="UserManagement_RoleParentsAuthorization">
-      <Column Name="RoleParentAuthorizationId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="UserParentId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="GetEmail" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="GetSMS" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsRegistered" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="aspnet_User" ThisKey="UserParentId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-      <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_Authorization" ThisKey="RoleParentAuthorizationId" OtherKey="AuthorizationId" Type="UserManagement_Authorization" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_Membership" Member="aspnet_Memberships">
@@ -66,7 +53,7 @@
   <Table Name="dbo.aspnet_Paths" Member="aspnet_Paths">
     <Type Name="aspnet_Path">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="PathId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PathId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Path" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="LoweredPath" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Association Name="aspnet_Path_aspnet_PersonalizationAllUser" Member="aspnet_PersonalizationAllUser" ThisKey="PathId" OtherKey="PathId" Type="aspnet_PersonalizationAllUser" Cardinality="One" />
@@ -84,7 +71,7 @@
   </Table>
   <Table Name="dbo.aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers">
     <Type Name="aspnet_PersonalizationPerUser">
-      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="PathId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="PageSettings" Type="System.Data.Linq.Binary" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
@@ -106,13 +93,13 @@
   <Table Name="dbo.aspnet_Roles" Member="aspnet_Roles">
     <Type Name="aspnet_Role">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="RoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="LoweredRoleName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
       <Association Name="aspnet_Role_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_UsersInRole" />
-      <Association Name="aspnet_Role_UserManagement_Authorization" Member="UserManagement_Authorizations" ThisKey="RoleId" OtherKey="RoleId" Type="UserManagement_Authorization" />
       <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="UserManagement_RoleDetail" ThisKey="RoleId" OtherKey="RoleId" Type="UserManagement_RoleDetail" Cardinality="One" />
+      <Association Name="aspnet_Role_UserManagement_Authorization" Member="UserManagement_Authorizations" ThisKey="RoleId" OtherKey="RoleId" Type="UserManagement_Authorization" />
       <Association Name="aspnet_Application_aspnet_Role" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
     </Type>
   </Table>
@@ -126,19 +113,19 @@
   <Table Name="dbo.aspnet_Users" Member="aspnet_Users">
     <Type Name="aspnet_User">
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="LoweredUserName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="MobileAlias" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
       <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="UserId" OtherKey="UserParentId" Type="UserManagement_RoleParentsAuthorization" />
       <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_Membership" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Membership" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers" ThisKey="UserId" OtherKey="UserId" Type="aspnet_PersonalizationPerUser" />
       <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_Profile" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Profile" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
       <Association Name="aspnet_User_Class_FormerTeacher" Member="Class_FormerTeachers" ThisKey="UserId" OtherKey="TeacherId" Type="Class_FormerTeacher" />
       <Association Name="aspnet_User_Class_Schedule" Member="Class_Schedules" ThisKey="UserId" OtherKey="TeacherId" Type="Class_Schedule" />
+      <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="UserId" OtherKey="UserParentId" Type="UserManagement_RoleParentsAuthorization" />
       <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
     </Type>
   </Table>
@@ -156,8 +143,8 @@
       <Column Name="EventTimeUtc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="EventTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="EventType" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="EventSequence" Type="System.Decimal" DbType="decimal NOT NULL" CanBeNull="false" />
-      <Column Name="EventOccurrence" Type="System.Decimal" DbType="decimal NOT NULL" CanBeNull="false" />
+      <Column Name="EventSequence" Type="System.Decimal" DbType="Decimal(19,0) NOT NULL" CanBeNull="false" />
+      <Column Name="EventOccurrence" Type="System.Decimal" DbType="Decimal(19,0) NOT NULL" CanBeNull="false" />
       <Column Name="EventCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="EventDetailCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Message" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
@@ -167,14 +154,6 @@
       <Column Name="RequestUrl" Type="System.String" DbType="NVarChar(1024)" CanBeNull="true" />
       <Column Name="ExceptionType" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
       <Column Name="Details" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Category_Attitude" Member="Category_Attitudes">
-    <Type Name="Category_Attitude">
-      <Column Name="AttitudeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="AttitudeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="School_School_Category_Attitude" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Category_Conduct" Member="Category_Conducts">
@@ -381,24 +360,32 @@
       <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TermName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Configuration_Term_Class_Schedule" Member="Class_Schedules" ThisKey="TermId" OtherKey="TermId" Type="Class_Schedule" />
+      <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_TermsInYears" ThisKey="TermId" OtherKey="TermId" Type="Configuration_TermsInYear" />
       <Association Name="Configuration_Term_Student_Absent" Member="Student_Absents" ThisKey="TermId" OtherKey="TermId" Type="Student_Absent" />
       <Association Name="Configuration_Term_Student_Activity" Member="Student_Activities" ThisKey="TermId" OtherKey="TermId" Type="Student_Activity" />
       <Association Name="Configuration_Term_Student_TermLearningResult" Member="Student_TermLearningResults" ThisKey="TermId" OtherKey="TermId" Type="Student_TermLearningResult" />
       <Association Name="Configuration_Term_Student_TermSubjectMark" Member="Student_TermSubjectMarks" ThisKey="TermId" OtherKey="TermId" Type="Student_TermSubjectMark" />
-      <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_TermsInYears" ThisKey="TermId" OtherKey="TermId" Type="Configuration_TermsInYear" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Configuration_TermsInYear" Member="Configuration_TermsInYears">
+    <Type Name="Configuration_TermsInYear">
+      <Column Name="YearId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BeginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_Term" ThisKey="TermId" OtherKey="TermId" Type="Configuration_Term" IsForeignKey="true" />
+      <Association Name="Configuration_Year_Configuration_TermsInYear" Member="Configuration_Year" ThisKey="YearId" OtherKey="YearId" Type="Configuration_Year" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Configuration_Year" Member="Configuration_Years">
     <Type Name="Configuration_Year">
       <Column Name="YearId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="YearName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="BeginYear" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndYear" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BeginFirstTermDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndFirstTermDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BeginSecondTermDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndSecondTermDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="BeginFirstTermDate" Member="BeginFirstTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="EndFirstTermDate" Member="EndFirstTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="BeginSecondTermDate" Member="BeginSecondTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
-      <Column Name="EndSecondTermDate" Member="EndSecondTermDate" Type="System.DateTime" DbType="datetime NOT NULL" IsDbGenerated="false" CanBeNull="false" IsPrimaryKey="false" />
       <Association Name="Configuration_Year_Class_Class" Member="Class_Classes" ThisKey="YearId" OtherKey="YearId" Type="Class_Class" />
       <Association Name="Configuration_Year_Configuration_TermsInYear" Member="Configuration_TermsInYears" ThisKey="YearId" OtherKey="YearId" Type="Configuration_TermsInYear" />
       <Association Name="School_School_Configuration_Year" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
@@ -430,33 +417,6 @@
       <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Configuration_CommentStatus_ParentComment_Comment" Member="Configuration_CommentStatus" ThisKey="CommentStatusId" OtherKey="CommentStatusId" Type="Configuration_CommentStatus" IsForeignKey="true" />
       <Association Name="Student_StudentInClass_ParentComment_Comment" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.School_School" Member="School_Schools">
-    <Type Name="School_School">
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="SchoolName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="TotalOfUsers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Address" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
-      <Column Name="Phone" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="DistrictId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
-      <Association Name="School_School_Category_Attitude" Member="Category_Attitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Attitude" />
-      <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
-      <Association Name="School_School_Category_Faculty" Member="Category_Faculties" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Faculty" />
-      <Association Name="School_School_Category_Grade" Member="Category_Grades" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Grade" />
-      <Association Name="School_School_Category_LearningAptitude" Member="Category_LearningAptitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_LearningAptitude" />
-      <Association Name="School_School_Category_LearningResult" Member="Category_LearningResults" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_LearningResult" />
-      <Association Name="School_School_Category_TeachingPeriod" Member="Category_TeachingPeriods" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_TeachingPeriod" />
-      <Association Name="School_School_Class_Class" Member="Class_Classes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Class_Class" />
-      <Association Name="School_School_Configuration_Year" Member="Configuration_Years" ThisKey="SchoolId" OtherKey="SchoolId" Type="Configuration_Year" />
-      <Association Name="School_School_Student_Student" Member="Student_Students" ThisKey="SchoolId" OtherKey="SchoolId" Type="Student_Student" />
-      <Association Name="School_School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
-      <Association Name="Configuration_District_School_School" Member="Configuration_District" ThisKey="DistrictId" OtherKey="DistrictId" Type="Configuration_District" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Student_Absent" Member="Student_Absents">
@@ -574,17 +534,6 @@
       <Association Name="UserManagement_Accessibility_UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages" ThisKey="AccessibilityId" OtherKey="AccessibilityId" Type="UserManagement_AuthorizedPage" />
     </Type>
   </Table>
-  <Table Name="dbo.UserManagement_Authorization" Member="UserManagement_Authorizations">
-    <Type Name="UserManagement_Authorization">
-      <Column Name="AuthorizationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="AuthorizedPagePathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="AuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" />
-      <Association Name="aspnet_Role_UserManagement_Authorization" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
-      <Association Name="UserManagement_AuthorizedPage_UserManagement_Authorization" Member="UserManagement_AuthorizedPage" ThisKey="AuthorizedPagePathId" OtherKey="AuthorizedPageId" Type="UserManagement_AuthorizedPage" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.UserManagement_AuthorizedPage" Member="UserManagement_AuthorizedPages">
     <Type Name="UserManagement_AuthorizedPage">
       <Column Name="AuthorizedPageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -652,562 +601,63 @@
       <Column Name="RoleCategoryId" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="aspnet_Role_UserManagement_RoleDetail" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
-      <Association Name="School_School_UserManagement_RoleDetail" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
       <Association Name="UserManagement_RoleCategory_UserManagement_RoleDetail" Member="UserManagement_RoleCategory" ThisKey="RoleCategoryId" OtherKey="RoleCategoryId" Type="UserManagement_RoleCategory" IsForeignKey="true" />
+      <Association Name="School_School_UserManagement_RoleDetail" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.vw_aspnet_Applications" Member="vwaspnetApplications">
-    <Type Name="vwaspnetApplication">
-      <Column Name="ApplicationName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="LoweredApplicationName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
+  <Table Name="dbo.Category_Attitude" Member="Category_Attitudes">
+    <Type Name="Category_Attitude">
+      <Column Name="AttitudeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AttitudeName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.vw_aspnet_Users" Member="vwaspnetUsers">
-    <Type Name="vwaspnetUser">
-      <Column Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="LoweredUserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="MobileAlias" Type="System.String" DbType="nvarchar(16)" CanBeNull="true" />
-      <Column Name="IsAnonymous" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="LastActivityDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
+  <Table Name="dbo.UserManagement_Authorization" Member="UserManagement_Authorizations">
+    <Type Name="UserManagement_Authorization">
+      <Column Name="AuthorizationId" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="AuthorizedPagePathId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="AuthorizationId" OtherKey="RoleParentAuthorizationId" Type="UserManagement_RoleParentsAuthorization" />
+      <Association Name="aspnet_Role_UserManagement_Authorization" Member="aspnet_Role" ThisKey="RoleId" OtherKey="RoleId" Type="aspnet_Role" IsForeignKey="true" />
+      <Association Name="UserManagement_AuthorizedPage_UserManagement_Authorization" Member="UserManagement_AuthorizedPage" ThisKey="AuthorizedPagePathId" OtherKey="AuthorizedPageId" Type="UserManagement_AuthorizedPage" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.vw_aspnet_MembershipUsers" Member="vwaspnetMembershipUsers">
-    <Type Name="vwaspnetMembershipUser">
-      <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="PasswordFormat" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
-      <Column Name="MobilePIN" Type="System.String" DbType="nvarchar(16)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="LoweredEmail" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="PasswordQuestion" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="PasswordAnswer" Type="System.String" DbType="nvarchar(128)" CanBeNull="true" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsLockedOut" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastLoginDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAttemptCount" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAttemptWindowStart" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAnswerAttemptCount" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAnswerAttemptWindowStart" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="Comment" Type="System.String" DbType="ntext" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="MobileAlias" Type="System.String" DbType="nvarchar(16)" CanBeNull="true" />
-      <Column Name="IsAnonymous" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="LastActivityDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
+  <Table Name="dbo.UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations">
+    <Type Name="UserManagement_RoleParentsAuthorization">
+      <Column Name="RoleParentAuthorizationId" Type="System.Int64" DbType="BigInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserParentId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GetEmail" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="GetSMS" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsRegistered" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="aspnet_User" ThisKey="UserParentId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization" Member="UserManagement_Authorization" ThisKey="RoleParentAuthorizationId" OtherKey="AuthorizationId" Type="UserManagement_Authorization" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.vw_aspnet_Profiles" Member="vwaspnetProfiles">
-    <Type Name="vwaspnetProfile">
-      <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="DataSize" Type="System.Int32" DbType="int" CanBeNull="true" />
+  <Table Name="dbo.School_School" Member="School_Schools">
+    <Type Name="School_School">
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SchoolName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="TotalOfUsers" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Logo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="DistrictId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
+      <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
+      <Association Name="School_School_Category_Faculty" Member="Category_Faculties" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Faculty" />
+      <Association Name="School_School_Category_Grade" Member="Category_Grades" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Grade" />
+      <Association Name="School_School_Category_LearningAptitude" Member="Category_LearningAptitudes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_LearningAptitude" />
+      <Association Name="School_School_Category_LearningResult" Member="Category_LearningResults" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_LearningResult" />
+      <Association Name="School_School_Category_TeachingPeriod" Member="Category_TeachingPeriods" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_TeachingPeriod" />
+      <Association Name="School_School_Class_Class" Member="Class_Classes" ThisKey="SchoolId" OtherKey="SchoolId" Type="Class_Class" />
+      <Association Name="School_School_Configuration_Year" Member="Configuration_Years" ThisKey="SchoolId" OtherKey="SchoolId" Type="Configuration_Year" />
+      <Association Name="School_School_Student_Student" Member="Student_Students" ThisKey="SchoolId" OtherKey="SchoolId" Type="Student_Student" />
+      <Association Name="School_School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
+      <Association Name="Configuration_District_School_School" Member="Configuration_District" ThisKey="DistrictId" OtherKey="DistrictId" Type="Configuration_District" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.vw_aspnet_Roles" Member="vwaspnetRoles">
-    <Type Name="vwaspnetRole">
-      <Column Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="LoweredRoleName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.vw_aspnet_UsersInRoles" Member="vwaspnetUsersInRoles">
-    <Type Name="vwaspnetUsersInRole">
-      <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="RoleId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.vw_aspnet_WebPartState_Paths" Member="vwaspnetWebPartStatePaths">
-    <Type Name="vwaspnetWebPartStatePath">
-      <Column Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="PathId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="[Path]" Member="Path" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="LoweredPath" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.vw_aspnet_WebPartState_Shared" Member="vwaspnetWebPartStateShareds">
-    <Type Name="vwaspnetWebPartStateShared">
-      <Column Name="PathId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="DataSize" Type="System.Int32" DbType="int" CanBeNull="true" />
-      <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.vw_aspnet_WebPartState_User" Member="vwaspnetWebPartStateUsers">
-    <Type Name="vwaspnetWebPartStateUser">
-      <Column Name="PathId" Type="System.Guid" DbType="uniqueidentifier" CanBeNull="true" />
-      <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier" CanBeNull="true" />
-      <Column Name="DataSize" Type="System.Int32" DbType="int" CanBeNull="true" />
-      <Column Name="LastUpdatedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Configuration_TermsInYear" Member="Configuration_TermsInYears">
-    <Type Name="Configuration_TermsInYear">
-      <Column Name="YearId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="BeginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EndDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_Term" ThisKey="TermId" OtherKey="TermId" Type="Configuration_Term" IsForeignKey="true" />
-      <Association Name="Configuration_Year_Configuration_TermsInYear" Member="Configuration_Year" ThisKey="YearId" OtherKey="YearId" Type="Configuration_Year" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Function Name="dbo.aspnet_AnyDataInTables" Method="aspnetAnyDataInTables">
-    <Parameter Name="TablesToCheck" Type="System.Int32" DbType="int" />
-    <ElementType Name="aspnetAnyDataInTablesResult">
-      <Column Name="Column1" Type="System.String" DbType="nvarchar(17) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Applications_CreateApplication" Method="aspnetApplicationsCreateApplication">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_CheckSchemaVersion" Method="aspnetCheckSchemaVersion">
-    <Parameter Name="Feature" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="CompatibleSchemaVersion" Type="System.String" DbType="nvarchar(128)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_ChangePasswordQuestionAndAnswer" Method="aspnetMembershipChangePasswordQuestionAndAnswer">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="NewPasswordQuestion" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="NewPasswordAnswer" Type="System.String" DbType="nvarchar(128)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_CreateUser" Method="aspnetMembershipCreateUser">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Password" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="PasswordSalt" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="Email" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PasswordQuestion" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PasswordAnswer" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="IsApproved" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="CreateDate" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="UniqueEmail" Type="System.Int32" DbType="int" />
-    <Parameter Name="PasswordFormat" Type="System.Int32" DbType="int" />
-    <Parameter Name="UserId" Type="System.Guid" DbType="uniqueidentifier" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_FindUsersByEmail" Method="aspnetMembershipFindUsersByEmail">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="EmailToMatch" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PageIndex" Type="System.Int32" DbType="int" />
-    <Parameter Name="PageSize" Type="System.Int32" DbType="int" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_FindUsersByName" Method="aspnetMembershipFindUsersByName">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserNameToMatch" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PageIndex" Type="System.Int32" DbType="int" />
-    <Parameter Name="PageSize" Type="System.Int32" DbType="int" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetAllUsers" Method="aspnetMembershipGetAllUsers">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PageIndex" Type="System.Int32" DbType="int" />
-    <Parameter Name="PageSize" Type="System.Int32" DbType="int" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetNumberOfUsersOnline" Method="aspnetMembershipGetNumberOfUsersOnline">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="MinutesSinceLastInActive" Type="System.Int32" DbType="int" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetPassword" Method="aspnetMembershipGetPassword">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="MaxInvalidPasswordAttempts" Type="System.Int32" DbType="int" />
-    <Parameter Name="PasswordAttemptWindow" Type="System.Int32" DbType="int" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="PasswordAnswer" Type="System.String" DbType="nvarchar(128)" />
-    <ElementType Name="aspnetMembershipGetPasswordResult">
-      <Column Name="Column1" Type="System.String" DbType="nvarchar(128)" CanBeNull="true" />
-      <Column Name="Column2" Type="System.Int32" DbType="int" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetPasswordWithFormat" Method="aspnetMembershipGetPasswordWithFormat">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UpdateLastLoginActivityDate" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <ElementType Name="aspnetMembershipGetPasswordWithFormatResult">
-      <Column Name="Column1" Type="System.String" DbType="nvarchar(128)" CanBeNull="true" />
-      <Column Name="Column2" Type="System.Int32" DbType="int" CanBeNull="true" />
-      <Column Name="Column3" Type="System.String" DbType="nvarchar(128)" CanBeNull="true" />
-      <Column Name="Column4" Type="System.Int32" DbType="int" CanBeNull="true" />
-      <Column Name="Column5" Type="System.Int32" DbType="int" CanBeNull="true" />
-      <Column Name="Column6" Type="System.Boolean" DbType="bit" CanBeNull="true" />
-      <Column Name="Column7" Type="System.DateTime" DbType="datetime" CanBeNull="true" />
-      <Column Name="Column8" Type="System.DateTime" DbType="datetime" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetUserByEmail" Method="aspnetMembershipGetUserByEmail">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Email" Type="System.String" DbType="nvarchar(256)" />
-    <ElementType Name="aspnetMembershipGetUserByEmailResult">
-      <Column Name="UserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetUserByName" Method="aspnetMembershipGetUserByName">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="UpdateLastActivity" Type="System.Boolean" DbType="bit" />
-    <ElementType Name="aspnetMembershipGetUserByNameResult">
-      <Column Name="Email" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="PasswordQuestion" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="Comment" Type="System.String" DbType="ntext" CanBeNull="true" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastLoginDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastActivityDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="uniqueidentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IsLockedOut" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Membership_GetUserByUserId" Method="aspnetMembershipGetUserByUserId">
-    <Parameter Name="UserId" Type="System.Guid" DbType="uniqueidentifier" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="UpdateLastActivity" Type="System.Boolean" DbType="bit" />
-    <ElementType Name="aspnetMembershipGetUserByUserIdResult">
-      <Column Name="Email" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="PasswordQuestion" Type="System.String" DbType="nvarchar(256)" CanBeNull="true" />
-      <Column Name="Comment" Type="System.String" DbType="ntext" CanBeNull="true" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastLoginDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastActivityDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="IsLockedOut" Type="System.Boolean" DbType="bit NOT NULL" CanBeNull="false" />
-      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="datetime NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Membership_ResetPassword" Method="aspnetMembershipResetPassword">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="NewPassword" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="MaxInvalidPasswordAttempts" Type="System.Int32" DbType="int" />
-    <Parameter Name="PasswordAttemptWindow" Type="System.Int32" DbType="int" />
-    <Parameter Name="PasswordSalt" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="PasswordFormat" Type="System.Int32" DbType="int" />
-    <Parameter Name="PasswordAnswer" Type="System.String" DbType="nvarchar(128)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_SetPassword" Method="aspnetMembershipSetPassword">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="NewPassword" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="PasswordSalt" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="PasswordFormat" Type="System.Int32" DbType="int" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_UnlockUser" Method="aspnetMembershipUnlockUser">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_UpdateUser" Method="aspnetMembershipUpdateUser">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Email" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Comment" Type="System.String" DbType="ntext" />
-    <Parameter Name="IsApproved" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="LastLoginDate" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="LastActivityDate" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="UniqueEmail" Type="System.Int32" DbType="int" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Membership_UpdateUserInfo" Method="aspnetMembershipUpdateUserInfo">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="IsPasswordCorrect" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="UpdateLastLoginActivityDate" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="MaxInvalidPasswordAttempts" Type="System.Int32" DbType="int" />
-    <Parameter Name="PasswordAttemptWindow" Type="System.Int32" DbType="int" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="LastLoginDate" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="LastActivityDate" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Paths_CreatePath" Method="aspnetPathsCreatePath">
-    <Parameter Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PathId" Type="System.Guid" DbType="uniqueidentifier" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Personalization_GetApplicationId" Method="aspnetPersonalizationGetApplicationId">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAdministration_DeleteAllState" Method="aspnetPersonalizationAdministrationDeleteAllState">
-    <Parameter Name="AllUsersScope" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Count" Type="System.Int32" DbType="int" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAdministration_FindState" Method="aspnetPersonalizationAdministrationFindState">
-    <Parameter Name="AllUsersScope" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PageIndex" Type="System.Int32" DbType="int" />
-    <Parameter Name="PageSize" Type="System.Int32" DbType="int" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="InactiveSinceDate" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAdministration_GetCountOfState" Method="aspnetPersonalizationAdministrationGetCountOfState">
-    <Parameter Name="Count" Type="System.Int32" DbType="int" Direction="InOut" />
-    <Parameter Name="AllUsersScope" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="InactiveSinceDate" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAdministration_ResetSharedState" Method="aspnetPersonalizationAdministrationResetSharedState">
-    <Parameter Name="Count" Type="System.Int32" DbType="int" Direction="InOut" />
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAdministration_ResetUserState" Method="aspnetPersonalizationAdministrationResetUserState">
-    <Parameter Name="Count" Type="System.Int32" DbType="int" Direction="InOut" />
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="InactiveSinceDate" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAllUsers_GetPageSettings" Method="aspnetPersonalizationAllUsersGetPageSettings">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <ElementType Name="aspnetPersonalizationAllUsersGetPageSettingsResult">
-      <Column Name="PageSettings" Type="System.Data.Linq.Binary" DbType="image NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAllUsers_ResetPageSettings" Method="aspnetPersonalizationAllUsersResetPageSettings">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationAllUsers_SetPageSettings" Method="aspnetPersonalizationAllUsersSetPageSettings">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PageSettings" Type="System.Data.Linq.Binary" DbType="image" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationPerUser_GetPageSettings" Method="aspnetPersonalizationPerUserGetPageSettings">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <ElementType Name="aspnetPersonalizationPerUserGetPageSettingsResult">
-      <Column Name="PageSettings" Type="System.Data.Linq.Binary" DbType="image NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationPerUser_ResetPageSettings" Method="aspnetPersonalizationPerUserResetPageSettings">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_PersonalizationPerUser_SetPageSettings" Method="aspnetPersonalizationPerUserSetPageSettings">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Path" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PageSettings" Type="System.Data.Linq.Binary" DbType="image" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Profile_DeleteInactiveProfiles" Method="aspnetProfileDeleteInactiveProfiles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="ProfileAuthOptions" Type="System.Int32" DbType="int" />
-    <Parameter Name="InactiveSinceDate" Type="System.DateTime" DbType="datetime" />
-    <ElementType Name="aspnetProfileDeleteInactiveProfilesResult">
-      <Column Name="Column1" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Profile_DeleteProfiles" Method="aspnetProfileDeleteProfiles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserNames" Type="System.String" DbType="nvarchar(4000)" />
-    <ElementType Name="aspnetProfileDeleteProfilesResult">
-      <Column Name="Column1" Type="System.Int32" DbType="int" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Profile_GetNumberOfInactiveProfiles" Method="aspnetProfileGetNumberOfInactiveProfiles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="ProfileAuthOptions" Type="System.Int32" DbType="int" />
-    <Parameter Name="InactiveSinceDate" Type="System.DateTime" DbType="datetime" />
-    <ElementType Name="aspnetProfileGetNumberOfInactiveProfilesResult">
-      <Column Name="Column1" Type="System.Int32" DbType="int NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Profile_GetProfiles" Method="aspnetProfileGetProfiles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="ProfileAuthOptions" Type="System.Int32" DbType="int" />
-    <Parameter Name="PageIndex" Type="System.Int32" DbType="int" />
-    <Parameter Name="PageSize" Type="System.Int32" DbType="int" />
-    <Parameter Name="UserNameToMatch" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="InactiveSinceDate" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Profile_GetProperties" Method="aspnetProfileGetProperties">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <ElementType Name="aspnetProfileGetPropertiesResult">
-      <Column Name="PropertyNames" Type="System.String" DbType="ntext NOT NULL" CanBeNull="false" />
-      <Column Name="PropertyValuesString" Type="System.String" DbType="ntext NOT NULL" CanBeNull="false" />
-      <Column Name="PropertyValuesBinary" Type="System.Data.Linq.Binary" DbType="image NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Profile_SetProperties" Method="aspnetProfileSetProperties">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="PropertyNames" Type="System.String" DbType="ntext" />
-    <Parameter Name="PropertyValuesString" Type="System.String" DbType="ntext" />
-    <Parameter Name="PropertyValuesBinary" Type="System.Data.Linq.Binary" DbType="image" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="IsUserAnonymous" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_RegisterSchemaVersion" Method="aspnetRegisterSchemaVersion">
-    <Parameter Name="Feature" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="CompatibleSchemaVersion" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="IsCurrentVersion" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="RemoveIncompatibleSchema" Type="System.Boolean" DbType="bit" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Roles_CreateRole" Method="aspnetRolesCreateRole">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RoleName" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Roles_DeleteRole" Method="aspnetRolesDeleteRole">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RoleName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="DeleteOnlyIfRoleIsEmpty" Type="System.Boolean" DbType="bit" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Roles_GetAllRoles" Method="aspnetRolesGetAllRoles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <ElementType Name="aspnetRolesGetAllRolesResult">
-      <Column Name="RoleName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_Roles_RoleExists" Method="aspnetRolesRoleExists">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RoleName" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Setup_RemoveAllRoleMembers" Method="aspnetSetupRemoveAllRoleMembers">
-    <Parameter Name="name" Type="System.String" DbType="nvarchar(128)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Setup_RestorePermissions" Method="aspnetSetupRestorePermissions">
-    <Parameter Name="name" Type="System.String" DbType="nvarchar(128)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_UnRegisterSchemaVersion" Method="aspnetUnRegisterSchemaVersion">
-    <Parameter Name="Feature" Type="System.String" DbType="nvarchar(128)" />
-    <Parameter Name="CompatibleSchemaVersion" Type="System.String" DbType="nvarchar(128)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Users_CreateUser" Method="aspnetUsersCreateUser">
-    <Parameter Name="ApplicationId" Type="System.Guid" DbType="uniqueidentifier" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="IsUserAnonymous" Type="System.Boolean" DbType="bit" />
-    <Parameter Name="LastActivityDate" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="UserId" Type="System.Guid" DbType="uniqueidentifier" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_Users_DeleteUser" Method="aspnetUsersDeleteUser">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="TablesToDeleteFrom" Type="System.Int32" DbType="int" />
-    <Parameter Name="NumTablesDeletedFrom" Type="System.Int32" DbType="int" Direction="InOut" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_UsersInRoles_AddUsersToRoles" Method="aspnetUsersInRolesAddUsersToRoles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserNames" Type="System.String" DbType="nvarchar(4000)" />
-    <Parameter Name="RoleNames" Type="System.String" DbType="nvarchar(4000)" />
-    <Parameter Name="CurrentTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <ElementType Name="aspnetUsersInRolesAddUsersToRolesResult">
-      <Column Name="Name" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_UsersInRoles_FindUsersInRole" Method="aspnetUsersInRolesFindUsersInRole">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RoleName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserNameToMatch" Type="System.String" DbType="nvarchar(256)" />
-    <ElementType Name="aspnetUsersInRolesFindUsersInRoleResult">
-      <Column Name="UserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_UsersInRoles_GetRolesForUser" Method="aspnetUsersInRolesGetRolesForUser">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <ElementType Name="aspnetUsersInRolesGetRolesForUserResult">
-      <Column Name="RoleName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_UsersInRoles_GetUsersInRoles" Method="aspnetUsersInRolesGetUsersInRoles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RoleName" Type="System.String" DbType="nvarchar(256)" />
-    <ElementType Name="aspnetUsersInRolesGetUsersInRolesResult">
-      <Column Name="UserName" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_UsersInRoles_IsUserInRole" Method="aspnetUsersInRolesIsUserInRole">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RoleName" Type="System.String" DbType="nvarchar(256)" />
-    <Return Type="int" />
-  </Function>
-  <Function Name="dbo.aspnet_UsersInRoles_RemoveUsersFromRoles" Method="aspnetUsersInRolesRemoveUsersFromRoles">
-    <Parameter Name="ApplicationName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="UserNames" Type="System.String" DbType="nvarchar(4000)" />
-    <Parameter Name="RoleNames" Type="System.String" DbType="nvarchar(4000)" />
-    <ElementType Name="aspnetUsersInRolesRemoveUsersFromRolesResult">
-      <Column Name="Column1" Type="System.String" DbType="nvarchar(1) NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="nvarchar(256) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.aspnet_WebEvent_LogEvent" Method="aspnetWebEventLogEvent">
-    <Parameter Name="EventId" Type="System.String" DbType="char(32)" />
-    <Parameter Name="EventTimeUtc" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="EventTime" Type="System.DateTime" DbType="datetime" />
-    <Parameter Name="EventType" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="EventSequence" Type="System.Decimal" DbType="decimal" />
-    <Parameter Name="EventOccurrence" Type="System.Decimal" DbType="decimal" />
-    <Parameter Name="EventCode" Type="System.Int32" DbType="int" />
-    <Parameter Name="EventDetailCode" Type="System.Int32" DbType="int" />
-    <Parameter Name="Message" Type="System.String" DbType="nvarchar(1024)" />
-    <Parameter Name="ApplicationPath" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="ApplicationVirtualPath" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="MachineName" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="RequestUrl" Type="System.String" DbType="nvarchar(1024)" />
-    <Parameter Name="ExceptionType" Type="System.String" DbType="nvarchar(256)" />
-    <Parameter Name="Details" Type="System.String" DbType="ntext" />
-    <Return Type="int" />
-  </Function>
 </Database>

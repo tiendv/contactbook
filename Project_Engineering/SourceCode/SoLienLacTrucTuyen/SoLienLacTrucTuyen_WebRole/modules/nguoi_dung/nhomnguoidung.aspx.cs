@@ -75,8 +75,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             bool bDisplayData = (tabularRoles.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptRoles.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -166,11 +164,65 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            string roleName = this.HdfRoleName.Value;
-            roleBL.DeleteRole(roleName);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptTenNhomNguoiDung = null;
+            string roleName;
+
+            foreach (RepeaterItem item in RptRoles.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptTenNhomNguoiDung = (HiddenField)item.FindControl("HdfRptTenNhomNguoiDung");
+                        roleName = HdfRptTenNhomNguoiDung.Value;
+                        if (roleBL.IsDeletable(roleName))
+                        {
+                            roleBL.DeleteRole(roleName);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
 
             isSearch = false;
             BindRptRoles();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMaNhomNguoiDung = null;
+            foreach (RepeaterItem item in RptRoles.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
+                        TabularRole tabularRole = roleBL.GetTabularRole(new Guid(HdfRptMaNhomNguoiDung.Value));
+                        if (tabularRole != null)
+                        {
+                            TxtRoleNameEdit.Text = tabularRole.DisplayedName;
+                            TxtDescriptionNhomNguoiDungSua.Text = tabularRole.Description;
+                            MPEEdit.Show();
+
+                            this.hdfEditingRoleName.Value = tabularRole.RoleName;
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
@@ -178,20 +230,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string roleName = this.hdfEditingRoleName.Value;
             string newRoleName = this.TxtRoleNameEdit.Text;
             string description = this.TxtDescriptionNhomNguoiDungSua.Text;
-
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptRoles.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item
-                    || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptRolesMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
 
             if (!Page.IsValid)
             {
@@ -201,7 +239,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (newRoleName == "" || newRoleName == "*")
             {
                 RoleNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return;
             }
             else
@@ -209,102 +247,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (roleBL.RoleExists(roleName, newRoleName))
                 {
                     RoleNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return;
                 }
             }
 
             roleBL.UpdateRole(roleName, newRoleName, description);
             BindRptRoles();
-        }
-        #endregion
-
-        #region Repeater event handlers
-        protected void RptRoles_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (!accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thSuaNhomNguoiDung").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdSuaNhomNguoiDung").Visible = false;
-                }
-
-                this.PnlPopupEdit.Visible = false;
-            }
-
-            if (!accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thXoaNhomNguoiDung").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdXoaNhomNguoiDung").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    TabularRole tbRole = (TabularRole)e.Item.DataItem;
-                    if (!roleBL.IsDeletable(tbRole.RoleName))
-                    {
-                        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                        btnDeleteItem.ImageUrl = AppConstant.IMAGESOURCE_DELETE_DISABLE;
-                        btnDeleteItem.Enabled = false;
-                    }
-                }
-            }
-        }
-
-        protected void RptRoles_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa nhóm người dùng <b>\"" + e.CommandArgument + "\"</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        this.HdfRoleName.Value = ((HiddenField)e.Item.FindControl("HdfRptTenNhomNguoiDung")).Value;
-                        this.HdfRptRolesMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        Guid roleId = new Guid(e.CommandArgument.ToString());
-                        TabularRole tabularRole = roleBL.GetTabularRole(roleId);
-                        if (tabularRole != null)
-                        {
-                            TxtRoleNameEdit.Text = tabularRole.DisplayedName;
-                            TxtDescriptionNhomNguoiDungSua.Text = tabularRole.Description;
-                            ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                            mPEEdit.Show();
-
-                            this.HdfRptRolesMPEEdit.Value = mPEEdit.ClientID;
-                            this.hdfEditingRoleName.Value = tabularRole.RoleName;
-                        }
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
         }
         #endregion
 

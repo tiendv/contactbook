@@ -114,8 +114,8 @@
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
         <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ValidationGroup="SaveChange"
-            ImageUrl="~/Styles/Images/button_save.png" CssClass="SaveButton" />&nbsp;
+            ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />&nbsp;
         <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click"
-            ImageUrl="~/Styles/Images/button_cancel.png" CssClass="CancelButton" />
+            ImageUrl="~/Styles/buttons/button_cancel.png" CssClass="CancelButton" />
     </div>
 </asp:Content>

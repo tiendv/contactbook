@@ -40,13 +40,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Repeater RptStudentFunctions;
         
         /// <summary>
-        /// BtnSua control.
+        /// BtnEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSua;
+        protected global::System.Web.UI.WebControls.ImageButton BtnEdit;
         
         /// <summary>
         /// LblMaHocSinhHienThi control.

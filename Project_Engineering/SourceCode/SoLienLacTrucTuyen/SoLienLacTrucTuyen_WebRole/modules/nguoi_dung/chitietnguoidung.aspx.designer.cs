@@ -10,7 +10,16 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ChiTietNguoiDung {
+    public partial class DetailUserPage {
+        
+        /// <summary>
+        /// BtnEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnEdit;
         
         /// <summary>
         /// LblUserName control.
@@ -22,13 +31,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblUserName;
         
         /// <summary>
-        /// TxtFullName control.
+        /// LblFullName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtFullName;
+        protected global::System.Web.UI.WebControls.Label LblFullName;
         
         /// <summary>
         /// LblRoleName control.
@@ -40,13 +49,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblRoleName;
         
         /// <summary>
-        /// TxtEmail control.
+        /// LblEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtEmail;
+        protected global::System.Web.UI.WebControls.Label LblEmail;
         
         /// <summary>
         /// LblCreatedDate control.
@@ -65,5 +74,32 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LblLastedLoginDate;
+        
+        /// <summary>
+        /// LblStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblStatus;
+        
+        /// <summary>
+        /// BtnBackPrevPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnBackPrevPage;
+        
+        /// <summary>
+        /// BtnTextBackPrevPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnTextBackPrevPage;
     }
 }

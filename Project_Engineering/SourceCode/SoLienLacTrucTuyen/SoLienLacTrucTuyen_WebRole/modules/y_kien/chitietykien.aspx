@@ -46,13 +46,13 @@
         </tr>
     </table>
     <div style="width: 103px; margin: 0px auto 0px auto;">
-        <asp:ImageButton ID="BtnFeedback" runat="server" ImageUrl="~/Styles/Images/button_feedback.png"
+        <asp:ImageButton ID="BtnFeedback" runat="server" ImageUrl="~/Styles/buttons/button_feedback.png"
             OnClick="BtnFeedback_Click" />
     </div>
     <div style="vertical-align: middle;">
-        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back.png"
             OnClick="BtnBackPrevPage_Click" />
-        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back_text.png"
+        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back_text.png"
             OnClick="BtnBackPrevPage_Click" />
     </div>
 </asp:Content>

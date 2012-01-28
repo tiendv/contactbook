@@ -144,6 +144,18 @@ namespace EContactBook.DataAccess
             return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<MessageToParents_Message> GetMessages(Class_Class Class, DateTime beginDate, DateTime endDate,
+           int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join c in db.Class_Classes on studentInClass.ClassId equals c.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where c.ClassId == Class.ClassId && message.Date >= beginDate && message.Date <= endDate
+                                                             select message;
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, Configuration_MessageStatus messageStatus,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
@@ -152,7 +164,49 @@ namespace EContactBook.DataAccess
                                                              join Class in db.Class_Classes on studentInClass.ClassId equals Class.ClassId
                                                              join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
                                                              where Class.YearId == year.YearId && message.Date >= beginDate && message.Date <= endDate
-                                                                && message.MessageStatusId == message.MessageStatusId && Class.SchoolId == school.SchoolId
+                                                                && message.MessageStatusId == messageStatus.MessageStatusId && Class.SchoolId == school.SchoolId
+                                                             select message;
+
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<MessageToParents_Message> GetMessages(Class_Class Class, DateTime beginDate, DateTime endDate, Configuration_MessageStatus messageStatus,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join c in db.Class_Classes on studentInClass.ClassId equals c.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where c.ClassId == Class.ClassId && message.Date >= beginDate && message.Date <= endDate
+                                                                && message.MessageStatusId == messageStatus.MessageStatusId
+                                                             select message;
+
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<MessageToParents_Message> GetConfirmedMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, 
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join Class in db.Class_Classes on studentInClass.ClassId equals Class.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where Class.YearId == year.YearId && message.Date >= beginDate && message.Date <= endDate
+                                                                && message.MessageStatusId == 3 && Class.SchoolId == school.SchoolId
+                                                             select message;
+
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<MessageToParents_Message> GetConfirmedMessages(Class_Class Class, DateTime beginDate, DateTime endDate,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join c in db.Class_Classes on studentInClass.ClassId equals c.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where c.ClassId == Class.ClassId && message.Date >= beginDate && message.Date <= endDate
+                                                                && message.MessageStatusId == 3
                                                              select message;
 
             return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
@@ -171,6 +225,19 @@ namespace EContactBook.DataAccess
             return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<MessageToParents_Message> GetMessages(Class_Class Class, DateTime beginDate, DateTime endDate, string studentCode,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join c in db.Class_Classes on studentInClass.ClassId equals c.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where c.ClassId == Class.ClassId && message.Date >= beginDate && message.Date <= endDate
+                                                                && student.StudentCode == studentCode
+                                                             select message;
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
         public List<MessageToParents_Message> GetMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, string studentCode, Configuration_MessageStatus messageStatus,
             int pageCurrentIndex, int pageSize, out double totalRecords)
         {
@@ -179,8 +246,48 @@ namespace EContactBook.DataAccess
                                                              join Class in db.Class_Classes on studentInClass.ClassId equals Class.ClassId
                                                              join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
                                                              where Class.YearId == year.YearId && message.Date >= beginDate && message.Date <= endDate
-                                                                && student.StudentCode == studentCode && message.MessageStatusId == messageStatus.MessageStatusId
+                                                                && student.StudentCode == studentCode && messageStatus.MessageStatusId == messageStatus.MessageStatusId
                                                                 && Class.SchoolId == school.SchoolId
+                                                             select message;
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<MessageToParents_Message> GetMessages(Class_Class Class, DateTime beginDate, DateTime endDate, string studentCode, Configuration_MessageStatus messageStatus,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join c in db.Class_Classes on studentInClass.ClassId equals c.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where c.ClassId == Class.ClassId && message.Date >= beginDate && message.Date <= endDate
+                                                                && student.StudentCode == studentCode && messageStatus.MessageStatusId == messageStatus.MessageStatusId
+                                                             select message;
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<MessageToParents_Message> GetConfirmedMessages(Configuration_Year year, DateTime beginDate, DateTime endDate, string studentCode, Configuration_MessageStatus messageStatus,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join Class in db.Class_Classes on studentInClass.ClassId equals Class.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where Class.YearId == year.YearId && message.Date >= beginDate && message.Date <= endDate
+                                                                && student.StudentCode == studentCode && messageStatus.MessageStatusId == 3
+                                                                && Class.SchoolId == school.SchoolId
+                                                             select message;
+            return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
+        }
+
+        public List<MessageToParents_Message> GetConfirmedMessages(Class_Class Class, DateTime beginDate, DateTime endDate, string studentCode, Configuration_MessageStatus messageStatus,
+            int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            IQueryable<MessageToParents_Message> iqMessage = from message in db.MessageToParents_Messages
+                                                             join studentInClass in db.Student_StudentInClasses on message.StudentInClassId equals studentInClass.StudentInClassId
+                                                             join c in db.Class_Classes on studentInClass.ClassId equals c.ClassId
+                                                             join student in db.Student_Students on studentInClass.StudentId equals student.StudentId
+                                                             where c.ClassId == Class.ClassId && message.Date >= beginDate && message.Date <= endDate
+                                                                && student.StudentCode == studentCode && messageStatus.MessageStatusId == 3
                                                              select message;
             return GetMessages(iqMessage, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -287,6 +394,36 @@ namespace EContactBook.DataAccess
                 message = iqMessages.First();
                 message.IsRead = true;
                 message.MessageStatusId = 2;
+                db.SubmitChanges();
+            }
+        }
+
+        public bool IsDeletable(MessageToParents_Message message)
+        {
+            IQueryable<MessageToParents_Message> iqMessages = from msg in db.MessageToParents_Messages
+                                                              where msg.MessageId == message.MessageId
+                                                              && msg.MessageStatusId == 3
+                                                              select msg;
+            if (iqMessages.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public void UpdateMessage(MessageToParents_Message message, string title, string content)
+        {
+            IQueryable<MessageToParents_Message> queryMessage = from msg in db.MessageToParents_Messages
+                                                                where msg.MessageId == message.MessageId
+                                                                select msg;
+            if (queryMessage.Count() != 0)
+            {
+                message = queryMessage.First();
+                message.Title = title;
+                message.MessageContent = content;
                 db.SubmitChanges();
             }
         }

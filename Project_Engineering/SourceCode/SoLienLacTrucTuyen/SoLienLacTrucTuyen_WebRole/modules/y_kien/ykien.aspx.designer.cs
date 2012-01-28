@@ -112,6 +112,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
         
         /// <summary>
+        /// BtnFeedback control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnFeedback;
+        
+        /// <summary>
         /// LblSearchResult control.
         /// </summary>
         /// <remarks>
@@ -121,6 +130,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
+        /// PnlCommentStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlCommentStatus;
+        
+        /// <summary>
+        /// Image1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image Image1;
+        
+        /// <summary>
+        /// LblCommentStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblCommentStatus;
+        
+        /// <summary>
         /// HdfMaLoiNhanKhan control.
         /// </summary>
         /// <remarks>
@@ -128,42 +164,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HdfMaLoiNhanKhan;
-        
-        /// <summary>
-        /// HdfRptLoiNhanKhanMPEDelete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDelete;
-        
-        /// <summary>
-        /// HdfRptLoiNhanKhanMPEEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEEdit;
-        
-        /// <summary>
-        /// HdfRptLoiNhanKhanMPEDetail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDetail;
-        
-        /// <summary>
-        /// HdfRptLoiNhanKhanMPEDetailHS control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HdfRptLoiNhanKhanMPEDetailHS;
         
         /// <summary>
         /// RptLoiNhanKhan control.

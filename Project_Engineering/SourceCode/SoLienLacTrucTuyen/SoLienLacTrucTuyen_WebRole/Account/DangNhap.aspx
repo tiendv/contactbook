@@ -4,7 +4,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div class="loginBox ui-corner-all">
-        <asp:Login ID="LoginCtrl" runat="server" Style="width: 100%" OnLoginError="LoginCtrl_LoginError"
+        <asp:Login ID="LoginCtrl" runat="server" Style="width: 100%" VisibleWhenLoggedIn="false" OnLoginError="LoginCtrl_LoginError"
             OnLoggedIn="LoginCtrl_OnLoggedIn" OnAuthenticate="LoginCtrl_Authenticate">
             <LayoutTemplate>
                 <div style="margin: 0px auto 0px auto; padding: 10px 0px 20px 0px; text-align: center">
@@ -56,8 +56,8 @@
                         </td>
                         <td style="width: 70%; padding-right: 10px">
                             <asp:TextBox ID="UserName" runat="server" Width="98%"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ValidationGroup="LoginGroup" Display="Dynamic"
-                                ForeColor="Red" ControlToValidate="UserName" ErrorMessage="Tài khoản không được để trống" />
+                            <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ValidationGroup="LoginGroup"
+                                Display="Dynamic" ForeColor="Red" ControlToValidate="UserName" ErrorMessage="Tài khoản không được để trống" />
                         </td>
                     </tr>
                     <tr>
@@ -66,8 +66,9 @@
                         </td>
                         <td style="padding-right: 10px">
                             <asp:TextBox ID="Password" runat="server" TextMode="Password" Width="98%"></asp:TextBox>
-                            <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ValidationGroup="LoginGroup" ControlToValidate="Password"
-                                ErrorMessage="Mật khẩu không được để trống" Display="Dynamic" ForeColor="Red" />
+                            <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ValidationGroup="LoginGroup"
+                                ControlToValidate="Password" ErrorMessage="Mật khẩu không được để trống" Display="Dynamic"
+                                ForeColor="Red" />
                         </td>
                     </tr>
                     <tr>
@@ -89,8 +90,8 @@
                     </tr>
                 </table>
                 <div style="margin: 0px auto 0px auto; padding: 10px 0px 15px 0px; text-align: center">
-                    <asp:ImageButton ID="Login" runat="server" CommandName="Login" ValidationGroup="LoginGroup" ImageUrl="~/Styles/Images/button_login.png"
-                        CssClass="BtnLogin" />
+                    <asp:ImageButton ID="Login" runat="server" CommandName="Login" ValidationGroup="LoginGroup"
+                        ImageUrl="~/Styles/buttons/button_login.png" CssClass="BtnLogin" />
                 </div>
             </LayoutTemplate>
         </asp:Login>

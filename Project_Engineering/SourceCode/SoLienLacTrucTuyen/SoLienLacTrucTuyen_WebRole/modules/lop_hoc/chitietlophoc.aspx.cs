@@ -13,7 +13,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
     public partial class DetailedClassPage : BaseContentPage
     {
         #region Fields
-        private ClassBL lopHocBL;
+        private ClassBL classBL;
         #endregion
 
         #region Page event handlers
@@ -32,26 +32,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
-            lopHocBL = new ClassBL(UserSchool);           
+            classBL = new ClassBL(UserSchool);
 
             if (!Page.IsPostBack)
             {
-                int? ClassId = GetQueryString();
-                if (ClassId != null)
+                if (CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS))
                 {
-                    Class_Class lophoc = lopHocBL.GetClass((int)ClassId);
-                    if (lophoc != null)
-                    {                        
-                        LblClassNameChiTiet.Text = lophoc.ClassName;
-                        LblFacultyNameChiTiet.Text = lophoc.Category_Faculty.FacultyName;
-                        LblGradeNameChiTiet.Text = lophoc.Category_Grade.GradeName;
-                        LblSiSoChiTiet.Text = lophoc.StudentQuantity.ToString();
-                        Class_FormerTeacher formerTeacher = (new FormerTeacherBL(UserSchool)).GetFormerTeacher(lophoc);
-                        if(formerTeacher != null)
-                        {
-                            LblTenGVCNChiTiet.Text = formerTeacher.aspnet_User.aspnet_Membership.FullName;
-                        }
-                        
+                    Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                    Class = classBL.GetClass((int)Class.ClassId);
+                    LblClassName.Text = Class.ClassName;
+                    LblFacultyName.Text = Class.Category_Faculty.FacultyName;
+                    LblGradeName.Text = Class.Category_Grade.GradeName;
+                    LblStudentQuantity.Text = Class.StudentQuantity.ToString();
+                    Class_FormerTeacher formerTeacher = (new FormerTeacherBL(UserSchool)).GetFormerTeacher(Class);
+                    if (formerTeacher != null)
+                    {
+                        LblFormerTeacherName.Text = formerTeacher.aspnet_User.aspnet_Membership.FullName;
                     }
                 }
             }
@@ -61,7 +57,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            
+
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)

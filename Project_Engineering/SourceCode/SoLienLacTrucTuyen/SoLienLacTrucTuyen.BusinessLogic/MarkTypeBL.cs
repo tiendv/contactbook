@@ -76,8 +76,15 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             else
             {
                 Category_MarkType markType = GetMarkType(grade, markTypeName);
-                lMarkTypes.Add(markType);
-                totalRecords = 1;
+                if (markType != null)
+                {
+                    lMarkTypes.Add(markType);
+                    totalRecords = 1;
+                }
+                else
+                {
+                    totalRecords = 0;
+                }
             }
 
             foreach(Category_MarkType markType in lMarkTypes)

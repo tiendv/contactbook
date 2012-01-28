@@ -16,8 +16,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             learningAptitudeDA = new LearningAptitudeDA(school);
         }
 
-        public void InsertLearningAptitude(Category_LearningAptitude learningAptitude)
+        public void InsertLearningAptitude(string learningAptitudeName, double beginAverageMark, double endAverageMark)
         {
+            Category_LearningAptitude learningAptitude = new Category_LearningAptitude();
+            learningAptitude.LearningAptitudeName = learningAptitudeName;
+            learningAptitude.BeginAverageMark = beginAverageMark;
+            learningAptitude.EndAverageMark = endAverageMark;
+
             learningAptitudeDA.InsertLearningAptitude(learningAptitude);
         }
 
@@ -52,7 +57,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<Category_LearningAptitude> GetLearningAptitudes(string learningAptitudeName, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
-            if ((learningAptitudeName == "") || (string.Compare(learningAptitudeName, "tất cả", true) == 0))
+            if (CheckUntils.IsAllOrBlank(learningAptitudeName))
             {
                 return learningAptitudeDA.GetLearningAptitudes(pageCurrentIndex, pageSize, out totalRecord);
             }
@@ -83,6 +88,27 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             return studyingResultBL.TermLearningResultExists(learningAptitude);
+        }
+
+        public bool LearningAptitudeMarkExists(Category_LearningAptitude learningAptitude, double averageMark)
+        {
+            Category_LearningAptitude existedLearningAptitude = learningAptitudeDA.LearningAptitudeMarkExists(averageMark);
+            if (existedLearningAptitude == null)
+            {
+                return false;
+            }
+            else if (learningAptitude == null) // create new
+            {
+                return true;
+            }
+            else if (existedLearningAptitude.LearningAptitudeId == learningAptitude.LearningAptitudeId) // modify
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

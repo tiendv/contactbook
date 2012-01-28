@@ -17,6 +17,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                Response.Redirect(AppConstant.PAGEPATH_HOMEPAGE);
+            }
+
             Site masterPage = (Site)Page.Master;
             masterPage.PageTitle = "Đăng nhập";
 
@@ -74,11 +79,33 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 "AccountResource", "LoginFailText");
         }
 
+        /// <summary>
+        /// Happen after user log in successfully
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void LoginCtrl_OnLoggedIn(object sender, EventArgs e)
-        {
-            aspnet_Role role = (new UserBL()).GetRole(LoginCtrl.UserName);
-            string strDefaultPage = role.UserManagement_RoleDetail.UserManagement_RoleCategory.UserManagement_PagePath.PhysicalPath;
-            Response.Redirect(strDefaultPage);
+        {   
+            // declare BLs
+            School_School school = (School_School)Session[AppConstant.SCHOOL];
+            RoleBL roleBL = new RoleBL(school); 
+            UserBL userBL = new UserBL(school);
+
+            // save loged in user to session
+            Session[AppConstant.SESSION_LOGEDIN_USER] = userBL.GetUser(LoginCtrl.UserName);
+
+            // get and save loged in user's roles to session
+            List<aspnet_Role> roles = userBL.GetRoles(LoginCtrl.UserName);
+            Session[AppConstant.SESSION_LOGEDIN_ROLES] = roles;
+            Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER] = roleBL.HasRoleFormerTeacher(roles);
+            Session[AppConstant.SESSION_LOGEDIN_USER_IS_SUBJECTTEACHER] = roleBL.HasRoleSubjectTeacher(roles);
+
+            // redirect to default page
+            if (roles.Count != 0)
+            {
+                string strDefaultPage = roles[0].UserManagement_RoleDetail.UserManagement_RoleCategory.UserManagement_PagePath.PhysicalPath;
+                Response.Redirect(strDefaultPage);
+            }
         }
         #endregion
 

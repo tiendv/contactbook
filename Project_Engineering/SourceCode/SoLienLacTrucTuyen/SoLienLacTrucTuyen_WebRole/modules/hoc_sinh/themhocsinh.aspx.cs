@@ -37,6 +37,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
+                if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
+                }
             }
         }
         #endregion
@@ -153,13 +157,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+                Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
             }
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
 
         protected void BtnDuyetHinhAnh_Click(object sender, ImageClickEventArgs e)
@@ -212,8 +216,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNamHoc.Items.Count != 0)
             {
-                SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
-                DdlNamHoc.SelectedValue = cauHinhBL.GetLastedYear().ToString();
+                DdlNamHoc.SelectedValue = systemConfigBL.GetLastedYear().ToString();
             }
         }
 
@@ -276,8 +279,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
-            DdlLopHoc.DataSource = lstLop;
+            List<Class_Class> Classes = lopHocBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
+            DdlLopHoc.DataSource = Classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();

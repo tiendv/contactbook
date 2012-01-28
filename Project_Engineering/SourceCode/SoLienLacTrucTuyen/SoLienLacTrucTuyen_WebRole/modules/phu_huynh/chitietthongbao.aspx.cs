@@ -72,7 +72,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             else
             {
-                Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE);
+                Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE_LIST);
             }
         }
 
@@ -83,7 +83,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 && CheckSessionKey(AppConstant.SESSION_SELECTED_TODATE)
                 && CheckSessionKey(AppConstant.SESSION_SELECTED_CONFIRMSTATUS))
             {
-                ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = (Int32)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                 RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
 
                 ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE] = (DateTime)GetSession(AppConstant.SESSION_SELECTED_FROMDATE);
@@ -118,14 +118,14 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             AddSearchSessions();
 
-            Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_MESSAGE_LIST);
         }
 
         private void AddSearchSessions()
         {
-            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] != null)
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] != null)
             {
-                AddSession(AppConstant.SESSION_SELECTED_YEAR, ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR]);
+                AddSession(AppConstant.SESSION_SELECTED_YEAR, ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID]);
                 AddSession(AppConstant.SESSION_SELECTED_FROMDATE, ViewState[AppConstant.VIEWSTATE_SELECTED_FROMDATE]);
                 AddSession(AppConstant.SESSION_SELECTED_TODATE, ViewState[AppConstant.VIEWSTATE_SELECTED_TODATE]);
                 AddSession(AppConstant.SESSION_SELECTED_CONFIRMSTATUS, ViewState[AppConstant.VIEWSTATE_SELECTED_CONFIRMSTATUS]);

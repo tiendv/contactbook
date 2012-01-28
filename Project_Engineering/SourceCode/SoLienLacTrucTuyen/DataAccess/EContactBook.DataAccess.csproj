@@ -61,6 +61,9 @@
   <ItemGroup>
     <Compile Include="AuthorizationDA.cs" />
     <Compile Include="BaseDA.cs" />
+    <Compile Include="DbEContactBook.cs">
+      <DependentUpon>DbEContactBook.dbml</DependentUpon>
+    </Compile>
     <Compile Include="DbEContactBook.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -69,7 +72,7 @@
     <Compile Include="ParentsCommentDA.cs" />
     <Compile Include="SessionDA.cs" />
     <Compile Include="SystemConfigDA.cs" />
-    <Compile Include="DanhHieuDA.cs" />
+    <Compile Include="LearningResultDA.cs" />
     <Compile Include="FunctionsDA.cs" />
     <Compile Include="FormerTeacherDA.cs" />
     <Compile Include="TeacherDA.cs" />
@@ -109,12 +112,6 @@
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>DbEContactBook.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="DbEContactBook.dbml.namePrefs">
-      <DependentUpon>DbEContactBook.dbml</DependentUpon>
-    </None>
-    <None Include="DbEContactBook.dbml.syncPrefs">
-      <DependentUpon>DbEContactBook.dbml</DependentUpon>
     </None>
     <None Include="DbEContactBook.dbml.views">
       <DependentUpon>DbEContactBook.dbml</DependentUpon>

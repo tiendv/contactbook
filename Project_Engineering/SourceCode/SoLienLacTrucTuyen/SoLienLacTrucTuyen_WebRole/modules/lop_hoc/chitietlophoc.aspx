@@ -2,56 +2,60 @@
     CodeBehind="chitietlophoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.DetailedClassPage" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/Images/button_edit_with_text.png"
+    <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
         OnClick="BtnEdit_Click" Visible="false" />
     <table style="padding: 5px 7px 10px 7px;" cellspacing="5px">
         <tr>
             <td>
                 <table style="width: 100%;" class="inputBorder">
                     <tr>
-                        <td style="width: 50px; vertical-align: top; padding-top: 3px;">
-                            <asp:Label ID="Label18" runat="server" Text="Tên:"></asp:Label>&nbsp;
+                        <td style="width: 135px;">
+                            Tên:
                         </td>
-                        <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                            <asp:Label ID="LblClassNameChiTiet" runat="server"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: text-top; padding-top: 3px;">
-                            <asp:Label ID="Label21" runat="server" Text="Ngành:"></asp:Label>
-                        </td>
-                        <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                            <asp:Label ID="LblFacultyNameChiTiet" runat="server"></asp:Label>
+                        <td>
+                            <asp:Label ID="LblClassName" runat="server"></asp:Label>
                         </td>
                     </tr>
                     <tr>
-                        <td style="vertical-align: text-top; padding-top: 3px;">
-                            <asp:Label ID="Label22" runat="server" Text="Khối:"></asp:Label>
+                        <td>
+                            Ngành:
                         </td>
-                        <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                            <asp:Label ID="LblGradeNameChiTiet" runat="server"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: text-top; padding-top: 3px;">
-                            <asp:Label ID="Label19" runat="server" Text="GVCN:"></asp:Label>
-                        </td>
-                        <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                            <asp:Label ID="LblTenGVCNChiTiet" runat="server"></asp:Label>
+                        <td>
+                            <asp:Label ID="LblFacultyName" runat="server"></asp:Label>
                         </td>
                     </tr>
                     <tr>
-                        <td style="vertical-align: text-top; padding-top: 3px;">
-                            <asp:Label ID="Label20" runat="server" Text="Sỉ số:"></asp:Label>
+                        <td>
+                            Khối:
                         </td>
-                        <td style="width: auto;" class="readOnlyTextBox input_textbox">
-                            <asp:Label ID="LblSiSoChiTiet" runat="server"></asp:Label>
+                        <td>
+                            <asp:Label ID="LblGradeName" runat="server"></asp:Label>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            Sỉ số:
+                        </td>
+                        <td>
+                            <asp:Label ID="LblStudentQuantity" runat="server"></asp:Label> học sinh
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Giáo viên chủ nhiệm:
+                        </td>
+                        <td>
+                            <asp:Label ID="LblFormerTeacherName" runat="server"></asp:Label>
+                        </td>
+                    </tr>                    
                 </table>
             </td>
         </tr>
     </table>
-    <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/Images/button_back.png"
-        OnClick="BtnBackPrevPage_Click" />
+    <div style="padding: 5px; vertical-align: middle;">
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back.png"
+            OnClick="BtnBackPrevPage_Click" />
+        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back_text.png"
+            OnClick="BtnBackPrevPage_Click" />
+    </div>
 </asp:Content>

@@ -58,15 +58,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                     RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.FacultyId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = faculty.FacultyId;
 
                     Category_Grade grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
                     RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.GradeId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade.GradeId;
 
                     Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
                     RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.ClassId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Class.ClassId;
 
                     String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
                     RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
@@ -78,20 +78,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
 
+                    LblStudentName.Text = student.FullName;
+                    LblStudentCode.Text = student.StudentCode;
                     BindDropDownLists();
                     BindRptMarkTypes();
                     BindRptKetQuaDiem();
-                    BindRepeaterDanhHieu();
+                    BindRptTermStudentResult();
 
-                    AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+                    AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);                    
                     List<UserManagement_PagePath> pagePages = authorizationBL.GetStudentPages(
-                        (new UserBL()).GetRoles(User.Identity.Name));
+                        (new UserBL(UserSchool)).GetRoles(User.Identity.Name));
                     RptStudentFunctions.DataSource = pagePages;
                     RptStudentFunctions.DataBind();
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+                    Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
                 }
             }
         }
@@ -171,24 +173,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             MainDataPager.ItemCount = dTotalRecords;
         }
 
-        private void BindRepeaterDanhHieu()
+        private void BindRptTermStudentResult()
         {
             Student_Student student = new Student_Student();
-            Configuration_Year year = new Configuration_Year();
-
             student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
+
+            Configuration_Year year = new Configuration_Year(); 
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             double dTotalRecords;
-            List<TabularTermStudentResult> lstTbDanhHieu;
-            lstTbDanhHieu = studyingResultBL.GetTabularTermStudentResults(student, year,
+            List<TabularTermStudentResult> tabularTermStudentResults = studyingResultBL.GetTabularTermStudentResults(student, year,
                 DataPagerDanhHieu.CurrentIndex, DataPagerDanhHieu.PageSize, out dTotalRecords);
 
-            RptDanhHieu.DataSource = lstTbDanhHieu;
+            RptDanhHieu.DataSource = tabularTermStudentResults;
             RptDanhHieu.DataBind();
             DataPagerDanhHieu.ItemCount = dTotalRecords;
 
-            bool bDisplayed = (lstTbDanhHieu.Count != 0) ? true : false;
+            bool bDisplayed = (tabularTermStudentResults.Count != 0) ? true : false;
             RptDanhHieu.Visible = bDisplayed;
         }
         #endregion
@@ -235,6 +236,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         Student_Student student = new Student_Student();
                         student.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+                        student.StudentCode = LblStudentCode.Text;
+                        student.FullName = LblStudentName.Text;
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
                         Configuration_Year year = new Configuration_Year();
@@ -242,15 +245,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
                         Category_Faculty faculty = new Category_Faculty();
-                        faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+                        faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
                         Category_Grade grade = new Category_Grade();
-                        grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+                        grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
                         Class_Class Class = new Class_Class();
-                        Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+                        Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
                         String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -279,7 +282,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             BindRptKetQuaDiem();
-            BindRepeaterDanhHieu();
+            BindRptTermStudentResult();
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
@@ -289,15 +292,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
             Category_Faculty faculty = new Category_Faculty();
-            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
             Category_Grade grade = new Category_Grade();
-            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
             Class_Class Class = new Class_Class();
-            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
             String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -306,7 +309,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             String strStudentCode = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE].ToString();
             AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
-            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
         #endregion
 

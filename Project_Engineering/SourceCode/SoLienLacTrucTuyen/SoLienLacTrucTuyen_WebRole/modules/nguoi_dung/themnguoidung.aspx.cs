@@ -100,8 +100,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void ValidateUserName(object source, ServerValidateEventArgs args)
         {
-            string password = Membership.GeneratePassword(8, 2);
-
             StringBuilder strB = new StringBuilder();
             strB.Append(UserSchool.SchoolId);
             strB.Append("_");
@@ -135,7 +133,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BackPrevPage()
         {
-            Response.Redirect(AppConstant.PAGEPATH_USERS);
+            Response.Redirect(AppConstant.PAGEPATH_USER_LIST);
         }
 
         private void Display()

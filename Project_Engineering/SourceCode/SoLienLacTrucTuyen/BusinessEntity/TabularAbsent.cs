@@ -12,6 +12,7 @@ namespace EContactBook.BusinessEntity
         public string Date { get; set; }
         public string Session { get; set; }
         public string IsAsked { get; set; }
+        public bool IsConfirmed { get; set; }
         public string Reason { get; set; }
         public string Confirmed { get; set; }
     }

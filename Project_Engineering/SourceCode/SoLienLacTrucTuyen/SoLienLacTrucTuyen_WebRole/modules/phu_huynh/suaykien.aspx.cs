@@ -46,7 +46,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+                    Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
         private void RedirectToPrevPage()
         {
-            Response.Redirect(AppConstant.PAGEPATH_COMMENTS);
+            Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
         }
         #endregion
     }

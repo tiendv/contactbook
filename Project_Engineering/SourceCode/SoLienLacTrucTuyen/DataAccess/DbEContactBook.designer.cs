@@ -33,9 +33,6 @@ namespace EContactBook.DataAccess
     partial void Insertaspnet_Application(aspnet_Application instance);
     partial void Updateaspnet_Application(aspnet_Application instance);
     partial void Deleteaspnet_Application(aspnet_Application instance);
-    partial void InsertUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
-    partial void UpdateUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
-    partial void DeleteUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
     partial void Insertaspnet_Membership(aspnet_Membership instance);
     partial void Updateaspnet_Membership(aspnet_Membership instance);
     partial void Deleteaspnet_Membership(aspnet_Membership instance);
@@ -66,9 +63,6 @@ namespace EContactBook.DataAccess
     partial void Insertaspnet_WebEvent_Event(aspnet_WebEvent_Event instance);
     partial void Updateaspnet_WebEvent_Event(aspnet_WebEvent_Event instance);
     partial void Deleteaspnet_WebEvent_Event(aspnet_WebEvent_Event instance);
-    partial void InsertCategory_Attitude(Category_Attitude instance);
-    partial void UpdateCategory_Attitude(Category_Attitude instance);
-    partial void DeleteCategory_Attitude(Category_Attitude instance);
     partial void InsertCategory_Conduct(Category_Conduct instance);
     partial void UpdateCategory_Conduct(Category_Conduct instance);
     partial void DeleteCategory_Conduct(Category_Conduct instance);
@@ -126,6 +120,9 @@ namespace EContactBook.DataAccess
     partial void InsertConfiguration_Term(Configuration_Term instance);
     partial void UpdateConfiguration_Term(Configuration_Term instance);
     partial void DeleteConfiguration_Term(Configuration_Term instance);
+    partial void InsertConfiguration_TermsInYear(Configuration_TermsInYear instance);
+    partial void UpdateConfiguration_TermsInYear(Configuration_TermsInYear instance);
+    partial void DeleteConfiguration_TermsInYear(Configuration_TermsInYear instance);
     partial void InsertConfiguration_Year(Configuration_Year instance);
     partial void UpdateConfiguration_Year(Configuration_Year instance);
     partial void DeleteConfiguration_Year(Configuration_Year instance);
@@ -135,9 +132,6 @@ namespace EContactBook.DataAccess
     partial void InsertParentComment_Comment(ParentComment_Comment instance);
     partial void UpdateParentComment_Comment(ParentComment_Comment instance);
     partial void DeleteParentComment_Comment(ParentComment_Comment instance);
-    partial void InsertSchool_School(School_School instance);
-    partial void UpdateSchool_School(School_School instance);
-    partial void DeleteSchool_School(School_School instance);
     partial void InsertStudent_Absent(Student_Absent instance);
     partial void UpdateStudent_Absent(Student_Absent instance);
     partial void DeleteStudent_Absent(Student_Absent instance);
@@ -162,9 +156,6 @@ namespace EContactBook.DataAccess
     partial void InsertUserManagement_Accessibility(UserManagement_Accessibility instance);
     partial void UpdateUserManagement_Accessibility(UserManagement_Accessibility instance);
     partial void DeleteUserManagement_Accessibility(UserManagement_Accessibility instance);
-    partial void InsertUserManagement_Authorization(UserManagement_Authorization instance);
-    partial void UpdateUserManagement_Authorization(UserManagement_Authorization instance);
-    partial void DeleteUserManagement_Authorization(UserManagement_Authorization instance);
     partial void InsertUserManagement_AuthorizedPage(UserManagement_AuthorizedPage instance);
     partial void UpdateUserManagement_AuthorizedPage(UserManagement_AuthorizedPage instance);
     partial void DeleteUserManagement_AuthorizedPage(UserManagement_AuthorizedPage instance);
@@ -183,9 +174,18 @@ namespace EContactBook.DataAccess
     partial void InsertUserManagement_RoleDetail(UserManagement_RoleDetail instance);
     partial void UpdateUserManagement_RoleDetail(UserManagement_RoleDetail instance);
     partial void DeleteUserManagement_RoleDetail(UserManagement_RoleDetail instance);
-    partial void InsertConfiguration_TermsInYear(Configuration_TermsInYear instance);
-    partial void UpdateConfiguration_TermsInYear(Configuration_TermsInYear instance);
-    partial void DeleteConfiguration_TermsInYear(Configuration_TermsInYear instance);
+    partial void InsertCategory_Attitude(Category_Attitude instance);
+    partial void UpdateCategory_Attitude(Category_Attitude instance);
+    partial void DeleteCategory_Attitude(Category_Attitude instance);
+    partial void InsertUserManagement_Authorization(UserManagement_Authorization instance);
+    partial void UpdateUserManagement_Authorization(UserManagement_Authorization instance);
+    partial void DeleteUserManagement_Authorization(UserManagement_Authorization instance);
+    partial void InsertUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
+    partial void UpdateUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
+    partial void DeleteUserManagement_RoleParentsAuthorization(UserManagement_RoleParentsAuthorization instance);
+    partial void InsertSchool_School(School_School instance);
+    partial void UpdateSchool_School(School_School instance);
+    partial void DeleteSchool_School(School_School instance);
     #endregion
 		
 		public DbEContactBookDataContext() : 
@@ -223,14 +223,6 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<aspnet_Application>();
-			}
-		}
-		
-		public System.Data.Linq.Table<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
-		{
-			get
-			{
-				return this.GetTable<UserManagement_RoleParentsAuthorization>();
 			}
 		}
 		
@@ -311,14 +303,6 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<aspnet_WebEvent_Event>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Category_Attitude> Category_Attitudes
-		{
-			get
-			{
-				return this.GetTable<Category_Attitude>();
 			}
 		}
 		
@@ -482,6 +466,14 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		public System.Data.Linq.Table<Configuration_TermsInYear> Configuration_TermsInYears
+		{
+			get
+			{
+				return this.GetTable<Configuration_TermsInYear>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Configuration_Year> Configuration_Years
 		{
 			get
@@ -503,14 +495,6 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<ParentComment_Comment>();
-			}
-		}
-		
-		public System.Data.Linq.Table<School_School> School_Schools
-		{
-			get
-			{
-				return this.GetTable<School_School>();
 			}
 		}
 		
@@ -586,14 +570,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<UserManagement_Authorization> UserManagement_Authorizations
-		{
-			get
-			{
-				return this.GetTable<UserManagement_Authorization>();
-			}
-		}
-		
 		public System.Data.Linq.Table<UserManagement_AuthorizedPage> UserManagement_AuthorizedPages
 		{
 			get
@@ -642,479 +618,36 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<vwaspnetApplication> vwaspnetApplications
+		public System.Data.Linq.Table<Category_Attitude> Category_Attitudes
 		{
 			get
 			{
-				return this.GetTable<vwaspnetApplication>();
+				return this.GetTable<Category_Attitude>();
 			}
 		}
 		
-		public System.Data.Linq.Table<vwaspnetUser> vwaspnetUsers
+		public System.Data.Linq.Table<UserManagement_Authorization> UserManagement_Authorizations
 		{
 			get
 			{
-				return this.GetTable<vwaspnetUser>();
+				return this.GetTable<UserManagement_Authorization>();
 			}
 		}
 		
-		public System.Data.Linq.Table<vwaspnetMembershipUser> vwaspnetMembershipUsers
+		public System.Data.Linq.Table<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
 		{
 			get
 			{
-				return this.GetTable<vwaspnetMembershipUser>();
+				return this.GetTable<UserManagement_RoleParentsAuthorization>();
 			}
 		}
 		
-		public System.Data.Linq.Table<vwaspnetProfile> vwaspnetProfiles
+		public System.Data.Linq.Table<School_School> School_Schools
 		{
 			get
 			{
-				return this.GetTable<vwaspnetProfile>();
+				return this.GetTable<School_School>();
 			}
-		}
-		
-		public System.Data.Linq.Table<vwaspnetRole> vwaspnetRoles
-		{
-			get
-			{
-				return this.GetTable<vwaspnetRole>();
-			}
-		}
-		
-		public System.Data.Linq.Table<vwaspnetUsersInRole> vwaspnetUsersInRoles
-		{
-			get
-			{
-				return this.GetTable<vwaspnetUsersInRole>();
-			}
-		}
-		
-		public System.Data.Linq.Table<vwaspnetWebPartStatePath> vwaspnetWebPartStatePaths
-		{
-			get
-			{
-				return this.GetTable<vwaspnetWebPartStatePath>();
-			}
-		}
-		
-		public System.Data.Linq.Table<vwaspnetWebPartStateShared> vwaspnetWebPartStateShareds
-		{
-			get
-			{
-				return this.GetTable<vwaspnetWebPartStateShared>();
-			}
-		}
-		
-		public System.Data.Linq.Table<vwaspnetWebPartStateUser> vwaspnetWebPartStateUsers
-		{
-			get
-			{
-				return this.GetTable<vwaspnetWebPartStateUser>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Configuration_TermsInYear> Configuration_TermsInYears
-		{
-			get
-			{
-				return this.GetTable<Configuration_TermsInYear>();
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_AnyDataInTables")]
-		public ISingleResult<aspnetAnyDataInTablesResult> aspnetAnyDataInTables([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> TablesToCheck)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), TablesToCheck);
-			return ((ISingleResult<aspnetAnyDataInTablesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Applications_CreateApplication")]
-		public int aspnetApplicationsCreateApplication([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> ApplicationId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ApplicationId);
-			ApplicationId = ((System.Nullable<System.Guid>)(result.GetParameterValue(1)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_CheckSchemaVersion")]
-		public int aspnetCheckSchemaVersion([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Feature, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string CompatibleSchemaVersion)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Feature, CompatibleSchemaVersion);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_ChangePasswordQuestionAndAnswer")]
-		public int aspnetMembershipChangePasswordQuestionAndAnswer([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string NewPasswordQuestion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string NewPasswordAnswer)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, NewPasswordQuestion, NewPasswordAnswer);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_CreateUser")]
-		public int aspnetMembershipCreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Password, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordSalt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string PasswordQuestion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordAnswer, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsApproved, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CreateDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> UniqueEmail, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordFormat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> UserId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Password, PasswordSalt, Email, PasswordQuestion, PasswordAnswer, IsApproved, CurrentTimeUtc, CreateDate, UniqueEmail, PasswordFormat, UserId);
-			UserId = ((System.Nullable<System.Guid>)(result.GetParameterValue(12)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByEmail")]
-		public int aspnetMembershipFindUsersByEmail([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string EmailToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, EmailToMatch, PageIndex, PageSize);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_FindUsersByName")]
-		public int aspnetMembershipFindUsersByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNameToMatch, PageIndex, PageSize);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetAllUsers")]
-		public int aspnetMembershipGetAllUsers([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, PageIndex, PageSize);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetNumberOfUsersOnline")]
-		public int aspnetMembershipGetNumberOfUsersOnline([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MinutesSinceLastInActive, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, MinutesSinceLastInActive, CurrentTimeUtc);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetPassword")]
-		public ISingleResult<aspnetMembershipGetPasswordResult> aspnetMembershipGetPassword([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MaxInvalidPasswordAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordAttemptWindow, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordAnswer)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, MaxInvalidPasswordAttempts, PasswordAttemptWindow, CurrentTimeUtc, PasswordAnswer);
-			return ((ISingleResult<aspnetMembershipGetPasswordResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetPasswordWithFormat")]
-		public ISingleResult<aspnetMembershipGetPasswordWithFormatResult> aspnetMembershipGetPasswordWithFormat([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastLoginActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, UpdateLastLoginActivityDate, CurrentTimeUtc);
-			return ((ISingleResult<aspnetMembershipGetPasswordWithFormatResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetUserByEmail")]
-		public ISingleResult<aspnetMembershipGetUserByEmailResult> aspnetMembershipGetUserByEmail([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Email)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Email);
-			return ((ISingleResult<aspnetMembershipGetUserByEmailResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetUserByName")]
-		public ISingleResult<aspnetMembershipGetUserByNameResult> aspnetMembershipGetUserByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastActivity)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, CurrentTimeUtc, UpdateLastActivity);
-			return ((ISingleResult<aspnetMembershipGetUserByNameResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_GetUserByUserId")]
-		public ISingleResult<aspnetMembershipGetUserByUserIdResult> aspnetMembershipGetUserByUserId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] System.Nullable<System.Guid> UserId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastActivity)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), UserId, CurrentTimeUtc, UpdateLastActivity);
-			return ((ISingleResult<aspnetMembershipGetUserByUserIdResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_ResetPassword")]
-		public int aspnetMembershipResetPassword([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string NewPassword, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MaxInvalidPasswordAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordAttemptWindow, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordSalt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordFormat, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordAnswer)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, NewPassword, MaxInvalidPasswordAttempts, PasswordAttemptWindow, PasswordSalt, CurrentTimeUtc, PasswordFormat, PasswordAnswer);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_SetPassword")]
-		public int aspnetMembershipSetPassword([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string NewPassword, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string PasswordSalt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordFormat)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, NewPassword, PasswordSalt, CurrentTimeUtc, PasswordFormat);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_UnlockUser")]
-		public int aspnetMembershipUnlockUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_UpdateUser")]
-		public int aspnetMembershipUpdateUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string Comment, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsApproved, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastLoginDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> UniqueEmail, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Email, Comment, IsApproved, LastLoginDate, LastActivityDate, UniqueEmail, CurrentTimeUtc);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Membership_UpdateUserInfo")]
-		public int aspnetMembershipUpdateUserInfo([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsPasswordCorrect, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> UpdateLastLoginActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> MaxInvalidPasswordAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PasswordAttemptWindow, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastLoginDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastActivityDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, IsPasswordCorrect, UpdateLastLoginActivityDate, MaxInvalidPasswordAttempts, PasswordAttemptWindow, CurrentTimeUtc, LastLoginDate, LastActivityDate);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Paths_CreatePath")]
-		public int aspnetPathsCreatePath([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] System.Nullable<System.Guid> ApplicationId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> PathId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationId, Path, PathId);
-			PathId = ((System.Nullable<System.Guid>)(result.GetParameterValue(2)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Personalization_GetApplicationId")]
-		public int aspnetPersonalizationGetApplicationId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> ApplicationId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ApplicationId);
-			ApplicationId = ((System.Nullable<System.Guid>)(result.GetParameterValue(1)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_DeleteAllState")]
-		public int aspnetPersonalizationAdministrationDeleteAllState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> AllUsersScope, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), AllUsersScope, ApplicationName, Count);
-			Count = ((System.Nullable<int>)(result.GetParameterValue(2)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_FindState")]
-		public int aspnetPersonalizationAdministrationFindState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> AllUsersScope, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), AllUsersScope, ApplicationName, PageIndex, PageSize, Path, UserName, InactiveSinceDate);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_GetCountOfState")]
-		public int aspnetPersonalizationAdministrationGetCountOfState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> AllUsersScope, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Count, AllUsersScope, ApplicationName, Path, UserName, InactiveSinceDate);
-			Count = ((System.Nullable<int>)(result.GetParameterValue(0)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_ResetSharedState")]
-		public int aspnetPersonalizationAdministrationResetSharedState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Count, ApplicationName, Path);
-			Count = ((System.Nullable<int>)(result.GetParameterValue(0)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAdministration_ResetUserState")]
-		public int aspnetPersonalizationAdministrationResetUserState([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> Count, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Count, ApplicationName, InactiveSinceDate, UserName, Path);
-			Count = ((System.Nullable<int>)(result.GetParameterValue(0)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAllUsers_GetPageSettings")]
-		public ISingleResult<aspnetPersonalizationAllUsersGetPageSettingsResult> aspnetPersonalizationAllUsersGetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Path);
-			return ((ISingleResult<aspnetPersonalizationAllUsersGetPageSettingsResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAllUsers_ResetPageSettings")]
-		public int aspnetPersonalizationAllUsersResetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Path);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationAllUsers_SetPageSettings")]
-		public int aspnetPersonalizationAllUsersSetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="image")] System.Data.Linq.Binary PageSettings, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, Path, PageSettings, CurrentTimeUtc);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationPerUser_GetPageSettings")]
-		public ISingleResult<aspnetPersonalizationPerUserGetPageSettingsResult> aspnetPersonalizationPerUserGetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Path, CurrentTimeUtc);
-			return ((ISingleResult<aspnetPersonalizationPerUserGetPageSettingsResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationPerUser_ResetPageSettings")]
-		public int aspnetPersonalizationPerUserResetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Path, CurrentTimeUtc);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_PersonalizationPerUser_SetPageSettings")]
-		public int aspnetPersonalizationPerUserSetPageSettings([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string Path, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="image")] System.Data.Linq.Binary PageSettings, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, Path, PageSettings, CurrentTimeUtc);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_DeleteInactiveProfiles")]
-		public ISingleResult<aspnetProfileDeleteInactiveProfilesResult> aspnetProfileDeleteInactiveProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> ProfileAuthOptions, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ProfileAuthOptions, InactiveSinceDate);
-			return ((ISingleResult<aspnetProfileDeleteInactiveProfilesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_DeleteProfiles")]
-		public ISingleResult<aspnetProfileDeleteProfilesResult> aspnetProfileDeleteProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string UserNames)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNames);
-			return ((ISingleResult<aspnetProfileDeleteProfilesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_GetNumberOfInactiveProfiles")]
-		public ISingleResult<aspnetProfileGetNumberOfInactiveProfilesResult> aspnetProfileGetNumberOfInactiveProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> ProfileAuthOptions, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ProfileAuthOptions, InactiveSinceDate);
-			return ((ISingleResult<aspnetProfileGetNumberOfInactiveProfilesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_GetProfiles")]
-		public int aspnetProfileGetProfiles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> ProfileAuthOptions, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> PageSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserNameToMatch, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> InactiveSinceDate)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, ProfileAuthOptions, PageIndex, PageSize, UserNameToMatch, InactiveSinceDate);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_GetProperties")]
-		public ISingleResult<aspnetProfileGetPropertiesResult> aspnetProfileGetProperties([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, CurrentTimeUtc);
-			return ((ISingleResult<aspnetProfileGetPropertiesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Profile_SetProperties")]
-		public int aspnetProfileSetProperties([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string PropertyNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string PropertyValuesString, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="image")] System.Data.Linq.Binary PropertyValuesBinary, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsUserAnonymous, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, PropertyNames, PropertyValuesString, PropertyValuesBinary, UserName, IsUserAnonymous, CurrentTimeUtc);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_RegisterSchemaVersion")]
-		public int aspnetRegisterSchemaVersion([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Feature, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string CompatibleSchemaVersion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsCurrentVersion, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> RemoveIncompatibleSchema)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Feature, CompatibleSchemaVersion, IsCurrentVersion, RemoveIncompatibleSchema);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_CreateRole")]
-		public int aspnetRolesCreateRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_DeleteRole")]
-		public int aspnetRolesDeleteRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> DeleteOnlyIfRoleIsEmpty)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName, DeleteOnlyIfRoleIsEmpty);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_GetAllRoles")]
-		public ISingleResult<aspnetRolesGetAllRolesResult> aspnetRolesGetAllRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName);
-			return ((ISingleResult<aspnetRolesGetAllRolesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Roles_RoleExists")]
-		public int aspnetRolesRoleExists([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Setup_RemoveAllRoleMembers")]
-		public int aspnetSetupRemoveAllRoleMembers([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string name)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Setup_RestorePermissions")]
-		public int aspnetSetupRestorePermissions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string name)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UnRegisterSchemaVersion")]
-		public int aspnetUnRegisterSchemaVersion([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string Feature, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(128)")] string CompatibleSchemaVersion)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), Feature, CompatibleSchemaVersion);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Users_CreateUser")]
-		public int aspnetUsersCreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] System.Nullable<System.Guid> ApplicationId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="bit")] System.Nullable<bool> IsUserAnonymous, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> LastActivityDate, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="uniqueidentifier")] ref System.Nullable<System.Guid> UserId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationId, UserName, IsUserAnonymous, LastActivityDate, UserId);
-			UserId = ((System.Nullable<System.Guid>)(result.GetParameterValue(4)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_Users_DeleteUser")]
-		public int aspnetUsersDeleteUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> TablesToDeleteFrom, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] ref System.Nullable<int> NumTablesDeletedFrom)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, TablesToDeleteFrom, NumTablesDeletedFrom);
-			NumTablesDeletedFrom = ((System.Nullable<int>)(result.GetParameterValue(3)));
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_AddUsersToRoles")]
-		public ISingleResult<aspnetUsersInRolesAddUsersToRolesResult> aspnetUsersInRolesAddUsersToRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string UserNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string RoleNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> CurrentTimeUtc)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNames, RoleNames, CurrentTimeUtc);
-			return ((ISingleResult<aspnetUsersInRolesAddUsersToRolesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_FindUsersInRole")]
-		public ISingleResult<aspnetUsersInRolesFindUsersInRoleResult> aspnetUsersInRolesFindUsersInRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserNameToMatch)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName, UserNameToMatch);
-			return ((ISingleResult<aspnetUsersInRolesFindUsersInRoleResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_GetRolesForUser")]
-		public ISingleResult<aspnetUsersInRolesGetRolesForUserResult> aspnetUsersInRolesGetRolesForUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName);
-			return ((ISingleResult<aspnetUsersInRolesGetRolesForUserResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_GetUsersInRoles")]
-		public ISingleResult<aspnetUsersInRolesGetUsersInRolesResult> aspnetUsersInRolesGetUsersInRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, RoleName);
-			return ((ISingleResult<aspnetUsersInRolesGetUsersInRolesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_IsUserInRole")]
-		public int aspnetUsersInRolesIsUserInRole([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string UserName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string RoleName)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserName, RoleName);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_UsersInRoles_RemoveUsersFromRoles")]
-		public ISingleResult<aspnetUsersInRolesRemoveUsersFromRolesResult> aspnetUsersInRolesRemoveUsersFromRoles([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string UserNames, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(4000)")] string RoleNames)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ApplicationName, UserNames, RoleNames);
-			return ((ISingleResult<aspnetUsersInRolesRemoveUsersFromRolesResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.aspnet_WebEvent_LogEvent")]
-		public int aspnetWebEventLogEvent([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="char(32)")] string EventId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> EventTimeUtc, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="datetime")] System.Nullable<System.DateTime> EventTime, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string EventType, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="decimal")] System.Nullable<decimal> EventSequence, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="decimal")] System.Nullable<decimal> EventOccurrence, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> EventCode, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="int")] System.Nullable<int> EventDetailCode, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(1024)")] string Message, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationPath, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ApplicationVirtualPath, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string MachineName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(1024)")] string RequestUrl, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="nvarchar(256)")] string ExceptionType, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="ntext")] string Details)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), EventId, EventTimeUtc, EventTime, EventType, EventSequence, EventOccurrence, EventCode, EventDetailCode, Message, ApplicationPath, ApplicationVirtualPath, MachineName, RequestUrl, ExceptionType, Details);
-			return ((int)(result.ReturnValue));
 		}
 	}
 	
@@ -1203,7 +736,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid ApplicationId
 		{
 			get
@@ -1361,270 +894,6 @@ namespace EContactBook.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_Application = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_RoleParentsAuthorization")]
-	public partial class UserManagement_RoleParentsAuthorization : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _RoleParentAuthorizationId;
-		
-		private System.Guid _UserParentId;
-		
-		private bool _GetEmail;
-		
-		private bool _GetSMS;
-		
-		private bool _IsRegistered;
-		
-		private bool _IsActivated;
-		
-		private EntityRef<aspnet_User> _aspnet_User;
-		
-		private EntityRef<UserManagement_Authorization> _UserManagement_Authorization;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnRoleParentAuthorizationIdChanging(int value);
-    partial void OnRoleParentAuthorizationIdChanged();
-    partial void OnUserParentIdChanging(System.Guid value);
-    partial void OnUserParentIdChanged();
-    partial void OnGetEmailChanging(bool value);
-    partial void OnGetEmailChanged();
-    partial void OnGetSMSChanging(bool value);
-    partial void OnGetSMSChanged();
-    partial void OnIsRegisteredChanging(bool value);
-    partial void OnIsRegisteredChanged();
-    partial void OnIsActivatedChanging(bool value);
-    partial void OnIsActivatedChanged();
-    #endregion
-		
-		public UserManagement_RoleParentsAuthorization()
-		{
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			this._UserManagement_Authorization = default(EntityRef<UserManagement_Authorization>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleParentAuthorizationId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int RoleParentAuthorizationId
-		{
-			get
-			{
-				return this._RoleParentAuthorizationId;
-			}
-			set
-			{
-				if ((this._RoleParentAuthorizationId != value))
-				{
-					if (this._UserManagement_Authorization.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRoleParentAuthorizationIdChanging(value);
-					this.SendPropertyChanging();
-					this._RoleParentAuthorizationId = value;
-					this.SendPropertyChanged("RoleParentAuthorizationId");
-					this.OnRoleParentAuthorizationIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserParentId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UserParentId
-		{
-			get
-			{
-				return this._UserParentId;
-			}
-			set
-			{
-				if ((this._UserParentId != value))
-				{
-					if (this._aspnet_User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserParentIdChanging(value);
-					this.SendPropertyChanging();
-					this._UserParentId = value;
-					this.SendPropertyChanged("UserParentId");
-					this.OnUserParentIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetEmail", DbType="Bit NOT NULL")]
-		public bool GetEmail
-		{
-			get
-			{
-				return this._GetEmail;
-			}
-			set
-			{
-				if ((this._GetEmail != value))
-				{
-					this.OnGetEmailChanging(value);
-					this.SendPropertyChanging();
-					this._GetEmail = value;
-					this.SendPropertyChanged("GetEmail");
-					this.OnGetEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetSMS", DbType="Bit NOT NULL")]
-		public bool GetSMS
-		{
-			get
-			{
-				return this._GetSMS;
-			}
-			set
-			{
-				if ((this._GetSMS != value))
-				{
-					this.OnGetSMSChanging(value);
-					this.SendPropertyChanging();
-					this._GetSMS = value;
-					this.SendPropertyChanged("GetSMS");
-					this.OnGetSMSChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRegistered", DbType="Bit NOT NULL")]
-		public bool IsRegistered
-		{
-			get
-			{
-				return this._IsRegistered;
-			}
-			set
-			{
-				if ((this._IsRegistered != value))
-				{
-					this.OnIsRegisteredChanging(value);
-					this.SendPropertyChanging();
-					this._IsRegistered = value;
-					this.SendPropertyChanged("IsRegistered");
-					this.OnIsRegisteredChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit NOT NULL")]
-		public bool IsActivated
-		{
-			get
-			{
-				return this._IsActivated;
-			}
-			set
-			{
-				if ((this._IsActivated != value))
-				{
-					this.OnIsActivatedChanging(value);
-					this.SendPropertyChanging();
-					this._IsActivated = value;
-					this.SendPropertyChanged("IsActivated");
-					this.OnIsActivatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_aspnet_User", ThisKey="UserParentId", OtherKey="UserId", IsForeignKey=true)]
-		public aspnet_User aspnet_User
-		{
-			get
-			{
-				return this._aspnet_User.Entity;
-			}
-			set
-			{
-				aspnet_User previousValue = this._aspnet_User.Entity;
-				if (((previousValue != value) 
-							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._aspnet_User.Entity = null;
-						previousValue.UserManagement_RoleParentsAuthorizations.Remove(this);
-					}
-					this._aspnet_User.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_RoleParentsAuthorizations.Add(this);
-						this._UserParentId = value.UserId;
-					}
-					else
-					{
-						this._UserParentId = default(System.Guid);
-					}
-					this.SendPropertyChanged("aspnet_User");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_Authorization", ThisKey="RoleParentAuthorizationId", OtherKey="AuthorizationId", IsForeignKey=true)]
-		public UserManagement_Authorization UserManagement_Authorization
-		{
-			get
-			{
-				return this._UserManagement_Authorization.Entity;
-			}
-			set
-			{
-				UserManagement_Authorization previousValue = this._UserManagement_Authorization.Entity;
-				if (((previousValue != value) 
-							|| (this._UserManagement_Authorization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserManagement_Authorization.Entity = null;
-						previousValue.UserManagement_RoleParentsAuthorizations.Remove(this);
-					}
-					this._UserManagement_Authorization.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_RoleParentsAuthorizations.Add(this);
-						this._RoleParentAuthorizationId = value.AuthorizationId;
-					}
-					else
-					{
-						this._RoleParentAuthorizationId = default(int);
-					}
-					this.SendPropertyChanged("UserManagement_Authorization");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -2599,7 +1868,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid PathId
 		{
 			get
@@ -2962,7 +2231,7 @@ namespace EContactBook.DataAccess
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid Id
 		{
 			get
@@ -3376,9 +2645,9 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<aspnet_UsersInRole> _aspnet_UsersInRoles;
 		
-		private EntitySet<UserManagement_Authorization> _UserManagement_Authorizations;
-		
 		private EntityRef<UserManagement_RoleDetail> _UserManagement_RoleDetail;
+		
+		private EntitySet<UserManagement_Authorization> _UserManagement_Authorizations;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -3401,8 +2670,8 @@ namespace EContactBook.DataAccess
 		public aspnet_Role()
 		{
 			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
-			this._UserManagement_Authorizations = new EntitySet<UserManagement_Authorization>(new Action<UserManagement_Authorization>(this.attach_UserManagement_Authorizations), new Action<UserManagement_Authorization>(this.detach_UserManagement_Authorizations));
 			this._UserManagement_RoleDetail = default(EntityRef<UserManagement_RoleDetail>);
+			this._UserManagement_Authorizations = new EntitySet<UserManagement_Authorization>(new Action<UserManagement_Authorization>(this.attach_UserManagement_Authorizations), new Action<UserManagement_Authorization>(this.detach_UserManagement_Authorizations));
 			this._aspnet_Application = default(EntityRef<aspnet_Application>);
 			OnCreated();
 		}
@@ -3431,7 +2700,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid RoleId
 		{
 			get
@@ -3524,19 +2793,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_Authorization", Storage="_UserManagement_Authorizations", ThisKey="RoleId", OtherKey="RoleId")]
-		public EntitySet<UserManagement_Authorization> UserManagement_Authorizations
-		{
-			get
-			{
-				return this._UserManagement_Authorizations;
-			}
-			set
-			{
-				this._UserManagement_Authorizations.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetail", ThisKey="RoleId", OtherKey="RoleId", IsUnique=true, IsForeignKey=false)]
 		public UserManagement_RoleDetail UserManagement_RoleDetail
 		{
@@ -3563,6 +2819,19 @@ namespace EContactBook.DataAccess
 					}
 					this.SendPropertyChanged("UserManagement_RoleDetail");
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_Authorization", Storage="_UserManagement_Authorizations", ThisKey="RoleId", OtherKey="RoleId")]
+		public EntitySet<UserManagement_Authorization> UserManagement_Authorizations
+		{
+			get
+			{
+				return this._UserManagement_Authorizations;
+			}
+			set
+			{
+				this._UserManagement_Authorizations.Assign(value);
 			}
 		}
 		
@@ -3775,8 +3044,6 @@ namespace EContactBook.DataAccess
 		
 		private System.DateTime _LastActivityDate;
 		
-		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
-		
 		private EntityRef<aspnet_Membership> _aspnet_Membership;
 		
 		private EntitySet<aspnet_PersonalizationPerUser> _aspnet_PersonalizationPerUsers;
@@ -3788,6 +3055,8 @@ namespace EContactBook.DataAccess
 		private EntitySet<Class_FormerTeacher> _Class_FormerTeachers;
 		
 		private EntitySet<Class_Schedule> _Class_Schedules;
+		
+		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -3813,13 +3082,13 @@ namespace EContactBook.DataAccess
 		
 		public aspnet_User()
 		{
-			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
 			this._aspnet_Membership = default(EntityRef<aspnet_Membership>);
 			this._aspnet_PersonalizationPerUsers = new EntitySet<aspnet_PersonalizationPerUser>(new Action<aspnet_PersonalizationPerUser>(this.attach_aspnet_PersonalizationPerUsers), new Action<aspnet_PersonalizationPerUser>(this.detach_aspnet_PersonalizationPerUsers));
 			this._aspnet_Profile = default(EntityRef<aspnet_Profile>);
 			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
 			this._Class_FormerTeachers = new EntitySet<Class_FormerTeacher>(new Action<Class_FormerTeacher>(this.attach_Class_FormerTeachers), new Action<Class_FormerTeacher>(this.detach_Class_FormerTeachers));
 			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
+			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
 			this._aspnet_Application = default(EntityRef<aspnet_Application>);
 			OnCreated();
 		}
@@ -3848,7 +3117,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid UserId
 		{
 			get
@@ -3968,19 +3237,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="UserId", OtherKey="UserParentId")]
-		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
-		{
-			get
-			{
-				return this._UserManagement_RoleParentsAuthorizations;
-			}
-			set
-			{
-				this._UserManagement_RoleParentsAuthorizations.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_aspnet_Membership", Storage="_aspnet_Membership", ThisKey="UserId", OtherKey="UserId", IsUnique=true, IsForeignKey=false)]
 		public aspnet_Membership aspnet_Membership
 		{
@@ -4091,6 +3347,19 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="UserId", OtherKey="UserParentId")]
+		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
+		{
+			get
+			{
+				return this._UserManagement_RoleParentsAuthorizations;
+			}
+			set
+			{
+				this._UserManagement_RoleParentsAuthorizations.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Application_aspnet_User", Storage="_aspnet_Application", ThisKey="ApplicationId", OtherKey="ApplicationId", IsForeignKey=true)]
 		public aspnet_Application aspnet_Application
 		{
@@ -4145,18 +3414,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = this;
-		}
-		
-		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = null;
-		}
-		
 		private void attach_aspnet_PersonalizationPerUsers(aspnet_PersonalizationPerUser entity)
 		{
 			this.SendPropertyChanging();
@@ -4200,6 +3457,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Class_Schedules(Class_Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
+		}
+		
+		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_User = null;
@@ -4531,7 +3800,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventSequence", DbType="decimal NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventSequence", DbType="Decimal(19,0) NOT NULL")]
 		public decimal EventSequence
 		{
 			get
@@ -4551,7 +3820,7 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventOccurrence", DbType="decimal NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventOccurrence", DbType="Decimal(19,0) NOT NULL")]
 		public decimal EventOccurrence
 		{
 			get
@@ -4747,157 +4016,6 @@ namespace EContactBook.DataAccess
 					this._Details = value;
 					this.SendPropertyChanged("Details");
 					this.OnDetailsChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Category_Attitude")]
-	public partial class Category_Attitude : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _AttitudeId;
-		
-		private string _AttitudeName;
-		
-		private int _SchoolId;
-		
-		private EntityRef<School_School> _School_School;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnAttitudeIdChanging(int value);
-    partial void OnAttitudeIdChanged();
-    partial void OnAttitudeNameChanging(string value);
-    partial void OnAttitudeNameChanged();
-    partial void OnSchoolIdChanging(int value);
-    partial void OnSchoolIdChanged();
-    #endregion
-		
-		public Category_Attitude()
-		{
-			this._School_School = default(EntityRef<School_School>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttitudeId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int AttitudeId
-		{
-			get
-			{
-				return this._AttitudeId;
-			}
-			set
-			{
-				if ((this._AttitudeId != value))
-				{
-					this.OnAttitudeIdChanging(value);
-					this.SendPropertyChanging();
-					this._AttitudeId = value;
-					this.SendPropertyChanged("AttitudeId");
-					this.OnAttitudeIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttitudeName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string AttitudeName
-		{
-			get
-			{
-				return this._AttitudeName;
-			}
-			set
-			{
-				if ((this._AttitudeName != value))
-				{
-					this.OnAttitudeNameChanging(value);
-					this.SendPropertyChanging();
-					this._AttitudeName = value;
-					this.SendPropertyChanged("AttitudeName");
-					this.OnAttitudeNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", DbType="Int NOT NULL")]
-		public int SchoolId
-		{
-			get
-			{
-				return this._SchoolId;
-			}
-			set
-			{
-				if ((this._SchoolId != value))
-				{
-					if (this._School_School.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSchoolIdChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Attitude", Storage="_School_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
-		public School_School School_School
-		{
-			get
-			{
-				return this._School_School.Entity;
-			}
-			set
-			{
-				School_School previousValue = this._School_School.Entity;
-				if (((previousValue != value) 
-							|| (this._School_School.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._School_School.Entity = null;
-						previousValue.Category_Attitudes.Remove(this);
-					}
-					this._School_School.Entity = value;
-					if ((value != null))
-					{
-						value.Category_Attitudes.Add(this);
-						this._SchoolId = value.SchoolId;
-					}
-					else
-					{
-						this._SchoolId = default(int);
-					}
-					this.SendPropertyChanged("School_School");
 				}
 			}
 		}
@@ -9109,6 +8227,8 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<Class_Schedule> _Class_Schedules;
 		
+		private EntitySet<Configuration_TermsInYear> _Configuration_TermsInYears;
+		
 		private EntitySet<Student_Absent> _Student_Absents;
 		
 		private EntitySet<Student_Activity> _Student_Activities;
@@ -9116,8 +8236,6 @@ namespace EContactBook.DataAccess
 		private EntitySet<Student_TermLearningResult> _Student_TermLearningResults;
 		
 		private EntitySet<Student_TermSubjectMark> _Student_TermSubjectMarks;
-		
-		private EntitySet<Configuration_TermsInYear> _Configuration_TermsInYears;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9132,11 +8250,11 @@ namespace EContactBook.DataAccess
 		public Configuration_Term()
 		{
 			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
+			this._Configuration_TermsInYears = new EntitySet<Configuration_TermsInYear>(new Action<Configuration_TermsInYear>(this.attach_Configuration_TermsInYears), new Action<Configuration_TermsInYear>(this.detach_Configuration_TermsInYears));
 			this._Student_Absents = new EntitySet<Student_Absent>(new Action<Student_Absent>(this.attach_Student_Absents), new Action<Student_Absent>(this.detach_Student_Absents));
 			this._Student_Activities = new EntitySet<Student_Activity>(new Action<Student_Activity>(this.attach_Student_Activities), new Action<Student_Activity>(this.detach_Student_Activities));
 			this._Student_TermLearningResults = new EntitySet<Student_TermLearningResult>(new Action<Student_TermLearningResult>(this.attach_Student_TermLearningResults), new Action<Student_TermLearningResult>(this.detach_Student_TermLearningResults));
 			this._Student_TermSubjectMarks = new EntitySet<Student_TermSubjectMark>(new Action<Student_TermSubjectMark>(this.attach_Student_TermSubjectMarks), new Action<Student_TermSubjectMark>(this.detach_Student_TermSubjectMarks));
-			this._Configuration_TermsInYears = new EntitySet<Configuration_TermsInYear>(new Action<Configuration_TermsInYear>(this.attach_Configuration_TermsInYears), new Action<Configuration_TermsInYear>(this.detach_Configuration_TermsInYears));
 			OnCreated();
 		}
 		
@@ -9193,6 +8311,19 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Configuration_TermsInYear", Storage="_Configuration_TermsInYears", ThisKey="TermId", OtherKey="TermId")]
+		public EntitySet<Configuration_TermsInYear> Configuration_TermsInYears
+		{
+			get
+			{
+				return this._Configuration_TermsInYears;
+			}
+			set
+			{
+				this._Configuration_TermsInYears.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Student_Absent", Storage="_Student_Absents", ThisKey="TermId", OtherKey="TermId")]
 		public EntitySet<Student_Absent> Student_Absents
 		{
@@ -9245,19 +8376,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Configuration_TermsInYear", Storage="_Configuration_TermsInYears", ThisKey="TermId", OtherKey="TermId")]
-		public EntitySet<Configuration_TermsInYear> Configuration_TermsInYears
-		{
-			get
-			{
-				return this._Configuration_TermsInYears;
-			}
-			set
-			{
-				this._Configuration_TermsInYears.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -9285,6 +8403,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Class_Schedules(Class_Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Term = null;
+		}
+		
+		private void attach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Term = this;
+		}
+		
+		private void detach_Configuration_TermsInYears(Configuration_TermsInYear entity)
 		{
 			this.SendPropertyChanging();
 			entity.Configuration_Term = null;
@@ -9337,17 +8467,221 @@ namespace EContactBook.DataAccess
 			this.SendPropertyChanging();
 			entity.Configuration_Term = null;
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_TermsInYear")]
+	public partial class Configuration_TermsInYear : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		private void attach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _YearId;
+		
+		private int _TermId;
+		
+		private System.DateTime _BeginDate;
+		
+		private System.DateTime _EndDate;
+		
+		private EntityRef<Configuration_Term> _Configuration_Term;
+		
+		private EntityRef<Configuration_Year> _Configuration_Year;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnYearIdChanging(int value);
+    partial void OnYearIdChanged();
+    partial void OnTermIdChanging(int value);
+    partial void OnTermIdChanged();
+    partial void OnBeginDateChanging(System.DateTime value);
+    partial void OnBeginDateChanged();
+    partial void OnEndDateChanging(System.DateTime value);
+    partial void OnEndDateChanged();
+    #endregion
+		
+		public Configuration_TermsInYear()
 		{
-			this.SendPropertyChanging();
-			entity.Configuration_Term = this;
+			this._Configuration_Term = default(EntityRef<Configuration_Term>);
+			this._Configuration_Year = default(EntityRef<Configuration_Year>);
+			OnCreated();
 		}
 		
-		private void detach_Configuration_TermsInYears(Configuration_TermsInYear entity)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int YearId
 		{
-			this.SendPropertyChanging();
-			entity.Configuration_Term = null;
+			get
+			{
+				return this._YearId;
+			}
+			set
+			{
+				if ((this._YearId != value))
+				{
+					if (this._Configuration_Year.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnYearIdChanging(value);
+					this.SendPropertyChanging();
+					this._YearId = value;
+					this.SendPropertyChanged("YearId");
+					this.OnYearIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int TermId
+		{
+			get
+			{
+				return this._TermId;
+			}
+			set
+			{
+				if ((this._TermId != value))
+				{
+					if (this._Configuration_Term.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTermIdChanging(value);
+					this.SendPropertyChanging();
+					this._TermId = value;
+					this.SendPropertyChanged("TermId");
+					this.OnTermIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime NOT NULL")]
+		public System.DateTime BeginDate
+		{
+			get
+			{
+				return this._BeginDate;
+			}
+			set
+			{
+				if ((this._BeginDate != value))
+				{
+					this.OnBeginDateChanging(value);
+					this.SendPropertyChanging();
+					this._BeginDate = value;
+					this.SendPropertyChanged("BeginDate");
+					this.OnBeginDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndDate
+		{
+			get
+			{
+				return this._EndDate;
+			}
+			set
+			{
+				if ((this._EndDate != value))
+				{
+					this.OnEndDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndDate = value;
+					this.SendPropertyChanged("EndDate");
+					this.OnEndDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Configuration_TermsInYear", Storage="_Configuration_Term", ThisKey="TermId", OtherKey="TermId", IsForeignKey=true)]
+		public Configuration_Term Configuration_Term
+		{
+			get
+			{
+				return this._Configuration_Term.Entity;
+			}
+			set
+			{
+				Configuration_Term previousValue = this._Configuration_Term.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_Term.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_Term.Entity = null;
+						previousValue.Configuration_TermsInYears.Remove(this);
+					}
+					this._Configuration_Term.Entity = value;
+					if ((value != null))
+					{
+						value.Configuration_TermsInYears.Add(this);
+						this._TermId = value.TermId;
+					}
+					else
+					{
+						this._TermId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_Term");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Year_Configuration_TermsInYear", Storage="_Configuration_Year", ThisKey="YearId", OtherKey="YearId", IsForeignKey=true)]
+		public Configuration_Year Configuration_Year
+		{
+			get
+			{
+				return this._Configuration_Year.Entity;
+			}
+			set
+			{
+				Configuration_Year previousValue = this._Configuration_Year.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_Year.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_Year.Entity = null;
+						previousValue.Configuration_TermsInYears.Remove(this);
+					}
+					this._Configuration_Year.Entity = value;
+					if ((value != null))
+					{
+						value.Configuration_TermsInYears.Add(this);
+						this._YearId = value.YearId;
+					}
+					else
+					{
+						this._YearId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_Year");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -9361,12 +8695,6 @@ namespace EContactBook.DataAccess
 		
 		private string _YearName;
 		
-		private System.DateTime _BeginYear;
-		
-		private System.DateTime _EndYear;
-		
-		private int _SchoolId;
-		
 		private System.DateTime _BeginFirstTermDate;
 		
 		private System.DateTime _EndFirstTermDate;
@@ -9374,6 +8702,8 @@ namespace EContactBook.DataAccess
 		private System.DateTime _BeginSecondTermDate;
 		
 		private System.DateTime _EndSecondTermDate;
+		
+		private int _SchoolId;
 		
 		private EntitySet<Class_Class> _Class_Classes;
 		
@@ -9389,12 +8719,6 @@ namespace EContactBook.DataAccess
     partial void OnYearIdChanged();
     partial void OnYearNameChanging(string value);
     partial void OnYearNameChanged();
-    partial void OnBeginYearChanging(System.DateTime value);
-    partial void OnBeginYearChanged();
-    partial void OnEndYearChanging(System.DateTime value);
-    partial void OnEndYearChanged();
-    partial void OnSchoolIdChanging(int value);
-    partial void OnSchoolIdChanged();
     partial void OnBeginFirstTermDateChanging(System.DateTime value);
     partial void OnBeginFirstTermDateChanged();
     partial void OnEndFirstTermDateChanging(System.DateTime value);
@@ -9403,6 +8727,8 @@ namespace EContactBook.DataAccess
     partial void OnBeginSecondTermDateChanged();
     partial void OnEndSecondTermDateChanging(System.DateTime value);
     partial void OnEndSecondTermDateChanged();
+    partial void OnSchoolIdChanging(int value);
+    partial void OnSchoolIdChanged();
     #endregion
 		
 		public Configuration_Year()
@@ -9453,42 +8779,82 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginYear", DbType="DateTime NOT NULL")]
-		public System.DateTime BeginYear
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginFirstTermDate", DbType="DateTime NOT NULL")]
+		public System.DateTime BeginFirstTermDate
 		{
 			get
 			{
-				return this._BeginYear;
+				return this._BeginFirstTermDate;
 			}
 			set
 			{
-				if ((this._BeginYear != value))
+				if ((this._BeginFirstTermDate != value))
 				{
-					this.OnBeginYearChanging(value);
+					this.OnBeginFirstTermDateChanging(value);
 					this.SendPropertyChanging();
-					this._BeginYear = value;
-					this.SendPropertyChanged("BeginYear");
-					this.OnBeginYearChanged();
+					this._BeginFirstTermDate = value;
+					this.SendPropertyChanged("BeginFirstTermDate");
+					this.OnBeginFirstTermDateChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndYear", DbType="DateTime NOT NULL")]
-		public System.DateTime EndYear
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndFirstTermDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndFirstTermDate
 		{
 			get
 			{
-				return this._EndYear;
+				return this._EndFirstTermDate;
 			}
 			set
 			{
-				if ((this._EndYear != value))
+				if ((this._EndFirstTermDate != value))
 				{
-					this.OnEndYearChanging(value);
+					this.OnEndFirstTermDateChanging(value);
 					this.SendPropertyChanging();
-					this._EndYear = value;
-					this.SendPropertyChanged("EndYear");
-					this.OnEndYearChanged();
+					this._EndFirstTermDate = value;
+					this.SendPropertyChanged("EndFirstTermDate");
+					this.OnEndFirstTermDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginSecondTermDate", DbType="DateTime NOT NULL")]
+		public System.DateTime BeginSecondTermDate
+		{
+			get
+			{
+				return this._BeginSecondTermDate;
+			}
+			set
+			{
+				if ((this._BeginSecondTermDate != value))
+				{
+					this.OnBeginSecondTermDateChanging(value);
+					this.SendPropertyChanging();
+					this._BeginSecondTermDate = value;
+					this.SendPropertyChanged("BeginSecondTermDate");
+					this.OnBeginSecondTermDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndSecondTermDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EndSecondTermDate
+		{
+			get
+			{
+				return this._EndSecondTermDate;
+			}
+			set
+			{
+				if ((this._EndSecondTermDate != value))
+				{
+					this.OnEndSecondTermDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndSecondTermDate = value;
+					this.SendPropertyChanged("EndSecondTermDate");
+					this.OnEndSecondTermDateChanged();
 				}
 			}
 		}
@@ -9513,86 +8879,6 @@ namespace EContactBook.DataAccess
 					this._SchoolId = value;
 					this.SendPropertyChanged("SchoolId");
 					this.OnSchoolIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginFirstTermDate", DbType="datetime NOT NULL")]
-		public System.DateTime BeginFirstTermDate
-		{
-			get
-			{
-				return this._BeginFirstTermDate;
-			}
-			set
-			{
-				if ((this._BeginFirstTermDate != value))
-				{
-					this.OnBeginFirstTermDateChanging(value);
-					this.SendPropertyChanging();
-					this._BeginFirstTermDate = value;
-					this.SendPropertyChanged("BeginFirstTermDate");
-					this.OnBeginFirstTermDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndFirstTermDate", DbType="datetime NOT NULL")]
-		public System.DateTime EndFirstTermDate
-		{
-			get
-			{
-				return this._EndFirstTermDate;
-			}
-			set
-			{
-				if ((this._EndFirstTermDate != value))
-				{
-					this.OnEndFirstTermDateChanging(value);
-					this.SendPropertyChanging();
-					this._EndFirstTermDate = value;
-					this.SendPropertyChanged("EndFirstTermDate");
-					this.OnEndFirstTermDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginSecondTermDate", DbType="datetime NOT NULL")]
-		public System.DateTime BeginSecondTermDate
-		{
-			get
-			{
-				return this._BeginSecondTermDate;
-			}
-			set
-			{
-				if ((this._BeginSecondTermDate != value))
-				{
-					this.OnBeginSecondTermDateChanging(value);
-					this.SendPropertyChanging();
-					this._BeginSecondTermDate = value;
-					this.SendPropertyChanged("BeginSecondTermDate");
-					this.OnBeginSecondTermDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndSecondTermDate", DbType="datetime NOT NULL")]
-		public System.DateTime EndSecondTermDate
-		{
-			get
-			{
-				return this._EndSecondTermDate;
-			}
-			set
-			{
-				if ((this._EndSecondTermDate != value))
-				{
-					this.OnEndSecondTermDateChanging(value);
-					this.SendPropertyChanging();
-					this._EndSecondTermDate = value;
-					this.SendPropertyChanged("EndSecondTermDate");
-					this.OnEndSecondTermDateChanged();
 				}
 			}
 		}
@@ -10323,661 +9609,6 @@ namespace EContactBook.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.School_School")]
-	public partial class School_School : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _SchoolId;
-		
-		private string _SchoolName;
-		
-		private bool _Status;
-		
-		private int _TotalOfUsers;
-		
-		private string _Email;
-		
-		private string _Password;
-		
-		private System.Data.Linq.Binary _Logo;
-		
-		private string _Address;
-		
-		private string _Phone;
-		
-		private int _DistrictId;
-		
-		private EntitySet<aspnet_Membership> _aspnet_Memberships;
-		
-		private EntitySet<Category_Attitude> _Category_Attitudes;
-		
-		private EntitySet<Category_Conduct> _Category_Conducts;
-		
-		private EntitySet<Category_Faculty> _Category_Faculties;
-		
-		private EntitySet<Category_Grade> _Category_Grades;
-		
-		private EntitySet<Category_LearningAptitude> _Category_LearningAptitudes;
-		
-		private EntitySet<Category_LearningResult> _Category_LearningResults;
-		
-		private EntitySet<Category_TeachingPeriod> _Category_TeachingPeriods;
-		
-		private EntitySet<Class_Class> _Class_Classes;
-		
-		private EntitySet<Configuration_Year> _Configuration_Years;
-		
-		private EntitySet<Student_Student> _Student_Students;
-		
-		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
-		
-		private EntityRef<Configuration_District> _Configuration_District;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnSchoolIdChanging(int value);
-    partial void OnSchoolIdChanged();
-    partial void OnSchoolNameChanging(string value);
-    partial void OnSchoolNameChanged();
-    partial void OnStatusChanging(bool value);
-    partial void OnStatusChanged();
-    partial void OnTotalOfUsersChanging(int value);
-    partial void OnTotalOfUsersChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnLogoChanging(System.Data.Linq.Binary value);
-    partial void OnLogoChanged();
-    partial void OnAddressChanging(string value);
-    partial void OnAddressChanged();
-    partial void OnPhoneChanging(string value);
-    partial void OnPhoneChanged();
-    partial void OnDistrictIdChanging(int value);
-    partial void OnDistrictIdChanged();
-    #endregion
-		
-		public School_School()
-		{
-			this._aspnet_Memberships = new EntitySet<aspnet_Membership>(new Action<aspnet_Membership>(this.attach_aspnet_Memberships), new Action<aspnet_Membership>(this.detach_aspnet_Memberships));
-			this._Category_Attitudes = new EntitySet<Category_Attitude>(new Action<Category_Attitude>(this.attach_Category_Attitudes), new Action<Category_Attitude>(this.detach_Category_Attitudes));
-			this._Category_Conducts = new EntitySet<Category_Conduct>(new Action<Category_Conduct>(this.attach_Category_Conducts), new Action<Category_Conduct>(this.detach_Category_Conducts));
-			this._Category_Faculties = new EntitySet<Category_Faculty>(new Action<Category_Faculty>(this.attach_Category_Faculties), new Action<Category_Faculty>(this.detach_Category_Faculties));
-			this._Category_Grades = new EntitySet<Category_Grade>(new Action<Category_Grade>(this.attach_Category_Grades), new Action<Category_Grade>(this.detach_Category_Grades));
-			this._Category_LearningAptitudes = new EntitySet<Category_LearningAptitude>(new Action<Category_LearningAptitude>(this.attach_Category_LearningAptitudes), new Action<Category_LearningAptitude>(this.detach_Category_LearningAptitudes));
-			this._Category_LearningResults = new EntitySet<Category_LearningResult>(new Action<Category_LearningResult>(this.attach_Category_LearningResults), new Action<Category_LearningResult>(this.detach_Category_LearningResults));
-			this._Category_TeachingPeriods = new EntitySet<Category_TeachingPeriod>(new Action<Category_TeachingPeriod>(this.attach_Category_TeachingPeriods), new Action<Category_TeachingPeriod>(this.detach_Category_TeachingPeriods));
-			this._Class_Classes = new EntitySet<Class_Class>(new Action<Class_Class>(this.attach_Class_Classes), new Action<Class_Class>(this.detach_Class_Classes));
-			this._Configuration_Years = new EntitySet<Configuration_Year>(new Action<Configuration_Year>(this.attach_Configuration_Years), new Action<Configuration_Year>(this.detach_Configuration_Years));
-			this._Student_Students = new EntitySet<Student_Student>(new Action<Student_Student>(this.attach_Student_Students), new Action<Student_Student>(this.detach_Student_Students));
-			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
-			this._Configuration_District = default(EntityRef<Configuration_District>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int SchoolId
-		{
-			get
-			{
-				return this._SchoolId;
-			}
-			set
-			{
-				if ((this._SchoolId != value))
-				{
-					this.OnSchoolIdChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolId = value;
-					this.SendPropertyChanged("SchoolId");
-					this.OnSchoolIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolName", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
-		public string SchoolName
-		{
-			get
-			{
-				return this._SchoolName;
-			}
-			set
-			{
-				if ((this._SchoolName != value))
-				{
-					this.OnSchoolNameChanging(value);
-					this.SendPropertyChanging();
-					this._SchoolName = value;
-					this.SendPropertyChanged("SchoolName");
-					this.OnSchoolNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Bit NOT NULL")]
-		public bool Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalOfUsers", DbType="Int NOT NULL")]
-		public int TotalOfUsers
-		{
-			get
-			{
-				return this._TotalOfUsers;
-			}
-			set
-			{
-				if ((this._TotalOfUsers != value))
-				{
-					this.OnTotalOfUsersChanging(value);
-					this.SendPropertyChanging();
-					this._TotalOfUsers = value;
-					this.SendPropertyChanged("TotalOfUsers");
-					this.OnTotalOfUsersChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
-					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Password
-		{
-			get
-			{
-				return this._Password;
-			}
-			set
-			{
-				if ((this._Password != value))
-				{
-					this.OnPasswordChanging(value);
-					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="Image", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary Logo
-		{
-			get
-			{
-				return this._Logo;
-			}
-			set
-			{
-				if ((this._Logo != value))
-				{
-					this.OnLogoChanging(value);
-					this.SendPropertyChanging();
-					this._Logo = value;
-					this.SendPropertyChanged("Logo");
-					this.OnLogoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
-		public string Address
-		{
-			get
-			{
-				return this._Address;
-			}
-			set
-			{
-				if ((this._Address != value))
-				{
-					this.OnAddressChanging(value);
-					this.SendPropertyChanging();
-					this._Address = value;
-					this.SendPropertyChanged("Address");
-					this.OnAddressChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
-		public string Phone
-		{
-			get
-			{
-				return this._Phone;
-			}
-			set
-			{
-				if ((this._Phone != value))
-				{
-					this.OnPhoneChanging(value);
-					this.SendPropertyChanging();
-					this._Phone = value;
-					this.SendPropertyChanged("Phone");
-					this.OnPhoneChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", DbType="Int NOT NULL")]
-		public int DistrictId
-		{
-			get
-			{
-				return this._DistrictId;
-			}
-			set
-			{
-				if ((this._DistrictId != value))
-				{
-					if (this._Configuration_District.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDistrictIdChanging(value);
-					this.SendPropertyChanging();
-					this._DistrictId = value;
-					this.SendPropertyChanged("DistrictId");
-					this.OnDistrictIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_aspnet_Membership", Storage="_aspnet_Memberships", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<aspnet_Membership> aspnet_Memberships
-		{
-			get
-			{
-				return this._aspnet_Memberships;
-			}
-			set
-			{
-				this._aspnet_Memberships.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Attitude", Storage="_Category_Attitudes", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_Attitude> Category_Attitudes
-		{
-			get
-			{
-				return this._Category_Attitudes;
-			}
-			set
-			{
-				this._Category_Attitudes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Conduct", Storage="_Category_Conducts", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_Conduct> Category_Conducts
-		{
-			get
-			{
-				return this._Category_Conducts;
-			}
-			set
-			{
-				this._Category_Conducts.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Faculty", Storage="_Category_Faculties", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_Faculty> Category_Faculties
-		{
-			get
-			{
-				return this._Category_Faculties;
-			}
-			set
-			{
-				this._Category_Faculties.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Grade", Storage="_Category_Grades", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_Grade> Category_Grades
-		{
-			get
-			{
-				return this._Category_Grades;
-			}
-			set
-			{
-				this._Category_Grades.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_LearningAptitude", Storage="_Category_LearningAptitudes", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_LearningAptitude> Category_LearningAptitudes
-		{
-			get
-			{
-				return this._Category_LearningAptitudes;
-			}
-			set
-			{
-				this._Category_LearningAptitudes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_LearningResult", Storage="_Category_LearningResults", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_LearningResult> Category_LearningResults
-		{
-			get
-			{
-				return this._Category_LearningResults;
-			}
-			set
-			{
-				this._Category_LearningResults.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_TeachingPeriod", Storage="_Category_TeachingPeriods", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Category_TeachingPeriod> Category_TeachingPeriods
-		{
-			get
-			{
-				return this._Category_TeachingPeriods;
-			}
-			set
-			{
-				this._Category_TeachingPeriods.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Class_Class", Storage="_Class_Classes", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Class_Class> Class_Classes
-		{
-			get
-			{
-				return this._Class_Classes;
-			}
-			set
-			{
-				this._Class_Classes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Configuration_Year", Storage="_Configuration_Years", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Configuration_Year> Configuration_Years
-		{
-			get
-			{
-				return this._Configuration_Years;
-			}
-			set
-			{
-				this._Configuration_Years.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Student_Student", Storage="_Student_Students", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<Student_Student> Student_Students
-		{
-			get
-			{
-				return this._Student_Students;
-			}
-			set
-			{
-				this._Student_Students.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetails", ThisKey="SchoolId", OtherKey="SchoolId")]
-		public EntitySet<UserManagement_RoleDetail> UserManagement_RoleDetails
-		{
-			get
-			{
-				return this._UserManagement_RoleDetails;
-			}
-			set
-			{
-				this._UserManagement_RoleDetails.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_District_School_School", Storage="_Configuration_District", ThisKey="DistrictId", OtherKey="DistrictId", IsForeignKey=true)]
-		public Configuration_District Configuration_District
-		{
-			get
-			{
-				return this._Configuration_District.Entity;
-			}
-			set
-			{
-				Configuration_District previousValue = this._Configuration_District.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_District.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_District.Entity = null;
-						previousValue.School_Schools.Remove(this);
-					}
-					this._Configuration_District.Entity = value;
-					if ((value != null))
-					{
-						value.School_Schools.Add(this);
-						this._DistrictId = value.DistrictId;
-					}
-					else
-					{
-						this._DistrictId = default(int);
-					}
-					this.SendPropertyChanged("Configuration_District");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_aspnet_Memberships(aspnet_Membership entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_aspnet_Memberships(aspnet_Membership entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_Attitudes(Category_Attitude entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_Attitudes(Category_Attitude entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_Conducts(Category_Conduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_Conducts(Category_Conduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_Faculties(Category_Faculty entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_Faculties(Category_Faculty entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_Grades(Category_Grade entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_Grades(Category_Grade entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_LearningAptitudes(Category_LearningAptitude entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_LearningAptitudes(Category_LearningAptitude entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_LearningResults(Category_LearningResult entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_LearningResults(Category_LearningResult entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Category_TeachingPeriods(Category_TeachingPeriod entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Category_TeachingPeriods(Category_TeachingPeriod entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Class_Classes(Class_Class entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Class_Classes(Class_Class entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Configuration_Years(Configuration_Year entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Configuration_Years(Configuration_Year entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_Student_Students(Student_Student entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_Student_Students(Student_Student entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
-		}
-		
-		private void attach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = this;
-		}
-		
-		private void detach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
-		{
-			this.SendPropertyChanging();
-			entity.School_School = null;
 		}
 	}
 	
@@ -13458,250 +12089,6 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_Authorization")]
-	public partial class UserManagement_Authorization : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _AuthorizationId;
-		
-		private System.Guid _RoleId;
-		
-		private int _AuthorizedPagePathId;
-		
-		private bool _IsActivated;
-		
-		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
-		
-		private EntityRef<aspnet_Role> _aspnet_Role;
-		
-		private EntityRef<UserManagement_AuthorizedPage> _UserManagement_AuthorizedPage;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnAuthorizationIdChanging(int value);
-    partial void OnAuthorizationIdChanged();
-    partial void OnRoleIdChanging(System.Guid value);
-    partial void OnRoleIdChanged();
-    partial void OnAuthorizedPagePathIdChanging(int value);
-    partial void OnAuthorizedPagePathIdChanged();
-    partial void OnIsActivatedChanging(bool value);
-    partial void OnIsActivatedChanged();
-    #endregion
-		
-		public UserManagement_Authorization()
-		{
-			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
-			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._UserManagement_AuthorizedPage = default(EntityRef<UserManagement_AuthorizedPage>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorizationId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int AuthorizationId
-		{
-			get
-			{
-				return this._AuthorizationId;
-			}
-			set
-			{
-				if ((this._AuthorizationId != value))
-				{
-					this.OnAuthorizationIdChanging(value);
-					this.SendPropertyChanging();
-					this._AuthorizationId = value;
-					this.SendPropertyChanged("AuthorizationId");
-					this.OnAuthorizationIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					if (this._aspnet_Role.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRoleIdChanging(value);
-					this.SendPropertyChanging();
-					this._RoleId = value;
-					this.SendPropertyChanged("RoleId");
-					this.OnRoleIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorizedPagePathId", DbType="Int NOT NULL")]
-		public int AuthorizedPagePathId
-		{
-			get
-			{
-				return this._AuthorizedPagePathId;
-			}
-			set
-			{
-				if ((this._AuthorizedPagePathId != value))
-				{
-					if (this._UserManagement_AuthorizedPage.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnAuthorizedPagePathIdChanging(value);
-					this.SendPropertyChanging();
-					this._AuthorizedPagePathId = value;
-					this.SendPropertyChanged("AuthorizedPagePathId");
-					this.OnAuthorizedPagePathIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit NOT NULL")]
-		public bool IsActivated
-		{
-			get
-			{
-				return this._IsActivated;
-			}
-			set
-			{
-				if ((this._IsActivated != value))
-				{
-					this.OnIsActivatedChanging(value);
-					this.SendPropertyChanging();
-					this._IsActivated = value;
-					this.SendPropertyChanged("IsActivated");
-					this.OnIsActivatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="AuthorizationId", OtherKey="RoleParentAuthorizationId")]
-		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
-		{
-			get
-			{
-				return this._UserManagement_RoleParentsAuthorizations;
-			}
-			set
-			{
-				this._UserManagement_RoleParentsAuthorizations.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_Authorization", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
-		public aspnet_Role aspnet_Role
-		{
-			get
-			{
-				return this._aspnet_Role.Entity;
-			}
-			set
-			{
-				aspnet_Role previousValue = this._aspnet_Role.Entity;
-				if (((previousValue != value) 
-							|| (this._aspnet_Role.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._aspnet_Role.Entity = null;
-						previousValue.UserManagement_Authorizations.Remove(this);
-					}
-					this._aspnet_Role.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_Authorizations.Add(this);
-						this._RoleId = value.RoleId;
-					}
-					else
-					{
-						this._RoleId = default(System.Guid);
-					}
-					this.SendPropertyChanged("aspnet_Role");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_AuthorizedPage_UserManagement_Authorization", Storage="_UserManagement_AuthorizedPage", ThisKey="AuthorizedPagePathId", OtherKey="AuthorizedPageId", IsForeignKey=true)]
-		public UserManagement_AuthorizedPage UserManagement_AuthorizedPage
-		{
-			get
-			{
-				return this._UserManagement_AuthorizedPage.Entity;
-			}
-			set
-			{
-				UserManagement_AuthorizedPage previousValue = this._UserManagement_AuthorizedPage.Entity;
-				if (((previousValue != value) 
-							|| (this._UserManagement_AuthorizedPage.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserManagement_AuthorizedPage.Entity = null;
-						previousValue.UserManagement_Authorizations.Remove(this);
-					}
-					this._UserManagement_AuthorizedPage.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_Authorizations.Add(this);
-						this._AuthorizedPagePathId = value.AuthorizedPageId;
-					}
-					else
-					{
-						this._AuthorizedPagePathId = default(int);
-					}
-					this.SendPropertyChanged("UserManagement_AuthorizedPage");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserManagement_Authorization = this;
-		}
-		
-		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserManagement_Authorization = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_AuthorizedPage")]
 	public partial class UserManagement_AuthorizedPage : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -14954,9 +13341,9 @@ namespace EContactBook.DataAccess
 		
 		private EntityRef<aspnet_Role> _aspnet_Role;
 		
-		private EntityRef<School_School> _School_School;
-		
 		private EntityRef<UserManagement_RoleCategory> _UserManagement_RoleCategory;
+		
+		private EntityRef<School_School> _School_School;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -14979,8 +13366,8 @@ namespace EContactBook.DataAccess
 		public UserManagement_RoleDetail()
 		{
 			this._aspnet_Role = default(EntityRef<aspnet_Role>);
-			this._School_School = default(EntityRef<School_School>);
 			this._UserManagement_RoleCategory = default(EntityRef<UserManagement_RoleCategory>);
+			this._School_School = default(EntityRef<School_School>);
 			OnCreated();
 		}
 		
@@ -15150,40 +13537,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_UserManagement_RoleDetail", Storage="_School_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
-		public School_School School_School
-		{
-			get
-			{
-				return this._School_School.Entity;
-			}
-			set
-			{
-				School_School previousValue = this._School_School.Entity;
-				if (((previousValue != value) 
-							|| (this._School_School.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._School_School.Entity = null;
-						previousValue.UserManagement_RoleDetails.Remove(this);
-					}
-					this._School_School.Entity = value;
-					if ((value != null))
-					{
-						value.UserManagement_RoleDetails.Add(this);
-						this._SchoolId = value.SchoolId;
-					}
-					else
-					{
-						this._SchoolId = default(int);
-					}
-					this.SendPropertyChanged("School_School");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_RoleCategory_UserManagement_RoleDetail", Storage="_UserManagement_RoleCategory", ThisKey="RoleCategoryId", OtherKey="RoleCategoryId", IsForeignKey=true)]
 		public UserManagement_RoleCategory UserManagement_RoleCategory
 		{
@@ -15218,6 +13571,40 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_UserManagement_RoleDetail", Storage="_School_School", ThisKey="SchoolId", OtherKey="SchoolId", IsForeignKey=true)]
+		public School_School School_School
+		{
+			get
+			{
+				return this._School_School.Entity;
+			}
+			set
+			{
+				School_School previousValue = this._School_School.Entity;
+				if (((previousValue != value) 
+							|| (this._School_School.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._School_School.Entity = null;
+						previousValue.UserManagement_RoleDetails.Remove(this);
+					}
+					this._School_School.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleDetails.Add(this);
+						this._SchoolId = value.SchoolId;
+					}
+					else
+					{
+						this._SchoolId = default(int);
+					}
+					this.SendPropertyChanged("School_School");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -15239,1268 +13626,67 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Applications")]
-	public partial class vwaspnetApplication
-	{
-		
-		private string _ApplicationName;
-		
-		private string _LoweredApplicationName;
-		
-		private System.Guid _ApplicationId;
-		
-		private string _Description;
-		
-		public vwaspnetApplication()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string ApplicationName
-		{
-			get
-			{
-				return this._ApplicationName;
-			}
-			set
-			{
-				if ((this._ApplicationName != value))
-				{
-					this._ApplicationName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredApplicationName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string LoweredApplicationName
-		{
-			get
-			{
-				return this._LoweredApplicationName;
-			}
-			set
-			{
-				if ((this._LoweredApplicationName != value))
-				{
-					this._LoweredApplicationName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid ApplicationId
-		{
-			get
-			{
-				return this._ApplicationId;
-			}
-			set
-			{
-				if ((this._ApplicationId != value))
-				{
-					this._ApplicationId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="nvarchar(256)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this._Description = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Users")]
-	public partial class vwaspnetUser
-	{
-		
-		private System.Guid _ApplicationId;
-		
-		private System.Guid _UserId;
-		
-		private string _UserName;
-		
-		private string _LoweredUserName;
-		
-		private string _MobileAlias;
-		
-		private bool _IsAnonymous;
-		
-		private System.DateTime _LastActivityDate;
-		
-		public vwaspnetUser()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid ApplicationId
-		{
-			get
-			{
-				return this._ApplicationId;
-			}
-			set
-			{
-				if ((this._ApplicationId != value))
-				{
-					this._ApplicationId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this._UserId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this._UserName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredUserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string LoweredUserName
-		{
-			get
-			{
-				return this._LoweredUserName;
-			}
-			set
-			{
-				if ((this._LoweredUserName != value))
-				{
-					this._LoweredUserName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileAlias", DbType="nvarchar(16)")]
-		public string MobileAlias
-		{
-			get
-			{
-				return this._MobileAlias;
-			}
-			set
-			{
-				if ((this._MobileAlias != value))
-				{
-					this._MobileAlias = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAnonymous", DbType="bit NOT NULL")]
-		public bool IsAnonymous
-		{
-			get
-			{
-				return this._IsAnonymous;
-			}
-			set
-			{
-				if ((this._IsAnonymous != value))
-				{
-					this._IsAnonymous = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastActivityDate
-		{
-			get
-			{
-				return this._LastActivityDate;
-			}
-			set
-			{
-				if ((this._LastActivityDate != value))
-				{
-					this._LastActivityDate = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_MembershipUsers")]
-	public partial class vwaspnetMembershipUser
-	{
-		
-		private System.Guid _UserId;
-		
-		private int _PasswordFormat;
-		
-		private string _MobilePIN;
-		
-		private string _Email;
-		
-		private string _LoweredEmail;
-		
-		private string _PasswordQuestion;
-		
-		private string _PasswordAnswer;
-		
-		private bool _IsApproved;
-		
-		private bool _IsLockedOut;
-		
-		private System.DateTime _CreateDate;
-		
-		private System.DateTime _LastLoginDate;
-		
-		private System.DateTime _LastPasswordChangedDate;
-		
-		private System.DateTime _LastLockoutDate;
-		
-		private int _FailedPasswordAttemptCount;
-		
-		private System.DateTime _FailedPasswordAttemptWindowStart;
-		
-		private int _FailedPasswordAnswerAttemptCount;
-		
-		private System.DateTime _FailedPasswordAnswerAttemptWindowStart;
-		
-		private string _Comment;
-		
-		private System.Guid _ApplicationId;
-		
-		private string _UserName;
-		
-		private string _MobileAlias;
-		
-		private bool _IsAnonymous;
-		
-		private System.DateTime _LastActivityDate;
-		
-		public vwaspnetMembershipUser()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this._UserId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordFormat", DbType="int NOT NULL")]
-		public int PasswordFormat
-		{
-			get
-			{
-				return this._PasswordFormat;
-			}
-			set
-			{
-				if ((this._PasswordFormat != value))
-				{
-					this._PasswordFormat = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobilePIN", DbType="nvarchar(16)")]
-		public string MobilePIN
-		{
-			get
-			{
-				return this._MobilePIN;
-			}
-			set
-			{
-				if ((this._MobilePIN != value))
-				{
-					this._MobilePIN = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="nvarchar(256)")]
-		public string Email
-		{
-			get
-			{
-				return this._Email;
-			}
-			set
-			{
-				if ((this._Email != value))
-				{
-					this._Email = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredEmail", DbType="nvarchar(256)")]
-		public string LoweredEmail
-		{
-			get
-			{
-				return this._LoweredEmail;
-			}
-			set
-			{
-				if ((this._LoweredEmail != value))
-				{
-					this._LoweredEmail = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordQuestion", DbType="nvarchar(256)")]
-		public string PasswordQuestion
-		{
-			get
-			{
-				return this._PasswordQuestion;
-			}
-			set
-			{
-				if ((this._PasswordQuestion != value))
-				{
-					this._PasswordQuestion = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordAnswer", DbType="nvarchar(128)")]
-		public string PasswordAnswer
-		{
-			get
-			{
-				return this._PasswordAnswer;
-			}
-			set
-			{
-				if ((this._PasswordAnswer != value))
-				{
-					this._PasswordAnswer = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="bit NOT NULL")]
-		public bool IsApproved
-		{
-			get
-			{
-				return this._IsApproved;
-			}
-			set
-			{
-				if ((this._IsApproved != value))
-				{
-					this._IsApproved = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLockedOut", DbType="bit NOT NULL")]
-		public bool IsLockedOut
-		{
-			get
-			{
-				return this._IsLockedOut;
-			}
-			set
-			{
-				if ((this._IsLockedOut != value))
-				{
-					this._IsLockedOut = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="datetime NOT NULL")]
-		public System.DateTime CreateDate
-		{
-			get
-			{
-				return this._CreateDate;
-			}
-			set
-			{
-				if ((this._CreateDate != value))
-				{
-					this._CreateDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLoginDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastLoginDate
-		{
-			get
-			{
-				return this._LastLoginDate;
-			}
-			set
-			{
-				if ((this._LastLoginDate != value))
-				{
-					this._LastLoginDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastPasswordChangedDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastPasswordChangedDate
-		{
-			get
-			{
-				return this._LastPasswordChangedDate;
-			}
-			set
-			{
-				if ((this._LastPasswordChangedDate != value))
-				{
-					this._LastPasswordChangedDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLockoutDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastLockoutDate
-		{
-			get
-			{
-				return this._LastLockoutDate;
-			}
-			set
-			{
-				if ((this._LastLockoutDate != value))
-				{
-					this._LastLockoutDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAttemptCount", DbType="int NOT NULL")]
-		public int FailedPasswordAttemptCount
-		{
-			get
-			{
-				return this._FailedPasswordAttemptCount;
-			}
-			set
-			{
-				if ((this._FailedPasswordAttemptCount != value))
-				{
-					this._FailedPasswordAttemptCount = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAttemptWindowStart", DbType="datetime NOT NULL")]
-		public System.DateTime FailedPasswordAttemptWindowStart
-		{
-			get
-			{
-				return this._FailedPasswordAttemptWindowStart;
-			}
-			set
-			{
-				if ((this._FailedPasswordAttemptWindowStart != value))
-				{
-					this._FailedPasswordAttemptWindowStart = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAnswerAttemptCount", DbType="int NOT NULL")]
-		public int FailedPasswordAnswerAttemptCount
-		{
-			get
-			{
-				return this._FailedPasswordAnswerAttemptCount;
-			}
-			set
-			{
-				if ((this._FailedPasswordAnswerAttemptCount != value))
-				{
-					this._FailedPasswordAnswerAttemptCount = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FailedPasswordAnswerAttemptWindowStart", DbType="datetime NOT NULL")]
-		public System.DateTime FailedPasswordAnswerAttemptWindowStart
-		{
-			get
-			{
-				return this._FailedPasswordAnswerAttemptWindowStart;
-			}
-			set
-			{
-				if ((this._FailedPasswordAnswerAttemptWindowStart != value))
-				{
-					this._FailedPasswordAnswerAttemptWindowStart = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="ntext", UpdateCheck=UpdateCheck.Never)]
-		public string Comment
-		{
-			get
-			{
-				return this._Comment;
-			}
-			set
-			{
-				if ((this._Comment != value))
-				{
-					this._Comment = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid ApplicationId
-		{
-			get
-			{
-				return this._ApplicationId;
-			}
-			set
-			{
-				if ((this._ApplicationId != value))
-				{
-					this._ApplicationId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this._UserName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileAlias", DbType="nvarchar(16)")]
-		public string MobileAlias
-		{
-			get
-			{
-				return this._MobileAlias;
-			}
-			set
-			{
-				if ((this._MobileAlias != value))
-				{
-					this._MobileAlias = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAnonymous", DbType="bit NOT NULL")]
-		public bool IsAnonymous
-		{
-			get
-			{
-				return this._IsAnonymous;
-			}
-			set
-			{
-				if ((this._IsAnonymous != value))
-				{
-					this._IsAnonymous = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastActivityDate
-		{
-			get
-			{
-				return this._LastActivityDate;
-			}
-			set
-			{
-				if ((this._LastActivityDate != value))
-				{
-					this._LastActivityDate = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Profiles")]
-	public partial class vwaspnetProfile
-	{
-		
-		private System.Guid _UserId;
-		
-		private System.DateTime _LastUpdatedDate;
-		
-		private System.Nullable<int> _DataSize;
-		
-		public vwaspnetProfile()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this._UserId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastUpdatedDate
-		{
-			get
-			{
-				return this._LastUpdatedDate;
-			}
-			set
-			{
-				if ((this._LastUpdatedDate != value))
-				{
-					this._LastUpdatedDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSize", DbType="int")]
-		public System.Nullable<int> DataSize
-		{
-			get
-			{
-				return this._DataSize;
-			}
-			set
-			{
-				if ((this._DataSize != value))
-				{
-					this._DataSize = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_Roles")]
-	public partial class vwaspnetRole
-	{
-		
-		private System.Guid _ApplicationId;
-		
-		private System.Guid _RoleId;
-		
-		private string _RoleName;
-		
-		private string _LoweredRoleName;
-		
-		private string _Description;
-		
-		public vwaspnetRole()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid ApplicationId
-		{
-			get
-			{
-				return this._ApplicationId;
-			}
-			set
-			{
-				if ((this._ApplicationId != value))
-				{
-					this._ApplicationId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					this._RoleId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string RoleName
-		{
-			get
-			{
-				return this._RoleName;
-			}
-			set
-			{
-				if ((this._RoleName != value))
-				{
-					this._RoleName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredRoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string LoweredRoleName
-		{
-			get
-			{
-				return this._LoweredRoleName;
-			}
-			set
-			{
-				if ((this._LoweredRoleName != value))
-				{
-					this._LoweredRoleName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="nvarchar(256)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this._Description = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_UsersInRoles")]
-	public partial class vwaspnetUsersInRole
-	{
-		
-		private System.Guid _UserId;
-		
-		private System.Guid _RoleId;
-		
-		public vwaspnetUsersInRole()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this._UserId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid RoleId
-		{
-			get
-			{
-				return this._RoleId;
-			}
-			set
-			{
-				if ((this._RoleId != value))
-				{
-					this._RoleId = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_WebPartState_Paths")]
-	public partial class vwaspnetWebPartStatePath
-	{
-		
-		private System.Guid _ApplicationId;
-		
-		private System.Guid _PathId;
-		
-		private string _Path;
-		
-		private string _LoweredPath;
-		
-		public vwaspnetWebPartStatePath()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid ApplicationId
-		{
-			get
-			{
-				return this._ApplicationId;
-			}
-			set
-			{
-				if ((this._ApplicationId != value))
-				{
-					this._ApplicationId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid PathId
-		{
-			get
-			{
-				return this._PathId;
-			}
-			set
-			{
-				if ((this._PathId != value))
-				{
-					this._PathId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Path]", Storage="_Path", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string Path
-		{
-			get
-			{
-				return this._Path;
-			}
-			set
-			{
-				if ((this._Path != value))
-				{
-					this._Path = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LoweredPath", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string LoweredPath
-		{
-			get
-			{
-				return this._LoweredPath;
-			}
-			set
-			{
-				if ((this._LoweredPath != value))
-				{
-					this._LoweredPath = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_WebPartState_Shared")]
-	public partial class vwaspnetWebPartStateShared
-	{
-		
-		private System.Guid _PathId;
-		
-		private System.Nullable<int> _DataSize;
-		
-		private System.DateTime _LastUpdatedDate;
-		
-		public vwaspnetWebPartStateShared()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid PathId
-		{
-			get
-			{
-				return this._PathId;
-			}
-			set
-			{
-				if ((this._PathId != value))
-				{
-					this._PathId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSize", DbType="int")]
-		public System.Nullable<int> DataSize
-		{
-			get
-			{
-				return this._DataSize;
-			}
-			set
-			{
-				if ((this._DataSize != value))
-				{
-					this._DataSize = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastUpdatedDate
-		{
-			get
-			{
-				return this._LastUpdatedDate;
-			}
-			set
-			{
-				if ((this._LastUpdatedDate != value))
-				{
-					this._LastUpdatedDate = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.vw_aspnet_WebPartState_User")]
-	public partial class vwaspnetWebPartStateUser
-	{
-		
-		private System.Nullable<System.Guid> _PathId;
-		
-		private System.Nullable<System.Guid> _UserId;
-		
-		private System.Nullable<int> _DataSize;
-		
-		private System.DateTime _LastUpdatedDate;
-		
-		public vwaspnetWebPartStateUser()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PathId", DbType="uniqueidentifier")]
-		public System.Nullable<System.Guid> PathId
-		{
-			get
-			{
-				return this._PathId;
-			}
-			set
-			{
-				if ((this._PathId != value))
-				{
-					this._PathId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier")]
-		public System.Nullable<System.Guid> UserId
-		{
-			get
-			{
-				return this._UserId;
-			}
-			set
-			{
-				if ((this._UserId != value))
-				{
-					this._UserId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataSize", DbType="int")]
-		public System.Nullable<int> DataSize
-		{
-			get
-			{
-				return this._DataSize;
-			}
-			set
-			{
-				if ((this._DataSize != value))
-				{
-					this._DataSize = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastUpdatedDate
-		{
-			get
-			{
-				return this._LastUpdatedDate;
-			}
-			set
-			{
-				if ((this._LastUpdatedDate != value))
-				{
-					this._LastUpdatedDate = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration_TermsInYear")]
-	public partial class Configuration_TermsInYear : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Category_Attitude")]
+	public partial class Category_Attitude : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _YearId;
+		private int _AttitudeId;
 		
-		private int _TermId;
-		
-		private System.DateTime _BeginDate;
-		
-		private System.DateTime _EndDate;
-		
-		private EntityRef<Configuration_Term> _Configuration_Term;
-		
-		private EntityRef<Configuration_Year> _Configuration_Year;
+		private string _AttitudeName;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnYearIdChanging(int value);
-    partial void OnYearIdChanged();
-    partial void OnTermIdChanging(int value);
-    partial void OnTermIdChanged();
-    partial void OnBeginDateChanging(System.DateTime value);
-    partial void OnBeginDateChanged();
-    partial void OnEndDateChanging(System.DateTime value);
-    partial void OnEndDateChanged();
+    partial void OnAttitudeIdChanging(int value);
+    partial void OnAttitudeIdChanged();
+    partial void OnAttitudeNameChanging(string value);
+    partial void OnAttitudeNameChanged();
     #endregion
 		
-		public Configuration_TermsInYear()
+		public Category_Attitude()
 		{
-			this._Configuration_Term = default(EntityRef<Configuration_Term>);
-			this._Configuration_Year = default(EntityRef<Configuration_Year>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YearId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int YearId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttitudeId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int AttitudeId
 		{
 			get
 			{
-				return this._YearId;
+				return this._AttitudeId;
 			}
 			set
 			{
-				if ((this._YearId != value))
+				if ((this._AttitudeId != value))
 				{
-					if (this._Configuration_Year.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnYearIdChanging(value);
+					this.OnAttitudeIdChanging(value);
 					this.SendPropertyChanging();
-					this._YearId = value;
-					this.SendPropertyChanged("YearId");
-					this.OnYearIdChanged();
+					this._AttitudeId = value;
+					this.SendPropertyChanged("AttitudeId");
+					this.OnAttitudeIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int TermId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttitudeName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string AttitudeName
 		{
 			get
 			{
-				return this._TermId;
+				return this._AttitudeName;
 			}
 			set
 			{
-				if ((this._TermId != value))
+				if ((this._AttitudeName != value))
 				{
-					if (this._Configuration_Term.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTermIdChanging(value);
+					this.OnAttitudeNameChanging(value);
 					this.SendPropertyChanging();
-					this._TermId = value;
-					this.SendPropertyChanged("TermId");
-					this.OnTermIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime NOT NULL")]
-		public System.DateTime BeginDate
-		{
-			get
-			{
-				return this._BeginDate;
-			}
-			set
-			{
-				if ((this._BeginDate != value))
-				{
-					this.OnBeginDateChanging(value);
-					this.SendPropertyChanging();
-					this._BeginDate = value;
-					this.SendPropertyChanged("BeginDate");
-					this.OnBeginDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
-		public System.DateTime EndDate
-		{
-			get
-			{
-				return this._EndDate;
-			}
-			set
-			{
-				if ((this._EndDate != value))
-				{
-					this.OnEndDateChanging(value);
-					this.SendPropertyChanging();
-					this._EndDate = value;
-					this.SendPropertyChanged("EndDate");
-					this.OnEndDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Configuration_TermsInYear", Storage="_Configuration_Term", ThisKey="TermId", OtherKey="TermId", IsForeignKey=true)]
-		public Configuration_Term Configuration_Term
-		{
-			get
-			{
-				return this._Configuration_Term.Entity;
-			}
-			set
-			{
-				Configuration_Term previousValue = this._Configuration_Term.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_Term.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_Term.Entity = null;
-						previousValue.Configuration_TermsInYears.Remove(this);
-					}
-					this._Configuration_Term.Entity = value;
-					if ((value != null))
-					{
-						value.Configuration_TermsInYears.Add(this);
-						this._TermId = value.TermId;
-					}
-					else
-					{
-						this._TermId = default(int);
-					}
-					this.SendPropertyChanged("Configuration_Term");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Year_Configuration_TermsInYear", Storage="_Configuration_Year", ThisKey="YearId", OtherKey="YearId", IsForeignKey=true)]
-		public Configuration_Year Configuration_Year
-		{
-			get
-			{
-				return this._Configuration_Year.Entity;
-			}
-			set
-			{
-				Configuration_Year previousValue = this._Configuration_Year.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_Year.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_Year.Entity = null;
-						previousValue.Configuration_TermsInYears.Remove(this);
-					}
-					this._Configuration_Year.Entity = value;
-					if ((value != null))
-					{
-						value.Configuration_TermsInYears.Add(this);
-						this._YearId = value.YearId;
-					}
-					else
-					{
-						this._YearId = default(int);
-					}
-					this.SendPropertyChanged("Configuration_Year");
+					this._AttitudeName = value;
+					this.SendPropertyChanged("AttitudeName");
+					this.OnAttitudeNameChanged();
 				}
 			}
 		}
@@ -16526,284 +13712,688 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
-	public partial class aspnetAnyDataInTablesResult
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_Authorization")]
+	public partial class UserManagement_Authorization : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
-		private string _Column1;
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		public aspnetAnyDataInTablesResult()
+		private long _AuthorizationId;
+		
+		private System.Guid _RoleId;
+		
+		private int _AuthorizedPagePathId;
+		
+		private bool _IsActivated;
+		
+		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
+		
+		private EntityRef<aspnet_Role> _aspnet_Role;
+		
+		private EntityRef<UserManagement_AuthorizedPage> _UserManagement_AuthorizedPage;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAuthorizationIdChanging(long value);
+    partial void OnAuthorizationIdChanged();
+    partial void OnRoleIdChanging(System.Guid value);
+    partial void OnRoleIdChanged();
+    partial void OnAuthorizedPagePathIdChanging(int value);
+    partial void OnAuthorizedPagePathIdChanged();
+    partial void OnIsActivatedChanging(bool value);
+    partial void OnIsActivatedChanged();
+    #endregion
+		
+		public UserManagement_Authorization()
 		{
+			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
+			this._aspnet_Role = default(EntityRef<aspnet_Role>);
+			this._UserManagement_AuthorizedPage = default(EntityRef<UserManagement_AuthorizedPage>);
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(17) NOT NULL", CanBeNull=false)]
-		public string Column1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorizationId", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long AuthorizationId
 		{
 			get
 			{
-				return this._Column1;
+				return this._AuthorizationId;
 			}
 			set
 			{
-				if ((this._Column1 != value))
+				if ((this._AuthorizationId != value))
 				{
-					this._Column1 = value;
+					this.OnAuthorizationIdChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorizationId = value;
+					this.SendPropertyChanged("AuthorizationId");
+					this.OnAuthorizationIdChanged();
 				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					if (this._aspnet_Role.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorizedPagePathId", DbType="Int NOT NULL")]
+		public int AuthorizedPagePathId
+		{
+			get
+			{
+				return this._AuthorizedPagePathId;
+			}
+			set
+			{
+				if ((this._AuthorizedPagePathId != value))
+				{
+					if (this._UserManagement_AuthorizedPage.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAuthorizedPagePathIdChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorizedPagePathId = value;
+					this.SendPropertyChanged("AuthorizedPagePathId");
+					this.OnAuthorizedPagePathIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit NOT NULL")]
+		public bool IsActivated
+		{
+			get
+			{
+				return this._IsActivated;
+			}
+			set
+			{
+				if ((this._IsActivated != value))
+				{
+					this.OnIsActivatedChanging(value);
+					this.SendPropertyChanging();
+					this._IsActivated = value;
+					this.SendPropertyChanged("IsActivated");
+					this.OnIsActivatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="AuthorizationId", OtherKey="RoleParentAuthorizationId")]
+		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
+		{
+			get
+			{
+				return this._UserManagement_RoleParentsAuthorizations;
+			}
+			set
+			{
+				this._UserManagement_RoleParentsAuthorizations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_Role_UserManagement_Authorization", Storage="_aspnet_Role", ThisKey="RoleId", OtherKey="RoleId", IsForeignKey=true)]
+		public aspnet_Role aspnet_Role
+		{
+			get
+			{
+				return this._aspnet_Role.Entity;
+			}
+			set
+			{
+				aspnet_Role previousValue = this._aspnet_Role.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_Role.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_Role.Entity = null;
+						previousValue.UserManagement_Authorizations.Remove(this);
+					}
+					this._aspnet_Role.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_Authorizations.Add(this);
+						this._RoleId = value.RoleId;
+					}
+					else
+					{
+						this._RoleId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_Role");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_AuthorizedPage_UserManagement_Authorization", Storage="_UserManagement_AuthorizedPage", ThisKey="AuthorizedPagePathId", OtherKey="AuthorizedPageId", IsForeignKey=true)]
+		public UserManagement_AuthorizedPage UserManagement_AuthorizedPage
+		{
+			get
+			{
+				return this._UserManagement_AuthorizedPage.Entity;
+			}
+			set
+			{
+				UserManagement_AuthorizedPage previousValue = this._UserManagement_AuthorizedPage.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagement_AuthorizedPage.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagement_AuthorizedPage.Entity = null;
+						previousValue.UserManagement_Authorizations.Remove(this);
+					}
+					this._UserManagement_AuthorizedPage.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_Authorizations.Add(this);
+						this._AuthorizedPagePathId = value.AuthorizedPageId;
+					}
+					else
+					{
+						this._AuthorizedPagePathId = default(int);
+					}
+					this.SendPropertyChanged("UserManagement_AuthorizedPage");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserManagement_Authorization = this;
+		}
+		
+		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserManagement_Authorization = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserManagement_RoleParentsAuthorization")]
+	public partial class UserManagement_RoleParentsAuthorization : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _RoleParentAuthorizationId;
+		
+		private System.Guid _UserParentId;
+		
+		private bool _GetEmail;
+		
+		private bool _GetSMS;
+		
+		private bool _IsRegistered;
+		
+		private bool _IsActivated;
+		
+		private EntityRef<aspnet_User> _aspnet_User;
+		
+		private EntityRef<UserManagement_Authorization> _UserManagement_Authorization;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRoleParentAuthorizationIdChanging(long value);
+    partial void OnRoleParentAuthorizationIdChanged();
+    partial void OnUserParentIdChanging(System.Guid value);
+    partial void OnUserParentIdChanged();
+    partial void OnGetEmailChanging(bool value);
+    partial void OnGetEmailChanged();
+    partial void OnGetSMSChanging(bool value);
+    partial void OnGetSMSChanged();
+    partial void OnIsRegisteredChanging(bool value);
+    partial void OnIsRegisteredChanged();
+    partial void OnIsActivatedChanging(bool value);
+    partial void OnIsActivatedChanged();
+    #endregion
+		
+		public UserManagement_RoleParentsAuthorization()
+		{
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			this._UserManagement_Authorization = default(EntityRef<UserManagement_Authorization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleParentAuthorizationId", DbType="BigInt NOT NULL", IsPrimaryKey=true)]
+		public long RoleParentAuthorizationId
+		{
+			get
+			{
+				return this._RoleParentAuthorizationId;
+			}
+			set
+			{
+				if ((this._RoleParentAuthorizationId != value))
+				{
+					if (this._UserManagement_Authorization.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoleParentAuthorizationIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleParentAuthorizationId = value;
+					this.SendPropertyChanged("RoleParentAuthorizationId");
+					this.OnRoleParentAuthorizationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserParentId", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UserParentId
+		{
+			get
+			{
+				return this._UserParentId;
+			}
+			set
+			{
+				if ((this._UserParentId != value))
+				{
+					if (this._aspnet_User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserParentIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserParentId = value;
+					this.SendPropertyChanged("UserParentId");
+					this.OnUserParentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetEmail", DbType="Bit NOT NULL")]
+		public bool GetEmail
+		{
+			get
+			{
+				return this._GetEmail;
+			}
+			set
+			{
+				if ((this._GetEmail != value))
+				{
+					this.OnGetEmailChanging(value);
+					this.SendPropertyChanging();
+					this._GetEmail = value;
+					this.SendPropertyChanged("GetEmail");
+					this.OnGetEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GetSMS", DbType="Bit NOT NULL")]
+		public bool GetSMS
+		{
+			get
+			{
+				return this._GetSMS;
+			}
+			set
+			{
+				if ((this._GetSMS != value))
+				{
+					this.OnGetSMSChanging(value);
+					this.SendPropertyChanging();
+					this._GetSMS = value;
+					this.SendPropertyChanged("GetSMS");
+					this.OnGetSMSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRegistered", DbType="Bit NOT NULL")]
+		public bool IsRegistered
+		{
+			get
+			{
+				return this._IsRegistered;
+			}
+			set
+			{
+				if ((this._IsRegistered != value))
+				{
+					this.OnIsRegisteredChanging(value);
+					this.SendPropertyChanging();
+					this._IsRegistered = value;
+					this.SendPropertyChanged("IsRegistered");
+					this.OnIsRegisteredChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActivated", DbType="Bit NOT NULL")]
+		public bool IsActivated
+		{
+			get
+			{
+				return this._IsActivated;
+			}
+			set
+			{
+				if ((this._IsActivated != value))
+				{
+					this.OnIsActivatedChanging(value);
+					this.SendPropertyChanging();
+					this._IsActivated = value;
+					this.SendPropertyChanged("IsActivated");
+					this.OnIsActivatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_aspnet_User", ThisKey="UserParentId", OtherKey="UserId", IsForeignKey=true)]
+		public aspnet_User aspnet_User
+		{
+			get
+			{
+				return this._aspnet_User.Entity;
+			}
+			set
+			{
+				aspnet_User previousValue = this._aspnet_User.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_User.Entity = null;
+						previousValue.UserManagement_RoleParentsAuthorizations.Remove(this);
+					}
+					this._aspnet_User.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleParentsAuthorizations.Add(this);
+						this._UserParentId = value.UserId;
+					}
+					else
+					{
+						this._UserParentId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserManagement_Authorization_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_Authorization", ThisKey="RoleParentAuthorizationId", OtherKey="AuthorizationId", IsForeignKey=true)]
+		public UserManagement_Authorization UserManagement_Authorization
+		{
+			get
+			{
+				return this._UserManagement_Authorization.Entity;
+			}
+			set
+			{
+				UserManagement_Authorization previousValue = this._UserManagement_Authorization.Entity;
+				if (((previousValue != value) 
+							|| (this._UserManagement_Authorization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserManagement_Authorization.Entity = null;
+						previousValue.UserManagement_RoleParentsAuthorizations.Remove(this);
+					}
+					this._UserManagement_Authorization.Entity = value;
+					if ((value != null))
+					{
+						value.UserManagement_RoleParentsAuthorizations.Add(this);
+						this._RoleParentAuthorizationId = value.AuthorizationId;
+					}
+					else
+					{
+						this._RoleParentAuthorizationId = default(long);
+					}
+					this.SendPropertyChanged("UserManagement_Authorization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
 	
-	public partial class aspnetMembershipGetPasswordResult
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.School_School")]
+	public partial class School_School : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
-		private string _Column1;
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private System.Nullable<int> _Column2;
+		private int _SchoolId;
 		
-		public aspnetMembershipGetPasswordResult()
-		{
-		}
+		private string _SchoolName;
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(128)")]
-		public string Column1
-		{
-			get
-			{
-				return this._Column1;
-			}
-			set
-			{
-				if ((this._Column1 != value))
-				{
-					this._Column1 = value;
-				}
-			}
-		}
+		private bool _Status;
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column2", DbType="int")]
-		public System.Nullable<int> Column2
-		{
-			get
-			{
-				return this._Column2;
-			}
-			set
-			{
-				if ((this._Column2 != value))
-				{
-					this._Column2 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetMembershipGetPasswordWithFormatResult
-	{
-		
-		private string _Column1;
-		
-		private System.Nullable<int> _Column2;
-		
-		private string _Column3;
-		
-		private System.Nullable<int> _Column4;
-		
-		private System.Nullable<int> _Column5;
-		
-		private System.Nullable<bool> _Column6;
-		
-		private System.Nullable<System.DateTime> _Column7;
-		
-		private System.Nullable<System.DateTime> _Column8;
-		
-		public aspnetMembershipGetPasswordWithFormatResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(128)")]
-		public string Column1
-		{
-			get
-			{
-				return this._Column1;
-			}
-			set
-			{
-				if ((this._Column1 != value))
-				{
-					this._Column1 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column2", DbType="int")]
-		public System.Nullable<int> Column2
-		{
-			get
-			{
-				return this._Column2;
-			}
-			set
-			{
-				if ((this._Column2 != value))
-				{
-					this._Column2 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column3", DbType="nvarchar(128)")]
-		public string Column3
-		{
-			get
-			{
-				return this._Column3;
-			}
-			set
-			{
-				if ((this._Column3 != value))
-				{
-					this._Column3 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column4", DbType="int")]
-		public System.Nullable<int> Column4
-		{
-			get
-			{
-				return this._Column4;
-			}
-			set
-			{
-				if ((this._Column4 != value))
-				{
-					this._Column4 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column5", DbType="int")]
-		public System.Nullable<int> Column5
-		{
-			get
-			{
-				return this._Column5;
-			}
-			set
-			{
-				if ((this._Column5 != value))
-				{
-					this._Column5 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column6", DbType="bit")]
-		public System.Nullable<bool> Column6
-		{
-			get
-			{
-				return this._Column6;
-			}
-			set
-			{
-				if ((this._Column6 != value))
-				{
-					this._Column6 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column7", DbType="datetime")]
-		public System.Nullable<System.DateTime> Column7
-		{
-			get
-			{
-				return this._Column7;
-			}
-			set
-			{
-				if ((this._Column7 != value))
-				{
-					this._Column7 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column8", DbType="datetime")]
-		public System.Nullable<System.DateTime> Column8
-		{
-			get
-			{
-				return this._Column8;
-			}
-			set
-			{
-				if ((this._Column8 != value))
-				{
-					this._Column8 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetMembershipGetUserByEmailResult
-	{
-		
-		private string _UserName;
-		
-		public aspnetMembershipGetUserByEmailResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
-		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this._UserName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetMembershipGetUserByNameResult
-	{
+		private int _TotalOfUsers;
 		
 		private string _Email;
 		
-		private string _PasswordQuestion;
+		private string _Password;
 		
-		private string _Comment;
+		private System.Data.Linq.Binary _Logo;
 		
-		private bool _IsApproved;
+		private string _Address;
 		
-		private System.DateTime _CreateDate;
+		private string _Phone;
 		
-		private System.DateTime _LastLoginDate;
+		private int _DistrictId;
 		
-		private System.DateTime _LastActivityDate;
+		private EntitySet<aspnet_Membership> _aspnet_Memberships;
 		
-		private System.DateTime _LastPasswordChangedDate;
+		private EntitySet<Category_Conduct> _Category_Conducts;
 		
-		private System.Guid _UserId;
+		private EntitySet<Category_Faculty> _Category_Faculties;
 		
-		private bool _IsLockedOut;
+		private EntitySet<Category_Grade> _Category_Grades;
 		
-		private System.DateTime _LastLockoutDate;
+		private EntitySet<Category_LearningAptitude> _Category_LearningAptitudes;
 		
-		public aspnetMembershipGetUserByNameResult()
+		private EntitySet<Category_LearningResult> _Category_LearningResults;
+		
+		private EntitySet<Category_TeachingPeriod> _Category_TeachingPeriods;
+		
+		private EntitySet<Class_Class> _Class_Classes;
+		
+		private EntitySet<Configuration_Year> _Configuration_Years;
+		
+		private EntitySet<Student_Student> _Student_Students;
+		
+		private EntitySet<UserManagement_RoleDetail> _UserManagement_RoleDetails;
+		
+		private EntityRef<Configuration_District> _Configuration_District;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSchoolIdChanging(int value);
+    partial void OnSchoolIdChanged();
+    partial void OnSchoolNameChanging(string value);
+    partial void OnSchoolNameChanged();
+    partial void OnStatusChanging(bool value);
+    partial void OnStatusChanged();
+    partial void OnTotalOfUsersChanging(int value);
+    partial void OnTotalOfUsersChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnLogoChanging(System.Data.Linq.Binary value);
+    partial void OnLogoChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnDistrictIdChanging(int value);
+    partial void OnDistrictIdChanged();
+    #endregion
+		
+		public School_School()
 		{
+			this._aspnet_Memberships = new EntitySet<aspnet_Membership>(new Action<aspnet_Membership>(this.attach_aspnet_Memberships), new Action<aspnet_Membership>(this.detach_aspnet_Memberships));
+			this._Category_Conducts = new EntitySet<Category_Conduct>(new Action<Category_Conduct>(this.attach_Category_Conducts), new Action<Category_Conduct>(this.detach_Category_Conducts));
+			this._Category_Faculties = new EntitySet<Category_Faculty>(new Action<Category_Faculty>(this.attach_Category_Faculties), new Action<Category_Faculty>(this.detach_Category_Faculties));
+			this._Category_Grades = new EntitySet<Category_Grade>(new Action<Category_Grade>(this.attach_Category_Grades), new Action<Category_Grade>(this.detach_Category_Grades));
+			this._Category_LearningAptitudes = new EntitySet<Category_LearningAptitude>(new Action<Category_LearningAptitude>(this.attach_Category_LearningAptitudes), new Action<Category_LearningAptitude>(this.detach_Category_LearningAptitudes));
+			this._Category_LearningResults = new EntitySet<Category_LearningResult>(new Action<Category_LearningResult>(this.attach_Category_LearningResults), new Action<Category_LearningResult>(this.detach_Category_LearningResults));
+			this._Category_TeachingPeriods = new EntitySet<Category_TeachingPeriod>(new Action<Category_TeachingPeriod>(this.attach_Category_TeachingPeriods), new Action<Category_TeachingPeriod>(this.detach_Category_TeachingPeriods));
+			this._Class_Classes = new EntitySet<Class_Class>(new Action<Class_Class>(this.attach_Class_Classes), new Action<Class_Class>(this.detach_Class_Classes));
+			this._Configuration_Years = new EntitySet<Configuration_Year>(new Action<Configuration_Year>(this.attach_Configuration_Years), new Action<Configuration_Year>(this.detach_Configuration_Years));
+			this._Student_Students = new EntitySet<Student_Student>(new Action<Student_Student>(this.attach_Student_Students), new Action<Student_Student>(this.detach_Student_Students));
+			this._UserManagement_RoleDetails = new EntitySet<UserManagement_RoleDetail>(new Action<UserManagement_RoleDetail>(this.attach_UserManagement_RoleDetails), new Action<UserManagement_RoleDetail>(this.detach_UserManagement_RoleDetails));
+			this._Configuration_District = default(EntityRef<Configuration_District>);
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="nvarchar(256)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SchoolId
+		{
+			get
+			{
+				return this._SchoolId;
+			}
+			set
+			{
+				if ((this._SchoolId != value))
+				{
+					this.OnSchoolIdChanging(value);
+					this.SendPropertyChanging();
+					this._SchoolId = value;
+					this.SendPropertyChanged("SchoolId");
+					this.OnSchoolIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SchoolName", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string SchoolName
+		{
+			get
+			{
+				return this._SchoolName;
+			}
+			set
+			{
+				if ((this._SchoolName != value))
+				{
+					this.OnSchoolNameChanging(value);
+					this.SendPropertyChanging();
+					this._SchoolName = value;
+					this.SendPropertyChanged("SchoolName");
+					this.OnSchoolNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Bit NOT NULL")]
+		public bool Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalOfUsers", DbType="Int NOT NULL")]
+		public int TotalOfUsers
+		{
+			get
+			{
+				return this._TotalOfUsers;
+			}
+			set
+			{
+				if ((this._TotalOfUsers != value))
+				{
+					this.OnTotalOfUsersChanging(value);
+					this.SendPropertyChanging();
+					this._TotalOfUsers = value;
+					this.SendPropertyChanged("TotalOfUsers");
+					this.OnTotalOfUsersChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
 		public string Email
 		{
 			get
@@ -16814,741 +14404,446 @@ namespace EContactBook.DataAccess
 			{
 				if ((this._Email != value))
 				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
 					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordQuestion", DbType="nvarchar(256)")]
-		public string PasswordQuestion
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Password
 		{
 			get
 			{
-				return this._PasswordQuestion;
+				return this._Password;
 			}
 			set
 			{
-				if ((this._PasswordQuestion != value))
+				if ((this._Password != value))
 				{
-					this._PasswordQuestion = value;
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="ntext")]
-		public string Comment
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Logo
 		{
 			get
 			{
-				return this._Comment;
+				return this._Logo;
 			}
 			set
 			{
-				if ((this._Comment != value))
+				if ((this._Logo != value))
 				{
-					this._Comment = value;
+					this.OnLogoChanging(value);
+					this.SendPropertyChanging();
+					this._Logo = value;
+					this.SendPropertyChanged("Logo");
+					this.OnLogoChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="bit NOT NULL")]
-		public bool IsApproved
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string Address
 		{
 			get
 			{
-				return this._IsApproved;
+				return this._Address;
 			}
 			set
 			{
-				if ((this._IsApproved != value))
+				if ((this._Address != value))
 				{
-					this._IsApproved = value;
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="datetime NOT NULL")]
-		public System.DateTime CreateDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string Phone
 		{
 			get
 			{
-				return this._CreateDate;
+				return this._Phone;
 			}
 			set
 			{
-				if ((this._CreateDate != value))
+				if ((this._Phone != value))
 				{
-					this._CreateDate = value;
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLoginDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastLoginDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DistrictId", DbType="Int NOT NULL")]
+		public int DistrictId
 		{
 			get
 			{
-				return this._LastLoginDate;
+				return this._DistrictId;
 			}
 			set
 			{
-				if ((this._LastLoginDate != value))
+				if ((this._DistrictId != value))
 				{
-					this._LastLoginDate = value;
+					if (this._Configuration_District.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDistrictIdChanging(value);
+					this.SendPropertyChanging();
+					this._DistrictId = value;
+					this.SendPropertyChanged("DistrictId");
+					this.OnDistrictIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastActivityDate
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_aspnet_Membership", Storage="_aspnet_Memberships", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<aspnet_Membership> aspnet_Memberships
 		{
 			get
 			{
-				return this._LastActivityDate;
+				return this._aspnet_Memberships;
 			}
 			set
 			{
-				if ((this._LastActivityDate != value))
-				{
-					this._LastActivityDate = value;
-				}
+				this._aspnet_Memberships.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastPasswordChangedDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastPasswordChangedDate
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Conduct", Storage="_Category_Conducts", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Category_Conduct> Category_Conducts
 		{
 			get
 			{
-				return this._LastPasswordChangedDate;
+				return this._Category_Conducts;
 			}
 			set
 			{
-				if ((this._LastPasswordChangedDate != value))
-				{
-					this._LastPasswordChangedDate = value;
-				}
+				this._Category_Conducts.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="uniqueidentifier NOT NULL")]
-		public System.Guid UserId
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Faculty", Storage="_Category_Faculties", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Category_Faculty> Category_Faculties
 		{
 			get
 			{
-				return this._UserId;
+				return this._Category_Faculties;
 			}
 			set
 			{
-				if ((this._UserId != value))
-				{
-					this._UserId = value;
-				}
+				this._Category_Faculties.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLockedOut", DbType="bit NOT NULL")]
-		public bool IsLockedOut
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_Grade", Storage="_Category_Grades", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Category_Grade> Category_Grades
 		{
 			get
 			{
-				return this._IsLockedOut;
+				return this._Category_Grades;
 			}
 			set
 			{
-				if ((this._IsLockedOut != value))
-				{
-					this._IsLockedOut = value;
-				}
+				this._Category_Grades.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLockoutDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastLockoutDate
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_LearningAptitude", Storage="_Category_LearningAptitudes", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Category_LearningAptitude> Category_LearningAptitudes
 		{
 			get
 			{
-				return this._LastLockoutDate;
+				return this._Category_LearningAptitudes;
 			}
 			set
 			{
-				if ((this._LastLockoutDate != value))
-				{
-					this._LastLockoutDate = value;
-				}
+				this._Category_LearningAptitudes.Assign(value);
 			}
 		}
-	}
-	
-	public partial class aspnetMembershipGetUserByUserIdResult
-	{
 		
-		private string _Email;
-		
-		private string _PasswordQuestion;
-		
-		private string _Comment;
-		
-		private bool _IsApproved;
-		
-		private System.DateTime _CreateDate;
-		
-		private System.DateTime _LastLoginDate;
-		
-		private System.DateTime _LastActivityDate;
-		
-		private System.DateTime _LastPasswordChangedDate;
-		
-		private string _UserName;
-		
-		private bool _IsLockedOut;
-		
-		private System.DateTime _LastLockoutDate;
-		
-		public aspnetMembershipGetUserByUserIdResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="nvarchar(256)")]
-		public string Email
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_LearningResult", Storage="_Category_LearningResults", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Category_LearningResult> Category_LearningResults
 		{
 			get
 			{
-				return this._Email;
+				return this._Category_LearningResults;
 			}
 			set
 			{
-				if ((this._Email != value))
-				{
-					this._Email = value;
-				}
+				this._Category_LearningResults.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordQuestion", DbType="nvarchar(256)")]
-		public string PasswordQuestion
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Category_TeachingPeriod", Storage="_Category_TeachingPeriods", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Category_TeachingPeriod> Category_TeachingPeriods
 		{
 			get
 			{
-				return this._PasswordQuestion;
+				return this._Category_TeachingPeriods;
 			}
 			set
 			{
-				if ((this._PasswordQuestion != value))
-				{
-					this._PasswordQuestion = value;
-				}
+				this._Category_TeachingPeriods.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="ntext")]
-		public string Comment
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Class_Class", Storage="_Class_Classes", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Class_Class> Class_Classes
 		{
 			get
 			{
-				return this._Comment;
+				return this._Class_Classes;
 			}
 			set
 			{
-				if ((this._Comment != value))
-				{
-					this._Comment = value;
-				}
+				this._Class_Classes.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApproved", DbType="bit NOT NULL")]
-		public bool IsApproved
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Configuration_Year", Storage="_Configuration_Years", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Configuration_Year> Configuration_Years
 		{
 			get
 			{
-				return this._IsApproved;
+				return this._Configuration_Years;
 			}
 			set
 			{
-				if ((this._IsApproved != value))
-				{
-					this._IsApproved = value;
-				}
+				this._Configuration_Years.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="datetime NOT NULL")]
-		public System.DateTime CreateDate
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_Student_Student", Storage="_Student_Students", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<Student_Student> Student_Students
 		{
 			get
 			{
-				return this._CreateDate;
+				return this._Student_Students;
 			}
 			set
 			{
-				if ((this._CreateDate != value))
-				{
-					this._CreateDate = value;
-				}
+				this._Student_Students.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLoginDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastLoginDate
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="School_School_UserManagement_RoleDetail", Storage="_UserManagement_RoleDetails", ThisKey="SchoolId", OtherKey="SchoolId")]
+		public EntitySet<UserManagement_RoleDetail> UserManagement_RoleDetails
 		{
 			get
 			{
-				return this._LastLoginDate;
+				return this._UserManagement_RoleDetails;
 			}
 			set
 			{
-				if ((this._LastLoginDate != value))
-				{
-					this._LastLoginDate = value;
-				}
+				this._UserManagement_RoleDetails.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastActivityDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastActivityDate
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_District_School_School", Storage="_Configuration_District", ThisKey="DistrictId", OtherKey="DistrictId", IsForeignKey=true)]
+		public Configuration_District Configuration_District
 		{
 			get
 			{
-				return this._LastActivityDate;
+				return this._Configuration_District.Entity;
 			}
 			set
 			{
-				if ((this._LastActivityDate != value))
+				Configuration_District previousValue = this._Configuration_District.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_District.HasLoadedOrAssignedValue == false)))
 				{
-					this._LastActivityDate = value;
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_District.Entity = null;
+						previousValue.School_Schools.Remove(this);
+					}
+					this._Configuration_District.Entity = value;
+					if ((value != null))
+					{
+						value.School_Schools.Add(this);
+						this._DistrictId = value.DistrictId;
+					}
+					else
+					{
+						this._DistrictId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_District");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastPasswordChangedDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastPasswordChangedDate
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
 		{
-			get
+			if ((this.PropertyChanging != null))
 			{
-				return this._LastPasswordChangedDate;
-			}
-			set
-			{
-				if ((this._LastPasswordChangedDate != value))
-				{
-					this._LastPasswordChangedDate = value;
-				}
+				this.PropertyChanging(this, emptyChangingEventArgs);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
+		protected virtual void SendPropertyChanged(String propertyName)
 		{
-			get
+			if ((this.PropertyChanged != null))
 			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this._UserName = value;
-				}
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLockedOut", DbType="bit NOT NULL")]
-		public bool IsLockedOut
+		private void attach_aspnet_Memberships(aspnet_Membership entity)
 		{
-			get
-			{
-				return this._IsLockedOut;
-			}
-			set
-			{
-				if ((this._IsLockedOut != value))
-				{
-					this._IsLockedOut = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLockoutDate", DbType="datetime NOT NULL")]
-		public System.DateTime LastLockoutDate
+		private void detach_aspnet_Memberships(aspnet_Membership entity)
 		{
-			get
-			{
-				return this._LastLockoutDate;
-			}
-			set
-			{
-				if ((this._LastLockoutDate != value))
-				{
-					this._LastLockoutDate = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetPersonalizationAllUsersGetPageSettingsResult
-	{
-		
-		private System.Data.Linq.Binary _PageSettings;
-		
-		public aspnetPersonalizationAllUsersGetPageSettingsResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PageSettings", DbType="image NOT NULL", CanBeNull=false)]
-		public System.Data.Linq.Binary PageSettings
+		private void attach_Category_Conducts(Category_Conduct entity)
 		{
-			get
-			{
-				return this._PageSettings;
-			}
-			set
-			{
-				if ((this._PageSettings != value))
-				{
-					this._PageSettings = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetPersonalizationPerUserGetPageSettingsResult
-	{
-		
-		private System.Data.Linq.Binary _PageSettings;
-		
-		public aspnetPersonalizationPerUserGetPageSettingsResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PageSettings", DbType="image NOT NULL", CanBeNull=false)]
-		public System.Data.Linq.Binary PageSettings
+		private void detach_Category_Conducts(Category_Conduct entity)
 		{
-			get
-			{
-				return this._PageSettings;
-			}
-			set
-			{
-				if ((this._PageSettings != value))
-				{
-					this._PageSettings = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetProfileDeleteInactiveProfilesResult
-	{
-		
-		private int _Column1;
-		
-		public aspnetProfileDeleteInactiveProfilesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="int NOT NULL")]
-		public int Column1
+		private void attach_Category_Faculties(Category_Faculty entity)
 		{
-			get
-			{
-				return this._Column1;
-			}
-			set
-			{
-				if ((this._Column1 != value))
-				{
-					this._Column1 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetProfileDeleteProfilesResult
-	{
-		
-		private System.Nullable<int> _Column1;
-		
-		public aspnetProfileDeleteProfilesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="int")]
-		public System.Nullable<int> Column1
+		private void detach_Category_Faculties(Category_Faculty entity)
 		{
-			get
-			{
-				return this._Column1;
-			}
-			set
-			{
-				if ((this._Column1 != value))
-				{
-					this._Column1 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetProfileGetNumberOfInactiveProfilesResult
-	{
-		
-		private int _Column1;
-		
-		public aspnetProfileGetNumberOfInactiveProfilesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="int NOT NULL")]
-		public int Column1
+		private void attach_Category_Grades(Category_Grade entity)
 		{
-			get
-			{
-				return this._Column1;
-			}
-			set
-			{
-				if ((this._Column1 != value))
-				{
-					this._Column1 = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetProfileGetPropertiesResult
-	{
-		
-		private string _PropertyNames;
-		
-		private string _PropertyValuesString;
-		
-		private System.Data.Linq.Binary _PropertyValuesBinary;
-		
-		public aspnetProfileGetPropertiesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PropertyNames", DbType="ntext NOT NULL", CanBeNull=false)]
-		public string PropertyNames
+		private void detach_Category_Grades(Category_Grade entity)
 		{
-			get
-			{
-				return this._PropertyNames;
-			}
-			set
-			{
-				if ((this._PropertyNames != value))
-				{
-					this._PropertyNames = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PropertyValuesString", DbType="ntext NOT NULL", CanBeNull=false)]
-		public string PropertyValuesString
+		private void attach_Category_LearningAptitudes(Category_LearningAptitude entity)
 		{
-			get
-			{
-				return this._PropertyValuesString;
-			}
-			set
-			{
-				if ((this._PropertyValuesString != value))
-				{
-					this._PropertyValuesString = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PropertyValuesBinary", DbType="image NOT NULL", CanBeNull=false)]
-		public System.Data.Linq.Binary PropertyValuesBinary
+		private void detach_Category_LearningAptitudes(Category_LearningAptitude entity)
 		{
-			get
-			{
-				return this._PropertyValuesBinary;
-			}
-			set
-			{
-				if ((this._PropertyValuesBinary != value))
-				{
-					this._PropertyValuesBinary = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetRolesGetAllRolesResult
-	{
-		
-		private string _RoleName;
-		
-		public aspnetRolesGetAllRolesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string RoleName
+		private void attach_Category_LearningResults(Category_LearningResult entity)
 		{
-			get
-			{
-				return this._RoleName;
-			}
-			set
-			{
-				if ((this._RoleName != value))
-				{
-					this._RoleName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetUsersInRolesAddUsersToRolesResult
-	{
-		
-		private string _Name;
-		
-		public aspnetUsersInRolesAddUsersToRolesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string Name
+		private void detach_Category_LearningResults(Category_LearningResult entity)
 		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this._Name = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetUsersInRolesFindUsersInRoleResult
-	{
-		
-		private string _UserName;
-		
-		public aspnetUsersInRolesFindUsersInRoleResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
+		private void attach_Category_TeachingPeriods(Category_TeachingPeriod entity)
 		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this._UserName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetUsersInRolesGetRolesForUserResult
-	{
-		
-		private string _RoleName;
-		
-		public aspnetUsersInRolesGetRolesForUserResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string RoleName
+		private void detach_Category_TeachingPeriods(Category_TeachingPeriod entity)
 		{
-			get
-			{
-				return this._RoleName;
-			}
-			set
-			{
-				if ((this._RoleName != value))
-				{
-					this._RoleName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetUsersInRolesGetUsersInRolesResult
-	{
-		
-		private string _UserName;
-		
-		public aspnetUsersInRolesGetUsersInRolesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string UserName
+		private void attach_Class_Classes(Class_Class entity)
 		{
-			get
-			{
-				return this._UserName;
-			}
-			set
-			{
-				if ((this._UserName != value))
-				{
-					this._UserName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class aspnetUsersInRolesRemoveUsersFromRolesResult
-	{
-		
-		private string _Column1;
-		
-		private string _Name;
-		
-		public aspnetUsersInRolesRemoveUsersFromRolesResult()
-		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Column1", DbType="nvarchar(1) NOT NULL", CanBeNull=false)]
-		public string Column1
+		private void detach_Class_Classes(Class_Class entity)
 		{
-			get
-			{
-				return this._Column1;
-			}
-			set
-			{
-				if ((this._Column1 != value))
-				{
-					this._Column1 = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="nvarchar(256) NOT NULL", CanBeNull=false)]
-		public string Name
+		private void attach_Configuration_Years(Configuration_Year entity)
 		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this._Name = value;
-				}
-			}
+			this.SendPropertyChanging();
+			entity.School_School = this;
+		}
+		
+		private void detach_Configuration_Years(Configuration_Year entity)
+		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
+		}
+		
+		private void attach_Student_Students(Student_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
+		}
+		
+		private void detach_Student_Students(Student_Student entity)
+		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
+		}
+		
+		private void attach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.School_School = this;
+		}
+		
+		private void detach_UserManagement_RoleDetails(UserManagement_RoleDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.School_School = null;
 		}
 	}
 }

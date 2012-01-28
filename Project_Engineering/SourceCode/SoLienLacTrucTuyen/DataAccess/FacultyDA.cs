@@ -53,6 +53,22 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public Category_Faculty GetFaculty(int facultyId)
+        {
+            Category_Faculty faculty = null;
+
+            IQueryable<Category_Faculty> iqFaculty = from fac in db.Category_Faculties
+                                                     where fac.FacultyId == facultyId
+                                                     select fac;
+
+            if (iqFaculty.Count() != 0)
+            {
+                faculty = iqFaculty.First();
+            }
+
+            return faculty;
+        }        
+        
         public Category_Faculty GetFaculty(string facultyName)
         {
             Category_Faculty faculty = null;
@@ -121,7 +137,7 @@ namespace EContactBook.DataAccess
         public bool ClassInFacultyExists(Category_Faculty faculty)
         {
             IQueryable<Class_Class> iqClass = from cls in db.Class_Classes
-                                              where cls.Category_Faculty.FacultyName == faculty.FacultyName
+                                              where cls.Category_Faculty.FacultyId == faculty.FacultyId
                                               && cls.Category_Faculty.SchoolId == school.SchoolId
                                               select cls;
 
@@ -138,7 +154,7 @@ namespace EContactBook.DataAccess
         public bool SubjectInFacultyExists(Category_Faculty faculty)
         {
             IQueryable<Category_Subject> iqSubject = from subject in db.Category_Subjects
-                                                     where subject.Category_Faculty.FacultyName == faculty.FacultyName
+                                                     where subject.Category_Faculty.FacultyId == faculty.FacultyId
                                                      && subject.Category_Faculty.SchoolId == school.SchoolId
                                                      select subject;
 
@@ -150,22 +166,6 @@ namespace EContactBook.DataAccess
             {
                 return false;
             }
-        }
-
-        public Category_Faculty GetFaculty(int facultyId)
-        {
-            Category_Faculty faculty = null;
-
-            IQueryable<Category_Faculty> iqFaculty = from fac in db.Category_Faculties
-                                                     where fac.FacultyId == facultyId
-                                                     select fac;
-
-            if (iqFaculty.Count() != 0)
-            {
-                faculty = iqFaculty.First();
-            }
-
-            return faculty;
-        }
+        }        
     }
 }

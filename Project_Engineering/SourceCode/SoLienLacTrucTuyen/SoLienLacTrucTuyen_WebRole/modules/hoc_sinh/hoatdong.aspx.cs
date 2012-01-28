@@ -62,15 +62,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                     RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY] = faculty.FacultyId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = faculty.FacultyId;
 
                     Category_Grade grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
                     RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE] = grade.GradeId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade.GradeId;
 
                     Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
                     RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
-                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS] = Class.ClassId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Class.ClassId;
 
                     String strStudentName = (string)GetSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
                     RemoveSession(AppConstant.SESSION_SELECTED_STUDENTNAME);
@@ -82,6 +82,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
 
+                    LblStudentName.Text = student.FullName;
+                    LblStudentCode.Text = student.StudentCode;
                     BindDropDownLists();
                     InitDates();
                     isSearch = false;
@@ -89,13 +91,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
                     List<UserManagement_PagePath> pagePages = authorizationBL.GetStudentPages(
-                        (new UserBL()).GetRoles(User.Identity.Name));
+                         (new UserBL(UserSchool)).GetRoles(User.Identity.Name));
                     RptStudentFunctions.DataSource = pagePages;
                     RptStudentFunctions.DataBind();
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+                    Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
                 }
             }
 
@@ -106,17 +108,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         private void BindDropDownLists()
@@ -236,8 +232,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcessDislayInfo(bool bDisplayData)
         {
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptHoatDong.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -364,31 +358,56 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptMaHoatDong = null;
+            foreach (RepeaterItem item in RptHoatDong.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptMaHoatDong = (HiddenField)item.FindControl("HdfRptMaHoatDong");
+                        Student_Activity hoatDong = studentActivityBL.GetStudentActivity(Int32.Parse(HdfRptMaHoatDong.Value));
+                        this.HdfSltActivityName.Value = hoatDong.Title;
+                        this.LblTieuDeSua.Text = hoatDong.Title;
+                        this.HdfTieuDe.Value = hoatDong.Title;
+                        this.TxtDescriptionSua.Text = hoatDong.ActivityContent;
+                        ViewState["TermId"] = hoatDong.TermId;
+                        this.HdfTermId.Value = hoatDong.TermId.ToString();
+                        this.LblHocKySua.Text = hoatDong.Configuration_Term.TermName;
+                        this.TxtNgaySua.Text = hoatDong.Date.ToShortDateString();
+                        if (hoatDong.AttitudeId == null)
+                        {
+                            this.DdlThaiDoThamGiaSua.SelectedValue = "0";
+                        }
+                        else
+                        {
+                            this.DdlThaiDoThamGiaSua.SelectedValue = hoatDong.AttitudeId.ToString();
+                        }
+
+                        this.HdfMaHoatDong.Value = HdfRptMaHoatDong.Value;
+
+                        MPEEdit.Show();
+                        return;
+                    }
+                }
+            }
+        }
+
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
             Student_Activity studentActivity = null;
             Category_Attitude attitude = null;
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-
-            foreach (RepeaterItem rptItem in RptHoatDong.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptHoatDongMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
-
+            
             string strOldTitle = this.HdfSltActivityName.Value;
             int iStudentActivityId = Int32.Parse(this.HdfMaHoatDong.Value);
             string strDate = TxtNgaySua.Text.Trim();
             if (strDate == "")
             {
                 NgayRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return;
             }
             else
@@ -396,7 +415,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (!Regex.IsMatch(strDate, NgayExpressionEdit.ValidationExpression))
                 {
                     NgayExpressionEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return;
                 }
                 else
@@ -408,17 +427,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     catch (Exception ex)
                     {
                         DateTimeValidatorEdit.IsValid = false;
-                        modalPopupEdit.Show();
+                        MPEEdit.Show();
                         return;
                     }
-
-                    //if (hoatDongBL.StudentActivityNamExists(iStudentActivityId, LblTieuDeSua.Text, (int)ViewState["MaHocSinh"],
-                    //    (int)ViewState["TermId"], DateTime.Parse(strNgay)))
-                    //{
-                    //    NgayValidatorEdit.IsValid = false;
-                    //    modalPopupEdit.Show();
-                    //    return;
-                    //}
                 }
             }
 
@@ -439,13 +450,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maHoatDong = Int32.Parse(this.HdfMaHoatDong.Value);
-            Student_Activity studentActivity = new Student_Activity();
-            studentActivity.ActivityId = maHoatDong;
-            studentActivityBL.DeleteStudentActivity(studentActivity);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptMaHoatDong = null;
+
+            foreach (RepeaterItem item in RptHoatDong.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptMaHoatDong = (HiddenField)item.FindControl("HdfRptMaHoatDong");
+                        Student_Activity studentActivity = new Student_Activity();
+                        studentActivity.ActivityId = Int32.Parse(this.HdfMaHoatDong.Value); ;
+                        studentActivityBL.DeleteStudentActivity(studentActivity);
+                        if (studentActivityBL.IsDeletable(studentActivity))
+                        {
+                            studentActivityBL.DeleteStudentActivity(studentActivity);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
 
             isSearch = false;
             BindRptStudentActivities();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }            
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
@@ -455,15 +493,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
             Category_Faculty faculty = new Category_Faculty();
-            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+            faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
             Category_Grade grade = new Category_Grade();
-            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+            grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
             Class_Class Class = new Class_Class();
-            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+            Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
             String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();
@@ -472,124 +510,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             String strStudentCode = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTCODE].ToString();
             AddSession(AppConstant.SESSION_SELECTED_STUDENTCODE, strStudentCode);
 
-            Response.Redirect(AppConstant.PAGEPATH_STUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
         #endregion
 
         #region Repeater event handlers
         protected void RptHoatDong_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            if (e.Item.ItemType == ListItemType.Header)
             {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
 
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        Control control = e.Item.FindControl("HdfRptMaHoatDong");
-                        if (control != null)
-                        {
-                            //int maNgayNghiHoc = Int32.Parse(((HiddenField)control).Value);
-                            //if (ngayNghiHocBL.IsXacNhan(maNgayNghiHoc))
-                            //{
-                            //    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            //    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            //    btnDeleteItem.Enabled = false;
-
-                            //    ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
-                            //    btnEditItem.ImageUrl = "~/Styles/Images/button_edit_disable.png";
-                            //    btnEditItem.Enabled = false;
-                            //}
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptHoatDong_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        LblConfirmDelete.Text = "Bạn có chắc xóa hoạt động này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptMaHoatDong = (HiddenField)e.Item.FindControl("HdfRptMaHoatDong");
-                        HdfMaHoatDong.Value = hdfRptMaHoatDong.Value;
-
-                        HdfRptHoatDongMPEDelete.Value = mPEDelete.ClientID;
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int maHoatDong = Int32.Parse(e.CommandArgument.ToString());
-                        Student_Activity hoatDong = studentActivityBL.GetStudentActivity(maHoatDong);
-                        this.HdfSltActivityName.Value = hoatDong.Title;
-                        this.LblTieuDeSua.Text = hoatDong.Title;
-                        this.HdfTieuDe.Value = hoatDong.Title;
-                        this.TxtDescriptionSua.Text = hoatDong.ActivityContent;
-                        ViewState["TermId"] = hoatDong.TermId;
-                        this.HdfTermId.Value = hoatDong.TermId.ToString();
-                        this.LblHocKySua.Text = hoatDong.Configuration_Term.TermName;
-                        this.TxtNgaySua.Text = hoatDong.Date.ToShortDateString();
-                        if (hoatDong.AttitudeId == null)
-                        {
-                            this.DdlThaiDoThamGiaSua.SelectedValue = "0";
-                        }
-                        else
-                        {
-                            this.DdlThaiDoThamGiaSua.SelectedValue = hoatDong.AttitudeId.ToString();
-                        }
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfMaHoatDong.Value = e.CommandArgument.ToString();
-                        this.HdfRptHoatDongMPEEdit.Value = mPEEdit.ClientID;
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
         }
 
@@ -614,6 +549,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     {
                         Student_Student student = new Student_Student();
                         student.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+                        student.StudentCode = LblStudentCode.Text;
+                        student.FullName = LblStudentName.Text;
                         AddSession(AppConstant.SESSION_STUDENT, student);
 
                         Configuration_Year year = new Configuration_Year();
@@ -621,15 +558,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
                         Category_Faculty faculty = new Category_Faculty();
-                        faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTY].ToString());
+                        faculty.FacultyId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
 
                         Category_Grade grade = new Category_Grade();
-                        grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADE].ToString());
+                        grade.GradeId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
 
                         Class_Class Class = new Class_Class();
-                        Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASS].ToString());
+                        Class.ClassId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID].ToString());
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
 
                         String strStudentName = ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTNAME].ToString();

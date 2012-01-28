@@ -45,26 +45,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 isSearch = false;
                 PagerMain.CurrentIndex = 1;
-                BindData();
+                BindRptLearningAptitudes();
             }
             ProcPermissions();
         }
-
-        private void ProcPermissions()
-        {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Enabled = true;
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
-        }
-
+        
         protected void Page_PreRender(object sender, EventArgs e)
         {
             RegisterScript();
@@ -72,33 +57,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
+        private void ProcPermissions()
+        {
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+        }
+
         private void RegisterScript()
         {
             btnSaveAddClickEvent = Page.ClientScript.GetPostBackEventReference(this.BtnSaveAdd, string.Empty);
             btnSaveEditClickEvent = Page.ClientScript.GetPostBackEventReference(this.BtnSaveEdit, string.Empty);
         }
 
-        public void BindData()
+        private void BindRptLearningAptitudes()
         {
             string strLearningAptitudeName = TxtSearchHocLuc.Text.Trim();
 
             double dTotalRecords;
             List<Category_LearningAptitude> learningAptitudes;
-            learningAptitudes = learningAptitudeBL.GetLearningAptitudes(strLearningAptitudeName, PagerMain.CurrentIndex, PagerMain.PageSize,
-                out dTotalRecords);
+            learningAptitudes = learningAptitudeBL.GetLearningAptitudes(strLearningAptitudeName, PagerMain.CurrentIndex, PagerMain.PageSize, out dTotalRecords);
             PagerMain.ItemCount = dTotalRecords;
 
             // Decrease page current index when delete
             if (learningAptitudes.Count == 0 && PagerMain.ItemCount != 0)
             {
                 PagerMain.CurrentIndex--;
-                BindData();
+                BindRptLearningAptitudes();
                 return;
             }
 
             bool bDisplayData = (learningAptitudes.Count != 0) ? true : false;
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptHocLuc.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -106,11 +97,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (!isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin hạnh kiểm";
+                    LblSearchResult.Text = "Chưa có thông tin học lực";
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy hạnh kiểm";
+                    LblSearchResult.Text = "Không tìm thấy học lực";
                 }
 
                 PagerMain.CurrentIndex = 1;
@@ -125,6 +116,166 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RptHocLuc.DataSource = learningAptitudes;
             RptHocLuc.DataBind();
         }
+
+        private bool ValidateInputsForAdd()
+        {
+            if (!Page.IsValid)
+            {
+                return false;
+            }
+
+            bool bValid = true;
+
+            string strLearningAptitudeName = this.TxtLearningAptitudeNameThem.Text.Trim();
+
+            if (CheckUntils.IsNullOrBlank(strLearningAptitudeName))
+            {
+                LearningAptitudeNameRequiredAdd.IsValid = false;
+                TxtLearningAptitudeNameThem.Focus();
+                MPEAdd.Show();
+                bValid = false;
+            }
+            else
+            {
+                if (learningAptitudeBL.LearningAptitudeNameExists(strLearningAptitudeName))
+                {
+                    LearningAptitudeNameValidatorAdd.IsValid = false;
+                    TxtLearningAptitudeNameThem.Focus();
+                    MPEAdd.Show();
+                    bValid = false;
+                }
+            }
+
+            double dBeginAverageMark = 0;
+            bool bBeginAverageMarkValid = double.TryParse(this.TxtDTBTuThem.Text, out dBeginAverageMark);
+            if (bBeginAverageMarkValid == false || (bBeginAverageMarkValid && dBeginAverageMark > 10))
+            {
+                BeginMarkCustomValidatorAdd.IsValid = false;
+                this.TxtDTBTuThem.Focus();
+                MPEAdd.Show();
+                bValid = false;
+            }
+            else if (learningAptitudeBL.LearningAptitudeMarkExists(null, dBeginAverageMark))
+            {
+                BeginMarkCustomValidatorAdd.IsValid = false;
+                this.TxtDTBTuThem.Focus();
+                MPEAdd.Show();
+                bValid = false;
+            }
+
+            double dEndAverageMark = 0;
+            bool bEndAverageMarkValid = double.TryParse(this.TxtDTBDenThem.Text, out dEndAverageMark);
+            if (bEndAverageMarkValid == false || (bEndAverageMarkValid && dEndAverageMark > 10))
+            {
+                EndMarkCustomValidatorAdd.IsValid = false;
+                this.TxtDTBDenThem.Focus();
+                MPEAdd.Show();
+                bValid = false;
+            }
+            else if (learningAptitudeBL.LearningAptitudeMarkExists(null, dEndAverageMark))
+            {
+                EndMarkCustomValidatorAdd.IsValid = false;
+                this.TxtDTBDenThem.Focus();
+                MPEAdd.Show();
+                bValid = false;
+            }
+
+            // relational checking
+            if (bBeginAverageMarkValid && bEndAverageMarkValid)
+            {
+                if(dEndAverageMark <= dBeginAverageMark)
+                {
+                    CompareValidatorAdd.IsValid = false;
+                    this.TxtDTBDenThem.Focus();
+                    MPEAdd.Show();
+                    bValid = false;
+                }
+            }
+
+            return bValid;
+        }
+
+        private bool ValidateInputsForModify()
+        {
+            if (!Page.IsValid)
+            {
+                return false;
+            }
+
+            bool bValid = true;
+
+            string strOldLearningAptitudeName = this.HdfEditedConductName.Value;
+            string strNewLearningAptitudeName = this.TxtLearningAptitudeNameSua.Text.Trim();
+            Category_LearningAptitude learningAptitude = new Category_LearningAptitude();
+            learningAptitude.LearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
+
+            if (CheckUntils.IsNullOrBlank(strNewLearningAptitudeName))
+            {
+                LearningAptitudeNameRequiredModify.IsValid = false;
+                TxtLearningAptitudeNameSua.Focus();
+                MPEEdit.Show();
+                bValid = false;
+            }
+            else
+            {
+
+                if (learningAptitudeBL.LearningAptitudeNameExists(strOldLearningAptitudeName, strNewLearningAptitudeName))
+                {
+                    LearningAptitudeNameValidatorModify.IsValid = false;
+                    TxtLearningAptitudeNameSua.Focus();
+                    MPEEdit.Show();
+                    bValid = false;
+                }
+            }
+
+            double dBeginAverageMark = 0;
+            bool bBeginAverageMarkValid = double.TryParse(this.TxtDTBTuSua.Text, out dBeginAverageMark);
+            if (bBeginAverageMarkValid == false || (bBeginAverageMarkValid && dBeginAverageMark > 10))
+            {
+                BeginMarkCustomValidatorModify.IsValid = false;
+                this.TxtDTBTuSua.Focus();
+                MPEEdit.Show();
+                bValid = false;
+            }
+            else if (learningAptitudeBL.LearningAptitudeMarkExists(learningAptitude, dBeginAverageMark))
+            {
+                BeginMarkCustomValidatorModify.IsValid = false;
+                this.TxtDTBTuSua.Focus();
+                MPEEdit.Show();
+                bValid = false;
+            }
+
+            double dEndAverageMark = 0;
+            bool bEndAverageMarkValid = double.TryParse(this.TxtDTBDenSua.Text, out dEndAverageMark);
+            if (bEndAverageMarkValid == false || (bEndAverageMarkValid && dEndAverageMark > 10))
+            {
+                EndMarkCustomValidatorModify.IsValid = false;
+                this.TxtDTBDenSua.Focus();
+                MPEEdit.Show();
+                bValid = false;
+            }
+            else if (learningAptitudeBL.LearningAptitudeMarkExists(learningAptitude, dEndAverageMark))
+            {
+                EndMarkCustomValidatorModify.IsValid = false;
+                this.TxtDTBDenSua.Focus();
+                MPEEdit.Show();
+                bValid = false;
+            }
+
+            // relational checking
+            if (bBeginAverageMarkValid && bEndAverageMarkValid)
+            {
+                if (dEndAverageMark <= dBeginAverageMark)
+                {
+                    CompareValidatorModify.IsValid = false;
+                    this.TxtDTBDenSua.Focus();
+                    MPEEdit.Show();
+                    bValid = false;
+                }
+            }
+
+            return bValid;
+        }
         #endregion
 
         #region Button click event handlers
@@ -133,64 +284,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             PagerMain.CurrentIndex = 1;
             PagerMain.ItemCount = 0;
             isSearch = true;
-            BindData();
+            BindRptLearningAptitudes();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-            //PagerMain.CurrentIndex = 1;
-
-            //string LearningAptitudeName = this.TxtLearningAptitudeNameThem.Text;
-            //float BeginAverageMark = float.Parse(this.TxtDTBTuThem.Text);
-            //float EndAverageMark = float.Parse(this.TxtDTBDenThem.Text);
-
-            //hocLucBL.InsertHocLuc(new Category_LearningAptitude
-            //{
-            //    LearningAptitudeName = LearningAptitudeName,
-            //    BeginAverageMark = BeginAverageMark,
-            //    EndAverageMark = EndAverageMark
-            //});
-
-            //BindData();
-
-            //this.TxtLearningAptitudeNameThem.Text = "";
-            //this.TxtDTBTuThem.Text = "";
-            //this.TxtDTBDenThem.Text = "";
-
-            //if (this.CkbAddAfterSave.Checked)
-            //{
-            //    this.MPEAdd.Show();
-            //}
-            string LearningAptitudeName = this.TxtLearningAptitudeNameThem.Text;
-
-            if (LearningAptitudeName == "")
+            if (ValidateInputsForAdd() == false)
             {
-                LearningAptitudeNameRequiredAdd.IsValid = false;
-                TxtLearningAptitudeNameThem.Focus();
-                MPEAdd.Show();
                 return;
             }
-            else
-            {
-                if (learningAptitudeBL.LearningAptitudeNameExists(LearningAptitudeName))
-                {
-                    LearningAptitudeNameValidatorAdd.IsValid = false;
-                    TxtLearningAptitudeNameThem.Focus();
-                    MPEAdd.Show();
-                    return;
-                }
-            }
-            double BeginAverageMark = double.Parse(this.TxtDTBTuThem.Text);
-            double EndAverageMark = double.Parse(this.TxtDTBDenThem.Text);
-            learningAptitudeBL.InsertLearningAptitude(new Category_LearningAptitude
-            {
-                LearningAptitudeName = LearningAptitudeName,
-                BeginAverageMark = BeginAverageMark,
-                EndAverageMark = EndAverageMark
-            });
+
+            string strLearningAptitudeName = this.TxtLearningAptitudeNameThem.Text.Trim();
+            double dBeginAverageMark = double.Parse(this.TxtDTBTuThem.Text);
+            double dEndAverageMark = double.Parse(this.TxtDTBDenThem.Text);
+
+            learningAptitudeBL.InsertLearningAptitude(strLearningAptitudeName, dBeginAverageMark, dEndAverageMark);
 
             //PagerMain.CurrentIndex = 1;
-            BindData();
+            BindRptLearningAptitudes();
 
             this.TxtLearningAptitudeNameThem.Text = "";
 
@@ -200,182 +311,104 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            //int LearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
-            //hocLucBL.DeleteHocLuc(LearningAptitudeId);
-            //isSearch = false;
-            //BindData();
-            int LearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
+            HiddenField HdfRptLearningAptitudeId = null;
+            foreach (RepeaterItem item in RptHocLuc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptLearningAptitudeId = (HiddenField)item.FindControl("HdfRptLearningAptitudeId");
 
-            Category_LearningAptitude conduct = new Category_LearningAptitude();
-            conduct.LearningAptitudeId = LearningAptitudeId;
+                        Category_LearningAptitude learningAptitude = learningAptitudeBL.GetLearningAptitude(Int32.Parse(HdfRptLearningAptitudeId.Value));
 
-            learningAptitudeBL.DeleteLearningAptitude(conduct);
-            isSearch = false;
-            BindData();
+                        TxtLearningAptitudeNameSua.Text = learningAptitude.LearningAptitudeName;
+                        TxtDTBTuSua.Text = learningAptitude.BeginAverageMark.ToString();
+                        TxtDTBDenSua.Text = learningAptitude.EndAverageMark.ToString();
+
+                        // save global information
+                        this.HdfLearningAptitudeId.Value = learningAptitude.LearningAptitudeId.ToString();
+                        this.HdfEditedConductName.Value = learningAptitude.LearningAptitudeName;
+
+                        MPEEdit.Show();
+                        return;
+                    }
+                }
+            }
         }
 
-        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
+        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            //int LearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
-            //string LearningAptitudeName = TxtSuaLearningAptitudeName.Text;
-            //float BeginAverageMark = 0;// float.Parse(TxtMarkRatioHocLucSua.Text);
-            //float EndAverageMark = 0; // float.Parse(TxtMarkRatioHocLucSua.Text);
-            //hocLucBL.UpdateHocLuc(LearningAptitudeId, LearningAptitudeName, BeginAverageMark, EndAverageMark);
-            //BindData();
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptHocLuc.Items)
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptLearningAptitudeId = null;
+
+            foreach (RepeaterItem item in RptHocLuc.Items)
             {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptHocLucMPEEdit.Value)
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
                     {
-                        break;
+                        HdfRptLearningAptitudeId = (HiddenField)item.FindControl("HdfRptLearningAptitudeId");
+                        Category_LearningAptitude learningAptitude = new Category_LearningAptitude();
+                        learningAptitude.LearningAptitudeId = Int32.Parse(HdfRptLearningAptitudeId.Value);
+
+                        if (learningAptitudeBL.IsDeletable(learningAptitude))
+                        {
+                            learningAptitudeBL.DeleteLearningAptitude(learningAptitude);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
                     }
                 }
             }
 
-            if (!Page.IsValid)
+            isSearch = false;
+            BindRptLearningAptitudes();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }            
+        }
+
+        protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            if (ValidateInputsForModify() == false)
             {
                 return;
             }
 
-            string editedConductName = (string)HdfEditedConductName.Value;
-            string newConductName = TxtSuaLearningAptitudeName.Text.Trim();
-
-            if (newConductName == "")
-            {
-                LearningAptitudeNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
-                return;
-            }
-            //else
-            //{
-            //    if (hocLucBL.ConductNameExists(editedConductName, newConductName))
-            //    {
-            //        LearningAptitudeNameValidatorEdit.IsValid = false;
-            //        modalPopupEdit.Show();
-            //        return;
-            //    }
-            //}
-            double BeginAverageMark = double.Parse(TxtDTBTuSua.Text);
-            double EndAverageMark = double.Parse(TxtDTBDenSua.Text);
+            int iLearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
+            string strLearningAptitudeName = this.TxtLearningAptitudeNameSua.Text.Trim();
+            double dBeginAverageMark = double.Parse(this.TxtDTBTuSua.Text);
+            double dEndAverageMark = double.Parse(this.TxtDTBDenSua.Text);
 
             Category_LearningAptitude learningAptitude = new Category_LearningAptitude();
-            learningAptitude.LearningAptitudeId = Int32.Parse(this.HdfLearningAptitudeId.Value);
-            learningAptitudeBL.UpdateLearningAptitude(learningAptitude, newConductName, BeginAverageMark, EndAverageMark);
-            BindData();
+            learningAptitude.LearningAptitudeId = iLearningAptitudeId;
+            learningAptitudeBL.UpdateLearningAptitude(learningAptitude, strLearningAptitudeName, dBeginAverageMark, dEndAverageMark);
+
+            BindRptLearningAptitudes();
         }
         #endregion
 
         #region Repeater event handlers
         protected void RptHocLuc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            //if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            //{
-            //    Category_LearningAptitude HocLuc = (Category_LearningAptitude)e.Item.DataItem;
-            //    if (!hocLucBL.CheckCanDeleteHocLuc(HocLuc.LearningAptitudeId))
-            //    {
-            //        ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-            //        btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-            //        btnDeleteItem.Enabled = false;
-            //    }
-            //}
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            if (e.Item.ItemType == ListItemType.Header)
             {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
 
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        Category_LearningAptitude conduct = (Category_LearningAptitude)e.Item.DataItem;
-
-                        if (!learningAptitudeBL.IsDeletable(conduct))
-                        {
-                            ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            btnDeleteItem.Enabled = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptHocLuc_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa học lực <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        HiddenField hdfRptLearningAptitudeId = (HiddenField)e.Item.FindControl("HdfRptLearningAptitudeId");
-                        this.HdfLearningAptitudeId.Value = hdfRptLearningAptitudeId.Value;
-
-                        this.HdfRptHocLucMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int LearningAptitudeId = Int32.Parse(e.CommandArgument.ToString());
-                        Category_LearningAptitude HocLuc = learningAptitudeBL.GetLearningAptitude(LearningAptitudeId);
-
-                        TxtSuaLearningAptitudeName.Text = HocLuc.LearningAptitudeName;
-                        //TxtMarkRatioHocLucSua.Text = HocLuc.BeginAverageMark.ToString();
-                        TxtDTBTuSua.Text = HocLuc.BeginAverageMark.ToString();
-                        TxtDTBDenSua.Text = HocLuc.EndAverageMark.ToString();
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfRptHocLucMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfLearningAptitudeId.Value = LearningAptitudeId.ToString();
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
         }
         #endregion
@@ -385,7 +418,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.PagerMain.CurrentIndex = currnetPageIndx;
-            BindData();
+            BindRptLearningAptitudes();
         }
         #endregion     
     }

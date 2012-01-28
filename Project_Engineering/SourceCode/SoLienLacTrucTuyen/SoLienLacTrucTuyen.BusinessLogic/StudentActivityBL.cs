@@ -121,5 +121,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return studentActivityDA.HasNewActivities(student, Class, iLimitDays);
         }
+
+        public bool IsDeletable(Student_Activity studentActivity)
+        {
+            return studentActivityDA.IsDeletable(studentActivity);
+        }
     }
 }

@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class HanhKiemHocSinhPage : BaseContentPage
+    public partial class ViewStudentConductPage : BaseContentPage
     {
         #region Fields
         private StudyingResultBL ketQuaHocTapBL;
@@ -164,9 +164,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            ClassBL lopHocBL = new ClassBL(UserSchool);
-            List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
-            DdlLopHoc.DataSource = lstLop;
+            ClassBL classBL = new ClassBL(UserSchool);
+            List<Class_Class> Classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
+            DdlLopHoc.DataSource = Classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
@@ -193,13 +193,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             int ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
             int TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            //int ConductId = Int32.Parse(DdlHanhKiem.SelectedValue);
 
             double dTotalRecords = 0;
-            List<TabularHanhKiemHocSinh> lstTbHanhKiemHocSinh;
-            lstTbHanhKiemHocSinh = hocSinhBL.GetListHanhKiemHocSinh(
-                ClassId, TermId,
-                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<TabularStudentConduct> lstTbHanhKiemHocSinh;
+            lstTbHanhKiemHocSinh = hocSinhBL.GetListHanhKiemHocSinh(ClassId, TermId, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             this.RptHanhKiemHocSinh.DataSource = lstTbHanhKiemHocSinh;
             this.RptHanhKiemHocSinh.DataBind();
@@ -219,6 +216,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             tdMaHocSinh.Visible = bDisplayData;
             tdHoTenHocSinh.Visible = bDisplayData;
             tdDTB.Visible = bDisplayData;
+            tdAbsent.Visible = bDisplayData;
 
             BtnSave.Visible = bDisplayData;
             BtnCancel.Visible = bDisplayData;

@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class FormerTeacherPage : BaseContentPage
+    public partial class FormerTeacherListPage : BaseContentPage
     {
         #region Fields
         private FormerTeacherBL formerTeacherBL;
@@ -45,7 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 if (DdlLopHoc.Items.Count != 0)
                 {
-                    BindRptTeachers();
+                    BindRptFormerTeachers();
                 }
                 else
                 {
@@ -74,118 +74,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
         #endregion
 
-        #region Repeater event handlers
-        protected void RptGVCN_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        TabularFormerTeacher giaoVienChuNhiem = (TabularFormerTeacher)e.Item.DataItem;
-                        if (giaoVienChuNhiem != null)
-                        {
-                            Guid UserId = giaoVienChuNhiem.UserId;
-                            HyperLink hlkTenGVCN = (HyperLink)e.Item.FindControl("HlkTenGVCN");
-                            hlkTenGVCN.NavigateUrl = string.Format("/modules/danh_muc/giao_vien/chitietgiaovien.aspx?giaovien={0}", UserId);
-
-                            int ClassId = giaoVienChuNhiem.ClassId;
-                            HyperLink hlkClassName = (HyperLink)e.Item.FindControl("HlkClassName");
-                            hlkClassName.NavigateUrl = string.Format("/modules/lop_hoc/chitietlophoc.aspx?malop={0}", ClassId);
-
-                            //if (!GiaoVienChuNhiemBL.CheckCanDeleteGVCN(maGVCN))
-                            //{
-                            //    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                            //    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                            //    btnDeleteItem.Enabled = false;
-                            //}
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-        }
-
-        protected void RptGVCN_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        // Set confirm text and show dialog
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa GVCN <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        // Save current MaGVCN to global
-                        HiddenField hdfRptMaGVCN = (HiddenField)e.Item.FindControl("HdfRptMaGVCN");
-                        this.HdfMaGVCN.Value = hdfRptMaGVCN.Value;
-
-                        // Save modal popup ClientID
-                        this.HdfRptGVCNMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int maGVCN = Int32.Parse(e.CommandArgument.ToString());
-                        Response.Redirect(string.Format("suagiaovienchunhiem.aspx?id={0}", maGVCN));                        
-                        break;
-                    }
-                case "CmdDetailItemLopHoc":
-                    {
-                        //int ClassId = Int32.Parse(e.CommandArgument.ToString());
-                        //Response.Redirect(string.Format("chitietlophoc.aspx?malop={0}", ClassId));
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        #endregion
-
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRptTeachers();
+            BindRptFormerTeachers();
         }
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
@@ -193,15 +87,59 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Response.Redirect("themgiaovienchunhiem.aspx");
         }
 
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField hdfRptFormerTeacherId = null;
+            Class_FormerTeacher formerTeacher = null;
+            foreach (RepeaterItem item in RptGVCN.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        formerTeacher = new Class_FormerTeacher();
+                        
+                        hdfRptFormerTeacherId = (HiddenField)item.FindControl("HdfRptMaGVCN");
+                        formerTeacher.FormerTeacherId = Int32.Parse(hdfRptFormerTeacherId.Value);
+                        AddSession(AppConstant.SESSION_SELECTED_FORMERTEACHER, formerTeacher);
+                        Response.Redirect(AppConstant.PAGEPATH_FORMERTEACHER_MODIFY);
+                    }
+                }
+            }
+        }
+
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            int maGVCN = Int32.Parse(this.HdfMaGVCN.Value);
-            Class_FormerTeacher formerTeacher = new Class_FormerTeacher();
-            formerTeacher.FormerTeacherId = maGVCN;
-            formerTeacherBL.Delete(formerTeacher);
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptMaGVCN = null;
+            HiddenField HdfUserId = null;
+            Class_FormerTeacher formerTeacher = null;
+            aspnet_User teacher = null;
+
+            foreach (RepeaterItem item in RptGVCN.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptMaGVCN = (HiddenField)item.FindControl("HdfRptMaGVCN");
+                        formerTeacher = new Class_FormerTeacher();
+                        formerTeacher.FormerTeacherId = Int32.Parse(HdfRptMaGVCN.Value);
+
+                        HdfUserId = (HiddenField)item.FindControl("HdfUserId");
+                        teacher = new aspnet_User();
+                        teacher.UserId = new Guid(HdfUserId.Value);
+                        
+                        formerTeacherBL.Delete(formerTeacher, teacher);
+                    }
+                }
+            }
+
             isSearch = false;
             BindDDLClasses();
-            BindRptTeachers();
+            BindRptFormerTeachers();
         }
         #endregion
 
@@ -210,84 +148,78 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRptTeachers();
+            BindRptFormerTeachers();
         }
         #endregion
 
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
-        private void BindRptTeachers()
+        private void BindRptFormerTeachers()
         {
-            Configuration_Year year = null;
+            // there is no class
+            if (DdlLopHoc.Items.Count == 0)
+            {
+                ProcessDislayInfo(false);
+                return;
+            }
+            
             Category_Faculty faculty = null;
             Category_Grade grade = null;
             Class_Class Class = null;
 
-            int YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            if (YearId != 0)
-            {
-                year = new Configuration_Year();
-                year.YearId = YearId;
-            }
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             
-            int FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-            if (FacultyId != 0)
+            if (DdlNganh.SelectedIndex > 0)
             {
                 faculty = new Category_Faculty();
-                faculty.FacultyId = YearId;
-            }
-            
-            int GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-            if (GradeId != 0)
+                faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
+            }            
+
+            if (DdlKhoiLop.SelectedIndex > 0)
             {
                 grade = new Category_Grade();
-                grade.GradeId = GradeId;
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
             
-            int ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            if (ClassId != 0)
+            if (DdlLopHoc.SelectedIndex > 0)
             {
                 Class = new Class_Class();
-                Class.ClassId = ClassId;
+                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
             }
             
-            string tenGVCN = TxtTenGVCN.Text.Trim();
-            string maGVCN = TxtMaGVCN.Text.Trim();
+            string strTeacherName = TxtTenGVCN.Text.Trim();
+            string strTeacherCode = TxtMaGVCN.Text.Trim();
             double dTotalRecords = 0;
 
-            List<TabularFormerTeacher> lstTbGVCN = formerTeacherBL.GetListFormerTeachers(
-                year, faculty, grade, Class, maGVCN, tenGVCN,
+            List<TabularFormerTeacher> tabularFormerTeachers = formerTeacherBL.GetListFormerTeachers(
+                year, faculty, grade, Class, strTeacherCode, strTeacherName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTbGVCN.Count == 0 && dTotalRecords != 0)
+            if (tabularFormerTeachers.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRptTeachers();
+                BindRptFormerTeachers();
                 return;
             }
 
-            bool bDisplayData = (lstTbGVCN.Count != 0) ? true : false;
+            bool bDisplayData = (tabularFormerTeachers.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
-            RptGVCN.DataSource = lstTbGVCN;
+            RptGVCN.DataSource = tabularFormerTeachers;
             RptGVCN.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }
 
         private void ProcessDislayInfo(bool bDisplayData)
-        {
-            PnlPopupConfirmDelete.Visible = bDisplayData;
+        {   
             RptGVCN.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -367,7 +299,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
 
-                BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text_disable.png";
+                BtnAdd.ImageUrl = "~/Styles/buttons/button_add_disable.png";
                 BtnAdd.Enabled = false;
 
                 PnlPopupConfirmDelete.Visible = false;
@@ -409,7 +341,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<Class_Class> lstLop = classBL.GetListClasses(year, faculty, grade);
+            List<Class_Class> lstLop = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
@@ -417,12 +349,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlLopHoc.Items.Count == 0)
             {
-                BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
+                BtnSearch.ImageUrl = "~/Styles/buttons/button_search_disable.png";
                 BtnSearch.Enabled = false;
             }
             else
             {
-                BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text.png";
+                BtnSearch.ImageUrl = "~/Styles/buttons/button_search.png";
                 BtnSearch.Enabled = true;
             }
 
@@ -440,6 +372,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
                 BtnAdd.Enabled = false;
+            }
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptFormerTeachers_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
         }
         #endregion

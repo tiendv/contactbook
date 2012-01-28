@@ -99,7 +99,7 @@
                     <asp:Image ID="ImgHinhAnh" runat="server" Width="90px" Height="120px" ImageUrl="~/Styles/Images/avatar.png"
                         AlternateText="Hình ảnh" BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
                     <br />
-                    <asp:ImageButton ID="BtnDuyetHinhAnh" runat="server" Style="padding-top: 5px" ImageUrl="~/Styles/Images/button_browse.png" />
+                    <asp:ImageButton ID="BtnDuyetHinhAnh" runat="server" Style="padding-top: 5px" ImageUrl="~/Styles/buttons/button_browse.png" />
                     <ajaxToolkit:AsyncFileUpload ID="AsyncFileUpload1" runat="server" />
                 </div>
             </td>
@@ -286,10 +286,10 @@
         :Thông tin bắt buộc nhập
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto;">
-        <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSave_Click" ValidationGroup="AddHocSinh" CssClass="SaveButton" />
         &nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
     </div>
 </asp:Content>

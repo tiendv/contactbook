@@ -7,7 +7,7 @@ using EContactBook.BusinessEntity;
 
 namespace SoLienLacTrucTuyen.BusinessLogic
 {
-    public class ClassBL: BaseBL
+    public class ClassBL : BaseBL
     {
         private ClassDA classDA;
 
@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             classDA = new ClassDA(school);
         }
-                
+
         public void InsertClass(string ClassName, Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
         {
             classDA.InsertClass(new Class_Class()
@@ -81,33 +81,176 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularClass;
         }
 
-        public List<Class_Class> GetListClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
+        //public List<Class_Class> GetClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
+        //{
+        //    List<Class_Class> lClasses = new List<Class_Class>();
+        //    if (faculty == null)
+        //    {
+        //        if (grade == null)
+        //        {
+        //            lClasses = classDA.GetClasses(year);
+        //        }
+        //        else
+        //        {
+        //            lClasses = classDA.GetClasses(year, grade);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (grade == null)
+        //        {
+        //            lClasses = classDA.GetClasses(year, faculty);
+        //        }
+        //        else
+        //        {
+        //            lClasses = classDA.GetClasses(year, faculty, grade);
+        //        }
+        //    }
+
+        //    return lClasses;
+        //}
+
+        //public List<Class_Class> GetClasses(aspnet_User user, bool isFormerTeacher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade)
+        //{
+        //    List<Class_Class> lClasses = new List<Class_Class>();
+        //    if (faculty == null)
+        //    {
+        //        if (grade == null)
+        //        {
+        //            if (isFormerTeacher)
+        //            {
+        //                lClasses = classDA.GetClasses(user, year);
+        //            }
+        //            else
+        //            {
+        //                lClasses = classDA.GetClasses(year);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (isFormerTeacher)
+        //            {
+        //                lClasses = classDA.GetClasses(user, year, grade);
+        //            }
+        //            else
+        //            {
+        //                lClasses = classDA.GetClasses(year, grade);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (grade == null)
+        //        {
+        //            if (isFormerTeacher)
+        //            {
+        //                lClasses = classDA.GetClasses(user, year, faculty);
+        //            }
+        //            else
+        //            {
+        //                lClasses = classDA.GetClasses(year, faculty);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (isFormerTeacher)
+        //            {
+        //                lClasses = classDA.GetClasses(user, year, faculty, grade);
+        //            }
+        //            else
+        //            {
+        //                lClasses = classDA.GetClasses(year, faculty, grade);
+        //            }
+        //        }
+        //    }
+
+        //    return lClasses;
+        //}
+
+        public List<Class_Class> GetClasses(aspnet_User user, bool isFormerTeacher, bool isSubjectTecher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
+            Configuration_Term term)
         {
-            List<Class_Class> lClasses = new List<Class_Class>();
-            if (faculty == null)
+            TeacherBL teacherBL = new TeacherBL(school);
+
+            List<Class_Class> classes = new List<Class_Class>();
+
+            if (faculty == null) // faculty = "All"
             {
-                if (grade == null)
+                if (grade == null) // grade = "All"
                 {
-                    lClasses = classDA.GetClasses(year);
+                    if (isFormerTeacher)
+                    {
+                        // Get list of class that teacher formering in specified year
+                        classes = classDA.GetClasses(user, year);
+                    }
+                    else if (isSubjectTecher)
+                    {
+                        classes = teacherBL.GetTaughtClasses(user, year, term);
+                    }
+                    else
+                    {
+                        // Get list of class in specified year
+                        classes = classDA.GetClasses(year);
+                    }
                 }
                 else
                 {
-                    lClasses = classDA.GetClasses(year, grade);
+                    if (isFormerTeacher)
+                    {
+                        // Get list of class that teacher formering in specified year and grade
+                        classes = classDA.GetClasses(user, year, grade);
+                    }
+                    else if (isSubjectTecher)
+                    {
+                        classes = teacherBL.GetTaughtClasses(user, year, term, grade);
+                    }
+                    else
+                    {
+                        // Get list of class in specified year and grade
+                        classes = classDA.GetClasses(year, grade);
+                    }
                 }
             }
             else
             {
-                if (grade == null)
+                if (grade == null) // grade = "All"
                 {
-                    lClasses = classDA.GetClasses(year, faculty);
+                    if (isFormerTeacher)
+                    {
+                        // Get list of class that teacher formering in specified year and faculty
+                        classes = classDA.GetClasses(user, year, faculty);
+                    }
+                    else if (isSubjectTecher)
+                    {
+                        classes = teacherBL.GetTaughtClasses(user, year, term, faculty);
+                    }
+                    else
+                    {
+                        // Get list of class in specified year and faculty
+                        classes = classDA.GetClasses(year, faculty);
+                    }
                 }
                 else
                 {
-                    lClasses = classDA.GetClasses(year, faculty, grade);
+                    if (isFormerTeacher)
+                    {
+                        // Get list of class that teacher formering in specified year, grade and faculty
+                        classes = classDA.GetClasses(user, year, faculty, grade);
+                    }
+                    else if (isSubjectTecher)
+                    {
+                        classes = teacherBL.GetTaughtClasses(user, year, term, faculty, grade);
+                    }
+                    else
+                    {
+                        // Get list of class in specified year, grade and faculty
+                        classes = classDA.GetClasses(year, faculty, grade);
+                    }
                 }
             }
 
-            return lClasses;
+            // return result
+            return classes;
         }
 
         public List<TabularClass> GetTabularClasses(Configuration_Year year, Category_Faculty faculty, Category_Grade grade, int pageCurrentIndex, int pageSize, out double totalRecords)
@@ -175,8 +318,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
 
             return lUnformeredClasses;
-            
-        }        
+
+        }
 
         public bool ClassNameExists(string className, Configuration_Year year)
         {

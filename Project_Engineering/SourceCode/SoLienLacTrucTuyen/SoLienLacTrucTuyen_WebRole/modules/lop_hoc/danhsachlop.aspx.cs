@@ -42,11 +42,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 if (DdlLopHoc.Items.Count != 0)
                 {
-                    BindRepeaterLopHoc();
+                    BindRptClasses();
                 }
                 else
                 {
-                    ProcessDislayInfo(false);
+                    ProcessDisplayGUI(false);
                 }
             }
 
@@ -74,125 +74,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptLopHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            if (e.Item.ItemType == ListItemType.Header)
             {
-                // Do something
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
-
-                PnlPopupEdit.Visible = false;
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
 
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    if (e.Item.DataItem != null)
-                    {
-                        TabularClass lopHoc = (TabularClass)e.Item.DataItem;
-                        if (lopHoc != null)
-                        {
-                            Class_Class Class = new Class_Class();
-                            Class.ClassId = lopHoc.ClassId;
-                            if (!classBL.IsDeletable(Class))
-                            {
-                                ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                                btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                                btnDeleteItem.Enabled = false;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                this.PnlPopupConfirmDelete.Visible = false;
-            }
-
-            // Set NavigateUrl for Hyperlink HomeroomTeacher
-            string pageUrl = Page.Request.Path;
-            List<aspnet_Role> roles = (new UserBL(UserSchool)).GetRoles(User.Identity.Name);
-            if ((new AuthorizationBL(UserSchool)).ValidateAuthorization(roles, pageUrl))
-            {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    TabularClass classInfo = (TabularClass)e.Item.DataItem;
-                    if (classInfo != null)
-                    {
-                        Guid homeroomTecherCode = classInfo.HomeroomTeacherCode;
-                        HyperLink hlkHomeRoomTeacher = (HyperLink)e.Item.FindControl("HlkHomeRoomTeacher");
-                        hlkHomeRoomTeacher.NavigateUrl = string.Format("~/modules/danh_muc/giao_vien/chitietgiaovien.aspx?giaovien={0}",
-                            homeroomTecherCode);
-                    }
-                }
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
         }
 
         protected void RptLopHoc_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
-            {
-                case "CmdDeleteItem":
-                    {
-                        // Set confirm text and show dialog
-                        this.LblConfirmDelete.Text = "Bạn có chắc xóa lớp học <b>" + e.CommandArgument + "</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        // Save current ClassId to global
-                        HiddenField hdfRptClassId = (HiddenField)e.Item.FindControl("HdfRptClassId");
-                        this.HdfClassId.Value = hdfRptClassId.Value;
-
-                        // Save modal popup ClientID
-                        this.HdfRptLopHocMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        int ClassId = Int32.Parse(e.CommandArgument.ToString());
-                        Class_Class lophoc = classBL.GetClass(ClassId);
-                        this.HdfSltClassName.Value = lophoc.ClassName;
-                        TxtClassNameSua.Text = lophoc.ClassName;
-                        LblNganhHocSua.Text = lophoc.Category_Faculty.FacultyName;
-                        LblKhoiLopSua.Text = lophoc.Category_Grade.GradeName;
-                        LblNamHocSua.Text = lophoc.Configuration_Year.YearName;
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfClassId.Value = ClassId.ToString();
-                        this.HdfRptLopHocMPEEdit.Value = mPEEdit.ClientID;
-
-                        break;
-                    }
+            {                
                 case "CmdDetailItem":
                     {
-                        int ClassId = Int32.Parse(e.CommandArgument.ToString());
-                        Response.Redirect("/modules/lop_Hoc/chitietlophoc.aspx?malop=" + ClassId);
+                        Class_Class Class = new Class_Class();
+                        Class.ClassId = Int32.Parse(e.CommandArgument.ToString());
+                        AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+                        Response.Redirect(AppConstant.PAGEPATH_CLASS_DETAIL);
                         break;
                     }
                 default:
@@ -208,8 +110,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRepeaterLopHoc();
+            BindRptClasses();
         }
+
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
         {
             #region Add Info 2 Session
@@ -217,7 +120,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
-            Class_Class Class = null;
 
             year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
@@ -248,9 +150,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
             AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
             AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
-            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_PRINT);
             #endregion
         }
+
         protected void PrePrint()
         {
             #region Add Info 2 Session
@@ -292,6 +195,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
             #endregion
         }
+
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
             Category_Faculty faculty = null;
@@ -305,7 +209,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHocThem.SelectedValue);
-            string ClassName = this.TxtClassNameThem.Text.Trim();            
+            string ClassName = this.TxtClassNameThem.Text.Trim();
 
             if (ClassName == "")
             {
@@ -332,7 +236,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             BindDDLClasses();
             MainDataPager.CurrentIndex = 1;
-            BindRepeaterLopHoc();
+            BindRptClasses();
 
             this.TxtClassNameThem.Text = "";
             this.DdlNganhHocThem.SelectedIndex = 0;
@@ -356,26 +260,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             int ClassId = Int32.Parse(this.HdfClassId.Value);
             string oldClassName = this.HdfSltClassName.Value;
-            string ClassName = this.TxtClassNameSua.Text.Trim();
-
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptLopHoc.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item
-                    || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptLopHocMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
+            string ClassName = this.TxtClassNameSua.Text.Trim();            
 
             if (ClassName == "")
             {
                 ClassNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
+                MPEEdit.Show();
                 return;
             }
             else
@@ -384,7 +274,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (classBL.ClassNameExists(oldClassName, ClassName, year))
                 {
                     ClassNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
+                    MPEEdit.Show();
                     return;
                 }
             }
@@ -392,17 +282,74 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             editedClass = new Class_Class();
             editedClass.ClassId = ClassId;
             classBL.UpdateClass(editedClass, ClassName);
-            BindRepeaterLopHoc();
+            BindRptClasses();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
-            Class_Class Class = new Class_Class();
-            Class.ClassId = Int32.Parse(this.HdfClassId.Value);
-            classBL.DeleteClass(Class);
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
+            HiddenField HdfRptClassId = null;
+            Class_Class Class = null;
+
+            foreach (RepeaterItem item in RptLopHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
+                    {
+                        HdfRptClassId = (HiddenField)item.FindControl("HdfRptClassId");
+                        Class = new Class_Class();
+                        Class.ClassId = Int32.Parse(HdfRptClassId.Value);
+
+                        if (classBL.IsDeletable(Class))
+                        {
+                            classBL.DeleteClass(Class);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
+                    }
+                }
+            }
+
             isSearch = false;
-            BindDDLClasses();
-            BindRepeaterLopHoc();
+            BindRptClasses();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptClassId = null;
+            Class_Class Class = null;
+            foreach (RepeaterItem item in RptLopHoc.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptClassId = (HiddenField)item.FindControl("HdfRptClassId");
+                        Class = classBL.GetClass(Int32.Parse(HdfRptClassId.Value));
+
+                        this.HdfSltClassName.Value = Class.ClassName;
+                        TxtClassNameSua.Text = Class.ClassName;
+                        LblNganhHocSua.Text = Class.Category_Faculty.FacultyName;
+                        LblKhoiLopSua.Text = Class.Category_Grade.GradeName;
+                        LblNamHocSua.Text = Class.Configuration_Year.YearName;
+                        this.HdfClassId.Value = Class.ClassId.ToString();
+
+                        MPEEdit.Show();
+                        return;
+                    }
+                }
+            }
         }
         #endregion
 
@@ -411,28 +358,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRepeaterLopHoc();
+            BindRptClasses();
         }
         #endregion
 
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAdd.Visible = true;
-                PnlPopupAdd.Visible = true;
-                MPEAdd.Enabled = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-                MPEAdd.Enabled = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
-        private void BindRepeaterLopHoc()
+        private void BindRptClasses()
         {
             List<TabularClass> tabularClasses;
             double dTotalRecords;
@@ -440,17 +380,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Grade grade = null;
             Configuration_Year year = null;
             Class_Class Class = null;
-            
+
             try
             {
                 if (DdlLopHoc.SelectedIndex > 0)
                 {
                     Class = new Class_Class();
-                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);                         
+                    Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                 }
             }
             catch (Exception) { }
-            
+
             if (Class == null) // "Tất cả"
             {
                 year = new Configuration_Year();
@@ -465,7 +405,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 }
                 catch (Exception) { }
-                
+
                 try
                 {
                     if (DdlKhoiLop.SelectedIndex > 0)
@@ -475,7 +415,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     }
                 }
                 catch (Exception) { }
-                
+
                 tabularClasses = classBL.GetTabularClasses(year, faculty, grade,
                     MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
                 MainDataPager.ItemCount = dTotalRecords;
@@ -490,21 +430,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (tabularClasses.Count == 0 && MainDataPager.ItemCount != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRepeaterLopHoc();
+                BindRptClasses();
                 return;
             }
 
             bool bDisplayData = (tabularClasses.Count != 0) ? true : false;
-            ProcessDislayInfo(bDisplayData);
+            ProcessDisplayGUI(bDisplayData);
             RptLopHoc.DataSource = tabularClasses;
             RptLopHoc.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }
 
-        private void ProcessDislayInfo(bool bDisplayData)
+        private void ProcessDisplayGUI(bool bDisplayData)
         {
-            PnlPopupConfirmDelete.Visible = bDisplayData;
-            PnlPopupEdit.Visible = bDisplayData;
             RptLopHoc.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -584,12 +522,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNamHoc.DataValueField = "YearId";
             DdlNamHoc.DataTextField = "YearName";
             DdlNamHoc.DataBind();
-            
+
             DdlNamHocThem.DataSource = years;
             DdlNamHocThem.DataValueField = "YearId";
             DdlNamHocThem.DataTextField = "YearName";
             DdlNamHocThem.DataBind();
-
         }
 
         private void BindDDLClasses()
@@ -606,11 +543,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BtnAdd.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ADD_DISABLE;
                 BtnAdd.Enabled = false;
 
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_MODIFY_DISABLED;
+                BtnEdit.Enabled = false;
+
+                BtnDelete.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_DELETE_DISABLED;
+                BtnDelete.Enabled = false;
+
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
                 BtnPrint.Enabled = false;
 
-                PnlPopupConfirmDelete.Visible = false;
-                PnlPopupEdit.Visible = false;
                 RptLopHoc.Visible = false;
                 LblSearchResult.Visible = true;
                 LblSearchResult.Text = "Chưa có thông tin lớp học";
@@ -638,7 +579,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
             catch (Exception) { }
-            
+
             try
             {
                 if (DdlKhoiLop.SelectedIndex > 0)
@@ -649,7 +590,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            List<Class_Class> lstLop = classBL.GetListClasses(year, faculty, grade);
+            List<Class_Class> lstLop = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
             DdlLopHoc.DataSource = lstLop;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";

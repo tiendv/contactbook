@@ -40,6 +40,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             subjectDA.DeleteSubject(subject);
         }
 
+        public Category_Subject GetSubject(int subjectId)
+        {
+            return subjectDA.GetSubject(subjectId);
+        }
+
         public Category_Subject GetSubject(string subjectName, string facultyName, string gradeName)
         {
             return subjectDA.GetSubject(subjectName, facultyName, gradeName);

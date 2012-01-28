@@ -35,12 +35,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             gradeDA.UpdateGrade(grade);
         }
 
-        public void DeleteGrade(string gradeName)
-        {
-            Category_Grade grade = GetGrade(gradeName);
+        public void DeleteGrade(Category_Grade grade)
+        {            
             gradeDA.DeleteGrade(grade);
         }
 
+        public Category_Grade GetGrade(int gradeId)
+        {
+            return gradeDA.GetGrade(gradeId);
+        }        
+        
         public Category_Grade GetGrade(string gradeName)
         {
             return gradeDA.GetGrade(gradeName);
@@ -76,6 +80,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lGrades;
         }
 
+        public bool IsDeletable(Category_Grade grade)
+        {
+            return (!gradeDA.ClassInGradeExists(grade) && !gradeDA.SubjectInGradeExists(grade));
+        }
+
         public bool IsDeletable(string gradeName)
         {
             Category_Grade grade = GetGrade(gradeName);
@@ -97,11 +106,6 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 return gradeDA.GradeNameExists(newGradeName);
             }
-        }
-
-        public Category_Grade GetGrade(int gradeId)
-        {
-            return gradeDA.GetGrade(gradeId);
         }
     }
 }

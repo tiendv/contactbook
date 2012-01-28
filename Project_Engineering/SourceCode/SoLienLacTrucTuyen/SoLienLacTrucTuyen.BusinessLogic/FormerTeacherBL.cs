@@ -20,16 +20,36 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void Insert(Class_Class Class, aspnet_User teacher)
         {
             formerTeacherDA.InsertFormerTeacher(Class, teacher);
+
+            RoleBL roleBL = new RoleBL(school);
+            roleBL.AddUserToRoleFormerTeacher(teacher);
         }
 
-        public void Update(int formerTeacherId, aspnet_User teacher)
+        public void Update(int formerTeacherId, aspnet_User oldTeacher, aspnet_User newTeacher)
         {
-            formerTeacherDA.UpdateFormerTeacher(formerTeacherId, teacher);
+            formerTeacherDA.UpdateFormerTeacher(formerTeacherId, newTeacher);
+
+            RoleBL roleBL = new RoleBL(school);
+            if (formerTeacherDA.GetFormeredClassCount(oldTeacher) == 0)
+            {
+                roleBL.RemoveUserToRoleFormerTeacher(oldTeacher);
+            }
+
+            if (formerTeacherDA.GetFormeredClassCount(newTeacher) == 1)
+            {
+                roleBL.AddUserToRoleFormerTeacher(newTeacher);
+            }
         }
 
-        public void Delete(Class_FormerTeacher frmrTeacher)
+        public void Delete(Class_FormerTeacher formerTeacher, aspnet_User teacher)
         {
-            formerTeacherDA.DeleteFormerTeacher(frmrTeacher);
+            formerTeacherDA.DeleteFormerTeacher(formerTeacher);
+
+            if (formerTeacherDA.GetFormeredClassCount(teacher) == 0)
+            {
+                RoleBL roleBL = new RoleBL(school);
+                roleBL.RemoveUserToRoleFormerTeacher(teacher);
+            }
         }
 
         public Class_FormerTeacher GetFormerTeacher(int formerTeacherId)
@@ -243,6 +263,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool FormerTeacherExists(aspnet_User teacher)
         {
             return formerTeacherDA.FormerTeacherExists(teacher);
+        }
+
+        internal Class_Class GetClass(aspnet_User user, Configuration_Year year)
+        {
+            return formerTeacherDA.GetClass(user, year);
         }
     }
 }

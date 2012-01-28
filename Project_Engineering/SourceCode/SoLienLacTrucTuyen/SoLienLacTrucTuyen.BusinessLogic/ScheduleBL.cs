@@ -55,7 +55,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             roleBL.AddUserToSubjectTeacherRole(teacher);
         }
 
-        public void UpdateSchedule(Class_Schedule editedSchedule, Category_Subject newSubject, aspnet_User newTeacher)
+        public void UpdateSchedule(Class_Schedule schedule, Category_Subject subject, aspnet_User teacher)
         {
             /*
              * 1) Thêm thông tin TKB mới
@@ -74,17 +74,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
              *      3.1.2) Nếu ko, xóa điểm môn học học kì của các học sinh thuộc lớp xếp TKB
              */
 
-            Class_Schedule originalSchedule = scheduleDA.GetSchedule(editedSchedule.ScheduleId);
+            Class_Schedule originalSchedule = scheduleDA.GetSchedule(schedule.ScheduleId);
 
             bool bInsertStudentTermSubjectMark;
-            bInsertStudentTermSubjectMark = ScheduleExists(originalSchedule.Class_Class, newSubject, originalSchedule.Configuration_Term);
+            bInsertStudentTermSubjectMark = ScheduleExists(originalSchedule.Class_Class, subject, originalSchedule.Configuration_Term);
 
-            editedSchedule.SubjectId = newSubject.SubjectId;
-            editedSchedule.TeacherId = newTeacher.UserId;
-            scheduleDA.UpdateSchedule(editedSchedule, newSubject, newTeacher);
+            schedule.SubjectId = subject.SubjectId;
+            schedule.TeacherId = teacher.UserId;
+            scheduleDA.UpdateSchedule(schedule, subject, teacher);
 
             // Xóa thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
-            StudyingResultBL studyingResultBL = new StudyingResultBL(school);            
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             if (!ScheduleExists(originalSchedule.Class_Class, originalSchedule.Category_Subject, originalSchedule.Configuration_Term))
             {
                 studyingResultBL.DeleteTermSubjectMark(originalSchedule.Class_Class, originalSchedule.Configuration_Term, originalSchedule.Category_Subject);
@@ -97,7 +97,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        public void DeleteSchedule(Class_Schedule deletedSchedule)
+        public void DeleteSchedule(Class_Schedule schedule)
         {
             /*
              * 1) Lưu lại thông tin TKB sẽ bị xóa
@@ -108,19 +108,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
              *      3.1.2) Nếu ko, xóa điểm môn học học kì của các học sinh thuộc lớp xếp TKB
              */
 
-            deletedSchedule = GetSchedule(deletedSchedule.ScheduleId);
+            schedule = GetSchedule(schedule.ScheduleId);
 
             // Xóa thời khóa biểu
-            scheduleDA.DeleteSchedule(deletedSchedule); 
-            
+            scheduleDA.DeleteSchedule(schedule);
+
             // Xóa thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
             StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             Class_Class Class = new Class_Class();
-            Class.ClassId = deletedSchedule.ClassId;
+            Class.ClassId = schedule.ClassId;
             Category_Subject subject = new Category_Subject();
-            subject.SubjectId = deletedSchedule.SubjectId;
+            subject.SubjectId = schedule.SubjectId;
             Configuration_Term term = new Configuration_Term();
-            term.TermId = deletedSchedule.TermId;
+            term.TermId = schedule.TermId;
             if (!ScheduleExists(Class, subject, term))
             {
                 studyingResultBL.DeleteTermSubjectMark(Class, term, subject);
@@ -131,7 +131,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             return scheduleDA.GetSchedule(scheduleId);
         }
-        
+
         public List<Class_Schedule> GetSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
             return scheduleDA.GetSchedules(Class, term, dayInweek, session);
@@ -150,7 +150,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 schedule = scheduleDA.GetSchedule(Class, term, dayInweek, teachingPeriod);
                 if (schedule != null)
                 {
-                    teachingPeriodSchedule = GetTeachingPeriodSchedule(schedule);
+                    teachingPeriodSchedule = ConvertToTeachingPeriodSchedule(schedule);
                 }
                 else
                 {
@@ -161,31 +161,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     teachingPeriodSchedule.TeacherName = "Chưa xác định";
                 }
 
+                teachingPeriodSchedule.ClassId = Class.ClassId;
+                teachingPeriodSchedule.TermId = term.TermId;
                 teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
+                teachingPeriodSchedule.SessionId = teachingPeriod.SessionId;
                 teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
+                teachingPeriodSchedule.DayInWeekId = dayInweek.DayInWeekId;
+
                 teachingPeriodSchedules.Add(teachingPeriodSchedule);
-            }
-
-            return teachingPeriodSchedules;
-        }
-
-        public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(Class_Class Class, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
-        {
-            TeachingPeriodBL tietBL = new TeachingPeriodBL(school);
-            List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
-            List<Class_Schedule> schedules = scheduleDA.GetSchedules(Class, term, dayInweek, session);
-            TeachingPeriodSchedule teachingPeriodSchedule = null;
-            Category_TeachingPeriod teachingPeriod = null;
-
-            foreach (Class_Schedule schedule in schedules)
-            {
-                teachingPeriodSchedule = GetTeachingPeriodSchedule(schedule);
-
-                teachingPeriod = schedule.Category_TeachingPeriod;
-                teachingPeriodSchedule.StringDetailTeachingPeriod = string.Format("{0}({1}-{2})",
-                    teachingPeriod.TeachingPeriodName,
-                    teachingPeriod.EndTime.ToShortTimeString(),
-                    teachingPeriod.EndTime.ToShortTimeString());
             }
 
             return teachingPeriodSchedules;
@@ -212,8 +195,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     TeachingPeriodSchedule teachingPeriodSchedule = new TeachingPeriodSchedule();
                     teachingPeriodSchedule.ScheduleId = schedule.ScheduleId;
+                    teachingPeriodSchedule.OrginalSubjectId = schedule.SubjectId;
                     teachingPeriodSchedule.SubjectId = schedule.SubjectId;
                     teachingPeriodSchedule.SubjectName = schedule.Category_Subject.SubjectName;
+                    teachingPeriodSchedule.OrginalUserId = schedule.TeacherId;
                     teachingPeriodSchedule.UserId = schedule.TeacherId;
                     teachingPeriodSchedule.TeacherName = schedule.aspnet_User.aspnet_Membership.FullName;
                     teachingPeriodSchedule.ClassId = schedule.ClassId;
@@ -222,6 +207,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     teachingPeriodSchedule.TeachingPeriodId = schedule.TeachingPeriodId;
                     teachingPeriod = teachingPeriodBL.GetTeachingPeriod(schedule.TeachingPeriodId);
                     teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriod.TeachingPeriodName;
+                    teachingPeriodSchedule.SessionId = teachingPeriod.SessionId;
 
                     teachingPeriodSchedules.Add(teachingPeriodSchedule);
                 }
@@ -258,29 +244,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return scheduleDA.GetScheduledSubjects(Class, term);
         }
 
-        public TeachingPeriodSchedule GetTeachingPeriodSchedule(Class_Schedule schedule)
-        {
-            TeachingPeriodSchedule teachingPeriodSchedule = new TeachingPeriodSchedule();
-
-            teachingPeriodSchedule.ScheduleId = schedule.ScheduleId;
-            teachingPeriodSchedule.ClassId = schedule.ClassId;
-            teachingPeriodSchedule.SubjectId = schedule.SubjectId;
-            teachingPeriodSchedule.SubjectName = schedule.Category_Subject.SubjectName;
-            teachingPeriodSchedule.UserId = schedule.TeacherId;
-            teachingPeriodSchedule.TeacherName = schedule.aspnet_User.aspnet_Membership.FullName;
-            teachingPeriodSchedule.TeachingPeriodId = schedule.Category_TeachingPeriod.TeachingPeriodId;
-            teachingPeriodSchedule.DayInWeekId = schedule.Configuration_DayInWeek.DayInWeekId;
-
-            return teachingPeriodSchedule;
-        }
-
-        
-
         private bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term)
         {
             return scheduleDA.ScheduleExists(Class, subject, term);
         }
-        
+
         public bool ScheduleExists(Class_Class Class, Category_Subject subject, Configuration_Term term, Configuration_DayInWeek dayInweek, Configuration_Session session)
         {
             return scheduleDA.ScheduleExists(Class, subject, term, dayInweek, session);
@@ -299,6 +267,146 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public bool ScheduleExists(Category_TeachingPeriod teachingPeriod)
         {
             return scheduleDA.ScheduleExists(teachingPeriod);
+        }
+
+        private TeachingPeriodSchedule ConvertToTeachingPeriodSchedule(Class_Schedule schedule)
+        {
+            TeachingPeriodSchedule teachingPeriodSchedule = new TeachingPeriodSchedule();
+
+            teachingPeriodSchedule.ScheduleId = schedule.ScheduleId;
+            teachingPeriodSchedule.ClassId = schedule.ClassId;
+            teachingPeriodSchedule.ClassName = schedule.Class_Class.ClassName;
+            teachingPeriodSchedule.TermId = schedule.TermId;
+            teachingPeriodSchedule.TermName = schedule.Configuration_Term.TermName;
+            teachingPeriodSchedule.SubjectId = schedule.SubjectId;
+            teachingPeriodSchedule.OrginalSubjectId = schedule.SubjectId;
+            teachingPeriodSchedule.SubjectName = schedule.Category_Subject.SubjectName;
+            teachingPeriodSchedule.UserId = schedule.TeacherId;
+            teachingPeriodSchedule.OrginalUserId = schedule.TeacherId;
+            teachingPeriodSchedule.TeacherName = schedule.aspnet_User.aspnet_Membership.FullName;
+            teachingPeriodSchedule.TeachingPeriodId = schedule.Category_TeachingPeriod.TeachingPeriodId;
+            teachingPeriodSchedule.DayInWeekId = schedule.Configuration_DayInWeek.DayInWeekId;
+            teachingPeriodSchedule.DayInWeekName = schedule.Configuration_DayInWeek.DayInWeekName;
+            teachingPeriodSchedule.YearName = schedule.Class_Class.Configuration_Year.YearName;
+            teachingPeriodSchedule.SessionId = schedule.SessionId;
+            return teachingPeriodSchedule;
+        }
+
+        /// <summary>
+        /// Update schedule of class
+        /// </summary>
+        /// <param name="weeklySchedule">Weekly schedule that contains both before and after change information</param>
+        public void UpdateSchedule(List<List<TeachingPeriodSchedule>> weeklySchedule)
+        {
+            // Declare variables
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
+            RoleBL roleBL = new RoleBL(school);
+
+            List<int> beforeChangeSubjectIds = new List<int>();
+            List<int> afterChangeSubjectIds = new List<int>();
+            List<int> deletedScheduledSubjectIds = new List<int>();
+            List<int> addedScheduledSubjectIds = new List<int>();
+            Class_Schedule schedule = null;
+            aspnet_User teacher = null;
+            Category_Subject subject = null;
+            Class_Class Class = new Class_Class();
+            Class.ClassId = weeklySchedule[0][0].ClassId;
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = weeklySchedule[0][0].TermId;
+
+            foreach (List<TeachingPeriodSchedule> dailySchedule in weeklySchedule)
+            {
+                foreach (TeachingPeriodSchedule teachingPeriodlySchedule in dailySchedule)
+                {
+                    if (teachingPeriodlySchedule.ScheduleId == 0)
+                    {
+                        if (teachingPeriodlySchedule.SubjectId != 0)
+                        {
+                            afterChangeSubjectIds.Add(teachingPeriodlySchedule.SubjectId);
+
+                            schedule = new Class_Schedule();
+                            schedule.ClassId = Class.ClassId;
+                            schedule.SubjectId = teachingPeriodlySchedule.SubjectId;
+                            schedule.TeacherId = teachingPeriodlySchedule.UserId;
+                            schedule.TermId = term.TermId;
+                            schedule.DayInWeekId = teachingPeriodlySchedule.DayInWeekId;
+                            schedule.SessionId = teachingPeriodlySchedule.SessionId;
+                            schedule.TeachingPeriodId = teachingPeriodlySchedule.TeachingPeriodId;
+
+                            // Insert new schedule
+                            scheduleDA.InsertSchedule(schedule);
+
+                            // insert teacher to SubjectTeacherRole
+                            teacher = new aspnet_User();
+                            teacher.UserId = teachingPeriodlySchedule.UserId;
+                            roleBL.AddUserToSubjectTeacherRole(teacher);
+                        }
+                    }
+                    else
+                    {
+                        beforeChangeSubjectIds.Add(teachingPeriodlySchedule.OrginalSubjectId);
+
+                        if (teachingPeriodlySchedule.SubjectId == 0)
+                        {
+                            schedule = new Class_Schedule();
+                            schedule.ScheduleId = teachingPeriodlySchedule.ScheduleId;
+
+                            // Xóa thời khóa biểu
+                            scheduleDA.DeleteSchedule(schedule);
+                        }
+                        else
+                        {
+                            afterChangeSubjectIds.Add(teachingPeriodlySchedule.SubjectId);
+
+                            if ((teachingPeriodlySchedule.OrginalSubjectId != teachingPeriodlySchedule.SubjectId)
+                                || (teachingPeriodlySchedule.OrginalUserId != teachingPeriodlySchedule.UserId))
+                            {
+                                // Modify
+                                schedule = new Class_Schedule();
+                                schedule.ScheduleId = teachingPeriodlySchedule.ScheduleId;
+                                teacher = new aspnet_User();
+                                teacher.UserId = teachingPeriodlySchedule.UserId;
+                                subject = new Category_Subject();
+                                subject.SubjectId = teachingPeriodlySchedule.SubjectId;
+
+                                scheduleDA.UpdateSchedule(schedule, subject, teacher);
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach (int orginalSubjectId in beforeChangeSubjectIds)
+            {
+                if (afterChangeSubjectIds.Contains(orginalSubjectId) == false)
+                {
+                    deletedScheduledSubjectIds.Add(orginalSubjectId);
+                }
+            }
+
+            foreach (int subjectId in afterChangeSubjectIds)
+            {
+                if (beforeChangeSubjectIds.Contains(subjectId) == false)
+                {
+                    addedScheduledSubjectIds.Add(subjectId);
+                }
+            }
+
+            foreach (int deletedScheduledSubjectId in deletedScheduledSubjectIds)
+            {
+                // Xóa thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
+                subject = new Category_Subject();
+                subject.SubjectId = deletedScheduledSubjectId;
+                studyingResultBL.DeleteTermSubjectMark(Class, term, subject);
+            }
+
+            foreach (int addedScheduledSubjectId in addedScheduledSubjectIds)
+            {
+                // Thêm thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
+                subject = new Category_Subject();
+                subject.SubjectId = addedScheduledSubjectId;
+                studyingResultBL.InsertTermSubjectMark(Class, subject, term);
+            }
         }
     }
 }

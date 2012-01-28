@@ -114,14 +114,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessibilities.Contains(AccessibilityEnum.Add))
             {
                 BtnAddGiaoVien.Visible = true;
-                BtnAddGiaoVien.ImageUrl = "~/Styles/Images/button_add_with_text.png";
+                BtnAddGiaoVien.ImageUrl = "~/Styles/buttons/button_add.png";
             }
             else
             {
                 BtnAddGiaoVien.Visible = false;
             }
         }
-        
+
+        protected void PrePrint()
+        {
+            #region Add Info 2 Session
+            string strTeacherName = this.TxtSearchTenGiaoVien.Text;
+            string strTeacherID = this.TxtSearchMaHienThiGiaoVien.Text;
+
+            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTEACHERS);
+            AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
+            AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
+            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            #endregion
+        }
+
         public void RaisePostBackEvent(string eventArgument)
         {
             PrePrint();
@@ -136,6 +149,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             isSearch = true;
             BindRptTeachers();
         }
+
         protected void BtnPrint_Click(object sender, ImageClickEventArgs e)
         {
             #region Add Info 2 Session
@@ -145,24 +159,35 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTEACHERS);
             AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
             AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
-            Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_PRINT);
             #endregion
         }
-        protected void PrePrint()
-        {
-            #region Add Info 2 Session
-            string strTeacherName = this.TxtSearchTenGiaoVien.Text;
-            string strTeacherID = this.TxtSearchMaHienThiGiaoVien.Text;
 
-            AddSession(AppConstant.SESSION_PAGEPATH, AppConstant.PAGEPATH_PRINTTEACHERS);
-            AddSession(AppConstant.SESSION_TEACHERID, strTeacherID);
-            AddSession(AppConstant.SESSION_TEACHERNAME, strTeacherName);
-            //Response.Redirect(AppConstant.PAGEPATH_PRINTSTUDENTS);
-            #endregion
-        }
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
             Response.Redirect("/modules/danh_muc/giao_vien/themgiaovien.aspx");
+        }
+
+        protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
+        {
+            HiddenField HdfRptUserId = null;
+            foreach (RepeaterItem item in RptGiaoVien.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfRptUserId = (HiddenField)item.FindControl("HdfRptUserId");
+                        aspnet_User teacher = new aspnet_User();
+                        teacher.UserId = new Guid(HdfRptUserId.Value);
+                        AddSession(AppConstant.SESSION_SELECTED_USER, teacher);
+                        AddSession(AppConstant.SESSION_PREVIOUSPAGE, AppConstant.PAGEPATH_TEACHER_LIST);
+                        Response.Redirect(AppConstant.PAGEPATH_TEACHER_EDIT);
+                        return;
+                    }
+                }
+            }
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
@@ -179,69 +204,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptGiaoVien_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            if (e.Item.ItemType == ListItemType.Header)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                    Guid UserId = giaoVien.UserId;
-                    ImageButton btnEditItem = (ImageButton)e.Item.FindControl("BtnEditItem");
-                    btnEditItem.Attributes.Add("OnClientClick",
-                        "return editGiaoVien();");
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thEdit").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdEdit").Visible = false;
-                }
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
 
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    //TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                    //if (!teacherBL.IsDeletable(giaoVien.UserId))
-                    //{
-                    //    ImageButton btnDeleteItem = (ImageButton)e.Item.FindControl("BtnDeleteItem");
-                    //    btnDeleteItem.ImageUrl = "~/Styles/Images/button_delete_disable.png";
-                    //    btnDeleteItem.Enabled = false;
-                    //}
-                }
-            }
-            else
-            {
-                if (e.Item.ItemType == ListItemType.Header)
-                {
-                    e.Item.FindControl("thDelete").Visible = false;
-                }
-
-                if (e.Item.ItemType == ListItemType.Item ||
-                    e.Item.ItemType == ListItemType.AlternatingItem)
-                {
-                    e.Item.FindControl("tdDelete").Visible = false;
-                }
-
-                //this.PnlPopupConfirmDelete.Visible = false;
-            }
-
-            if (e.Item.ItemType == ListItemType.Item
-                    || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                TabularTeacher giaoVien = (TabularTeacher)e.Item.DataItem;
-                HyperLink hlkUserId = (HyperLink)e.Item.FindControl("HlkUserId");
-                hlkUserId.NavigateUrl = "chitietgiaovien.aspx?giaovien=" + giaoVien.UserId
-                    + "&prevpageid=1";
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
             }
         }
 
@@ -249,27 +219,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             switch (e.CommandName)
             {
-                case "CmdDeleteItem":
+                case "CmdDetailItem":
                     {
-                        aspnet_User teacher = null;
-
-                        string strTeacherCode = (string)e.CommandArgument;
-                        teacher = teacherBL.GetTeacher(strTeacherCode);
-                        HdfTeacherCode.Value = strTeacherCode;
-
-                        //this.LblConfirmDelete.Text = "Bạn có chắc xóa giáo viên <b>\""
-                        //    + teacher.aspnet_Membership.FullName + "\"</b> này không?";
-                        ModalPopupExtender mPEDelete = (ModalPopupExtender)e.Item.FindControl("MPEDelete");
-                        mPEDelete.Show();
-
-                        this.HdfUserId.Value = teacher.UserId.ToString();
-                        this.HdfRptGiaoVienMPEDelete.Value = mPEDelete.ClientID;
-
-                        break;
-                    }
-                case "CmdEditItem":
-                    {
-                        Response.Redirect("suagiaovien.aspx?giaovien=" + e.CommandArgument + "&prevpageid=1");
+                        aspnet_User teacher = new aspnet_User();
+                        teacher.UserId = new Guid(e.CommandArgument.ToString());
+                        AddSession(AppConstant.SESSION_SELECTED_USER, teacher);
+                        
+                        Response.Redirect(AppConstant.PAGEPATH_TEACHER_DETAIL);
                         break;
                     }
                 default:

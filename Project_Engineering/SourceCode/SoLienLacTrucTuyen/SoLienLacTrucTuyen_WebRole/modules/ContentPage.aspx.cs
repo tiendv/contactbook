@@ -51,6 +51,62 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Session[AppConstant.SESSION_CURRENT_YEAR] = value;
             }
         }
+
+        public List<aspnet_Role> LogedInUserRoles
+        {
+            get
+            {
+                List<aspnet_Role> roles = new List<aspnet_Role>();
+                if (Session[AppConstant.SESSION_LOGEDIN_ROLES] != null)
+                {
+                    roles = (List<aspnet_Role>)Session[AppConstant.SESSION_LOGEDIN_ROLES];
+                }
+
+                return roles;
+            }
+        }
+
+        public aspnet_User LogedInUser
+        {
+            get
+            {
+                aspnet_User logedInUser = null;
+                if (Session[AppConstant.SESSION_LOGEDIN_USER] != null)
+                {
+                    logedInUser = (aspnet_User)Session[AppConstant.SESSION_LOGEDIN_USER];
+                }
+
+                return logedInUser;
+            }
+        }
+
+        public bool IsFormerTeacher
+        {
+            get
+            {
+                bool bIsFormerTeacher = false;
+                if (Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER] != null)
+                {
+                    bIsFormerTeacher = (bool)Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER];
+                }
+
+                return bIsFormerTeacher;
+            }
+        }
+
+        public bool IsSubjectTeacher
+        {
+            get
+            {
+                bool bIsSubjectTeacher = false;
+                if (Session[AppConstant.SESSION_LOGEDIN_USER_IS_SUBJECTTEACHER] != null)
+                {
+                    bIsSubjectTeacher = (bool)Session[AppConstant.SESSION_LOGEDIN_USER_IS_SUBJECTTEACHER];
+                }
+
+                return bIsSubjectTeacher;
+            }
+        }
         #endregion
 
         #region Fields
@@ -73,7 +129,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
 
             string pageUrl = Page.Request.Path;
-            List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
+
+            //List<aspnet_Role> roles = userBL.GetRoles(User.Identity.Name);
+            List<aspnet_Role> roles = LogedInUserRoles;
 
             if (!authorizationBL.ValidateAuthorization(roles, pageUrl))
             {
@@ -92,7 +150,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         }
         #endregion
 
-        #region Session methods
+        #region Method(s)
         protected void AddSession(string key, object value)
         {
             Session.Add(UserSchool.SchoolId + AppConstant.UNDERSCORE + key, value);
@@ -129,32 +187,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return false;
             }
         }
-        #endregion
 
         protected string GetText(string key)
         {
             return (string)GetGlobalResourceObject("MainResource", key);
         }
-
-        //protected void ProcPermissions()
-        //{
-
-        //    if (accessibilities.Contains(AccessibilityEnum.Add))
-        //    {
-        //        Control ControlAdd = Page.FindControl("BtnAdd");
-        //        if (ControlAdd != null)
-        //        {
-        //            ImageButton BtnAdd = (ImageButton)ControlAdd;
-        //            BtnAdd.Enabled = true;
-        //            BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text.png";
-        //            PnlPopupAdd.Visible = true;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        BtnAdd.Visible = false;
-        //        PnlPopupAdd.Visible = false;
-        //    }
-        //}
+        #endregion
     }
 }

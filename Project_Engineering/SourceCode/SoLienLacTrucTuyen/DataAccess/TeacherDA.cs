@@ -18,22 +18,22 @@ namespace EContactBook.DataAccess
         //    db.SubmitChanges();
         //}
 
-        public void UpdateTeacher(aspnet_Membership editedTeacher)
+        public void UpdateTeacher(aspnet_Membership teacher)
         {
-            IQueryable<aspnet_Membership> iqTeacher = from tchr in db.aspnet_Memberships
-                                                      where tchr.UserId == editedTeacher.UserId
-                                                      & tchr.SchoolId == school.SchoolId
-                                                      select tchr;
+            IQueryable<aspnet_Membership> queryTeacher = from t in db.aspnet_Memberships
+                                                         where t.UserId == teacher.UserId
+                                                         & t.SchoolId == school.SchoolId
+                                                         select t;
 
-            if (iqTeacher.Count() != 0)
+            if (queryTeacher.Count() != 0)
             {
-                aspnet_Membership teacher = iqTeacher.First();
-                teacher.FullName = editedTeacher.FullName;
-                teacher.Gender = editedTeacher.Gender;
-                teacher.Birthday = editedTeacher.Birthday;
-                teacher.Photo = editedTeacher.Photo;
-                teacher.Address = editedTeacher.Address;
-                teacher.Phone = editedTeacher.Phone;
+                teacher = queryTeacher.First();
+                teacher.FullName = teacher.FullName;
+                teacher.Gender = teacher.Gender;
+                teacher.Birthday = teacher.Birthday;
+                teacher.Photo = teacher.Photo;
+                teacher.Address = teacher.Address;
+                teacher.Phone = teacher.Phone;
 
                 db.SubmitChanges();
             }
@@ -102,7 +102,7 @@ namespace EContactBook.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetTeachers(string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.UserName == teacherCode
@@ -113,7 +113,7 @@ namespace EContactBook.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<aspnet_User> GetListTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetTeachers(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.aspnet_Membership.IsTeacher == true
@@ -123,7 +123,7 @@ namespace EContactBook.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<aspnet_User> GetListTeachersByCode(string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetTeachersByCode(string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.aspnet_Membership.IsTeacher == true
@@ -134,7 +134,7 @@ namespace EContactBook.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<aspnet_User> GetListTeachersByName(string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetTeachersByName(string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
                                                 where tchr.aspnet_Membership.IsTeacher == true
@@ -145,7 +145,7 @@ namespace EContactBook.DataAccess
             return GetListTeachers(ref iqTeacher, pageCurrentIndex, pageSize, out totalRecords);
         }
 
-        public List<aspnet_User> GetListUnformedTeachers(Configuration_Year year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUnformedTeachers(Configuration_Year year, string teacherCode, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
@@ -186,7 +186,7 @@ namespace EContactBook.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListUnformedTeachers(Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUnformedTeachers(Configuration_Year year, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
@@ -223,7 +223,7 @@ namespace EContactBook.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListUnformedTeachersByName(Configuration_Year year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUnformedTeachersByName(Configuration_Year year, string teacherName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
@@ -262,7 +262,7 @@ namespace EContactBook.DataAccess
             return lTeachers;
         }
 
-        public List<aspnet_User> GetListUnformedTeachersByCode(Configuration_Year year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
+        public List<aspnet_User> GetUnformedTeachersByCode(Configuration_Year year, string teacherCode, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<aspnet_User> lTeachers = new List<aspnet_User>();
             IQueryable<aspnet_User> iqTeacher = from tchr in db.aspnet_Users
@@ -361,22 +361,98 @@ namespace EContactBook.DataAccess
 
         public List<Class_Schedule> GetTeaching(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<Class_Schedule> lShedules = new List<Class_Schedule>();
+            List<Class_Schedule> shedules = new List<Class_Schedule>();
 
-            IQueryable<Class_Schedule> iqSchedule;
-            iqSchedule = from schedule in db.Class_Schedules
-                         where schedule.TeacherId == teacher.UserId
-                         && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
-                         select schedule;
+            IQueryable<Class_Schedule> querySchedule;
+            querySchedule = from schedule in db.Class_Schedules
+                            where schedule.TeacherId == teacher.UserId
+                            && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
+                            select schedule;
 
-            totalRecords = iqSchedule.Count();
+            totalRecords = querySchedule.Count();
             if (totalRecords != 0)
             {
-                lShedules = iqSchedule.OrderByDescending(schedule => schedule.Class_Class.Configuration_Year.YearName)
+                shedules = querySchedule.OrderByDescending(schedule => schedule.Class_Class.Configuration_Year.YearName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).Distinct().ToList();
             }
 
-            return lShedules;
+            return shedules;
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term)
+        {
+            List<Class_Class> Classes = new List<Class_Class>();
+
+            IQueryable<Class_Class> queryClass;
+            queryClass = from schedule in db.Class_Schedules
+                         where schedule.TeacherId == teacher.UserId
+                         && schedule.Class_Class.YearId == year.YearId && schedule.TermId == term.TermId
+                         select schedule.Class_Class;
+
+
+            if (queryClass.Count() != 0)
+            {
+                Classes = queryClass.OrderByDescending(Class => Class.ClassName).Distinct().ToList();
+            }
+
+            return Classes;
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term, Category_Faculty faculty)
+        {
+            List<Class_Class> Classes = new List<Class_Class>();
+
+            IQueryable<Class_Class> queryClass;
+            queryClass = from schedule in db.Class_Schedules
+                         where schedule.TeacherId == teacher.UserId
+                         && schedule.Class_Class.YearId == year.YearId && schedule.TermId == term.TermId
+                         && schedule.Class_Class.FacultyId == faculty.FacultyId
+                         select schedule.Class_Class;
+
+            if (queryClass.Count() != 0)
+            {
+                Classes = queryClass.OrderByDescending(Class => Class.ClassName).Distinct().ToList();
+            }
+
+            return Classes;
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term, Category_Grade grade)
+        {
+            List<Class_Class> Classes = new List<Class_Class>();
+
+            IQueryable<Class_Class> queryClass;
+            queryClass = from schedule in db.Class_Schedules
+                         where schedule.TeacherId == teacher.UserId
+                         && schedule.Class_Class.YearId == year.YearId && schedule.TermId == term.TermId
+                         && schedule.Class_Class.GradeId == grade.GradeId
+                         select schedule.Class_Class;
+
+            if (queryClass.Count() != 0)
+            {
+                Classes = queryClass.OrderByDescending(Class => Class.ClassName).Distinct().ToList();
+            }
+
+            return Classes;
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term, Category_Faculty faculty, Category_Grade grade)
+        {
+            List<Class_Class> Classes = new List<Class_Class>();
+
+            IQueryable<Class_Class> queryClass;
+            queryClass = from schedule in db.Class_Schedules
+                         where schedule.TeacherId == teacher.UserId
+                         && schedule.Class_Class.YearId == year.YearId && schedule.TermId == term.TermId
+                         && schedule.Class_Class.FacultyId == faculty.FacultyId && schedule.Class_Class.GradeId == grade.GradeId
+                         select schedule.Class_Class;
+
+            if (queryClass.Count() != 0)
+            {
+                Classes = queryClass.OrderByDescending(Class => Class.ClassName).Distinct().ToList();
+            }
+
+            return Classes;
         }
     }
 }

@@ -126,7 +126,7 @@
         <asp:Panel ID="PnlDragPopupMonHoc" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupMonHocTitle" runat="server" CssClass="popup_header_title"
                 Text="Chọn môn học cho tiết học"></asp:Label>
-            <img id="ImgClosePopupMonHoc" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="ImgClosePopupMonHoc" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div id="divSearchMonHoc" style="padding: 10px 7px 0px 7px;">
@@ -158,7 +158,7 @@
                         </ajaxToolkit:TextBoxWatermarkExtender>
                     </td>
                     <td colspan="2">
-                        <asp:ImageButton ID="BtnSearchMonHoc" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                        <asp:ImageButton ID="BtnSearchMonHoc" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                             ToolTip="Tìm kiếm môn học" OnClick="BtnSearchMonHoc_Click" CssClass="BtnSearch" />
                     </td>
                 </tr>
@@ -214,9 +214,9 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-            <asp:ImageButton ID="BtnSaveMonHoc" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnSaveMonHoc" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnSaveMonHoc_Click" CssClass="SaveButton" />&nbsp;
-            <asp:ImageButton ID="BtnCancelAdd" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelAdd" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopMonHoc_Cancel_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
@@ -224,7 +224,7 @@
         <asp:Panel ID="PnlDragPopupGiaoVien" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupGiaoVienTitle" runat="server" CssClass="popup_header_title"
                 Text="Chọn giáo viên cho tiết học"></asp:Label>
-            <img id="ImgClosePopupGiaoVien" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="ImgClosePopupGiaoVien" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div id="divSearchGiaoVien" style="padding: 10px 7px 0px 7px;">
@@ -247,7 +247,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <asp:ImageButton ID="BtnSearchGiaoVien" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+                        <asp:ImageButton ID="BtnSearchGiaoVien" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                             ToolTip="Tìm kiếm giáo viên" OnClick="BtnSearchGiaoVien_Click" CssClass="BtnSearch" />
                     </td>
                 </tr>
@@ -309,16 +309,16 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-            <asp:ImageButton ID="BtnSaveGiaoVien" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnSaveGiaoVien" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnSaveGiaoVien_Click" CssClass="SaveButton" />&nbsp;
-            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopGiaoVien_Cancel_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-        <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <asp:ImageButton ID="BtnSaveEdit" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSaveEdit_Click" ValidationGroup="EditTietHocTKB" CssClass="SaveButton" />&nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancelEdit_Click" CssClass="CancelButton" />
     </div>
 </asp:Content>

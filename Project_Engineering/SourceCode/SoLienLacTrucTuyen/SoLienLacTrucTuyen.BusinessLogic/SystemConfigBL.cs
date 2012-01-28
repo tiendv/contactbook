@@ -30,7 +30,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<Configuration_Year> GetListYears()
         {
-            return sysConfigDA.GetListYears();
+            return sysConfigDA.GetYears();
         }
 
         public Configuration_Year GetLastedYear()
@@ -41,6 +41,37 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public Configuration_Year GetPreviousYear()
         {
             return sysConfigDA.GetPreviousYear();
+        }
+
+        public List<TabularYear> GetYears(string yearName, int pageIndex, int pageSize, out double totalRecords)
+        {
+            List<TabularYear> tabularYears = new List<TabularYear>();
+            TabularYear tabularYear = null;
+            List<Configuration_Year> years = new List<Configuration_Year>();
+
+            if (CheckUntils.IsNullOrBlank(yearName))
+            {
+                years = sysConfigDA.GetYears(pageIndex, pageSize, out totalRecords);
+            }
+            else
+            {
+                years = sysConfigDA.GetYears(yearName, pageIndex, pageSize, out totalRecords);
+            }
+
+            foreach (Configuration_Year year in years)
+            {
+                tabularYear = new TabularYear();
+                tabularYear.YearId = year.YearId;
+                tabularYear.YearName = year.YearName;
+                tabularYear.FirstTermBeginDate = year.BeginFirstTermDate;
+                tabularYear.FirstTermEndDate = year.EndFirstTermDate;
+                tabularYear.SecondTermBeginDate = year.BeginSecondTermDate;
+                tabularYear.SecondTermEndDate = year.EndSecondTermDate;
+
+                tabularYears.Add(tabularYear);
+            }
+
+            return tabularYears;
         }
 
         public void UpdateYearIdHienHanh(int YearIdHienHanh)
@@ -60,15 +91,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public Configuration_Term GetCurrentTerm()
         {
+            Configuration_Term currentTerm = null;
             Configuration_Year currentYear = GetLastedYear();
-            if (DateTime.Now < currentYear.BeginSecondTermDate)
+            if (currentYear != null)
             {
-                return GetTerm(1);
+                if (DateTime.Now < currentYear.BeginSecondTermDate)
+                {
+                    currentTerm = GetTerm(1);
+                }
+                else
+                {
+                    currentTerm = GetTerm(2);
+                }
             }
-            else
-            {
-                return GetTerm(2);
-            }
+
+            return currentTerm;
         }
 
         public void UpdateTermIdHienHanh(int TermIdHienHanh)
@@ -224,6 +261,34 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<Configuration_District> GetDistricts(Configuration_Province province)
         {
             return sysConfigDA.GetDistricts(province);
+        }
+
+        public bool IsDeletable(Configuration_Year year)
+        {
+            return sysConfigDA.IsDeletable(year);
+        }
+
+        public void DeleteYear(Configuration_Year year)
+        {
+            sysConfigDA.DeleteYear(year);
+        }
+
+        public void InsertYear(string yearName, DateTime firstTermBeginDate, DateTime firstTermEndDate, DateTime secondTermBeginDate, DateTime secondTermEndDate)
+        {
+            Configuration_Year year = new Configuration_Year();
+            year.YearName = yearName;
+            year.BeginFirstTermDate = firstTermBeginDate;
+            year.EndFirstTermDate = firstTermEndDate;
+            year.BeginSecondTermDate = secondTermBeginDate;
+            year.EndSecondTermDate = secondTermEndDate;
+            year.SchoolId = school.SchoolId;
+
+            sysConfigDA.InsertYear(year);
+        }
+
+        public void UpdateYear(Configuration_Year year, DateTime firstTermBeginDate, DateTime firstTermEndDate, DateTime secondTermBeginDate, DateTime secondTermEndDate)
+        {
+            sysConfigDA.UpdateYear(year, firstTermBeginDate, firstTermEndDate, secondTermBeginDate, secondTermEndDate);
         }
     }
 }

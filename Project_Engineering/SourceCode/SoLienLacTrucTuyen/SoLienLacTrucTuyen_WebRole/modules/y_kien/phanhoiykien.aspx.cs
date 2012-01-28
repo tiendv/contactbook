@@ -45,7 +45,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    Response.Redirect(AppConstant.PAGEPATH_PARENTSCOMMENTS);
+                    Response.Redirect(AppConstant.PAGEPATH_COMMENT_LIST);
                 }
             }
         }
@@ -85,12 +85,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             parentsCommentBL.Feedback(comment, strFeedback);
 
             // redirect to page [Góp Ý]
-            Response.Redirect(AppConstant.PAGEPATH_PARENTSCOMMENTS);
+            Response.Redirect(AppConstant.PAGEPATH_COMMENT_LIST);
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_PARENTSCOMMENTS);
+            Response.Redirect(AppConstant.PAGEPATH_COMMENT_LIST);
         }
         #endregion
     }

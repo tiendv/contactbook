@@ -114,9 +114,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tbTeachingPeriod.SessionName = teachingPeriod.Configuration_Session.SessionName;
                 tbTeachingPeriod.TeachingPeriodOrder = teachingPeriod.TeachingPeriodOrder;
                 tbTeachingPeriod.BeginTime = teachingPeriod.BeginTime;
-                tbTeachingPeriod.StringBeginTime = teachingPeriod.BeginTime.ToShortTimeString();
                 tbTeachingPeriod.EndTime = teachingPeriod.EndTime;
-                tbTeachingPeriod.StringEndTime = teachingPeriod.EndTime.ToShortTimeString();
 
                 lTbTeachingPeriods.Add(tbTeachingPeriod);
             }
@@ -159,6 +157,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void SetSession(School_School school)
         {
             this.school = school;
+        }
+
+        public int GetTeachingPeriodCount()
+        {
+            return teachingPeriodDA.GetTeachingPeriodCount();
         }
     }
 }

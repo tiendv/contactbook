@@ -77,43 +77,46 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLClasses();
+            BindDDLSubjects();
         }
 
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLClasses();
+            BindDDLSubjects();
         }
 
         protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLClasses();
+            BindDDLSubjects();
             BindDDLMarkTypes();
         }
 
         protected void DdlHocKy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDDLMonHoc();
+            BindDDLSubjects();
         }
 
         protected void DdlLopHoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindDDLMonHoc();
+            BindDDLSubjects();
         }
         #endregion
 
         #region Methods
         private void BindDropDownLists()
         {
-            BindDDLNamHoc();
-            BindDDLHocKy();
-            BindDDLNganhHoc();
+            BindDDLYears();
+            BindDDLTerms();
+            BindDDLFaculties();
             BindDDLGrades();
             BindDDLClasses();
-            BindDDLMonHoc();
+            BindDDLSubjects();
             BindDDLMarkTypes();
         }
 
-        private void BindDDLNamHoc()
+        private void BindDDLYears()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<Configuration_Year> years = systemConfigBL.GetListYears();
@@ -129,7 +132,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDDLHocKy()
+        private void BindDDLTerms()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<Configuration_Term> terms = systemConfigBL.GetListTerms();
@@ -139,7 +142,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlHocKy.DataBind();
         }
 
-        private void BindDDLNganhHoc()
+        private void BindDDLFaculties()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
             List<Category_Faculty> faculties = facultyBL.GetFaculties();
@@ -190,23 +193,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Configuration_Year year = null;
             Category_Faculty faculty = null;
             Category_Grade grade = null;
+            Configuration_Term term = null;
 
             if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
-                //BtnSearch.ImageUrl = "~/Styles/Images/button_search_with_text_disable.png";
-                //BtnSearch.Enabled = false;
-
-                //BtnAdd.ImageUrl = "~/Styles/Images/button_add_with_text_disable.png";
-                //BtnAdd.Enabled = false;
-
-                //PnlPopupConfirmDelete.Visible = false;
-                //RptHocSinh.Visible = false;
-                //LblSearchResult.Visible = true;
-                //LblSearchResult.Text = "Chưa có thông tin HocSinh";
-
-                //MainDataPager.ItemCount = 0;
-                //MainDataPager.Visible = false;
-
                 return;
             }
 
@@ -223,25 +213,25 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            try
+            if ((DdlKhoiLop.Items.Count == 1 && DdlKhoiLop.SelectedIndex == 0) || (DdlKhoiLop.Items.Count > 1 && DdlKhoiLop.SelectedIndex >= 0))
             {
-                if (DdlKhoiLop.SelectedIndex > 0)
-                {
-                    grade = new Category_Grade();
-                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                }
-            }
-            catch (Exception) { }
+                grade = new Category_Grade();
+                grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
 
-            ClassBL lopHocBL = new ClassBL(UserSchool);
-            List<Class_Class> lstLop = lopHocBL.GetListClasses(year, faculty, grade);
-            DdlLopHoc.DataSource = lstLop;
+            }
+
+            term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+
+            ClassBL classBL = new ClassBL(UserSchool);
+            List<Class_Class> Classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, term);
+            DdlLopHoc.DataSource = Classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";
             DdlLopHoc.DataBind();
         }
 
-        private void BindDDLMonHoc()
+        private void BindDDLSubjects()
         {
             Class_Class Class = null;
             Configuration_Term term = null;
@@ -298,8 +288,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // declare variables
             Class_Class Class = null;
             MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
-            List<Category_MarkType> markTypes = new List<Category_MarkType>();            
-            List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>();
+            List<Category_MarkType> markTypes = new List<Category_MarkType>();
             StudentBL studentBL = new StudentBL(UserSchool);
 
             // case: there is no Class or schedule subject or marktype
@@ -310,9 +299,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = Int32.Parse(DdlNamHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = Int32.Parse(DdlHocKy.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Int32.Parse(DdlLopHoc.SelectedValue);
+            ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECTID] = Int32.Parse(DdlMonHoc.SelectedValue);
+
             // init object against user selections
             Class = new Class_Class();
-            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);            
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
 
             List<Student_Student> students = studentBL.GetStudents(Class);
 
@@ -359,19 +353,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Dictionary<Student_Student, List<MarkValueAndTypePair>> dicEnteredStudentMarks = new Dictionary<Student_Student, List<MarkValueAndTypePair>>();
             List<MarkValueAndTypePair> markValueAndTypePairs;
-            Student_Student student = null;            
+            Student_Student student = null;
             Category_MarkType markType = null;
             HiddenField hdfMarkTypeId = null;
             TextBox txtDiems = null;
-            HiddenField hdfStudentId = null;            
+            HiddenField hdfStudentId = null;
             Class_Class Class = new Class_Class();
             Configuration_Term term = new Configuration_Term();
             Category_Subject subject = new Category_Subject();
             Configuration_Year year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            subject.SubjectId = Int32.Parse(DdlMonHoc.SelectedValue);
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
+            subject.SubjectId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECTID];
 
             foreach (RepeaterItem rptItemStudentMark in RptDiemMonHoc.Items)
             {
@@ -471,13 +465,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptDiemMonHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                HiddenField hdfStudentCode = (HiddenField)e.Item.FindControl("HdfMaHocSinh");
+                ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTID] = Int32.Parse(hdfStudentCode.Value);
+            }
+
             if (DdlKhoiLop.Items.Count != 0)
             {
+                MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
                 Category_Grade grade = new Category_Grade();
                 grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-
-                MarkTypeBL markTypeBL = new MarkTypeBL(UserSchool);
                 List<Category_MarkType> markTypes = new List<Category_MarkType>();
+
                 if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
                 {
                     if (DdlLoaiDiem.SelectedIndex == 0)
@@ -493,6 +493,41 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     Repeater rptMarkTypeBasedMarks = (Repeater)e.Item.FindControl("RptDiemTheoLoaiDiem");
                     rptMarkTypeBasedMarks.DataSource = markTypes;
                     rptMarkTypeBasedMarks.DataBind();
+                }
+            }
+        }
+
+        protected void RptDiemTheoLoaiDiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Student_Student student = new Student_Student();
+                student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_STUDENTID];
+
+                Configuration_Year year = new Configuration_Year();
+                year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
+
+                Configuration_Term term = new Configuration_Term();
+                term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
+
+                Category_Subject subject = new Category_Subject();
+                subject.SubjectId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SUBJECTID];
+
+                HiddenField hdfMarkTypeId = (HiddenField)e.Item.FindControl("HdfMarkTypeId");
+                Category_MarkType markType = new Category_MarkType();
+                markType.MarkTypeId = Int32.Parse(hdfMarkTypeId.Value);
+
+                Panel PnlMarkEntry = (Panel)e.Item.FindControl("PnlMarkEntry");
+                Panel PnlMessage = (Panel)e.Item.FindControl("PnlMessage");
+                if (studyingResultBL.MarkExceedQuantity(student, year, term, subject, markType))
+                {
+                    PnlMarkEntry.Visible = false;
+                    PnlMessage.Visible = true;
+                }
+                else
+                {
+                    PnlMarkEntry.Visible = true;
+                    PnlMessage.Visible = false;
                 }
             }
         }

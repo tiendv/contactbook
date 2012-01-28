@@ -10,16 +10,16 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ThemGiaoVienChuNhiemPage {
+    public partial class FormerTeacherAddPage {
         
         /// <summary>
-        /// DdlNamHoc control.
+        /// LblYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
+        protected global::System.Web.UI.WebControls.Label LblYear;
         
         /// <summary>
         /// DdlKhoiLop control.

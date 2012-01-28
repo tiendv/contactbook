@@ -80,7 +80,7 @@
             </asp:UpdatePanel>
         </div>
         <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
@@ -90,7 +90,7 @@
                 ToolTip="In danh sách học sinh" OnClientClick="fncOpen();" CssClass="BtnExport" />
             <asp:ImageButton ID="BtnImport" runat="server" ImageUrl="~/Styles/buttons/button_import.png"
                 ToolTip="Import học sinh" OnClick="BtnImport_Click" CssClass="BtnImport" />
-            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/Images/button_add_with_text.png"
+            <asp:ImageButton ID="BtnAdd" runat="server" ImageUrl="~/Styles/buttons/button_add.png"
                 ToolTip="Thêm học sinh mới" OnClick="BtnAdd_Click" CssClass="BtnAdd" />
             <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
                 ToolTip="Sửa học sinh" CssClass="BtnEdit" />
@@ -132,10 +132,10 @@
                         </td>
                         <td class="middle">
                             <asp:LinkButton ID="LinkButton3" runat="server">Ngành</asp:LinkButton>
-                        </td>                        
+                        </td>
                         <td class="middle">
                             <asp:LinkButton ID="LinkButton4" runat="server">Khối</asp:LinkButton>
-                        </td>                        
+                        </td>
                         <td class="icon">
                             <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                         </td>
@@ -151,12 +151,11 @@
                         <td style="height: 40px;">
                             <asp:LinkButton ID="LbtnStudentCode" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "StudentCode")%>'
                                 Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
-                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>'>
-                            '<%#DataBinder.Eval(Container.DataItem, "FullName")%>'
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "StudentId")%>'>                           
                             </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "FullName")%>
+                            <asp:Label ID="LblFullName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FullName")%>'></asp:Label>                            
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "StringGender")%>
@@ -172,7 +171,7 @@
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "GradeName")%>
-                        </td>                        
+                        </td>
                         <td class="icon">
                             <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
                         </td>
@@ -194,7 +193,7 @@
         Width="350px">
         <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa học sinh" CssClass="popup_header_title"></asp:Label>
-            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/Images/popup_button_close.png"
+            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
         <div style="padding: 10px;">
@@ -205,10 +204,10 @@
             </div>
         </div>
         <div style="width: 170px; margin: 0px auto 0px auto; padding: 20px 0px 5px 0px">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
                 OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />
             &nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
                 OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
         </div>
     </asp:Panel>

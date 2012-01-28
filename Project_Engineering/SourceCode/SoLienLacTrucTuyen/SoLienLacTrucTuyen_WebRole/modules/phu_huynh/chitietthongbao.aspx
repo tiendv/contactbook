@@ -12,7 +12,7 @@
         </p>
         <div style="height: 250px; width: 100%; position: relative">
             <div style="width: 99%; position: absolute; top: 14px;" class="ui-corner-all comment_border">
-                <asp:TextBox ID="TxtFeedback" runat="server" TextMode="MultiLine" Height="230px"
+                <asp:TextBox ID="TxtFeedback" runat="server" TextMode="MultiLine" Height="230px" MaxLength="500"
                     Style="width: 99%; font-family: Arial; padding: 3px; border-style: none"></asp:TextBox>
                 <ajaxToolkit:TextBoxWatermarkExtender ID="FeedbackWatermark" runat="server" TargetControlID="TxtFeedback"
                     WatermarkText="Nhập xác nhận thông báo ....">

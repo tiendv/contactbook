@@ -68,11 +68,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListTeachers(pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetTeachers(pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTeachers = teacherDA.GetListTeachersByName(teacherName, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetTeachersByName(teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
             else
@@ -81,12 +81,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListTeachersByCode(teacherCode, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetTeachersByCode(teacherCode, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
 
-                    lTeachers = teacherDA.GetListTeachers(teacherCode, teacherName, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetTeachers(teacherCode, teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
 
@@ -113,11 +113,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListUnformedTeachers(year, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetUnformedTeachers(year, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTeachers = teacherDA.GetListUnformedTeachersByName(year, teacherName, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetUnformedTeachersByName(year, teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
             else
@@ -126,11 +126,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
                 if ((teacherName == "") || (string.Compare(teacherName, "tất cả", true) == 0))
                 {
-                    lTeachers = teacherDA.GetListUnformedTeachersByCode(year, teacherCode, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetUnformedTeachersByCode(year, teacherCode, pageCurrentIndex, pageSize, out totalRecords);
                 }
                 else
                 {
-                    lTeachers = teacherDA.GetListUnformedTeachers(year, teacherCode, teacherName, pageCurrentIndex, pageSize, out totalRecords);
+                    lTeachers = teacherDA.GetUnformedTeachers(year, teacherCode, teacherName, pageCurrentIndex, pageSize, out totalRecords);
                 }
             }
 
@@ -197,32 +197,63 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return lTbFormering;
         }
 
+        /// <summary>
+        /// Get list of tabular teaching information (year, term, class, subject) of teacher
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <param name="pageCurrentIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="totalRecords"></param>
+        /// <returns></returns>
         public List<TabularTeaching> GetListTeachings(aspnet_User teacher, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-            List<TabularTeaching> lTeachings = new List<TabularTeaching>();
-            List<Class_Schedule> lShedules = new List<Class_Schedule>();
+            List<TabularTeaching> tabularTeachings = new List<TabularTeaching>();
+            TabularTeaching tabularTeaching = null;
+            List<Class_Schedule> shedules = new List<Class_Schedule>();
 
-            lShedules = teacherDA.GetTeaching(teacher, pageCurrentIndex, pageSize, out totalRecords);
+            shedules = teacherDA.GetTeaching(teacher, pageCurrentIndex, pageSize, out totalRecords);
 
-            foreach (Class_Schedule schedule in lShedules)
+            foreach (Class_Schedule schedule in shedules)
             {
-                TabularTeaching tbTeaching = new TabularTeaching
+                tabularTeaching = new TabularTeaching
                 {
                     YearId = schedule.Class_Class.Configuration_Year.YearId,
                     YearName = schedule.Class_Class.Configuration_Year.YearName,
+
                     TermId = schedule.Configuration_Term.TermId,
                     TermName = schedule.Configuration_Term.TermName,
+
                     ClassId = schedule.Class_Class.ClassId,
                     ClassName = schedule.Class_Class.ClassName,
+
                     SubjectId = schedule.Category_Subject.SubjectId,
                     SubjectName = schedule.Category_Subject.SubjectName
                 };
 
-                lTeachings.Add(tbTeaching);
+                tabularTeachings.Add(tabularTeaching);
             }
 
-            return lTeachings;
+            return tabularTeachings;
         }
 
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term)
+        {
+            return teacherDA.GetTaughtClasses(teacher, year, term);
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term, Category_Faculty faculty)
+        {
+            return teacherDA.GetTaughtClasses(teacher, year, term, faculty);
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term, Category_Grade grade)
+        {
+            return teacherDA.GetTaughtClasses(teacher, year, term, grade);
+        }
+
+        public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term, Category_Faculty faculty, Category_Grade grade)
+        {
+            return teacherDA.GetTaughtClasses(teacher, year, term, faculty, grade);
+        }
     }
 }

@@ -91,14 +91,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 studentBL.UpdateStudentGrade(students, Class);
 
                 RemoveSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
-                Response.Redirect(AppConstant.PAGEPATH_CHANGEGRADE_SELECT);
+                Response.Redirect(AppConstant.PAGEPATH_STUDENT_CHANGEGRADE_SELECT);
             }
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
             RemoveSession(AppConstant.SESSION_CHANGEGRADE_STUDENTS);
-            Response.Redirect(AppConstant.PAGEPATH_CHANGEGRADE_SELECT);
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_CHANGEGRADE_SELECT);
         }
         #endregion
 
@@ -200,7 +200,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             Configuration_Year year = systemConfigBL.GetLastedYear();
             LblYear.Text = year.YearName;
-            ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] = year.YearId;
+            ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
         }
 
         private void BindDDLClasses()
@@ -211,7 +211,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Faculty faculty = null;
             Category_Grade grade = null;
 
-            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR] == null || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] == null || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
                 BtnSave.Enabled = false;
@@ -226,7 +226,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             year = new Configuration_Year();
-            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEAR];
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
             if ((DdlNganh.Items.Count == 1) || (DdlNganh.Items.Count > 1 && DdlNganh.SelectedIndex > 0))
             {
@@ -240,7 +240,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
 
-            classes = classBL.GetListClasses(year, faculty, grade);
+            classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";

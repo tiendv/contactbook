@@ -80,7 +80,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ((Label)LoginView1.Controls[0].FindControl("LblHasNewMarkStt")).Text = string.Format("Có điểm mới");
                     }
 
-                    List<Category_Subject> newFinalMarkSubjects = studyingResultBL.HasFinalNewMarks(loggedInStudent);
+                    List<Category_Subject> newFinalMarkSubjects = studyingResultBL.HasNewFinalMarks(loggedInStudent);
                     if (newFinalMarkSubjects.Count != 0)
                     {
                         ((Label)LoginView1.Controls[0].FindControl("LblHasNewFinalMarkStt")).Text = string.Format("Có điểm thi cuối kì");

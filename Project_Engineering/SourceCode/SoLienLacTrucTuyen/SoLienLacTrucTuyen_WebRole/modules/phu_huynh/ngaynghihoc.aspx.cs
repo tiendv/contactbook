@@ -242,7 +242,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             Student_Absent absent = new Student_Absent();
             absent.AbsentId = Int32.Parse(this.HdfMaNgayNghiHoc.Value);
-            absentBL.UnConfirmAbsent(absent);
+            absentBL.UnconfirmAbsent(absent);
             isSearch = false;
             BindRptStudentAbsents();
         }

@@ -15,7 +15,6 @@ namespace EContactBook.DataAccess
 
         public void InsertAttitude(Category_Attitude attitude)
         {
-            attitude.SchoolId = school.SchoolId;
             db.Category_Attitudes.InsertOnSubmit(attitude);
             db.SubmitChanges();
         }
@@ -25,7 +24,6 @@ namespace EContactBook.DataAccess
             Category_Attitude attitude = null;
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.AttitudeId == editedAttitude.AttitudeId
-                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
@@ -40,7 +38,6 @@ namespace EContactBook.DataAccess
             Category_Attitude attitude = null;
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.AttitudeId == deletedAttitude.AttitudeId
-                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
@@ -55,7 +52,6 @@ namespace EContactBook.DataAccess
             Category_Attitude attitude = null;
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.AttitudeId == attitudeId
-                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
@@ -70,7 +66,6 @@ namespace EContactBook.DataAccess
             List<Category_Attitude> lAttitudes = new List<Category_Attitude>();
 
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
-                                                           where att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {
@@ -83,7 +78,6 @@ namespace EContactBook.DataAccess
         public List<Category_Attitude> GetAttitudes(int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
-                                                           where att.SchoolId == school.SchoolId
                                                            select att;
             return GetAttitudes(ref iqAttitude, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -92,7 +86,6 @@ namespace EContactBook.DataAccess
         {
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.AttitudeName == attitudeName
-                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             return GetAttitudes(ref iqAttitude, pageCurrentIndex, pageSize, out totalRecords);
         }
@@ -116,7 +109,6 @@ namespace EContactBook.DataAccess
         {
             IQueryable<Category_Attitude> iqAttitude = from att in db.Category_Attitudes
                                                            where att.AttitudeName == attitudeName
-                                                           && att.SchoolId == school.SchoolId
                                                            select att;
             if (iqAttitude.Count() != 0)
             {

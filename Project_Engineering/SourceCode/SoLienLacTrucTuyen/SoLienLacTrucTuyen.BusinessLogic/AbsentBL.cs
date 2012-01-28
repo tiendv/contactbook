@@ -39,30 +39,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             absentDA.UpdateAbsent(editedAbsent);
         }
 
-        public void DeleteAbsent(int maNgayNghiHoc)
+        public void DeleteAbsent(Student_Absent absent)
         {
-            absentDA.DeleteAbsent(maNgayNghiHoc);
+            absentDA.DeleteAbsent(absent);
         }
 
         public Student_Absent GetAbsent(int absentId)
         {
             return absentDA.GetAbsent(absentId);
-        }
-
-        public Student_Absent GetAbsent(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
-        {
-            StudentBL studentBL = new StudentBL(school);
-            Student_StudentInClass studentInClass = studentBL.GetStudentInClass(student, year);
-
-            return absentDA.GetAbsent(studentInClass, term, date);
-        }
-
-        public Student_Absent GetAbsent(Student_Absent exceptedAbsent, Student_Student student, Configuration_Year year, Configuration_Term term, DateTime date)
-        {
-            StudentBL studentBL = new StudentBL(school);
-            Student_StudentInClass studentInClass = studentBL.GetStudentInClass(student, year);
-
-            return absentDA.GetAbsent(exceptedAbsent, studentInClass, term, date);
         }
 
         public List<TabularAbsent> GetTabularAbsents(Student_Student student, Configuration_Year year, Configuration_Term term, DateTime beginDate, DateTime endDate, int pageCurrentIndex, int pageSize, out double totalRecords)
@@ -83,6 +67,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularAbsent.Session = systemConfigBL.GetSessionName(absent.SessionId);
                 tabularAbsent.IsAsked = (absent.IsAsked) ? "Có" : "Không";
                 tabularAbsent.Reason = absent.Reason;
+                tabularAbsent.IsConfirmed = absent.IsConfirmed;
                 tabularAbsent.Confirmed = (absent.IsConfirmed) ? "Có" : "Không";
 
                 tabularAbsents.Add(tabularAbsent);
@@ -102,7 +87,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             absentDA.ConfirmAbsent(absent, xacNhan);
         }
 
-        public void UnConfirmAbsent(Student_Absent absent)
+        public void UnconfirmAbsent(Student_Absent absent)
         {
             bool xacNhan = false;
             absentDA.ConfirmAbsent(absent, xacNhan);
@@ -166,9 +151,21 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return absentDA.GetUnconfirmAbsentCount(student, Class);
         }
 
-        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term, bool confirmed)
+        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term, bool? asked)
         {
-            return absentDA.GetTotalDayOfAbsent(student, Class, term, confirmed);
+            if (asked != null)
+            {
+                return absentDA.GetTotalDayOfAbsent(student, Class, term, (bool)asked);
+            }
+            else
+            {
+                return absentDA.GetTotalDayOfAbsent(student, Class, term);
+            }
+        }
+
+        public bool IsDeletable(Student_Absent absent)
+        {
+            return absentDA.IsDeletable(absent);
         }
     }
 }

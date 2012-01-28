@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ThemGiaoVienChuNhiemPage : BaseContentPage
+    public partial class FormerTeacherAddPage : BaseContentPage
     {
         #region Fields
         private TeacherBL teacherBL;
@@ -34,11 +34,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             teacherBL = new TeacherBL(UserSchool);
-            
+
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
-                BindRepeater();
+                if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] != null && DdlNganh.Items.Count != 0 && DdlKhoiLop.Items.Count != 0)
+                {
+                    BindRepeater();
+                }
+                else
+                {
+                    ProcDisplayInfo(false);
+                }                
             }
         }
         #endregion
@@ -46,13 +53,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptGiaoVien_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            
+
         }
 
         protected void RptGiaoVien_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
-            {                
+            {
                 default:
                     {
                         break;
@@ -69,7 +76,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             isSearch = true;
             BindRepeater();
         }
-        
+
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
             foreach (RepeaterItem item in RptGiaoVien.Items)
@@ -89,15 +96,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             HiddenField hdfRptUserId = (HiddenField)item.FindControl("HdfRptUserId");
                             Guid UserId = new Guid(hdfRptUserId.Value);
                             int ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                            
-                            Class.ClassId = ClassId;                            
-                            teacher.UserId = UserId;                            
+
+                            Class.ClassId = ClassId;
+                            teacher.UserId = UserId;
                             gvcnBL.Insert(Class, teacher);
                             Response.Redirect("giaovienchunhiem.aspx");
                         }
                     }
                 }
-            }            
+            }
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
@@ -107,14 +114,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region DropDownList event hanlders
-        protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLClasses();
-            BindRepeater();
-
-            LblTitleTeacherList.Text = string.Format("DANH SÁCH GIÁO VIÊN CHƯA PHÂN CÔNG CHỦ NHIỆM (NĂM HỌC {0})", DdlNamHoc.SelectedItem.Text);
-        }
-
         protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLClasses();
@@ -125,7 +124,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             BindDDLClasses();
         }
         #endregion
-        
+
         #region DataPager event handlers
         public void DataPager_Command(object sender, CommandEventArgs e)
         {
@@ -138,7 +137,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Methods
         private void BindDropDownLists()
         {
-            BindDropDownListNamHoc();
+            FillYear();
             BindDDLFaculties();
             BindDDLGrades();
             BindDDLClasses();
@@ -172,19 +171,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private void BindDropDownListNamHoc()
+        private void FillYear()
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> years = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = years;
-            DdlNamHoc.DataValueField = "YearId";
-            DdlNamHoc.DataTextField = "YearName";
-            DdlNamHoc.DataBind();
-
-            if (DdlNamHoc.Items.Count != 0)
+            Configuration_Year year = systemConfigBL.GetLastedYear();
+            if (year != null)
             {
+                LblYear.Text = year.YearName;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
+
                 BindRepeater();
-                LblTitleTeacherList.Text = string.Format("DANH SÁCH GIÁO VIÊN CHƯA PHÂN CÔNG CHỦ NHIỆM (NĂM HỌC {0})", DdlNamHoc.SelectedItem.Text);
+                LblTitleTeacherList.Text = string.Format("DANH SÁCH GIÁO VIÊN CHƯA PHÂN CÔNG CHỦ NHIỆM (NĂM HỌC {0})", year.YearName);
             }
             else
             {
@@ -199,14 +196,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Grade grade = null;
 
             bool bEnabled;
-            if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] == null || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 bEnabled = false;
             }
             else
             {
                 year = new Configuration_Year();
-                year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
+                year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
                 if (DdlNganh.SelectedIndex > 0)
                 {
@@ -218,7 +215,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     grade = new Category_Grade();
                     grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                }                
+                }
 
                 List<Class_Class> lstLop = (new ClassBL(UserSchool)).GetUnformeredClasses(year, faculty, grade);
                 DdlLopHoc.DataSource = lstLop;
@@ -237,35 +234,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             BtnSave.Enabled = bEnabled;
-            BtnSave.ImageUrl = (bEnabled) ? "~/Styles/Images/button_save.png" : "~/Styles/Images/button_save_disable.png";
+            BtnSave.ImageUrl = (bEnabled) ? "~/Styles/buttons/button_save.png" : "~/Styles/buttons/button_save_disable.png";
         }
 
         private void BindRepeater()
         {
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] == null)
+            {
+                ProcDisplayInfo(false);
+                return;
+            }
+            
             Configuration_Year year = new Configuration_Year();
-            int yearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            year.YearId = yearId;
-            string maHienThiGiaoVien = TxtSearchMaHienThiGiaoVien.Text.Trim();
-            string hoTen = TxtSearchTenGiaoVien.Text.Trim();
-
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
+            string strTeacherCode = TxtSearchMaHienThiGiaoVien.Text.Trim();
+            string strTeacherName = TxtSearchTenGiaoVien.Text.Trim();
 
             double dTotalRecords;
-            List<TabularTeacher> lstTbGiaoViens = teacherBL.GetTabularUnformeredTeachers(
-                year, maHienThiGiaoVien, hoTen,
+            List<TabularTeacher> tabularTeachers = teacherBL.GetTabularUnformeredTeachers(year, strTeacherCode, strTeacherName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (lstTbGiaoViens.Count == 0 && dTotalRecords != 0)
+            if (tabularTeachers.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRepeater();
                 return;
             }
 
-            bool bDisplayData = (lstTbGiaoViens.Count != 0) ? true : false;
-            ProcDisplayInfo(bDisplayData);           
+            bool bDisplayData = (tabularTeachers.Count != 0) ? true : false;
+            ProcDisplayInfo(bDisplayData);
 
-            RptGiaoVien.DataSource = lstTbGiaoViens;
+            RptGiaoVien.DataSource = tabularTeachers;
             RptGiaoVien.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
 
@@ -273,16 +273,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 foreach (RepeaterItem item in RptGiaoVien.Items)
                 {
-                    if (item.ItemType == ListItemType.Item 
-                        || item.ItemType == ListItemType.AlternatingItem)
+                    if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                     {
-                        Control control = item.FindControl("RBtnSelect");
-                        if (control != null)
-                        {
-                            RadioButton rBtnSelect = (RadioButton)control;
-                            rBtnSelect.Checked = true;
-                            return;
-                        }
+                        RadioButton rBtnSelect = (RadioButton)item.FindControl("RBtnSelect");
+                        rBtnSelect.Checked = true;
+                        return;
                     }
                 }
             }
@@ -294,7 +289,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             LblSearchResult.Visible = !bDisplay;
             bool b = (DdlLopHoc.Items.Count != 0) && bDisplay;
             BtnSave.Enabled = b;
-            BtnSave.ImageUrl = (b) ? "~/Styles/Images/button_save.png" : "~/Styles/Images/button_save_disable.png";
+            BtnSave.ImageUrl = (b) ? "~/Styles/buttons/button_save.png" : "~/Styles/buttons/button_save_disable.png";
             if (LblSearchResult.Visible)
             {
                 if (!isSearch)

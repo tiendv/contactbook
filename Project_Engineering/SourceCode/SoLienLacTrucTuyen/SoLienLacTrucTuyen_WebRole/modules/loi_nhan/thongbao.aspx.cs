@@ -12,7 +12,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class LoiNhanKhan : BaseContentPage
+    public partial class MessageListPage : BaseContentPage
     {
         #region Fields
         private bool isSearch;
@@ -46,17 +46,27 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     BindRptMessages();
                 }
             }
+
+            ProcPermissions();
         }
         #endregion
 
         #region Methods
+        private void ProcPermissions()
+        {
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+        }
+
         private void BindRptMessages()
         {
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            DateTime tuNgay = DateTime.Parse(TxtTuNgay.Text);
-            DateTime denNgay = DateTime.Parse(TxtDenNgay.Text);
-            string strStudentCode = TxtMaHS.Text;
+            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
+            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            string strStudentCode = TxtStudentCode.Text;
             Configuration_MessageStatus messageStatus = null;
             if (DdlXacNhan.SelectedIndex > 0)
             {
@@ -65,21 +75,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             double dTotalRecords;
-            List<TabularMessage> lstTabularLoiNhanKhan = messageBL.GetTabularMessages(
-                year, tuNgay, denNgay,
-                strStudentCode, messageStatus, MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
+            List<TabularMessage> tabularMessages = messageBL.GetTabularMessages(LogedInUser, IsFormerTeacher,
+                year, dtBeginDate, dtEndDate, strStudentCode, messageStatus, true, 
+                MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
-            if (lstTabularLoiNhanKhan.Count == 0 && dTotalRecords != 0)
+            if (tabularMessages.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
                 BindRptMessages();
                 return;
             }
 
-            bool bDisplayData = (lstTabularLoiNhanKhan.Count != 0) ? true : false;
+            bool bDisplayData = (tabularMessages.Count != 0) ? true : false;
             ProcessDislayInfo(bDisplayData);
 
-            RptLoiNhanKhan.DataSource = lstTabularLoiNhanKhan;
+            RptLoiNhanKhan.DataSource = tabularMessages;
             RptLoiNhanKhan.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
         }
@@ -93,11 +103,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (!isSearch)
                 {
-                    LblSearchResult.Text = "Chưa có thông tin lời nhắn khẩn";
+                    LblSearchResult.Text = "Chưa có thông tin thông báo";
                 }
                 else
                 {
-                    LblSearchResult.Text = "Không tìm thấy lời nhắn khẩn";
+                    LblSearchResult.Text = "Không tìm thấy thông báo";
                 }
                 MainDataPager.ItemCount = 0;
                 MainDataPager.Visible = false;
@@ -147,14 +157,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void BindDDLMessageStatuses()
         {
-            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_MessageStatus> messageStatuses = systemConfigBL.GetMessageStatuses();
+            List<Configuration_MessageStatus> messageStatuses = messageBL.GetMessageStatuses(true);
             DdlXacNhan.DataSource = messageStatuses;
             DdlXacNhan.DataValueField = "MessageStatusId";
             DdlXacNhan.DataTextField = "MessageStatusName";
             DdlXacNhan.DataBind();
 
-            DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0"));
+            DdlXacNhan.Items.Insert(0, new ListItem("Tất cả", "0"));            
         }
 
         private void InitDates()
@@ -177,7 +186,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Repeater event handlers
         protected void RptLoiNhanKhan_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
         }
 
         protected void RptLoiNhanKhan_ItemCommand(object source, RepeaterCommandEventArgs e)
@@ -186,24 +203,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 case "CmdDetailItem":
                     {
-                        //int maLoiNhanKhan = Int32.Parse(e.CommandArgument.ToString());
-                        //MessageToParents_Message loiNhanKhan = loiNhanKhanBL.GetMessage(maLoiNhanKhan);
+                        MessageToParents_Message message = new MessageToParents_Message();
+                        message.MessageId = Int32.Parse(e.CommandArgument.ToString());
 
-                        //LblTieuDeSua.Text = loiNhanKhan.Title;
-                        //TxtNoiDungSua.Text = TxtNoiDungSua.Text;
-                        //TxtNgaySua.Text = loiNhanKhan.Date.ToShortDateString();
-
-                        //Student_StudentInClass hocSinhLopHoc = (new StudentBL(UserSchool)).GetStudentInClass(loiNhanKhan.StudentInClassId);
-                        //LblMaHocSinhSua.Text = (new StudentBL(UserSchool)).GetStudent(hocSinhLopHoc.StudentId).StudentCode;                        
-                        //LblNganhHocSua.Text = hocSinhLopHoc.Class_Class.Category_Faculty.FacultyName;
-                        //LblKhoiSua.Text = hocSinhLopHoc.Class_Class.Category_Grade.GradeName;
-                        //LblLopSua.Text = hocSinhLopHoc.Class_Class.ClassName;
-
-                        //ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        //mPEEdit.Show();
-
-                        //this.HdfMaLoiNhanKhan.Value = maLoiNhanKhan.ToString();
-                        //this.HdfRptLoiNhanKhanMPEEdit.Value = mPEEdit.ClientID;
+                        AddSession(AppConstant.SESSION_MESSAGE, message);
+                        Response.Redirect(AppConstant.PAGEPATH_MESSAGE_DETAIL);
 
                         break;
                     }
@@ -225,18 +229,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnAdd_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_ADDMESSAGES);
+            Response.Redirect(AppConstant.PAGEPATH_MESSAGE_ADD);
         }
 
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            
-        }
-
-        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
-        {
             HiddenField hdfRptMaLoiNhanKhan = null;
-            MessageToParents_Message mesage = null;
+            MessageToParents_Message message = null;
             foreach (RepeaterItem item in RptLoiNhanKhan.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
@@ -245,17 +244,50 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     if (CkbxSelect.Checked)
                     {
                         hdfRptMaLoiNhanKhan = (HiddenField)item.FindControl("HdfRptMaLoiNhanKhan");
-                        mesage = new MessageToParents_Message();
-                        mesage.MessageId = Int32.Parse(hdfRptMaLoiNhanKhan.Value);
-
-                        messageBL.DeleteMessage(mesage);
+                        message = new MessageToParents_Message();
+                        message.MessageId = Int32.Parse(hdfRptMaLoiNhanKhan.Value);
+                        AddSession(AppConstant.SESSION_MESSAGE, message);
+                        Response.Redirect(AppConstant.PAGEPATH_MESSAGE_MODIFY);
                     }
                 }
             }
+        }
 
+        protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
+        {
+            bool bIsConfirmed = false;
+            HiddenField hdfRptMaLoiNhanKhan = null;
+            MessageToParents_Message message = null;
+            foreach (RepeaterItem item in RptLoiNhanKhan.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        hdfRptMaLoiNhanKhan = (HiddenField)item.FindControl("HdfRptMaLoiNhanKhan");
+                        message = new MessageToParents_Message();
+                        message.MessageId = Int32.Parse(hdfRptMaLoiNhanKhan.Value);
+
+                        if (messageBL.IsDeletable(message))
+                        {
+                            messageBL.DeleteMessage(message);
+                        }             
+                        else
+                        {
+                            bIsConfirmed = true;
+                        }
+                    }
+                }
+            }
             
             isSearch = false;
             BindRptMessages();
+
+            if (bIsConfirmed)
+            {
+                MPEInfoInUse.Show();
+            }
         }
         #endregion
 

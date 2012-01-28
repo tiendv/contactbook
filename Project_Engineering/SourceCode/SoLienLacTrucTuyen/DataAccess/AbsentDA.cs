@@ -60,11 +60,10 @@ namespace EContactBook.DataAccess
             }
         }
 
-        public void DeleteAbsent(int absentId)
+        public void DeleteAbsent(Student_Absent absent)
         {
-            Student_Absent absent = null;
             IQueryable<Student_Absent> iqAbsent = from abs in db.Student_Absents
-                                                  where abs.AbsentId == absentId
+                                                  where abs.AbsentId == absent.AbsentId
                                                   select abs;
             if (iqAbsent.Count() != 0)
             {
@@ -252,14 +251,40 @@ namespace EContactBook.DataAccess
             return iqAbsent.Count();
         }
 
-        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term, bool confirmed)
+        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term)
         {
             IQueryable<Student_Absent> iqAbsent = from a in db.Student_Absents
                                                   where a.Student_StudentInClass.StudentId == student.StudentId
                                                    && a.Student_StudentInClass.ClassId == Class.ClassId
-                                                   && a.TermId == term.TermId && a.IsConfirmed == confirmed
+                                                   && a.TermId == term.TermId
                                                   select a;
             return iqAbsent.Count();
+        }
+
+        public int GetTotalDayOfAbsent(Student_Student student, Class_Class Class, Configuration_Term term, bool asked)
+        {
+            IQueryable<Student_Absent> iqAbsent = from a in db.Student_Absents
+                                                  where a.Student_StudentInClass.StudentId == student.StudentId
+                                                   && a.Student_StudentInClass.ClassId == Class.ClassId
+                                                   && a.TermId == term.TermId && a.IsAsked == asked
+                                                  select a;
+            return iqAbsent.Count();
+        }
+
+        public bool IsDeletable(Student_Absent absent)
+        {
+            IQueryable<Student_Absent> iqAbsent = from abs in db.Student_Absents
+                                                  where abs.AbsentId == absent.AbsentId
+                                                  && abs.IsConfirmed == true
+                                                  select abs;
+            if (iqAbsent.Count() != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

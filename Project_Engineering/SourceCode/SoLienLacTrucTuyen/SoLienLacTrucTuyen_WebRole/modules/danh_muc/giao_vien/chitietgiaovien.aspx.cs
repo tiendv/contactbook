@@ -36,14 +36,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
-                ViewState["prevpageid"] = Request.QueryString["prevpageid"];
-
-                string UserId = Request.QueryString["giaovien"];
-                ViewState["UserId"] = UserId;                
-                FillGiaoVien(new Guid(UserId));
-                BindDataChuNhiem();
-                BindDataGiangDay();
-                ProcPermissions();
+                if (RetrieveSessions())
+                {
+                    FillTeacherPersonalInformation();
+                    BindRptFormerings();
+                    BindRptTeachings();
+                    ProcPermissions();
+                }
+                else
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_TEACHER_LIST);
+                }                
             }
         }
         #endregion
@@ -51,45 +54,83 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSua_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(string.Format("suagiaovien.aspx?giaovien={0}&prevpageid={1}",
-                ViewState["UserId"], 4));
+            aspnet_User teacher = new aspnet_User();
+            teacher.UserId = new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_USERID].ToString());
+
+            AddSession(AppConstant.SESSION_SELECTED_USER, teacher);
+            AddSession(AppConstant.SESSION_PREVIOUSPAGE, AppConstant.PAGEPATH_TEACHER_DETAIL);
+
+            Response.Redirect(AppConstant.PAGEPATH_TEACHER_EDIT);
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect("/modules/danh_muc/giao_vien/danhsachgiaovien.aspx");
+            Response.Redirect(AppConstant.PAGEPATH_TEACHER_LIST);
         }
         #endregion
 
         #region Methods
-        private void FillGiaoVien(Guid teacherId)
+        private void FillTeacherPersonalInformation()
         {
-            aspnet_User teacher = teacherBL.GetTeacher(teacherId);
-            LblUserIdHienThi.Text = teacher.UserName.Split('_')[1];
+            aspnet_User teacher = teacherBL.GetTeacher(new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_USERID].ToString()));
+            LblUserIdHienThi.Text = teacher.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
+
             LblTenGiaoVien.Text = teacher.aspnet_Membership.FullName;
+
             if (teacher.aspnet_Membership.Birthday != null)
             {
                 LblNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToShortDateString();
             }
+            else
+            {
+                LblNgaySinh.Text = "(Chưa xác định)";
+            }
+
             if (teacher.aspnet_Membership.Gender != null)
             {
-                LblGioiTinh.Text = (bool)teacher.aspnet_Membership.Gender ? "Nam" : "Nữ";
+                LblGioiTinh.Text = (bool)teacher.aspnet_Membership.Gender ? AppConstant.STRING_MALE : AppConstant.STRING_FEMALE;
             }
-            
-            LblDiaChi.Text = teacher.aspnet_Membership.Address;
-            LblDienThoai.Text = (teacher.aspnet_Membership.Phone != "") ? teacher.aspnet_Membership.Phone : "(không có)";
+            else
+            {
+                LblGioiTinh.Text = "(Chưa xác định)";
+            }
+
+
+            if (CheckUntils.IsNullOrBlank(teacher.aspnet_Membership.Address) == false)
+            {
+                LblDiaChi.Text = teacher.aspnet_Membership.Address;
+            }
+            else
+            {
+                LblDiaChi.Text = "(Chưa xác định)";
+            }
+
+            if (CheckUntils.IsNullOrBlank(teacher.aspnet_Membership.Phone) == false)
+            {
+                LblDienThoai.Text = teacher.aspnet_Membership.Phone;
+            }
+            else
+            {
+                LblDienThoai.Text = "(Chưa xác định)";
+            }
         }
 
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
+            BtnSua.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+        }
+
+        private bool RetrieveSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_USER))
             {
-                // do something
+                aspnet_User teacher = (aspnet_User)GetSession(AppConstant.SESSION_SELECTED_USER);
+                RemoveSession(AppConstant.SESSION_SELECTED_USER);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_USERID] = teacher.UserId; 
+                return true;
             }
-            else
-            {
-                BtnSua.Visible = false;
-            }
+
+            return false;
         }
         #endregion
 
@@ -98,49 +139,49 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.DataPagerChuNhiem.CurrentIndex = currnetPageIndx;
-            BindDataChuNhiem();
+            BindRptFormerings();
         }
 
         public void DataPagerGiangDay_Command(object sender, CommandEventArgs e)
         {
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.DataPagerGiangDay.CurrentIndex = currnetPageIndx;
-            BindDataGiangDay();
+            BindRptTeachings();
         }
 
-        private void BindDataGiangDay()
+        private void BindRptTeachings()
         {
             aspnet_User teacher = new aspnet_User();
-            Guid UserId = new Guid(ViewState["UserId"].ToString());            
+            Guid UserId = new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_USERID].ToString());            
             teacher.UserId = UserId;
             double dTotalRecords;
-            List<TabularTeaching> lstTbGiangDays = teacherBL.GetListTeachings(
+            List<TabularTeaching> tabularTeachings = teacherBL.GetListTeachings(
                 teacher, DataPagerGiangDay.CurrentIndex, DataPagerGiangDay.PageSize, out dTotalRecords);
 
-            bool bDisplayData = (lstTbGiangDays.Count != 0) ? true : false;
+            bool bDisplayData = (tabularTeachings.Count != 0) ? true : false;
             RptGiangDay.Visible = bDisplayData;
             DataPagerGiangDay.Visible = bDisplayData;
             LblSearchResultGiangDay.Visible = !bDisplayData;
 
-            RptGiangDay.DataSource = lstTbGiangDays;
+            RptGiangDay.DataSource = tabularTeachings;
             RptGiangDay.DataBind();
             DataPagerGiangDay.ItemCount = dTotalRecords;
         }
 
-        private void BindDataChuNhiem()
+        private void BindRptFormerings()
         {
             aspnet_User teacher = new aspnet_User();
-            teacher.UserId = new Guid(ViewState["UserId"].ToString());
+            teacher.UserId = new Guid(ViewState[AppConstant.VIEWSTATE_SELECTED_USERID].ToString());
             double dTotalRecords;
-            List<TabularFormering> lstTbChuNhiems = teacherBL.GetListFormerings(
+            List<TabularFormering> tabularFormerings = teacherBL.GetListFormerings(
                 teacher, DataPagerChuNhiem.CurrentIndex, DataPagerChuNhiem.PageSize, out dTotalRecords);
 
-            bool bDisplayData = (lstTbChuNhiems.Count != 0) ? true : false;
+            bool bDisplayData = (tabularFormerings.Count != 0) ? true : false;
             RptChuNhiem.Visible = bDisplayData;
             DataPagerChuNhiem.Visible = bDisplayData;
             LblSearchResultChuNhiem.Visible = !bDisplayData;
 
-            RptChuNhiem.DataSource = lstTbChuNhiems;
+            RptChuNhiem.DataSource = tabularFormerings;
             RptChuNhiem.DataBind();
             DataPagerChuNhiem.ItemCount = dTotalRecords;
         }

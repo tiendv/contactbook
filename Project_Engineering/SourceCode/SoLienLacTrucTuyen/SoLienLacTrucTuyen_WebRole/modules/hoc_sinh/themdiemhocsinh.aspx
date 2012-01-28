@@ -124,13 +124,13 @@
             </asp:UpdatePanel>
         </div>
         <div style="width: 30px; margin: 0px auto 0px auto">
-            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm học sinh" OnClick="BtnSearch_Click" CssClass="BtnSearch" />
         </div>
     </div>
     <div class="table_data ui-corner-all">
         <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
-            Text="Không có thông tin kết quả học tập">
+            Text="Không có thông tin thời khóa biểu">
         </asp:Label>
         <table class="repeater">
             <tr class="header">
@@ -164,15 +164,20 @@
                         <td>
                             <asp:HyperLink ID="HlkHoTenHocSinh" runat="server"><%#DataBinder.Eval(Container.DataItem, "FullName")%></asp:HyperLink>
                         </td>
-                        <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server">
+                        <asp:Repeater ID="RptDiemTheoLoaiDiem" runat="server" OnItemDataBound="RptDiemTheoLoaiDiem_ItemDataBound">
                             <ItemTemplate>
                                 <td style="height: 40px">
                                     <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>' />
-                                    <asp:TextBox ID="TxtDiems" runat="server" CssClass="MarkTextBox" Style="width: 98%;
-                                        height: 25px"></asp:TextBox>
-                                    <asp:CustomValidator ID="DiemsValidator" runat="server" ControlToValidate="TxtDiems"
-                                        ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ" Display="Dynamic"
-                                        ForeColor="Red"></asp:CustomValidator>
+                                    <asp:Panel ID="PnlMarkEntry" runat="server">
+                                        <asp:TextBox ID="TxtDiems" runat="server" CssClass="MarkTextBox" Style="width: 98%;
+                                            height: 25px" ></asp:TextBox>
+                                        <asp:CustomValidator ID="DiemsValidator" runat="server" ControlToValidate="TxtDiems"
+                                            ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ" Display="Dynamic"
+                                            ForeColor="Red"></asp:CustomValidator>
+                                    </asp:Panel>
+                                    <asp:Panel ID="PnlMessage" runat="server" Visible="false">
+                                        Đã đủ số lượng
+                                    </asp:Panel>
                                     <span class="SpanMarkTypeId" style="display: none">
                                         <%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%></span>
                                 </td>
@@ -194,9 +199,9 @@
         </div>
     </div>
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
-        <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/Images/button_save.png"
+        <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSave_Click" ValidationGroup="AddDiemHocSinh" CssClass="SaveButton" />&nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
+        <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
     </div>
 </asp:Content>

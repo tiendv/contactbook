@@ -16,7 +16,7 @@ namespace SoLienLacTrucTuyen_WebRole
 {
     public partial class FacultyCategoryPage : BaseContentPage
     {
-        #region Fields
+        #region Field(s)
         private FacultyBL facultyBL;
         private bool isSearch;
         #endregion
@@ -55,38 +55,11 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Methods
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {   
-                BtnAdd.Visible = true;
-                PnlPopupAdd.Visible = true;
-            }
-            else
-            {
-                BtnAdd.Visible = false;
-                PnlPopupAdd.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Modify))
-            {
-                BtnEdit.Visible = true;
-                PnlPopupEdit.Visible = true;
-            }
-            else
-            {
-                BtnEdit.Visible = false;
-                PnlPopupEdit.Visible = false;
-            }
-
-            if (accessibilities.Contains(AccessibilityEnum.Delete))
-            {
-                BtnDelete.Visible = true;
-                PnlPopupConfirmDelete.Visible = true;
-            }
-            else
-            {
-                BtnDelete.Visible = false;
-                PnlPopupConfirmDelete.Visible = false;
-            }
+            BtnAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            PnlPopupAdd.Visible = accessibilities.Contains(AccessibilityEnum.Add);
+            BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
+            BtnDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
+            PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
         public void BindRptFaculties()
@@ -104,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole
             }
 
             bool bDisplayData = (faculties.Count != 0) ? true : false;
-            RptNganhHoc.Visible = bDisplayData;
+            RptFaculties.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
             if (LblSearchResult.Visible)
@@ -139,9 +112,66 @@ namespace SoLienLacTrucTuyen_WebRole
                 BtnEdit.Enabled = true;
             }
 
-            RptNganhHoc.DataSource = faculties;
-            RptNganhHoc.DataBind();
+            RptFaculties.DataSource = faculties;
+            RptFaculties.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
+        }
+
+        private bool ValidateInputsForAdding()
+        {
+            if (!Page.IsValid)
+            {
+                return false;
+            }
+
+            string facultyName = this.TxtFacultyName.Text.Trim();
+
+            if (CheckUntils.IsNullOrBlank(facultyName))
+            {
+                FacultyNameRequiredAdd.IsValid = false;
+                MPEAdd.Show();
+                return false;
+            }
+            else
+            {
+                if (facultyBL.FacultyExists(facultyName))
+                {
+                    FacultyNameValidatorAdd.IsValid = false;
+                    MPEAdd.Show();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool ValidateInputsForModifying()
+        {
+            if (!Page.IsValid)
+            {
+                return false;
+            }
+
+            string strNewFacultyName = this.TxtFacultyNameEdit.Text.Trim();
+            string strOldFacultyName = (string)this.HdfEditedFacultyName.Value;
+
+            if (CheckUntils.IsNullOrBlank(strNewFacultyName))
+            {
+                FacultyNameRequiredEdit.IsValid = false;
+                MPEEdit.Show();
+                return false;
+            }
+            else
+            {
+                if (facultyBL.FacultyExists(strOldFacultyName, strNewFacultyName))
+                {
+                    FacultyNameValidatorEdit.IsValid = false;
+                    MPEEdit.Show();
+                    return false;
+                }
+            }
+
+            return true;
         }
         #endregion
 
@@ -156,37 +186,15 @@ namespace SoLienLacTrucTuyen_WebRole
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
         {
-
-            if (!Page.IsValid)
+            if (!ValidateInputsForAdding())
             {
                 return;
             }
 
-            string facultyName = this.TxtFacultyName.Text.Trim();
-
-            if (facultyName == "")
-            {
-                FacultyNameRequiredAdd.IsValid = false;
-                MPEAdd.Show();
-                return;
-            }
-            else
-            {
-                if (facultyBL.FacultyExists(facultyName))
-                {
-                    FacultyNameValidatorAdd.IsValid = false;
-                    MPEAdd.Show();
-                    return;
-                }
-            }
-
-            string description = this.TxtDescriptionNganhHoc.Text.Trim();
-            Category_Faculty faculty = new Category_Faculty
-            {
-                FacultyName = facultyName,
-                Description = description
-            };
-            facultyBL.InsertFaculty(faculty);
+            string strFacultyName = this.TxtFacultyName.Text.Trim();
+            string strDescription = this.TxtDescriptionNganhHoc.Text.Trim();
+            
+            facultyBL.InsertFaculty(strFacultyName, strDescription);
 
             MainDataPager.CurrentIndex = 1;
             BindRptFaculties();
@@ -202,45 +210,61 @@ namespace SoLienLacTrucTuyen_WebRole
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
+            bool bInfoInUse = false;
+            CheckBox ckbxSelect = null;
             HiddenField hdfRptFacultyId = null;
             Category_Faculty faculty = null;
 
-            foreach (RepeaterItem item in RptNganhHoc.Items)
+            foreach (RepeaterItem item in RptFaculties.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
-                    hdfRptFacultyId = (HiddenField)item.FindControl("HdfRptFacultyId");
-                    faculty = new Category_Faculty();
-                    faculty.FacultyId = Int32.Parse(hdfRptFacultyId.Value);
-                    
-                    if (facultyBL.IsDeletable(faculty))
+                    ckbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (ckbxSelect.Checked)
                     {
-                        facultyBL.DeleteFaculty(faculty);
+                        hdfRptFacultyId = (HiddenField)item.FindControl("HdfRptFacultyId");
+                        faculty = new Category_Faculty();
+                        faculty.FacultyId = Int32.Parse(hdfRptFacultyId.Value);
+
+                        if (facultyBL.IsDeletable(faculty))
+                        {
+                            facultyBL.DeleteFaculty(faculty);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }                       
                     }
                 }
             }
 
             isSearch = false;
             BindRptFaculties();
+
+            if (bInfoInUse)
+            {                
+                MPEInfoInUse.Show();
+            }
         }
 
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-            foreach (RepeaterItem item in RptNganhHoc.Items)
+            HiddenField hdfRptFacultyId = null;
+            foreach (RepeaterItem item in RptFaculties.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
                     CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
                     if (CkbxSelect.Checked)
-                    {                                                
-                        HiddenField HdfRptFacultyName = (HiddenField)item.FindControl("HdfRptFacultyName");
-                        string facultyName = HdfRptFacultyName.Value; 
-                        Category_Faculty faculty = facultyBL.GetFaculty(HdfRptFacultyName.Value);
+                    {
+                        hdfRptFacultyId = (HiddenField)item.FindControl("HdfRptFacultyId");
+                        Category_Faculty faculty = facultyBL.GetFaculty(Int32.Parse(hdfRptFacultyId.Value));
                         TxtFacultyNameEdit.Text = faculty.FacultyName;
                         TxtSuaDescriptionNganhHoc.Text = faculty.Description;
-                        MPEEdit.Show(); 
-                        
-                        this.HdfEditedFacultyName.Value = facultyName; 
+                        HdfEditedFacultyName.Value = faculty.FacultyName;
+
+                        MPEEdit.Show();
+
                         return;
                     }
                 }
@@ -249,82 +273,19 @@ namespace SoLienLacTrucTuyen_WebRole
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            ModalPopupExtender modalPopupEdit = new ModalPopupExtender();
-            foreach (RepeaterItem rptItem in RptNganhHoc.Items)
-            {
-                if (rptItem.ItemType == ListItemType.Item || rptItem.ItemType == ListItemType.AlternatingItem)
-                {
-                    modalPopupEdit = (ModalPopupExtender)rptItem.FindControl("MPEEdit");
-                    if (modalPopupEdit.ClientID == HdfRptNganhHocMPEEdit.Value)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            if (!Page.IsValid)
+            if (!ValidateInputsForModifying())
             {
                 return;
             }
+            
+            string strNewFacultyName = (string)this.HdfEditedFacultyName.Value;
+            string strOldFacultyName = this.TxtFacultyNameEdit.Text.Trim();
+            string strDescription = this.TxtSuaDescriptionNganhHoc.Text.Trim();
 
-            string editedFacultyName = (string)this.HdfEditedFacultyName.Value;
-            string newFacultyName = this.TxtFacultyNameEdit.Text.Trim();
-            string newDescription = this.TxtSuaDescriptionNganhHoc.Text.Trim();
-
-            if (newFacultyName == "")
-            {
-                FacultyNameRequiredEdit.IsValid = false;
-                modalPopupEdit.Show();
-                return;
-            }
-            else
-            {
-                if (facultyBL.FacultyExists(editedFacultyName, newFacultyName))
-                {
-                    FacultyNameValidatorEdit.IsValid = false;
-                    modalPopupEdit.Show();
-                    return;
-                }
-            }
-
-            facultyBL.UpdateFaculty(editedFacultyName, newFacultyName, newDescription);
+            facultyBL.UpdateFaculty(strNewFacultyName, strOldFacultyName, strDescription);
             BindRptFaculties();
         }
-        #endregion
-
-        #region Repeater event handlers
-        protected void RptNganhHoc_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            
-        }
-
-        protected void RptNganhHoc_ItemCommand(object source, RepeaterCommandEventArgs e)
-        {
-            switch (e.CommandName)
-            {
-                case "CmdEditItem":
-                    {
-                        string facultyName = (string)e.CommandArgument;
-
-                        Category_Faculty faculty = facultyBL.GetFaculty(facultyName);
-                        TxtFacultyNameEdit.Text = faculty.FacultyName;
-                        TxtSuaDescriptionNganhHoc.Text = faculty.Description;
-
-                        ModalPopupExtender mPEEdit = (ModalPopupExtender)e.Item.FindControl("MPEEdit");
-                        mPEEdit.Show();
-
-                        this.HdfRptNganhHocMPEEdit.Value = mPEEdit.ClientID;
-                        this.HdfEditedFacultyName.Value = facultyName;
-
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        #endregion
+        #endregion       
 
         #region Pager event handlers
         public void MainDataPager_Command(object sender, CommandEventArgs e)
@@ -332,6 +293,21 @@ namespace SoLienLacTrucTuyen_WebRole
             int currnetPageIndx = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currnetPageIndx;
             BindRptFaculties();
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptFaculties_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
         }
         #endregion
     }

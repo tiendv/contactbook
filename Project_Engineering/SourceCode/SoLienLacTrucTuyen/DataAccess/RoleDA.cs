@@ -369,6 +369,18 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public void RemoveUserFromRole(aspnet_User user, aspnet_Role role)
+        {
+            IQueryable<aspnet_UsersInRole> iqUsersInRole = from userInRole in db.aspnet_UsersInRoles
+                                                           where userInRole.UserId == user.UserId && userInRole.RoleId == role.RoleId
+                                                           select userInRole;
+            if (iqUsersInRole.Count() != 0)
+            {
+                db.aspnet_UsersInRoles.DeleteOnSubmit(iqUsersInRole.First());
+                db.SubmitChanges();
+            }
+        }
+
         public void AddUserToRoleTeacher(string teacherCode)
         {
             Guid userId = (from user in db.aspnet_Users
@@ -512,9 +524,9 @@ namespace EContactBook.DataAccess
             aspnet_Role roleFormerTeacher = null;
 
             IQueryable<aspnet_Role> iqRoleFormerTeacher = from role in db.aspnet_Roles
-                                                           where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
-                                                           && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == FORMERTEACHER
-                                                           select role;
+                                                          where role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                          && role.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == FORMERTEACHER
+                                                          select role;
             if (iqRoleFormerTeacher.Count() != 0)
             {
                 roleFormerTeacher = iqRoleFormerTeacher.First();
@@ -525,13 +537,13 @@ namespace EContactBook.DataAccess
 
         public bool IsRoleParents(aspnet_Role role)
         {
-            IQueryable<aspnet_Role> iqRoleParents;
-            iqRoleParents = from rl in db.aspnet_Roles
-                            where rl.RoleId == role.RoleId
-                            && rl.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == PARENTS
-                            select rl;
+            IQueryable<aspnet_Role> queryRoleParents;
+            queryRoleParents = from r in db.aspnet_Roles
+                               where r.RoleId == role.RoleId
+                               && r.UserManagement_RoleDetail.UserManagement_RoleCategory.RoleCategoryId == PARENTS
+                               select r;
 
-            if (iqRoleParents.Count() != 0)
+            if (queryRoleParents.Count() != 0)
             {
                 return true;
             }

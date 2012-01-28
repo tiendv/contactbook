@@ -33,18 +33,19 @@
             &nbsp;&nbsp;
         </div>
         <div id="divButtonSearch">
-            <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/Images/button_search_with_text.png"
+            <asp:ImageButton ID="BtnSearch" runat="server" CssClass="BtnSearch" ImageUrl="~/Styles/buttons/button_search.png"
                 ToolTip="Tìm kiếm giáo viên" OnClick="BtnSearch_Click" />
         </div>
         <br />
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
-            <asp:ImageButton ID="BtnAddGiaoVien" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/Images/button_add_with_text.png"
+            <asp:ImageButton ID="BtnAddGiaoVien" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/buttons/button_add.png"
                 ToolTip="Thêm giáo viên mới" OnClick="BtnAdd_Click" />
+            <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
+                ToolTip="Sửa khối lớp" CssClass="BtnEdit" />
             <asp:ImageButton ID="BtnExport" runat="server" ImageUrl="~/Styles/buttons/button_export.png"
-                ToolTip="In danh sach học sinh" OnClientClick="fncOpen();" CssClass="BtnExport"
-                Visible="true" />
+                ToolTip="Báo cáo" OnClientClick="fncOpen();" CssClass="BtnExport" />
         </div>
         <div>
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
@@ -54,26 +55,21 @@
             <asp:HiddenField ID="HdfUserId" runat="server" />
             <asp:HiddenField ID="HdfRptGiaoVienMPEDelete" runat="server" />
             <asp:HiddenField ID="HdfRptGiaoVienMPEEdit" runat="server" />
-            <asp:Repeater ID="RptGiaoVien" runat="server" OnItemCommand="RptGiaoVien_ItemCommand"
-                OnItemDataBound="RptGiaoVien_ItemDataBound">
+            <asp:Repeater ID="RptGiaoVien" runat="server" OnItemDataBound="RptGiaoVien_ItemDataBound" OnItemCommand="RptGiaoVien_ItemCommand">
                 <HeaderTemplate>
                     <tr class="header ui-corner-right ui-corner-left">
                         <td class="ui-corner-tl orderNo">
                             STT
                         </td>
                         <td style="width: 100px">
-                            <asp:LinkButton ID="LkBtnMaHienThi" runat="server" CommandName="SortByMaHienThiGiaoVien"
-                                ForeColor="White">Mã giáo viên</asp:LinkButton>
+                            <asp:LinkButton ID="LkBtnStudentCode" runat="server" CommandName="SortByMaHienThiGiaoVien" ForeColor="White">Mã giáo viên</asp:LinkButton>
                         </td>
                         <td>
                             <asp:LinkButton ID="LkBtnHoTen" runat="server" CommandName="SortByHoTen" ForeColor="White">Họ tên giáo viên</asp:LinkButton>
                         </td>
-                        <td id="thEdit" runat="server" class="icon">
-                            Sửa
+                        <td id="thSelectAll" runat="server" class="icon" style="height: 40px;">
+                            <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                         </td>
-                        <%--<td id="thDelete" runat="server" class="icon">
-                            Xóa
-                        </td>--%>
                     </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
@@ -83,24 +79,14 @@
                             <asp:HiddenField ID="HdfRptUserId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <asp:HyperLink ID="HlkUserId" runat="server"><%#DataBinder.Eval(Container.DataItem, "MaHienThiGiaoVien")%></asp:HyperLink>
+                            <asp:LinkButton ID="LbBtnTeacherCode" runat="server" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>'><%#DataBinder.Eval(Container.DataItem, "MaHienThiGiaoVien")%></asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
                             <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "HoTen")%></asp:HyperLink>
                         </td>
-                        <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
-                            <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/Images/button_edit.png"
-                                CssClass="EditItemButton" CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
+                        <td id="tdSelect" runat="server" class="icon" style="height: 40px;">
+                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
                         </td>
-                        <%--<td id="tdDelete" runat="server" class="icon" style="height: 40px">
-                            <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />
-                            <asp:ImageButton ID="BtnDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_delete.png"
-                                CssClass="DeleteItemButton" CommandName="CmdDeleteItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "MaHienThiGiaoVien")%>' />
-                            <ajaxToolkit:ModalPopupExtender ID="MPEDelete" runat="server" TargetControlID="BtnFakeDeleteItem"
-                                PopupControlID="PnlPopupConfirmDelete" BackgroundCssClass="modalBackground" CancelControlID="imgClosePopupConfirmDelete"
-                                PopupDragHandleControlID="PnlDragPopupConfirmDelete">
-                            </ajaxToolkit:ModalPopupExtender>
-                        </td>--%>
                     </tr>
                 </ItemTemplate>
                 <FooterTemplate>
@@ -115,26 +101,4 @@
             <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="DataPager_Command" ViewStateMode="Enabled" />
         </div>
     </div>
-    <%--<asp:Panel ID="PnlPopupConfirmDelete" runat="server" CssClass="popup ui-corner-all"
-        Width="350px">
-        <asp:Panel ID="PnlDragPopupConfirmDelete" runat="server" CssClass="popup_header ui-corner-top">
-            <asp:Label ID="LblPopupConfirmDeleteTitle" runat="server" Text="Xóa hạnh kiểm" CssClass="popup_header_title"></asp:Label>
-            <img id="imgClosePopupConfirmDelete" class="button_close" src="../../../Styles/Images/popup_button_close.png"
-                alt="close" />
-        </asp:Panel>
-        <div style="padding: 10px;">
-            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
-                Style="float: left;" />
-            <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="LblConfirmDelete" runat="server"></asp:Label>
-            </div>
-        </div>
-        <div style="width: 170px; margin: 0px auto 0px auto; padding-bottom: 5px;">
-            <asp:ImageButton ID="BtnOKDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_save.png"
-                OnClick="BtnOKDeleteItem_Click" CssClass="SaveButton" />
-            &nbsp;
-            <asp:ImageButton ID="BtnCancelDeleteItem" runat="server" ImageUrl="~/Styles/Images/button_cancel.png"
-                OnClientClick="return popopConfirmDelete_CancelDelete_Click();" CssClass="CancelButton" />
-        </div>
-    </asp:Panel>--%>
 </asp:Content>

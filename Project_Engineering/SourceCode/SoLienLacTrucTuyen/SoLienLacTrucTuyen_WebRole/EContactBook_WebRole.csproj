@@ -50,17 +50,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DataPager\bin\Debug\DataPager.dll</HintPath>
     </Reference>
-    <Reference Include="EContactBook.BusinessEntity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BusinessEntity\bin\Debug\EContactBook.BusinessEntity.dll</HintPath>
-    </Reference>
-    <Reference Include="EContactBook.BusinessLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\EContactBook.BusinessLogic.dll</HintPath>
-    </Reference>
-    <Reference Include="EContactBook.DataAccess">
-      <HintPath>..\SoLienLacTrucTuyen.BusinessLogic\bin\Debug\EContactBook.DataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -93,12 +82,15 @@
     <Content Include="modules\cau_hinh\cauhinh.aspx" />
     <Content Include="modules\ContentPage.aspx" />
     <Content Include="modules\danh_muc\danhmucdanhhieu.aspx" />
+    <Content Include="modules\danh_muc\danhmucnamhoc.aspx" />
     <Content Include="modules\danh_muc\danhmuctiet.aspx" />
     <Content Include="modules\danh_muc\giao_vien\chitietgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\GiaoVienServicePage.aspx" />
     <Content Include="modules\danh_muc\giao_vien\indanhsachgiaovien.aspx" />
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
+    <Content Include="modules\danh_muc\suadanhhieu.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\importhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
     <Content Include="modules\hoc_sinh\HocSinhWebService.asmx" />
@@ -112,6 +104,8 @@
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
+    <Content Include="modules\loi_nhan\chitietthongbao.aspx" />
+    <Content Include="modules\loi_nhan\suathongbao.aspx" />
     <Content Include="modules\loi_nhan\thongbao.aspx" />
     <Content Include="modules\loi_nhan\themthongbao.aspx" />
     <Content Include="modules\lop_hoc\inthoikhoabieu.aspx" />
@@ -120,7 +114,7 @@
     <Content Include="modules\danh_muc\danhmuckhoilop.aspx" />
     <Content Include="modules\danh_muc\DanhMucServicePage.aspx" />
     <Content Include="modules\lop_hoc\suagiaovienchunhiem.aspx" />
-    <Content Include="modules\lop_hoc\suathoikhoabieu.aspx" />
+    <Content Include="modules\lop_hoc\sapxepthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\suatietthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\thoikhoabieu.aspx" />
     <Content Include="modules\nguoi_dung\danhsachnguoidung.aspx" />
@@ -175,6 +169,9 @@
     <Content Include="modules\supplier\supplierlist.aspx" />
     <Content Include="modules\supplier\addsupplier.aspx" />
     <Content Include="modules\supplier\modifysupplier.aspx" />
+    <Content Include="modules\danh_muc\themnamhoc.aspx" />
+    <Content Include="modules\danh_muc\suanamhoc.aspx" />
+    <Content Include="modules\hoc_sinh\hocsinh.aspx" />
     <Content Include="modules\y_kien\chitietykien.aspx" />
     <Content Include="modules\y_kien\phanhoiykien.aspx" />
     <Content Include="modules\y_kien\ykien.aspx" />
@@ -351,6 +348,27 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="modules\danh_muc\danhmucnamhoc.aspx.cs">
+      <DependentUpon>danhmucnamhoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\danhmucnamhoc.aspx.designer.cs">
+      <DependentUpon>danhmucnamhoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\suadanhhieu.aspx.cs">
+      <DependentUpon>suadanhhieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\suadanhhieu.aspx.designer.cs">
+      <DependentUpon>suadanhhieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx.cs">
+      <DependentUpon>danhgiahanhkiemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx.designer.cs">
+      <DependentUpon>danhgiahanhkiemhocsinh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\hoc_sinh\lenlophocsinh.aspx.cs">
       <DependentUpon>lenlophocsinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -371,6 +389,27 @@
     </Compile>
     <Compile Include="modules\hoc_sinh\suadiemhocsinh.aspx.designer.cs">
       <DependentUpon>suadiemhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\loi_nhan\chitietthongbao.aspx.cs">
+      <DependentUpon>chitietthongbao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\loi_nhan\chitietthongbao.aspx.designer.cs">
+      <DependentUpon>chitietthongbao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\loi_nhan\suathongbao.aspx.cs">
+      <DependentUpon>suathongbao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\loi_nhan\suathongbao.aspx.designer.cs">
+      <DependentUpon>suathongbao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\lop_hoc\sapxepthoikhoabieu.aspx.cs">
+      <DependentUpon>sapxepthoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\sapxepthoikhoabieu.aspx.designer.cs">
+      <DependentUpon>sapxepthoikhoabieu.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\phu_huynh\xephang.aspx.cs">
       <DependentUpon>xephang.aspx</DependentUpon>
@@ -600,13 +639,6 @@
     </Compile>
     <Compile Include="modules\lop_hoc\suagiaovienchunhiem.aspx.designer.cs">
       <DependentUpon>suagiaovienchunhiem.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.cs">
-      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\lop_hoc\suathoikhoabieu.aspx.designer.cs">
-      <DependentUpon>suathoikhoabieu.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\lop_hoc\suatietthoikhoabieu.aspx.cs">
       <DependentUpon>suatietthoikhoabieu.aspx</DependentUpon>
@@ -944,6 +976,27 @@
     <Compile Include="modules\supplier\modifysupplier.aspx.designer.cs">
       <DependentUpon>modifysupplier.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\danh_muc\themnamhoc.aspx.cs">
+      <DependentUpon>themnamhoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\themnamhoc.aspx.designer.cs">
+      <DependentUpon>themnamhoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\suanamhoc.aspx.cs">
+      <DependentUpon>suanamhoc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\danh_muc\suanamhoc.aspx.designer.cs">
+      <DependentUpon>suanamhoc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\hocsinh.aspx.cs">
+      <DependentUpon>hocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\hocsinh.aspx.designer.cs">
+      <DependentUpon>hocsinh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\y_kien\chitietykien.aspx.cs">
       <DependentUpon>chitietykien.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1041,6 +1094,20 @@
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessEntity\EContactBook.BusinessEntity.csproj">
+      <Project>{8D80AC34-715A-4E7D-9074-42D1A5E01A23}</Project>
+      <Name>EContactBook.BusinessEntity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataAccess\EContactBook.DataAccess.csproj">
+      <Project>{ED2027DC-923E-4904-9E11-928D65B01BCD}</Project>
+      <Name>EContactBook.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoLienLacTrucTuyen.BusinessLogic\EContactBook.BusinessLogic.csproj">
+      <Project>{34066161-7055-4A6D-8D54-7FC96215DA71}</Project>
+      <Name>EContactBook.BusinessLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <ProjectExtensions>
@@ -1049,7 +1116,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>14051</DevelopmentServerPort>
+          <DevelopmentServerPort>1499</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

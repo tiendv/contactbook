@@ -246,6 +246,50 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return authorizationDA.GetTabularAuthorizations(role);
         }
 
+        public void AuthorizeCategorizedFunctions(aspnet_Role role, List<TabularDetailedAuthorization> detailedAuthorizations, bool roleParents)
+        {
+            List<UserManagement_Function> functions = new List<UserManagement_Function>();
+            UserManagement_Function function = null;
+            FunctionsBL functionsBL = new FunctionsBL();
+            bool bIncludeParentsFunction = false;
+            List<UserManagement_AuthorizedPage> authorizedPages = new List<UserManagement_AuthorizedPage>();            
+
+            foreach (TabularDetailedAuthorization detailedAuthorization in detailedAuthorizations)
+            {
+                function = new UserManagement_Function();
+                function.FunctionId = detailedAuthorization.FunctionId;
+
+                if (bIncludeParentsFunction == false)
+                {
+                    if (detailedAuthorization.ViewAccessibility || detailedAuthorization.AddAccessibility
+                        || detailedAuthorization.ModifyAccessibility || detailedAuthorization.DeleteAccessibility)
+                    {
+                        bIncludeParentsFunction = true;
+                    }
+                }
+
+                authorizationDA.UpdateAuthorization(role, function, AccessibilityEnum.View, detailedAuthorization.ViewAccessibility);
+                authorizationDA.UpdateAuthorization(role, function, AccessibilityEnum.Add, detailedAuthorization.AddAccessibility);
+                authorizationDA.UpdateAuthorization(role, function, AccessibilityEnum.Modify, detailedAuthorization.ModifyAccessibility);
+                authorizationDA.UpdateAuthorization(role, function, AccessibilityEnum.Delete, detailedAuthorization.DeleteAccessibility);
+
+                // update authorizations of role "Parents"
+                if (roleParents)
+                {
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.View, detailedAuthorization.ViewAccessibility);
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Add, detailedAuthorization.AddAccessibility);
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Modify, detailedAuthorization.ModifyAccessibility);
+                    authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Delete, detailedAuthorization.DeleteAccessibility);
+                }
+            }
+
+            UserManagement_Function parentsFunction = functionsBL.GetParentFunction(function);
+            if (parentsFunction != null)
+            {
+                authorizationDA.UpdateAuthorization(role, parentsFunction, AccessibilityEnum.View, bIncludeParentsFunction);
+            }
+        }
+
         public void Authorize(aspnet_Role role, List<TabularDetailedAuthorization> detailedAuthorizations)
         {
             List<UserManagement_Function> functions = new List<UserManagement_Function>();
@@ -277,15 +321,20 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Add, detailedAuthorization.AddAccessibility);
                     authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Modify, detailedAuthorization.ModifyAccessibility);
                     authorizationDA.UpdateRoleParentsAuthorizations(function, AccessibilityEnum.Delete, detailedAuthorization.DeleteAccessibility);
-                }                
+                }
 
-                if (bIncludeParentsFunction)
+                UserManagement_Function parentsFunction = functionsBL.GetParentFunction(function);
+                if (parentsFunction != null)
                 {
-                    UserManagement_Function parentsFunction = functionsBL.GetParentFunction(function);
-                    if (parentsFunction != null)
+                    if (bIncludeParentsFunction)
                     {
                         authorizationDA.UpdateAuthorization(role, parentsFunction,
-                            AccessibilityEnum.View, detailedAuthorization.ViewAccessibility);
+                        AccessibilityEnum.View, detailedAuthorization.ViewAccessibility);
+                    }
+                    else
+                    {
+                        authorizationDA.UpdateAuthorization(role, parentsFunction,
+                        AccessibilityEnum.View, false);
                     }
                 }
             }

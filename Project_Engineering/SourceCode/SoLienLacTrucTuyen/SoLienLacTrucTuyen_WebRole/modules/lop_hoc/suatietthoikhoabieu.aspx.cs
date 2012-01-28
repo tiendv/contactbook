@@ -8,6 +8,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.BusinessEntity;
 using EContactBook.DataAccess;
 using System.Web.Security;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -34,45 +35,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             // Init variables
             scheduleBL = new ScheduleBL(UserSchool);
-            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            Class_Class Class = null;
 
             if (!Page.IsPostBack)
             {
-                Dictionary<string, int> dicQueryStrings = GetQueryStrings();
-                if (dicQueryStrings != null)
+                if (RetrieveSessions())
                 {
-                    int SubjectIdTKB = dicQueryStrings["SubjectIdTKB"];
-                    Class_Schedule schedule = scheduleBL.GetSchedule(SubjectIdTKB);
-                    TeachingPeriodSchedule tkbTheoTiet = scheduleBL.GetTeachingPeriodSchedule(schedule);
-                    HdfSubjectId.Value = tkbTheoTiet.SubjectId.ToString();
-                    LblMonHoc.Text = tkbTheoTiet.SubjectName;
-                    HdfUserId.Value = tkbTheoTiet.UserId.ToString();
-                    LblGiaoVien.Text = tkbTheoTiet.TeacherName;
-
-                    int ClassId = dicQueryStrings["MaLop"];
-                    int TermId = dicQueryStrings["TermId"];
-                    int DayInWeekId = dicQueryStrings["DayInWeekId"];
-                    int TeachingPeriodId = dicQueryStrings["TeachingPeriodId"];
-
-
-                    Class = new Class_Class();
-                    Class.ClassId = ClassId;
-                    TabularClass lopHoc = (new ClassBL(UserSchool)).GetTabularClass(Class);
-                    Configuration_Term hocKy = systemConfigBL.GetTerm(TermId);
-                    Configuration_DayInWeek dayInWeek = systemConfigBL.GetDayInWeek(DayInWeekId);
-                    Category_TeachingPeriod tiet = (new TeachingPeriodBL(UserSchool)).GetTeachingPeriod(TeachingPeriodId);
-                    LblTenLop.Text = lopHoc.ClassName;
-                    LblNamHoc.Text = lopHoc.YearName;
-                    LblHocKy.Text = hocKy.TermName;
-                    LblThu.Text = dayInWeek.DayInWeekName;
-                    LblTiet.Text = string.Format("{0} ({1} - {2})",
-                        tiet.TeachingPeriodName,
-                        tiet.BeginTime.ToShortTimeString(),
-                        tiet.EndTime.ToShortTimeString());
-
-                    FillDDLNganh();
-                    FillDDLKhoi();
+                    FillDDLFaculties();
+                    FillDDLGrades();
+                }
+                else
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_SCHEDULE);
                 }
             }
         }
@@ -153,44 +126,67 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSaveEdit_Click(object sender, ImageClickEventArgs e)
         {
-            ScheduleBL scheduleBL = new ScheduleBL(UserSchool);
-            Class_Schedule schedule = null;
             Category_Subject subject = null;
             aspnet_User teacher = null;
 
-            if (!validateInput())
+            if (!ValidateInputs())
             {
                 return;
             }
-            
-            Dictionary<string, int> dicQueryStrings = GetQueryStrings();
-            if (dicQueryStrings != null)
+
+            ScheduleBL scheduleBL = new ScheduleBL(UserSchool);
+
+            Class_Schedule schedule = new Class_Schedule();
+            schedule.ScheduleId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_SCHEDULEID];
+
+            Class_Class Class = new Class_Class();
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
+
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
+
+            Configuration_DayInWeek dayInWeek = new Configuration_DayInWeek();
+            dayInWeek.DayInWeekId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_DAYINWEEK];
+
+            Category_TeachingPeriod teachingPeriod = new Category_TeachingPeriod();
+            teachingPeriod.TeachingPeriodId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TEACHINGPERIOD];
+
+            subject = new Category_Subject();
+            subject.SubjectId = Int32.Parse(HdfSubjectId.Value);
+            teacher = new aspnet_User();
+            teacher.UserId = new Guid(HdfUserId.Value);
+
+
+            if (CheckSessionKey(AppConstant.SESSION_WEEKLYSCHEDULE))
             {
-                int maTKBTiet = dicQueryStrings["SubjectIdTKB"];
-                int ClassId = dicQueryStrings["MaLop"];
-                int TermId = dicQueryStrings["TermId"];
-                int DayInWeekId = dicQueryStrings["DayInWeekId"];
-                int TeachingPeriodId = dicQueryStrings["TeachingPeriodId"];
-                int SubjectId = Int32.Parse(HdfSubjectId.Value);
-                Guid UserId = new Guid(HdfUserId.Value);
+                List<List<TeachingPeriodSchedule>> listOfTeachingPeriodSchedules = (List<List<TeachingPeriodSchedule>>)GetSession(AppConstant.SESSION_WEEKLYSCHEDULE);
+                for (int i = 0; i < listOfTeachingPeriodSchedules.Count; i++)
+                {
+                    if (listOfTeachingPeriodSchedules[i][0].DayInWeekId == dayInWeek.DayInWeekId)
+                    {
+                        for (int j = 0; j < listOfTeachingPeriodSchedules[i].Count; j++)
+                        {
+                            if (listOfTeachingPeriodSchedules[i][j].TeachingPeriodId == teachingPeriod.TeachingPeriodId)
+                            {
+                                listOfTeachingPeriodSchedules[i][j].SubjectId = subject.SubjectId;
+                                listOfTeachingPeriodSchedules[i][j].SubjectName = LblMonHoc.Text;
+                                listOfTeachingPeriodSchedules[i][j].UserId = teacher.UserId;
+                                listOfTeachingPeriodSchedules[i][j].TeacherName = LblGiaoVien.Text;
 
-                schedule = new Class_Schedule();
-                schedule.ScheduleId = maTKBTiet;
-                subject = new Category_Subject();
-                subject.SubjectId = SubjectId;
-                teacher = new aspnet_User();
-                teacher.UserId = UserId;
-                scheduleBL.UpdateSchedule(schedule, subject, teacher);
+                                AddSession(AppConstant.SESSION_WEEKLYSCHEDULE, listOfTeachingPeriodSchedules);
 
-                Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",
-                    Request.QueryString["lop"], Request.QueryString["hocky"], Request.QueryString["thu"]));
+                                BackToPrevPage();
+                            }
+                        }
+                    }
+                }
             }
+
         }
 
         protected void BtnCancelEdit_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(string.Format("suathoikhoabieu.aspx?lop={0}&hocky={1}&thu={2}",
-                Request.QueryString["lop"], Request.QueryString["hocky"], Request.QueryString["thu"]));
+            BackToPrevPage();
         }
         #endregion
 
@@ -213,85 +209,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
-        private Dictionary<string, int> GetQueryStrings()
+        private void FillDDLGrades()
         {
-            Dictionary<string, int> dicQueryStrings = new Dictionary<string, int>();
+            GradeBL gradeBL = new GradeBL(UserSchool);
+            List<Category_Grade> grades = gradeBL.GetListGrades();
 
-            if (Request.QueryString["id"] != null && Request.QueryString["lop"] != null 
-                && Request.QueryString["hocky"] != null && Request.QueryString["thu"] != null 
-                && Request.QueryString["tiet"] != null)
-            {
-                int SubjectIdTKB;
-                if (Int32.TryParse(Request.QueryString["id"], out SubjectIdTKB))
-                {
-                    dicQueryStrings.Add("SubjectIdTKB", SubjectIdTKB);
-                }
-                else
-                {
-                    return null;
-                }
-
-                int maLop;
-                if (Int32.TryParse(Request.QueryString["lop"], out maLop))
-                {
-                    dicQueryStrings.Add("MaLop", maLop);
-                }
-                else
-                {
-                    return null;
-                }
-
-                int TermId;
-                if (Int32.TryParse(Request.QueryString["hocky"], out TermId))
-                {
-                    dicQueryStrings.Add("TermId", TermId);
-                }
-                else
-                {
-                    return null;
-                }
-
-                int DayInWeekId;
-                if (Int32.TryParse(Request.QueryString["thu"], out DayInWeekId))
-                {
-                    dicQueryStrings.Add("DayInWeekId", DayInWeekId);
-                }
-                else
-                {
-                    return null;
-                }
-
-                int TeachingPeriodId;
-                if (Int32.TryParse(Request.QueryString["tiet"], out TeachingPeriodId))
-                {
-                    dicQueryStrings.Add("TeachingPeriodId", TeachingPeriodId);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-
-            return dicQueryStrings;
-        }
-
-        private void FillDDLKhoi()
-        {
-            GradeBL grades = new GradeBL(UserSchool);
-            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
-
-            DdlKhoi.DataSource = lstKhoiLop;
+            DdlKhoi.DataSource = grades;
             DdlKhoi.DataValueField = "GradeName";
             DdlKhoi.DataTextField = "GradeName";
             DdlKhoi.DataBind();
         }
 
-        private void FillDDLNganh()
+        private void FillDDLFaculties()
         {
             FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<Category_Faculty> lstNganhs = facultyBL.GetFaculties();
+            List<Category_Faculty> faculties = facultyBL.GetFaculties();
 
-            DdlNganh.DataSource = lstNganhs;
+            DdlNganh.DataSource = faculties;
             DdlNganh.DataValueField = "FacultyName";
             DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
@@ -336,7 +270,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DataPageMonHoc.Visible = bDisplayData;
 
             BtnSaveMonHoc.Enabled = bDisplayData;
-            BtnSaveMonHoc.ImageUrl = (bDisplayData) ? "~/Styles/Images/button_save.png" : "~/Styles/Images/button_save_disable.png";
+            BtnSaveMonHoc.ImageUrl = (bDisplayData) ? "~/Styles/buttons/button_save.png" : "~/Styles/buttons/button_save_disable.png";
             RptMonHoc.Visible = bDisplayData;
             RptMonHoc.DataSource = lTabularSubjects;
             RptMonHoc.DataBind();
@@ -375,7 +309,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DataPageGiaoVien.Visible = bDisplayData;
 
             BtnSaveGiaoVien.Enabled = bDisplayData;
-            BtnSaveGiaoVien.ImageUrl = (bDisplayData) ? "~/Styles/Images/button_save.png" : "~/Styles/Images/button_save_disable.png";
+            BtnSaveGiaoVien.ImageUrl = (bDisplayData) ? "~/Styles/buttons/button_save.png" : "~/Styles/buttons/button_save_disable.png";
             RptGiaoVien.Visible = bDisplayData;
             RptGiaoVien.DataSource = lstTbGiaoViens;
             RptGiaoVien.DataBind();
@@ -396,11 +330,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
-        private bool validateInput()
+        private bool ValidateInputs()
         {
             bool bValid;
 
-            if (HdfSubjectId.Value == "0" || HdfUserId.Value == "0")
+            if (HdfSubjectId.Value == AppConstant.STRING_ZERO || HdfUserId.Value == AppConstant.STRING_ZERO)
             {
                 bValid = false;
             }
@@ -409,7 +343,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 bValid = true;
             }
 
-            if (HdfSubjectId.Value == "0")
+            if (HdfSubjectId.Value == AppConstant.STRING_ZERO)
             {
                 LblMonHocError.Visible = true;
             }
@@ -418,7 +352,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 LblMonHocError.Visible = false;
             }
 
-            if (HdfUserId.Value == "0")
+            if (HdfUserId.Value == AppConstant.STRING_ZERO)
             {
                 LblGiaoVienError.Visible = true;
             }
@@ -428,6 +362,50 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             return bValid;
+        }
+
+        private bool RetrieveSessions()
+        {
+            if (CheckSessionKey(AppConstant.SESSION_SCHEDULE))
+            {
+                TeachingPeriodSchedule schedule = (TeachingPeriodSchedule)GetSession(AppConstant.SESSION_SCHEDULE);
+                RemoveSession(AppConstant.SESSION_SCHEDULE);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_SCHEDULEID] = schedule.ScheduleId;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = schedule.ClassId;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = schedule.TermId;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_DAYINWEEK] = schedule.DayInWeekId;
+                ViewState[AppConstant.VIEWSTATE_SELECTED_TEACHINGPERIOD] = schedule.TeachingPeriodId;
+
+                LblTenLop.Text = schedule.ClassName;
+                LblNamHoc.Text = schedule.YearName;
+                LblHocKy.Text = schedule.TermName;
+                LblThu.Text = schedule.DayInWeekName;
+                LblGiaoVien.Text = schedule.TeacherName;
+                LblMonHoc.Text = schedule.SubjectName;
+                HdfSubjectId.Value = schedule.SubjectId.ToString();
+                HdfUserId.Value = schedule.UserId.ToString();
+                LblTiet.Text = schedule.StringDetailTeachingPeriod;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void BackToPrevPage()
+        {
+            Class_Class Class = new Class_Class();
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
+            AddSession(AppConstant.VIEWSTATE_SELECTED_TERMID, term);
+
+            AddSession(AppConstant.SESSION_SCHEDULE_EVENT_MODIFY, 3);
+
+            Response.Redirect(AppConstant.PAGEPATH_SCHEDULE_AGGRANGE);
         }
         #endregion
     }
