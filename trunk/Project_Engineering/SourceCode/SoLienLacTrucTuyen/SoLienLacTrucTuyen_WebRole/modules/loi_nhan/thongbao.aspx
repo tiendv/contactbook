@@ -149,7 +149,7 @@
                             <%#DataBinder.Eval(Container.DataItem, "StringMessageStatus")%>
                         </td>
                         <td id="tdSelect" runat="server" class="icon" style="height: 40px;">
-                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
+                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" Visible='<%#((int)DataBinder.Eval(Container.DataItem, "MessageStatusId") != 3)%>' />
                         </td>
                     </tr>
                 </ItemTemplate>

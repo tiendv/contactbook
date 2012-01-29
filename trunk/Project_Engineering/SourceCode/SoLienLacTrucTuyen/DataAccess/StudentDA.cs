@@ -66,6 +66,7 @@ namespace EContactBook.DataAccess
             Student_Student student = null;
             IQueryable<Student_Student> iqStudent = from std in db.Student_Students
                                                     where std.StudentCode == studentCode
+                                                    && std.SchoolId == school.SchoolId
                                                     select std;
             if (iqStudent.Count() != 0)
             {
@@ -169,10 +170,11 @@ namespace EContactBook.DataAccess
         {
             Class_Class Class = null;
 
-            IQueryable<Class_Class> iqClass = from studentsInClass in db.Student_StudentInClasses
+            IQueryable<Class_Class> iqClass = from c in db.Class_Classes
+                                              join studentsInClass in db.Student_StudentInClasses on c.ClassId equals studentsInClass.ClassId
                                               where studentsInClass.StudentId == student.StudentId
-                                                && studentsInClass.Class_Class.YearId == year.YearId
-                                              select studentsInClass.Class_Class;
+                                                && c.YearId == year.YearId
+                                              select c;
             if (iqClass.Count() != 0)
             {
                 Class = iqClass.First();
@@ -208,7 +210,7 @@ namespace EContactBook.DataAccess
                                                     select year;
             if (iqYear.Count() != 0)
             {
-                years = iqYear.OrderByDescending(year => year.YearId).ToList();
+                years = iqYear.Distinct().OrderByDescending(year => year.YearId).ToList();
             }
 
             return years;
@@ -467,7 +469,7 @@ namespace EContactBook.DataAccess
 
         public List<Student_StudentInClass> GetStudentInClasses(aspnet_User teacher, Configuration_Year year, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-           IQueryable<Student_StudentInClass> iqStudentInClass;
+            IQueryable<Student_StudentInClass> iqStudentInClass;
             iqStudentInClass = from f in db.Class_FormerTeachers
                                join stdInCls in db.Student_StudentInClasses on f.ClassId equals stdInCls.ClassId
                                where f.TeacherId == teacher.UserId && stdInCls.Class_Class.YearId == year.YearId && stdInCls.Student_Student.FullName == studentName
@@ -790,6 +792,26 @@ namespace EContactBook.DataAccess
             {
                 return new List<TabularStudentConduct>();
             }
+        }
+
+        public List<Student_TermLearningResult> GetTermLearningResults(Class_Class Class, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<Student_TermLearningResult> termLearningResults = new List<Student_TermLearningResult>();
+
+            IQueryable<Student_TermLearningResult> queryTermLearningResult;
+            queryTermLearningResult = from termLearningResult in db.Student_TermLearningResults
+                                      where termLearningResult.Student_StudentInClass.ClassId == Class.ClassId && termLearningResult.TermId == term.TermId
+                                      select termLearningResult;
+
+            totalRecords = queryTermLearningResult.Count();
+            if (totalRecords != 0)
+            {
+                return queryTermLearningResult.OrderBy(termLearningResult => termLearningResult.Student_StudentInClass.Student_Student.StudentCode)
+                    .ThenBy(termLearningResult => termLearningResult.Student_StudentInClass.Student_Student.FullName)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return termLearningResults;
         }
 
         public void UpdateStudenTermConduct(Class_Class Class, Configuration_Term term, Student_Student student, Category_Conduct conduct)

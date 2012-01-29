@@ -59,6 +59,16 @@
         }
     });
 
+    $(".BtnDanhGia").hover(function () {
+        if ($(".BtnDanhGia").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_danhgia_hover.png");
+        }
+    }, function () {
+        if ($(".BtnDanhGia").is(':disabled') == false) {
+            $(this).attr("src", "/Styles/buttons/button_danhgia.png");
+        }
+    });
+
     $(".BtnEdit").hover(function () {
         if ($(".BtnEdit").is(':disabled') == false) {
             $(this).attr("src", "/Styles/buttons/button_edit_hover.png");

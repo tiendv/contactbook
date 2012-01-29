@@ -63,7 +63,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
-            Response.Redirect(AppConstant.PAGEPATH_PARENTS_COMMENT_LIST);
+            Response.Redirect(AppConstant.PAGEPATH_COMMENT_LIST);
         }
         #endregion
 

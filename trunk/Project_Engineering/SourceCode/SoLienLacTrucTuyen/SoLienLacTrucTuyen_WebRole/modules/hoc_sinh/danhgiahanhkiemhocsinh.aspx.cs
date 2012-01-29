@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class ModifyStudentConductPage : BaseContentPage
+    public partial class StudentConductModifyPage : BaseContentPage
     {
         #region Fields
         private StudyingResultBL ketQuaHocTapBL;
@@ -40,159 +40,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (!Page.IsPostBack)
             {
-                BindDropDownLists();
-                BindRptHanhKiemHocSinh();
+                if (RetrieveSessions())
+                {
+                    BindRptHanhKiemHocSinh();
+                }
+                else
+                {
+                    Response.Redirect(AppConstant.PAGEPATH_STUDENT_CONDUCT_LIST);
+                }
             }
-        }
-        #endregion
-
-        #region DropDownList event hanlders
-        protected void DdlNamHoc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
-        }
-
-        protected void DdlNganh_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
-        }
-
-        protected void DdlKhoiLop_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindDDLLopHoc();
         }
         #endregion
 
         #region Methods
-        private void BindDropDownLists()
-        {
-            BindDDLNamHoc();
-            BindDDLHocKy();
-            BindDDLNganhHoc();
-            BindDDLKhoiLop();
-            BindDDLLopHoc();
-        }
-
-        private void BindDDLNamHoc()
-        {
-            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Year> years = systemConfigBL.GetListYears();
-            DdlNamHoc.DataSource = years;
-            DdlNamHoc.DataValueField = "YearId";
-            DdlNamHoc.DataTextField = "YearName";
-            DdlNamHoc.DataBind();
-
-            if (DdlNamHoc.Items.Count != 0)
-            {
-                SystemConfigBL cauHinhBL = new SystemConfigBL(UserSchool);
-                DdlNamHoc.SelectedValue = cauHinhBL.GetLastedYear().ToString();
-            }
-        }
-
-        private void BindDDLHocKy()
-        {
-            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
-            List<Configuration_Term> lstHocKy = systemConfigBL.GetListTerms();
-            DdlHocKy.DataSource = lstHocKy;
-            DdlHocKy.DataValueField = "TermId";
-            DdlHocKy.DataTextField = "TermName";
-            DdlHocKy.DataBind();
-        }
-
-        private void BindDDLNganhHoc()
-        {
-            FacultyBL facultyBL = new FacultyBL(UserSchool);
-            List<Category_Faculty> faculties = facultyBL.GetFaculties();
-            DdlNganh.DataSource = faculties;
-            DdlNganh.DataValueField = "FacultyId";
-            DdlNganh.DataTextField = "FacultyName";
-            DdlNganh.DataBind();
-            if (faculties.Count > 1)
-            {
-                DdlNganh.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-        }
-
-        private void BindDDLKhoiLop()
-        {
-            GradeBL grades = new GradeBL(UserSchool);
-            List<Category_Grade> lstKhoiLop = grades.GetListGrades();
-            DdlKhoiLop.DataSource = lstKhoiLop;
-            DdlKhoiLop.DataValueField = "GradeId";
-            DdlKhoiLop.DataTextField = "GradeName";
-            DdlKhoiLop.DataBind();
-            if (lstKhoiLop.Count > 1)
-            {
-                DdlKhoiLop.Items.Insert(0, new ListItem("Tất cả", "0"));
-            }
-        }
-
-        private void BindDDLLopHoc()
-        {
-            Configuration_Year year = null;
-            Category_Faculty faculty = null;
-            Category_Grade grade = null;
-
-            if (DdlNamHoc.Items.Count == 0 || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
-            {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
-                BtnSearch.Enabled = false;
-
-                return;
-            }
-
-            year = new Configuration_Year();
-            year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-
-            try
-            {
-                if (DdlNganh.SelectedIndex > 0)
-                {
-                    faculty = new Category_Faculty();
-                    faculty.FacultyId = Int32.Parse(DdlNganh.SelectedValue);
-                }
-            }
-            catch (Exception) { }
-
-            try
-            {
-                if (DdlKhoiLop.SelectedIndex > 0)
-                {
-                    grade = new Category_Grade();
-                    grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
-                }
-            }
-            catch (Exception) { }
-
-            ClassBL classBL = new ClassBL(UserSchool);
-            List<Class_Class> Classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
-            DdlLopHoc.DataSource = Classes;
-            DdlLopHoc.DataValueField = "ClassId";
-            DdlLopHoc.DataTextField = "ClassName";
-            DdlLopHoc.DataBind();
-
-            if (DdlLopHoc.Items.Count != 0)
-            {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
-                BtnSearch.Enabled = true;
-            }
-            else
-            {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
-                BtnSearch.Enabled = false;
-            }
-        }
-
         private void BindRptHanhKiemHocSinh()
         {
-            if (DdlLopHoc.Items.Count == 0)
-            {
-                ProcDisplayGUI(false);
-                return;
-            }
-
-            int ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-            int TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            int ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
+            int TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
 
             double dTotalRecords = 0;
             List<TabularStudentConduct> lstTbHanhKiemHocSinh;
@@ -201,34 +65,73 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             this.RptHanhKiemHocSinh.DataSource = lstTbHanhKiemHocSinh;
             this.RptHanhKiemHocSinh.DataBind();
             MainDataPager.ItemCount = dTotalRecords;
-
-            bool bDisplayData = (lstTbHanhKiemHocSinh.Count != 0) ? true : false;
-            ProcDisplayGUI(bDisplayData);
         }
 
-        private void ProcDisplayGUI(bool bDisplayData)
+        private bool RetrieveSessions()
         {
-            RptHanhKiemHocSinh.Visible = bDisplayData;
-            MainDataPager.Visible = bDisplayData;
-            LblSearchResult.Visible = !bDisplayData;
+            if (CheckSessionKey(AppConstant.SESSION_SELECTED_YEAR)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_FACULTY)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_GRADE)
+                && CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS))
+            {
+                Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
+                RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
+                LblYearName.Text = year.YearName;
 
-            tdSTT.Visible = bDisplayData;
-            tdMaHocSinh.Visible = bDisplayData;
-            tdHoTenHocSinh.Visible = bDisplayData;
-            tdDTB.Visible = bDisplayData;
+                Configuration_Term term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
+                RemoveSession(AppConstant.SESSION_SELECTED_TERM);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = term.TermId;
+                LblTermName.Text = term.TermName;
 
-            BtnSave.Visible = bDisplayData;
-            BtnCancel.Visible = bDisplayData;
+                Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
+                RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = faculty.FacultyId;
+
+                Category_Grade grade = (Category_Grade)GetSession(AppConstant.SESSION_SELECTED_GRADE);
+                RemoveSession(AppConstant.SESSION_SELECTED_GRADE);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = grade.GradeId;
+
+                Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
+                RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
+                ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Class.ClassId;
+                LblClassName.Text = Class.ClassName;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void BackToPreviousPage()
+        {
+            Configuration_Year year = new Configuration_Year();
+            year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
+
+            Category_Faculty faculty = new Category_Faculty();
+            faculty.FacultyId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID];
+
+            Category_Grade grade = new Category_Grade();
+            grade.GradeId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID];
+
+            Class_Class Class = new Class_Class();
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
+
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
+
+            AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
+            AddSession(AppConstant.SESSION_SELECTED_TERM, term);
+            AddSession(AppConstant.SESSION_SELECTED_FACULTY, faculty);
+            AddSession(AppConstant.SESSION_SELECTED_GRADE, grade);
+            AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
+
+            Response.Redirect(AppConstant.PAGEPATH_STUDENT_CONDUCT_LIST);
         }
         #endregion
 
         #region Button event handlers
-        protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
-        {
-            MainDataPager.CurrentIndex = 1;
-            BindRptHanhKiemHocSinh();
-        }
-
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
             Class_Class Class = null;
@@ -271,10 +174,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             term = new Configuration_Term();
-            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+            term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
 
             Class = new Class_Class();
-            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+            Class.ClassId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID];
 
             foreach (KeyValuePair<int, int?> pair in dicHocSinhHanhKiem)
             {
@@ -294,11 +197,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 hocSinhBL.UpdateStudenTermConduct(Class, term, student, conduct);
             }
 
-            BindRptHanhKiemHocSinh();
+            BackToPreviousPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
+            BackToPreviousPage();
         }
         #endregion
 

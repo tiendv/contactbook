@@ -83,10 +83,12 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             MainDataPager.ItemCount = dTotalRecords;
 
             int iNewMessageCount = messageBL.GetNewMessageCount(LoggedInStudent);
+            int iUnconfirmedMessageStatus = messageBL.GetUnconfirmedMessageCount(LoggedInStudent);
             if (iNewMessageCount != 0)
             {
                 PnlMessageStatus.Visible = true;
                 LblMessageStatus.Text = iNewMessageCount.ToString();
+                LblUnconfirmedMessageStatus.Text = iUnconfirmedMessageStatus.ToString();
             }
             else
             {

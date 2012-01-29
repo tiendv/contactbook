@@ -68,10 +68,13 @@
             <span style="clear: both">
                 <br />
             </span>
-            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/alert.png" />
             Bạn có
             <asp:Label ID="LblMessageStatus" runat="server" CssClass="alertNumber"></asp:Label>
             thông báo mới
+            <br />
+            Bạn còn 
+            <asp:Label ID="LblUnconfirmedMessageStatus" runat="server" CssClass="alertNumber"></asp:Label>
+            thông báo chưa xác nhận
         </asp:Panel>
         <table class="repeater">
             <asp:HiddenField ID="HdfMaLoiNhanKhan" runat="server" />

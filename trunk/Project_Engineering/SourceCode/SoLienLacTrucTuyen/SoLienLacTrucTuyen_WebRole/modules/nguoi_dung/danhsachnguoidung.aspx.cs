@@ -212,6 +212,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             bool bHasEmptyEmail = false;
             HiddenField HdfRptMaNhomNguoiDung = null;
+            HiddenField HdfRptActualUserName = null;
             Label LblEmail = null;
             List<aspnet_User> users = new List<aspnet_User>();
             aspnet_User user = null;
@@ -228,6 +229,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
                             user = new aspnet_User();
                             user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
+                            HdfRptActualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
+                            user.UserName = HdfRptActualUserName.Value;
                             users.Add(user);
                         }
                         else
@@ -239,6 +242,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             userBL.ActivateUsers(users);
+            foreach(aspnet_User u in users)
+            {
+                MembershipUser membershipUser = Membership.GetUser(u.UserName);
+                string strPassword = membershipUser.ResetPassword();
+                Membership.UpdateUser(membershipUser);
+
+                MailBL.SendByGmail(UserSchool.Email, membershipUser.Email,
+                "[eContact.com] Kích hoạt tài khoản thành công",
+                string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}",
+                    UserSchool.SchoolName, u.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], strPassword), UserSchool.Email.Split('@')[0], UserSchool.Password);
+            }
+
             isSearch = false;
             BindRptUsers();
 

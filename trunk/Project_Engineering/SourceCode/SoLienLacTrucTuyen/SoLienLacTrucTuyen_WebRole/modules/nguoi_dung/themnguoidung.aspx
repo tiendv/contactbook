@@ -75,7 +75,7 @@
                             <asp:View ID="ViewDefault" runat="server">
                             </asp:View>
                             <asp:View ID="ViewPhuHuynh" runat="server">
-                                <div class="table_data ui-corner-all" style="border-style:none">
+                                <div class="table_data ui-corner-all" style="border-style: none">
                                     <div style="padding: 3px 0px 3px 0px; text-align: center; font-weight: bold; font-size: 15px">
                                         Dịch vụ
                                     </div>
@@ -85,7 +85,7 @@
                                                 <tr class="header ui-corner-right ui-corner-left">
                                                     <td class="ui-corner-tl">
                                                         Dịch vụ<br />
-                                                        <asp:CheckBox ID="ChkBxAllFunctions" runat="server" CssClass="checkServiceAll" style="float:left"/>
+                                                        <asp:CheckBox ID="ChkBxAllFunctions" runat="server" CssClass="checkServiceAll" Style="float: left" />
                                                     </td>
                                                     <td style="width: 50px;">
                                                         E-mail<br />
@@ -178,9 +178,6 @@
                                 <td style="padding-right: 10px">
                                     <asp:TextBox ID="Password" runat="server" TextMode="Password" Enabled="false" Style="width: 98%"
                                         CssClass="password"></asp:TextBox>
-                                    <%--<asp:RequiredFieldValidator ID="NewPasswordRequired" runat="server" ControlToValidate="Password"
-                                        Display="Dynamic" ForeColor="Red" ErrorMessage="Mật khẩu không được để trống"
-                                        ToolTip="Mật khẩu không được để trống" ValidationGroup="CreateUser"></asp:RequiredFieldValidator>--%>
                                 </td>
                             </tr>
                             <tr>
@@ -191,10 +188,6 @@
                                 <td style="padding-right: 10px">
                                     <asp:TextBox ID="ConfirmPassword" runat="server" Text="12345678" TextMode="Password"
                                         Enabled="false" Style="width: 98%" CssClass="password"></asp:TextBox>
-                                    <%--<asp:CompareValidator ID="ConfirmPswdCompare" runat="server" ErrorMessage="Mật khẩu phải trùng nhau"
-                                        Display="Dynamic" ForeColor="Red" ControlToValidate="ConfirmPassword" ControlToCompare="Password"
-                                        ValidationGroup="CreateUser">
-                                    </asp:CompareValidator>--%>
                                 </td>
                             </tr>
                             <tr>
@@ -207,6 +200,9 @@
                                     <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email"
                                         Display="Dynamic" ForeColor="Red" ErrorMessage="Email không được để trống" ToolTip="Email không được để trống"
                                         ValidationGroup="CreateUser"></asp:RequiredFieldValidator>
+                                    <asp:CustomValidator ID="EmailValidator" runat="server" ControlToValidate="Email"
+                                        OnServerValidate="ValidateEmail" Display="Dynamic" ForeColor="Red" ErrorMessage="Email không tồn tại"
+                                        ValidationGroup="CreateUser"></asp:CustomValidator><br />
                                 </td>
                             </tr>
                             <tr id="HtmlTrThoiHan" runat="server" style="display: none;">

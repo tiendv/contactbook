@@ -103,6 +103,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             bool bIsDeletable = (bool)ViewState[AppConstant.VIEWSTATE_USER_ISDELETABLE];
 
             userBL.UpdateMembership(user, bIsTeacher, strFullName, strEmail, bStatus, bIsDeletable);
+
+            if (bStatus)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(UserSchool.SchoolId);
+                stringBuilder.Append(AppConstant.UNDERSCORE_CHAR);
+                stringBuilder.Append(strUserName);
+                MembershipUser membershipUser = Membership.GetUser(stringBuilder.ToString());
+                string strPassword = membershipUser.ResetPassword();
+                Membership.UpdateUser(membershipUser);
+
+                MailBL.SendByGmail(UserSchool.Email, membershipUser.Email, 
+                "[eContact.com] Kích hoạt tài khoản thành công", 
+                string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}", 
+                    UserSchool.SchoolName, strUserName, strPassword), UserSchool.Email.Split('@')[0], UserSchool.Password);
+            }
+
             BackToPreviousPage();
         }
 
