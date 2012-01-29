@@ -52,8 +52,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     stringBuilder.Append(message.Student_StudentInClass.Student_Student.StudentCode);
                     LblStudentInformation.Text = stringBuilder.ToString();
                     LblTitle.Text = message.Title;
+                    LblDate.Text = message.Date.ToShortDateString();
                     LblContent.Text = message.MessageContent;
-                    LblFeedback.Text = message.Feedback;
+                    if (CheckUntils.IsNullOrBlank(message.Feedback))
+                    {
+                        trFeedback.Visible = false;
+                    }
+                    else
+                    {
+                        trFeedback.Visible = true;
+                        LblFeedback.Text = message.Feedback;
+                    }
+
+                    if (CheckUntils.IsNullOrBlank(message.Feedback) == false)
+                    {
+                        BtnEdit.Enabled = false;
+                        BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_MODIFY_DISABLED;
+                    }
                 }
                 else
                 {

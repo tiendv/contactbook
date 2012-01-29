@@ -50,7 +50,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                     Configuration_Year year = (Configuration_Year)GetSession(AppConstant.SESSION_SELECTED_YEAR);
                     RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
-                    ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
 
                     Category_Faculty faculty = (Category_Faculty)GetSession(AppConstant.SESSION_SELECTED_FACULTY);
                     RemoveSession(AppConstant.SESSION_SELECTED_FACULTY);
@@ -202,7 +202,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
         {
             Configuration_Year year = new Configuration_Year();
-            year.YearId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
+            year.YearId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID].ToString());
             AddSession(AppConstant.SESSION_SELECTED_YEAR, year);
 
             Category_Faculty faculty = new Category_Faculty();

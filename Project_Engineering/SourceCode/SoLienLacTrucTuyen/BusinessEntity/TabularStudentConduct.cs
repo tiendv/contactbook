@@ -11,6 +11,7 @@ namespace EContactBook.BusinessEntity
         public string StudentName { get; set; }
         public string StudentCode { get; set; }
         public int? ConductId { get; set; }
+        public string ConductName { get; set; }
 
         public int TotalOfUnaskedAbsentDays { get; set; }
         public int TotalOfAskedAbsentDays { get; set; }

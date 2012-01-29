@@ -220,9 +220,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularMessage.StringDate = message.Date.ToShortDateString();
                 tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
                 tabularMessage.Title = message.Title;
-                if (combineStatus && message.MessageStatusId != 1)
+                if (combineStatus && message.MessageStatusId == 2)
                 {
-                    tabularMessage.StringMessageStatus = "Đã xác nhận";
+                    tabularMessage.StringMessageStatus = "Chưa xem";
                 }
                 else
                 {

@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class ModifyStudentConductPage {
+    public partial class StudentConductModifyPage {
         
         /// <summary>
         /// UPDropdownlists control.
@@ -22,67 +22,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.UpdatePanel UPDropdownlists;
         
         /// <summary>
-        /// DdlNamHoc control.
+        /// LblYearName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
+        protected global::System.Web.UI.WebControls.Label LblYearName;
         
         /// <summary>
-        /// DdlNganh control.
+        /// LblClassName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlNganh;
+        protected global::System.Web.UI.WebControls.Label LblClassName;
         
         /// <summary>
-        /// DdlLopHoc control.
+        /// LblTermName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlLopHoc;
-        
-        /// <summary>
-        /// DdlHocKy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
-        
-        /// <summary>
-        /// DdlKhoiLop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
-        
-        /// <summary>
-        /// BtnSearch control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
-        
-        /// <summary>
-        /// LblSearchResult control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblSearchResult;
+        protected global::System.Web.UI.WebControls.Label LblTermName;
         
         /// <summary>
         /// tdSTT control.
@@ -128,6 +92,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton LlkBtnHoTenHocSinh;
+        
+        /// <summary>
+        /// tdAbsent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAbsent;
         
         /// <summary>
         /// tdDTB control.

@@ -149,15 +149,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            //if (MailBL.CheckEmailExist(TxtEmail.Text))
-            //{
-            //    EmailCustomValidator.IsValid = true;
-            //}
-            //else
-            //{
-            //    EmailCustomValidator.IsValid = false;
-            //    return false;
-            //}
+            if (MailBL.CheckEmailExist(TxtEmail.Text))
+            {
+                EmailCustomValidator.IsValid = true;
+            }
+            else
+            {
+                EmailCustomValidator.IsValid = false;
+                return false;
+            }
 
             return true;
         }

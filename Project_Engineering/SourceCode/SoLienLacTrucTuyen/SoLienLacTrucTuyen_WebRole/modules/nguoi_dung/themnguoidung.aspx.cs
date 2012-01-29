@@ -131,6 +131,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
         }
 
+        protected void ValidateEmail(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = MailBL.CheckEmailExist(args.Value);
+        }
+
         private void BackPrevPage()
         {
             Response.Redirect(AppConstant.PAGEPATH_USER_LIST);
@@ -155,7 +160,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ((Label)container.FindControl(STEP_CREATEUSER_LBLROLE)).Text = role.RoleName;
             Label lblUserName = ((Label)container.FindControl(STEP_CREATEUSER_LBLUSERNAME));
             RequiredFieldValidator reqValidatorRealName = ((RequiredFieldValidator)container.FindControl(STEP_CREATEUSER_VALIDATORREALNAME));
-            HtmlTableRow htmlTableRowPeriod = ((HtmlTableRow)container.FindControl(STEP_CREATEUSER_TR_PERIOD));
+            //HtmlTableRow htmlTableRowPeriod = ((HtmlTableRow)container.FindControl(STEP_CREATEUSER_TR_PERIOD));
             HtmlTableRow htmlTableRowRealName = ((HtmlTableRow)container.FindControl(STEP_CREATEUSER_TR_REALNAME));
             MultiView multiViewCtrl = (MultiView)SeleteRoleStep.FindControl(STEP_SELECTROLE_MULVIEW);
             multiViewCtrl.ActiveViewIndex = 0;
@@ -178,7 +183,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
                 reqValidatorRealName.Enabled = false;
                 htmlTableRowRealName.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
-                htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
+                //htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
                 Label lblLastedYearName = ((Label)container.FindControl("LblLastedYearName"));
                 SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
                 lblLastedYearName.Text = systemConfigBL.GetLastedYear().YearName;
@@ -190,7 +195,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 reqValidatorRealName.Enabled = true;
                 htmlTableRowRealName.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_BLOCK);
-                htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
+                //htmlTableRowPeriod.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
 
                 ViewState[VIEWSTATE_ISCHOSEROLEPARENTS] = false;
 
@@ -296,7 +301,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             string strGeneratedPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
                 Membership.Provider.MinRequiredNonAlphanumericCharacters);
-            ViewState["genatedPassword"] = strGeneratedPassword;
+            ViewState[AppConstant.VIEWSTATE_GENERATEDPASSWORD] = strGeneratedPassword;
             TextBox txtPassword = (TextBox)CreateUserStep.ContentTemplateContainer.FindControl("Password");
             txtPassword.Text = strGeneratedPassword;
             TextBox txtConfirmPassword = (TextBox)CreateUserStep.ContentTemplateContainer.FindControl("ConfirmPassword");
@@ -347,12 +352,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
 
             MailBL.SendByGmail(UserSchool.Email, RegisterUserWizard.Email, 
-                "Tạo tài khoản thành công", 
-                string.Format("Account: {0}, pass:{1}", createdUser.UserName, (string)ViewState["genatedPassword"]),
+                "[eContact.com] Tạo tài khoản thành công", 
+                string.Format("Trường {0} xin thông báo đã tạo thành công tài khoản {1} với mật khẩu truy cập là {2}", 
+                    UserSchool.SchoolName, createdUser.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], (string)ViewState[AppConstant.VIEWSTATE_GENERATEDPASSWORD]),
                 UserSchool.Email.Split('@')[0], UserSchool.Password);
-
-            SchoolBL schoolBL = new SchoolBL();
-            //schoolBL.UpdateTotalOfUser(UserSchool);
         }
 
         protected void RegisterUserWizard_ContinueButtonClick(object sender, ImageClickEventArgs e)

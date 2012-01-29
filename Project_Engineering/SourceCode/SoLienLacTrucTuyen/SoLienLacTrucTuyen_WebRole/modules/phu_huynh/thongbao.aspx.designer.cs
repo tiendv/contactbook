@@ -130,15 +130,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         protected global::System.Web.UI.WebControls.Panel PnlMessageStatus;
         
         /// <summary>
-        /// Image1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-        
-        /// <summary>
         /// LblMessageStatus control.
         /// </summary>
         /// <remarks>
@@ -146,6 +137,15 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LblMessageStatus;
+        
+        /// <summary>
+        /// LblUnconfirmedMessageStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblUnconfirmedMessageStatus;
         
         /// <summary>
         /// HdfMaLoiNhanKhan control.

@@ -851,6 +851,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public List<Category_Subject> HasNewFinalMarks(Student_Student student)
         {
+            List<Category_Subject> hasNewFinalMarkSubjects = new List<Category_Subject>();
             int iLimitDays = 3;
             
             // declare BLs
@@ -862,9 +863,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             // get markType that used to calculate average mark
             Category_MarkType markType = markTypeBL.GetAppliedCalAvgMarkType(Class.Category_Grade);
-
-            // get list of subjects that have new final mark
-            return studyingResultDA.GetNewMarkSubjects(student, Class, iLimitDays, markType);
+            if (markType != null)
+            {
+                // get list of subjects that have new final mark
+                hasNewFinalMarkSubjects = studyingResultDA.GetNewMarkSubjects(student, Class, iLimitDays, markType);
+            }
+            
+            return hasNewFinalMarkSubjects;
         }
     }
 }

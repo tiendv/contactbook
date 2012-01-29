@@ -16,7 +16,7 @@
             </div>
         </asp:Panel>
         <asp:Panel ID="PnlFormerTeacher" runat="server" Style="padding: 10px;">
-            <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Images/user.png" Style="float: left;
+            <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Images/teacher.png" Style="float: left;
                 height: 50px; width: 50px" />
             <div style="width: 85%; float: left; padding-left: 10px;">
                 <asp:HyperLink ID="HlkFormerTeacher" runat="server" Style="font-size: 15px; font-weight: bold;

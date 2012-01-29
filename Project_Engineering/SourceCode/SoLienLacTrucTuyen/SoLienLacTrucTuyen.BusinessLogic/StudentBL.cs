@@ -689,6 +689,45 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 pageCurrentIndex, pageSize, out totalRecords);
         }
 
+        public List<TabularStudentConduct> GetTabularStudentConducts(Class_Class Class, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecords)
+        {
+            List<TabularStudentConduct> tabularStudentConducts = new List<TabularStudentConduct>();
+            TabularStudentConduct tabularStudentConduct = null;
+            List<Student_TermLearningResult> termLearningResults = studentDA.GetTermLearningResults(Class, term, pageCurrentIndex, pageSize, out totalRecords);
+            ConductBL conductBL = new ConductBL(school);
+            string strConductName;
+            Category_Conduct conduct = null;
+            AbsentBL absentBL = new AbsentBL(school);
+
+            foreach (Student_TermLearningResult termLearningResult in termLearningResults)
+            {
+                tabularStudentConduct = new TabularStudentConduct();
+                tabularStudentConduct.ConductId = termLearningResult.TermConductId;
+
+                strConductName = "Chưa xác định";
+                if (termLearningResult.TermConductId != -1)
+                {
+                    conduct = conductBL.GetConduct((int)termLearningResult.TermConductId);
+                    if (conduct != null)
+                    {
+                        strConductName = conduct.ConductName;
+                    }
+                }
+                tabularStudentConduct.ConductName = strConductName;
+
+                tabularStudentConduct.StudentID = termLearningResult.Student_StudentInClass.StudentId;
+                tabularStudentConduct.StudentCode = termLearningResult.Student_StudentInClass.Student_Student.StudentCode;
+                tabularStudentConduct.StudentName = termLearningResult.Student_StudentInClass.Student_Student.FullName;
+                tabularStudentConduct.TotalOfAbsentDays = absentBL.GetTotalDayOfAbsent(termLearningResult.Student_StudentInClass.Student_Student, Class, term, null);
+                tabularStudentConduct.TotalOfAskedAbsentDays = absentBL.GetTotalDayOfAbsent(termLearningResult.Student_StudentInClass.Student_Student, Class, term, true);
+                tabularStudentConduct.TotalOfUnaskedAbsentDays = absentBL.GetTotalDayOfAbsent(termLearningResult.Student_StudentInClass.Student_Student, Class, term, false);
+
+                tabularStudentConducts.Add(tabularStudentConduct);
+            }
+
+            return tabularStudentConducts;
+        }
+
         public void UpdateStudenTermConduct(Class_Class Class, Configuration_Term term, Student_Student student, Category_Conduct conduct)
         {
             studentDA.UpdateStudenTermConduct(Class, term, student, conduct);

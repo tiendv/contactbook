@@ -79,12 +79,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_CATEGORY_LEARNINGRESULT_LIST = "/modules/danh_muc/danhmucdanhhieu.aspx";
         public const string PAGEPATH_CATEGORY_LEARNINGRESULT_ADD = "/modules/danh_muc/themdanhhieu.aspx";
         public const string PAGEPATH_CATEGORY_LEARNINGRESULT_MODIFY = "/modules/danh_muc/suadanhhieu.aspx";
+
+        public const string PAGEPATH_STUDENT_CONDUCT_LIST = "/modules/hoc_sinh/hanhkiemhocsinh.aspx";
+        public const string PAGEPATH_STUDENT_CONDUCT_MODIFY = "/modules/hoc_sinh/danhgiahanhkiemhocsinh.aspx";
         #endregion
 
         public const string QUERY_STUDENT = "std";
         public const string QUERY_PARENTSCOMMENT = "id";
 
         public const string VIEWSTATE_CLASSID = "ClassId";
+        public const string VIEWSTATE_GENERATEDPASSWORD = "GeneratedPassword";
         public const string VIEWSTATE_MESSAGEID = "MessageId";
         public const string VIEWSTATE_PARENTSCOMMENTID = "ParentCommentId";
         public const string VIEWSTATE_PREV_PAGE = "PrevPage";
@@ -203,6 +207,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string IMAGESOURCE_BUTTON_MODIFY_DISABLED = "~/Styles/buttons/button_edit_disable.png";
         public const string IMAGESOURCE_BUTTON_DELETE = "~/Styles/buttons/button_delete.png"; 
         public const string IMAGESOURCE_BUTTON_DELETE_DISABLED = "~/Styles/buttons/button_delete_disable.png";
+        public const string IMAGESOURCE_BUTTON_DANHGIA = "~/Styles/buttons/button_danhgia.png";
+        public const string IMAGESOURCE_BUTTON_DANHGIA_DISABLE = "~/Styles/buttons/button_danhgia_disable.png"; 
         public const string IMAGESOURCE_BUTTON_EXPORT = "~/Styles/buttons/button_export.png";
         public const string IMAGESOURCE_BUTTON_FEEDBACK = "~/Styles/buttons/button_feedback.png";
         public const string IMAGESOURCE_BUTTON_FEEDBACK_DISABLED = "~/Styles/buttons/button_feedback_disable.png";
