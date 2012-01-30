@@ -15,6 +15,7 @@ namespace EContactBook.DataAccess
 
         public void InsertSchedule(Class_Schedule schedule)
         {
+            schedule.LastUpdate = DateTime.Now;
             db.Class_Schedules.InsertOnSubmit(schedule);
             db.SubmitChanges();
         }
@@ -24,7 +25,7 @@ namespace EContactBook.DataAccess
             Class_Schedule schedule = (from schdl in db.Class_Schedules
                                        where schdl.ScheduleId == editedSchedule.ScheduleId
                                        select schdl).First();
-            
+            schedule.LastUpdate = DateTime.Now;
             schedule.SubjectId = subject.SubjectId;
             schedule.TeacherId = teacher.UserId;
             db.SubmitChanges();
@@ -195,6 +196,21 @@ namespace EContactBook.DataAccess
             {
                 return true;
             }
+        }
+
+        public DateTime? GetLastUpdateDate(Class_Class Class)
+        {
+            DateTime? lastUpdateDate = null; 
+            IQueryable<Class_Schedule> querySchedule = from schedule in db.Class_Schedules
+                                                       where schedule.ClassId == Class.ClassId
+                                                       select schedule;
+
+            if (querySchedule.Count() != 0)
+            {
+                lastUpdateDate = querySchedule.OrderByDescending(schedule => schedule.LastUpdate).First().LastUpdate;
+            }
+
+            return lastUpdateDate;
         }
     }
 }

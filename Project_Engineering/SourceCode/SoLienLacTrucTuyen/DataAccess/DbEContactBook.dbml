@@ -124,8 +124,8 @@
       <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_Profile" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Profile" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
       <Association Name="aspnet_User_Class_FormerTeacher" Member="Class_FormerTeachers" ThisKey="UserId" OtherKey="TeacherId" Type="Class_FormerTeacher" />
-      <Association Name="aspnet_User_Class_Schedule" Member="Class_Schedules" ThisKey="UserId" OtherKey="TeacherId" Type="Class_Schedule" />
       <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="UserId" OtherKey="UserParentId" Type="UserManagement_RoleParentsAuthorization" />
+      <Association Name="aspnet_User_Class_Schedule" Member="Class_Schedules" ThisKey="UserId" OtherKey="TeacherId" Type="Class_Schedule" />
       <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
     </Type>
   </Table>
@@ -237,8 +237,8 @@
       <Column Name="FacultyId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="GradeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="MarkRatio" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Association Name="Category_Subject_Class_Schedule" Member="Class_Schedules" ThisKey="SubjectId" OtherKey="SubjectId" Type="Class_Schedule" />
       <Association Name="Category_Subject_Student_TermSubjectMark" Member="Student_TermSubjectMarks" ThisKey="SubjectId" OtherKey="SubjectId" Type="Student_TermSubjectMark" />
+      <Association Name="Category_Subject_Class_Schedule" Member="Class_Schedules" ThisKey="SubjectId" OtherKey="SubjectId" Type="Class_Schedule" />
       <Association Name="Category_Grade_Category_Subject" Member="Category_Grade" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Grade" IsForeignKey="true" />
       <Association Name="Category_Faculty_Category_Subject" Member="Category_Faculty" ThisKey="FacultyId" OtherKey="FacultyId" Type="Category_Faculty" IsForeignKey="true" />
     </Type>
@@ -267,8 +267,8 @@
       <Column Name="GradeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SchoolId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Class_Class_Class_FormerTeacher" Member="Class_FormerTeachers" ThisKey="ClassId" OtherKey="ClassId" Type="Class_FormerTeacher" />
-      <Association Name="Class_Class_Class_Schedule" Member="Class_Schedules" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Schedule" />
       <Association Name="Class_Class_Student_StudentInClass" Member="Student_StudentInClasses" ThisKey="ClassId" OtherKey="ClassId" Type="Student_StudentInClass" />
+      <Association Name="Class_Class_Class_Schedule" Member="Class_Schedules" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Schedule" />
       <Association Name="Category_Grade_Class_Class" Member="Category_Grade" ThisKey="GradeId" OtherKey="GradeId" Type="Category_Grade" IsForeignKey="true" />
       <Association Name="Category_Faculty_Class_Class" Member="Category_Faculty" ThisKey="FacultyId" OtherKey="FacultyId" Type="Category_Faculty" IsForeignKey="true" />
       <Association Name="Configuration_Year_Class_Class" Member="Configuration_Year" ThisKey="YearId" OtherKey="YearId" Type="Configuration_Year" IsForeignKey="true" />
@@ -282,25 +282,6 @@
       <Column Name="TeacherId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="aspnet_User_Class_FormerTeacher" Member="aspnet_User" ThisKey="TeacherId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
       <Association Name="Class_Class_Class_FormerTeacher" Member="Class_Class" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Class" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Class_Schedule" Member="Class_Schedules">
-    <Type Name="Class_Schedule">
-      <Column Name="ScheduleId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="SubjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TeacherId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DayInWeekId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TeachingPeriodId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_Class_Schedule" Member="aspnet_User" ThisKey="TeacherId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-      <Association Name="Category_Subject_Class_Schedule" Member="Category_Subject" ThisKey="SubjectId" OtherKey="SubjectId" Type="Category_Subject" IsForeignKey="true" />
-      <Association Name="Category_TeachingPeriod_Class_Schedule" Member="Category_TeachingPeriod" ThisKey="TeachingPeriodId" OtherKey="TeachingPeriodId" Type="Category_TeachingPeriod" IsForeignKey="true" />
-      <Association Name="Class_Class_Class_Schedule" Member="Class_Class" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Class" IsForeignKey="true" />
-      <Association Name="Configuration_DayInWeek_Class_Schedule" Member="Configuration_DayInWeek" ThisKey="DayInWeekId" OtherKey="DayInWeekId" Type="Configuration_DayInWeek" IsForeignKey="true" />
-      <Association Name="Configuration_Session_Class_Schedule" Member="Configuration_Session" ThisKey="SessionId" OtherKey="SessionId" Type="Configuration_Session" IsForeignKey="true" />
-      <Association Name="Configuration_Term_Class_Schedule" Member="Configuration_Term" ThisKey="TermId" OtherKey="TermId" Type="Configuration_Term" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Configuration_CommentStatus" Member="Configuration_CommentStatus">
@@ -359,12 +340,12 @@
     <Type Name="Configuration_Term">
       <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TermName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Configuration_Term_Class_Schedule" Member="Class_Schedules" ThisKey="TermId" OtherKey="TermId" Type="Class_Schedule" />
       <Association Name="Configuration_Term_Configuration_TermsInYear" Member="Configuration_TermsInYears" ThisKey="TermId" OtherKey="TermId" Type="Configuration_TermsInYear" />
       <Association Name="Configuration_Term_Student_Absent" Member="Student_Absents" ThisKey="TermId" OtherKey="TermId" Type="Student_Absent" />
       <Association Name="Configuration_Term_Student_Activity" Member="Student_Activities" ThisKey="TermId" OtherKey="TermId" Type="Student_Activity" />
       <Association Name="Configuration_Term_Student_TermLearningResult" Member="Student_TermLearningResults" ThisKey="TermId" OtherKey="TermId" Type="Student_TermLearningResult" />
       <Association Name="Configuration_Term_Student_TermSubjectMark" Member="Student_TermSubjectMarks" ThisKey="TermId" OtherKey="TermId" Type="Student_TermSubjectMark" />
+      <Association Name="Configuration_Term_Class_Schedule" Member="Class_Schedules" ThisKey="TermId" OtherKey="TermId" Type="Class_Schedule" />
     </Type>
   </Table>
   <Table Name="dbo.Configuration_TermsInYear" Member="Configuration_TermsInYears">
@@ -658,6 +639,26 @@
       <Association Name="School_School_Student_Student" Member="Student_Students" ThisKey="SchoolId" OtherKey="SchoolId" Type="Student_Student" />
       <Association Name="School_School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
       <Association Name="Configuration_District_School_School" Member="Configuration_District" ThisKey="DistrictId" OtherKey="DistrictId" Type="Configuration_District" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Class_Schedule" Member="Class_Schedules">
+    <Type Name="Class_Schedule">
+      <Column Name="ScheduleId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SubjectId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeacherId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DayInWeekId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SessionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TeachingPeriodId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastUpdate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="aspnet_User_Class_Schedule" Member="aspnet_User" ThisKey="TeacherId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="Configuration_Session_Class_Schedule" Member="Configuration_Session" ThisKey="SessionId" OtherKey="SessionId" Type="Configuration_Session" IsForeignKey="true" />
+      <Association Name="Configuration_Term_Class_Schedule" Member="Configuration_Term" ThisKey="TermId" OtherKey="TermId" Type="Configuration_Term" IsForeignKey="true" />
+      <Association Name="Configuration_DayInWeek_Class_Schedule" Member="Configuration_DayInWeek" ThisKey="DayInWeekId" OtherKey="DayInWeekId" Type="Configuration_DayInWeek" IsForeignKey="true" />
+      <Association Name="Category_Subject_Class_Schedule" Member="Category_Subject" ThisKey="SubjectId" OtherKey="SubjectId" Type="Category_Subject" IsForeignKey="true" />
+      <Association Name="Category_TeachingPeriod_Class_Schedule" Member="Category_TeachingPeriod" ThisKey="TeachingPeriodId" OtherKey="TeachingPeriodId" Type="Category_TeachingPeriod" IsForeignKey="true" />
+      <Association Name="Class_Class_Class_Schedule" Member="Class_Class" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Class" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

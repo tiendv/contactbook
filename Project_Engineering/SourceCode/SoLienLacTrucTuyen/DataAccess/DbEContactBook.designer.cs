@@ -96,9 +96,6 @@ namespace EContactBook.DataAccess
     partial void InsertClass_FormerTeacher(Class_FormerTeacher instance);
     partial void UpdateClass_FormerTeacher(Class_FormerTeacher instance);
     partial void DeleteClass_FormerTeacher(Class_FormerTeacher instance);
-    partial void InsertClass_Schedule(Class_Schedule instance);
-    partial void UpdateClass_Schedule(Class_Schedule instance);
-    partial void DeleteClass_Schedule(Class_Schedule instance);
     partial void InsertConfiguration_CommentStatus(Configuration_CommentStatus instance);
     partial void UpdateConfiguration_CommentStatus(Configuration_CommentStatus instance);
     partial void DeleteConfiguration_CommentStatus(Configuration_CommentStatus instance);
@@ -186,6 +183,9 @@ namespace EContactBook.DataAccess
     partial void InsertSchool_School(School_School instance);
     partial void UpdateSchool_School(School_School instance);
     partial void DeleteSchool_School(School_School instance);
+    partial void InsertClass_Schedule(Class_Schedule instance);
+    partial void UpdateClass_Schedule(Class_Schedule instance);
+    partial void DeleteClass_Schedule(Class_Schedule instance);
     #endregion
 		
 		public DbEContactBookDataContext() : 
@@ -391,14 +391,6 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<Class_FormerTeacher>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Class_Schedule> Class_Schedules
-		{
-			get
-			{
-				return this.GetTable<Class_Schedule>();
 			}
 		}
 		
@@ -647,6 +639,14 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<School_School>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Class_Schedule> Class_Schedules
+		{
+			get
+			{
+				return this.GetTable<Class_Schedule>();
 			}
 		}
 	}
@@ -3054,9 +3054,9 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<Class_FormerTeacher> _Class_FormerTeachers;
 		
-		private EntitySet<Class_Schedule> _Class_Schedules;
-		
 		private EntitySet<UserManagement_RoleParentsAuthorization> _UserManagement_RoleParentsAuthorizations;
+		
+		private EntitySet<Class_Schedule> _Class_Schedules;
 		
 		private EntityRef<aspnet_Application> _aspnet_Application;
 		
@@ -3087,8 +3087,8 @@ namespace EContactBook.DataAccess
 			this._aspnet_Profile = default(EntityRef<aspnet_Profile>);
 			this._aspnet_UsersInRoles = new EntitySet<aspnet_UsersInRole>(new Action<aspnet_UsersInRole>(this.attach_aspnet_UsersInRoles), new Action<aspnet_UsersInRole>(this.detach_aspnet_UsersInRoles));
 			this._Class_FormerTeachers = new EntitySet<Class_FormerTeacher>(new Action<Class_FormerTeacher>(this.attach_Class_FormerTeachers), new Action<Class_FormerTeacher>(this.detach_Class_FormerTeachers));
-			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._UserManagement_RoleParentsAuthorizations = new EntitySet<UserManagement_RoleParentsAuthorization>(new Action<UserManagement_RoleParentsAuthorization>(this.attach_UserManagement_RoleParentsAuthorizations), new Action<UserManagement_RoleParentsAuthorization>(this.detach_UserManagement_RoleParentsAuthorizations));
+			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._aspnet_Application = default(EntityRef<aspnet_Application>);
 			OnCreated();
 		}
@@ -3334,19 +3334,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_Class_Schedule", Storage="_Class_Schedules", ThisKey="UserId", OtherKey="TeacherId")]
-		public EntitySet<Class_Schedule> Class_Schedules
-		{
-			get
-			{
-				return this._Class_Schedules;
-			}
-			set
-			{
-				this._Class_Schedules.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_UserManagement_RoleParentsAuthorization", Storage="_UserManagement_RoleParentsAuthorizations", ThisKey="UserId", OtherKey="UserParentId")]
 		public EntitySet<UserManagement_RoleParentsAuthorization> UserManagement_RoleParentsAuthorizations
 		{
@@ -3357,6 +3344,19 @@ namespace EContactBook.DataAccess
 			set
 			{
 				this._UserManagement_RoleParentsAuthorizations.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_Class_Schedule", Storage="_Class_Schedules", ThisKey="UserId", OtherKey="TeacherId")]
+		public EntitySet<Class_Schedule> Class_Schedules
+		{
+			get
+			{
+				return this._Class_Schedules;
+			}
+			set
+			{
+				this._Class_Schedules.Assign(value);
 			}
 		}
 		
@@ -3450,18 +3450,6 @@ namespace EContactBook.DataAccess
 			entity.aspnet_User = null;
 		}
 		
-		private void attach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = this;
-		}
-		
-		private void detach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.aspnet_User = null;
-		}
-		
 		private void attach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
 		{
 			this.SendPropertyChanging();
@@ -3469,6 +3457,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_UserManagement_RoleParentsAuthorizations(UserManagement_RoleParentsAuthorization entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = null;
+		}
+		
+		private void attach_Class_Schedules(Class_Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.aspnet_User = this;
+		}
+		
+		private void detach_Class_Schedules(Class_Schedule entity)
 		{
 			this.SendPropertyChanging();
 			entity.aspnet_User = null;
@@ -5616,9 +5616,9 @@ namespace EContactBook.DataAccess
 		
 		private double _MarkRatio;
 		
-		private EntitySet<Class_Schedule> _Class_Schedules;
-		
 		private EntitySet<Student_TermSubjectMark> _Student_TermSubjectMarks;
+		
+		private EntitySet<Class_Schedule> _Class_Schedules;
 		
 		private EntityRef<Category_Grade> _Category_Grade;
 		
@@ -5642,8 +5642,8 @@ namespace EContactBook.DataAccess
 		
 		public Category_Subject()
 		{
-			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._Student_TermSubjectMarks = new EntitySet<Student_TermSubjectMark>(new Action<Student_TermSubjectMark>(this.attach_Student_TermSubjectMarks), new Action<Student_TermSubjectMark>(this.detach_Student_TermSubjectMarks));
+			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._Category_Grade = default(EntityRef<Category_Grade>);
 			this._Category_Faculty = default(EntityRef<Category_Faculty>);
 			OnCreated();
@@ -5757,19 +5757,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Subject_Class_Schedule", Storage="_Class_Schedules", ThisKey="SubjectId", OtherKey="SubjectId")]
-		public EntitySet<Class_Schedule> Class_Schedules
-		{
-			get
-			{
-				return this._Class_Schedules;
-			}
-			set
-			{
-				this._Class_Schedules.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Subject_Student_TermSubjectMark", Storage="_Student_TermSubjectMarks", ThisKey="SubjectId", OtherKey="SubjectId")]
 		public EntitySet<Student_TermSubjectMark> Student_TermSubjectMarks
 		{
@@ -5780,6 +5767,19 @@ namespace EContactBook.DataAccess
 			set
 			{
 				this._Student_TermSubjectMarks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Subject_Class_Schedule", Storage="_Class_Schedules", ThisKey="SubjectId", OtherKey="SubjectId")]
+		public EntitySet<Class_Schedule> Class_Schedules
+		{
+			get
+			{
+				return this._Class_Schedules;
+			}
+			set
+			{
+				this._Class_Schedules.Assign(value);
 			}
 		}
 		
@@ -5871,18 +5871,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		private void attach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category_Subject = this;
-		}
-		
-		private void detach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category_Subject = null;
-		}
-		
 		private void attach_Student_TermSubjectMarks(Student_TermSubjectMark entity)
 		{
 			this.SendPropertyChanging();
@@ -5890,6 +5878,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Student_TermSubjectMarks(Student_TermSubjectMark entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category_Subject = null;
+		}
+		
+		private void attach_Class_Schedules(Class_Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category_Subject = this;
+		}
+		
+		private void detach_Class_Schedules(Class_Schedule entity)
 		{
 			this.SendPropertyChanging();
 			entity.Category_Subject = null;
@@ -6234,9 +6234,9 @@ namespace EContactBook.DataAccess
 		
 		private EntitySet<Class_FormerTeacher> _Class_FormerTeachers;
 		
-		private EntitySet<Class_Schedule> _Class_Schedules;
-		
 		private EntitySet<Student_StudentInClass> _Student_StudentInClasses;
+		
+		private EntitySet<Class_Schedule> _Class_Schedules;
 		
 		private EntityRef<Category_Grade> _Category_Grade;
 		
@@ -6269,8 +6269,8 @@ namespace EContactBook.DataAccess
 		public Class_Class()
 		{
 			this._Class_FormerTeachers = new EntitySet<Class_FormerTeacher>(new Action<Class_FormerTeacher>(this.attach_Class_FormerTeachers), new Action<Class_FormerTeacher>(this.detach_Class_FormerTeachers));
-			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._Student_StudentInClasses = new EntitySet<Student_StudentInClass>(new Action<Student_StudentInClass>(this.attach_Student_StudentInClasses), new Action<Student_StudentInClass>(this.detach_Student_StudentInClasses));
+			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._Category_Grade = default(EntityRef<Category_Grade>);
 			this._Category_Faculty = default(EntityRef<Category_Faculty>);
 			this._Configuration_Year = default(EntityRef<Configuration_Year>);
@@ -6447,19 +6447,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Class_Schedule", Storage="_Class_Schedules", ThisKey="ClassId", OtherKey="ClassId")]
-		public EntitySet<Class_Schedule> Class_Schedules
-		{
-			get
-			{
-				return this._Class_Schedules;
-			}
-			set
-			{
-				this._Class_Schedules.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Student_StudentInClass", Storage="_Student_StudentInClasses", ThisKey="ClassId", OtherKey="ClassId")]
 		public EntitySet<Student_StudentInClass> Student_StudentInClasses
 		{
@@ -6470,6 +6457,19 @@ namespace EContactBook.DataAccess
 			set
 			{
 				this._Student_StudentInClasses.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Class_Schedule", Storage="_Class_Schedules", ThisKey="ClassId", OtherKey="ClassId")]
+		public EntitySet<Class_Schedule> Class_Schedules
+		{
+			get
+			{
+				return this._Class_Schedules;
+			}
+			set
+			{
+				this._Class_Schedules.Assign(value);
 			}
 		}
 		
@@ -6641,18 +6641,6 @@ namespace EContactBook.DataAccess
 			entity.Class_Class = null;
 		}
 		
-		private void attach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Class_Class = this;
-		}
-		
-		private void detach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Class_Class = null;
-		}
-		
 		private void attach_Student_StudentInClasses(Student_StudentInClass entity)
 		{
 			this.SendPropertyChanging();
@@ -6660,6 +6648,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Student_StudentInClasses(Student_StudentInClass entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class_Class = null;
+		}
+		
+		private void attach_Class_Schedules(Class_Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class_Class = this;
+		}
+		
+		private void detach_Class_Schedules(Class_Schedule entity)
 		{
 			this.SendPropertyChanging();
 			entity.Class_Class = null;
@@ -6833,523 +6833,6 @@ namespace EContactBook.DataAccess
 						this._ClassId = default(int);
 					}
 					this.SendPropertyChanged("Class_Class");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Schedule")]
-	public partial class Class_Schedule : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ScheduleId;
-		
-		private int _SubjectId;
-		
-		private System.Guid _TeacherId;
-		
-		private int _ClassId;
-		
-		private int _TermId;
-		
-		private int _DayInWeekId;
-		
-		private int _SessionId;
-		
-		private int _TeachingPeriodId;
-		
-		private EntityRef<aspnet_User> _aspnet_User;
-		
-		private EntityRef<Category_Subject> _Category_Subject;
-		
-		private EntityRef<Category_TeachingPeriod> _Category_TeachingPeriod;
-		
-		private EntityRef<Class_Class> _Class_Class;
-		
-		private EntityRef<Configuration_DayInWeek> _Configuration_DayInWeek;
-		
-		private EntityRef<Configuration_Session> _Configuration_Session;
-		
-		private EntityRef<Configuration_Term> _Configuration_Term;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnScheduleIdChanging(int value);
-    partial void OnScheduleIdChanged();
-    partial void OnSubjectIdChanging(int value);
-    partial void OnSubjectIdChanged();
-    partial void OnTeacherIdChanging(System.Guid value);
-    partial void OnTeacherIdChanged();
-    partial void OnClassIdChanging(int value);
-    partial void OnClassIdChanged();
-    partial void OnTermIdChanging(int value);
-    partial void OnTermIdChanged();
-    partial void OnDayInWeekIdChanging(int value);
-    partial void OnDayInWeekIdChanged();
-    partial void OnSessionIdChanging(int value);
-    partial void OnSessionIdChanged();
-    partial void OnTeachingPeriodIdChanging(int value);
-    partial void OnTeachingPeriodIdChanged();
-    #endregion
-		
-		public Class_Schedule()
-		{
-			this._aspnet_User = default(EntityRef<aspnet_User>);
-			this._Category_Subject = default(EntityRef<Category_Subject>);
-			this._Category_TeachingPeriod = default(EntityRef<Category_TeachingPeriod>);
-			this._Class_Class = default(EntityRef<Class_Class>);
-			this._Configuration_DayInWeek = default(EntityRef<Configuration_DayInWeek>);
-			this._Configuration_Session = default(EntityRef<Configuration_Session>);
-			this._Configuration_Term = default(EntityRef<Configuration_Term>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ScheduleId
-		{
-			get
-			{
-				return this._ScheduleId;
-			}
-			set
-			{
-				if ((this._ScheduleId != value))
-				{
-					this.OnScheduleIdChanging(value);
-					this.SendPropertyChanging();
-					this._ScheduleId = value;
-					this.SendPropertyChanged("ScheduleId");
-					this.OnScheduleIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SubjectId", DbType="Int NOT NULL")]
-		public int SubjectId
-		{
-			get
-			{
-				return this._SubjectId;
-			}
-			set
-			{
-				if ((this._SubjectId != value))
-				{
-					if (this._Category_Subject.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSubjectIdChanging(value);
-					this.SendPropertyChanging();
-					this._SubjectId = value;
-					this.SendPropertyChanged("SubjectId");
-					this.OnSubjectIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeacherId", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid TeacherId
-		{
-			get
-			{
-				return this._TeacherId;
-			}
-			set
-			{
-				if ((this._TeacherId != value))
-				{
-					if (this._aspnet_User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTeacherIdChanging(value);
-					this.SendPropertyChanging();
-					this._TeacherId = value;
-					this.SendPropertyChanged("TeacherId");
-					this.OnTeacherIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClassId", DbType="Int NOT NULL")]
-		public int ClassId
-		{
-			get
-			{
-				return this._ClassId;
-			}
-			set
-			{
-				if ((this._ClassId != value))
-				{
-					if (this._Class_Class.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnClassIdChanging(value);
-					this.SendPropertyChanging();
-					this._ClassId = value;
-					this.SendPropertyChanged("ClassId");
-					this.OnClassIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermId", DbType="Int NOT NULL")]
-		public int TermId
-		{
-			get
-			{
-				return this._TermId;
-			}
-			set
-			{
-				if ((this._TermId != value))
-				{
-					if (this._Configuration_Term.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTermIdChanging(value);
-					this.SendPropertyChanging();
-					this._TermId = value;
-					this.SendPropertyChanged("TermId");
-					this.OnTermIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayInWeekId", DbType="Int NOT NULL")]
-		public int DayInWeekId
-		{
-			get
-			{
-				return this._DayInWeekId;
-			}
-			set
-			{
-				if ((this._DayInWeekId != value))
-				{
-					if (this._Configuration_DayInWeek.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDayInWeekIdChanging(value);
-					this.SendPropertyChanging();
-					this._DayInWeekId = value;
-					this.SendPropertyChanged("DayInWeekId");
-					this.OnDayInWeekIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionId", DbType="Int NOT NULL")]
-		public int SessionId
-		{
-			get
-			{
-				return this._SessionId;
-			}
-			set
-			{
-				if ((this._SessionId != value))
-				{
-					if (this._Configuration_Session.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnSessionIdChanging(value);
-					this.SendPropertyChanging();
-					this._SessionId = value;
-					this.SendPropertyChanged("SessionId");
-					this.OnSessionIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeachingPeriodId", DbType="Int NOT NULL")]
-		public int TeachingPeriodId
-		{
-			get
-			{
-				return this._TeachingPeriodId;
-			}
-			set
-			{
-				if ((this._TeachingPeriodId != value))
-				{
-					if (this._Category_TeachingPeriod.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTeachingPeriodIdChanging(value);
-					this.SendPropertyChanging();
-					this._TeachingPeriodId = value;
-					this.SendPropertyChanged("TeachingPeriodId");
-					this.OnTeachingPeriodIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_Class_Schedule", Storage="_aspnet_User", ThisKey="TeacherId", OtherKey="UserId", IsForeignKey=true)]
-		public aspnet_User aspnet_User
-		{
-			get
-			{
-				return this._aspnet_User.Entity;
-			}
-			set
-			{
-				aspnet_User previousValue = this._aspnet_User.Entity;
-				if (((previousValue != value) 
-							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._aspnet_User.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._aspnet_User.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._TeacherId = value.UserId;
-					}
-					else
-					{
-						this._TeacherId = default(System.Guid);
-					}
-					this.SendPropertyChanged("aspnet_User");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Subject_Class_Schedule", Storage="_Category_Subject", ThisKey="SubjectId", OtherKey="SubjectId", IsForeignKey=true)]
-		public Category_Subject Category_Subject
-		{
-			get
-			{
-				return this._Category_Subject.Entity;
-			}
-			set
-			{
-				Category_Subject previousValue = this._Category_Subject.Entity;
-				if (((previousValue != value) 
-							|| (this._Category_Subject.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Category_Subject.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._Category_Subject.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._SubjectId = value.SubjectId;
-					}
-					else
-					{
-						this._SubjectId = default(int);
-					}
-					this.SendPropertyChanged("Category_Subject");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_TeachingPeriod_Class_Schedule", Storage="_Category_TeachingPeriod", ThisKey="TeachingPeriodId", OtherKey="TeachingPeriodId", IsForeignKey=true)]
-		public Category_TeachingPeriod Category_TeachingPeriod
-		{
-			get
-			{
-				return this._Category_TeachingPeriod.Entity;
-			}
-			set
-			{
-				Category_TeachingPeriod previousValue = this._Category_TeachingPeriod.Entity;
-				if (((previousValue != value) 
-							|| (this._Category_TeachingPeriod.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Category_TeachingPeriod.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._Category_TeachingPeriod.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._TeachingPeriodId = value.TeachingPeriodId;
-					}
-					else
-					{
-						this._TeachingPeriodId = default(int);
-					}
-					this.SendPropertyChanged("Category_TeachingPeriod");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Class_Schedule", Storage="_Class_Class", ThisKey="ClassId", OtherKey="ClassId", IsForeignKey=true)]
-		public Class_Class Class_Class
-		{
-			get
-			{
-				return this._Class_Class.Entity;
-			}
-			set
-			{
-				Class_Class previousValue = this._Class_Class.Entity;
-				if (((previousValue != value) 
-							|| (this._Class_Class.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Class_Class.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._Class_Class.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._ClassId = value.ClassId;
-					}
-					else
-					{
-						this._ClassId = default(int);
-					}
-					this.SendPropertyChanged("Class_Class");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_DayInWeek_Class_Schedule", Storage="_Configuration_DayInWeek", ThisKey="DayInWeekId", OtherKey="DayInWeekId", IsForeignKey=true)]
-		public Configuration_DayInWeek Configuration_DayInWeek
-		{
-			get
-			{
-				return this._Configuration_DayInWeek.Entity;
-			}
-			set
-			{
-				Configuration_DayInWeek previousValue = this._Configuration_DayInWeek.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_DayInWeek.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_DayInWeek.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._Configuration_DayInWeek.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._DayInWeekId = value.DayInWeekId;
-					}
-					else
-					{
-						this._DayInWeekId = default(int);
-					}
-					this.SendPropertyChanged("Configuration_DayInWeek");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Session_Class_Schedule", Storage="_Configuration_Session", ThisKey="SessionId", OtherKey="SessionId", IsForeignKey=true)]
-		public Configuration_Session Configuration_Session
-		{
-			get
-			{
-				return this._Configuration_Session.Entity;
-			}
-			set
-			{
-				Configuration_Session previousValue = this._Configuration_Session.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_Session.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_Session.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._Configuration_Session.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._SessionId = value.SessionId;
-					}
-					else
-					{
-						this._SessionId = default(int);
-					}
-					this.SendPropertyChanged("Configuration_Session");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Class_Schedule", Storage="_Configuration_Term", ThisKey="TermId", OtherKey="TermId", IsForeignKey=true)]
-		public Configuration_Term Configuration_Term
-		{
-			get
-			{
-				return this._Configuration_Term.Entity;
-			}
-			set
-			{
-				Configuration_Term previousValue = this._Configuration_Term.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_Term.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_Term.Entity = null;
-						previousValue.Class_Schedules.Remove(this);
-					}
-					this._Configuration_Term.Entity = value;
-					if ((value != null))
-					{
-						value.Class_Schedules.Add(this);
-						this._TermId = value.TermId;
-					}
-					else
-					{
-						this._TermId = default(int);
-					}
-					this.SendPropertyChanged("Configuration_Term");
 				}
 			}
 		}
@@ -8225,8 +7708,6 @@ namespace EContactBook.DataAccess
 		
 		private string _TermName;
 		
-		private EntitySet<Class_Schedule> _Class_Schedules;
-		
 		private EntitySet<Configuration_TermsInYear> _Configuration_TermsInYears;
 		
 		private EntitySet<Student_Absent> _Student_Absents;
@@ -8236,6 +7717,8 @@ namespace EContactBook.DataAccess
 		private EntitySet<Student_TermLearningResult> _Student_TermLearningResults;
 		
 		private EntitySet<Student_TermSubjectMark> _Student_TermSubjectMarks;
+		
+		private EntitySet<Class_Schedule> _Class_Schedules;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -8249,12 +7732,12 @@ namespace EContactBook.DataAccess
 		
 		public Configuration_Term()
 		{
-			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			this._Configuration_TermsInYears = new EntitySet<Configuration_TermsInYear>(new Action<Configuration_TermsInYear>(this.attach_Configuration_TermsInYears), new Action<Configuration_TermsInYear>(this.detach_Configuration_TermsInYears));
 			this._Student_Absents = new EntitySet<Student_Absent>(new Action<Student_Absent>(this.attach_Student_Absents), new Action<Student_Absent>(this.detach_Student_Absents));
 			this._Student_Activities = new EntitySet<Student_Activity>(new Action<Student_Activity>(this.attach_Student_Activities), new Action<Student_Activity>(this.detach_Student_Activities));
 			this._Student_TermLearningResults = new EntitySet<Student_TermLearningResult>(new Action<Student_TermLearningResult>(this.attach_Student_TermLearningResults), new Action<Student_TermLearningResult>(this.detach_Student_TermLearningResults));
 			this._Student_TermSubjectMarks = new EntitySet<Student_TermSubjectMark>(new Action<Student_TermSubjectMark>(this.attach_Student_TermSubjectMarks), new Action<Student_TermSubjectMark>(this.detach_Student_TermSubjectMarks));
+			this._Class_Schedules = new EntitySet<Class_Schedule>(new Action<Class_Schedule>(this.attach_Class_Schedules), new Action<Class_Schedule>(this.detach_Class_Schedules));
 			OnCreated();
 		}
 		
@@ -8295,19 +7778,6 @@ namespace EContactBook.DataAccess
 					this.SendPropertyChanged("TermName");
 					this.OnTermNameChanged();
 				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Class_Schedule", Storage="_Class_Schedules", ThisKey="TermId", OtherKey="TermId")]
-		public EntitySet<Class_Schedule> Class_Schedules
-		{
-			get
-			{
-				return this._Class_Schedules;
-			}
-			set
-			{
-				this._Class_Schedules.Assign(value);
 			}
 		}
 		
@@ -8376,6 +7846,19 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Class_Schedule", Storage="_Class_Schedules", ThisKey="TermId", OtherKey="TermId")]
+		public EntitySet<Class_Schedule> Class_Schedules
+		{
+			get
+			{
+				return this._Class_Schedules;
+			}
+			set
+			{
+				this._Class_Schedules.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -8394,18 +7877,6 @@ namespace EContactBook.DataAccess
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Configuration_Term = this;
-		}
-		
-		private void detach_Class_Schedules(Class_Schedule entity)
-		{
-			this.SendPropertyChanging();
-			entity.Configuration_Term = null;
 		}
 		
 		private void attach_Configuration_TermsInYears(Configuration_TermsInYear entity)
@@ -8463,6 +7934,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Student_TermSubjectMarks(Student_TermSubjectMark entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Term = null;
+		}
+		
+		private void attach_Class_Schedules(Class_Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Configuration_Term = this;
+		}
+		
+		private void detach_Class_Schedules(Class_Schedule entity)
 		{
 			this.SendPropertyChanging();
 			entity.Configuration_Term = null;
@@ -14844,6 +14327,547 @@ namespace EContactBook.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.School_School = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class_Schedule")]
+	public partial class Class_Schedule : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ScheduleId;
+		
+		private int _SubjectId;
+		
+		private System.Guid _TeacherId;
+		
+		private int _ClassId;
+		
+		private int _TermId;
+		
+		private int _DayInWeekId;
+		
+		private int _SessionId;
+		
+		private int _TeachingPeriodId;
+		
+		private System.DateTime _LastUpdate;
+		
+		private EntityRef<aspnet_User> _aspnet_User;
+		
+		private EntityRef<Configuration_Session> _Configuration_Session;
+		
+		private EntityRef<Configuration_Term> _Configuration_Term;
+		
+		private EntityRef<Configuration_DayInWeek> _Configuration_DayInWeek;
+		
+		private EntityRef<Category_Subject> _Category_Subject;
+		
+		private EntityRef<Category_TeachingPeriod> _Category_TeachingPeriod;
+		
+		private EntityRef<Class_Class> _Class_Class;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnScheduleIdChanging(int value);
+    partial void OnScheduleIdChanged();
+    partial void OnSubjectIdChanging(int value);
+    partial void OnSubjectIdChanged();
+    partial void OnTeacherIdChanging(System.Guid value);
+    partial void OnTeacherIdChanged();
+    partial void OnClassIdChanging(int value);
+    partial void OnClassIdChanged();
+    partial void OnTermIdChanging(int value);
+    partial void OnTermIdChanged();
+    partial void OnDayInWeekIdChanging(int value);
+    partial void OnDayInWeekIdChanged();
+    partial void OnSessionIdChanging(int value);
+    partial void OnSessionIdChanged();
+    partial void OnTeachingPeriodIdChanging(int value);
+    partial void OnTeachingPeriodIdChanged();
+    partial void OnLastUpdateChanging(System.DateTime value);
+    partial void OnLastUpdateChanged();
+    #endregion
+		
+		public Class_Schedule()
+		{
+			this._aspnet_User = default(EntityRef<aspnet_User>);
+			this._Configuration_Session = default(EntityRef<Configuration_Session>);
+			this._Configuration_Term = default(EntityRef<Configuration_Term>);
+			this._Configuration_DayInWeek = default(EntityRef<Configuration_DayInWeek>);
+			this._Category_Subject = default(EntityRef<Category_Subject>);
+			this._Category_TeachingPeriod = default(EntityRef<Category_TeachingPeriod>);
+			this._Class_Class = default(EntityRef<Class_Class>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ScheduleId
+		{
+			get
+			{
+				return this._ScheduleId;
+			}
+			set
+			{
+				if ((this._ScheduleId != value))
+				{
+					this.OnScheduleIdChanging(value);
+					this.SendPropertyChanging();
+					this._ScheduleId = value;
+					this.SendPropertyChanged("ScheduleId");
+					this.OnScheduleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SubjectId", DbType="Int NOT NULL")]
+		public int SubjectId
+		{
+			get
+			{
+				return this._SubjectId;
+			}
+			set
+			{
+				if ((this._SubjectId != value))
+				{
+					if (this._Category_Subject.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSubjectIdChanging(value);
+					this.SendPropertyChanging();
+					this._SubjectId = value;
+					this.SendPropertyChanged("SubjectId");
+					this.OnSubjectIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeacherId", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid TeacherId
+		{
+			get
+			{
+				return this._TeacherId;
+			}
+			set
+			{
+				if ((this._TeacherId != value))
+				{
+					if (this._aspnet_User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeacherIdChanging(value);
+					this.SendPropertyChanging();
+					this._TeacherId = value;
+					this.SendPropertyChanged("TeacherId");
+					this.OnTeacherIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClassId", DbType="Int NOT NULL")]
+		public int ClassId
+		{
+			get
+			{
+				return this._ClassId;
+			}
+			set
+			{
+				if ((this._ClassId != value))
+				{
+					if (this._Class_Class.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnClassIdChanging(value);
+					this.SendPropertyChanging();
+					this._ClassId = value;
+					this.SendPropertyChanged("ClassId");
+					this.OnClassIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermId", DbType="Int NOT NULL")]
+		public int TermId
+		{
+			get
+			{
+				return this._TermId;
+			}
+			set
+			{
+				if ((this._TermId != value))
+				{
+					if (this._Configuration_Term.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTermIdChanging(value);
+					this.SendPropertyChanging();
+					this._TermId = value;
+					this.SendPropertyChanged("TermId");
+					this.OnTermIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayInWeekId", DbType="Int NOT NULL")]
+		public int DayInWeekId
+		{
+			get
+			{
+				return this._DayInWeekId;
+			}
+			set
+			{
+				if ((this._DayInWeekId != value))
+				{
+					if (this._Configuration_DayInWeek.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDayInWeekIdChanging(value);
+					this.SendPropertyChanging();
+					this._DayInWeekId = value;
+					this.SendPropertyChanged("DayInWeekId");
+					this.OnDayInWeekIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionId", DbType="Int NOT NULL")]
+		public int SessionId
+		{
+			get
+			{
+				return this._SessionId;
+			}
+			set
+			{
+				if ((this._SessionId != value))
+				{
+					if (this._Configuration_Session.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSessionIdChanging(value);
+					this.SendPropertyChanging();
+					this._SessionId = value;
+					this.SendPropertyChanged("SessionId");
+					this.OnSessionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeachingPeriodId", DbType="Int NOT NULL")]
+		public int TeachingPeriodId
+		{
+			get
+			{
+				return this._TeachingPeriodId;
+			}
+			set
+			{
+				if ((this._TeachingPeriodId != value))
+				{
+					if (this._Category_TeachingPeriod.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTeachingPeriodIdChanging(value);
+					this.SendPropertyChanging();
+					this._TeachingPeriodId = value;
+					this.SendPropertyChanged("TeachingPeriodId");
+					this.OnTeachingPeriodIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdate", DbType="DateTime NOT NULL")]
+		public System.DateTime LastUpdate
+		{
+			get
+			{
+				return this._LastUpdate;
+			}
+			set
+			{
+				if ((this._LastUpdate != value))
+				{
+					this.OnLastUpdateChanging(value);
+					this.SendPropertyChanging();
+					this._LastUpdate = value;
+					this.SendPropertyChanged("LastUpdate");
+					this.OnLastUpdateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="aspnet_User_Class_Schedule", Storage="_aspnet_User", ThisKey="TeacherId", OtherKey="UserId", IsForeignKey=true)]
+		public aspnet_User aspnet_User
+		{
+			get
+			{
+				return this._aspnet_User.Entity;
+			}
+			set
+			{
+				aspnet_User previousValue = this._aspnet_User.Entity;
+				if (((previousValue != value) 
+							|| (this._aspnet_User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._aspnet_User.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._aspnet_User.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._TeacherId = value.UserId;
+					}
+					else
+					{
+						this._TeacherId = default(System.Guid);
+					}
+					this.SendPropertyChanged("aspnet_User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Session_Class_Schedule", Storage="_Configuration_Session", ThisKey="SessionId", OtherKey="SessionId", IsForeignKey=true)]
+		public Configuration_Session Configuration_Session
+		{
+			get
+			{
+				return this._Configuration_Session.Entity;
+			}
+			set
+			{
+				Configuration_Session previousValue = this._Configuration_Session.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_Session.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_Session.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._Configuration_Session.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._SessionId = value.SessionId;
+					}
+					else
+					{
+						this._SessionId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_Session");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_Term_Class_Schedule", Storage="_Configuration_Term", ThisKey="TermId", OtherKey="TermId", IsForeignKey=true)]
+		public Configuration_Term Configuration_Term
+		{
+			get
+			{
+				return this._Configuration_Term.Entity;
+			}
+			set
+			{
+				Configuration_Term previousValue = this._Configuration_Term.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_Term.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_Term.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._Configuration_Term.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._TermId = value.TermId;
+					}
+					else
+					{
+						this._TermId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_Term");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_DayInWeek_Class_Schedule", Storage="_Configuration_DayInWeek", ThisKey="DayInWeekId", OtherKey="DayInWeekId", IsForeignKey=true)]
+		public Configuration_DayInWeek Configuration_DayInWeek
+		{
+			get
+			{
+				return this._Configuration_DayInWeek.Entity;
+			}
+			set
+			{
+				Configuration_DayInWeek previousValue = this._Configuration_DayInWeek.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_DayInWeek.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_DayInWeek.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._Configuration_DayInWeek.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._DayInWeekId = value.DayInWeekId;
+					}
+					else
+					{
+						this._DayInWeekId = default(int);
+					}
+					this.SendPropertyChanged("Configuration_DayInWeek");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Subject_Class_Schedule", Storage="_Category_Subject", ThisKey="SubjectId", OtherKey="SubjectId", IsForeignKey=true)]
+		public Category_Subject Category_Subject
+		{
+			get
+			{
+				return this._Category_Subject.Entity;
+			}
+			set
+			{
+				Category_Subject previousValue = this._Category_Subject.Entity;
+				if (((previousValue != value) 
+							|| (this._Category_Subject.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Category_Subject.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._Category_Subject.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._SubjectId = value.SubjectId;
+					}
+					else
+					{
+						this._SubjectId = default(int);
+					}
+					this.SendPropertyChanged("Category_Subject");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_TeachingPeriod_Class_Schedule", Storage="_Category_TeachingPeriod", ThisKey="TeachingPeriodId", OtherKey="TeachingPeriodId", IsForeignKey=true)]
+		public Category_TeachingPeriod Category_TeachingPeriod
+		{
+			get
+			{
+				return this._Category_TeachingPeriod.Entity;
+			}
+			set
+			{
+				Category_TeachingPeriod previousValue = this._Category_TeachingPeriod.Entity;
+				if (((previousValue != value) 
+							|| (this._Category_TeachingPeriod.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Category_TeachingPeriod.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._Category_TeachingPeriod.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._TeachingPeriodId = value.TeachingPeriodId;
+					}
+					else
+					{
+						this._TeachingPeriodId = default(int);
+					}
+					this.SendPropertyChanged("Category_TeachingPeriod");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_Class_Class_Schedule", Storage="_Class_Class", ThisKey="ClassId", OtherKey="ClassId", IsForeignKey=true)]
+		public Class_Class Class_Class
+		{
+			get
+			{
+				return this._Class_Class.Entity;
+			}
+			set
+			{
+				Class_Class previousValue = this._Class_Class.Entity;
+				if (((previousValue != value) 
+							|| (this._Class_Class.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Class_Class.Entity = null;
+						previousValue.Class_Schedules.Remove(this);
+					}
+					this._Class_Class.Entity = value;
+					if ((value != null))
+					{
+						value.Class_Schedules.Add(this);
+						this._ClassId = value.ClassId;
+					}
+					else
+					{
+						this._ClassId = default(int);
+					}
+					this.SendPropertyChanged("Class_Class");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }
