@@ -37,6 +37,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             schedule.DayInWeekId = dayInWeek.DayInWeekId;
             schedule.SessionId = teachingPeriod.SessionId;
             schedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
+            schedule.LastUpdate = DateTime.Now;
 
             bool bInsertStudentTermSubjectMark;
             bInsertStudentTermSubjectMark = ScheduleExists(Class, subject, term);
@@ -81,6 +82,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             schedule.SubjectId = subject.SubjectId;
             schedule.TeacherId = teacher.UserId;
+            schedule.LastUpdate = DateTime.Now;
             scheduleDA.UpdateSchedule(schedule, subject, teacher);
 
             // Xóa thông tin điểm của học sinh liên quan đến Môn học, Lớp học, Học kì
@@ -407,6 +409,25 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 subject.SubjectId = addedScheduledSubjectId;
                 studyingResultBL.InsertTermSubjectMark(Class, subject, term);
             }
+        }
+
+        public bool IsScheduleUpdated(Student_Student student, Configuration_Year lastYear)
+        {
+            StudentBL studentBL = new StudentBL(school);
+
+            Class_Class Class = studentBL.GetClass(student, lastYear);
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
+            int iLimitDay = 3;
+            DateTime? dtLastUpdateDate = scheduleDA.GetLastUpdateDate(Class);
+            if (dtLastUpdateDate != null)
+            {
+                if (CheckUntils.CompareDateWithoutHMS(DateTime.Now, ((DateTime)dtLastUpdateDate).AddDays(iLimitDay)) <= 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
