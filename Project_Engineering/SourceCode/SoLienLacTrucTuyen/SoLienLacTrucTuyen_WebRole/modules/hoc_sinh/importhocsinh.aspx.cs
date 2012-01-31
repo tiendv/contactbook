@@ -141,7 +141,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (CheckSessionKey(AppConstant.SESSION_FILEIMPORTEDSTUDENTS))
             {
                 string file = (string)GetSession(AppConstant.SESSION_FILEIMPORTEDSTUDENTS);
-                File.Delete(file);
+                //File.Delete(file);
             }
         }
 
@@ -152,6 +152,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
+            ModalPopupExtender2.Show();
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "modalpopup", "ShowPopup();", true);        
+            System.Threading.Thread.Sleep(5000);
             filename = Path.GetFileName(FileUpload1.FileName);
             if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
             {
@@ -380,8 +383,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 LblImportError.Visible = false;
                 AddSession(AppConstant.SESSION_IMPORTEDSTUDENTS, tabularImportedStudents);
                 AddSession(AppConstant.SESSION_FILEIMPORTEDSTUDENTS, filename);
-            }
-
+            }            
         }
         #endregion
 
