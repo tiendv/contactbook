@@ -3,7 +3,39 @@
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
+
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+
+    <div id="divScript">
+<script language="javascript" type="text/javascript">
+    function pageLoad() {
+        ShowPopup();
+        setTimeout(HidePopup, 2000);
+    }
+
+    function ShowPopup() {
+        $find('modalpopup').show();
+        //$get('Button1').click();
+    }
+
+    function HidePopup() {
+        $find('modalpopup').hide();
+        //$get('btnCancel').click();
+    }
+</script>
+    </div>
+    <asp:Panel ID="pnlPleaseWait" runat="server" CssClass="flyOutDiv">
+             Please Wait<br /><br />
+    <img src="../../Styles/Images/ajax-loader.gif" />
+         </asp:Panel>
+    <asp:Button runat="server" ID="HiddenForModal" style="display: none" />
+        <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2"
+            runat="server" BehaviorID="modalpopup" 
+            TargetControlID="HiddenForModal"
+            PopupControlID="pnlPleaseWait"
+            DropShadow = "true"
+            >
+        </ajaxToolkit:ModalPopupExtender>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <div style="padding: 10px 0px 10px 0px">
@@ -29,12 +61,15 @@
     </asp:LinkButton>
     <br />
     <br />
+    
     <div style="vertical-align: middle">
-        Chọn file cần import
+    Chọn file cần import
         <asp:FileUpload ID="FileUpload1" runat="server"></asp:FileUpload>&nbsp;&nbsp;&nbsp;
         <asp:ImageButton ID="BtnUpload" runat="server" ImageUrl="~/Styles/buttons/button_upload.png"
             OnClick="BtnUpload_Click" CssClass="UploadButton" ValidationGroup="ImportFile" />
     </div>
+    
+
     <asp:RequiredFieldValidator ID="RequiredClass" runat="server" ErrorMessage="Chưa chọn lớp học"
         ControlToValidate="DdlLopHoc" ValidationGroup="ImportFile" Display="Dynamic"
         ForeColor="Red">
@@ -87,6 +122,7 @@
     <div style="width: 170px; margin: 0px auto 0px auto;">
         <asp:ImageButton ID="BtnSave" runat="server" ImageUrl="~/Styles/buttons/button_save.png"
             OnClick="BtnSave_Click" CssClass="SaveButton" ValidationGroup="ImportFile" />
+        
         &nbsp;
         <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
