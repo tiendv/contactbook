@@ -78,7 +78,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             try
             {
-                string strURL = "ListStudent.xls";
+                string strURL = "~/upload/ListStudent.xls";
                 WebClient req = new WebClient();
                 HttpResponse response = HttpContext.Current.Response;
                 response.Clear();
@@ -149,11 +149,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
-
+        protected void BtnTest_Click(object sender, ImageClickEventArgs e)
+        {
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "modalpopup", "ShowPopup();", true);
+            //ModalPopupExtender2.Show();
+            bool bitResult = false;
+            bitResult = MailBL.CheckEmailExist("luck4989@gmail.com");
+            ModalPopupExtender2.Hide();
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "modalpopup", "HidePopup();", true);        
+            
+        }
         protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
-            ModalPopupExtender2.Show();
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "modalpopup", "ShowPopup();", true);        
             System.Threading.Thread.Sleep(5000);
             filename = Path.GetFileName(FileUpload1.FileName);
             if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
