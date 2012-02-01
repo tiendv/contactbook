@@ -8,32 +8,31 @@
 
     <div id="divScript">
 <script language="javascript" type="text/javascript">
-    function pageLoad() {
-        ShowPopup();
-        setTimeout(HidePopup, 2000);
-    }
+//    function pageLoad() {
+//        ShowPopup();
+//        setTimeout(HidePopup, 2000);
+//    }
 
     function ShowPopup() {
-        $find('modalpopup').show();
-        //$get('Button1').click();
+        $find('modalpopup').show();        
     }
 
     function HidePopup() {
-        $find('modalpopup').hide();
-        //$get('btnCancel').click();
+        $find('modalpopup').hide();        
     }
 </script>
     </div>
-    <asp:Panel ID="pnlPleaseWait" runat="server" CssClass="flyOutDiv">
-             Please Wait<br /><br />
-    <img src="../../Styles/Images/ajax-loader.gif" />
+
+    <asp:Panel ID="pnlPleaseWait" runat="server" BackColor="White">             
+    <img src="../../Styles/Images/ajax-loader.gif" alt="Please wait" />
          </asp:Panel>
     <asp:Button runat="server" ID="HiddenForModal" style="display: none" />
         <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2"
             runat="server" BehaviorID="modalpopup" 
             TargetControlID="HiddenForModal"
             PopupControlID="pnlPleaseWait"
-            DropShadow = "true"
+            DropShadow = "True"
+            BackgroundCssClass = "modalBackground"            
             >
         </ajaxToolkit:ModalPopupExtender>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -126,5 +125,10 @@
         &nbsp;
         <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
+
+        <p>Click vào button dưới để test loading</p>
+        <asp:ImageButton ID="btnTest" runat="server" ImageUrl="~/Styles/buttons/button_complete.png"
+           OnClientClick="ShowPopup();" OnClick="BtnTest_Click" CssClass="CancelButton" />
+
     </div>
 </asp:Content>
