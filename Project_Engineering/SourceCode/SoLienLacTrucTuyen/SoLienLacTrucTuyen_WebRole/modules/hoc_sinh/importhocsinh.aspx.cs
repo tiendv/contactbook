@@ -115,7 +115,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     studentBL.InsertStudent(Class, importedStudent.StudentCode, importedStudent.FullName, importedStudent.Gender,
                         importedStudent.DateOfBirth, importedStudent.BirthPlace, importedStudent.Address,
-                        importedStudent.Phone, importedStudent.FatherName, importedStudent.FatherJob, importedStudent.FatherDateOfBirth,
+                        importedStudent.Phone, null, importedStudent.FatherName, importedStudent.FatherJob, importedStudent.FatherDateOfBirth,
                         importedStudent.MotherName, importedStudent.MotherJob, importedStudent.MotherDateOfBirth,
                         importedStudent.PatronName, importedStudent.PatronJob, importedStudent.PatronDateOfBirth);
 
@@ -149,16 +149,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
-        protected void BtnTest_Click(object sender, ImageClickEventArgs e)
-        {
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "modalpopup", "ShowPopup();", true);
-            //ModalPopupExtender2.Show();
-            bool bitResult = false;
-            bitResult = MailBL.CheckEmailExist("luck4989@gmail.com");
-            ModalPopupExtender2.Hide();
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "modalpopup", "HidePopup();", true);        
-            
-        }
+        
         protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
             System.Threading.Thread.Sleep(5000);

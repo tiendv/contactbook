@@ -91,8 +91,7 @@
                 </asp:RequiredFieldValidator>
                 <asp:HiddenField ID="hdfOutput" runat="server" Value="true" />
                 <asp:CustomValidator ID="MaHocSinhValidator" runat="server" ValidationGroup="AddHocSinh"
-                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi"
-                    ErrorMessage="Mã học sinh đã tồn tại">
+                    Display="Dynamic" ForeColor="Red" ControlToValidate="TxtMaHocSinhHienThi" ErrorMessage="Mã học sinh đã tồn tại">
                 </asp:CustomValidator>
             </td>
             <td style="vertical-align: top;" rowspan="6">
@@ -100,8 +99,17 @@
                     <asp:Image ID="ImgHinhAnh" runat="server" Width="90px" Height="120px" ImageUrl="~/Styles/Images/avatar.png"
                         AlternateText="Hình ảnh" BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
                     <br />
-                    <asp:ImageButton ID="BtnDuyetHinhAnh" runat="server" Style="padding-top: 5px" ImageUrl="~/Styles/buttons/button_browse.png" />
-                    <ajaxToolkit:AsyncFileUpload ID="AsyncFileUpload1" runat="server" />
+                    <br />
+                    <asp:FileUpload ID="FileUploadLogo" runat="server" Height="23px" />
+                    <asp:RegularExpressionValidator ID="FileUpLoadValidator" runat="server" ErrorMessage="Định dạng file không hợp lệ"
+                        ForeColor="Red" ValidationExpression="[a-zA-Z0_9].*\b(.jpeg|.JPEG|.jpg|.JPG|.jpe|.JPE|.png|.PNG|.tiff|.TIFF|.gif|.GIF)\b"
+                        ControlToValidate="FileUploadLogo" ValidationGroup="AddSchool" Display="Dynamic">
+                    </asp:RegularExpressionValidator>
+                    <br />
+                    <br />
+                    <asp:ImageButton ID="BtnUpload" runat="server" ImageUrl="~/Styles/buttons/button_upload.png"
+                        OnClick="BtnUpload_Click" CssClass="UploadButton" ValidationGroup="AddSchool"
+                        Style="padding: 0px 0px -10px 0px" />
                 </div>
             </td>
         </tr>

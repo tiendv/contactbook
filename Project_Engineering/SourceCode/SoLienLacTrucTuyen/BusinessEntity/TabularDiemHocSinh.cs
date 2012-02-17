@@ -50,4 +50,38 @@ namespace EContactBook.BusinessEntity
         public double MarkValue { get; set; }
         public DateTime Date { get; set; }
     }
+
+    public class ConsideredStudentMark
+    {
+        public int DetailTermSubjectMarkId { get; set; }
+        
+        public string StudentCode { get; set; }
+        public string StudentName { get; set; }
+
+        public int MarkTypeId { get; set; }
+        public string MarkTypeName { get; set; }
+
+        public double MarkValue { get; set; }
+        public DateTime Date { get; set; }
+
+        public string Note { get; set; }
+
+        public bool Approved { get; set; }
+
+        public string ApprovedStatus 
+        {
+            get
+            {
+                if (Approved)
+                {
+                    return "Đã phê chuẩn";
+                }
+                else
+                {
+                    return "Chưa phê chuẩn";
+                }
+            }
+        }
+    }
 }
+

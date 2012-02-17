@@ -10,231 +10,177 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class AddSchoolPage {
+    public partial class ApproveStudentMarkPage {
         
         /// <summary>
-        /// Label1 control.
+        /// UPDropdownlists control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.UpdatePanel UPDropdownlists;
         
         /// <summary>
-        /// TxtSchoolName control.
+        /// DdlNamHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtSchoolName;
+        protected global::System.Web.UI.WebControls.DropDownList DdlNamHoc;
         
         /// <summary>
-        /// SchoolNameRequired control.
+        /// DdlNganh control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator SchoolNameRequired;
+        protected global::System.Web.UI.WebControls.DropDownList DdlNganh;
         
         /// <summary>
-        /// SchoolNameCustomValidator control.
+        /// DdlKhoiLop control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator SchoolNameCustomValidator;
+        protected global::System.Web.UI.WebControls.DropDownList DdlKhoiLop;
         
         /// <summary>
-        /// ImgLogo control.
+        /// DdlLopHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgLogo;
+        protected global::System.Web.UI.WebControls.DropDownList DdlLopHoc;
         
         /// <summary>
-        /// FileUploadLogo control.
+        /// DdlHocKy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUploadLogo;
+        protected global::System.Web.UI.WebControls.DropDownList DdlHocKy;
         
         /// <summary>
-        /// FileUpLoadValidator control.
+        /// DdlMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator FileUpLoadValidator;
+        protected global::System.Web.UI.WebControls.DropDownList DdlMonHoc;
         
         /// <summary>
-        /// BtnUpload control.
+        /// DdlLoaiDiem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnUpload;
+        protected global::System.Web.UI.WebControls.DropDownList DdlLoaiDiem;
         
         /// <summary>
-        /// DdlProvinces control.
+        /// DdlStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlProvinces;
+        protected global::System.Web.UI.WebControls.DropDownList DdlStatus;
         
         /// <summary>
-        /// DdlDistricts control.
+        /// RBtnMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DdlDistricts;
+        protected global::System.Web.UI.WebControls.RadioButton RBtnMonth;
         
         /// <summary>
-        /// DistrictRequired control.
+        /// DddMonths control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator DistrictRequired;
+        protected global::System.Web.UI.WebControls.DropDownList DddMonths;
         
         /// <summary>
-        /// Label2 control.
+        /// RBtnWeek control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.RadioButton RBtnWeek;
         
         /// <summary>
-        /// TxtAddress control.
+        /// DdlWeeks control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtAddress;
+        protected global::System.Web.UI.WebControls.DropDownList DdlWeeks;
         
         /// <summary>
-        /// AddressRequired control.
+        /// BtnSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator AddressRequired;
+        protected global::System.Web.UI.WebControls.ImageButton BtnSearch;
         
         /// <summary>
-        /// Label3 control.
+        /// BtnApprove control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.ImageButton BtnApprove;
         
         /// <summary>
-        /// TxtPhone control.
+        /// BtnUnApprove control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtPhone;
+        protected global::System.Web.UI.WebControls.ImageButton BtnUnApprove;
         
         /// <summary>
-        /// PhoneRequired control.
+        /// LblSearchResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator PhoneRequired;
+        protected global::System.Web.UI.WebControls.Label LblSearchResult;
         
         /// <summary>
-        /// Label4 control.
+        /// RptDiemMonHoc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label4;
+        protected global::System.Web.UI.WebControls.Repeater RptDiemMonHoc;
         
         /// <summary>
-        /// TxtEmail control.
+        /// MainDataPager control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtEmail;
-        
-        /// <summary>
-        /// EmailRequired control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator EmailRequired;
-        
-        /// <summary>
-        /// EmailCustomValidator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CustomValidator EmailCustomValidator;
-        
-        /// <summary>
-        /// Label5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label5;
-        
-        /// <summary>
-        /// CkbAddAfterSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CkbAddAfterSave;
-        
-        /// <summary>
-        /// BtnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnSave;
-        
-        /// <summary>
-        /// BtnCancel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnCancel;
+        protected global::SoLienLacTrucTuyen.DataPager.DataPager MainDataPager;
     }
 }

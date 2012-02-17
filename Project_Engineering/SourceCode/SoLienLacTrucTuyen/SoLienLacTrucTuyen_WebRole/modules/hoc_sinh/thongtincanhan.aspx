@@ -7,7 +7,8 @@
     <div style="padding: 10px 0px 10px 0px; font-size: 14px; font-weight: bold">
         Họ và tên:
         <asp:Label ID="LblStudentName" runat="server"></asp:Label>
-        &nbsp;&nbsp;&nbsp;&nbsp;Mã học sinh: <asp:Label ID="LblStudentCode" runat="server"></asp:Label>
+        &nbsp;&nbsp;&nbsp;&nbsp;Mã học sinh:
+        <asp:Label ID="LblStudentCode" runat="server"></asp:Label>
         <br />
     </div>
     <div>
@@ -25,7 +26,6 @@
         <div style="padding: 10px 0px 10px 0px; float: right">
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
                 OnClick="BtnEdit_Click" CssClass="BtnEditWithouDisable" />
-                
         </div>
         <table style="width: 100%; background-color: #E6F7F6; border: 2px solid #9AA8F2;
             padding: 10px 20px 10px 20px; clear: both" class="ui-corner-all">
@@ -45,8 +45,8 @@
                     </asp:DropDownList>
                 </td>
                 <td style="vertical-align: top; float: right" rowspan="6">
-                    <asp:Image ID="ImgHinhAnh" runat="server" Width="90px" Height="120px" ImageUrl="~/Styles/Images/avatar.png"
-                        AlternateText="Hình ảnh" BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
+                    <asp:Image ID="ImgPhoto" runat="server" Width="90px" Height="120px" AlternateText="Hình ảnh học sinh"
+                        BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
                     <br />
                 </td>
             </tr>
@@ -132,6 +132,11 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
                 <td style="width: 130px; height: 23px">
                     Họ tên mẹ:
                 </td>
@@ -153,6 +158,11 @@
                 </td>
                 <td style="width: auto;">
                     <asp:Label ID="LblNgheNghiepMe" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br />
                 </td>
             </tr>
             <tr>

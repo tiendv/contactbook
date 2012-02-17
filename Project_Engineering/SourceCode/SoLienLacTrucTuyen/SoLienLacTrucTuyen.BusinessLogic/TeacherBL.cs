@@ -39,13 +39,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public void UpdateTeacher(aspnet_Membership editedTeacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
         {
-            editedTeacher.FullName = newTeacherName;
-            editedTeacher.Gender = newGender;
-            editedTeacher.Birthday = newBirthday;
-            editedTeacher.Address = newAddress;
-            editedTeacher.Phone = newPhone;
-
-            teacherDA.UpdateTeacher(editedTeacher);
+            teacherDA.UpdateTeacher(editedTeacher, newTeacherName, newGender, newBirthday, newAddress, newPhone);
         }
 
         public aspnet_User GetTeacher(string teacherCode)

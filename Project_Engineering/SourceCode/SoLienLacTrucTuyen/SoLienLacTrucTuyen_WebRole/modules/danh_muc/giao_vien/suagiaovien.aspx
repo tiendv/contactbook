@@ -11,7 +11,7 @@
         <table style="width: 400px; float: left">
             <tr>
                 <td style="width: 90px; height: 27px;">
-                    <asp:Label ID="Label2" runat="server" Text="Mã giáo viên:"></asp:Label>
+                    Mã giáo viên:
                 </td>
                 <td>
                     <asp:Label ID="LblUserIdHienThi" runat="server" Width="293px"></asp:Label>
@@ -44,6 +44,10 @@
                     <asp:RequiredFieldValidator ID="NgaySinhRequired" runat="server" ControlToValidate="TxtNgaySinh"
                         ValidationGroup="EditGiaoVien" ErrorMessage="Ngày sinh không được để trống" Display="Dynamic"
                         ForeColor="Red"></asp:RequiredFieldValidator>
+                    <asp:CustomValidator ID="DateOfBirthCustomValidator" runat="server" ControlToValidate="TxtNgaySinh"
+                        ValidationGroup="EditGiaoVien" ErrorMessage="Ngày sinh không hợp lệ" Display="Dynamic" ForeColor="Red"
+                        OnServerValidate="DateOfBirthCustomValidator_ServerValidate">
+                    </asp:CustomValidator>
                 </td>
             </tr>
             <tr>

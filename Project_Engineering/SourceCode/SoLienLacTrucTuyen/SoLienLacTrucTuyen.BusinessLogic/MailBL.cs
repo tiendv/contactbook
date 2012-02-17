@@ -195,6 +195,19 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             return string.Empty;
         }
+
+        public static bool CheckEmailExist(string oldmail, string newEmail)
+        {
+            if (oldmail == newEmail)
+            {
+                return true;
+            }
+            else
+            {
+                return CheckEmailExist(newEmail);
+            }
+        }
+
         public static bool CheckEmailExist(string strEmail)
         {          
             var myBinding = new BasicHttpBinding();
@@ -207,8 +220,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 return false;
             }
             else
-                return obj.EmailValidator(strEmail);
+            {
+                try
+                {
+                    return obj.EmailValidator(strEmail);
+                }
+                catch(Exception ex)
+                {
+                    return false;
+                }
+            }
         }
+
         public static string SendGmailWithTemplate(string from, string to, string subject, List<DailySchedule> tabularDailySchedule, string id, string pass)
         {
             StreamReader sr = new StreamReader(HttpContext.Current.Server.MapPath("template/schedule.html"));
@@ -258,6 +281,5 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             return string.Empty;
         }
-
     }
 }

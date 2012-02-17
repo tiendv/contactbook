@@ -85,6 +85,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.DropDownList DdlLoaiDiem;
         
         /// <summary>
+        /// DdlStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DdlStatus;
+        
+        /// <summary>
         /// RBtnMonth control.
         /// </summary>
         /// <remarks>

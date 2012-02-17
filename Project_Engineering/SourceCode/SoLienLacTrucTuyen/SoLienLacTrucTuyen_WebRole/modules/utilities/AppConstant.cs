@@ -60,10 +60,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_SCHOOLLIST = "/modules/supplier/supplierlist.aspx";
         public const string PAGEPATH_ADDSCHOOL = "/modules/supplier/addsupplier.aspx";
         public const string PAGEPATH_MODIFYSCHOOL = "/modules/supplier/modifysupplier.aspx";
+        public const string PAGEPATH_SCHOOL_DETAIL = "/modules/supplier/detailschool.aspx";
 
         public const string PAGEPATH_CATEGORY_YEARLIST = "/modules/danh_muc/danhmucnamhoc.aspx";
         public const string PAGEPATH_CATEGORY_ADDYEAR = "/modules/danh_muc/themnamhoc.aspx";
         public const string PAGEPATH_CATEGORY_MODIFYYEAR = "/modules/danh_muc/suanamhoc.aspx";
+
+        public const string PAGEPATH_HANDLER_STUDENTPHOTOLOADER = "/modules/hoc_sinh/StudentPhotoLoadingHandler.ashx";
+        public const string PAGEPATH_HANDLER_SCHOOLPHOTOLOADER = "/modules/supplier/PhotoLoadingHandler.ashx";
 
         // Class
         public const string PAGEPATH_CLASS_LIST = "/modules/lop_hoc/danhsachlop.aspx";
@@ -88,6 +92,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string QUERY_PARENTSCOMMENT = "id";
 
         public const string VIEWSTATE_CLASSID = "ClassId";
+        public const string VIEWSTATE_EMAIL = "Email";
         public const string VIEWSTATE_GENERATEDPASSWORD = "GeneratedPassword";
         public const string VIEWSTATE_MESSAGEID = "MessageId";
         public const string VIEWSTATE_PARENTSCOMMENTID = "ParentCommentId";
@@ -111,7 +116,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_PROVINCEID = "Province";
         public const string VIEWSTATE_SELECTED_ROLEID = "RoleID";
         public const string VIEWSTATE_SELECTED_SCHEDULEID = "ScheduleId";
-        public const string VIEWSTATE_SELECTED_SCHOOLNAME = "SchoolName";
+        public const string VIEWSTATE_SEARCHED_SCHOOLNAME = "SearchedSchoolName";
         public const string VIEWSTATE_SELECTED_STUDENTCODE = "StudentName";
         public const string VIEWSTATE_SELECTED_STUDENTID = "StudentId";
         public const string VIEWSTATE_SELECTED_STUDENTNAME = "StudenCode";
@@ -126,6 +131,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string VIEWSTATE_SELECTED_USERID = "UserID";
         public const string VIEWSTATE_SELECTED_YEARID = "YearId";
         public const string VIEWSTATE_SELECTED_YEARNAME = "YearName";
+        public const string VIEWSTATE_SCHOOLID = "SchoolID";
+        public const string VIEWSTATE_SCHOOLNAME = "SchoolName";
         public const string VIEWSTATE_STUDENTCLASS_ID = "StudentClassId";
         public const string VIEWSTATE_STUDENTID = "StudentId";
         public const string VIEWSTATE_USER = "User";
@@ -153,6 +160,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SELECTED_PROVINCE = "Province";
         public const string SESSION_SELECTED_DISTRICT = "District";
         public const string SESSION_SELECTED_SCHOOLNAME = "SchoolName";
+        public const string SESSION_SELECTED_SCHOOL = "School";
         public const string SESSION_SELECTED_MARKTYPES = "MarkTypes";
         public const string SESSION_SELECTED_MARKTYPE = "MarkType";
         public const string SESSION_SELECTED_SUBJECT = "Subject";
@@ -228,8 +236,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string USERPARENT_PREFIX = "PH";
         public const string COMMAND_EDIT = "CommandEdit";
 
+        public const string STRING_BLANK = "";
         public const string STRING_ZERO = "0";
         public const string STRING_MALE = "Nam";
         public const string STRING_FEMALE = "Nữ";
+        public const string STRING_UNDEFINED = "(Không xác định)";
     }
 }

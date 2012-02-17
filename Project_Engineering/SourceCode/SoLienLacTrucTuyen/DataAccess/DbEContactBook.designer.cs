@@ -123,9 +123,6 @@ namespace EContactBook.DataAccess
     partial void InsertConfiguration_Year(Configuration_Year instance);
     partial void UpdateConfiguration_Year(Configuration_Year instance);
     partial void DeleteConfiguration_Year(Configuration_Year instance);
-    partial void InsertMessageToParents_Message(MessageToParents_Message instance);
-    partial void UpdateMessageToParents_Message(MessageToParents_Message instance);
-    partial void DeleteMessageToParents_Message(MessageToParents_Message instance);
     partial void InsertParentComment_Comment(ParentComment_Comment instance);
     partial void UpdateParentComment_Comment(ParentComment_Comment instance);
     partial void DeleteParentComment_Comment(ParentComment_Comment instance);
@@ -135,9 +132,6 @@ namespace EContactBook.DataAccess
     partial void InsertStudent_Activity(Student_Activity instance);
     partial void UpdateStudent_Activity(Student_Activity instance);
     partial void DeleteStudent_Activity(Student_Activity instance);
-    partial void InsertStudent_DetailedTermSubjectMark(Student_DetailedTermSubjectMark instance);
-    partial void UpdateStudent_DetailedTermSubjectMark(Student_DetailedTermSubjectMark instance);
-    partial void DeleteStudent_DetailedTermSubjectMark(Student_DetailedTermSubjectMark instance);
     partial void InsertStudent_Student(Student_Student instance);
     partial void UpdateStudent_Student(Student_Student instance);
     partial void DeleteStudent_Student(Student_Student instance);
@@ -186,6 +180,12 @@ namespace EContactBook.DataAccess
     partial void InsertClass_Schedule(Class_Schedule instance);
     partial void UpdateClass_Schedule(Class_Schedule instance);
     partial void DeleteClass_Schedule(Class_Schedule instance);
+    partial void InsertMessageToParents_Message(MessageToParents_Message instance);
+    partial void UpdateMessageToParents_Message(MessageToParents_Message instance);
+    partial void DeleteMessageToParents_Message(MessageToParents_Message instance);
+    partial void InsertStudent_DetailedTermSubjectMark(Student_DetailedTermSubjectMark instance);
+    partial void UpdateStudent_DetailedTermSubjectMark(Student_DetailedTermSubjectMark instance);
+    partial void DeleteStudent_DetailedTermSubjectMark(Student_DetailedTermSubjectMark instance);
     #endregion
 		
 		public DbEContactBookDataContext() : 
@@ -474,14 +474,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<MessageToParents_Message> MessageToParents_Messages
-		{
-			get
-			{
-				return this.GetTable<MessageToParents_Message>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ParentComment_Comment> ParentComment_Comments
 		{
 			get
@@ -503,14 +495,6 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<Student_Activity>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Student_DetailedTermSubjectMark> Student_DetailedTermSubjectMarks
-		{
-			get
-			{
-				return this.GetTable<Student_DetailedTermSubjectMark>();
 			}
 		}
 		
@@ -647,6 +631,22 @@ namespace EContactBook.DataAccess
 			get
 			{
 				return this.GetTable<Class_Schedule>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MessageToParents_Message> MessageToParents_Messages
+		{
+			get
+			{
+				return this.GetTable<MessageToParents_Message>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Student_DetailedTermSubjectMark> Student_DetailedTermSubjectMarks
+		{
+			get
+			{
+				return this.GetTable<Student_DetailedTermSubjectMark>();
 			}
 		}
 	}
@@ -8471,342 +8471,6 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MessageToParents_Message")]
-	public partial class MessageToParents_Message : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _MessageId;
-		
-		private string _Title;
-		
-		private string _MessageContent;
-		
-		private System.DateTime _Date;
-		
-		private bool _IsConfirmed;
-		
-		private bool _IsRead;
-		
-		private int _StudentInClassId;
-		
-		private string _Feedback;
-		
-		private System.Nullable<int> _MessageStatusId;
-		
-		private EntityRef<Configuration_MessageStatus> _Configuration_MessageStatus;
-		
-		private EntityRef<Student_StudentInClass> _Student_StudentInClass;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnMessageIdChanging(int value);
-    partial void OnMessageIdChanged();
-    partial void OnTitleChanging(string value);
-    partial void OnTitleChanged();
-    partial void OnMessageContentChanging(string value);
-    partial void OnMessageContentChanged();
-    partial void OnDateChanging(System.DateTime value);
-    partial void OnDateChanged();
-    partial void OnIsConfirmedChanging(bool value);
-    partial void OnIsConfirmedChanged();
-    partial void OnIsReadChanging(bool value);
-    partial void OnIsReadChanged();
-    partial void OnStudentInClassIdChanging(int value);
-    partial void OnStudentInClassIdChanged();
-    partial void OnFeedbackChanging(string value);
-    partial void OnFeedbackChanged();
-    partial void OnMessageStatusIdChanging(System.Nullable<int> value);
-    partial void OnMessageStatusIdChanged();
-    #endregion
-		
-		public MessageToParents_Message()
-		{
-			this._Configuration_MessageStatus = default(EntityRef<Configuration_MessageStatus>);
-			this._Student_StudentInClass = default(EntityRef<Student_StudentInClass>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MessageId
-		{
-			get
-			{
-				return this._MessageId;
-			}
-			set
-			{
-				if ((this._MessageId != value))
-				{
-					this.OnMessageIdChanging(value);
-					this.SendPropertyChanging();
-					this._MessageId = value;
-					this.SendPropertyChanged("MessageId");
-					this.OnMessageIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Title
-		{
-			get
-			{
-				return this._Title;
-			}
-			set
-			{
-				if ((this._Title != value))
-				{
-					this.OnTitleChanging(value);
-					this.SendPropertyChanging();
-					this._Title = value;
-					this.SendPropertyChanged("Title");
-					this.OnTitleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageContent", DbType="NVarChar(500)")]
-		public string MessageContent
-		{
-			get
-			{
-				return this._MessageContent;
-			}
-			set
-			{
-				if ((this._MessageContent != value))
-				{
-					this.OnMessageContentChanging(value);
-					this.SendPropertyChanging();
-					this._MessageContent = value;
-					this.SendPropertyChanged("MessageContent");
-					this.OnMessageContentChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsConfirmed", DbType="Bit NOT NULL")]
-		public bool IsConfirmed
-		{
-			get
-			{
-				return this._IsConfirmed;
-			}
-			set
-			{
-				if ((this._IsConfirmed != value))
-				{
-					this.OnIsConfirmedChanging(value);
-					this.SendPropertyChanging();
-					this._IsConfirmed = value;
-					this.SendPropertyChanged("IsConfirmed");
-					this.OnIsConfirmedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRead", DbType="Bit NOT NULL")]
-		public bool IsRead
-		{
-			get
-			{
-				return this._IsRead;
-			}
-			set
-			{
-				if ((this._IsRead != value))
-				{
-					this.OnIsReadChanging(value);
-					this.SendPropertyChanging();
-					this._IsRead = value;
-					this.SendPropertyChanged("IsRead");
-					this.OnIsReadChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StudentInClassId", DbType="Int NOT NULL")]
-		public int StudentInClassId
-		{
-			get
-			{
-				return this._StudentInClassId;
-			}
-			set
-			{
-				if ((this._StudentInClassId != value))
-				{
-					if (this._Student_StudentInClass.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnStudentInClassIdChanging(value);
-					this.SendPropertyChanging();
-					this._StudentInClassId = value;
-					this.SendPropertyChanged("StudentInClassId");
-					this.OnStudentInClassIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Feedback", DbType="NVarChar(500)")]
-		public string Feedback
-		{
-			get
-			{
-				return this._Feedback;
-			}
-			set
-			{
-				if ((this._Feedback != value))
-				{
-					this.OnFeedbackChanging(value);
-					this.SendPropertyChanging();
-					this._Feedback = value;
-					this.SendPropertyChanged("Feedback");
-					this.OnFeedbackChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusId", DbType="Int")]
-		public System.Nullable<int> MessageStatusId
-		{
-			get
-			{
-				return this._MessageStatusId;
-			}
-			set
-			{
-				if ((this._MessageStatusId != value))
-				{
-					if (this._Configuration_MessageStatus.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMessageStatusIdChanging(value);
-					this.SendPropertyChanging();
-					this._MessageStatusId = value;
-					this.SendPropertyChanged("MessageStatusId");
-					this.OnMessageStatusIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_MessageStatus_MessageToParents_Message", Storage="_Configuration_MessageStatus", ThisKey="MessageStatusId", OtherKey="MessageStatusId", IsForeignKey=true)]
-		public Configuration_MessageStatus Configuration_MessageStatus
-		{
-			get
-			{
-				return this._Configuration_MessageStatus.Entity;
-			}
-			set
-			{
-				Configuration_MessageStatus previousValue = this._Configuration_MessageStatus.Entity;
-				if (((previousValue != value) 
-							|| (this._Configuration_MessageStatus.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Configuration_MessageStatus.Entity = null;
-						previousValue.MessageToParents_Messages.Remove(this);
-					}
-					this._Configuration_MessageStatus.Entity = value;
-					if ((value != null))
-					{
-						value.MessageToParents_Messages.Add(this);
-						this._MessageStatusId = value.MessageStatusId;
-					}
-					else
-					{
-						this._MessageStatusId = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Configuration_MessageStatus");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_StudentInClass_MessageToParents_Message", Storage="_Student_StudentInClass", ThisKey="StudentInClassId", OtherKey="StudentInClassId", IsForeignKey=true)]
-		public Student_StudentInClass Student_StudentInClass
-		{
-			get
-			{
-				return this._Student_StudentInClass.Entity;
-			}
-			set
-			{
-				Student_StudentInClass previousValue = this._Student_StudentInClass.Entity;
-				if (((previousValue != value) 
-							|| (this._Student_StudentInClass.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Student_StudentInClass.Entity = null;
-						previousValue.MessageToParents_Messages.Remove(this);
-					}
-					this._Student_StudentInClass.Entity = value;
-					if ((value != null))
-					{
-						value.MessageToParents_Messages.Add(this);
-						this._StudentInClassId = value.StudentInClassId;
-					}
-					else
-					{
-						this._StudentInClassId = default(int);
-					}
-					this.SendPropertyChanged("Student_StudentInClass");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ParentComment_Comment")]
 	public partial class ParentComment_Comment : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -9695,246 +9359,6 @@ namespace EContactBook.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Student_DetailedTermSubjectMark")]
-	public partial class Student_DetailedTermSubjectMark : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _DetailedTermSubjectMark;
-		
-		private int _TermSubjectMarkId;
-		
-		private int _MarkType;
-		
-		private double _MarkValue;
-		
-		private System.DateTime _Date;
-		
-		private EntityRef<Category_MarkType> _Category_MarkType;
-		
-		private EntityRef<Student_TermSubjectMark> _Student_TermSubjectMark;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnDetailedTermSubjectMarkChanging(int value);
-    partial void OnDetailedTermSubjectMarkChanged();
-    partial void OnTermSubjectMarkIdChanging(int value);
-    partial void OnTermSubjectMarkIdChanged();
-    partial void OnMarkTypeChanging(int value);
-    partial void OnMarkTypeChanged();
-    partial void OnMarkValueChanging(double value);
-    partial void OnMarkValueChanged();
-    partial void OnDateChanging(System.DateTime value);
-    partial void OnDateChanged();
-    #endregion
-		
-		public Student_DetailedTermSubjectMark()
-		{
-			this._Category_MarkType = default(EntityRef<Category_MarkType>);
-			this._Student_TermSubjectMark = default(EntityRef<Student_TermSubjectMark>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DetailedTermSubjectMark", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int DetailedTermSubjectMark
-		{
-			get
-			{
-				return this._DetailedTermSubjectMark;
-			}
-			set
-			{
-				if ((this._DetailedTermSubjectMark != value))
-				{
-					this.OnDetailedTermSubjectMarkChanging(value);
-					this.SendPropertyChanging();
-					this._DetailedTermSubjectMark = value;
-					this.SendPropertyChanged("DetailedTermSubjectMark");
-					this.OnDetailedTermSubjectMarkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermSubjectMarkId", DbType="Int NOT NULL")]
-		public int TermSubjectMarkId
-		{
-			get
-			{
-				return this._TermSubjectMarkId;
-			}
-			set
-			{
-				if ((this._TermSubjectMarkId != value))
-				{
-					if (this._Student_TermSubjectMark.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTermSubjectMarkIdChanging(value);
-					this.SendPropertyChanging();
-					this._TermSubjectMarkId = value;
-					this.SendPropertyChanged("TermSubjectMarkId");
-					this.OnTermSubjectMarkIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarkType", DbType="Int NOT NULL")]
-		public int MarkType
-		{
-			get
-			{
-				return this._MarkType;
-			}
-			set
-			{
-				if ((this._MarkType != value))
-				{
-					if (this._Category_MarkType.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnMarkTypeChanging(value);
-					this.SendPropertyChanging();
-					this._MarkType = value;
-					this.SendPropertyChanged("MarkType");
-					this.OnMarkTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarkValue", DbType="Float NOT NULL")]
-		public double MarkValue
-		{
-			get
-			{
-				return this._MarkValue;
-			}
-			set
-			{
-				if ((this._MarkValue != value))
-				{
-					this.OnMarkValueChanging(value);
-					this.SendPropertyChanging();
-					this._MarkValue = value;
-					this.SendPropertyChanged("MarkValue");
-					this.OnMarkValueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_MarkType_Student_DetailedTermSubjectMark", Storage="_Category_MarkType", ThisKey="MarkType", OtherKey="MarkTypeId", IsForeignKey=true)]
-		public Category_MarkType Category_MarkType
-		{
-			get
-			{
-				return this._Category_MarkType.Entity;
-			}
-			set
-			{
-				Category_MarkType previousValue = this._Category_MarkType.Entity;
-				if (((previousValue != value) 
-							|| (this._Category_MarkType.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Category_MarkType.Entity = null;
-						previousValue.Student_DetailedTermSubjectMarks.Remove(this);
-					}
-					this._Category_MarkType.Entity = value;
-					if ((value != null))
-					{
-						value.Student_DetailedTermSubjectMarks.Add(this);
-						this._MarkType = value.MarkTypeId;
-					}
-					else
-					{
-						this._MarkType = default(int);
-					}
-					this.SendPropertyChanged("Category_MarkType");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark", Storage="_Student_TermSubjectMark", ThisKey="TermSubjectMarkId", OtherKey="TermSubjectMarkId", IsForeignKey=true)]
-		public Student_TermSubjectMark Student_TermSubjectMark
-		{
-			get
-			{
-				return this._Student_TermSubjectMark.Entity;
-			}
-			set
-			{
-				Student_TermSubjectMark previousValue = this._Student_TermSubjectMark.Entity;
-				if (((previousValue != value) 
-							|| (this._Student_TermSubjectMark.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Student_TermSubjectMark.Entity = null;
-						previousValue.Student_DetailedTermSubjectMarks.Remove(this);
-					}
-					this._Student_TermSubjectMark.Entity = value;
-					if ((value != null))
-					{
-						value.Student_DetailedTermSubjectMarks.Add(this);
-						this._TermSubjectMarkId = value.TermSubjectMarkId;
-					}
-					else
-					{
-						this._TermSubjectMarkId = default(int);
-					}
-					this.SendPropertyChanged("Student_TermSubjectMark");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Student_Student")]
 	public partial class Student_Student : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -10510,8 +9934,6 @@ namespace EContactBook.DataAccess
 		
 		private int _ClassId;
 		
-		private EntitySet<MessageToParents_Message> _MessageToParents_Messages;
-		
 		private EntitySet<ParentComment_Comment> _ParentComment_Comments;
 		
 		private EntitySet<Student_Absent> _Student_Absents;
@@ -10521,6 +9943,8 @@ namespace EContactBook.DataAccess
 		private EntitySet<Student_TermLearningResult> _Student_TermLearningResults;
 		
 		private EntitySet<Student_TermSubjectMark> _Student_TermSubjectMarks;
+		
+		private EntitySet<MessageToParents_Message> _MessageToParents_Messages;
 		
 		private EntityRef<Class_Class> _Class_Class;
 		
@@ -10540,12 +9964,12 @@ namespace EContactBook.DataAccess
 		
 		public Student_StudentInClass()
 		{
-			this._MessageToParents_Messages = new EntitySet<MessageToParents_Message>(new Action<MessageToParents_Message>(this.attach_MessageToParents_Messages), new Action<MessageToParents_Message>(this.detach_MessageToParents_Messages));
 			this._ParentComment_Comments = new EntitySet<ParentComment_Comment>(new Action<ParentComment_Comment>(this.attach_ParentComment_Comments), new Action<ParentComment_Comment>(this.detach_ParentComment_Comments));
 			this._Student_Absents = new EntitySet<Student_Absent>(new Action<Student_Absent>(this.attach_Student_Absents), new Action<Student_Absent>(this.detach_Student_Absents));
 			this._Student_Activities = new EntitySet<Student_Activity>(new Action<Student_Activity>(this.attach_Student_Activities), new Action<Student_Activity>(this.detach_Student_Activities));
 			this._Student_TermLearningResults = new EntitySet<Student_TermLearningResult>(new Action<Student_TermLearningResult>(this.attach_Student_TermLearningResults), new Action<Student_TermLearningResult>(this.detach_Student_TermLearningResults));
 			this._Student_TermSubjectMarks = new EntitySet<Student_TermSubjectMark>(new Action<Student_TermSubjectMark>(this.attach_Student_TermSubjectMarks), new Action<Student_TermSubjectMark>(this.detach_Student_TermSubjectMarks));
+			this._MessageToParents_Messages = new EntitySet<MessageToParents_Message>(new Action<MessageToParents_Message>(this.attach_MessageToParents_Messages), new Action<MessageToParents_Message>(this.detach_MessageToParents_Messages));
 			this._Class_Class = default(EntityRef<Class_Class>);
 			this._Student_Student = default(EntityRef<Student_Student>);
 			OnCreated();
@@ -10619,19 +10043,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_StudentInClass_MessageToParents_Message", Storage="_MessageToParents_Messages", ThisKey="StudentInClassId", OtherKey="StudentInClassId")]
-		public EntitySet<MessageToParents_Message> MessageToParents_Messages
-		{
-			get
-			{
-				return this._MessageToParents_Messages;
-			}
-			set
-			{
-				this._MessageToParents_Messages.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_StudentInClass_ParentComment_Comment", Storage="_ParentComment_Comments", ThisKey="StudentInClassId", OtherKey="StudentInClassId")]
 		public EntitySet<ParentComment_Comment> ParentComment_Comments
 		{
@@ -10694,6 +10105,19 @@ namespace EContactBook.DataAccess
 			set
 			{
 				this._Student_TermSubjectMarks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_StudentInClass_MessageToParents_Message", Storage="_MessageToParents_Messages", ThisKey="StudentInClassId", OtherKey="StudentInClassId")]
+		public EntitySet<MessageToParents_Message> MessageToParents_Messages
+		{
+			get
+			{
+				return this._MessageToParents_Messages;
+			}
+			set
+			{
+				this._MessageToParents_Messages.Assign(value);
 			}
 		}
 		
@@ -10785,18 +10209,6 @@ namespace EContactBook.DataAccess
 			}
 		}
 		
-		private void attach_MessageToParents_Messages(MessageToParents_Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.Student_StudentInClass = this;
-		}
-		
-		private void detach_MessageToParents_Messages(MessageToParents_Message entity)
-		{
-			this.SendPropertyChanging();
-			entity.Student_StudentInClass = null;
-		}
-		
 		private void attach_ParentComment_Comments(ParentComment_Comment entity)
 		{
 			this.SendPropertyChanging();
@@ -10852,6 +10264,18 @@ namespace EContactBook.DataAccess
 		}
 		
 		private void detach_Student_TermSubjectMarks(Student_TermSubjectMark entity)
+		{
+			this.SendPropertyChanging();
+			entity.Student_StudentInClass = null;
+		}
+		
+		private void attach_MessageToParents_Messages(MessageToParents_Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Student_StudentInClass = this;
+		}
+		
+		private void detach_MessageToParents_Messages(MessageToParents_Message entity)
 		{
 			this.SendPropertyChanging();
 			entity.Student_StudentInClass = null;
@@ -14846,6 +14270,654 @@ namespace EContactBook.DataAccess
 						this._ClassId = default(int);
 					}
 					this.SendPropertyChanged("Class_Class");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MessageToParents_Message")]
+	public partial class MessageToParents_Message : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MessageId;
+		
+		private string _Title;
+		
+		private string _MessageContent;
+		
+		private System.DateTime _Date;
+		
+		private bool _IsConfirmed;
+		
+		private bool _IsRead;
+		
+		private int _StudentInClassId;
+		
+		private string _Feedback;
+		
+		private System.Nullable<int> _MessageStatusId;
+		
+		private bool _Approved;
+		
+		private EntityRef<Student_StudentInClass> _Student_StudentInClass;
+		
+		private EntityRef<Configuration_MessageStatus> _Configuration_MessageStatus;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMessageIdChanging(int value);
+    partial void OnMessageIdChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnMessageContentChanging(string value);
+    partial void OnMessageContentChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnIsConfirmedChanging(bool value);
+    partial void OnIsConfirmedChanged();
+    partial void OnIsReadChanging(bool value);
+    partial void OnIsReadChanged();
+    partial void OnStudentInClassIdChanging(int value);
+    partial void OnStudentInClassIdChanged();
+    partial void OnFeedbackChanging(string value);
+    partial void OnFeedbackChanged();
+    partial void OnMessageStatusIdChanging(System.Nullable<int> value);
+    partial void OnMessageStatusIdChanged();
+    partial void OnApprovedChanging(bool value);
+    partial void OnApprovedChanged();
+    #endregion
+		
+		public MessageToParents_Message()
+		{
+			this._Student_StudentInClass = default(EntityRef<Student_StudentInClass>);
+			this._Configuration_MessageStatus = default(EntityRef<Configuration_MessageStatus>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MessageId
+		{
+			get
+			{
+				return this._MessageId;
+			}
+			set
+			{
+				if ((this._MessageId != value))
+				{
+					this.OnMessageIdChanging(value);
+					this.SendPropertyChanging();
+					this._MessageId = value;
+					this.SendPropertyChanged("MessageId");
+					this.OnMessageIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageContent", DbType="NVarChar(500)")]
+		public string MessageContent
+		{
+			get
+			{
+				return this._MessageContent;
+			}
+			set
+			{
+				if ((this._MessageContent != value))
+				{
+					this.OnMessageContentChanging(value);
+					this.SendPropertyChanging();
+					this._MessageContent = value;
+					this.SendPropertyChanged("MessageContent");
+					this.OnMessageContentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsConfirmed", DbType="Bit NOT NULL")]
+		public bool IsConfirmed
+		{
+			get
+			{
+				return this._IsConfirmed;
+			}
+			set
+			{
+				if ((this._IsConfirmed != value))
+				{
+					this.OnIsConfirmedChanging(value);
+					this.SendPropertyChanging();
+					this._IsConfirmed = value;
+					this.SendPropertyChanged("IsConfirmed");
+					this.OnIsConfirmedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRead", DbType="Bit NOT NULL")]
+		public bool IsRead
+		{
+			get
+			{
+				return this._IsRead;
+			}
+			set
+			{
+				if ((this._IsRead != value))
+				{
+					this.OnIsReadChanging(value);
+					this.SendPropertyChanging();
+					this._IsRead = value;
+					this.SendPropertyChanged("IsRead");
+					this.OnIsReadChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StudentInClassId", DbType="Int NOT NULL")]
+		public int StudentInClassId
+		{
+			get
+			{
+				return this._StudentInClassId;
+			}
+			set
+			{
+				if ((this._StudentInClassId != value))
+				{
+					if (this._Student_StudentInClass.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStudentInClassIdChanging(value);
+					this.SendPropertyChanging();
+					this._StudentInClassId = value;
+					this.SendPropertyChanged("StudentInClassId");
+					this.OnStudentInClassIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Feedback", DbType="NVarChar(500)")]
+		public string Feedback
+		{
+			get
+			{
+				return this._Feedback;
+			}
+			set
+			{
+				if ((this._Feedback != value))
+				{
+					this.OnFeedbackChanging(value);
+					this.SendPropertyChanging();
+					this._Feedback = value;
+					this.SendPropertyChanged("Feedback");
+					this.OnFeedbackChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageStatusId", DbType="Int")]
+		public System.Nullable<int> MessageStatusId
+		{
+			get
+			{
+				return this._MessageStatusId;
+			}
+			set
+			{
+				if ((this._MessageStatusId != value))
+				{
+					if (this._Configuration_MessageStatus.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMessageStatusIdChanging(value);
+					this.SendPropertyChanging();
+					this._MessageStatusId = value;
+					this.SendPropertyChanged("MessageStatusId");
+					this.OnMessageStatusIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Approved", DbType="Bit NOT NULL")]
+		public bool Approved
+		{
+			get
+			{
+				return this._Approved;
+			}
+			set
+			{
+				if ((this._Approved != value))
+				{
+					this.OnApprovedChanging(value);
+					this.SendPropertyChanging();
+					this._Approved = value;
+					this.SendPropertyChanged("Approved");
+					this.OnApprovedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_StudentInClass_MessageToParents_Message", Storage="_Student_StudentInClass", ThisKey="StudentInClassId", OtherKey="StudentInClassId", IsForeignKey=true)]
+		public Student_StudentInClass Student_StudentInClass
+		{
+			get
+			{
+				return this._Student_StudentInClass.Entity;
+			}
+			set
+			{
+				Student_StudentInClass previousValue = this._Student_StudentInClass.Entity;
+				if (((previousValue != value) 
+							|| (this._Student_StudentInClass.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Student_StudentInClass.Entity = null;
+						previousValue.MessageToParents_Messages.Remove(this);
+					}
+					this._Student_StudentInClass.Entity = value;
+					if ((value != null))
+					{
+						value.MessageToParents_Messages.Add(this);
+						this._StudentInClassId = value.StudentInClassId;
+					}
+					else
+					{
+						this._StudentInClassId = default(int);
+					}
+					this.SendPropertyChanged("Student_StudentInClass");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Configuration_MessageStatus_MessageToParents_Message", Storage="_Configuration_MessageStatus", ThisKey="MessageStatusId", OtherKey="MessageStatusId", IsForeignKey=true)]
+		public Configuration_MessageStatus Configuration_MessageStatus
+		{
+			get
+			{
+				return this._Configuration_MessageStatus.Entity;
+			}
+			set
+			{
+				Configuration_MessageStatus previousValue = this._Configuration_MessageStatus.Entity;
+				if (((previousValue != value) 
+							|| (this._Configuration_MessageStatus.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Configuration_MessageStatus.Entity = null;
+						previousValue.MessageToParents_Messages.Remove(this);
+					}
+					this._Configuration_MessageStatus.Entity = value;
+					if ((value != null))
+					{
+						value.MessageToParents_Messages.Add(this);
+						this._MessageStatusId = value.MessageStatusId;
+					}
+					else
+					{
+						this._MessageStatusId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Configuration_MessageStatus");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Student_DetailedTermSubjectMark")]
+	public partial class Student_DetailedTermSubjectMark : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _DetailedTermSubjectMark;
+		
+		private int _TermSubjectMarkId;
+		
+		private int _MarkType;
+		
+		private double _MarkValue;
+		
+		private System.DateTime _Date;
+		
+		private bool _Approved;
+		
+		private string _Note;
+		
+		private EntityRef<Category_MarkType> _Category_MarkType;
+		
+		private EntityRef<Student_TermSubjectMark> _Student_TermSubjectMark;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDetailedTermSubjectMarkChanging(int value);
+    partial void OnDetailedTermSubjectMarkChanged();
+    partial void OnTermSubjectMarkIdChanging(int value);
+    partial void OnTermSubjectMarkIdChanged();
+    partial void OnMarkTypeChanging(int value);
+    partial void OnMarkTypeChanged();
+    partial void OnMarkValueChanging(double value);
+    partial void OnMarkValueChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnApprovedChanging(bool value);
+    partial void OnApprovedChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    #endregion
+		
+		public Student_DetailedTermSubjectMark()
+		{
+			this._Category_MarkType = default(EntityRef<Category_MarkType>);
+			this._Student_TermSubjectMark = default(EntityRef<Student_TermSubjectMark>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DetailedTermSubjectMark", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int DetailedTermSubjectMark
+		{
+			get
+			{
+				return this._DetailedTermSubjectMark;
+			}
+			set
+			{
+				if ((this._DetailedTermSubjectMark != value))
+				{
+					this.OnDetailedTermSubjectMarkChanging(value);
+					this.SendPropertyChanging();
+					this._DetailedTermSubjectMark = value;
+					this.SendPropertyChanged("DetailedTermSubjectMark");
+					this.OnDetailedTermSubjectMarkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermSubjectMarkId", DbType="Int NOT NULL")]
+		public int TermSubjectMarkId
+		{
+			get
+			{
+				return this._TermSubjectMarkId;
+			}
+			set
+			{
+				if ((this._TermSubjectMarkId != value))
+				{
+					if (this._Student_TermSubjectMark.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTermSubjectMarkIdChanging(value);
+					this.SendPropertyChanging();
+					this._TermSubjectMarkId = value;
+					this.SendPropertyChanged("TermSubjectMarkId");
+					this.OnTermSubjectMarkIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarkType", DbType="Int NOT NULL")]
+		public int MarkType
+		{
+			get
+			{
+				return this._MarkType;
+			}
+			set
+			{
+				if ((this._MarkType != value))
+				{
+					if (this._Category_MarkType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMarkTypeChanging(value);
+					this.SendPropertyChanging();
+					this._MarkType = value;
+					this.SendPropertyChanged("MarkType");
+					this.OnMarkTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarkValue", DbType="Float NOT NULL")]
+		public double MarkValue
+		{
+			get
+			{
+				return this._MarkValue;
+			}
+			set
+			{
+				if ((this._MarkValue != value))
+				{
+					this.OnMarkValueChanging(value);
+					this.SendPropertyChanging();
+					this._MarkValue = value;
+					this.SendPropertyChanged("MarkValue");
+					this.OnMarkValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Approved", DbType="Bit NOT NULL")]
+		public bool Approved
+		{
+			get
+			{
+				return this._Approved;
+			}
+			set
+			{
+				if ((this._Approved != value))
+				{
+					this.OnApprovedChanging(value);
+					this.SendPropertyChanging();
+					this._Approved = value;
+					this.SendPropertyChanged("Approved");
+					this.OnApprovedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_MarkType_Student_DetailedTermSubjectMark", Storage="_Category_MarkType", ThisKey="MarkType", OtherKey="MarkTypeId", IsForeignKey=true)]
+		public Category_MarkType Category_MarkType
+		{
+			get
+			{
+				return this._Category_MarkType.Entity;
+			}
+			set
+			{
+				Category_MarkType previousValue = this._Category_MarkType.Entity;
+				if (((previousValue != value) 
+							|| (this._Category_MarkType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Category_MarkType.Entity = null;
+						previousValue.Student_DetailedTermSubjectMarks.Remove(this);
+					}
+					this._Category_MarkType.Entity = value;
+					if ((value != null))
+					{
+						value.Student_DetailedTermSubjectMarks.Add(this);
+						this._MarkType = value.MarkTypeId;
+					}
+					else
+					{
+						this._MarkType = default(int);
+					}
+					this.SendPropertyChanged("Category_MarkType");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark", Storage="_Student_TermSubjectMark", ThisKey="TermSubjectMarkId", OtherKey="TermSubjectMarkId", IsForeignKey=true)]
+		public Student_TermSubjectMark Student_TermSubjectMark
+		{
+			get
+			{
+				return this._Student_TermSubjectMark.Entity;
+			}
+			set
+			{
+				Student_TermSubjectMark previousValue = this._Student_TermSubjectMark.Entity;
+				if (((previousValue != value) 
+							|| (this._Student_TermSubjectMark.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Student_TermSubjectMark.Entity = null;
+						previousValue.Student_DetailedTermSubjectMarks.Remove(this);
+					}
+					this._Student_TermSubjectMark.Entity = value;
+					if ((value != null))
+					{
+						value.Student_DetailedTermSubjectMarks.Add(this);
+						this._TermSubjectMarkId = value.TermSubjectMarkId;
+					}
+					else
+					{
+						this._TermSubjectMarkId = default(int);
+					}
+					this.SendPropertyChanged("Student_TermSubjectMark");
 				}
 			}
 		}

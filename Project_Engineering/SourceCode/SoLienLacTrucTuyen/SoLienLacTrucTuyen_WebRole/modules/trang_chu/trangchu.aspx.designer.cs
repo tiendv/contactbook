@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class TrangChu {
+    public partial class HomePage {
         
         /// <summary>
         /// LblGreetingHead control.

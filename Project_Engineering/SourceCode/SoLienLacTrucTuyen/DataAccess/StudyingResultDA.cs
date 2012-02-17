@@ -646,6 +646,22 @@ namespace EContactBook.DataAccess
             return detailMarks;
         }
 
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, bool approvedStatus)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from dtlMark in db.Student_DetailedTermSubjectMarks
+                                                                       where dtlMark.MarkType == markType.MarkTypeId
+                                                                       && dtlMark.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       && dtlMark.Approved == approvedStatus
+                                                                       select dtlMark;
+            if (iqDetailMark.Count() != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
         public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, int month)
         {
             List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
@@ -653,6 +669,103 @@ namespace EContactBook.DataAccess
                                                                        where detail.MarkType == markType.MarkTypeId
                                                                        && detail.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
                                                                        && detail.Date.Month == month
+                                                                       select detail;
+            if (iqDetailMark.Count() != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, int month, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       && detail.Date.Month == month
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.OrderBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .ThenBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName)
+                    .ThenBy(detail => detail.Category_MarkType.MarkTypeId)
+                    .ThenByDescending(detail => detail.Date)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, Category_MarkType markType, int month, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.MarkType == markType.MarkTypeId
+                                                                       && detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       && detail.Date.Month == month
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.OrderBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .ThenBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName)
+                    .ThenBy(detail => detail.Category_MarkType.MarkTypeId)
+                    .ThenByDescending(detail => detail.Date)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, Category_MarkType markType, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.MarkType == markType.MarkTypeId
+                                                                       && detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, int month, bool approvedStatus)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.MarkType == markType.MarkTypeId
+                                                                       && detail.TermSubjectMarkId == termSubjectedMark.TermSubjectMarkId
+                                                                       && detail.Date.Month == month
+                                                                       && detail.Approved == approvedStatus
                                                                        select detail;
             if (iqDetailMark.Count() != 0)
             {
@@ -1033,6 +1146,7 @@ namespace EContactBook.DataAccess
                                                      where termSubjectMark.Student_StudentInClass.StudentId == student.StudentId
                                                      && termSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
                                                      && DateTime.Now < detail.Date.AddDays(limitDays)
+                                                     && detail.Approved == true
                                                      select termSubjectMark.Category_Subject;
             if (iqSubject.Count() != 0)
             {
@@ -1050,12 +1164,112 @@ namespace EContactBook.DataAccess
                                                      && termSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
                                                      && DateTime.Now < detail.Date.AddDays(limitDays)
                                                      && detail.MarkType == markType.MarkTypeId
+                                                     && detail.Approved == true
                                                      select termSubjectMark.Category_Subject;
             if (iqSubject.Count() != 0)
             {
                 newMarkSubjects = iqSubject.ToList();
             }
             return newMarkSubjects;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, int month, bool approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       && detail.Date.Month == month
+                                                                       && detail.Approved == approvedStatus
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.OrderBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .ThenBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName)
+                    .ThenBy(detail => detail.Category_MarkType.MarkTypeId)
+                    .ThenByDescending(detail => detail.Date)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, bool approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       && detail.Approved == approvedStatus
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, Category_MarkType markType, int month, bool approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.MarkType == markType.MarkTypeId
+                                                                       && detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       && detail.Date.Month == month
+                                                                       && detail.Approved == approvedStatus
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.OrderBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode)
+                    .ThenBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName)
+                    .ThenBy(detail => detail.Category_MarkType.MarkTypeId)
+                    .ThenByDescending(detail => detail.Date)
+                    .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, Category_MarkType markType, bool approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        {
+            List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.MarkType == markType.MarkTypeId
+                                                                       && detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                       && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
+                                                                       && detail.Student_TermSubjectMark.TermId == term.TermId
+                                                                       && detail.Approved == approvedStatus
+                                                                       select detail;
+            totalRecord = iqDetailMark.Count();
+            if (totalRecord != 0)
+            {
+                detailMarks = iqDetailMark.ToList();
+            }
+
+            return detailMarks;
+        }
+
+        public void ChangeApproveStatusMark(Student_DetailedTermSubjectMark detailedTermSubjectMark, bool approvedStatus, string note)
+        { 
+            IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                       where detail.DetailedTermSubjectMark == detailedTermSubjectMark.DetailedTermSubjectMark
+                                                                       select detail;
+            if (iqDetailMark.Count() != 0)
+            {
+                detailedTermSubjectMark = iqDetailMark.First();
+                detailedTermSubjectMark.Approved = approvedStatus;
+                detailedTermSubjectMark.Note = note;
+
+                db.SubmitChanges();
+            }
         }
     }
 }

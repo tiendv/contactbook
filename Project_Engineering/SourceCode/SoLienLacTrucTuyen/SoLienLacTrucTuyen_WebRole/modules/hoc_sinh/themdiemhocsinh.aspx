@@ -170,7 +170,7 @@
                                     <asp:HiddenField ID="HdfMarkTypeId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "MarkTypeId")%>' />
                                     <asp:Panel ID="PnlMarkEntry" runat="server">
                                         <asp:TextBox ID="TxtDiems" runat="server" CssClass="MarkTextBox" Style="width: 98%;
-                                            height: 25px" ></asp:TextBox>
+                                            height: 25px"></asp:TextBox>
                                         <asp:CustomValidator ID="DiemsValidator" runat="server" ControlToValidate="TxtDiems"
                                             ValidationGroup="AddDiemHocSinh" ErrorMessage="Điểm không hợp lệ" Display="Dynamic"
                                             ForeColor="Red"></asp:CustomValidator>

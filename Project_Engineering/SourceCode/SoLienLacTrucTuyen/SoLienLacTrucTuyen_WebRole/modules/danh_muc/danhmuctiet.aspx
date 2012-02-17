@@ -226,9 +226,12 @@
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender1" runat="server" MaskType="Time"
                             TargetControlID="TxtThoiGianBatDauAdd" UserTimeFormat="TwentyFourHour" Mask="99:99">
                         </ajaxToolkit:MaskedEditExtender>
-                        <asp:RequiredFieldValidator ID="ThoiGianKetThucRequiredAdd" runat="server" ControlToValidate="TxtThoiGianKetThucAdd"
+                        <asp:RequiredFieldValidator ID="ThoiGianKetThucRequiredAdd" runat="server" ControlToValidate="TxtThoiGianBatDauAdd"
                             ValidationGroup="AddTietHoc" ErrorMessage="Thời gian bắt đầu không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:CustomValidator ID="BeginTimeCustomValidatorAdd" runat="server" ControlToValidate="TxtThoiGianBatDauAdd"
+                            OnServerValidate="ValidateBeginTimeAdd" ValidationGroup="AddTietHoc" Display="Dynamic" ErrorMessage="validation!!!!"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -245,6 +248,12 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TxtThoiGianKetThucAdd"
                             ValidationGroup="AddTietHoc" ErrorMessage="Thời gian kết thức không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="TeachingPeriodCompareValidatorAdd" runat="server" ControlToValidate="TxtThoiGianKetThucAdd"
+                            ControlToCompare="TxtThoiGianBatDauAdd" Type="String" Operator="GreaterThan"
+                            Display="Dynamic" ValidationGroup="AddTietHoc" ForeColor="Red" ErrorMessage="Thời gian kết thúc phải lớn hơn thời gian bắt đầu"></asp:CompareValidator>
+                        <asp:CustomValidator ID="EndTimeCustomValidatorAdd" runat="server" ControlToValidate="TxtThoiGianKetThucAdd"
+                            OnServerValidate="ValidateEndTimeAdd" ValidationGroup="AddTietHoc" Display="Dynamic"
+                            ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
             </table>
@@ -266,7 +275,7 @@
     <asp:Panel ID="PnlPopupEdit" runat="server" CssClass="popup ui-corner-all" Width="400px">
         <asp:Panel ID="PnlDragPopupEdit" runat="server" CssClass="popup_header ui-corner-top">
             <asp:Label ID="LblPnlPopupEditTitle" runat="server" CssClass="popup_header_title"
-                Text="sửa tiết học"></asp:Label>
+                Text="Sửa tiết học"></asp:Label>
             <img id="ImgClosePopupEdit" class="button_close" src="../../Styles/buttons/popup_button_close.png"
                 alt="close" />
         </asp:Panel>
@@ -345,6 +354,9 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TxtThoiGianKetThucEdit"
                             ValidationGroup="EditTietHoc" ErrorMessage="Thời gian kết thức không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="TeachingPeriodCompareValidatorModify" runat="server" ControlToValidate="TxtThoiGianKetThucEdit"
+                            ControlToCompare="TxtThoiGianBatDauEdit" Type="String" Operator="GreaterThan"
+                            Display="Dynamic" ValidationGroup="EditTietHoc" ForeColor="Red" ErrorMessage="Thời gian kết thúc phải lớn hơn thời gian bắt đầu"></asp:CompareValidator>
                     </td>
                 </tr>
             </table>

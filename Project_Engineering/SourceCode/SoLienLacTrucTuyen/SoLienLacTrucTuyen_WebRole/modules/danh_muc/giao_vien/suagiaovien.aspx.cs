@@ -51,42 +51,43 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
             string UserId = LblUserIdHienThi.Text.Trim();
-            string tenGiaoVien = TxtTenGiaoVien.Text.Trim();
-            string strNgaySinh = TxtNgaySinh.Text.Trim();
-            DateTime ngaySinh = new DateTime();
-            bool gioiTinh = RbtnNam.Checked;
-            string diaChi = TxtDiaChi.Text.Trim();
-            string dienThoai = TxtDienThoai.Text.Trim();
 
-            if (tenGiaoVien == "")
+            string strTeacherName = TxtTenGiaoVien.Text.Trim();
+            string strDateOfBirth = TxtNgaySinh.Text.Trim();
+            DateTime dtDateOfBirth;
+            bool bGender = RbtnNam.Checked;
+            string strAddress = TxtDiaChi.Text.Trim();
+            string strPhone = TxtDienThoai.Text.Trim();
+
+            if (CheckUntils.IsNullOrBlank(strTeacherName))
             {
                 TenGiaoVienRequired.IsValid = false;
                 return;
             }
-            else
+
+            if (CheckUntils.IsNullOrBlank(strDateOfBirth))
             {
-                if (strNgaySinh == "")
-                {
-                    NgaySinhRequired.IsValid = false;
-                    return;
-                }
-                else
-                {
-                    if (diaChi == "")
-                    {
-                        DiaChiRequired.IsValid = false;
-                        return;
-                    }
-                }
+                NgaySinhRequired.IsValid = false;
+                return;
             }
 
-            ngaySinh = DateTime.Parse(strNgaySinh);
+            if (CheckUntils.IsNullOrBlank(strAddress))
+            {
+                DiaChiRequired.IsValid = false;
+                return;
+            }
+
+            if (DateTime.TryParse(strDateOfBirth, out dtDateOfBirth) == false)
+            {
+                DateOfBirthCustomValidator.IsValid = false;
+                return;
+            }
 
             aspnet_Membership editedTeacher = new aspnet_Membership();
             editedTeacher.UserId = teacherBL.GetTeacher(UserId).UserId;
-            teacherBL.UpdateTeacher(editedTeacher, tenGiaoVien, gioiTinh, ngaySinh, diaChi, dienThoai);
+            teacherBL.UpdateTeacher(editedTeacher, strTeacherName, bGender, dtDateOfBirth, strAddress, strPhone);
 
-            BackToPrevPage();            
+            BackToPrevPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
@@ -96,6 +97,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
+        protected void DateOfBirthCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            DateTime dtDateOfBirth;
+            e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+        }
+
         private void FillGiaoVien(Guid teacherId)
         {
             aspnet_User teacher = teacherBL.GetTeacher(teacherId);

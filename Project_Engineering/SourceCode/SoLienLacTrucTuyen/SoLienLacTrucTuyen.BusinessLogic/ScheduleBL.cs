@@ -167,11 +167,60 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 teachingPeriodSchedule.TermId = term.TermId;
                 teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
                 teachingPeriodSchedule.SessionId = teachingPeriod.SessionId;
+                teachingPeriodSchedule.TeachingPeriodName = teachingPeriod.TeachingPeriodName;
                 teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
                 teachingPeriodSchedule.DayInWeekId = dayInweek.DayInWeekId;
 
                 teachingPeriodSchedules.Add(teachingPeriodSchedule);
             }
+
+            return teachingPeriodSchedules;
+        }
+
+        public List<TeachingPeriodSchedule> GetTeachingPeriodSchedules(Class_Class Class, Configuration_Term term)
+        {
+            TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(school);
+            List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>(); // result
+            TeachingPeriodSchedule teachingPeriodSchedule = null; // variable for loop
+            Class_Schedule schedule = null;
+
+            List<Category_TeachingPeriod> teachingPeriods = teachingPeriodBL.GetTeachingPeriods();
+            
+            SystemConfigBL systemConfigBL = new SystemConfigBL(school);
+            List<Configuration_DayInWeek> dayInWeeks = systemConfigBL.GetDayInWeeks();
+
+            foreach (Category_TeachingPeriod teachingPeriod in teachingPeriods)
+            {
+                foreach (Configuration_DayInWeek dayInWeek in dayInWeeks)
+                {
+                    schedule = scheduleDA.GetSchedule(Class, term, dayInWeek, teachingPeriod);
+                    if (schedule != null)
+                    {
+                        teachingPeriodSchedule = ConvertToTeachingPeriodSchedule(schedule);
+                    }
+                    else
+                    {
+                        teachingPeriodSchedule = new TeachingPeriodSchedule();
+                        teachingPeriodSchedule.SubjectId = 0;
+                        teachingPeriodSchedule.SubjectName = "(Nghỉ)";
+                        teachingPeriodSchedule.ScheduleId = 0;
+                        teachingPeriodSchedule.TeacherName = "Chưa xác định";
+                    }
+
+                    teachingPeriodSchedule.ClassId = Class.ClassId;
+                    teachingPeriodSchedule.TermId = term.TermId;
+                    teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
+                    teachingPeriodSchedule.SessionId = teachingPeriod.SessionId;
+                    teachingPeriodSchedule.SessionName = teachingPeriod.Configuration_Session.SessionName;
+                    teachingPeriodSchedule.TeachingPeriodName = teachingPeriod.TeachingPeriodName;
+                    teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
+                    teachingPeriodSchedule.DayInWeekId = dayInWeek.DayInWeekId;
+
+                    teachingPeriodSchedules.Add(teachingPeriodSchedule);
+                }
+            }
+
+            
 
             return teachingPeriodSchedules;
         }

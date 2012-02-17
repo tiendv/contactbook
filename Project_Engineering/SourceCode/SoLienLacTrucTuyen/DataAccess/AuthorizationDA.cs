@@ -407,5 +407,42 @@ namespace EContactBook.DataAccess
                 db.SubmitChanges();
             }
         }
+
+        /// <summary>
+        /// Delete all authorizations of school
+        /// </summary>
+        /// <param name="school"></param>
+        public void DeleteAuthorization(School_School school)
+        {
+            // Delete all authorizations of user parents
+            IQueryable<UserManagement_RoleParentsAuthorization> queryRoleParentsAuthorization;
+            queryRoleParentsAuthorization = from a in db.UserManagement_RoleParentsAuthorizations
+                                            where a.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
+                                            select a;
+
+            if (queryRoleParentsAuthorization.Count() != 0)
+            {
+                foreach (UserManagement_RoleParentsAuthorization authorization in queryRoleParentsAuthorization)
+                {
+                    db.UserManagement_RoleParentsAuthorizations.DeleteOnSubmit(authorization);
+                }
+                db.SubmitChanges();
+            }
+
+            // Delete all authorizations of roles            
+            IQueryable<UserManagement_Authorization> iqAuthorization;
+            iqAuthorization = from a in db.UserManagement_Authorizations
+                              where a.aspnet_Role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                              select a;
+
+            if (iqAuthorization.Count() != 0)
+            {
+                foreach (UserManagement_Authorization authorization in iqAuthorization)
+                {
+                    db.UserManagement_Authorizations.DeleteOnSubmit(authorization);
+                }
+                db.SubmitChanges();
+            }
+        }
     }
 }

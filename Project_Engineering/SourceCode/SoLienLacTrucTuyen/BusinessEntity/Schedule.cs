@@ -47,6 +47,7 @@ namespace EContactBook.BusinessEntity
         // teaching period
         public int TeachingPeriodId { get; set; }
         public string StringDetailTeachingPeriod { get; set; }
+        public string TeachingPeriodName { get; set; }
 
         // class
         public int ClassId { get; set; }
@@ -63,6 +64,7 @@ namespace EContactBook.BusinessEntity
         public string YearName { get; set; }
 
         public int SessionId { get; set; }
+        public string SessionName { get; set; }
         
 
         public TeachingPeriodSchedule()

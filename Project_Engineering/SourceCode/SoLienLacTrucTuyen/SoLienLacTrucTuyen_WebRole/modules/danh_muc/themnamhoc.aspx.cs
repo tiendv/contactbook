@@ -81,6 +81,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime dtSecondTermEndDate = DateTime.Parse(TxtSecondTermEndDate.Text);
 
             systemConfigBL.InsertYear(strYearName, dtFirstTermBeginDate, dtFirstTermEndDate, dtSecondTermBeginDate, dtSecondTermEndDate);
+
+            Session[AppConstant.SESSION_CURRENT_YEAR] = systemConfigBL.GetLastedYear();
+
             RedirectToPrevPage();
         }
 

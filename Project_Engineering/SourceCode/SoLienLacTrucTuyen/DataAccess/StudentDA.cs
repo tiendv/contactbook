@@ -36,6 +36,10 @@ namespace EContactBook.DataAccess
                 student.StudentBirthday = editedStudent.StudentBirthday;
                 student.Birthplace = editedStudent.Birthplace;
                 student.Address = editedStudent.Address;
+                if (editedStudent.Photo != null)
+                {
+                    student.Photo = editedStudent.Photo;
+                }
                 student.ContactPhone = editedStudent.ContactPhone;
                 student.FatherName = editedStudent.FatherName;
                 student.FatherBirthday = editedStudent.FatherBirthday;

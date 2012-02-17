@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="TrangChu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.TrangChu" %>
+    CodeBehind="TrangChu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.HomePage" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <asp:Label ID="LblGreetingHead" runat="server"></asp:Label>

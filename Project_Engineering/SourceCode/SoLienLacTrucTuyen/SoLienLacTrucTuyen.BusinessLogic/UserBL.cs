@@ -265,5 +265,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             List<UserManagement_Authorization> authorizations = authorizationBL.GetSupliedRoleParentsAuthorizations();
             authorizationBL.AddParentsUserRegisteredServices(user, authorizations);
         }
+
+        internal void DeleteUser(School_School school)
+        {
+            userDA.DeleteUser(school);
+        }
+
+        public bool DuplicateTeacherEmailExist(string email)
+        {
+            RoleBL roleBL = new RoleBL(school);
+            aspnet_Role roleSubjectTeacher = roleBL.GetRoleSubjectTeacher();
+            return userDA.DuplicateTeacherEmailExist(email);
+        }
     }
 }

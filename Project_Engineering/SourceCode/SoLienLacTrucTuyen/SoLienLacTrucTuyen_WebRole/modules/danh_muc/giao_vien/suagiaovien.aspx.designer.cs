@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class suagiaovien {
         
         /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        /// <summary>
         /// LblUserIdHienThi control.
         /// </summary>
         /// <remarks>
@@ -101,6 +92,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator NgaySinhRequired;
+        
+        /// <summary>
+        /// DateOfBirthCustomValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator DateOfBirthCustomValidator;
         
         /// <summary>
         /// Label36 control.

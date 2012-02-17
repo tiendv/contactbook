@@ -65,6 +65,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         + AppConstant.UNDERSCORE + AppConstant.SESSION_MEMBERSHIP_STUDENT;
                     Session[strMembershipStudentSessionKey] = studentBL.GetStudent(strStudentCode);
                 }
+
+                if (school.Status == false)
+                {
+                    schoolBL.Activate(school);
+                }
             }
             else
             {

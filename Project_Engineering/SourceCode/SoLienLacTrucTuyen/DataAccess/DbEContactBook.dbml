@@ -372,21 +372,6 @@
       <Association Name="School_School_Configuration_Year" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.MessageToParents_Message" Member="MessageToParents_Messages">
-    <Type Name="MessageToParents_Message">
-      <Column Name="MessageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="MessageContent" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Feedback" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="MessageStatusId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Configuration_MessageStatus_MessageToParents_Message" Member="Configuration_MessageStatus" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="Configuration_MessageStatus" IsForeignKey="true" />
-      <Association Name="Student_StudentInClass_MessageToParents_Message" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.ParentComment_Comment" Member="ParentComment_Comments">
     <Type Name="ParentComment_Comment">
       <Column Name="CommentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -427,17 +412,6 @@
       <Association Name="Student_StudentInClass_Student_Activity" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Student_DetailedTermSubjectMark" Member="Student_DetailedTermSubjectMarks">
-    <Type Name="Student_DetailedTermSubjectMark">
-      <Column Name="DetailedTermSubjectMark" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="TermSubjectMarkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="MarkType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="MarkValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
-      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Category_MarkType" ThisKey="MarkType" OtherKey="MarkTypeId" Type="Category_MarkType" IsForeignKey="true" />
-      <Association Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark" Member="Student_TermSubjectMark" ThisKey="TermSubjectMarkId" OtherKey="TermSubjectMarkId" Type="Student_TermSubjectMark" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Student_Student" Member="Student_Students">
     <Type Name="Student_Student">
       <Column Name="StudentId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -468,12 +442,12 @@
       <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="StudentId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Student_StudentInClass_MessageToParents_Message" Member="MessageToParents_Messages" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="MessageToParents_Message" />
       <Association Name="Student_StudentInClass_ParentComment_Comment" Member="ParentComment_Comments" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="ParentComment_Comment" />
       <Association Name="Student_StudentInClass_Student_Absent" Member="Student_Absents" ThisKey="StudentInClassId" OtherKey="StudentInClass" Type="Student_Absent" />
       <Association Name="Student_StudentInClass_Student_Activity" Member="Student_Activities" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_Activity" />
       <Association Name="Student_StudentInClass_Student_TermLearningResult" Member="Student_TermLearningResults" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_TermLearningResult" />
       <Association Name="Student_StudentInClass_Student_TermSubjectMark" Member="Student_TermSubjectMarks" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_TermSubjectMark" />
+      <Association Name="Student_StudentInClass_MessageToParents_Message" Member="MessageToParents_Messages" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="MessageToParents_Message" />
       <Association Name="Class_Class_Student_StudentInClass" Member="Class_Class" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Class" IsForeignKey="true" />
       <Association Name="Student_Student_Student_StudentInClass" Member="Student_Student" ThisKey="StudentId" OtherKey="StudentId" Type="Student_Student" IsForeignKey="true" />
     </Type>
@@ -659,6 +633,35 @@
       <Association Name="Category_Subject_Class_Schedule" Member="Category_Subject" ThisKey="SubjectId" OtherKey="SubjectId" Type="Category_Subject" IsForeignKey="true" />
       <Association Name="Category_TeachingPeriod_Class_Schedule" Member="Category_TeachingPeriod" ThisKey="TeachingPeriodId" OtherKey="TeachingPeriodId" Type="Category_TeachingPeriod" IsForeignKey="true" />
       <Association Name="Class_Class_Class_Schedule" Member="Class_Class" ThisKey="ClassId" OtherKey="ClassId" Type="Class_Class" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MessageToParents_Message" Member="MessageToParents_Messages">
+    <Type Name="MessageToParents_Message">
+      <Column Name="MessageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="MessageContent" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsConfirmed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="StudentInClassId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Feedback" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="MessageStatusId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Student_StudentInClass_MessageToParents_Message" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
+      <Association Name="Configuration_MessageStatus_MessageToParents_Message" Member="Configuration_MessageStatus" ThisKey="MessageStatusId" OtherKey="MessageStatusId" Type="Configuration_MessageStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Student_DetailedTermSubjectMark" Member="Student_DetailedTermSubjectMarks">
+    <Type Name="Student_DetailedTermSubjectMark">
+      <Column Name="DetailedTermSubjectMark" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TermSubjectMarkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MarkType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MarkValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="Category_MarkType_Student_DetailedTermSubjectMark" Member="Category_MarkType" ThisKey="MarkType" OtherKey="MarkTypeId" Type="Category_MarkType" IsForeignKey="true" />
+      <Association Name="Student_TermSubjectMark_Student_DetailedTermSubjectMark" Member="Student_TermSubjectMark" ThisKey="TermSubjectMarkId" OtherKey="TermSubjectMarkId" Type="Student_TermSubjectMark" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

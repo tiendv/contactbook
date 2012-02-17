@@ -12,167 +12,180 @@
     <link type="text/css" rel="Stylesheet" href="../Styles/ui-lightness/jquery-ui-1.8.14.custom.css" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <script type="text/javascript" language="javascript">
+        function waitPreloadPage() { //DOM
+            
+            if (document.getElementById) {
+                document.getElementById('prepage').style.visibility = 'hidden';
+            } else {
+                if (document.layers) { //NS4
+                    document.prepage.visibility = 'hidden';
+                }
+                else { //IE4
+                    document.all.prepage.style.visibility = 'hidden';
+                }
+            }
+        }
+    </script>
+    
 </head>
 <body>
-    <a id="topOfPage"></a>
-    <div>
-        <script type="text/javascript" src='<%=ResolveUrl("~/Scripts/jquery-1.4.1.js")%>'></script>
-        <script type="text/javascript" src='<%=ResolveUrl("~/Scripts/JQRepeater-2.0.js")%>'></script>
-        <script type="text/javascript" src='<%=ResolveUrl("~/Scripts/GlobalScript.js")%>'></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-
-                var $hlkActiveMainMenu = $('.menu_title_hover_parent');
-
-                $('.menu_title_level0').mouseover(function () {
-                    $hlkActiveMainMenu.removeClass('menu_title_hover_parent');
-                    $hlkActiveMainMenu.addClass('menu_title_level0');
-                    $(this).addClass('menu_title_hover_parent');
-                });
-
-                $('.menu_title_level0').mouseleave(function () {
-                    $hlkActiveMainMenu.addClass('menu_title_hover_parent');
-                    $hlkActiveMainMenu.removeClass('menu_title_level0');
-                    $(this).removeClass('menu_title_hover_parent');
-
-                });
-
-                var $hlkActiveMainMenu_footer = $('.menu_title_hover_parent_footer');
-                $('.menu_title_level0_footer').mouseover(function () {
-                    $hlkActiveMainMenu_footer.removeClass('menu_title_hover_parent_footer');
-                    $hlkActiveMainMenu_footer.addClass('menu_title_level0_footer');
-                    $(this).addClass('menu_title_hover_parent_footer');
-                });
-
-                $('.menu_title_level0_footer').mouseleave(function () {
-                    $hlkActiveMainMenu_footer.addClass('menu_title_hover_parent_footer');
-                    $hlkActiveMainMenu_footer.removeClass('menu_title_level0_footer');
-                    $(this).removeClass('menu_title_hover_parent_footer');
-                });
-
-
-                var $hlkActiveFixedSubMenuTitle = $('.menu_title_active_child');
-
-                $('.menu_title_level1').mouseover(function () {
-                    $hlkActiveFixedSubMenuTitle.removeClass('menu_title_active_child');
-                    $hlkActiveFixedSubMenuTitle.addClass('menu_title_level1');
-                    $(this).addClass('menu_title_active_child');
-                });
-
-                $('.menu_title_level1').mouseleave(function () {
-                    $hlkActiveFixedSubMenuTitle.addClass('menu_title_active_child');
-                    $hlkActiveFixedSubMenuTitle.removeClass('menu_title_level1');
-                    $(this).removeClass('menu_title_active_child');
-
-                });
-
-
-            });
-        </script>
-    </div>
-    <form id="form1" runat="server" class="background">
-    <asp:ScriptManager ID="ScriptManager1" runat="server">
-        <Scripts>
-        </Scripts>
-    </asp:ScriptManager>
-    <div class="page">
-        <div class="page_header">
-        
-            <div class="banner">
-                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
-                    width="982" height="120">
-                    <param name="movie" value='<%= Request.ApplicationPath + "bannertop.swf" %>' />
-                    <param name="quality" value="transparent" >
-                    <param name="wmode" value="transparent">
-                    <embed src='<%= Request.ApplicationPath + "bannertop.swf" %>' width="980" height="120"
-                        quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
-                        width="980" height="120"></embed>
-                </object>
-            </div>
-            <div class="school_name">
-                <asp:Label ID="LblSchoolName" runat="server"></asp:Label>
-            </div>    
-        </div>
-        <div class="menu_panel">
-            <div class="menu_panel_child">
-                <asp:Panel ID="PnlFixedLevel1MenuTitles" runat="server" CssClass="PnlFixedLevel1MenuTitles">
-                    <asp:Repeater ID="RptFixedLevel1MenuItems" runat="server">
-                        <ItemTemplate>
-                            <asp:HyperLink ID="HlkFixedLevel1MenuTitle" runat="server" CssClass='<%#((bool)DataBinder.Eval(Container.DataItem, "HienHanh") == true) ? "menu_title_active_child" : "menu_title_level1"%>'
-                                NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "Url")%>'>
-                                <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
-                            </asp:HyperLink>&nbsp;
-                        </ItemTemplate>
-                        <SeparatorTemplate>
-                            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/menu_child_separator.png" />
-                        </SeparatorTemplate>
-                    </asp:Repeater>
-                </asp:Panel>
-            </div>
-            <div id="DivUserInfo" runat="server" class="user_info">
-                <asp:LoginView ID="LoginView1" runat="server">
-                    <LoggedInTemplate>
-                        <asp:Label ID="LblUserName" runat="server" Text="User name" Style="font-size: 12px;
-                            font-weight: bold;"></asp:Label>
-                        <asp:LoginName ID="LoginNameCtrl" runat="server" Visible="false" Style="font-size: 12px;
-                            font-weight: bold;" />
-                        <br />
-                        <asp:LoginStatus ID="LoginStatusCtrl" runat="server" LoginText="Đăng nhập" LogoutText="Đăng xuất"
-                            LogoutPageUrl="~/Modules/Trang_Chu/TrangChu.aspx" LogoutAction="Redirect" />
-                        &nbsp;
-                        <asp:HyperLink ID="hlkChangePassword" runat="server" NavigateUrl="~/Account/DoiMatKhau.aspx">Đổi mật khẩu</asp:HyperLink>
-                    </LoggedInTemplate>
-                </asp:LoginView>
-            </div>
-            <div class="menu_panel_level0">
-                <asp:HiddenField ID="hdfActiveLevel0MenuTitle" runat="server" />
-                <asp:Repeater ID="RptLevel0MenuItem" runat="server">
-                    <ItemTemplate>
-                        <asp:Panel ID="PnlHoverLevel1MenuTitlePopup" runat="server" CssClass="hover_Popup"
-                            Visible="false">
-                            <asp:Repeater ID="rptLevel1MenuItem" runat="server">
-                                <ItemTemplate>
-                                    <asp:HyperLink ID="HlkHoverSubMenu" runat="server" CssClass="menu_title_level1" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "Url")%>'>
-                                        <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
-                                    </asp:HyperLink>&nbsp;
-                                </ItemTemplate>
-                                <SeparatorTemplate>
-                                    <asp:Image ID="ImgSubMenuSeparator" runat="server" ImageUrl="~/Styles/Images/menu_child_separator.png" />
-                                </SeparatorTemplate>
-                            </asp:Repeater>
-                        </asp:Panel>
-                        <asp:HyperLink ID="HlkLevel0MenuItem" runat="server" Width="110px" Height="26px"
-                            CssClass="menu_title_level0" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "Url")%>'>
-                            <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
-                        </asp:HyperLink>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </div>
-        </div>
+  <a id="topOfPage"></a>
         <div>
-            <div id="DivPageTitle" runat="server" class="title_panel">
-                <asp:Label ID="lblTitle" runat="server" CssClass="title"></asp:Label>
-            </div>
-            <div id="DivContentPages" class="contentPage" style="min-height: 350px">
-                <asp:ContentPlaceHolder ID="ContentPlaceHolder_Main" runat="server">
-                </asp:ContentPlaceHolder>
-            </div>
+            <script type="text/javascript" src='<%=ResolveUrl("~/Scripts/jquery-1.4.1.js")%>'></script>
+            <script type="text/javascript" src='<%=ResolveUrl("~/Scripts/JQRepeater-2.0.js")%>'></script>
+            <script type="text/javascript" src='<%=ResolveUrl("~/Scripts/GlobalScript.js")%>'></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    var $hlkActiveMainMenu = $('.menu_title_hover_parent');
+
+                    $('.menu_title_level0').mouseover(function () {
+                        $hlkActiveMainMenu.removeClass('menu_title_hover_parent');
+                        $hlkActiveMainMenu.addClass('menu_title_level0');
+                        $(this).addClass('menu_title_hover_parent');
+                    });
+
+                    $('.menu_title_level0').mouseleave(function () {
+                        $hlkActiveMainMenu.addClass('menu_title_hover_parent');
+                        $hlkActiveMainMenu.removeClass('menu_title_level0');
+                        $(this).removeClass('menu_title_hover_parent');
+
+                    });
+
+                    var $hlkActiveMainMenu_footer = $('.menu_title_hover_parent_footer');
+                    $('.menu_title_level0_footer').mouseover(function () {
+                        $hlkActiveMainMenu_footer.removeClass('menu_title_hover_parent_footer');
+                        $hlkActiveMainMenu_footer.addClass('menu_title_level0_footer');
+                        $(this).addClass('menu_title_hover_parent_footer');
+                    });
+
+                    $('.menu_title_level0_footer').mouseleave(function () {
+                        $hlkActiveMainMenu_footer.addClass('menu_title_hover_parent_footer');
+                        $hlkActiveMainMenu_footer.removeClass('menu_title_level0_footer');
+                        $(this).removeClass('menu_title_hover_parent_footer');
+                    });
+
+
+                    var $hlkActiveFixedSubMenuTitle = $('.menu_title_active_child');
+
+                    $('.menu_title_level1').mouseover(function () {
+                        $hlkActiveFixedSubMenuTitle.removeClass('menu_title_active_child');
+                        $hlkActiveFixedSubMenuTitle.addClass('menu_title_level1');
+                        $(this).addClass('menu_title_active_child');
+                    });
+
+                    $('.menu_title_level1').mouseleave(function () {
+                        $hlkActiveFixedSubMenuTitle.addClass('menu_title_active_child');
+                        $hlkActiveFixedSubMenuTitle.removeClass('menu_title_level1');
+                        $(this).removeClass('menu_title_active_child');
+
+                    });
+                });
+            </script>
         </div>
-        <div class="footer" style="padding: 10px 10px 5px 10px; margin: 0px auto 0px auto;
-            text-align: center; font-family: arial; font-size: 13px">
-            © Copyright 2011 UIT, All rights reserved.
-            <br />
-            ® UIT giữ bản quyền nội dung trên website này.
+        <form id="form1" runat="server" class="background">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+            <Scripts>
+            </Scripts>
+        </asp:ScriptManager>
+        <div class="page">
+            <div class="page_header">
+                <div class="banner">
+                    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0"
+                        width="982" height="120">
+                        <param name="movie" value='<%= Request.ApplicationPath + "bannertop.swf" %>' />
+                        <param name="quality" value="transparent">
+                        <param name="wmode" value="transparent">
+                        <embed src='<%= Request.ApplicationPath + "bannertop.swf" %>' width="980" height="120"
+                            quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"
+                            width="980" height="120"></embed>
+                    </object>
+                </div>
+                <div class="school_name">
+                    <asp:Label ID="LblSchoolName" runat="server"></asp:Label>
+                </div>
+            </div>
+            <div class="menu_panel">
+                <div class="menu_panel_child">
+                    <asp:Panel ID="PnlFixedLevel1MenuTitles" runat="server" CssClass="PnlFixedLevel1MenuTitles">
+                        <asp:Repeater ID="RptFixedLevel1MenuItems" runat="server">
+                            <ItemTemplate>
+                                <asp:HyperLink ID="HlkFixedLevel1MenuTitle" runat="server" CssClass='<%#((bool)DataBinder.Eval(Container.DataItem, "HienHanh") == true) ? "menu_title_active_child" : "menu_title_level1"%>'
+                                    NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "Url")%>'>
+                                <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
+                                </asp:HyperLink>&nbsp;
+                            </ItemTemplate>
+                            <SeparatorTemplate>
+                                <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/menu_child_separator.png" />
+                            </SeparatorTemplate>
+                        </asp:Repeater>
+                    </asp:Panel>
+                </div>
+                <div id="DivUserInfo" runat="server" class="user_info">
+                    <asp:LoginView ID="LoginView1" runat="server">
+                        <LoggedInTemplate>
+                            <asp:Label ID="LblUserName" runat="server" Text="User name" Style="font-size: 12px;
+                                font-weight: bold;"></asp:Label>
+                            <asp:LoginName ID="LoginNameCtrl" runat="server" Visible="false" Style="font-size: 12px;
+                                font-weight: bold;" />
+                            <br />
+                            <asp:LoginStatus ID="LoginStatusCtrl" runat="server" LoginText="Đăng nhập" LogoutText="Đăng xuất"
+                                LogoutPageUrl="~/Modules/Trang_Chu/TrangChu.aspx" LogoutAction="Redirect" />
+                            &nbsp;
+                            <asp:HyperLink ID="hlkChangePassword" runat="server" NavigateUrl="~/Account/DoiMatKhau.aspx">Đổi mật khẩu</asp:HyperLink>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+                <div class="menu_panel_level0">
+                    <asp:HiddenField ID="hdfActiveLevel0MenuTitle" runat="server" />
+                    <asp:Repeater ID="RptLevel0MenuItem" runat="server">
+                        <ItemTemplate>
+                            <asp:Panel ID="PnlHoverLevel1MenuTitlePopup" runat="server" CssClass="hover_Popup"
+                                Visible="false">
+                                <asp:Repeater ID="rptLevel1MenuItem" runat="server">
+                                    <ItemTemplate>
+                                        <asp:HyperLink ID="HlkHoverSubMenu" runat="server" CssClass="menu_title_level1" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "Url")%>'>
+                                        <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
+                                        </asp:HyperLink>&nbsp;
+                                    </ItemTemplate>
+                                    <SeparatorTemplate>
+                                        <asp:Image ID="ImgSubMenuSeparator" runat="server" ImageUrl="~/Styles/Images/menu_child_separator.png" />
+                                    </SeparatorTemplate>
+                                </asp:Repeater>
+                            </asp:Panel>
+                            <asp:HyperLink ID="HlkLevel0MenuItem" runat="server" Width="110px" Height="26px"
+                                CssClass="menu_title_level0" NavigateUrl='<%#DataBinder.Eval(Container.DataItem, "Url")%>'>
+                            <%#DataBinder.Eval(Container.DataItem, "TieuDe")%>
+                            </asp:HyperLink>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </div>
+            </div>
+            <div>
+                <div id="DivPageTitle" runat="server" class="title_panel">
+                    <asp:Label ID="lblTitle" runat="server" CssClass="title"></asp:Label>
+                </div>
+                <div id="DivContentPages" class="contentPage" style="min-height: 350px">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder_Main" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+            <div class="footer" style="padding: 10px 10px 5px 10px; margin: 0px auto 0px auto;
+                text-align: center; font-family: arial; font-size: 13px">
+                © Copyright 2011 UIT, All rights reserved.
+                <br />
+                ® UIT giữ bản quyền nội dung trên website này.
+            </div>
+            <a href="#topOfPage">
+                <img id="ImgGoTop" runat="server" style="width: 34px; height: 48px; border-style: none"
+                    src="../Styles/buttons/go_top.png" alt="Go to top page" />
+            </a>
+            <ajaxToolkit:AlwaysVisibleControlExtender ID="GoTopPageAlwaysVisible" runat="server"
+                TargetControlID="ImgGoTop" HorizontalSide="Right" VerticalSide="Bottom" HorizontalOffset="130"
+                VerticalOffset="10">
+            </ajaxToolkit:AlwaysVisibleControlExtender>
         </div>
-        <a href="#topOfPage">
-            <img id="ImgGoTop" runat="server" style="width: 34px; height: 48px; border-style: none"
-                src="../Styles/buttons/go_top.png" alt="Go to top page" />
-        </a>
-        <ajaxToolkit:AlwaysVisibleControlExtender ID="GoTopPageAlwaysVisible" runat="server"
-            TargetControlID="ImgGoTop" HorizontalSide="Right" VerticalSide="Bottom" HorizontalOffset="130"
-            VerticalOffset="10">
-        </ajaxToolkit:AlwaysVisibleControlExtender>
-    </div>
-    </form>
+        </form>
 </body>
 </html>

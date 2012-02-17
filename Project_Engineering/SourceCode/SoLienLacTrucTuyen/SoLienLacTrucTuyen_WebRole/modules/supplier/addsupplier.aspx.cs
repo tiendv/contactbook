@@ -60,9 +60,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 string strAddress = TxtAddress.Text.Trim();
                 string strEmail = TxtEmail.Text.Trim();
                 string strPhone = TxtPhone.Text.Trim();
-                byte[] bLogo = FileUploadLogo.FileBytes;
-                string strEmailPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
-                    Membership.Provider.MinRequiredNonAlphanumericCharacters);
+                byte[] bLogo = (byte[])GetSession("Image");
+                string strEmailPassword = GeneratePassword();
 
                 // insert new school and then return it generated id
                 schoolBL = new SchoolBL();
@@ -85,6 +84,28 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
             BackToPrevPage();
+        }
+
+        protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
+        {
+            if (FileUploadLogo.PostedFile != null)
+            {
+                //To create a PostedFile
+                HttpPostedFile file = FileUploadLogo.PostedFile;
+
+                //Create byte Array with file len
+                byte[] data = new Byte[file.ContentLength];
+
+                //force the control to load data in array
+                file.InputStream.Read(data, 0, file.ContentLength);
+
+                AddSession("Image", data);
+
+                string filename = Path.GetFileName(FileUploadLogo.FileName);
+                FileUploadLogo.SaveAs(Server.MapPath("~/upload/temp/") + filename);
+                filename = "/upload/temp/" + filename;
+                ImgLogo.ImageUrl = filename;
+            }
         }
         #endregion
 
@@ -149,15 +170,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            if (MailBL.CheckEmailExist(TxtEmail.Text))
-            {
-                EmailCustomValidator.IsValid = true;
-            }
-            else
-            {
-                EmailCustomValidator.IsValid = false;
-                return false;
-            }
+            //if (MailBL.CheckEmailExist(TxtEmail.Text))
+            //{
+            //    EmailCustomValidator.IsValid = true;
+            //}
+            //else
+            //{
+            //    EmailCustomValidator.IsValid = false;
+            //    return false;
+            //}
 
             return true;
         }
@@ -201,7 +222,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             AddSession(AppConstant.SESSION_SELECTED_PROVINCE, ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID]);
             AddSession(AppConstant.SESSION_SELECTED_DISTRICT, ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID]);
-            AddSession(AppConstant.SESSION_SELECTED_SCHOOLNAME, ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME]);
+            AddSession(AppConstant.SESSION_SELECTED_SCHOOLNAME, ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME]);
         }
 
         private void GetSearchedSessions()
@@ -216,7 +237,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_DISTRICT);
                 RemoveSession(AppConstant.SESSION_SELECTED_DISTRICT);
 
-                ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME] = (string)GetSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
+                ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME] = (string)GetSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
                 RemoveSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
             }
         }
@@ -266,7 +287,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strRoleName;
             StringBuilder strBuilder = new StringBuilder();
 
-            // create school's default roles
+            // Create school's default roles
             strBuilder.Append(school.SchoolId.ToString());
             strBuilder.Append(AppConstant.UNDERSCORE);
             strBuilder.Append("Quản trị");
