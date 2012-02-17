@@ -239,6 +239,13 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
             return tabularRole;
         }
+
+        internal void DeleteRole(School_School school)
+        {
+            roleDA.DeleteUserInRole(school);
+            roleDA.DeleteRoleDetail(school);
+            roleDA.DeleteRole(school);
+        }
     }
 }
 

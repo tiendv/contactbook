@@ -111,15 +111,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         private void ProcPermissions()
         {
-            if (accessibilities.Contains(AccessibilityEnum.Add))
-            {
-                BtnAddGiaoVien.Visible = true;
-                BtnAddGiaoVien.ImageUrl = "~/Styles/buttons/button_add.png";
-            }
-            else
-            {
-                BtnAddGiaoVien.Visible = false;
-            }
+            //if (accessibilities.Contains(AccessibilityEnum.Add))
+            //{
+            //    BtnAddGiaoVien.Visible = true;
+            //    BtnAddGiaoVien.ImageUrl = "~/Styles/buttons/button_add.png";
+            //}
+            //else
+            //{
+            //    BtnAddGiaoVien.Visible = false;
+            //}
         }
 
         protected void PrePrint()

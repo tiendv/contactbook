@@ -10,7 +10,7 @@ using EContactBook.DataAccess;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class TrangChu : BaseContentPage
+    public partial class HomePage : BaseContentPage
     {
         protected override void Page_Load(object sender, EventArgs e)
         {

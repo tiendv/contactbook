@@ -64,14 +64,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnEdit_Click(object sender, ImageClickEventArgs e)
         {
-
-        }
-
-        protected void BtnDelete_Click(object sender, ImageClickEventArgs e)
-        {
-            List<School_School> schools = new List<School_School>();
-            School_School school = null;
-
+            HiddenField HdfRptSchoolId = null;
             foreach (RepeaterItem item in RptSchools.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
@@ -79,16 +72,63 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
                     if (CkbxSelect.Checked)
                     {
-                        HiddenField HdfRptSchoolId = (HiddenField)item.FindControl("HdfRptSchoolId");
-                        school = new School_School();
+                        HdfRptSchoolId = (HiddenField)item.FindControl("HdfRptSchoolId");
+
+                        School_School school = new School_School();
                         school.SchoolId = Int32.Parse(HdfRptSchoolId.Value);
-                        schools.Add(school);
+
+                        AddSession(AppConstant.SESSION_SELECTED_SCHOOL, school);
+
+                        // Lưu điều kiện tìm kiếm vào session trước khi chuyển trang
+                        SaveSearchedSessions();
+
+                        Response.Redirect(AppConstant.PAGEPATH_MODIFYSCHOOL);
+
+                        return;
+                    }
+                }
+            }            
+        }
+
+        protected void BtnDelete_Click(object sender, ImageClickEventArgs e)
+        {
+            List<School_School> schools = new List<School_School>();
+            School_School school = null;
+            HiddenField HdfStatus = null;
+            CheckBox CkbxSelect = null;
+            HiddenField HdfRptSchoolId = null;
+            bool bInfoInUse = false;
+
+            foreach (RepeaterItem item in RptSchools.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    CkbxSelect = (CheckBox)item.FindControl("CkbxSelect");
+                    if (CkbxSelect.Checked)
+                    {
+                        HdfStatus = (HiddenField)item.FindControl("HdfStatus");
+                        if (bool.Parse(HdfStatus.Value) == false)
+                        {
+                            HdfRptSchoolId = (HiddenField)item.FindControl("HdfRptSchoolId");
+                            school = new School_School();
+                            school.SchoolId = Int32.Parse(HdfRptSchoolId.Value);
+                            schools.Add(school);
+                        }
+                        else
+                        {
+                            bInfoInUse = true;
+                        }
                     }
                 }
             }
 
             schoolBL.DeleteSchool(schools);
             BindRptSchools();
+
+            if (bInfoInUse)
+            {
+                MPEInfoInUse.Show();
+            }
         }
 
         #endregion
@@ -105,6 +145,44 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void DdlProvinces_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindDDLDistricts();
+        }
+        #endregion
+
+        #region Repeater event handlers
+        protected void RptSchool_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Header)
+            {
+                //e.Item.FindControl("thSelectAll").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                //e.Item.FindControl("tdSelect").Visible = (accessibilities.Contains(AccessibilityEnum.Modify) || accessibilities.Contains(AccessibilityEnum.Delete));
+            }
+        }
+
+        protected void RptSchool_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            switch (e.CommandName)
+            {
+                case "CmdDetailItem":
+                    {
+                        School_School school = new School_School();
+                        school.SchoolId = Int32.Parse(e.CommandArgument.ToString());
+                        AddSession(AppConstant.SESSION_SELECTED_SCHOOL, school);
+
+                        // Lưu điều kiện tìm kiếm vào session trước khi chuyển trang
+                        SaveSearchedSessions();
+
+                        Response.Redirect(AppConstant.PAGEPATH_SCHOOL_DETAIL);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
         }
         #endregion
 
@@ -149,7 +227,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // save selections to viewstate
             ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID] = Int32.Parse(DdlProvinces.SelectedValue);
             ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID] = Int32.Parse(DdlDistricts.SelectedValue);
-            ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME] = TxtSchoolName.Text;
+            ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME] = TxtSchoolName.Text;
         }
 
         private void BindDropDownLists()
@@ -231,7 +309,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             AddSession(AppConstant.SESSION_SELECTED_PROVINCE, ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID]);
             AddSession(AppConstant.SESSION_SELECTED_DISTRICT, ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID]);
-            AddSession(AppConstant.SESSION_SELECTED_SCHOOLNAME, ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME]);
+            AddSession(AppConstant.SESSION_SELECTED_SCHOOLNAME, ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME]);
         }
 
         private void RetrieveSessions()
@@ -248,9 +326,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 RemoveSession(AppConstant.SESSION_SELECTED_DISTRICT);
                 DdlDistricts.SelectedValue = ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID].ToString();
 
-                ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME] = (string)GetSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
+                ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME] = (string)GetSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
                 RemoveSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
-                TxtSchoolName.Text = (string)ViewState[AppConstant.VIEWSTATE_SELECTED_SCHOOLNAME];
+                TxtSchoolName.Text = (string)ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME];
             }
         }
         #endregion

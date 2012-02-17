@@ -17,6 +17,28 @@ namespace EContactBook.DataAccess
             db.SubmitChanges();
         }
 
+        public void UpdateSchool(School_School school, Configuration_District district, string schoolName, string address, string phone,
+            string email, string password, byte[] logo)
+        {
+            IQueryable<School_School> iqSchool = from s in db.School_Schools
+                                                 where s.SchoolId == school.SchoolId
+                                                 select s;
+            if (iqSchool.Count() != 0)
+            {
+                school = iqSchool.First();
+
+                school.DistrictId = district.DistrictId;
+                school.SchoolName = schoolName;
+                school.Address = address;
+                school.Phone = phone;
+                school.Email = email;
+                school.Password = password;
+                school.Logo = new System.Data.Linq.Binary(logo);
+
+                db.SubmitChanges();
+            }
+        }
+
         public School_School GetLastedInsertedSchool()
         {
             School_School lastedInsertedSchool = null;
@@ -33,13 +55,13 @@ namespace EContactBook.DataAccess
 
         public void DeleteSchool(School_School deletedSchool)
         {
-            IQueryable<School_School> iqSchool = from school in db.School_Schools
-                                                 where school.SchoolId == deletedSchool.SchoolId
-                                                 select school;
+            IQueryable<School_School> querySchool = from s in db.School_Schools
+                                                    where s.SchoolId == deletedSchool.SchoolId
+                                                    select s;
 
-            if (iqSchool.Count() != 0)
+            if (querySchool.Count() != 0)
             {
-                deletedSchool = iqSchool.First();
+                deletedSchool = querySchool.First();
                 db.School_Schools.DeleteOnSubmit(deletedSchool);
                 db.SubmitChanges();
             }
@@ -62,7 +84,7 @@ namespace EContactBook.DataAccess
         public List<School_School> GetSchools()
         {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
-                                          select school;
+                                                 select school;
             if (iqSchool.Count() != 0)
             {
                 return iqSchool.OrderBy(school => school.SchoolName).ToList();
@@ -110,7 +132,7 @@ namespace EContactBook.DataAccess
             IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.SchoolId != 0
                                                  select school;
-            
+
             return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
         }
 
@@ -124,7 +146,7 @@ namespace EContactBook.DataAccess
         }
 
         public List<School_School> GetSchools(Configuration_District district, int pageCurrentIndex, int pageSize, out double totalRecords)
-        {            
+        {
             IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.SchoolId != 0 && school.DistrictId == district.DistrictId
                                                  select school;
@@ -134,12 +156,12 @@ namespace EContactBook.DataAccess
 
         public List<School_School> GetSchools(Configuration_District district, string schoolName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
-           IQueryable<School_School> iqSchool = from school in db.School_Schools
+            IQueryable<School_School> iqSchool = from school in db.School_Schools
                                                  where school.SchoolId != 0 && school.DistrictId == district.DistrictId
                                                  && school.SchoolName == schoolName
                                                  select school;
 
-           return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
+            return GetSchools(ref iqSchool, pageCurrentIndex, pageSize, out totalRecords);
         }
 
         public List<School_School> GetSchools(Configuration_Province province, int pageCurrentIndex, int pageSize, out double totalRecords)
@@ -196,6 +218,19 @@ namespace EContactBook.DataAccess
         public bool CheckStatus(School_School school)
         {
             return true;
+        }
+
+        public void Activate(School_School school)
+        {
+            IQueryable<School_School> iqSchool = from s in db.School_Schools
+                                                 where s.SchoolId == school.SchoolId
+                                                 select s;
+            if (iqSchool.Count() != 0)
+            {
+                school = iqSchool.First();
+                school.Status = true;
+                db.SubmitChanges();
+            }
         }
     }
 }

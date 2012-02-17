@@ -203,6 +203,9 @@
                                     <asp:CustomValidator ID="EmailValidator" runat="server" ControlToValidate="Email"
                                         OnServerValidate="ValidateEmail" Display="Dynamic" ForeColor="Red" ErrorMessage="Email không tồn tại"
                                         ValidationGroup="CreateUser"></asp:CustomValidator><br />
+                                    <asp:CustomValidator ID="EmailDuplicateValidator" runat="server" ControlToValidate="Email"
+                                        OnServerValidate="ValidateDuplicateEmail" Display="Dynamic" ForeColor="Red" ErrorMessage="Email này đã được sử dụng bởi giáo viên khác"
+                                        ValidationGroup="CreateUser"></asp:CustomValidator><br />
                                 </td>
                             </tr>
                             <tr id="HtmlTrThoiHan" runat="server" style="display: none;">

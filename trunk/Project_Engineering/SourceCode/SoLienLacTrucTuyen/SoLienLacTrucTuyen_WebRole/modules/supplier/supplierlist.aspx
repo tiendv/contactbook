@@ -11,6 +11,11 @@
                 return false;
             }
 
+            function popopInfoInUse_Close() {
+                $find('<%=MPEInfoInUse.ClientID%>').hide();
+                return false;
+            }
+
             $('document').ready(function () {
                 $('.BtnDelete').click(function (event) {
                     $find('<%=MPEDelete.ClientID%>').hide();
@@ -75,7 +80,7 @@
             <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"></asp:Label>
         </div>
         <table class="repeater">
-            <asp:Repeater ID="RptSchools" runat="server">
+            <asp:Repeater ID="RptSchools" runat="server" OnItemCommand="RptSchool_ItemCommand">
                 <HeaderTemplate>
                     <tr class="header">
                         <td class="ui-corner-tl orderNo">
@@ -111,7 +116,11 @@
                             <asp:HiddenField ID="HdfRptSchoolId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "SchoolId")%>' />
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "SchoolName")%>
+                            <asp:LinkButton ID="LbtnSchoolName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "SchoolName")%>'
+                                Style="text-decoration: underline; color: Blue; cursor: pointer;" CommandName="CmdDetailItem"
+                                CommandArgument='<%#DataBinder.Eval(Container.DataItem, "SchoolId")%>'>
+                                    '<%#DataBinder.Eval(Container.DataItem, "SchoolName")%>'
+                            </asp:LinkButton>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "ProvinceName")%>
@@ -126,10 +135,11 @@
                             <%#DataBinder.Eval(Container.DataItem, "Phone")%>
                         </td>
                         <td style="height: 40px;">
-                            <%#DataBinder.Eval(Container.DataItem, "Status")%>
+                            <%#DataBinder.Eval(Container.DataItem, "StringStatus")%>
+                            <asp:HiddenField ID="HdfStatus" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "Status")%>' />
                         </td>
                         <td class="icon" style="height: 40px;">
-                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />
+                            <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" Visible='<%#((bool)DataBinder.Eval(Container.DataItem, "Status") == false)%>' />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -183,7 +193,7 @@
             <asp:Image ID="Image2" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
                 Style="float: left;" />
             <div style="width: 85%; float: left; padding-left: 10px;">
-                <asp:Label ID="Label6" runat="server" Text="Một vài hạnh kiểm không thể xóa vì thông tin đang được sử dụng"></asp:Label>
+                <asp:Label ID="Label6" runat="server" Text="Một vài trường học không thể xóa vì thông tin đang được sử dụng"></asp:Label>
                 <br />
             </div>
         </div>

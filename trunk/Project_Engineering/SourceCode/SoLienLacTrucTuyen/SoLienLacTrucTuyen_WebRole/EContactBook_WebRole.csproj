@@ -61,6 +61,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -90,6 +91,8 @@
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\danh_muc\suadanhhieu.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
+    <Content Include="modules\hoc_sinh\duyetdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\importhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hoatdong.aspx" />
@@ -103,11 +106,11 @@
     <Content Include="modules\hoc_sinh\suadiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\suahocsinh.aspx" />
     <Content Include="modules\hoc_sinh\thongtincanhan.aspx" />
-    <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\loi_nhan\chitietthongbao.aspx" />
     <Content Include="modules\loi_nhan\suathongbao.aspx" />
     <Content Include="modules\loi_nhan\thongbao.aspx" />
     <Content Include="modules\loi_nhan\themthongbao.aspx" />
+    <Content Include="modules\lop_hoc\thoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\inthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\indanhsachlophoc.aspx" />
     <Content Include="modules\lop_hoc\LopHocServicePage.aspx" />
@@ -116,7 +119,6 @@
     <Content Include="modules\lop_hoc\suagiaovienchunhiem.aspx" />
     <Content Include="modules\lop_hoc\sapxepthoikhoabieu.aspx" />
     <Content Include="modules\lop_hoc\suatietthoikhoabieu.aspx" />
-    <Content Include="modules\lop_hoc\thoikhoabieu.aspx" />
     <Content Include="modules\nguoi_dung\danhsachnguoidung.aspx" />
     <Content Include="modules\nguoi_dung\nguoidung.aspx" />
     <Content Include="modules\nguoi_dung\NguoiDungServicePage.aspx" />
@@ -163,6 +165,8 @@
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
     <Content Include="modules\phu_huynh\themykien.aspx" />
+    <Content Include="modules\supplier\detailschool.aspx" />
+    <Content Include="modules\supplier\PhotoLoadingHandler.ashx" />
     <Content Include="modules\Trang_Chu\TrangChu.aspx" />
     <Content Include="modules\phu_huynh\chitietthongbao.aspx" />
     <Content Include="modules\hoc_sinh\danhsachhocsinh.aspx" />
@@ -362,6 +366,20 @@
     <Compile Include="modules\danh_muc\suadanhhieu.aspx.designer.cs">
       <DependentUpon>suadanhhieu.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
+      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.designer.cs">
+      <DependentUpon>diemhocsinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\duyetdiemhocsinh.aspx.cs">
+      <DependentUpon>duyetdiemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\duyetdiemhocsinh.aspx.designer.cs">
+      <DependentUpon>duyetdiemhocsinh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx.cs">
       <DependentUpon>danhgiahanhkiemhocsinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -404,6 +422,13 @@
     <Compile Include="modules\loi_nhan\suathongbao.aspx.designer.cs">
       <DependentUpon>suathongbao.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\lop_hoc\thoikhoabieu.aspx.cs">
+      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\lop_hoc\thoikhoabieu.aspx.designer.cs">
+      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\lop_hoc\sapxepthoikhoabieu.aspx.cs">
       <DependentUpon>sapxepthoikhoabieu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -417,6 +442,17 @@
     </Compile>
     <Compile Include="modules\phu_huynh\xephang.aspx.designer.cs">
       <DependentUpon>xephang.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\supplier\detailschool.aspx.cs">
+      <DependentUpon>detailschool.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\supplier\detailschool.aspx.designer.cs">
+      <DependentUpon>detailschool.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\supplier\PhotoLoadingHandler.ashx.cs">
+      <DependentUpon>PhotoLoadingHandler.ashx</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="modules\utilities\AppConstant.cs" />
     <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
@@ -543,13 +579,6 @@
     <Compile Include="modules\hoc_sinh\thongtincanhan.aspx.designer.cs">
       <DependentUpon>thongtincanhan.aspx</DependentUpon>
     </Compile>
-    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
-      <DependentUpon>diemhocsinh.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.designer.cs">
-      <DependentUpon>diemhocsinh.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\loi_nhan\thongbao.aspx.cs">
       <DependentUpon>thongbao.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -646,13 +675,6 @@
     </Compile>
     <Compile Include="modules\lop_hoc\suatietthoikhoabieu.aspx.designer.cs">
       <DependentUpon>suatietthoikhoabieu.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\lop_hoc\thoikhoabieu.aspx.cs">
-      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\lop_hoc\thoikhoabieu.aspx.designer.cs">
-      <DependentUpon>thoikhoabieu.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\nguoi_dung\danhsachnguoidung.aspx.cs">
       <DependentUpon>danhsachnguoidung.aspx</DependentUpon>
@@ -1033,6 +1055,9 @@
     <Compile Include="modules\danh_muc\danhmucnganhhoc.aspx.designer.cs">
       <DependentUpon>danhmucnganhhoc.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\hoc_sinh\StudentPhotoLoadingHandler.ashx.cs">
+      <DependentUpon>StudentPhotoLoadingHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="WebRole.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1072,6 +1097,7 @@
     <None Include="modules\ds\dsReport.xss">
       <DependentUpon>dsReport.xsd</DependentUpon>
     </None>
+    <Content Include="modules\hoc_sinh\StudentPhotoLoadingHandler.ashx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="modules\report\Rpt_Classes.rpt">
@@ -1116,7 +1142,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1499</DevelopmentServerPort>
+          <DevelopmentServerPort>6220</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -118,7 +118,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Page event handlers
         protected virtual void Page_Load(object sender, EventArgs e)
         {
-            if(Session[AppConstant.SCHOOL] == null)
+            if (Session[AppConstant.SCHOOL] == null)
             {
                 sessionExpired = true;
                 return;
@@ -191,6 +191,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected string GetText(string key)
         {
             return (string)GetGlobalResourceObject("MainResource", key);
+        }
+
+        protected string GeneratePassword()
+        {
+            return Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength, Membership.Provider.MinRequiredNonAlphanumericCharacters);
         }
         #endregion
     }

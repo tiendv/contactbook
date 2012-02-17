@@ -48,7 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ProcPermissions();
         }
         #endregion
-        
+
         #region Button event handlers
         protected void BtnSearch_Click(object sender, ImageClickEventArgs e)
         {
@@ -285,6 +285,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (!Page.IsValid)
             {
                 return false;
+                MPEAdd.Show();
             }
 
             string TeachingPeriodNameHoc = this.TxtTeachingPeriodNameHocThem.Text.Trim();
@@ -352,6 +353,98 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             return true;
+        }
+
+        protected void ValidateBeginTimeAdd(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = false;
+            return;
+
+
+            if (DdlBuoi.SelectedIndex >= 0)
+            {
+                // session is "Morning"
+                if (DdlBuoi.SelectedIndex == 0)
+                {
+                    if (string.Compare("12:00", args.Value) <= 0)
+                    {
+                        args.IsValid = false;
+                        BeginTimeCustomValidatorAdd.ErrorMessage = "Thời gian bắt đầu phải nhỏ hơn 12:00";
+                    }
+                }
+                else // session is "Evening"
+                {
+                    if (string.Compare(args.Value, "12:00") < 0)
+                    {
+                        args.IsValid = false;
+                        BeginTimeCustomValidatorAdd.ErrorMessage = "Thời gian bắt đầu phải lớn hơn hoặc bằng 12:00";
+                    }
+                }
+            }
+
+            args.IsValid = true;
+        }
+
+        protected void ValidateEndTimeAdd(object source, ServerValidateEventArgs args)
+        {
+            if (DdlBuoi.SelectedIndex >= 0)
+            {
+                // session is "Morning"
+                if (DdlBuoi.SelectedIndex == 0)
+                {
+                    if (string.Compare("12:00", args.Value) <= 0)
+                    {
+                        args.IsValid = false;
+                        EndTimeCustomValidatorAdd.ErrorMessage = "Thời gian kết thúc phải nhỏ hơn 12:00";
+                    }
+                }
+            }
+
+            args.IsValid = true;
+        }
+
+        protected void ValidateBeginTimeModify(object source, ServerValidateEventArgs args)
+        {
+            if (DdlBuoi.SelectedIndex >= 0)
+            {
+                // session is "Morning"
+                if (DdlBuoi.SelectedIndex == 0)
+                {
+                    if (string.Compare("12:00", args.Value) <= 0)
+                    {
+                        args.IsValid = false;
+                        BeginTimeCustomValidatorAdd.ErrorMessage = "Thời gian bắt đầu phải nhỏ hơn 12:00";
+                    }
+                }
+                else // session is "Evening"
+                {
+                    if (string.Compare(args.Value, "12:00") < 0)
+                    {
+                        args.IsValid = false;
+                        BeginTimeCustomValidatorAdd.ErrorMessage = "Thời gian bắt đầu phải lớn hơn hoặc bằng 12:00";
+                    }
+                }
+            }
+
+            args.IsValid = true;
+        }
+
+        protected void ValidateEndTimeModify(object source, ServerValidateEventArgs args)
+        {
+            if (DdlBuoi.SelectedIndex >= 0)
+            {
+                // session is "Morning"
+                if (DdlBuoi.SelectedIndex == 0)
+                {
+                    if (string.Compare("12:00", args.Value) <= 0)
+                    {
+                        args.IsValid = false;
+                        EndTimeCustomValidatorAdd.ErrorMessage = "Thời gian kết thúc phải nhỏ hơn 12:00";
+                    }
+                }
+            }
+
+            args.IsValid = true;
         }
         #endregion
 

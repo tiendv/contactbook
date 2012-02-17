@@ -18,7 +18,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public void InsertStudent(Class_Class Class, string studentCode, string studentName,
-            bool gender, DateTime studentBithday, string birthplace, string address, string phone,
+            bool gender, DateTime studentBithday, string birthplace, string address, string phone, byte[] photo,
             string fatherName, string fatherJob, DateTime? fatherBirthday,
             string motherName, string motherJob, DateTime? motherBirthday,
             string patronName, string patronJob, DateTime? patronBirthday)
@@ -51,6 +51,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 PatronBirthday = patronBirthday,
                 SchoolId = school.SchoolId
             };
+            if (photo != null)
+            {
+                student.Photo = photo;
+            }
             studentDA.InsertStudent(student);
 
             // Update Class' quantity student
@@ -82,7 +86,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         }
 
         public void UpdateHocSinh(Student_Student editedStudent, Class_Class Class, string studentCode, string studentName,
-            bool gender, DateTime studentBithday, string birthplace, string address, string phone,
+            bool gender, DateTime studentBithday, string birthplace, string address, string phone, byte[] photo,
             string fatherName, string fatherJob, DateTime? fatherBirthday,
             string motherName, string motherJob, DateTime? motherBirthday,
             string patronName, string patronJob, DateTime? patronBirthday)
@@ -103,6 +107,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             editedStudent.PatronName = patronName;
             editedStudent.PatronJob = patronJob;
             editedStudent.PatronBirthday = patronBirthday;
+            if (phone != null)
+            {
+                editedStudent.Photo = new System.Data.Linq.Binary(photo);
+            }
             studentDA.UpdateStudent(editedStudent);
 
             Student_StudentInClass studentInClass = studentDA.GetLastedStudentInClass(editedStudent);

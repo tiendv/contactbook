@@ -18,7 +18,7 @@ namespace EContactBook.DataAccess
         //    db.SubmitChanges();
         //}
 
-        public void UpdateTeacher(aspnet_Membership teacher)
+        public void UpdateTeacher(aspnet_Membership teacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
         {
             IQueryable<aspnet_Membership> queryTeacher = from t in db.aspnet_Memberships
                                                          where t.UserId == teacher.UserId
@@ -28,12 +28,12 @@ namespace EContactBook.DataAccess
             if (queryTeacher.Count() != 0)
             {
                 teacher = queryTeacher.First();
-                teacher.FullName = teacher.FullName;
-                teacher.Gender = teacher.Gender;
-                teacher.Birthday = teacher.Birthday;
-                teacher.Photo = teacher.Photo;
-                teacher.Address = teacher.Address;
-                teacher.Phone = teacher.Phone;
+                teacher.FullName = newTeacherName;
+                teacher.Gender = newGender;
+                teacher.Birthday = newBirthday;
+                //teacher.Photo = newPhone;
+                teacher.Address = newAddress;
+                teacher.Phone = newPhone;
 
                 db.SubmitChanges();
             }

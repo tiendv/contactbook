@@ -136,6 +136,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             args.IsValid = MailBL.CheckEmailExist(args.Value);
         }
 
+        protected void ValidateDuplicateEmail(object source, ServerValidateEventArgs args)
+        {
+            if ((bool)ViewState[VIEWSTATE_ISCHOSEROLETEACHERS])
+            {   
+                args.IsValid = !userBL.DuplicateTeacherEmailExist(args.Value);
+            }
+        }
+
         private void BackPrevPage()
         {
             Response.Redirect(AppConstant.PAGEPATH_USER_LIST);

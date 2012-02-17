@@ -17,6 +17,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private ClassBL classBL;
         private ScheduleBL scheduleBL;
+        List<TeachingPeriodSchedule> teachingPeriodSchedules = new List<TeachingPeriodSchedule>();
         #endregion
 
         #region Page event handlers
@@ -36,7 +37,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             classBL = new ClassBL(UserSchool);
             scheduleBL = new ScheduleBL(UserSchool);
-         
+
             if (!Page.IsPostBack)
             {
                 BindDropDownLists();
@@ -45,6 +46,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (DdlLopHoc.Items.Count != 0)
                 {
                     BindRptSchedule();
+                    BindRptTeachingPeriod();
                 }
                 else
                 {
@@ -71,7 +73,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLClasses();
         }
-     
+
         #endregion
 
         #region Repeater event handlers
@@ -82,26 +84,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (e.Item.DataItem != null)
                 {
                     DailySchedule dailySchedule = (DailySchedule)e.Item.DataItem;
-                    int YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-                    int TermId = Int32.Parse(DdlHocKy.SelectedValue);
-                    int DayInWeekId = dailySchedule.DayInWeekId;
-                    int ClassId = 0;
+                    int iYearId = Int32.Parse(DdlNamHoc.SelectedValue);
+                    int iTermId = Int32.Parse(DdlHocKy.SelectedValue);
+                    int iDayInWeekId = dailySchedule.DayInWeekId;
+                    int iClassId = 0;
                     try
                     {
-                        ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+                        iClassId = Int32.Parse(DdlLopHoc.SelectedValue);
                     }
                     catch (Exception) { return; }
-                    
+
                     Label lblNghiSang = (Label)e.Item.FindControl("LblNghiSang");
-                    SessionedSchedule thoiKhoaBieuBuoiSang = dailySchedule.SessionedSchedules[0];
-                    if (thoiKhoaBieuBuoiSang.ListThoiKhoaBieuTheoTiet.Count == 0)
+                    SessionedSchedule morningSchedule = dailySchedule.SessionedSchedules[0];
+                    if (morningSchedule.ListThoiKhoaBieuTheoTiet.Count == 0)
                     {
                         lblNghiSang.Visible = true;
                     }
                     else
-                    {                        
+                    {
                         lblNghiSang.Visible = false;
-                        List<TeachingPeriodSchedule> lstThoiKhoaBieuTheoTiet = thoiKhoaBieuBuoiSang.ListThoiKhoaBieuTheoTiet;
+                        List<TeachingPeriodSchedule> lstThoiKhoaBieuTheoTiet = morningSchedule.ListThoiKhoaBieuTheoTiet;
                         Repeater RptMonHocBuoiSang = (Repeater)e.Item.FindControl("RptMonHocBuoiSang");
                         RptMonHocBuoiSang.DataSource = lstThoiKhoaBieuTheoTiet;
                         RptMonHocBuoiSang.DataBind();
@@ -122,6 +124,42 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RptMonHocBuoiChieu.DataBind();
                     }
                 }
+            }
+        }
+
+        protected void RptSchedule_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Repeater rptDailySchedule = (Repeater)e.Item.FindControl("RptSessionSchedule");
+                Label LblSessionName = (Label)e.Item.FindControl("LblSessionName");
+
+                rptDailySchedule.DataSource = teachingPeriodSchedules.Where(schedule => schedule.SessionName == LblSessionName.Text)
+                    .GroupBy(schedule => schedule.TeachingPeriodName).Select(
+                    schedule => new
+                    {
+                        TeachingPeriodName = schedule.Key
+                    })
+                    .ToList();
+                rptDailySchedule.DataBind();
+            }
+        }
+
+        protected void RptSessionSchedule_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Repeater rptTeachingPeriodSchedule = (Repeater)e.Item.FindControl("RptTeachingPeriodSchedule");
+                Label LblTeachingPeriodName = (Label)e.Item.FindControl("LblTeachingPeriodName");
+
+                rptTeachingPeriodSchedule.DataSource = teachingPeriodSchedules.Where(schedule => schedule.TeachingPeriodName == LblTeachingPeriodName.Text)
+                    .Select(
+                    schedule => new
+                    {
+                        SubjectName = schedule.SubjectName
+                    })
+                    .ToList();
+                rptTeachingPeriodSchedule.DataBind();
             }
         }
         #endregion
@@ -150,45 +188,57 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
+        private void BindRptSchedule()
+        {
+            if (DdlLopHoc.Items.Count != 0)
+            {
+                ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Int32.Parse(DdlLopHoc.SelectedValue);
+            }
+            else
+            {
+                ProcessDislayInfo(false);
+                return;
+            }
+
+            ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = Int32.Parse(DdlHocKy.SelectedValue);
+
+            LblTitle.Text = string.Format("Thời khóa biểu lớp {0} - {1} năm học {2}",
+                DdlLopHoc.SelectedItem.Text, DdlHocKy.SelectedItem.Text, DdlNamHoc.SelectedItem.Text);
+
+            SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
+            List<Configuration_DayInWeek> dayInWeeks = systemConfigBL.GetDayInWeeks();
+
+
+            Class_Class Class = new Class_Class();
+            Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
+
+            Configuration_Term term = new Configuration_Term();
+            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
+
+            teachingPeriodSchedules = scheduleBL.GetTeachingPeriodSchedules(Class, term);
+            RptSchedule.DataSource = teachingPeriodSchedules.GroupBy(schedule => schedule.SessionName).Select(
+                schedule => new
+                {
+                    SessionName = schedule.Key,
+                    Count = schedule.GroupBy(s => s.TeachingPeriodId).Count()
+                })
+                .ToList();
+            RptSchedule.DataBind();
+            ProcessDislayInfo(true);
+        }
+
         private void ProcPermissions()
         {
             BtnEdit.Visible = accessibilities.Contains(AccessibilityEnum.Modify);
         }
 
-        private void BindRptSchedule()
+        private void ProcessDislayInfo(bool displayData)
         {
-            Class_Class Class = null;
-            List<DailySchedule> weeklySchedule;
-
-            // Get search criterias
-            Configuration_Term term = new Configuration_Term();
-            term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            
-            if (DdlLopHoc.Items.Count != 0)
-            {
-                Class = new Class_Class();
-                Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
-                weeklySchedule = scheduleBL.GetDailySchedules(Class, term);
-                this.LblSearchResult.Visible = false;
-                this.RptMonHocTKB.Visible = true;
-            }
-            else // In case there is no Lớp in Khối and Ngành
-            {                
-                this.LblSearchResult.Visible = true;
-                this.RptMonHocTKB.Visible = false;
-                return;
-            }
-
-            RptMonHocTKB.DataSource = weeklySchedule;
-            RptMonHocTKB.DataBind();
-
-            ViewState[AppConstant.VIEWSTATE_SELECTED_CLASSID] = Class.ClassId;
-            ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = term.TermId;
-        }
-
-        private void ProcessDislayInfo(bool bDisplayData)
-        {
-            
+            LblErrorResult.Visible = !displayData;
+            RptSchedule.Visible = displayData;
+            LblTitle.Visible = displayData;
+            tbHeader.Visible = displayData;
+            RptTeachingPeriod.Visible = displayData;
         }
 
         private void BindDropDownLists()
@@ -249,7 +299,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 DdlKhoiLop.Items.Insert(0, new ListItem("Tất cả", "0"));
             }
-        }        
+        }
 
         private void BindDDLTerms()
         {
@@ -328,9 +378,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlLopHoc.Items.Count > 0)
             {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH;
-                BtnSearch.Enabled = true;
-
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
                 BtnPrint.Enabled = true;
 
@@ -342,9 +389,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
-                BtnSearch.Enabled = false;
-
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT_DISABLED;
                 BtnPrint.Enabled = false;
 
@@ -418,9 +462,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (CheckSessionKey(AppConstant.SESSION_SELECTED_CLASS) && CheckSessionKey(AppConstant.SESSION_SELECTED_TERM))
             {
                 Class_Class Class = (Class_Class)GetSession(AppConstant.SESSION_SELECTED_CLASS);
-                RemoveSession(AppConstant.SESSION_SELECTED_CLASS); 
+                RemoveSession(AppConstant.SESSION_SELECTED_CLASS);
                 DdlLopHoc.SelectedValue = Class.ClassId.ToString();
-                
+
                 Configuration_Term term = (Configuration_Term)GetSession(AppConstant.SESSION_SELECTED_TERM);
                 RemoveSession(AppConstant.SESSION_SELECTED_TERM);
                 DdlHocKy.SelectedValue = term.TermId.ToString();
@@ -430,6 +474,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             return false;
         }
-        #endregion   
+
+        private void BindRptTeachingPeriod()
+        {
+            TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(UserSchool);
+            double d = 0;
+            RptTeachingPeriod.DataSource = teachingPeriodBL.GetTabularTeachingPeriods(AppConstant.STRING_BLANK, null, 1, 100, out d);
+            RptTeachingPeriod.DataBind();
+        }
+        #endregion
     }
 }

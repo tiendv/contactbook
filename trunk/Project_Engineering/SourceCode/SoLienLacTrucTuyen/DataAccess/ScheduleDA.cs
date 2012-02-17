@@ -212,5 +212,6 @@ namespace EContactBook.DataAccess
 
             return lastUpdateDate;
         }
+
     }
 }

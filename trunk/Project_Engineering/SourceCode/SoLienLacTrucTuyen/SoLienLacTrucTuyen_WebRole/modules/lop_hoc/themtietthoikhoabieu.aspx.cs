@@ -235,7 +235,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlNganh.SelectedIndex >= 0)
             {
-                faculty = (new FacultyBL(UserSchool)).GetFaculty(DdlNganh.SelectedValue);
+                if (ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] != null)
+                {
+                    faculty = (new FacultyBL(UserSchool)).GetFaculty((string)ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID]);
+                }
+                else
+                {
+                    faculty = (new FacultyBL(UserSchool)).GetFaculty(DdlNganh.SelectedValue);
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_FACULTYID] = DdlNganh.SelectedValue;
+                }
             }
             else
             {
@@ -246,7 +254,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (DdlKhoi.SelectedIndex >= 0)
             {
-                grade = (new GradeBL(UserSchool)).GetGrade(DdlKhoi.SelectedValue);
+                if (ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] != null)
+                {
+                    grade = (new GradeBL(UserSchool)).GetGrade((string)ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID]);
+                }
+                else
+                {
+                    grade = (new GradeBL(UserSchool)).GetGrade(DdlKhoi.SelectedValue);                    
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_GRADEID] = DdlKhoi.SelectedValue;
+                }
             }
             else
             {

@@ -8,6 +8,7 @@ using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using System.IO;
 using System.Web.Security;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -87,48 +88,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     ViewState[AppConstant.VIEWSTATE_STUDENTID] = student.StudentId;
 
                     FillStudentPersonalInformation(student);
-                }                
+                }
             }
-        }
-
-        private void FillStudentPersonalInformation(Student_Student student)
-        {
-            student = studentBL.GetStudent(student.StudentId);
-            TxtMaHocSinhHienThi.Text = student.StudentCode;
-            HdfOldStudentCode.Value = student.StudentCode;
-            TxtTenHocSinh.Text = student.FullName;
-            TxtNgaySinhHocSinh.Text = student.StudentBirthday.ToShortDateString();
-            RbtnNam.Checked = student.Gender;
-            RbtnNu.Checked = !student.Gender;
-            TxtNoiSinh.Text = student.Birthplace;
-            TxtDiaChi.Text = student.Address;
-            TxtDienThoai.Text = student.ContactPhone;
-            TxtHoTenBo.Text = student.FatherName;
-            if (student.FatherBirthday != null)
-            {
-                TxtNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
-            }
-            TxtNgheNghiepBo.Text = student.FatherJob;
-            TxtHoTenMe.Text = student.MotherName;
-            if (student.MotherBirthday != null)
-            {
-                TxtNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
-            }
-            TxtNgheNghiepMe.Text = student.MotherJob;
-            TxtHoTenNguoiDoDau.Text = student.PatronName;
-            if (student.PatronBirthday != null)
-            {
-                TxtNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToShortDateString();
-            }
-            TxtNgheNghiepNguoiDoDau.Text = student.PatronJob;
-
-            ClassBL lopHocBL = new ClassBL(UserSchool);
-            Class_Class lopHoc = studentBL.GetLastedClass(student);
-            LblYear.Text = lopHoc.Configuration_Year.YearName;
-            DdlNganh.SelectedValue = lopHoc.FacultyId.ToString();
-            DdlKhoiLop.SelectedValue = lopHoc.GradeId.ToString();
-            DdlLopHoc.SelectedValue = lopHoc.ClassId.ToString();
-            BindDDLClasses();
         }
         #endregion
 
@@ -152,18 +113,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Button event handlers
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            if (!Page.IsValid)
+            {
+                return;
+            }
+
             Student_Student editedStudent = null;
-            Class_Class newClass = null;            
+            Class_Class newClass = null;
 
             string strNewStudentCode = this.TxtMaHocSinhHienThi.Text.Trim();
-            string strNewStudentName = this.TxtTenHocSinh.Text.Trim(); 
+            string strNewStudentName = this.TxtTenHocSinh.Text.Trim();
             string strBirthday = this.TxtNgaySinhHocSinh.Text.Trim();
             string strNewAddress = this.TxtDiaChi.Text.Trim();
+            byte[] bPhoto = null;
+            if (CheckSessionKey("Photo"))
+            {
+                bPhoto = (byte[])GetSession("Photo");
+            }
             string strNewFatherName = this.TxtHoTenBo.Text.Trim();
             string strNewMotherName = this.TxtHoTenMe.Text.Trim();
             string tenNguoiDoDau = this.TxtHoTenNguoiDoDau.Text;
-
-            if (strNewStudentCode.Trim() == "")
+            bool bNewStudentGender = this.RbtnNam.Checked;
+            DateTime dtBirthday = DateTime.Parse(strBirthday);
+            string strNewBirthPlace = this.TxtNoiSinh.Text.Trim();
+            string strNewPhone = this.TxtDienThoai.Text.Trim();
+            if (CheckUntils.IsNullOrBlank(strNewStudentCode.Trim()))
             {
                 MaHocSinhRequired.IsValid = false;
                 return;
@@ -175,23 +149,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     MaHocSinhValidator.IsValid = false;
                     return;
                 }
-            }            
-            if (strNewStudentName.Trim() == "")
+            }
+            if (CheckUntils.IsNullOrBlank(strNewStudentName.Trim()))
             {
                 TenHocSinhRequired.IsValid = false;
                 return;
-            }            
-            if (strBirthday == "")
+            }
+            if (CheckUntils.IsNullOrBlank(strBirthday))
             {
                 NgaySinhHocSinhRequired.IsValid = false;
                 return;
-            }            
-            if (strNewAddress.Trim() == "")
+            }
+            if (CheckUntils.IsNullOrBlank(strNewAddress.Trim()))
             {
                 DiaChiRequired.IsValid = false;
                 return;
             }
-            if (strNewFatherName == "" && strNewMotherName == "" && tenNguoiDoDau == "")
+            if (CheckUntils.IsNullOrBlank(strNewFatherName) && CheckUntils.IsNullOrBlank(strNewMotherName) && CheckUntils.IsNullOrBlank(tenNguoiDoDau))
             {
                 LblErrorPhuHuynh.Style.Add(HtmlTextWriterStyle.Display, AppConstant.CSSSTYLE_DISPLAY_NONE);
                 return;
@@ -202,19 +176,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string strNewFatherJob = this.TxtNgheNghiepBo.Text.Trim();
-            //DateTime? dtNewFatherBirthday = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
-            DateTime? dtNewFatherBirthday = DateTime.Parse(this.TxtNgaySinhBo.Text.Trim());
-            string strNewMotherJob = this.TxtNgheNghiepMe.Text.Trim();
-            //DateTime? dtNewMotherBirthday = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
-            DateTime? dtNewMotherBirthday = DateTime.Parse(this.TxtNgaySinhMe.Text.Trim());
-            string strNewPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
-            //DateTime? dtNewPatronBirthday = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
-            DateTime? dtNewPatronBirthday = DateTime.Parse(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+            DateTime dtNewFatherBirthday;
+            DateTime.TryParse(this.TxtNgaySinhBo.Text.Trim(), out dtNewFatherBirthday);
 
-            bool bNewStudentGender = this.RbtnNam.Checked;
-            DateTime dtBirthday = DateTime.Parse(strBirthday);
-            string strNewBirthPlace = this.TxtNoiSinh.Text.Trim();
-            string strNewPhone = this.TxtDienThoai.Text.Trim();
+            string strNewMotherJob = this.TxtNgheNghiepMe.Text.Trim();
+            DateTime dtNewMotherBirthday;
+            DateTime.TryParse(this.TxtNgaySinhMe.Text.Trim(), out dtNewMotherBirthday);
+
+            string strNewPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
+            DateTime dtNewPatronBirthday;
+            DateTime.TryParse(this.TxtNgaySinhNguoiDoDau.Text.Trim(), out dtNewPatronBirthday);
+
+
 
             editedStudent = new Student_Student();
             editedStudent.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
@@ -222,48 +195,88 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             newClass.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
             studentBL.UpdateHocSinh(editedStudent, newClass, strNewStudentCode, strNewStudentName, bNewStudentGender, dtBirthday,
-                strNewBirthPlace, strNewAddress, strNewPhone, strNewFatherName, strNewFatherJob, dtNewFatherBirthday,
+                strNewBirthPlace, strNewAddress, strNewPhone, bPhoto, strNewFatherName, strNewFatherJob, dtNewFatherBirthday,
                 strNewMotherName, strNewMotherJob, dtNewMotherBirthday, tenNguoiDoDau, strNewPatronJob, dtNewPatronBirthday);
 
-            RedirectPage();
+            BackToPreviousPage();
         }
 
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
-            RedirectPage();
+            BackToPreviousPage();
         }
 
-        protected void BtnDuyetHinhAnh_Click(object sender, ImageClickEventArgs e)
+        protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
-            //if (FileUploadControl.HasFile)
-            //{
-            //    try
-            //    {
-            //        if (FileUploadControl.PostedFile.ContentType == "image/jpeg")
-            //        {
-            //            if (FileUploadControl.PostedFile.ContentLength < 102400)
-            //            {
-            //                string filename = Path.GetFileName(FileUploadControl.FileName);
-            //            }
-            //            else
-            //            {
-            //                //StatusLabel.Text = "Upload status: The file has to be less than 100 kb!";
-            //            }
-            //        }
-            //        else
-            //        {
-            //            //StatusLabel.Text = "Upload status: Only JPEG files are accepted!";
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        //StatusLabel.Text = "Upload status: The file could not be uploaded. The following error occured: " + ex.Message;
-            //    }
-            //}
+            if (FileUploadLogo.PostedFile != null)
+            {
+                //To create a PostedFile
+                HttpPostedFile File = FileUploadLogo.PostedFile;
+
+                //Create byte Array with file len
+                byte[] Data = new Byte[File.ContentLength];
+                //force the control to load data in array
+                File.InputStream.Read(Data, 0, File.ContentLength);
+
+                AddSession("Photo", Data);
+                string filename = Path.GetFileName(FileUploadLogo.FileName);
+                FileUploadLogo.SaveAs(Server.MapPath("~/upload/temp/") + filename);
+                filename = "/upload/temp/" + filename;
+                ImgPhoto.ImageUrl = filename;
+            }
         }
         #endregion
 
         #region Methods
+        private void FillStudentPersonalInformation(Student_Student student)
+        {
+            // student information
+            student = studentBL.GetStudent(student.StudentId);
+            TxtMaHocSinhHienThi.Text = student.StudentCode;
+            HdfOldStudentCode.Value = student.StudentCode;
+            TxtTenHocSinh.Text = student.FullName;
+            TxtNgaySinhHocSinh.Text = student.StudentBirthday.ToShortDateString();
+            RbtnNam.Checked = student.Gender;
+            RbtnNu.Checked = !student.Gender;
+            TxtNoiSinh.Text = student.Birthplace;
+            TxtDiaChi.Text = student.Address;
+            TxtDienThoai.Text = student.ContactPhone;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("~/modules/hoc_sinh/StudentPhotoLoadingHandler.ashx");
+            stringBuilder.Append("?id=");
+            stringBuilder.Append(student.StudentId);
+            ImgPhoto.ImageUrl = stringBuilder.ToString();
+
+            // parents information
+            TxtHoTenBo.Text = student.FatherName;
+            if (student.FatherBirthday != null)
+            {
+                TxtNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
+            }
+            TxtNgheNghiepBo.Text = student.FatherJob;
+            TxtHoTenMe.Text = student.MotherName;
+            if (student.MotherBirthday != null)
+            {
+                TxtNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
+            }
+            TxtNgheNghiepMe.Text = student.MotherJob;
+            TxtHoTenNguoiDoDau.Text = student.PatronName;
+            if (student.PatronBirthday != null)
+            {
+                TxtNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToShortDateString();
+            }
+            TxtNgheNghiepNguoiDoDau.Text = student.PatronJob;
+
+            // class information
+            ClassBL classBL = new ClassBL(UserSchool);
+            Class_Class Class = studentBL.GetLastedClass(student);
+            LblYear.Text = Class.Configuration_Year.YearName;
+            DdlNganh.SelectedValue = Class.FacultyId.ToString();
+            DdlKhoiLop.SelectedValue = Class.GradeId.ToString();
+            DdlLopHoc.SelectedValue = Class.ClassId.ToString();
+            BindDDLClasses();
+        }
+
         private void BindDropDownLists()
         {
             BindDDLFaculties();
@@ -280,7 +293,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlNganh.DataTextField = "FacultyName";
             DdlNganh.DataBind();
         }
-    
+
         private void BindDDLGrades()
         {
             GradeBL gradeBL = new GradeBL(UserSchool);
@@ -296,7 +309,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // declare variables
             Category_Faculty faculty = null;
             Category_Grade grade = null;
-            ClassBL classBL = new ClassBL(UserSchool);           
+            ClassBL classBL = new ClassBL(UserSchool);
 
             try
             {
@@ -307,7 +320,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
             catch (Exception) { }
-            
+
             try
             {
                 if (DdlKhoiLop.SelectedIndex >= 0)
@@ -325,21 +338,61 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlLopHoc.DataBind();
         }
 
-        private DateTime? ToDateTime(string str)
+        protected void StudentDateOfBirthCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
         {
-            if (str != "")
+            if (CheckUntils.IsNullOrBlank(e.Value))
             {
-                string[] arrDateTime = str.Split('/');
-                return new DateTime(Int32.Parse(arrDateTime[2]),
-                    Int32.Parse(arrDateTime[1]), Int32.Parse(arrDateTime[0]));
+                e.IsValid = true;
             }
             else
             {
-                return null;
+                DateTime dtDateOfBirth;
+                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
             }
         }
 
-        private void RedirectPage()
+        protected void FatherDateOfBirthCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            if (CheckUntils.IsNullOrBlank(e.Value))
+            {
+                e.IsValid = true;
+            }
+            else
+            {
+                DateTime dtDateOfBirth;
+                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+            }
+
+        }
+
+        protected void MotherDateOfBirthCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            if (CheckUntils.IsNullOrBlank(e.Value))
+            {
+                e.IsValid = true;
+            }
+            else
+            {
+                DateTime dtDateOfBirth;
+                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+            }
+
+        }
+
+        protected void PatronDateOfBirthCustomValidator_ServerValidate(object sender, ServerValidateEventArgs e)
+        {
+            if (CheckUntils.IsNullOrBlank(e.Value))
+            {
+                e.IsValid = true;
+            }
+            else
+            {
+                DateTime dtDateOfBirth;
+                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+            }
+
+        }
+        private void BackToPreviousPage()
         {
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());

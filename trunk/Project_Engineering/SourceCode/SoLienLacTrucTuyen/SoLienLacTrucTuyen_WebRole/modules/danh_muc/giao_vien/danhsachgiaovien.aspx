@@ -40,8 +40,8 @@
     </div>
     <div class="table_data ui-corner-all">
         <div class="add">
-            <asp:ImageButton ID="BtnAddGiaoVien" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/buttons/button_add.png"
-                ToolTip="Thêm giáo viên mới" OnClick="BtnAdd_Click" />
+            <%--<asp:ImageButton ID="BtnAddGiaoVien" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/buttons/button_add.png"
+                ToolTip="Thêm giáo viên mới" OnClick="BtnAdd_Click" />--%>
             <asp:ImageButton ID="BtnEdit" runat="server" OnClick="BtnEdit_Click" ImageUrl="~/Styles/buttons/button_edit.png"
                 ToolTip="Sửa khối lớp" CssClass="BtnEdit" />
             <asp:ImageButton ID="BtnExport" runat="server" ImageUrl="~/Styles/buttons/button_export.png"

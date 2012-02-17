@@ -94,21 +94,48 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.ImageButton BtnEdit;
         
         /// <summary>
-        /// LblSearchResult control.
+        /// LblErrorResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LblSearchResult;
+        protected global::System.Web.UI.WebControls.Label LblErrorResult;
         
         /// <summary>
-        /// RptMonHocTKB control.
+        /// LblTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RptMonHocTKB;
+        protected global::System.Web.UI.WebControls.Label LblTitle;
+        
+        /// <summary>
+        /// tbHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable tbHeader;
+        
+        /// <summary>
+        /// RptSchedule control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RptSchedule;
+        
+        /// <summary>
+        /// RptTeachingPeriod control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RptTeachingPeriod;
     }
 }

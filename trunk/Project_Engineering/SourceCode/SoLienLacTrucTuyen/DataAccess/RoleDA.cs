@@ -745,5 +745,51 @@ namespace EContactBook.DataAccess
             db.UserManagement_RoleDetails.InsertOnSubmit(roleDetail);
             db.SubmitChanges();
         }
+
+        public void DeleteRoleDetail(School_School school)
+        {
+            IQueryable<UserManagement_RoleDetail> queryRoleDetail = from roleDetail in db.UserManagement_RoleDetails
+                                                                    where roleDetail.SchoolId == school.SchoolId
+                                                                    select roleDetail;
+            if (queryRoleDetail.Count() != 0)
+            {
+                foreach (UserManagement_RoleDetail roleDetail in queryRoleDetail)
+                {
+                    db.UserManagement_RoleDetails.DeleteOnSubmit(roleDetail);
+                }
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteRole(School_School school)
+        {
+            string strSchoolID = school.SchoolId.ToString() + "_";
+            IQueryable<aspnet_Role> queryRole = from role in db.aspnet_Roles
+                                                where role.RoleName.Contains(strSchoolID) == true
+                                                select role;
+            if (queryRole.Count() != 0)
+            {
+                foreach (aspnet_Role role in queryRole)
+                {
+                    db.aspnet_Roles.DeleteOnSubmit(role);
+                }
+                db.SubmitChanges();
+            }
+        }
+
+        public void DeleteUserInRole(School_School school)
+        {
+            IQueryable<aspnet_UsersInRole> queryUserInRole = from userInRole in db.aspnet_UsersInRoles
+                                                             where userInRole.aspnet_Role.UserManagement_RoleDetail.SchoolId == school.SchoolId
+                                                             select userInRole;
+            if (queryUserInRole.Count() != 0)
+            {
+                foreach (aspnet_UsersInRole userInRole in queryUserInRole)
+                {
+                    db.aspnet_UsersInRoles.DeleteOnSubmit(userInRole);
+                }
+                db.SubmitChanges();
+            }
+        }
     }
 }

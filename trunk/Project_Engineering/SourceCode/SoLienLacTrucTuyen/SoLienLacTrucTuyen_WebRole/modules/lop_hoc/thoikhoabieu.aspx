@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="ThoiKhoaBieu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.SchedulePage" %>
+    CodeBehind="thoikhoabieu.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.SchedulePage" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
@@ -90,74 +90,60 @@
                 ToolTip="Sắp xếp thời khóa biểu" CssClass="BtnArrage" />
         </div>
         <div>
-            <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
+            <asp:Label ID="LblErrorResult" runat="server" Style="font-size: 15px; font-weight: bold;"
                 Text="Không có thông tin thời khóa biểu"></asp:Label>
         </div>
-        <table class="repeater">
-            <asp:Repeater ID="RptMonHocTKB" runat="server" OnItemDataBound="RptMonHocTKB_ItemDataBound">
-                <HeaderTemplate>
-                    <tr class="header">
-                        <td class="left_2 ui-corner-tl" style="width: 78px;">
-                            <asp:Label ID="Label6" runat="server" Text="Buổi" Style="float: right; vertical-align: top"></asp:Label>
-                            <br />
-                            <asp:Label ID="Label5" runat="server" Text="Ngày" Style="float: left; vertical-align: bottom"></asp:Label>
-                        </td>
-                        <td>
-                            Sáng
-                        </td>
-                        <td>
-                            Chiều
-                        </td>
-                    </tr>
-                </HeaderTemplate>
+        <asp:Label ID="LblTitle" runat="server" Font-Bold="true" ForeColor="blue"></asp:Label>
+        <table id="tbHeader" runat="server" class="repeater" style="width: 100%">
+            <tr class="header">
+                <td class=" ui-corner-tl">
+                    Buổi
+                </td>
+                <td style="width: 100px">
+                    Tiết
+                </td>
+                <td style="width: 100px">
+                    Thứ 2
+                </td>
+                <td style="width: 100px">
+                    Thứ 3
+                </td>
+                <td style="width: 100px">
+                    Thứ 4
+                </td>
+                <td style="width: 100px">
+                    Thứ 5
+                </td>
+                <td style="width: 100px">
+                    Thứ 6
+                </td>
+                <td style="width: 100px">
+                    Thứ 7
+                </td>
+            </tr>
+        </table>
+        <table class="repeater" style="width: 100%">
+            <asp:Repeater ID="RptSchedule" runat="server" OnItemDataBound="RptSchedule_ItemDataBound">
                 <ItemTemplate>
-                    <tr id="RepeaterRow" runat="server" class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
-                        <td style="height: 40px; width: 10%; vertical-align: middle;">
-                            <asp:HiddenField ID="HdfRptYearId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "YearId")%>' />
-                            <asp:HiddenField ID="HdfRptTermId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "TermId")%>' />
-                            <asp:HiddenField ID="HdfRptDayInWeekId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DayInWeekId")%>' />
-                            <asp:HiddenField ID="HdfRptClassId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ClassId")%>' />
-                            <asp:Label ID="LblSessionName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "DayInWeekName")%>'></asp:Label>
+                    <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
+                        <td style="text-align: center">
+                            <asp:Label ID="LblSessionName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "SessionName")%>'></asp:Label>
                         </td>
-                        <%--Thời khóa biểu buổi sáng--%>
-                        <td style="height: 40px; width: 41%; padding: 0px">
-                            <asp:Label ID="LblNghiSang" runat="server" Text="(Nghỉ)" Visible="false" Style="padding-left: 5px"></asp:Label>
-                            <table width="100%">
-                                <asp:Repeater ID="RptMonHocBuoiSang" runat="server">
+                        <td style="width: 784px; padding: 0px; margin: 0px">
+                            <table class="repeater" style="width: 100%; padding: 0px; margin: 0px">
+                                <asp:Repeater ID="RptSessionSchedule" runat="server" OnItemDataBound="RptSessionSchedule_ItemDataBound">
                                     <ItemTemplate>
-                                        <tr class='<%#((Container.ItemIndex + 1) % 2 != 0) ? "innerOddRow" : "innerEvenRow"%>'>
-                                            <td style="height: 40px; width: 37%; border-style: none; border-bottom-style: solid;
-                                                border-right-style: solid; padding: 0px 5px 0px 5px">
-                                                <%#DataBinder.Eval(Container.DataItem, "StringDetailTeachingPeriod")%>
+                                        <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
+                                            <td style="height: 40px; width: 100px; text-align: center">
+                                                <asp:Label ID="LblTeachingPeriodName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "TeachingPeriodName")%>'></asp:Label>
                                             </td>
-                                            <td style="height: 40px; border-style: none; border-bottom-style: solid; padding: 0px 5px 0px 5px">
-                                                <b>
-                                                    <%#DataBinder.Eval(Container.DataItem, "SubjectName")%></b>
-                                                <br />
-                                                (<%#DataBinder.Eval(Container.DataItem, "TeacherName")%>)
-                                            </td>
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </table>
-                        </td>
-                        <%--Thời khóa biểu buổi chiều--%>
-                        <td style="height: 40px; width: 41%; padding: 0px">
-                            <asp:Label ID="LblNghiChieu" runat="server" Text="(Nghỉ)" Visible="false" Style="padding-left: 5px"></asp:Label>
-                            <table width="100%">
-                                <asp:Repeater ID="RptMonHocBuoiChieu" runat="server">
-                                    <ItemTemplate>
-                                        <tr class='<%#((Container.ItemIndex + 1) % 2 != 0) ? "innerOddRow" : "innerEvenRow"%>'>
-                                            <td style="height: 40px; width: 40%; border-style: none; border-bottom-style: solid;
-                                                border-right-style: solid; padding: 0px 5px 0px 5px">
-                                                <%#DataBinder.Eval(Container.DataItem, "StringDetailTeachingPeriod")%>
-                                            </td>
-                                            <td style="height: 40px; border-style: none; border-bottom-style: solid; padding: 0px 5px 0px 5px">
-                                                <b>
-                                                    <%#DataBinder.Eval(Container.DataItem, "SubjectName")%></b>
-                                                <br />
-                                                (<%#DataBinder.Eval(Container.DataItem, "TeacherName")%>)
-                                            </td>
+                                            <asp:Repeater ID="RptTeachingPeriodSchedule" runat="server">
+                                                <ItemTemplate>
+                                                    <td style="width: 100px; padding: 0px 5px 0px 5px">
+                                                        <%#DataBinder.Eval(Container.DataItem, "SubjectName")%>
+                                                    </td>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
                                         </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
@@ -165,13 +151,24 @@
                         </td>
                     </tr>
                 </ItemTemplate>
-                <FooterTemplate>
-                    <tr>
-                        <td colspan="7" class="footer ui-corner-bl ui-corner-br">
-                        </td>
-                    </tr>
-                </FooterTemplate>
             </asp:Repeater>
         </table>
+    </div>
+    <div style="padding: 5px 0px 0px 30px">
+        <ul>
+            <asp:Repeater ID="RptTeachingPeriod" runat="server">
+                <HeaderTemplate>
+                    <span style="text-decoration: underline; font-weight: bold">Chú thích: </span>
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <li style="padding: 5px; margin: 0px 0px 10px 0px"><span>
+                        <%#DataBinder.Eval(Container.DataItem, "TeachingPeriodName")%>:
+                        <%#DataBinder.Eval(Container.DataItem, "StringBeginTime")%>
+                        -
+                        <%#DataBinder.Eval(Container.DataItem, "StringEndTime")%>
+                        (<%#DataBinder.Eval(Container.DataItem, "SessionName")%>) </span></li>
+                </ItemTemplate>
+            </asp:Repeater>
+        </ul>
     </div>
 </asp:Content>

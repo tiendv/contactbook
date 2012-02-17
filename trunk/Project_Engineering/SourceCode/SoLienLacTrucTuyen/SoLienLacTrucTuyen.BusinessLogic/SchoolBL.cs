@@ -33,11 +33,30 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return schoolDA.GetLastedInsertedSchool();
         }
 
+        public void UpdateSchool(School_School school, Configuration_District district, string schoolName, string address, string phone,
+            string email, string password, byte[] logo)
+        {
+            schoolDA.UpdateSchool(school, district, schoolName, address, phone, email, password, logo);
+        }
+
         public void DeleteSchool(List<School_School> schools)
         {
-            foreach (School_School school in schools)
+            AuthorizationBL authorizationBL = null;
+            RoleBL roleBL = null;
+            UserBL userBL = null;
+
+            foreach (School_School s in schools)
             {
-                schoolDA.DeleteSchool(school);
+                authorizationBL = new AuthorizationBL(s);
+                authorizationBL.DeleteAuthorization(s);
+
+                roleBL = new RoleBL(s);
+                roleBL.DeleteRole(s);
+
+                userBL = new UserBL(s);
+                userBL.DeleteUser(s);
+
+                schoolDA.DeleteSchool(s);
             }
         }
 
@@ -118,7 +137,8 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularSchool.Address = school.Address;
                 tabularSchool.Phone = school.Phone;
                 tabularSchool.Email = school.Email;
-                tabularSchool.Status = (school.Status == true) ? "Đang sử dụng" : "Chưa sử dụng";
+                tabularSchool.Status = school.Status;
+                tabularSchool.StringStatus = (school.Status == true) ? "Đang sử dụng" : "Chưa sử dụng";
                 tabularSchool.DistrictName = school.Configuration_District.DistrictName;
                 tabularSchool.ProvinceName = school.Configuration_District.Configuration_Province.ProvinceName;
                 tabularSchools.Add(tabularSchool);
@@ -149,9 +169,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
         }
 
-        private bool CheckStatus(School_School school)
+        public void Activate(School_School school)
         {
-            return schoolDA.CheckStatus(school);
+            schoolDA.Activate(school);
         }
     }
 }

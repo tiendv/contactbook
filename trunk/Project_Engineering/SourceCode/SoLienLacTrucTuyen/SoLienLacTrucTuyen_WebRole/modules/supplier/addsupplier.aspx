@@ -24,13 +24,15 @@
             <td rowspan="3" style="width: 150px; height: 27px; padding: 0px 10px 0px 10px;">
                 <asp:Image ID="ImgLogo" runat="server" Width="100px" Height="100px" ImageUrl="~/Styles/Images/noImageAvailable.jpg" />
                 <br />
-                <asp:FileUpload ID="FileUploadLogo" runat="server" />
+                <asp:FileUpload ID="FileUploadLogo" runat="server" Height="23px"/>
                 <asp:RegularExpressionValidator ID="FileUpLoadValidator" runat="server" ErrorMessage="Định dạng file không hợp lệ"
                     ForeColor="Red" ValidationExpression="[a-zA-Z0_9].*\b(.jpeg|.JPEG|.jpg|.JPG|.jpe|.JPE|.png|.PNG|.tiff|.TIFF|.gif|.GIF)\b"
                     ControlToValidate="FileUploadLogo" ValidationGroup="AddSchool">
                 </asp:RegularExpressionValidator>
+                <asp:ImageButton ID="BtnUpload" runat="server" ImageUrl="~/Styles/buttons/button_upload.png"
+                    OnClick="BtnUpload_Click" CssClass="UploadButton" ValidationGroup="AddSchool" />
             </td>
-        </tr>        
+        </tr>
         <tr>
             <td style="height: 27px; padding-left: 10px">
                 Tỉnh/Thành:
@@ -80,8 +82,7 @@
                     ValidationGroup="AddSchool" ErrorMessage="Email không được để trống" Display="Dynamic"
                     ForeColor="Red" />
                 <asp:CustomValidator ID="EmailCustomValidator" runat="server" ErrorMessage="Email không tồn tại"
-                    ValidationGroup="AddSchool" Display="Dynamic" ControlToValidate="TxtEmail"
-                    ForeColor="Red">
+                    ValidationGroup="AddSchool" Display="Dynamic" ControlToValidate="TxtEmail" ForeColor="Red">
                 </asp:CustomValidator>
             </td>
         </tr>

@@ -51,7 +51,11 @@ namespace SoLienLacTrucTuyen_WebRole
                     lblUserName.Text = string.Format("Xin chào {0}!", Page.User.Identity.Name.Split(AppConstant.UNDERSCORE_CHAR)[1]);
                     if(Session[AppConstant.SCHOOL] != null)
                     {
-                        LblSchoolName.Text = ((School_School)Session[AppConstant.SCHOOL]).SchoolName;
+                        School_School school = (School_School)Session[AppConstant.SCHOOL];
+                        if (school.SchoolId != 0)
+                        {
+                            LblSchoolName.Text = school.SchoolName;
+                        }
                     }
                 }
                 catch (Exception ex) { }

@@ -132,11 +132,17 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strBirthPlace = this.TxtNoiSinh.Text.Trim();
             string strPhone = this.TxtDienThoai.Text.Trim();
 
+            byte[] bPhoto = null;
+            if (CheckSessionKey("Photo"))
+            {
+                bPhoto = (byte[])GetSession("Photo");
+            }
+
             Class = new Class_Class();
             Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
             studentBL.InsertStudent(Class, strStudentCode, strStudentName,
-                bGender, dtDateOfBirth, strBirthPlace, strAddress, strPhone,
+                bGender, dtDateOfBirth, strBirthPlace, strAddress, strPhone, bPhoto,
                 strFatherName, strFatherJob, dtFatherDateOfBirth,
                 strMotherName, strMotherJob, dtMotherDateOfBirth,
                 strPatron, strPatronJob, dtPatronDateOfBirth);
@@ -166,33 +172,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Response.Redirect(AppConstant.PAGEPATH_STUDENT_LIST);
         }
 
-        protected void BtnDuyetHinhAnh_Click(object sender, ImageClickEventArgs e)
+        protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
-            //if (FileUploadControl.HasFile)
-            //{
-            //    try
-            //    {
-            //        if (FileUploadControl.PostedFile.ContentType == "image/jpeg")
-            //        {
-            //            if (FileUploadControl.PostedFile.ContentLength < 102400)
-            //            {
-            //                string filename = Path.GetFileName(FileUploadControl.FileName);
-            //            }
-            //            else
-            //            {
-            //                //StatusLabel.Text = "Upload status: The file has to be less than 100 kb!";
-            //            }
-            //        }
-            //        else
-            //        {
-            //            //StatusLabel.Text = "Upload status: Only JPEG files are accepted!";
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        //StatusLabel.Text = "Upload status: The file could not be uploaded. The following error occured: " + ex.Message;
-            //    }
-            //}
+            if (FileUploadLogo.PostedFile != null)
+            {
+                //To create a PostedFile
+                HttpPostedFile file = FileUploadLogo.PostedFile;
+
+                //Create byte Array with file len
+                byte[] data = new Byte[file.ContentLength];
+
+                //force the control to load data in array
+                file.InputStream.Read(data, 0, file.ContentLength);
+
+                AddSession("Photo", data);
+
+                string filename = Path.GetFileName(FileUploadLogo.FileName);
+                FileUploadLogo.SaveAs(Server.MapPath("~/upload/temp/") + filename);
+                filename = "/upload/temp/" + filename;
+                ImgHinhAnh.ImageUrl = filename;
+            }
         }
         #endregion
 

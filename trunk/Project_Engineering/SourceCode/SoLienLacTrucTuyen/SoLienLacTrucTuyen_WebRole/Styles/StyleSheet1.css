@@ -448,3 +448,17 @@ table.search
     color: #FF6600;
     font-weight: bold;
 }
+
+#loading {  
+  width: 200px;  
+  height: 90px;  
+  background-color: #ff9900;  
+  position: absolute;  
+  left: 50%;  
+  top: 110;  
+  margin-left: -100px;  
+  text-align: center;  
+ color: #ffffff;  
+ font-weight: bold;  
+ border: 2px solid #333333;  
+} 

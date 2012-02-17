@@ -215,7 +215,7 @@ namespace EContactBook.DataAccess
             }
 
             return users;
-        }        
+        }
 
         public void ChangeUserActivation(List<aspnet_User> users, bool activateStatus)
         {
@@ -235,10 +235,52 @@ namespace EContactBook.DataAccess
                 foreach (aspnet_Membership membership in iqMembership)
                 {
                     membership.IsActivated = activateStatus;
-                }                
-                
+                }
+
                 db.SubmitChanges();
             }
-        }        
+        }
+
+        public void DeleteUser(School_School school)
+        {
+            IQueryable<aspnet_Membership> queryMembership = from m in db.aspnet_Memberships
+                                                            where m.SchoolId == school.SchoolId
+                                                            select m;
+
+            if (queryMembership.Count() != 0)
+            {
+                db.aspnet_Memberships.DeleteAllOnSubmit(queryMembership);
+                db.SubmitChanges();
+            }
+
+            string strSchoolId = school.SchoolId.ToString() + "_";
+            IQueryable<aspnet_User> queryUser = from user in db.aspnet_Users
+                                                where user.UserName.Contains(strSchoolId)
+                                                select user;
+
+            if (queryUser.Count() != 0)
+            {
+                db.aspnet_Users.DeleteAllOnSubmit(queryUser);
+                db.SubmitChanges();
+            }
+        }
+
+        public bool DuplicateTeacherEmailExist(string email)
+        {
+            IQueryable<aspnet_Membership> queryMembership = from membership in db.aspnet_Memberships
+                                                            where membership.Email == email
+                                                            && membership.IsTeacher == true
+                                                            && membership.SchoolId == school.SchoolId
+                                                            select membership;
+
+            if (queryMembership.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

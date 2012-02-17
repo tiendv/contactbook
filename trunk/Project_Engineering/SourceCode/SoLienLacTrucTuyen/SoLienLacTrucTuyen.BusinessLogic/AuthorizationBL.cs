@@ -346,5 +346,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             bool bIsActivated = true;
             return authorizationDA.GetAuthorizations(role, bIsActivated);
         }
+
+        internal void DeleteAuthorization(School_School school)
+        {
+            authorizationDA.DeleteAuthorization(school);
+        }
     }
 }

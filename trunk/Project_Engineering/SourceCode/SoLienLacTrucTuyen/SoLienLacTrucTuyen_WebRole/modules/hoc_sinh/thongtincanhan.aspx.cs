@@ -10,6 +10,7 @@ using EContactBook.BusinessEntity;
 using AjaxControlToolkit;
 using System.Web.UI.HtmlControls;
 using System.Web.Security;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -132,30 +133,95 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 + "/" + student.StudentBirthday.Year.ToString();
             this.LblNoiSinh.Text = student.Birthplace;
             this.LblDiaChi.Text = student.Address;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("~/modules/hoc_sinh/StudentPhotoLoadingHandler.ashx");
+            stringBuilder.Append("?id=");
+            stringBuilder.Append(student.StudentId);
+            ImgPhoto.ImageUrl = stringBuilder.ToString();
             this.LblDienThoai.Text = student.ContactPhone;
-            this.LblHoTenBo.Text = student.FatherName;
+
+            if(CheckUntils.IsNullOrBlank(student.FatherName) == false)
+            {
+                this.LblHoTenBo.Text = student.FatherName;
+            }
+            else
+            {
+                this.LblHoTenBo.Text = AppConstant.STRING_UNDEFINED;
+            }
+
             if (student.FatherBirthday != null)
             {
-                DateTime ngaySinhBo = (DateTime)student.FatherBirthday;
-                this.LblNgaySinhBo.Text = ngaySinhBo.Day.ToString() + "/" + ngaySinhBo.Month.ToString()
-                    + "/" + ngaySinhBo.Year.ToString();
+                this.LblNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
             }
-            this.LblNgheNghiepBo.Text = student.FatherJob;
-            this.LblHoTenMe.Text = student.MotherName;
+            else
+            {
+                this.LblNgaySinhBo.Text = AppConstant.STRING_UNDEFINED;
+            }
+
+            if (CheckUntils.IsNullOrBlank(student.FatherJob) == false)
+            {
+                this.LblNgheNghiepBo.Text = student.FatherJob;
+            }
+            else
+            {
+                this.LblNgheNghiepBo.Text = AppConstant.STRING_UNDEFINED;
+            }
+
+            if (CheckUntils.IsNullOrBlank(student.MotherName) == false)
+            {
+                this.LblHoTenMe.Text = student.MotherName;
+            }
+            else
+            {
+                this.LblHoTenMe.Text = AppConstant.STRING_UNDEFINED;
+            }
+
             if (student.MotherBirthday != null)
             {
-                DateTime ngaySinhMe = (DateTime)student.MotherBirthday;
-                this.LblNgaySinhMe.Text = ngaySinhMe.Day.ToString() + "/" + ngaySinhMe.Month.ToString()
-                    + "/" + ngaySinhMe.Year.ToString();
+                this.LblNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
             }
-            this.LblNgheNghiepMe.Text = student.MotherJob;
+            else
+            {
+                this.LblNgaySinhMe.Text = AppConstant.STRING_UNDEFINED;
+            }
+
+            if (CheckUntils.IsNullOrBlank(student.MotherJob) == false)
+            {
+                this.LblNgheNghiepMe.Text = student.MotherJob;
+            }
+            else
+            {
+                this.LblNgheNghiepMe.Text = AppConstant.STRING_UNDEFINED;
+            }
+
             if (student.PatronBirthday != null)
             {
                 DateTime ngaySinhNguoiDoDau = (DateTime)student.PatronBirthday;
                 this.LblNgaySinhNguoiDoDau.Text = ngaySinhNguoiDoDau.Day.ToString() + "/" + ngaySinhNguoiDoDau.Month.ToString()
                     + "/" + ngaySinhNguoiDoDau.Year.ToString();
             }
-            this.LblNgheNghiepNguoiDoDau.Text = student.PatronJob;
+            else
+            {
+                this.LblNgaySinhNguoiDoDau.Text = AppConstant.STRING_UNDEFINED;
+            }
+
+            if (CheckUntils.IsNullOrBlank(student.PatronJob) == false)
+            {
+                this.LblNgheNghiepNguoiDoDau.Text = student.PatronJob;
+            }
+            else
+            {
+                this.LblNgheNghiepNguoiDoDau.Text =  AppConstant.STRING_UNDEFINED;
+            }
+
+            if (CheckUntils.IsNullOrBlank(student.PatronName) == false)
+            {
+                LblHoTenNguoiDoDau.Text = student.PatronName;
+            }
+            else
+            {
+                LblHoTenNguoiDoDau.Text = AppConstant.STRING_UNDEFINED;
+            }
 
             FillLopHoc();
         }

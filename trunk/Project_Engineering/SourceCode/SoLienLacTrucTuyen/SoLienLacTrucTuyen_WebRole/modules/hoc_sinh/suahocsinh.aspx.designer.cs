@@ -121,31 +121,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::System.Web.UI.WebControls.CustomValidator MaHocSinhValidator;
         
         /// <summary>
-        /// ImgHinhAnh control.
+        /// ImgPhoto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgHinhAnh;
+        protected global::System.Web.UI.WebControls.Image ImgPhoto;
         
         /// <summary>
-        /// BtnDuyetHinhAnh control.
+        /// FileUploadLogo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnDuyetHinhAnh;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadLogo;
         
         /// <summary>
-        /// AsyncFileUpload1 control.
+        /// FileUpLoadValidator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.AsyncFileUpload AsyncFileUpload1;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator FileUpLoadValidator;
+        
+        /// <summary>
+        /// BtnUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnUpload;
         
         /// <summary>
         /// Label28 control.
@@ -245,6 +254,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator NgaySinhHocSinhRequired;
+        
+        /// <summary>
+        /// StudentDateOfBirthCustomValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator StudentDateOfBirthCustomValidator;
         
         /// <summary>
         /// TxtNoiSinh control.
@@ -373,6 +391,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::AjaxControlToolkit.CalendarExtender CalendarExtender2;
         
         /// <summary>
+        /// FatherDateOfBirthCustomValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator FatherDateOfBirthCustomValidator;
+        
+        /// <summary>
         /// TxtNgheNghiepBo control.
         /// </summary>
         /// <remarks>
@@ -416,6 +443,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.CalendarExtender CalendarExtender3;
+        
+        /// <summary>
+        /// MotherDateOfBirthCustomValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator MotherDateOfBirthCustomValidator;
         
         /// <summary>
         /// TxtNgheNghiepMe control.
@@ -470,6 +506,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender4;
+        
+        /// <summary>
+        /// PatronDateOfBirthCustomValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator PatronDateOfBirthCustomValidator;
         
         /// <summary>
         /// TxtNgheNghiepNguoiDoDau control.
