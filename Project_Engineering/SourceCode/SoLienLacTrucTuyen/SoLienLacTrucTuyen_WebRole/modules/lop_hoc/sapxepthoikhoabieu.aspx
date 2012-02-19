@@ -86,7 +86,8 @@
                                                 </td>
                                                 <td id="tdEdit" runat="server" class="icon" style="height: 40px;">
                                                     <asp:ImageButton ID="BtnEditItem" runat="server" ImageUrl="~/Styles/buttons/icon_edit.png"
-                                                        CommandName="CmdEditItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "ScheduleId")%>' />
+                                                        CommandName="CmdEditItem" CommandArgument='<%#string.Format("{0}:{1}", DataBinder.Eval(Container.DataItem, "ScheduleId"), DataBinder.Eval(Container.DataItem, "TempScheduleId"))%>' />
+                                                        
                                                 </td>
                                                 <td id="tdDelete" runat="server" class="icon" style="height: 40px;">
                                                     <asp:ImageButton ID="BtnFakeDeleteItem" runat="server" Style="display: none;" />

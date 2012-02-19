@@ -87,13 +87,18 @@ namespace EContactBook.DataAccess
             }
         }
 
+        /// <summary>
+        /// Get list of function flag that role be offered
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public List<string> GetFunctionFlags(aspnet_Role role)
         {
-            IQueryable<string> iqFunctionFlag = from rl in db.aspnet_Roles
-                                                where rl.RoleId == role.RoleId
-                                                select rl.UserManagement_RoleDetail.UserManagement_RoleCategory.FunctionFlag;
+            IQueryable<string> queryFunctionFlag = from r in db.aspnet_Roles
+                                                   where r.RoleId == role.RoleId
+                                                   select r.UserManagement_RoleDetail.UserManagement_RoleCategory.FunctionFlag;
 
-            List<string> functionFlags = iqFunctionFlag.First().Split(',').ToList();
+            List<string> functionFlags = queryFunctionFlag.First().Split(new char[]{',', ' '}).ToList();
             return functionFlags;
         }
 

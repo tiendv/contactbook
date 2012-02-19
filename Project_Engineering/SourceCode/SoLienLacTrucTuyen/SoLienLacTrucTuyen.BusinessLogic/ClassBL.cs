@@ -167,47 +167,59 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         //    return lClasses;
         //}
 
-        public List<Class_Class> GetClasses(aspnet_User user, bool isFormerTeacher, bool isSubjectTecher, Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
-            Configuration_Term term)
+        public List<Class_Class> GetClasses(aspnet_User user, bool isFormerTeacher, bool isSubjectTecher,
+            Configuration_Year year, Category_Faculty faculty, Category_Grade grade, Configuration_Term term)
         {
             TeacherBL teacherBL = new TeacherBL(school);
-
             List<Class_Class> classes = new List<Class_Class>();
+
+            if (term == null)
+            {
+                term = (new SystemConfigBL(school)).GetCurrentTerm();
+            }
 
             if (faculty == null) // faculty = "All"
             {
                 if (grade == null) // grade = "All"
                 {
-                    if (isFormerTeacher)
-                    {
-                        // Get list of class that teacher formering in specified year
-                        classes = classDA.GetClasses(user, year);
-                    }
-                    else if (isSubjectTecher)
-                    {
-                        classes = teacherBL.GetTaughtClasses(user, year, term);
-                    }
-                    else
+                    if (isFormerTeacher == false && isSubjectTecher == false)
                     {
                         // Get list of class in specified year
                         classes = classDA.GetClasses(year);
                     }
+                    else
+                    {
+                        if (isFormerTeacher)
+                        {
+                            // Get list of class that teacher formering in specified year
+                            classes = classDA.GetClasses(user, year);
+                        }
+
+                        if (isSubjectTecher)
+                        {
+                            classes.AddRange(teacherBL.GetTaughtClasses(user, year, term));
+                        }
+                    }
                 }
                 else
                 {
-                    if (isFormerTeacher)
-                    {
-                        // Get list of class that teacher formering in specified year and grade
-                        classes = classDA.GetClasses(user, year, grade);
-                    }
-                    else if (isSubjectTecher)
-                    {
-                        classes = teacherBL.GetTaughtClasses(user, year, term, grade);
-                    }
-                    else
+                    if (isFormerTeacher == false && isSubjectTecher == false)
                     {
                         // Get list of class in specified year and grade
                         classes = classDA.GetClasses(year, grade);
+                    }
+                    else
+                    {
+                        if (isFormerTeacher)
+                        {
+                            // Get list of class that teacher formering in specified year and grade
+                            classes = classDA.GetClasses(user, year, grade);
+                        }
+
+                        if (isSubjectTecher)
+                        {
+                            classes.AddRange(teacherBL.GetTaughtClasses(user, year, term, grade));
+                        }
                     }
                 }
             }
@@ -215,39 +227,49 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 if (grade == null) // grade = "All"
                 {
-                    if (isFormerTeacher)
-                    {
-                        // Get list of class that teacher formering in specified year and faculty
-                        classes = classDA.GetClasses(user, year, faculty);
-                    }
-                    else if (isSubjectTecher)
-                    {
-                        classes = teacherBL.GetTaughtClasses(user, year, term, faculty);
-                    }
-                    else
+                    if (isFormerTeacher == false && isSubjectTecher == false)
                     {
                         // Get list of class in specified year and faculty
                         classes = classDA.GetClasses(year, faculty);
                     }
+                    else
+                    {
+                        if (isFormerTeacher)
+                        {
+                            // Get list of class that teacher formering in specified year and faculty
+                            classes = classDA.GetClasses(user, year, faculty);
+                        }
+
+                        if (isSubjectTecher)
+                        {
+                            classes.AddRange(teacherBL.GetTaughtClasses(user, year, term, faculty));
+                        }
+                    }
                 }
                 else
                 {
-                    if (isFormerTeacher)
-                    {
-                        // Get list of class that teacher formering in specified year, grade and faculty
-                        classes = classDA.GetClasses(user, year, faculty, grade);
-                    }
-                    else if (isSubjectTecher)
-                    {
-                        classes = teacherBL.GetTaughtClasses(user, year, term, faculty, grade);
-                    }
-                    else
+                    if (isFormerTeacher == false && isSubjectTecher == false)
                     {
                         // Get list of class in specified year, grade and faculty
                         classes = classDA.GetClasses(year, faculty, grade);
                     }
+                    else
+                    {
+                        if (isFormerTeacher)
+                        {
+                            // Get list of class that teacher formering in specified year, grade and faculty
+                            classes = classDA.GetClasses(user, year, faculty, grade);
+                        }
+
+                        if (isSubjectTecher)
+                        {
+                            classes.AddRange(teacherBL.GetTaughtClasses(user, year, term, faculty, grade));
+                        }
+                    }
                 }
             }
+
+            classes = classes.GroupBy(c => c.ClassId).Select(g => g.First()).ToList();
 
             // return result
             return classes;

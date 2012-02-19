@@ -187,8 +187,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DateTime dtNewPatronBirthday;
             DateTime.TryParse(this.TxtNgaySinhNguoiDoDau.Text.Trim(), out dtNewPatronBirthday);
 
-
-
             editedStudent = new Student_Student();
             editedStudent.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
             newClass = new Class_Class();
@@ -392,6 +390,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
         }
+
         private void BackToPreviousPage()
         {
             Configuration_Year year = new Configuration_Year();

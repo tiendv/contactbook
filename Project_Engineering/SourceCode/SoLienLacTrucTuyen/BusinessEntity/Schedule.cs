@@ -34,6 +34,8 @@ namespace EContactBook.BusinessEntity
 
         public int ScheduleId { get; set; }
 
+        public string TempScheduleId { get; set; }
+
         // subject
         public int OrginalSubjectId { get; set; }
         public int SubjectId { get; set; }

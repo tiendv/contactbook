@@ -10,7 +10,7 @@
             });
         </script>
     </div>
-    <div style="width: 600px; padding: 10px;" class="loginBox ui-corner-all">
+    <div style="width: 700px; padding: 10px;" class="loginBox ui-corner-all">
         <table style="width: 400px; float: left">
             <tr>
                 <td style="width: 90px; height: 27px;">
@@ -48,8 +48,8 @@
                         ValidationGroup="EditGiaoVien" ErrorMessage="Ngày sinh không được để trống" Display="Dynamic"
                         ForeColor="Red"></asp:RequiredFieldValidator>
                     <asp:CustomValidator ID="DateOfBirthCustomValidator" runat="server" ControlToValidate="TxtNgaySinh"
-                        ValidationGroup="EditGiaoVien" ErrorMessage="Ngày sinh không hợp lệ" Display="Dynamic" ForeColor="Red"
-                        OnServerValidate="DateOfBirthCustomValidator_ServerValidate">
+                        ValidationGroup="EditGiaoVien" ErrorMessage="Ngày sinh không hợp lệ" Display="Dynamic"
+                        ForeColor="Red" OnServerValidate="DateOfBirthCustomValidator_ServerValidate">
                     </asp:CustomValidator>
                 </td>
             </tr>
@@ -89,10 +89,20 @@
                 </td>
             </tr>
         </table>
-        <div style="width: 100px; text-align: center; vertical-align: top; float: right">
-            <asp:Image ID="ImgHinhAnh" runat="server" Width="90px" Height="120px" ImageUrl="~/Styles/Images/avatar.png"
-                AlternateText="Hình ảnh" BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
-            <asp:ImageButton ID="BtnDuyetAnhSua" runat="server" Style="padding-top: 5px" ImageUrl="~/Styles/buttons/button_browse.png" />
+        <div style="width: 300px; text-align: center; vertical-align: top; float: right">
+            <asp:Image ID="ImgPhoto" runat="server" Width="90px" Height="120px" AlternateText="Hình ảnh giáo viên"
+                BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
+            <br />
+            <br />
+            <asp:FileUpload ID="FileUploadLogo" runat="server" Height="23px" />
+            <asp:RegularExpressionValidator ID="FileUpLoadValidator" runat="server" ErrorMessage="Định dạng file không hợp lệ"
+                ForeColor="Red" ValidationExpression="[a-zA-Z0_9].*\b(.jpeg|.JPEG|.jpg|.JPG|.jpe|.JPE|.png|.PNG|.tiff|.TIFF|.gif|.GIF)\b"
+                ControlToValidate="FileUploadLogo" ValidationGroup="EditGiaoVien" Display="Dynamic">
+            </asp:RegularExpressionValidator>
+            <br />
+            <br />
+            <asp:ImageButton ID="BtnUpload" runat="server" ImageUrl="~/Styles/buttons/button_upload.png"
+                OnClick="BtnUpload_Click" CssClass="UploadButton" ValidationGroup="EditGiaoVien" />
         </div>
         <div style="clear: both">
         </div>

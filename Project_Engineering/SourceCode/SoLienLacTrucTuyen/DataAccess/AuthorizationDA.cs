@@ -200,29 +200,36 @@ namespace EContactBook.DataAccess
             }
         }
 
+        /// <summary>
+        /// Get list of TabularAuthorization of role
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public List<TabularAuthorization> GetTabularAuthorizations(aspnet_Role role)
         {
             List<TabularAuthorization> tabularAuthorizations = new List<TabularAuthorization>();
-            TabularAuthorization tabularAuthorization = null;
+            TabularAuthorization tabularAuthorization = null; // use in loop
             FunctionsDA functionDA = new FunctionsDA();
+
             List<string> functionFlags = functionDA.GetFunctionFlags(role);
 
             // Get list of Function Category
-            IQueryable<string> functionCatagories = from function in db.UserManagement_Functions
-                                                    where (functionFlags.Contains(function.FunctionFlag) == true)
-                                                    group function by function.FunctionCategory into g
-                                                    select g.Key;
+            IQueryable<string> queryRoleBasedFunctionCatagory = from f in db.UserManagement_Functions
+                                                                where (functionFlags.Contains(f.FunctionFlag) == true)
+                                                                group f by f.FunctionCategory into g
+                                                                select g.Key;
 
             // Loop through function categories
-            foreach (string functionCatagory in functionCatagories)
+            foreach (string functionCatagory in queryRoleBasedFunctionCatagory)
             {
                 tabularAuthorization = new TabularAuthorization();
 
                 // Get list of function-category-based function
                 IQueryable<UserManagement_Function> iqCategoryBasedFunctions;
-                iqCategoryBasedFunctions = from function in db.UserManagement_Functions
-                                           where function.FunctionCategory == functionCatagory && (functionFlags.Contains(function.FunctionFlag) == true)
-                                           select function;
+                iqCategoryBasedFunctions = from f in db.UserManagement_Functions
+                                           where f.FunctionCategory == functionCatagory 
+                                           && (functionFlags.Contains(f.FunctionFlag) == true)
+                                           select f;
 
                 List<TabularDetailedAuthorization> tabularDetailedAuthorizations = new List<TabularDetailedAuthorization>();
 

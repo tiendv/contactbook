@@ -102,9 +102,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularSubjectTermResult> GetTabularSubjectTermResults(Student_Student student, Configuration_Year year, Configuration_Term term, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
             List<TabularSubjectTermResult> tabularSubjectTermResults = new List<TabularSubjectTermResult>();
-            TabularSubjectTermResult tabularSubjectTermResult = null;
+            TabularSubjectTermResult tabularSubjectTermResult = null; // Use for looping
             List<Category_Subject> scheduledSubjects = studyingResultDA.GetScheduledSubjects(student, year, term);
             Student_TermSubjectMark termSubjectedMark;
+
             foreach (Category_Subject scheduledSubject in scheduledSubjects)
             {
                 termSubjectedMark = studyingResultDA.GetTermSubjectedMark(student, year, term, scheduledSubject);
@@ -133,11 +134,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularSubjectTermResults;
         }
 
-        public List<StrDiemMonHocLoaiDiem> GetSubjectMarks(Student_TermSubjectMark termSubjectedMark)
+        public List<StrDiemMonHocLoaiDiem> GetApprovedSubjectMarks(Student_TermSubjectMark termSubjectedMark)
         {
-            List<StrDiemMonHocLoaiDiem> lstStringDiemMonHoc = new List<StrDiemMonHocLoaiDiem>();
+            List<StrDiemMonHocLoaiDiem> stringDiemMonHocs = new List<StrDiemMonHocLoaiDiem>();
 
-            List<List<double>> lstDiemMonHoc = GetDoubleSubjectMarks(termSubjectedMark);
+            List<List<double>> lstDiemMonHoc = GetApprovedDoubleSubjectMarks(termSubjectedMark);
             foreach (List<double> lstChiTietDiemMonHoc in lstDiemMonHoc)
             {
                 StrDiemMonHocLoaiDiem strDiemMonHocLoaiDiem = new StrDiemMonHocLoaiDiem();
@@ -148,9 +149,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
                 strDiemMonHocLoaiDiem.Diems = strDiemMonHocLoaiDiem.Diems.Trim();
                 strDiemMonHocLoaiDiem.Diems = strDiemMonHocLoaiDiem.Diems.TrimEnd(',');
-                lstStringDiemMonHoc.Add(strDiemMonHocLoaiDiem);
+                stringDiemMonHocs.Add(strDiemMonHocLoaiDiem);
             }
-            return lstStringDiemMonHoc;
+            return stringDiemMonHocs;
         }
 
         public List<TabularTermStudentResult> GetTabularTermStudentResults(Student_Student student, Configuration_Year year,
@@ -506,7 +507,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     List<double> dMarks = new List<double>();
                     if (approvedStatus == null)
                     {
-                        detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType);
+                        detailedMarks = studyingResultDA.GetDetailedMarksWithAllStatuses(termSubjectMark, markType);
                     }
                     else
                     {
@@ -568,7 +569,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     List<double> dMarks = new List<double>();
                     if (approvedStatus == null)
                     {
-                        detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType, month);
+                        detailedMarks = studyingResultDA.GetDetailedMarksWithAllStatuses(termSubjectMark, markType, month);
                     }
                     else
                     {
@@ -600,43 +601,54 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularStudentMarks;
         }
 
-        public List<ConsideredStudentMark> GetConsideredStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, Category_MarkType markType, bool? approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<ConsideredStudentMark> GetConsideredStudentMarks(Class_Class Class, List<Category_Subject> subjects, Configuration_Term term, Category_MarkType markType, bool? approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<ConsideredStudentMark> consideredStudentMarks = new List<ConsideredStudentMark>(); // returned list
             ConsideredStudentMark consideredStudentMark = null;
-            List<MarkTypedMark> markMypedMarks = null;
-            List<Student_DetailedTermSubjectMark> detailedMarks = null;
+            List<Student_DetailedTermSubjectMark> detailedMarks = new List<Student_DetailedTermSubjectMark>();
             StringBuilder strB = new StringBuilder();
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
 
             consideredStudentMark = new ConsideredStudentMark();
 
-            markMypedMarks = new List<MarkTypedMark>();
-            if (approvedStatus == null)
+            foreach (Category_Subject subject in subjects)
             {
-                if (markType == null)
+                if (approvedStatus == null)
                 {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, pageCurrentIndex, pageSize, out totalRecord);
+                    if (markType == null)
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject));
+                    }
+                    else
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, markType));
+                    }
                 }
                 else
                 {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, markType, pageCurrentIndex, pageSize, out totalRecord);
+                    if (markType == null)
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, (bool)approvedStatus));
+                    }
+                    else
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, markType, (bool)approvedStatus));
+                    }
                 }
-            }
-            else
-            {
-                if (markType == null)
-                {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, (bool)approvedStatus, pageCurrentIndex, pageSize, out totalRecord);
-                }
-                else
-                {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, markType, (bool)approvedStatus, pageCurrentIndex, pageSize, out totalRecord);
-                }                
             }
 
+            totalRecord = detailedMarks.Count;
             if (detailedMarks.Count != 0)
             {
+                totalRecord = detailedMarks.Count();
+                if (totalRecord != 0)
+                {
+                    detailedMarks = detailedMarks.OrderBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode)
+                       .ThenBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName)
+                       .ThenBy(detail => detail.Category_MarkType.MarkTypeId).ThenByDescending(detail => detail.Date)
+                       .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                }
+
                 consideredStudentMark = new ConsideredStudentMark();
                 consideredStudentMark.Approved = detailedMarks[0].Approved;
                 consideredStudentMark.Date = detailedMarks[0].Date;
@@ -647,6 +659,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 consideredStudentMark.StudentCode = detailedMarks[0].Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
                 consideredStudentMark.StudentName = detailedMarks[0].Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName;
                 consideredStudentMark.Note = detailedMarks[0].Note;
+                consideredStudentMark.SubjectName = detailedMarks[0].Student_TermSubjectMark.Category_Subject.SubjectName;
                 consideredStudentMarks.Add(consideredStudentMark);
             }
 
@@ -661,15 +674,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 consideredStudentMark.MarkValue = detailedMarks[i].MarkValue;
                 consideredStudentMark.StudentCode = detailedMarks[i].Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
                 consideredStudentMark.StudentName = detailedMarks[i].Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName;
-                if (consideredStudentMark.StudentCode == consideredStudentMarks[i - 1].StudentCode)
-                {
-                    consideredStudentMark.StudentCode = "";
-                }
+                consideredStudentMark.SubjectName = detailedMarks[i].Student_TermSubjectMark.Category_Subject.SubjectName;
+                //if (consideredStudentMark.StudentCode == consideredStudentMarks[i - 1].StudentCode)
+                //{
+                //    consideredStudentMark.StudentCode = "";
+                //}
 
-                if (consideredStudentMark.StudentName == consideredStudentMarks[i - 1].StudentName)
-                {
-                    consideredStudentMark.StudentName = "";
-                }
+                //if (consideredStudentMark.StudentName == consideredStudentMarks[i - 1].StudentName)
+                //{
+                //    consideredStudentMark.StudentName = "";
+                //}
                 consideredStudentMark.Note = detailedMarks[i].Note;
                 consideredStudentMarks.Add(consideredStudentMark);
             }
@@ -677,43 +691,52 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return consideredStudentMarks;
         }
 
-        public List<ConsideredStudentMark> GetConsideredStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, int month, Category_MarkType markType, bool? approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<ConsideredStudentMark> GetConsideredStudentMarks(Class_Class Class, List<Category_Subject> subjects, Configuration_Term term, int month, Category_MarkType markType, bool? approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<ConsideredStudentMark> consideredStudentMarks = new List<ConsideredStudentMark>(); // returned list
             ConsideredStudentMark consideredStudentMark = null;
-            List<MarkTypedMark> markMypedMarks = null;
-            List<Student_DetailedTermSubjectMark> detailedMarks = null;
+            List<Student_DetailedTermSubjectMark> detailedMarks = new List<Student_DetailedTermSubjectMark>();
             StringBuilder strB = new StringBuilder();
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
 
-            consideredStudentMark = new ConsideredStudentMark();
-
-            markMypedMarks = new List<MarkTypedMark>();
-            if (approvedStatus == null)
+            foreach (Category_Subject subject in subjects)
             {
-                if (markType == null)
+                if (approvedStatus == null)
                 {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, month, pageCurrentIndex, pageSize, out totalRecord);
+                    if (markType == null)
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, month));
+                    }
+                    else
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, markType, month));
+                    }
                 }
                 else
                 {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, markType, month, pageCurrentIndex, pageSize, out totalRecord);
-                }
-            }
-            else
-            {
-                if (markType == null)
-                {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, month, (bool)approvedStatus, pageCurrentIndex, pageSize, out totalRecord);
-                }
-                else
-                {
-                    detailedMarks = studyingResultDA.GetDetailedMarks(Class, term, subject, markType, month, (bool)approvedStatus, pageCurrentIndex, pageSize, out totalRecord);
+                    if (markType == null)
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, month, (bool)approvedStatus));
+                    }
+                    else
+                    {
+                        detailedMarks.AddRange(studyingResultDA.GetConsideredDetailedMarks(Class, term, subject, markType, month, (bool)approvedStatus));
+                    }
                 }
             }
 
-            if(detailedMarks.Count != 0)
+            totalRecord = detailedMarks.Count;
+            if (detailedMarks.Count != 0)
             {
+                totalRecord = detailedMarks.Count();
+                if (totalRecord != 0)
+                {
+                    detailedMarks = detailedMarks.OrderBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode)
+                        .ThenBy(detail => detail.Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName)
+                        .ThenBy(detail => detail.Category_MarkType.MarkTypeId).ThenByDescending(detail => detail.Date)
+                        .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).ToList();
+                }
+
                 consideredStudentMark = new ConsideredStudentMark();
                 consideredStudentMark.Approved = detailedMarks[0].Approved;
                 consideredStudentMark.Date = detailedMarks[0].Date;
@@ -724,6 +747,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 consideredStudentMark.StudentCode = detailedMarks[0].Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
                 consideredStudentMark.StudentName = detailedMarks[0].Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName;
                 consideredStudentMark.Note = detailedMarks[0].Note;
+                consideredStudentMark.SubjectName = detailedMarks[0].Student_TermSubjectMark.Category_Subject.SubjectName;
                 consideredStudentMarks.Add(consideredStudentMark);
             }
 
@@ -738,15 +762,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 consideredStudentMark.MarkValue = detailedMarks[i].MarkValue;
                 consideredStudentMark.StudentCode = detailedMarks[i].Student_TermSubjectMark.Student_StudentInClass.Student_Student.StudentCode;
                 consideredStudentMark.StudentName = detailedMarks[i].Student_TermSubjectMark.Student_StudentInClass.Student_Student.FullName;
-                if (consideredStudentMark.StudentCode == consideredStudentMarks[i - 1].StudentCode)
-                {
-                    consideredStudentMark.StudentCode = "";
-                }
+                consideredStudentMark.SubjectName = detailedMarks[i].Student_TermSubjectMark.Category_Subject.SubjectName;
+                //if (consideredStudentMark.StudentCode == consideredStudentMarks[i - 1].StudentCode)
+                //{
+                //    consideredStudentMark.StudentCode = "";
+                //}
 
-                if (consideredStudentMark.StudentName == consideredStudentMarks[i - 1].StudentName)
-                {
-                    consideredStudentMark.StudentName = "";
-                }
+                //if (consideredStudentMark.StudentName == consideredStudentMarks[i - 1].StudentName)
+                //{
+                //    consideredStudentMark.StudentName = "";
+                //}
                 consideredStudentMark.Note = detailedMarks[i].Note;
                 consideredStudentMarks.Add(consideredStudentMark);
             }
@@ -754,7 +779,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return consideredStudentMarks;
         }
 
-        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, DateTime beginDate, DateTime endDate, List<Category_MarkType> markTypes, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<TabularStudentMark> GetTabularStudentMarks(Class_Class Class, Category_Subject subject, Configuration_Term term, DateTime beginDate, DateTime endDate, List<Category_MarkType> markTypes, bool? approved, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<TabularStudentMark> tabularStudentMarks = new List<TabularStudentMark>(); // returned list
             TabularStudentMark tabularStudentMark = null;
@@ -780,7 +805,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 foreach (Category_MarkType markType in markTypes)
                 {
                     List<double> dMarks = new List<double>();
-                    detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType, beginDate, endDate);
+                    if (approved == null)
+                    {
+                        detailedMarks = studyingResultDA.GetDetailedMarksWithAllStatuses(termSubjectMark, markType, beginDate, endDate);
+                    }
+                    else
+                    {
+                        detailedMarks = studyingResultDA.GetDetailedMarks(termSubjectMark, markType, beginDate, endDate, (bool)approved);
+                    }
                     strMarks = "";
 
                     foreach (Student_DetailedTermSubjectMark detailedMark in detailedMarks)
@@ -873,7 +905,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return false;
         }
 
-        private List<List<double>> GetDoubleSubjectMarks(Student_TermSubjectMark termSubjectedMark)
+        private List<List<double>> GetApprovedDoubleSubjectMarks(Student_TermSubjectMark termSubjectedMark)
         {
             termSubjectedMark = studyingResultDA.GetTermSubjectedMark(termSubjectedMark.TermSubjectMarkId);
             MarkTypeBL markTypeBL = new MarkTypeBL(school);
@@ -883,9 +915,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             List<double> innerSubjectMarks = null;
             List<Student_DetailedTermSubjectMark> detailMarks;
 
-            foreach (Category_MarkType loaiDiem in markTypes)
+            foreach (Category_MarkType markType in markTypes)
             {
-                detailMarks = studyingResultDA.GetDetailedMarks(termSubjectedMark, loaiDiem);
+                detailMarks = studyingResultDA.GetDetailedMarks(termSubjectedMark, markType, true);
                 innerSubjectMarks = new List<double>();
                 foreach (Student_DetailedTermSubjectMark detailMark in detailMarks)
                 {

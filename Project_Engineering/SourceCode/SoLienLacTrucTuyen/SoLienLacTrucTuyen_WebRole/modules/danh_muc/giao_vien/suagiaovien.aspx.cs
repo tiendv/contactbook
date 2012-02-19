@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using SoLienLacTrucTuyen.BusinessLogic;
 using EContactBook.DataAccess;
 using System.Web.Security;
+using System.IO;
+using System.Text;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
@@ -83,9 +85,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
+            byte[] bPhoto = null;
+            if (CheckSessionKey("Photo"))
+            {
+                bPhoto = (byte[])GetSession("Photo");
+            }
+
             aspnet_Membership editedTeacher = new aspnet_Membership();
             editedTeacher.UserId = teacherBL.GetTeacher(UserId).UserId;
-            teacherBL.UpdateTeacher(editedTeacher, strTeacherName, bGender, dtDateOfBirth, strAddress, strPhone);
+            teacherBL.UpdateTeacher(editedTeacher, strTeacherName, bGender, dtDateOfBirth, strAddress, strPhone, bPhoto);
 
             BackToPrevPage();
         }
@@ -93,6 +101,26 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void BtnCancel_Click(object sender, ImageClickEventArgs e)
         {
             BackToPrevPage();
+        }
+
+        protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
+        {
+            if (FileUploadLogo.PostedFile != null)
+            {
+                //To create a PostedFile
+                HttpPostedFile File = FileUploadLogo.PostedFile;
+
+                //Create byte Array with file len
+                byte[] Data = new Byte[File.ContentLength];
+                //force the control to load data in array
+                File.InputStream.Read(Data, 0, File.ContentLength);
+
+                AddSession("Photo", Data);
+                string filename = Path.GetFileName(FileUploadLogo.FileName);
+                FileUploadLogo.SaveAs(Server.MapPath("~/upload/temp/") + filename);
+                filename = "/upload/temp/" + filename;
+                ImgPhoto.ImageUrl = filename;
+            }
         }
         #endregion
 
@@ -120,6 +148,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             TxtDiaChi.Text = teacher.aspnet_Membership.Address;
             TxtDienThoai.Text = (teacher.aspnet_Membership.Phone != "") ? teacher.aspnet_Membership.Phone : "(không có)";
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("~/modules/danh_muc/giao_vien/UserPhotoLoadingHandler.ashx");
+            stringBuilder.Append("?id=");
+            stringBuilder.Append(teacher.UserId);
+            ImgPhoto.ImageUrl = stringBuilder.ToString();
         }
 
         private bool RetrieveSessions()

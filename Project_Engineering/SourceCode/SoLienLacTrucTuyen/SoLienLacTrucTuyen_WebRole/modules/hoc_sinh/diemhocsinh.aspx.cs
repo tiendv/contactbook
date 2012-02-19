@@ -409,7 +409,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     DateTime dtBeginDate = DateTime.Parse(strDates[0]);
                     DateTime dtEndDate = DateTime.Parse(strDates[1]);
                     // get student mark information
-                    tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, dtBeginDate, dtEndDate, markTypes, 
+                    tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, dtBeginDate, dtEndDate, markTypes, bApprovedStatus,
                         MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
                 }
                 else

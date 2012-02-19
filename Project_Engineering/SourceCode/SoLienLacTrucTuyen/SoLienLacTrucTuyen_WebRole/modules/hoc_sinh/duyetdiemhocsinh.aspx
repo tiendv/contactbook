@@ -122,6 +122,9 @@
                             Học sinh
                         </td>
                         <td>
+                            Môn học
+                        </td>
+                        <td>
                             Loại điểm
                         </td>
                         <td>
@@ -145,12 +148,15 @@
                     <tr class='<%#((Container.ItemIndex + 1) % 2 == 0) ? "oddRow" : "evenRow"%>'>
                         <td style="height: 40px; text-align: center">
                             <%# (MainDataPager.CurrentIndex - 1) * MainDataPager.PageSize + Container.ItemIndex + 1%>
-                            <asp:HiddenField ID="HdfDetailTermSubjectMarkId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DetailTermSubjectMarkId")%>'/>
+                            <asp:HiddenField ID="HdfDetailTermSubjectMarkId" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "DetailTermSubjectMarkId")%>' />
                         </td>
                         <td>
                             <span style="float: left">
                                 <%#DataBinder.Eval(Container.DataItem, "StudentName")%></span><span style="float: right">
                                     <%#DataBinder.Eval(Container.DataItem, "StudentCode")%></span>
+                        </td>
+                        <td>
+                            <%#DataBinder.Eval(Container.DataItem, "SubjectName")%>
                         </td>
                         <td>
                             <%#DataBinder.Eval(Container.DataItem, "MarkTypeName")%>
@@ -162,7 +168,7 @@
                             <%# ((DateTime)DataBinder.Eval(Container.DataItem, "Date")).ToShortDateString()%>
                         </td>
                         <td>
-                            <asp:HiddenField ID="HdfStatus" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "Approved")%>'/>
+                            <asp:HiddenField ID="HdfStatus" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "Approved")%>' />
                             <%#DataBinder.Eval(Container.DataItem, "ApprovedStatus")%>
                         </td>
                         <td>

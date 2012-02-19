@@ -175,22 +175,40 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
         protected global::AjaxControlToolkit.FilteredTextBoxExtender FilteredTextBoxExtender2;
         
         /// <summary>
-        /// ImgHinhAnh control.
+        /// ImgPhoto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image ImgHinhAnh;
+        protected global::System.Web.UI.WebControls.Image ImgPhoto;
         
         /// <summary>
-        /// BtnDuyetAnhSua control.
+        /// FileUploadLogo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton BtnDuyetAnhSua;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadLogo;
+        
+        /// <summary>
+        /// FileUpLoadValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator FileUpLoadValidator;
+        
+        /// <summary>
+        /// BtnUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton BtnUpload;
         
         /// <summary>
         /// BtnSaveAdd control.

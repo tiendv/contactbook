@@ -102,7 +102,7 @@
                     <asp:FileUpload ID="FileUploadLogo" runat="server" Height="23px" />
                     <asp:RegularExpressionValidator ID="FileUpLoadValidator" runat="server" ErrorMessage="Định dạng file không hợp lệ"
                         ForeColor="Red" ValidationExpression="[a-zA-Z0_9].*\b(.jpeg|.JPEG|.jpg|.JPG|.jpe|.JPE|.png|.PNG|.tiff|.TIFF|.gif|.GIF)\b"
-                        ControlToValidate="FileUploadLogo" ValidationGroup="ModifySchool" Display="Dynamic">
+                        ControlToValidate="FileUploadLogo" ValidationGroup="ModifyStudent" Display="Dynamic">
                     </asp:RegularExpressionValidator>
                     <br />
                     <br />
@@ -117,7 +117,7 @@
                 <asp:Label ID="Label28" runat="server" Text="*" ForeColor="Red"></asp:Label>
             </td>
             <td style="width: auto;">
-                <asp:TextBox ID="TxtTenHocSinh" runat="server" CssClass="input_textbox" Text="Nguyen Anh Duy"></asp:TextBox>
+                <asp:TextBox ID="TxtTenHocSinh" runat="server" CssClass="input_textbox"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="TenHocSinhRequired" runat="server" ValidationGroup="ModifyStudent"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtTenHocSinh" ErrorMessage="Tên học sinh không được để trống">
                 </asp:RequiredFieldValidator>
@@ -208,7 +208,7 @@
                 Họ tên bố:
             </td>
             <td style="width: 300px;">
-                <asp:TextBox ID="TxtHoTenBo" runat="server" CssClass="input_textbox" Text="Nguyen Van A"></asp:TextBox>
+                <asp:TextBox ID="TxtHoTenBo" runat="server" CssClass="input_textbox"></asp:TextBox>
             </td>
             <td style="width: 80px; padding-left: 50px">
                 Ngày sinh:

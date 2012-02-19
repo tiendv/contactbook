@@ -50,6 +50,9 @@ namespace EContactBook.BusinessEntity
         public string PatronJob { get; set; }
 
         public string Error { get; set; }
+
         public string ImportStatus { get; set; }
+
+        public string Email { get; set; }
     }
 }

@@ -155,7 +155,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             UserBL userBL = new UserBL(UserSchool);
             aspnet_User userParents = new aspnet_User();
             userParents.UserName = strUserName;
-            userBL.CreateUserParents(userParents);
+            userBL.CreateUserParents(userParents, null);
 
             if (this.CkbAddAfterSave.Checked)
             {
