@@ -79,6 +79,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void DdlHocKy_SelectedIndexChanged(object sender, EventArgs e)
         {
+            BindDDLClasses();
             BindDDLScheduledSubjects();
             BindDDLMonths();
             BindDDLWeeks();

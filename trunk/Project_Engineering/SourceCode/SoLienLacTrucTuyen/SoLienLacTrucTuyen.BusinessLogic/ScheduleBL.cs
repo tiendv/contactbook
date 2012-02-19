@@ -352,16 +352,22 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             // Declare variables
             StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             RoleBL roleBL = new RoleBL(school);
+            TeacherBL teacherBL = new TeacherBL(school);
 
-            List<int> beforeChangeSubjectIds = new List<int>();
-            List<int> afterChangeSubjectIds = new List<int>();
+            List<int> beforeChangedSubjectIds = new List<int>();
+            List<int> afterChangedSubjectIds = new List<int>();
             List<int> deletedScheduledSubjectIds = new List<int>();
             List<int> addedScheduledSubjectIds = new List<int>();
             Class_Schedule schedule = null;
-            aspnet_User teacher = null;
+            aspnet_User orginalTeacher = null;
+            aspnet_User teacher = null;            
             Category_Subject subject = null;
+            
+            // Initialize Class
             Class_Class Class = new Class_Class();
             Class.ClassId = weeklySchedule[0][0].ClassId;
+
+            // Initialize term
             Configuration_Term term = new Configuration_Term();
             term.TermId = weeklySchedule[0][0].TermId;
 
@@ -369,11 +375,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             {
                 foreach (TeachingPeriodSchedule teachingPeriodlySchedule in dailySchedule)
                 {
-                    if (teachingPeriodlySchedule.ScheduleId == 0)
+                    // teachingPeriodlySchedule is new or unarranged
+                    if (teachingPeriodlySchedule.ScheduleId == 0)                    
                     {
+                        // teachingPeriodlySchedule is new
                         if (teachingPeriodlySchedule.SubjectId != 0)
                         {
-                            afterChangeSubjectIds.Add(teachingPeriodlySchedule.SubjectId);
+                            // Add new subject id to list
+                            afterChangedSubjectIds.Add(teachingPeriodlySchedule.SubjectId);
 
                             schedule = new Class_Schedule();
                             schedule.ClassId = Class.ClassId;
@@ -395,7 +404,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     }
                     else
                     {
-                        beforeChangeSubjectIds.Add(teachingPeriodlySchedule.OrginalSubjectId);
+                        beforeChangedSubjectIds.Add(teachingPeriodlySchedule.OrginalSubjectId);
 
                         if (teachingPeriodlySchedule.SubjectId == 0)
                         {
@@ -404,10 +413,18 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
                             // Xóa thời khóa biểu
                             scheduleDA.DeleteSchedule(schedule);
+
+                            // remove teacher from SubjectTeacherRole                            
+                            orginalTeacher = new aspnet_User();
+                            orginalTeacher.UserId = teachingPeriodlySchedule.OrginalUserId;
+                            if (teacherBL.IsTeaching(orginalTeacher) == false)
+                            {
+                                roleBL.RemoveUserFromSubjectTeacherRole(orginalTeacher);
+                            }
                         }
                         else
                         {
-                            afterChangeSubjectIds.Add(teachingPeriodlySchedule.SubjectId);
+                            afterChangedSubjectIds.Add(teachingPeriodlySchedule.SubjectId);
 
                             if ((teachingPeriodlySchedule.OrginalSubjectId != teachingPeriodlySchedule.SubjectId)
                                 || (teachingPeriodlySchedule.OrginalUserId != teachingPeriodlySchedule.UserId))
@@ -421,23 +438,36 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                                 subject.SubjectId = teachingPeriodlySchedule.SubjectId;
 
                                 scheduleDA.UpdateSchedule(schedule, subject, teacher);
+
+                                // insert teacher to SubjectTeacherRole
+                                teacher = new aspnet_User();
+                                teacher.UserId = teachingPeriodlySchedule.UserId;
+                                roleBL.AddUserToSubjectTeacherRole(teacher);
+
+                                // remove teacher from SubjectTeacherRole                            
+                                orginalTeacher = new aspnet_User();
+                                orginalTeacher.UserId = teachingPeriodlySchedule.OrginalUserId;
+                                if (teacherBL.IsTeaching(orginalTeacher) == false)
+                                {
+                                    roleBL.RemoveUserFromSubjectTeacherRole(orginalTeacher);
+                                }
                             }
                         }
                     }
                 }
             }
 
-            foreach (int orginalSubjectId in beforeChangeSubjectIds)
+            foreach (int orginalSubjectId in beforeChangedSubjectIds)
             {
-                if (afterChangeSubjectIds.Contains(orginalSubjectId) == false)
+                if (afterChangedSubjectIds.Contains(orginalSubjectId) == false)
                 {
                     deletedScheduledSubjectIds.Add(orginalSubjectId);
                 }
             }
 
-            foreach (int subjectId in afterChangeSubjectIds)
+            foreach (int subjectId in afterChangedSubjectIds)
             {
-                if (beforeChangeSubjectIds.Contains(subjectId) == false)
+                if (beforeChangedSubjectIds.Contains(subjectId) == false)
                 {
                     addedScheduledSubjectIds.Add(subjectId);
                 }
