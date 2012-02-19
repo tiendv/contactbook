@@ -217,6 +217,12 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     TermId = schedule.Configuration_Term.TermId,
                     TermName = schedule.Configuration_Term.TermName,
 
+                    DayInWeekId = schedule.DayInWeekId,
+                    DayInWeekName = schedule.Configuration_DayInWeek.DayInWeekName,
+
+                    TeachingPeriodId = schedule.TeachingPeriodId,
+                    TeachingPeriodName = schedule.Category_TeachingPeriod.TeachingPeriodName,
+
                     ClassId = schedule.Class_Class.ClassId,
                     ClassName = schedule.Class_Class.ClassName,
 

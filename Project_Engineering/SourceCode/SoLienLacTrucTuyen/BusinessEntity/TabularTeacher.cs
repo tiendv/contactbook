@@ -68,6 +68,12 @@ namespace EContactBook.BusinessEntity
         public int TermId { get; set; }
         public string TermName { get; set; }
 
+        public int DayInWeekId { get; set; }
+        public string DayInWeekName { get; set; }
+
+        public int TeachingPeriodId { get; set; }
+        public string TeachingPeriodName { get; set; }
+        
         public int ClassId { get; set; }
         public string ClassName { get; set; }
 

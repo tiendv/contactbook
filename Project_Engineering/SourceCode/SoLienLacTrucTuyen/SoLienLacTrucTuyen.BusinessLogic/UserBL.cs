@@ -176,6 +176,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             if (user != null)
             {
                 tabularUser.UserId = user.UserId;
+                tabularUser.FullName = user.aspnet_Membership.FullName;
                 tabularUser.ActualUserName = user.UserName;
                 tabularUser.UserName = user.UserName.Split('_')[1];
                 tabularUser.Email = user.aspnet_Membership.Email;

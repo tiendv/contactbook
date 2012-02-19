@@ -5,6 +5,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div id="divScript">
         <script language="javascript" type="text/javascript">
+            $(document).ready(function () {
+                $(".testSubject").datepicker({});
+            });
         </script>
     </div>
     <div style="width: 600px; padding: 10px;" class="loginBox ui-corner-all">
