@@ -184,6 +184,14 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             roleDA.AddUserToRole(user, subjectTeacherRole);
         }
 
+        public void RemoveUserFromSubjectTeacherRole(aspnet_User user)
+        {
+            TeacherBL teacherBL = new TeacherBL(school);
+            aspnet_Role subjectTeacherRole = roleDA.GetRoleSubjectTeacher();
+
+            roleDA.RemoveUserFromRole(user, subjectTeacherRole);
+        }
+
         public void AddUserToRoleFormerTeacher(aspnet_User user)
         {
             aspnet_Role roleFormerTeacher = roleDA.GetRoleFormerTeacher();

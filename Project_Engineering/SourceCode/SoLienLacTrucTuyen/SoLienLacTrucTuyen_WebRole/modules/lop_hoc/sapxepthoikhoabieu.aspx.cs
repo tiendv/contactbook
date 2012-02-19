@@ -138,11 +138,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
+            // Get schedule from session and update it
             if (CheckSessionKey(AppConstant.SESSION_WEEKLYSCHEDULE))
             {
-                List<List<TeachingPeriodSchedule>> weeklySchedule = (List<List<TeachingPeriodSchedule>>)GetSession(AppConstant.SESSION_WEEKLYSCHEDULE);
-                scheduleBL.UpdateSchedule(weeklySchedule);
+                List<List<TeachingPeriodSchedule>> schedule = (List<List<TeachingPeriodSchedule>>)GetSession(AppConstant.SESSION_WEEKLYSCHEDULE);
+                scheduleBL.UpdateSchedule(schedule);
             }
+
+            // Redirect to previous page
             BackToPrevPage();
         }
 

@@ -13,19 +13,29 @@ namespace EContactBook.DataAccess
         {
         }
 
-        public Dictionary<MyMenuItem, List<MyMenuItem>> BuildMenuTree(aspnet_Role role, string pageUrl)
+        public Dictionary<MyMenuItem, List<MyMenuItem>> GetMenu(aspnet_Role role, string pageUrl)
         {
+            // Declare variables
             FunctionsDA functionsDA = new FunctionsDA();
-            Dictionary<MyMenuItem, List<MyMenuItem>> menuTree = new Dictionary<MyMenuItem, List<MyMenuItem>>();
-            List<MyMenuItem> roleBasedMenuItems = new List<MyMenuItem>();
 
             // Get list of FunctionId by given role            
             List <UserManagement_Function> roleBasedFunctions = functionsDA.GetFunctions(role);
             
-            return BuildMenuTree(roleBasedFunctions, pageUrl);
+            return GetMenu(roleBasedFunctions, pageUrl);
         }
 
-        private Dictionary<MyMenuItem, List<MyMenuItem>> BuildMenuTree(List<UserManagement_Function> roleBasedFunctions, string pageUrl)
+        public Dictionary<MyMenuItem, List<MyMenuItem>> GetMenu(List<aspnet_Role> roles, string pageUrl)
+        {
+            // Declare variables
+            FunctionsDA functionsDA = new FunctionsDA();
+
+            // Get list of FunctionId by given role            
+            List<UserManagement_Function> roleBasedFunctions = functionsDA.GetFunctions(roles);
+
+            return GetMenu(roleBasedFunctions, pageUrl);
+        }
+
+        private Dictionary<MyMenuItem, List<MyMenuItem>> GetMenu(List<UserManagement_Function> roleBasedFunctions, string pageUrl)
         {
             Dictionary<MyMenuItem, List<MyMenuItem>> menuTree = new Dictionary<MyMenuItem, List<MyMenuItem>>();
             List<MyMenuItem> roleBasedMenuItems = new List<MyMenuItem>();
@@ -122,7 +132,7 @@ namespace EContactBook.DataAccess
             return menuTree;
         }
         
-        public Dictionary<MyMenuItem, List<MyMenuItem>> BuildMenuTree(string userName, string pageUrl)
+        public Dictionary<MyMenuItem, List<MyMenuItem>> GetMenu(string userName, string pageUrl)
         {
             FunctionsDA functionsDA = new FunctionsDA();
             Dictionary<MyMenuItem, List<MyMenuItem>> menuTree = new Dictionary<MyMenuItem, List<MyMenuItem>>();
@@ -131,7 +141,7 @@ namespace EContactBook.DataAccess
             // Get list of FunctionId by given role            
             List<UserManagement_Function> roleBasedFunctions = functionsDA.GetFunctions(userName);
 
-            return BuildMenuTree(roleBasedFunctions, pageUrl);
+            return GetMenu(roleBasedFunctions, pageUrl);
         }
 
         /// <summary>

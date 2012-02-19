@@ -148,6 +148,26 @@ namespace EContactBook.DataAccess
             return roleBasedFunctions;
         }
 
+        internal List<UserManagement_Function> GetFunctions(List<aspnet_Role> roles)
+        {
+            List<UserManagement_Function> roleBasedFunctions = new List<UserManagement_Function>();
+
+            foreach (aspnet_Role role in roles)
+            {
+                IQueryable<UserManagement_Function> queryRoleBasedFunction = from authorization in db.UserManagement_Authorizations
+                                                                             where authorization.RoleId == role.RoleId && authorization.IsActivated == true
+                                                                             select authorization.UserManagement_AuthorizedPage.UserManagement_Function;
+                if (queryRoleBasedFunction.Count() != 0)
+                {
+                    roleBasedFunctions.AddRange(queryRoleBasedFunction.Distinct().ToList());
+                }
+            }
+
+            roleBasedFunctions = roleBasedFunctions.Distinct().ToList();
+
+            return roleBasedFunctions;
+        }
+
         internal List<UserManagement_Function> GetFunctions(string userName)
         {
             List<UserManagement_Function> roleBasedFunctions = new List<UserManagement_Function>();

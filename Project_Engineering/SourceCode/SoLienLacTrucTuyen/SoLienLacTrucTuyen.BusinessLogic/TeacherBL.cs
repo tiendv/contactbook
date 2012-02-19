@@ -236,6 +236,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return tabularTeachings;
         }
 
+        public bool IsTeaching(aspnet_User teacher)
+        {
+            return teacherDA.IsTeaching(teacher);
+        }
+
         public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term)
         {
             return teacherDA.GetTaughtClasses(teacher, year, term);

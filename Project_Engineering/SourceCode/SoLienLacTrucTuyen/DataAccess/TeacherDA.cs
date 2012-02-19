@@ -379,6 +379,23 @@ namespace EContactBook.DataAccess
             return shedules;
         }
 
+        public bool IsTeaching(aspnet_User teacher)
+        {
+            IQueryable<Class_Schedule> querySchedule;
+            querySchedule = from schedule in db.Class_Schedules
+                            where schedule.TeacherId == teacher.UserId
+                            && schedule.aspnet_User.aspnet_Membership.SchoolId == school.SchoolId
+                            select schedule;
+
+            if (querySchedule.Count() != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public List<Class_Class> GetTaughtClasses(aspnet_User teacher, Configuration_Year year, Configuration_Term term)
         {
             List<Class_Class> Classes = new List<Class_Class>();

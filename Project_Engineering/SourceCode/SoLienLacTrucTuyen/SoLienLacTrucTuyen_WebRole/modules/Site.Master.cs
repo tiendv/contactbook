@@ -42,7 +42,6 @@ namespace SoLienLacTrucTuyen_WebRole
         #region Page event handlers
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (Page.User.Identity.IsAuthenticated)
             {
                 try
@@ -61,7 +60,7 @@ namespace SoLienLacTrucTuyen_WebRole
                 catch (Exception ex) { }
             }
 
-            SetLevel0MenuItems();
+            SetLevel0Menu();
             SetLevel1MenuItems();
             if (PageUrl != null)
             {
@@ -92,11 +91,11 @@ namespace SoLienLacTrucTuyen_WebRole
         #endregion
 
         #region Private methods
-        private void SetLevel0MenuItems()
+        private void SetLevel0Menu()
         {
             if (PageUrl != null)
             {
-                dicMenuItem = menuBL.BuildMenuTree(UserSchool, UserName, PageUrl);
+                dicMenuItem = menuBL.GetMenu(UserSchool, UserName, PageUrl);
                 level0MenuItems.Clear();
                 foreach (KeyValuePair<EContactBook.BusinessEntity.MyMenuItem, List<EContactBook.BusinessEntity.MyMenuItem>>
                     pair in dicMenuItem)

@@ -369,6 +369,23 @@ namespace EContactBook.DataAccess
             }
         }
 
+        public void RemoveUserToRole(aspnet_User user, aspnet_Role role)
+        {
+            IQueryable<aspnet_UsersInRole> iqUsersInRole = from userInRole in db.aspnet_UsersInRoles
+                                                           where userInRole.UserId == user.UserId && userInRole.RoleId == role.RoleId
+                                                           select userInRole;
+            if (iqUsersInRole.Count() == 0)
+            {
+                aspnet_UsersInRole usersInRole = new aspnet_UsersInRole
+                {
+                    RoleId = role.RoleId,
+                    UserId = user.UserId
+                };
+                db.aspnet_UsersInRoles.InsertOnSubmit(usersInRole);
+                db.SubmitChanges();
+            }
+        }
+
         public void RemoveUserFromRole(aspnet_User user, aspnet_Role role)
         {
             IQueryable<aspnet_UsersInRole> iqUsersInRole = from userInRole in db.aspnet_UsersInRoles
