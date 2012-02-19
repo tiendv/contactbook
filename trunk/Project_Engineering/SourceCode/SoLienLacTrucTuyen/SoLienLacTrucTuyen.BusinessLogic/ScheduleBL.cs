@@ -147,6 +147,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             Class_Schedule schedule = null;
             List<Category_TeachingPeriod> teachingPeriods = teachingPeriodBL.GetTeachingPeriods();
 
+            Class = (new ClassBL(school)).GetClass(Class.ClassId);
+            term = (new SystemConfigBL(school)).GetTerm(term.TermId);
+            dayInweek = (new SystemConfigBL(school)).GetDayInWeek(dayInweek.DayInWeekId);
+
             foreach (Category_TeachingPeriod teachingPeriod in teachingPeriods)
             {
                 schedule = scheduleDA.GetSchedule(Class, term, dayInweek, teachingPeriod);
@@ -155,8 +159,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     teachingPeriodSchedule = ConvertToTeachingPeriodSchedule(schedule);
                 }
                 else
-                {
+                {   
                     teachingPeriodSchedule = new TeachingPeriodSchedule();
+                    teachingPeriodSchedule.TempScheduleId = string.Format("{0}:{1}", dayInweek.DayInWeekId, teachingPeriod.TeachingPeriodId);
                     teachingPeriodSchedule.SubjectId = 0;
                     teachingPeriodSchedule.SubjectName = "Chưa xác định";
                     teachingPeriodSchedule.ScheduleId = 0;
@@ -164,13 +169,17 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
 
                 teachingPeriodSchedule.ClassId = Class.ClassId;
+                teachingPeriodSchedule.ClassName = Class.ClassName;
+                teachingPeriodSchedule.YearName = Class.Configuration_Year.YearName;
                 teachingPeriodSchedule.TermId = term.TermId;
-                teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
+                teachingPeriodSchedule.TermName = term.TermName;
+                teachingPeriodSchedule.DayInWeekId = dayInweek.DayInWeekId;
+                teachingPeriodSchedule.DayInWeekName = dayInweek.DayInWeekName; 
                 teachingPeriodSchedule.SessionId = teachingPeriod.SessionId;
+                teachingPeriodSchedule.SessionName = teachingPeriod.Configuration_Session.SessionName;
+                teachingPeriodSchedule.TeachingPeriodId = teachingPeriod.TeachingPeriodId;
                 teachingPeriodSchedule.TeachingPeriodName = teachingPeriod.TeachingPeriodName;
                 teachingPeriodSchedule.StringDetailTeachingPeriod = teachingPeriodBL.GetDetailedTeachingPeriod(teachingPeriod);
-                teachingPeriodSchedule.DayInWeekId = dayInweek.DayInWeekId;
-
                 teachingPeriodSchedules.Add(teachingPeriodSchedule);
             }
 

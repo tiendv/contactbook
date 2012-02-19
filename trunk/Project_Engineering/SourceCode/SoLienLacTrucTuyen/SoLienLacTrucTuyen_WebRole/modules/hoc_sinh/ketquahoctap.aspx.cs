@@ -85,7 +85,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     BindRptKetQuaDiem();
                     BindRptTermStudentResult();
 
-                    AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);                    
+                    AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
                     List<UserManagement_PagePath> pagePages = authorizationBL.GetStudentPages(
                         (new UserBL(UserSchool)).GetRoles(User.Identity.Name));
                     RptStudentFunctions.DataSource = pagePages;
@@ -178,7 +178,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Student_Student student = new Student_Student();
             student.StudentId = (int)ViewState[AppConstant.VIEWSTATE_STUDENTID];
 
-            Configuration_Year year = new Configuration_Year(); 
+            Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
 
             double dTotalRecords;
@@ -198,20 +198,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void RptKetQuaDiem_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             Student_TermSubjectMark termSubjectedMark = null;
-            if (e.Item.ItemType == ListItemType.Item
-                || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                Control control = e.Item.FindControl("HdfMaDiemMonHK");
-                if (control != null)
-                {
-                    termSubjectedMark = new Student_TermSubjectMark();
-                    termSubjectedMark.TermSubjectMarkId = Int32.Parse(((HiddenField)control).Value);
-                    List<StrDiemMonHocLoaiDiem> lstStrDiemMonHocLoaiDiem;
-                    lstStrDiemMonHocLoaiDiem = studyingResultBL.GetSubjectMarks(termSubjectedMark);
-                    Repeater rptDiemMonHoc = (Repeater)e.Item.FindControl("RptDiemTheoMonHoc");
-                    rptDiemMonHoc.DataSource = lstStrDiemMonHocLoaiDiem;
-                    rptDiemMonHoc.DataBind();
-                }
+                HiddenField hdfTermSubjectMarkID = (HiddenField)e.Item.FindControl("HdfMaDiemMonHK");
+
+                termSubjectedMark = new Student_TermSubjectMark();
+                termSubjectedMark.TermSubjectMarkId = Int32.Parse(hdfTermSubjectMarkID.Value);
+                List<StrDiemMonHocLoaiDiem> strDiemMonHocLoaiDiems = studyingResultBL.GetApprovedSubjectMarks(termSubjectedMark);
+                Repeater rptDiemMonHoc = (Repeater)e.Item.FindControl("RptDiemTheoMonHoc");
+                rptDiemMonHoc.DataSource = strDiemMonHocLoaiDiems;
+                rptDiemMonHoc.DataBind();
             }
         }
 

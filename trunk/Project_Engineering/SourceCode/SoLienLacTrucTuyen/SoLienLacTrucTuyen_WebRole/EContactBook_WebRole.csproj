@@ -92,6 +92,7 @@
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\danh_muc\suadanhhieu.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\giao_vien\thongtincanhan.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\duyetdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx" />
@@ -383,6 +384,13 @@
     <Compile Include="modules\danh_muc\suadanhhieu.aspx.designer.cs">
       <DependentUpon>suadanhhieu.aspx</DependentUpon>
     </Compile>
+    <Compile Include="modules\giao_vien\thongtincanhan.aspx.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\giao_vien\thongtincanhan.aspx.designer.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+    </Compile>
     <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
       <DependentUpon>diemhocsinh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -452,6 +460,9 @@
     </Compile>
     <Compile Include="modules\lop_hoc\sapxepthoikhoabieu.aspx.designer.cs">
       <DependentUpon>sapxepthoikhoabieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\danh_muc\giao_vien\UserPhotoLoadingHandler.ashx.cs">
+      <DependentUpon>UserPhotoLoadingHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="modules\phu_huynh\xephang.aspx.cs">
       <DependentUpon>xephang.aspx</DependentUpon>
@@ -1108,6 +1119,7 @@
       <DependentUpon>dsReport.xsd</DependentUpon>
     </None>
     <Content Include="modules\hoc_sinh\StudentPhotoLoadingHandler.ashx" />
+    <Content Include="modules\danh_muc\giao_vien\UserPhotoLoadingHandler.ashx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="modules\report\Rpt_Classes.rpt">

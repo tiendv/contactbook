@@ -124,7 +124,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                     termSubjectedMark = new Student_TermSubjectMark();
                     termSubjectedMark.TermSubjectMarkId = Int32.Parse(((HiddenField)control).Value);
                     List<StrDiemMonHocLoaiDiem> lstStrDiemMonHocLoaiDiem;
-                    lstStrDiemMonHocLoaiDiem = studyingResultBL.GetSubjectMarks(termSubjectedMark);
+                    lstStrDiemMonHocLoaiDiem = studyingResultBL.GetApprovedSubjectMarks(termSubjectedMark);
                     Repeater rptDiemMonHoc = (Repeater)e.Item.FindControl("RptDiemTheoMonHoc");
                     rptDiemMonHoc.DataSource = lstStrDiemMonHocLoaiDiem;
                     rptDiemMonHoc.DataBind();

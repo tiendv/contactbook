@@ -52,8 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 BindDropDownLists();
                 this.isSearch = false;
 
-                if (CheckUntils.IsNullOrBlank(LblYear.Text) || DdlKhoiLop.Items.Count == 0
-                    || DdlNganh.Items.Count == 0)
+                if (CheckUntils.IsNullOrBlank(LblYear.Text) || DdlKhoiLop.Items.Count == 0 || DdlNganh.Items.Count == 0)
                 {
                     Response.Redirect(AppConstant.PAGEPATH_MESSAGE_LIST);
                 }
@@ -341,8 +340,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Configuration_Year year = systemConfigBL.GetLastedYear();
             if (year != null)
             {
-                LblYear.Text = year.YearName;
-                ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
+                if(CheckUntils.CompareDateWithoutHMS(DateTime.Now, year.BeginFirstTermDate) >= 0
+                    && CheckUntils.CompareDateWithoutHMS(DateTime.Now, year.EndSecondTermDate) <= 0)
+                {
+                    LblYear.Text = year.YearName;
+                    ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
+                }                
             }
         }
 
@@ -354,10 +357,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Faculty faculty = null;
             Category_Grade grade = null;
 
-            if (DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
+            if (ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] == null || DdlNganh.Items.Count == 0 || DdlKhoiLop.Items.Count == 0)
             {
                 BtnSearch.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SEARCH_DISABLE;
                 BtnSearch.Enabled = false;
+
+                BtnSaveEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE_DISABLE;
+                BtnSaveEdit.Enabled = false;
 
                 RptHocSinh.Visible = false;
                 LblSearchResult.Visible = true;
@@ -384,7 +390,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
 
-            classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
+            Configuration_Term term = new Configuration_Term();
+            if (IsSubjectTeacher)
+            {
+                term = (new SystemConfigBL(UserSchool)).GetCurrentTerm();
+            }
+
+            classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, term);
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";

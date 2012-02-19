@@ -166,16 +166,20 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             DdlRoles.DataBind();
         }
 
+        /// <summary>
+        /// Binding authorization data to repeater
+        /// </summary>
         private void BindRptAuthorizations()
         {
             aspnet_Role role = new aspnet_Role();
             role.RoleId = new Guid(DdlRoles.SelectedValue.ToString());
 
-            List<TabularAuthorization> tabularAuthorizations;
-            tabularAuthorizations = authorizationBL.GetTabularAuthorizations(role);
+            // Get tabularAuthorizations of role
+            List<TabularAuthorization> tabularAuthorizations = authorizationBL.GetTabularAuthorizations(role);
             RptPhanQuyen.DataSource = tabularAuthorizations;
             RptPhanQuyen.DataBind();
 
+            // save selected role to ViewState
             ViewState[AppConstant.VIEWSTATE_SELECTED_ROLEID] = role.RoleId;
         }
         #endregion

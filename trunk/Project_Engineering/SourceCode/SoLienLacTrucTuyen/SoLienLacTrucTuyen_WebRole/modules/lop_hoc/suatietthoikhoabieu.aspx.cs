@@ -392,16 +392,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID] = schedule.TermId;
                 ViewState[AppConstant.VIEWSTATE_SELECTED_DAYINWEEK] = schedule.DayInWeekId;
                 ViewState[AppConstant.VIEWSTATE_SELECTED_TEACHINGPERIOD] = schedule.TeachingPeriodId;
-
-                LblTenLop.Text = schedule.ClassName;
+                                
                 LblNamHoc.Text = schedule.YearName;
                 LblHocKy.Text = schedule.TermName;
-                LblThu.Text = schedule.DayInWeekName;
+                LblThu.Text = schedule.DayInWeekName; 
+                LblTiet.Text = schedule.StringDetailTeachingPeriod;
+                LblTenLop.Text = schedule.ClassName;
                 LblGiaoVien.Text = schedule.TeacherName;
                 LblMonHoc.Text = schedule.SubjectName;
                 HdfSubjectId.Value = schedule.SubjectId.ToString();
-                HdfUserId.Value = schedule.UserId.ToString();
-                LblTiet.Text = schedule.StringDetailTeachingPeriod;
+                HdfUserId.Value = schedule.UserId.ToString();               
 
                 return true;
             }

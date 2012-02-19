@@ -18,7 +18,7 @@ namespace EContactBook.DataAccess
         //    db.SubmitChanges();
         //}
 
-        public void UpdateTeacher(aspnet_Membership teacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
+        public void UpdateTeacher(aspnet_Membership teacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone, byte[] photo)
         {
             IQueryable<aspnet_Membership> queryTeacher = from t in db.aspnet_Memberships
                                                          where t.UserId == teacher.UserId
@@ -31,7 +31,7 @@ namespace EContactBook.DataAccess
                 teacher.FullName = newTeacherName;
                 teacher.Gender = newGender;
                 teacher.Birthday = newBirthday;
-                //teacher.Photo = newPhone;
+                teacher.Photo = new System.Data.Linq.Binary(photo);
                 teacher.Address = newAddress;
                 teacher.Phone = newPhone;
 
@@ -372,7 +372,9 @@ namespace EContactBook.DataAccess
             totalRecords = querySchedule.Count();
             if (totalRecords != 0)
             {
-                shedules = querySchedule.OrderByDescending(schedule => schedule.Class_Class.Configuration_Year.YearName)
+                shedules = querySchedule.OrderByDescending(t => t.Class_Class.YearId).ThenByDescending(t => t.TermId)
+                    .ThenBy(t => t.DayInWeekId).ThenBy(t => t.TeachingPeriodId)
+                    .ThenBy(t => t.Class_Class.ClassName).ThenBy(t => t.Category_Subject.SubjectName)
                     .Skip((pageCurrentIndex - 1) * pageSize).Take(pageSize).Distinct().ToList();
             }
 

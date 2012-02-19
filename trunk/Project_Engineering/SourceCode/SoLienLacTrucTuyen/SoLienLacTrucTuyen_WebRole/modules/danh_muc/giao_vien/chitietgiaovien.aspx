@@ -60,8 +60,8 @@
             </tr>
         </table>
         <div style="width: 100px; text-align: center; vertical-align: top; float: right">
-            <asp:Image ID="ImgHinhAnh" runat="server" Width="90px" Height="120px" ImageUrl="~/Styles/Images/avatar.png"
-                AlternateText="Hình ảnh" BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" />
+            <asp:Image ID="ImgPhoto" runat="server" Width="90px" Height="120px" AlternateText="Hình ảnh giáo viên"
+                BorderStyle="Solid" BorderWidth="1px" BorderColor="Black" ImageUrl="~/modules/nguoi_dung/UserPhotoLoadingHandler.ashx?id=2a31a050-1916-4acd-ba73-88ffedaa57f8" />
         </div>
         <div style="clear: both">
         </div>

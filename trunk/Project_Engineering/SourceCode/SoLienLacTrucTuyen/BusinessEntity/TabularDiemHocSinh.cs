@@ -58,6 +58,9 @@ namespace EContactBook.BusinessEntity
         public string StudentCode { get; set; }
         public string StudentName { get; set; }
 
+        public int SubjectId { get; set; }
+        public string SubjectName { get; set; }
+
         public int MarkTypeId { get; set; }
         public string MarkTypeName { get; set; }
 

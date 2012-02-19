@@ -103,7 +103,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             List<TabularImportedStudent> importedStudents;
             string strGeneratedPassword;
             string strUserName;
-            aspnet_User userParents = null;
+            aspnet_User userParents = null;            
 
             if(CheckSessionKey(AppConstant.SESSION_IMPORTEDSTUDENTS))
             {
@@ -127,7 +127,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     Membership.CreateUser(strUserName, strGeneratedPassword);                    
                     userParents = new aspnet_User();
                     userParents.UserName = strUserName;
-                    userBL.CreateUserParents(userParents);
+                    userBL.CreateUserParents(userParents, importedStudent.Email);
                 }           
             }
 
@@ -190,10 +190,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             StringBuilder strBuilder = new StringBuilder();
             List<TabularImportedStudent> tabularImportedStudents = new List<TabularImportedStudent>();
             TabularImportedStudent tabularImportedStudent = null;
+            bool bIgnoredRow = true;
 
             // Loop in imported student informations
             for (int i = 2; i < ds.Tables[0].Rows.Count; i++)
             {
+                bIgnoredRow = true;
+
                 tabularImportedStudent = new TabularImportedStudent();
 
                 // Mã học sinh (column 0)
@@ -204,11 +207,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else if (studentBL.StudentCodeExists(ds.Tables[0].Rows[i][0].ToString()))
                 {
+                    bIgnoredRow = false;
                     tabularImportedStudent.StudentCode = ds.Tables[0].Rows[i][0].ToString();
                     strBuilder.Append("Mã học sinh đã tồn tại <br/>");
                 }
                 else
                 {
+                    bIgnoredRow = false;
+                    
                     // valid studentCode
                     tabularImportedStudent.StudentCode = ds.Tables[0].Rows[i][0].ToString();
                 }
@@ -222,6 +228,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 else
                 {
                     tabularImportedStudent.FullName = ds.Tables[0].Rows[i][1].ToString();
+                    bIgnoredRow = false;
                 }
 
                 // Giới tính (column 2)
@@ -234,11 +241,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     strBuilder.Append("Giới tính của học sinh không hợp lệ <br/>");
                     tabularImportedStudent.StringGender = "(không hợp lệ)";
+                    bIgnoredRow = false;
                 }
                 else
                 {
                     tabularImportedStudent.StringGender = ds.Tables[0].Rows[i][2].ToString();
                     tabularImportedStudent.Gender = tabularImportedStudent.StringGender == AppConstant.STRING_MALE ? true : false;
+                    bIgnoredRow = false;
                 }
 
                 // Ngày sinh của học sinh (column 3)
@@ -251,15 +260,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 {
                     strBuilder.Append("Ngày sinh của học sinh không hợp lệ <br/>");
                     tabularImportedStudent.StringDateOfBirth = "(không hợp lệ)";
+                    bIgnoredRow = false;
                 }
                 else
                 {
                     tabularImportedStudent.DateOfBirth = dtStudentDateOfBirth;
                     tabularImportedStudent.StringDateOfBirth = dtStudentDateOfBirth.ToShortDateString();
+                    bIgnoredRow = false;
                 }
 
                 // Nơi sinh (column 4)
                 tabularImportedStudent.BirthPlace = ds.Tables[0].Rows[i][4].ToString();
+                if (CheckUntils.IsNullOrBlank(tabularImportedStudent.BirthPlace) == false)
+                {
+                    bIgnoredRow = false;
+                }
 
                 // Địa chỉ liên lạc (column 5)
                 if (CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][5].ToString()))
@@ -269,10 +284,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 else
                 {                    
                     tabularImportedStudent.Address = ds.Tables[0].Rows[i][5].ToString();
+                    bIgnoredRow = false;
                 }
 
                 // Điện thoại (column 6)
-                tabularImportedStudent.Phone = ds.Tables[0].Rows[i][6].ToString();
+                tabularImportedStudent.Phone = ds.Tables[0].Rows[i][6].ToString(); 
+                if (CheckUntils.IsNullOrBlank(tabularImportedStudent.Phone) == false)
+                {
+                    bIgnoredRow = false;
+                }
+                
 
                 // Họ tên bố (column 7)
                 // Ngày sinh bố (column 8)
@@ -294,6 +315,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tabularImportedStudent.FatherDateOfBirth = dtFatherDateOfBirth;
                         tabularImportedStudent.StringFatherDateOfBirth = dtFatherDateOfBirth.ToShortDateString();
                     }
+
+                    bIgnoredRow = false;
                 }
 
                 if (!CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][10].ToString())
@@ -314,6 +337,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tabularImportedStudent.MotherDateOfBirth = dtMotherDateOfBirth;
                         tabularImportedStudent.StringMotherDateOfBirth = dtMotherDateOfBirth.ToShortDateString();
                     }
+
+                    bIgnoredRow = false;
                 }
 
                 if (!CheckUntils.IsNullOrBlank(ds.Tables[0].Rows[i][13].ToString())
@@ -334,6 +359,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tabularImportedStudent.PatronDateOfBirth = dtPatronDateOfBirth;
                         tabularImportedStudent.StringPatronDateOfBirth = dtPatronDateOfBirth.ToShortDateString();
                     }
+
+                    bIgnoredRow = false;
                 }
 
                 if(bLackOfParents)
@@ -347,22 +374,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     strBuilder.Append("Mã số của các học sinh không được trùng nhau <br/>");
                 }
 
-                
-                tabularImportedStudent.Error = strBuilder.ToString();
-                if (CheckUntils.IsNullOrBlank(tabularImportedStudent.Error))
+                tabularImportedStudent.Email = ds.Tables[0].Rows[i][16].ToString();
+                if (CheckUntils.IsNullOrBlank(tabularImportedStudent.Email) == false)
                 {
-                    tabularImportedStudent.ImportStatus = "Thông tin hợp lệ";
+                    bIgnoredRow = false;
                 }
-                else
+
+                if(CheckUntils.IsNullOrBlank(tabularImportedStudent.Email) == false)
                 {
-                    tabularImportedStudent.ImportStatus = "Lỗi:<br/>";
-                    bImportError = true;
+                    // Validate email if only it is imported
+                    //if (MailBL.CheckEmailExist(tabularImportedStudent.Email) == false)
+                    //{
+                    //    strBuilder.Append("Email không tồn tại <br/>");
+                    //}
                 }
-                
-                tabularImportedStudents.Add(tabularImportedStudent);
+
+                if (bIgnoredRow == false)
+                {
+                    tabularImportedStudents.Add(tabularImportedStudent);
+                    tabularImportedStudent.Error = strBuilder.ToString();
+                    if (CheckUntils.IsNullOrBlank(tabularImportedStudent.Error))
+                    {
+                        tabularImportedStudent.ImportStatus = "Thông tin hợp lệ";
+                    }
+                    else
+                    {
+                        tabularImportedStudent.ImportStatus = "Lỗi:<br/>";
+                        bImportError = true;
+                    }
+                    
+                    bLackOfParents = true;
+                }
 
                 strBuilder.Clear();
-                bLackOfParents = true;
             }
 
             RptHocSinh.DataSource = tabularImportedStudents;

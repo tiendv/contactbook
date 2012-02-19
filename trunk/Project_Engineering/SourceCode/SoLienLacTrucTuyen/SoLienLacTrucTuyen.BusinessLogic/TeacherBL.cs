@@ -37,9 +37,9 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         //    teacherDA.DeleteTeacher(teacher);
         //}
 
-        public void UpdateTeacher(aspnet_Membership editedTeacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone)
+        public void UpdateTeacher(aspnet_Membership editedTeacher, string newTeacherName, bool newGender, DateTime newBirthday, string newAddress, string newPhone, byte[] photo)
         {
-            teacherDA.UpdateTeacher(editedTeacher, newTeacherName, newGender, newBirthday, newAddress, newPhone);
+            teacherDA.UpdateTeacher(editedTeacher, newTeacherName, newGender, newBirthday, newAddress, newPhone, photo);
         }
 
         public aspnet_User GetTeacher(string teacherCode)

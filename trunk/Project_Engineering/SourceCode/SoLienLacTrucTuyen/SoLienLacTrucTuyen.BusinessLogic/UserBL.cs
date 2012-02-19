@@ -251,10 +251,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         /// Create new user of role Parents
         /// </summary>
         /// <param name="user">User will be created</param>
-        public void CreateUserParents(aspnet_User user)
+        public void CreateUserParents(aspnet_User user, string email)
         {
             // Update membership information
-            UpdateMembership(user, false, STRING_UNDEFINED, null);
+            UpdateMembership(user, false, STRING_UNDEFINED, email);
 
             AuthorizationBL authorizationBL = new AuthorizationBL(school);
             RoleBL roleBL = new RoleBL(school);

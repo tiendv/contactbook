@@ -37,7 +37,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             scheduleBL = new ScheduleBL(UserSchool);
 
             TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(UserSchool);
-            
+
 
             if (!Page.IsPostBack)
             {
@@ -124,7 +124,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Configuration_Term term = new Configuration_Term();
             term.TermId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_TERMID];
             AddSession(AppConstant.SESSION_SELECTED_TERM, term);
-            
+
             Response.Redirect(AppConstant.PAGEPATH_SCHEDULE);
         }
         #endregion
@@ -331,28 +331,43 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         AddSession(AppConstant.SESSION_SELECTED_CLASS, Class);
                         AddSession(AppConstant.SESSION_SELECTED_TERM, term);
 
-                        TeachingPeriodSchedule schedule = null;
+                        TeachingPeriodSchedule selectedSchedule = (TeachingPeriodSchedule)e.Item.DataItem;
                         bool bContinue = true;
                         List<List<TeachingPeriodSchedule>> weeklySchedule = (List<List<TeachingPeriodSchedule>>)GetSession(AppConstant.SESSION_WEEKLYSCHEDULE);
                         foreach (List<TeachingPeriodSchedule> dailySchedule in weeklySchedule)
                         {
                             foreach (TeachingPeriodSchedule teachingPeriodSchedule in dailySchedule)
                             {
-                                if (teachingPeriodSchedule.ScheduleId == Int32.Parse(e.CommandArgument.ToString()))
+                                string[] strCommandArguments = ((string)e.CommandArgument).Split(':');
+
+                                if (strCommandArguments[0] != "0")
                                 {
-                                    schedule = teachingPeriodSchedule;
-                                    bContinue = false;
-                                    break;
+                                    if (strCommandArguments[0] == teachingPeriodSchedule.ScheduleId.ToString())
+                                    {
+                                        selectedSchedule = teachingPeriodSchedule;
+                                        bContinue = false;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    if (strCommandArguments[1] == teachingPeriodSchedule.DayInWeekId.ToString()
+                                        && strCommandArguments[2] == teachingPeriodSchedule.TeachingPeriodId.ToString())
+                                    {
+                                        selectedSchedule = teachingPeriodSchedule;
+                                        bContinue = false;
+                                        break;
+                                    }
                                 }
                             }
 
-                            if (bContinue)
+                            if (bContinue == false)
                             {
                                 break;
                             }
                         }
 
-                        AddSession(AppConstant.SESSION_SCHEDULE, schedule);
+                        AddSession(AppConstant.SESSION_SCHEDULE, selectedSchedule);
 
                         Response.Redirect(AppConstant.PAGEPATH_SCHEDULE_MODIFY);
                         break;
