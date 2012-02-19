@@ -33,7 +33,10 @@ namespace EContactBook.DataAccess
                 school.Phone = phone;
                 school.Email = email;
                 school.Password = password;
-                school.Logo = new System.Data.Linq.Binary(logo);
+                if (school.Logo != null)
+                {
+                    school.Logo = new System.Data.Linq.Binary(logo);
+                }
 
                 db.SubmitChanges();
             }

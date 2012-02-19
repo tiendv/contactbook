@@ -47,8 +47,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string PAGEPATH_PARENTS_COMMENT_DETAIL = "/modules/phu_huynh/chitietykien.aspx";
         public const string PAGEPATH_PARENTS_COMMENT_LIST = "/modules/phu_huynh/ykien.aspx";
         public const string PAGEPATH_PARENTS_MESSAGE_LIST = "/modules/phu_huynh/thongbao.aspx";        
-        public const string PAGEPATH_PARENTS_MESSAGE_DETAIL = "/modules/phu_huynh/chitietthongbao.aspx";        
-        
+        public const string PAGEPATH_PARENTS_MESSAGE_DETAIL = "/modules/phu_huynh/chitietthongbao.aspx";
+
+        public const string PAGEPATH_CONFIGURATION_DETAIL = "/modules/cau_hinh/cauhinh.aspx";
+        public const string PAGEPATH_CONFIGURATION_MODIFY = "/modules/cau_hinh/suacauhinh.aspx";
+
         public const string PAGEPATH_PRINTTEACHERS = "/modules/danh_muc/giao_vien/indanhsachgiaovien.aspx";
         public const string PAGEPATH_PRINTCLASSES = "/modules/lop_hoc/indanhsachlophoc.aspx";
         public const string PAGEPATH_SCHEDULE = "/modules/lop_hoc/thoikhoabieu.aspx";

@@ -45,7 +45,7 @@
                 ToolTip="Kích hoạt người dùng" OnClick="BtnActivate_Click" CssClass="BtnActivate" />
             <asp:ImageButton ID="BtnDeactivate" runat="server" ImageUrl="~/Styles/buttons/button_deactivate.png"
                 ToolTip="Hủy kích hoạt người dùng" OnClick="BtnDeactivate_Click" CssClass="BtnDeactivate" />
-                &nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <asp:ImageButton ID="BtnAddUser" runat="server" CssClass="BtnAdd" ImageUrl="~/Styles/buttons/button_add.png"
                 ToolTip="Thêm người dùng mới" OnClick="BtnAdd_Click" />
             <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
@@ -74,6 +74,9 @@
                             <asp:LinkButton ID="LinkButton1" runat="server" CommandName="SortByUserName" ForeColor="White">Người dùng</asp:LinkButton>
                         </td>
                         <td>
+                            Tên thật
+                        </td>
+                        <td>
                             <asp:LinkButton ID="LinkButton2" runat="server" CommandName="SortByUserName" ForeColor="White">Nhóm người dùng</asp:LinkButton>
                         </td>
                         <td>
@@ -98,6 +101,9 @@
                         <td style="height: 40px;">
                             <asp:LinkButton ID="LkBtnUserName" runat="server" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>'><%#DataBinder.Eval(Container.DataItem, "UserName")%>
                             </asp:LinkButton>
+                        </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "FullName")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "RoleDisplayedName")%>

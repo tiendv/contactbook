@@ -462,3 +462,11 @@ table.search
  font-weight: bold;  
  border: 2px solid #333333;  
 } 
+
+.Title
+{
+    font-size: 15px;
+    font-weight: bold;
+    font-family: arial, Helvetica, sans-serif;
+    color: #3333CC;
+}

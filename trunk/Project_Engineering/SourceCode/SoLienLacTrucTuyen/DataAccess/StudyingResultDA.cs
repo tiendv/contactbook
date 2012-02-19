@@ -1173,7 +1173,7 @@ namespace EContactBook.DataAccess
             return newMarkSubjects;
         }
 
-        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, int month, bool approvedStatus, int pageCurrentIndex, int pageSize, out double totalRecord)
+        public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Class_Class Class, Configuration_Term term, Category_Subject subject, int month, bool approved, int pageCurrentIndex, int pageSize, out double totalRecord)
         {
             List<Student_DetailedTermSubjectMark> detailMarks = new List<Student_DetailedTermSubjectMark>();
             IQueryable<Student_DetailedTermSubjectMark> iqDetailMark = from detail in db.Student_DetailedTermSubjectMarks
@@ -1181,7 +1181,7 @@ namespace EContactBook.DataAccess
                                                                        && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
                                                                        && detail.Student_TermSubjectMark.TermId == term.TermId
                                                                        && detail.Date.Month == month
-                                                                       && detail.Approved == approvedStatus
+                                                                       && detail.Approved == approved
                                                                        select detail;
             totalRecord = iqDetailMark.Count();
             if (totalRecord != 0)

@@ -81,6 +81,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="App_Themes\Images\menu_child_pane.png" />
     <Content Include="modules\cau_hinh\cauhinh.aspx" />
+    <Content Include="modules\cau_hinh\suacauhinh.aspx" />
     <Content Include="modules\ContentPage.aspx" />
     <Content Include="modules\danh_muc\danhmucdanhhieu.aspx" />
     <Content Include="modules\danh_muc\danhmucnamhoc.aspx" />
@@ -181,7 +182,8 @@
     <Content Include="modules\y_kien\ykien.aspx" />
     <Content Include="Scripts\GlobalScript.js" />
     <Content Include="Scripts\JQRepeater-2.0.js" />
-    <Content Include="Scripts\jquery-ui-1.8.14.custom.min.js" />
+    <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="Styles\Buttons\button_confirm.png" />
     <Content Include="Styles\Buttons\button_delete.png" />
     <Content Include="Styles\Buttons\button_import.png" />
@@ -280,6 +282,7 @@
     <Content Include="Styles\Images\user_group.png" />
     <Content Include="Styles\Images\user_group_authorization.png" />
     <Content Include="Styles\Images\Warning.png" />
+    <Content Include="Styles\jquery-ui-1.8.17.custom.css" />
     <Content Include="Styles\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
@@ -351,6 +354,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
+      <DependentUpon>cauhinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\cau_hinh\cauhinh.aspx.designer.cs">
+      <DependentUpon>cauhinh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\cau_hinh\suacauhinh.aspx.cs">
+      <DependentUpon>suacauhinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\cau_hinh\suacauhinh.aspx.designer.cs">
+      <DependentUpon>suacauhinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\danh_muc\danhmucnamhoc.aspx.cs">
       <DependentUpon>danhmucnamhoc.aspx</DependentUpon>
@@ -455,13 +472,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="modules\utilities\AppConstant.cs" />
-    <Compile Include="modules\cau_hinh\cauhinh.aspx.cs">
-      <DependentUpon>cauhinh.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\cau_hinh\cauhinh.aspx.designer.cs">
-      <DependentUpon>cauhinh.aspx</DependentUpon>
-    </Compile>
     <Compile Include="modules\ContentPage.aspx.cs">
       <DependentUpon>ContentPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

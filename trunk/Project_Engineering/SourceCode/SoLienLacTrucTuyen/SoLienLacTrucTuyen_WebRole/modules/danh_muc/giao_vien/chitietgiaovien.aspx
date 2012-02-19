@@ -136,6 +136,12 @@
                             Học kỳ
                         </td>
                         <td>
+                            Thứ
+                        </td>
+                        <td>
+                            Tiết
+                        </td>
+                        <td>
                             Lớp học
                         </td>
                         <td>
@@ -155,6 +161,12 @@
                             <%#DataBinder.Eval(Container.DataItem, "TermName")%>
                         </td>
                         <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "DayInWeekName")%>
+                        </td>
+                        <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "TeachingPeriodName")%>
+                        </td>
+                        <td style="height: 40px;">
                             <asp:HyperLink ID="HyperLink1" runat="server"><%#DataBinder.Eval(Container.DataItem, "ClassName")%></asp:HyperLink>
                         </td>
                         <td style="height: 40px;">
@@ -164,7 +176,7 @@
                 </ItemTemplate>
                 <FooterTemplate>
                     <tr>
-                        <td colspan="5" class="footer ui-corner-bl ui-corner-br">
+                        <td colspan="7" class="footer ui-corner-bl ui-corner-br">
                         </td>
                     </tr>
                 </FooterTemplate>
