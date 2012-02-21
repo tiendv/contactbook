@@ -15,6 +15,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.ReportSource;
 using CrystalDecisions.Shared;
 using System.Web.Security;
+using System.IO;
 
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
@@ -337,6 +338,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         dtSource.Columns.Add("StudentId", Type.GetType("System.Int32"));
                         dtSource.Columns.Add("Gender", Type.GetType("System.String"));
                         dtSource.Columns.Add("DayOfBirth", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Image", Type.GetType("System.Byte[]"));
+                        
                         for (int i = 0; i < tabularStudents.Count; i++)
                         {
                             DataRow dr = dtSource.NewRow();
@@ -349,12 +352,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             dr["StudentId"] = tabularStudents[i].StudentId;
                             dr["Gender"] = tabularStudents[i].Gender;
                             dr["DayOfBirth"] = tabularStudents[i].StringDateOfBirth;
+                            dr["Image"] = (byte[])UserSchool.Logo.ToArray();
                             dtSource.Rows.Add(dr);
                         }
                         ds.Tables.Add(dtSource);
                         RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Student.rpt"));
                         RptDocument.SetDataSource(ds.Tables[0]);
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
+                        RptDocument.SetParameterValue("Dc", UserSchool.Address);
+                        RptDocument.SetParameterValue("Tel", UserSchool.Phone);
                         RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
                         FacultyBL facultyBL = new FacultyBL(UserSchool);
                         RptDocument.SetParameterValue("Fal", (faculty == null || faculty.FacultyId == 0) ? "Tất cả" : faculty.FacultyName);
@@ -374,6 +380,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         dtSource.Columns.Add("HoTen", Type.GetType("System.String"));
                         dtSource.Columns.Add("GioiTinh", Type.GetType("System.String"));
                         dtSource.Columns.Add("NgaySinh", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Image", Type.GetType("System.Byte[]"));
                         for (int i = 0; i < tabularTeachers.Count; i++)
                         {
                             DataRow dr = dtSource.NewRow();
@@ -381,12 +388,16 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             dr["HoTen"] = tabularTeachers[i].HoTen;
                             dr["GioiTinh"] = tabularTeachers[i].StringGioiTinh;
                             dr["NgaySinh"] = tabularTeachers[i].StringNgaySinh;
+                            dr["Image"] = (byte[])UserSchool.Logo.ToArray();
                             dtSource.Rows.Add(dr);
                         }
                         ds.Tables.Add(dtSource);
                         RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Teachers.rpt"));
                         RptDocument.SetDataSource(ds.Tables[0]);
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
+                        RptDocument.SetParameterValue("Dc", UserSchool.Address);
+                        RptDocument.SetParameterValue("Tel", UserSchool.Phone);
+
                         #endregion
                         break;
                     }
@@ -404,6 +415,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         dtSource.Columns.Add("TenGVCN", Type.GetType("System.String"));
                         dtSource.Columns.Add("SiSo", Type.GetType("System.Int16"));
                         dtSource.Columns.Add("YearName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Image", Type.GetType("System.Byte[]"));
                         for (int i = 0; i < tabularClasses.Count; i++)
                         {
                             DataRow dr = dtSource.NewRow();
@@ -414,12 +426,15 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             dr["TenGVCN"] = tabularClasses[i].TenGVCN;
                             dr["SiSo"] = tabularClasses[i].SiSo;
                             dr["YearName"] = tabularClasses[i].YearName;
+                            dr["Image"] = (byte[])UserSchool.Logo.ToArray();
                             dtSource.Rows.Add(dr);
                         }
                         ds.Tables.Add(dtSource);
                         RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Classes.rpt"));
                         RptDocument.SetDataSource(ds.Tables[0]);
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
+                        RptDocument.SetParameterValue("Dc", UserSchool.Address);
+                        RptDocument.SetParameterValue("Tel", UserSchool.Phone);
                         RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
                         RptDocument.SetParameterValue("Fal", faculty == null ? "Tất cả" : faculty.FacultyName);
                         RptDocument.SetParameterValue("Grade", grade == null ? "Tất cả" : grade.GradeName);
@@ -439,6 +454,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         dtSource.Columns.Add("Afternoon_StringDetailTeachingPeriod", Type.GetType("System.String"));
                         dtSource.Columns.Add("Afternoon_SubjectName", Type.GetType("System.String"));
                         dtSource.Columns.Add("Afternoon_TeacherName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Image", Type.GetType("System.Byte[]"));
                         int _count;
                         for (int i = 0; i < tabularDailySchedule.Count; i++)
                         {
@@ -486,6 +502,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                         drSource["Afternoon_SubjectName"] = string.Empty;
                                         drSource["Afternoon_TeacherName"] = string.Empty;
                                     }
+                                    drSource["Image"] = (byte[])UserSchool.Logo.ToArray();
                                     dtSource.Rows.Add(drSource);
                                 }
 
@@ -497,6 +514,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         RptDocument.Load(Server.MapPath("~/modules/report/Rpt_Term.rpt"));
                         RptDocument.SetDataSource(ds.Tables[0]);
                         RptDocument.SetParameterValue("School", UserSchool.SchoolName);
+                        RptDocument.SetParameterValue("Dc", UserSchool.Address);
+                        RptDocument.SetParameterValue("Tel", UserSchool.Phone);
                         RptDocument.SetParameterValue("Year", year == null ? "Tất cả" : year.YearName);
                         RptDocument.SetParameterValue("Term", term == null ? "Tất cả" : term.TermName);
                         RptDocument.SetParameterValue("Fal", tlbClass.FacultyName);

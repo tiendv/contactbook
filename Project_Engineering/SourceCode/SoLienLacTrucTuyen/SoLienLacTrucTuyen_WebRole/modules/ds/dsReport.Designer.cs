@@ -402,6 +402,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             private global::System.Data.DataColumn columnDayOfBirth;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dsHocSinhDataTable() {
@@ -509,6 +511,14 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -544,7 +554,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dsHocSinhRow AdddsHocSinhRow(int ClassId, string ClassName, string FacultyName, string FullName, string GradeName, string StudentCode, int StudentId, string Gender, string DayOfBirth) {
+            public dsHocSinhRow AdddsHocSinhRow(int ClassId, string ClassName, string FacultyName, string FullName, string GradeName, string StudentCode, int StudentId, string Gender, string DayOfBirth, byte[] Image) {
                 dsHocSinhRow rowdsHocSinhRow = ((dsHocSinhRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ClassId,
@@ -555,7 +565,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                         StudentCode,
                         StudentId,
                         Gender,
-                        DayOfBirth};
+                        DayOfBirth,
+                        Image};
                 rowdsHocSinhRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdsHocSinhRow);
                 return rowdsHocSinhRow;
@@ -587,6 +598,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 this.columnStudentId = base.Columns["StudentId"];
                 this.columnGender = base.Columns["Gender"];
                 this.columnDayOfBirth = base.Columns["DayOfBirth"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -610,6 +622,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 base.Columns.Add(this.columnGender);
                 this.columnDayOfBirth = new global::System.Data.DataColumn("DayOfBirth", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDayOfBirth);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -751,6 +765,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             private global::System.Data.DataColumn columnNgaySinh;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dsTeachersDataTable() {
@@ -818,6 +834,14 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -853,13 +877,14 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dsTeachersRow AdddsTeachersRow(string MaHienThiGiaoVien, string HoTen, string GioiTinh, string NgaySinh) {
+            public dsTeachersRow AdddsTeachersRow(string MaHienThiGiaoVien, string HoTen, string GioiTinh, string NgaySinh, byte[] Image) {
                 dsTeachersRow rowdsTeachersRow = ((dsTeachersRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         MaHienThiGiaoVien,
                         HoTen,
                         GioiTinh,
-                        NgaySinh};
+                        NgaySinh,
+                        Image};
                 rowdsTeachersRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdsTeachersRow);
                 return rowdsTeachersRow;
@@ -886,6 +911,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 this.columnHoTen = base.Columns["HoTen"];
                 this.columnGioiTinh = base.Columns["GioiTinh"];
                 this.columnNgaySinh = base.Columns["NgaySinh"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -899,6 +925,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 base.Columns.Add(this.columnGioiTinh);
                 this.columnNgaySinh = new global::System.Data.DataColumn("NgaySinh", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNgaySinh);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1046,6 +1074,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             private global::System.Data.DataColumn columnYearName;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dsClassesDataTable() {
@@ -1137,6 +1167,14 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1172,7 +1210,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dsClassesRow AdddsClassesRow(short ClassId, string ClassName, string FacultyName, string GradeName, string TenGVCN, short SiSo, string YearName) {
+            public dsClassesRow AdddsClassesRow(short ClassId, string ClassName, string FacultyName, string GradeName, string TenGVCN, short SiSo, string YearName, byte[] Image) {
                 dsClassesRow rowdsClassesRow = ((dsClassesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ClassId,
@@ -1181,7 +1219,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                         GradeName,
                         TenGVCN,
                         SiSo,
-                        YearName};
+                        YearName,
+                        Image};
                 rowdsClassesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdsClassesRow);
                 return rowdsClassesRow;
@@ -1211,6 +1250,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 this.columnTenGVCN = base.Columns["TenGVCN"];
                 this.columnSiSo = base.Columns["SiSo"];
                 this.columnYearName = base.Columns["YearName"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1230,6 +1270,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 base.Columns.Add(this.columnSiSo);
                 this.columnYearName = new global::System.Data.DataColumn("YearName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnYearName);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1377,6 +1419,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             private global::System.Data.DataColumn columnAfternoon_TeacherName;
             
+            private global::System.Data.DataColumn columnImage;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public dsTermDataTable() {
@@ -1468,6 +1512,14 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ImageColumn {
+                get {
+                    return this.columnImage;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -1503,7 +1555,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public dsTermRow AdddsTermRow(string DayInWeekName, string Morning_StringDetailTeachingPeriod, string Morning_SubjectName, string Morning_TeacherName, string Afternoon_StringDetailTeachingPeriod, string Afternoon_SubjectName, string Afternoon_TeacherName) {
+            public dsTermRow AdddsTermRow(string DayInWeekName, string Morning_StringDetailTeachingPeriod, string Morning_SubjectName, string Morning_TeacherName, string Afternoon_StringDetailTeachingPeriod, string Afternoon_SubjectName, string Afternoon_TeacherName, byte[] Image) {
                 dsTermRow rowdsTermRow = ((dsTermRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         DayInWeekName,
@@ -1512,7 +1564,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                         Morning_TeacherName,
                         Afternoon_StringDetailTeachingPeriod,
                         Afternoon_SubjectName,
-                        Afternoon_TeacherName};
+                        Afternoon_TeacherName,
+                        Image};
                 rowdsTermRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdsTermRow);
                 return rowdsTermRow;
@@ -1542,6 +1595,7 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 this.columnAfternoon_StringDetailTeachingPeriod = base.Columns["Afternoon_StringDetailTeachingPeriod"];
                 this.columnAfternoon_SubjectName = base.Columns["Afternoon_SubjectName"];
                 this.columnAfternoon_TeacherName = base.Columns["Afternoon_TeacherName"];
+                this.columnImage = base.Columns["Image"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1561,6 +1615,8 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
                 base.Columns.Add(this.columnAfternoon_SubjectName);
                 this.columnAfternoon_TeacherName = new global::System.Data.DataColumn("Afternoon_TeacherName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAfternoon_TeacherName);
+                this.columnImage = new global::System.Data.DataColumn("Image", typeof(byte[]), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnImage);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1847,6 +1903,22 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] Image {
+                get {
+                    try {
+                        return ((byte[])(this[this.tabledsHocSinh.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'dsHocSinh\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledsHocSinh.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsClassIdNull() {
                 return this.IsNull(this.tabledsHocSinh.ClassIdColumn);
             }
@@ -1952,6 +2024,18 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             public void SetDayOfBirthNull() {
                 this[this.tabledsHocSinh.DayOfBirthColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tabledsHocSinh.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetImageNull() {
+                this[this.tabledsHocSinh.ImageColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -2034,6 +2118,22 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] Image {
+                get {
+                    try {
+                        return ((byte[])(this[this.tabledsTeachers.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'dsTeachers\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledsTeachers.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsMaHienThiGiaoVienNull() {
                 return this.IsNull(this.tabledsTeachers.MaHienThiGiaoVienColumn);
             }
@@ -2078,6 +2178,18 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetNgaySinhNull() {
                 this[this.tabledsTeachers.NgaySinhColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tabledsTeachers.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetImageNull() {
+                this[this.tabledsTeachers.ImageColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2209,6 +2321,22 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] Image {
+                get {
+                    try {
+                        return ((byte[])(this[this.tabledsClasses.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'dsClasses\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledsClasses.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsClassIdNull() {
                 return this.IsNull(this.tabledsClasses.ClassIdColumn);
             }
@@ -2289,6 +2417,18 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetYearNameNull() {
                 this[this.tabledsClasses.YearNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tabledsClasses.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetImageNull() {
+                this[this.tabledsClasses.ImageColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -2422,6 +2562,22 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public byte[] Image {
+                get {
+                    try {
+                        return ((byte[])(this[this.tabledsTerm.ImageColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Image\' in table \'dsTerm\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledsTerm.ImageColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsDayInWeekNameNull() {
                 return this.IsNull(this.tabledsTerm.DayInWeekNameColumn);
             }
@@ -2502,6 +2658,18 @@ namespace SoLienLacTrucTuyen_WebRole.modules.ds {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetAfternoon_TeacherNameNull() {
                 this[this.tabledsTerm.Afternoon_TeacherNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsImageNull() {
+                return this.IsNull(this.tabledsTerm.ImageColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetImageNull() {
+                this[this.tabledsTerm.ImageColumn] = global::System.Convert.DBNull;
             }
         }
         
