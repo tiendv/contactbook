@@ -111,6 +111,15 @@
         <asp:Label ID="LblSearchResult" runat="server" Style="font-size: 15px; font-weight: bold;"
             Text="Không có thông tin điểm học sinh">
         </asp:Label>
+        <asp:Panel ID="PnlApprovalMarkStatus" runat="server" Style="font-weight: bold">
+            <span style="clear: both">
+                <br />
+            </span>
+            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/alert.png" />
+            <asp:Label ID="Label1" runat="server" CssClass="Title">Bạn có
+                <asp:Label ID="LblApprovalMarkStatus" runat="server" CssClass="alertNumber"></asp:Label>
+                điểm chưa phê duyệt </asp:Label>
+        </asp:Panel>
         <table class="repeater">
             <asp:Repeater ID="RptDiemMonHoc" runat="server">
                 <HeaderTemplate>

@@ -6,8 +6,7 @@
     <table style="width: 100%; padding: 10px 0px 10px 0px" class="loginBox ui-corner-all">
         <tr>
             <td style="width: 90px; height: 27px; padding-left: 10px">
-                Tên trường:
-                <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red"></asp:Label>
+                Tên trường: <span class="required">*</span>
             </td>
             <td colspan="2">
                 <asp:TextBox ID="TxtSchoolName" runat="server" Width="98%"></asp:TextBox><br />
@@ -26,6 +25,7 @@
                 <asp:Image ID="ImgLogo" runat="server" Width="100px" Height="100px" AlternateText="Logo" />
                 <br />
                 <asp:FileUpload ID="FileUploadLogo" runat="server" Height="27px" />
+                <br />
                 <asp:RegularExpressionValidator ID="FileUpLoadValidator" runat="server" ErrorMessage="Định dạng file không hợp lệ"
                     ForeColor="Red" ValidationExpression="[a-zA-Z0_9].*\b(.jpeg|.JPEG|.jpg|.JPG|.jpe|.JPE|.png|.PNG|.tiff|.TIFF|.gif|.GIF)\b"
                     ControlToValidate="FileUploadLogo" ValidationGroup="ModifySchool" Display="Dynamic">
@@ -47,6 +47,7 @@
                 Huyện/Quận:
                 <asp:DropDownList ID="DdlDistricts" runat="server" Width="170px">
                 </asp:DropDownList>
+                <br />
                 <asp:RequiredFieldValidator ID="DistrictRequired" runat="server" ControlToValidate="DdlDistricts"
                     ValidationGroup="ModifySchool" ErrorMessage="Huyện/quận không được để trống"
                     Display="Dynamic" ForeColor="Red" />
@@ -59,6 +60,7 @@
             </td>
             <td colspan="2">
                 <asp:TextBox ID="TxtAddress" runat="server" Width="98%" TextMode="MultiLine" Font-Names="Arial"></asp:TextBox>
+                <br />
                 <asp:RequiredFieldValidator ID="AddressRequired" runat="server" ControlToValidate="TxtAddress"
                     ValidationGroup="ModifySchool" ErrorMessage="Địa chỉ không được để trống" Display="Dynamic"
                     ForeColor="Red" />
@@ -71,14 +73,19 @@
             </td>
             <td>
                 <asp:TextBox ID="TxtPhone" runat="server" Width="200px"></asp:TextBox>
+                <br />
                 <asp:RequiredFieldValidator ID="PhoneRequired" runat="server" ControlToValidate="TxtPhone"
                     ValidationGroup="ModifySchool" ErrorMessage="Điện thoại không được để trống"
                     Display="Dynamic" ForeColor="Red" />
             </td>
-            <td style="height: 27px; padding-left: 50px">
-                Email:
-                <asp:Label ID="Label4" runat="server" Text="*" ForeColor="Red"></asp:Label>
+        </tr>
+        <tr>
+            <td style="height: 27px; padding-left: 10px">
+                Email:<span class="required">*</span>
+            </td>
+            <td>
                 <asp:TextBox ID="TxtEmail" runat="server" Width="200px"></asp:TextBox>
+                <br />
                 <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="TxtEmail"
                     ValidationGroup="ModifySchool" ErrorMessage="Email không được để trống" Display="Dynamic"
                     ForeColor="Red" />
@@ -86,6 +93,14 @@
                     ValidationGroup="ModifySchool" Display="Dynamic" ControlToValidate="TxtEmail"
                     ForeColor="Red">
                 </asp:CustomValidator>
+            </td>
+            <td style="height: 27px; padding-left: 50px">
+                Mật khẩu email:<span class="required">*</span>
+                <asp:TextBox ID="TxtPassword" runat="server" Width="150px" TextMode="Password"></asp:TextBox>
+                <br />
+                <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="TxtPassword"
+                    ValidationGroup="ModifySchool" ErrorMessage="Mật khẩu email không được để trống"
+                    Display="Dynamic" ForeColor="Red" />
             </td>
         </tr>
     </table>

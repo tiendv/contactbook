@@ -1084,5 +1084,10 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         {
             studyingResultDA.ChangeApproveStatusMark(detailedTermSubjectMark, true, note);
         }
+
+        public int GetTotalUnapprovedMarks(Class_Class Class)
+        {
+            return studyingResultDA.GetTotalUnapprovedMarks(Class);
+        }
     }
 }

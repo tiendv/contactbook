@@ -58,13 +58,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 string strAddress = TxtAddress.Text.Trim();
                 string strEmail = TxtEmail.Text.Trim();
                 string strPhone = TxtPhone.Text.Trim();
+                string strEmailPassword = TxtPassword.Text.Trim();
                 byte[] bLogo = null;
                 if (CheckSessionKey("Image"))
                 {
                     bLogo = (byte[])GetSession("Image");
                 }
-                string strEmailPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
-                    Membership.Provider.MinRequiredNonAlphanumericCharacters);
 
                 // insert new school and then return it generated id
                 schoolBL = new SchoolBL();
@@ -188,6 +187,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
+            if (CheckUntils.IsNullOrBlank(TxtPassword.Text))
+            {
+                PasswordRequired.IsValid = false;
+                return false;
+            } 
+            
             if (MailBL.CheckEmailExist(TxtEmail.Text))
             {
                 EmailCustomValidator.IsValid = true;
@@ -196,7 +201,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 EmailCustomValidator.IsValid = false;
                 return false;
-            }
+            }           
 
             return true;
         }
