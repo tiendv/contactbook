@@ -24,6 +24,7 @@
               <xs:element name="StudentId" msprop:Generator_ColumnVarNameInTable="columnStudentId" msprop:Generator_ColumnPropNameInRow="StudentId" msprop:Generator_ColumnPropNameInTable="StudentIdColumn" msprop:Generator_UserColumnName="StudentId" type="xs:int" minOccurs="0" />
               <xs:element name="Gender" msprop:Generator_ColumnVarNameInTable="columnGender" msprop:Generator_ColumnPropNameInRow="Gender" msprop:Generator_ColumnPropNameInTable="GenderColumn" msprop:Generator_UserColumnName="Gender" type="xs:string" minOccurs="0" />
               <xs:element name="DayOfBirth" msprop:Generator_ColumnVarNameInTable="columnDayOfBirth" msprop:Generator_ColumnPropNameInRow="DayOfBirth" msprop:Generator_ColumnPropNameInTable="DayOfBirthColumn" msprop:Generator_UserColumnName="DayOfBirth" type="xs:string" minOccurs="0" />
+              <xs:element name="Image" msprop:Generator_ColumnVarNameInTable="columnImage" msprop:Generator_ColumnPropNameInRow="Image" msprop:Generator_ColumnPropNameInTable="ImageColumn" msprop:Generator_UserColumnName="Image" type="xs:base64Binary" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -34,6 +35,7 @@
               <xs:element name="HoTen" msprop:Generator_ColumnVarNameInTable="columnHoTen" msprop:Generator_ColumnPropNameInRow="HoTen" msprop:Generator_ColumnPropNameInTable="HoTenColumn" msprop:Generator_UserColumnName="HoTen" type="xs:string" minOccurs="0" />
               <xs:element name="GioiTinh" msprop:Generator_ColumnVarNameInTable="columnGioiTinh" msprop:Generator_ColumnPropNameInRow="GioiTinh" msprop:Generator_ColumnPropNameInTable="GioiTinhColumn" msprop:Generator_UserColumnName="GioiTinh" type="xs:string" minOccurs="0" />
               <xs:element name="NgaySinh" msprop:Generator_ColumnVarNameInTable="columnNgaySinh" msprop:Generator_ColumnPropNameInRow="NgaySinh" msprop:Generator_ColumnPropNameInTable="NgaySinhColumn" msprop:Generator_UserColumnName="NgaySinh" type="xs:string" minOccurs="0" />
+              <xs:element name="Image" msprop:Generator_ColumnVarNameInTable="columnImage" msprop:Generator_ColumnPropNameInRow="Image" msprop:Generator_ColumnPropNameInTable="ImageColumn" msprop:Generator_UserColumnName="Image" type="xs:base64Binary" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -47,6 +49,7 @@
               <xs:element name="TenGVCN" msprop:Generator_ColumnVarNameInTable="columnTenGVCN" msprop:Generator_ColumnPropNameInRow="TenGVCN" msprop:Generator_ColumnPropNameInTable="TenGVCNColumn" msprop:Generator_UserColumnName="TenGVCN" type="xs:string" minOccurs="0" />
               <xs:element name="SiSo" msprop:Generator_ColumnVarNameInTable="columnSiSo" msprop:Generator_ColumnPropNameInRow="SiSo" msprop:Generator_ColumnPropNameInTable="SiSoColumn" msprop:Generator_UserColumnName="SiSo" type="xs:short" minOccurs="0" />
               <xs:element name="YearName" msprop:Generator_ColumnVarNameInTable="columnYearName" msprop:Generator_ColumnPropNameInRow="YearName" msprop:Generator_ColumnPropNameInTable="YearNameColumn" msprop:Generator_UserColumnName="YearName" type="xs:string" minOccurs="0" />
+              <xs:element name="Image" msprop:Generator_ColumnVarNameInTable="columnImage" msprop:Generator_ColumnPropNameInRow="Image" msprop:Generator_ColumnPropNameInTable="ImageColumn" msprop:Generator_UserColumnName="Image" type="xs:base64Binary" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -60,6 +63,7 @@
               <xs:element name="Afternoon_StringDetailTeachingPeriod" msprop:Generator_ColumnVarNameInTable="columnAfternoon_StringDetailTeachingPeriod" msprop:Generator_ColumnPropNameInRow="Afternoon_StringDetailTeachingPeriod" msprop:Generator_ColumnPropNameInTable="Afternoon_StringDetailTeachingPeriodColumn" msprop:Generator_UserColumnName="Afternoon_StringDetailTeachingPeriod" type="xs:string" minOccurs="0" />
               <xs:element name="Afternoon_SubjectName" msprop:Generator_ColumnVarNameInTable="columnAfternoon_SubjectName" msprop:Generator_ColumnPropNameInRow="Afternoon_SubjectName" msprop:Generator_ColumnPropNameInTable="Afternoon_SubjectNameColumn" msprop:Generator_UserColumnName="Afternoon_SubjectName" type="xs:string" minOccurs="0" />
               <xs:element name="Afternoon_TeacherName" msprop:Generator_ColumnVarNameInTable="columnAfternoon_TeacherName" msprop:Generator_ColumnPropNameInRow="Afternoon_TeacherName" msprop:Generator_ColumnPropNameInTable="Afternoon_TeacherNameColumn" msprop:Generator_UserColumnName="Afternoon_TeacherName" type="xs:string" minOccurs="0" />
+              <xs:element name="Image" msprop:Generator_ColumnVarNameInTable="columnImage" msprop:Generator_ColumnPropNameInRow="Image" msprop:Generator_ColumnPropNameInTable="ImageColumn" msprop:Generator_UserColumnName="Image" type="xs:base64Binary" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
