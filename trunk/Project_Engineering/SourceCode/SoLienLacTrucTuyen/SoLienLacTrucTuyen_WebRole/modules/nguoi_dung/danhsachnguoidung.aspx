@@ -20,6 +20,11 @@
                 $find('<%=MPEActivateReport.ClientID%>').hide();
                 return false;
             }
+
+            function popopSendMailReport_Close() {
+                $find('<%=MPESendMailReport.ClientID%>').hide();
+                return false;
+            }
             
         </script>
     </div>
@@ -200,6 +205,30 @@
         <div style="width: 85px; margin: 0px auto 0px auto; padding-bottom: 5px;">
             <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/Styles/buttons/button_close.png"
                 OnClientClick="return popopActivateReport_Close();" CssClass="BtnClose" />
+        </div>
+    </asp:Panel>
+    <asp:ImageButton ID="BtnFakedSendMailReport" runat="server" Style="display: none" />
+    <ajaxToolkit:ModalPopupExtender ID="MPESendMailReport" runat="server" TargetControlID="BtnFakedSendMailReport"
+        PopupControlID="PnlSendMailReport" BackgroundCssClass="modalBackground" CancelControlID="img1"
+        PopupDragHandleControlID="Panel2">
+    </ajaxToolkit:ModalPopupExtender>
+    <asp:Panel ID="PnlSendMailReport" runat="server" CssClass="popup ui-corner-all" Width="350px">
+        <asp:Panel ID="Panel2" runat="server" CssClass="popup_header ui-corner-top">
+            <asp:Label ID="Label3" runat="server" Text="Thông báo gửi mail" CssClass="popup_header_title"></asp:Label>
+            <img id="img1" class="button_close" src="../../Styles/buttons/popup_button_close.png"
+                alt="close" />
+        </asp:Panel>
+        <div style="padding: 10px;">
+            <asp:Image ID="Image4" runat="server" ImageUrl="~/Styles/Icons/icon-warning.png"
+                Style="float: left;" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:Label ID="LblSendMailError" runat="server"></asp:Label>
+                <br />
+            </div>
+        </div>
+        <div style="width: 85px; margin: 0px auto 0px auto; padding-bottom: 5px;">
+            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Styles/buttons/button_close.png"
+                OnClientClick="return popopSendMailReport_Close();" CssClass="BtnClose" />
         </div>
     </asp:Panel>
 </asp:Content>

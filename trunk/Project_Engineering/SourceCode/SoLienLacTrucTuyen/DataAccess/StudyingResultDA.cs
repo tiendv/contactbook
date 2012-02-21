@@ -577,7 +577,7 @@ namespace EContactBook.DataAccess
             }
 
             return detailMarks;
-        }        
+        }
 
         public List<Student_DetailedTermSubjectMark> GetDetailedMarks(Student_TermSubjectMark termSubjectedMark, Category_MarkType markType, int month, bool approvedStatus)
         {
@@ -1056,7 +1056,7 @@ namespace EContactBook.DataAccess
                                                                        && detail.Date.Month == month
                                                                        && detail.Approved == approvedStatus
                                                                        select detail;
-        
+
             return detailMarks;
         }
 
@@ -1085,7 +1085,7 @@ namespace EContactBook.DataAccess
                                                                        where detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
                                                                            && detail.Student_TermSubjectMark.SubjectId == subject.SubjectId
                                                                            && detail.Student_TermSubjectMark.TermId == term.TermId
-                                                                       select detail;            
+                                                                       select detail;
             if (iqDetailMark.Count() != 0)
             {
                 detailMarks = iqDetailMark.ToList();
@@ -1118,7 +1118,7 @@ namespace EContactBook.DataAccess
                                                                            && detail.Date.Month == month
                                                                            && detail.Approved == true
                                                                        select detail;
-            
+
             return detailMarks;
         }
 
@@ -1153,6 +1153,16 @@ namespace EContactBook.DataAccess
 
                 db.SubmitChanges();
             }
+        }
+
+        public int GetTotalUnapprovedMarks(Class_Class Class)
+        {
+            IQueryable<Student_DetailedTermSubjectMark> queryDetailMark = from detail in db.Student_DetailedTermSubjectMarks
+                                                                          where detail.Student_TermSubjectMark.Student_StudentInClass.ClassId == Class.ClassId
+                                                                          && detail.Approved == false
+                                                                          select detail;
+
+            return queryDetailMark.Count();
         }
     }
 }

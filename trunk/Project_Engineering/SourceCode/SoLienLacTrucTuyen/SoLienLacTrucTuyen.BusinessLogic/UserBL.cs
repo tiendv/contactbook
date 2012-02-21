@@ -28,6 +28,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             return userDA.GetUser(userName);
         }
 
+        public void ActivateUsers(aspnet_User user)
+        {
+            userDA.ChangeUserActivation(user, true);
+        }
+
         public void ActivateUsers(List<aspnet_User> users)
         {
             if (users.Count != 0)

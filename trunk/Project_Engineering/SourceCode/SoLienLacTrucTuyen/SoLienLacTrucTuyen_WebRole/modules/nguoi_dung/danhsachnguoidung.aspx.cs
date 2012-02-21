@@ -155,7 +155,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
                     CheckBox CkbxSelect = (CheckBox)item.FindControl("CkbxSelectUser");
-                    
+
                     if (CkbxSelect.Checked)
                     {
                         HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
@@ -168,14 +168,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
         }
-        
+
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
         {
             bool bInfoInUse = false;
             HiddenField hdfactualUserName = null;
             HiddenField HdfRptMaNhomNguoiDung = null;
             aspnet_User user = null;
-            foreach(RepeaterItem item in RptUser.Items)
+            foreach (RepeaterItem item in RptUser.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
@@ -216,6 +216,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Label LblEmail = null;
             List<aspnet_User> users = new List<aspnet_User>();
             aspnet_User user = null;
+            string strSendMailError;
             foreach (RepeaterItem item in RptUser.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
@@ -231,27 +232,31 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                             user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
                             HdfRptActualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
                             user.UserName = HdfRptActualUserName.Value;
-                            users.Add(user);
+                            MembershipUser membershipUser = Membership.GetUser(user.UserName);
+                            string strPassword = membershipUser.ResetPassword();
+
+                            strSendMailError = MailBL.SendByGmail(UserSchool.Email, membershipUser.Email,
+                                "[eContact.com] Kích hoạt tài khoản thành công",
+                                string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}",
+                                    UserSchool.SchoolName, user.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], strPassword),
+                                UserSchool.Email.Split('@')[0],
+                                UserSchool.Password);
+                            if (CheckUntils.IsNullOrBlank(strSendMailError) == false)
+                            {
+                                LblSendMailError.Text = strSendMailError + "<br/>Vui lòng kích hoạt lại người dùng";
+                                MPESendMailReport.Show();
+                                return;
+                            }
+
+                            userBL.ActivateUsers(user);                               
+                            Membership.UpdateUser(membershipUser);
                         }
                         else
-                        {
+                        {                            
                             bHasEmptyEmail = true;
                         }
                     }
                 }
-            }
-
-            userBL.ActivateUsers(users);
-            foreach(aspnet_User u in users)
-            {
-                MembershipUser membershipUser = Membership.GetUser(u.UserName);
-                string strPassword = membershipUser.ResetPassword();
-                Membership.UpdateUser(membershipUser);
-
-                MailBL.SendByGmail(UserSchool.Email, membershipUser.Email,
-                "[eContact.com] Kích hoạt tài khoản thành công",
-                string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}",
-                    UserSchool.SchoolName, u.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], strPassword), UserSchool.Email.Split('@')[0], UserSchool.Password);
             }
 
             isSearch = false;
@@ -293,7 +298,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         protected void RptUser_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             switch (e.CommandName)
-            {   
+            {
                 case "CmdDetailItem":
                     {
                         aspnet_User user = new aspnet_User();

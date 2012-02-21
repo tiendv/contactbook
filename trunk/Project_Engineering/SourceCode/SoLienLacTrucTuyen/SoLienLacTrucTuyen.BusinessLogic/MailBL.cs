@@ -89,7 +89,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             if (!regex.IsMatch(from))
             {
-                return "Địa chỉ gửi không hợp lệ";
+                return "Địa chỉ gửi email không hợp lệ";
             }
 
             to += ";";
@@ -135,7 +135,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             }
             catch (Exception ex)
             {
-                return "Khong the send mail";
+                return "Gửi mail không thành công!<br/>Vui lòng kiểm tra kết nối mạng hoặc mật khẩu email của trường không hợp lệ";
             }
             return string.Empty;
         }

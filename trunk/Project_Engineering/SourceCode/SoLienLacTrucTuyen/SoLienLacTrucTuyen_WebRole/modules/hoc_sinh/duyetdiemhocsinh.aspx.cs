@@ -411,6 +411,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             bool bDisplayData = (consideredStudentMarks.Count != 0) ? true : false;
             ProccessDisplayGUI(bDisplayData);
 
+            PnlApprovalMarkStatus.Visible = bDisplayData;
+            if (bDisplayData)
+            {
+                int iTotalUnapprovedMarks = studyingResultBL.GetTotalUnapprovedMarks(Class);
+                if (iTotalUnapprovedMarks != 0)
+                {
+                    PnlApprovalMarkStatus.Visible = true;
+                    LblApprovalMarkStatus.Text = iTotalUnapprovedMarks.ToString();
+                }
+                else
+                {
+                    PnlApprovalMarkStatus.Visible = false;
+                }
+            }
+
             // save selection
             ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = Int32.Parse(DdlNamHoc.SelectedValue);
             ViewState[AppConstant.VIEWSTATE_SELECTED_YEARNAME] = DdlNamHoc.SelectedItem.Text;
@@ -428,11 +443,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             ViewState[AppConstant.VIEWSTATE_SELECTED_TERMNAME] = DdlHocKy.SelectedItem.Text;
         }
 
-        private void ProccessDisplayGUI(bool bDisplayData)
+        private void ProccessDisplayGUI(bool displayData)
         {
-            RptDiemMonHoc.Visible = bDisplayData;
-            MainDataPager.Visible = bDisplayData;
-            LblSearchResult.Visible = !bDisplayData;
+            RptDiemMonHoc.Visible = displayData;
+            MainDataPager.Visible = displayData;
+            LblSearchResult.Visible = !displayData;
         }
 
         /// <summary>
