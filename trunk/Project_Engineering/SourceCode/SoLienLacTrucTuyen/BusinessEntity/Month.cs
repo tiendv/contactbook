@@ -89,9 +89,9 @@ namespace EContactBook.BusinessEntity
             get
             {   
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(BeginDate.ToShortDateString());
+                stringBuilder.Append(BeginDate.ToString("dd/MM/yyyy"));
                 stringBuilder.Append(" - ");
-                stringBuilder.Append(EndDate.ToShortDateString());
+                stringBuilder.Append(EndDate.ToString("dd/MM/yyyy"));
                 return stringBuilder.ToString();
             }
         }
@@ -104,9 +104,9 @@ namespace EContactBook.BusinessEntity
                 stringBuilder.Append("Tuần ");
                 stringBuilder.Append(WeekIndex);
                 stringBuilder.Append(" ("); 
-                stringBuilder.Append(BeginDate.ToShortDateString());
+                stringBuilder.Append(BeginDate.ToString("dd/MM/yyyy"));
                 stringBuilder.Append(" - ");
-                stringBuilder.Append(EndDate.ToShortDateString());
+                stringBuilder.Append(EndDate.ToString("dd/MM/yyyy"));
                 stringBuilder.Append(")");
                 return stringBuilder.ToString();
             }

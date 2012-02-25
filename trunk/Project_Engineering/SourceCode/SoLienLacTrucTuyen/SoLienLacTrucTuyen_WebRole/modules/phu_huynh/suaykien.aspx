@@ -11,7 +11,7 @@
         <tr>
             <td style="vertical-align: top; padding-top: 7px;">
                 Tiêu đề:
-                <asp:Label ID="Label1" runat="server" Text="*" ForeColor="Red"></asp:Label>
+                <span class="required">*</span>
             </td>
             <td class="readOnlyTextBox">
                 <asp:Label ID="LblTitle" runat="server" ViewStateMode="Enabled"></asp:Label>
@@ -20,11 +20,10 @@
         <tr>
             <td style="width: 70px; vertical-align: top; padding-top: 7px;">
                 Nội dung:
-                <asp:Label ID="Label2" runat="server" Text="*" ForeColor="Red"></asp:Label>
+                <span class="required">*</span>
             </td>
             <td>
                 <asp:TextBox ID="TxtContent" runat="server" TextMode="MultiLine" Height="230px" Font-Names="Arial" CssClass="input_textbox"></asp:TextBox>
-                <cc1:Editor ID="Editor1" runat="server" />
                 <asp:RequiredFieldValidator ID="RequiredContent" runat="server" ValidationGroup="AddComment"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtContent" ErrorMessage="Nội dung không được để trống">
                 </asp:RequiredFieldValidator>

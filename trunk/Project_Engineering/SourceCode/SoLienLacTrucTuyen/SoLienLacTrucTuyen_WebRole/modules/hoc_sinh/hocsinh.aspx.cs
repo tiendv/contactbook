@@ -31,6 +31,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             PnlStudentList.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
             strPagePath = HlkStudentMark.NavigateUrl.TrimStart('~');
             PnlStudentMark.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
+            strPagePath = HlkApprovalStudentMark.NavigateUrl.TrimStart('~');
+            PnlApprovalStudentMark.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
             strPagePath = HlkStudentConduct.NavigateUrl.TrimStart('~');
             PnlStudentConduct.Visible = authorizationBL.ValidateAuthorization(LogedInUserRoles, strPagePath);
             strPagePath = HlkChangeGrade.NavigateUrl.TrimStart('~');

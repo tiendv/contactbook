@@ -64,6 +64,7 @@
     <Compile Include="AuthorizationBL.cs" />
     <Compile Include="BaseBL.cs" />
     <Compile Include="CheckUntils.cs" />
+    <Compile Include="DateUtil.cs" />
     <Compile Include="MailBL.cs" />
     <Compile Include="ParentsCommentBL.cs" />
     <Compile Include="Service References\ServiceEmail\Reference.cs">

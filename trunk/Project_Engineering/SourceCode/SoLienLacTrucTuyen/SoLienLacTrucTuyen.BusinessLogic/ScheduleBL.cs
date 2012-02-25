@@ -509,7 +509,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             DateTime? dtLastUpdateDate = scheduleDA.GetLastUpdateDate(Class);
             if (dtLastUpdateDate != null)
             {
-                if (CheckUntils.CompareDateWithoutHMS(DateTime.Now, ((DateTime)dtLastUpdateDate).AddDays(iLimitDay)) <= 0)
+                if (DateUtils.CompareDateWithoutHMS(DateTime.Now, ((DateTime)dtLastUpdateDate).AddDays(iLimitDay)) <= 0)
                 {
                     return true;
                 }

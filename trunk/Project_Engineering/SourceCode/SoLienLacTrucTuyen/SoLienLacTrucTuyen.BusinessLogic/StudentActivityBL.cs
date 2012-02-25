@@ -68,7 +68,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularStudentActivity.MaHocSinhLopHoc = studentActivity.Student_StudentInClass.StudentInClassId;
                 tabularStudentActivity.TenHoatDong = studentActivity.Title;
                 tabularStudentActivity.Ngay = studentActivity.Date;
-                tabularStudentActivity.StrNgay = studentActivity.Date.ToShortDateString();
+                tabularStudentActivity.StrNgay = studentActivity.Date.ToString("dd/MM/yyyy");
                 if (studentActivity.AttitudeId != null)
                 {
                     tabularStudentActivity.ThaiDoThamGia = attitudeBL.GetAttitude((int)studentActivity.AttitudeId).AttitudeName;

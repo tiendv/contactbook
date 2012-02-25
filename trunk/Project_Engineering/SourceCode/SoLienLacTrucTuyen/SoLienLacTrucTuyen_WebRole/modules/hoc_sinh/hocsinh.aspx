@@ -27,6 +27,18 @@
             <div style="clear: both">
             </div>
         </asp:Panel>
+        <asp:Panel ID="PnlApprovalStudentMark" runat="server" Style="padding: 10px;">
+            <asp:Image ID="Image5" runat="server" ImageUrl="~/Styles/Images/studying_result.png" Style="float: left;
+                height: 47px; width: 49px" />
+            <div style="width: 85%; float: left; padding-left: 10px;">
+                <asp:HyperLink ID="HlkApprovalStudentMark" runat="server" Style="font-size: 15px; font-weight: bold;
+                    text-decoration: none" NavigateUrl="~/modules/hoc_sinh/duyetdiemhocsinh.aspx">Phê duyệt điểm học sinh</asp:HyperLink>
+                <br />
+                Phê duyệt điểm của học sinh
+            </div>
+            <div style="clear: both">
+            </div>
+        </asp:Panel>
         <asp:Panel ID="PnlStudentConduct" runat="server" Style="padding: 10px;">
             <asp:Image ID="Image3" runat="server" ImageUrl="~/Styles/Images/user.png" Style="float: left;
                 height: 49px; width: 50px" />

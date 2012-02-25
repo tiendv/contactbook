@@ -38,7 +38,7 @@
                         <asp:Image ID="ImgCalendarBeginDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Top" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtBeginDate"
-                            PopupButtonID="ImgCalendarBeginDate" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarBeginDate" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender1" runat="server" TargetControlID="TxtBeginDate"
                             MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
@@ -61,7 +61,7 @@
                         <asp:Image ID="ImgCalendarEndDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Top" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtEndDate"
-                            PopupButtonID="ImgCalendarEndDate" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarEndDate" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender2" runat="server" TargetControlID="TxtEndDate"
                             MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">

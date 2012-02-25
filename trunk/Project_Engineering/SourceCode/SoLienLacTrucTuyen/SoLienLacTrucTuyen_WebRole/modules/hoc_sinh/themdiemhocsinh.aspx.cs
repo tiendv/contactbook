@@ -95,6 +95,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
         protected void DdlHocKy_SelectedIndexChanged(object sender, EventArgs e)
         {
+            BindDDLClasses();
             BindDDLSubjects();
         }
 
@@ -136,10 +137,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<Configuration_Term> terms = systemConfigBL.GetListTerms();
+
             DdlHocKy.DataSource = terms;
             DdlHocKy.DataValueField = "TermId";
             DdlHocKy.DataTextField = "TermName";
             DdlHocKy.DataBind();
+
+            if (DdlNamHoc.Items.Count != 0 && CurrentYear != null)
+            {
+                if (CurrentYear.YearId == Int32.Parse(DdlNamHoc.SelectedValue))
+                {
+                    DdlHocKy.SelectedValue = systemConfigBL.GetCurrentTerm().TermId.ToString();
+                }
+            }
         }
 
         private void BindDDLFaculties()

@@ -99,6 +99,9 @@
                             <td class="middle">
                                 Hạnh kiểm
                             </td>
+                            <td>
+                                Lớp cũ
+                            </td>
                             <td class="icon">
                                 <asp:CheckBox ID="CkbxSelectAll" runat="server" CssClass="selectAll" />
                             </td>
@@ -121,8 +124,13 @@
                                 <asp:Label ID="LblFullName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FullName")%>'></asp:Label>
                             </td>
                             <td style="height: 40px;">
+                                <%#DataBinder.Eval(Container.DataItem, "LearningAptitudeName")%>
                             </td>
                             <td style="height: 40px;">
+                                <%#DataBinder.Eval(Container.DataItem, "ConductName")%>                                
+                            </td>
+                            <td style="height: 40px;">
+                                <asp:Label ID="LblClassName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "ClassName")%>'></asp:Label>
                             </td>
                             <td class="icon">
                                 <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />

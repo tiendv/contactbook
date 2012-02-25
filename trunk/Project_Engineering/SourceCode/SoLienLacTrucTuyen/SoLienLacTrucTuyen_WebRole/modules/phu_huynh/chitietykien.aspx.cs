@@ -54,7 +54,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             LblContent.Text = comment.CommentContent;
             LblFeedback.Text = comment.Feedback;
 
-            if (comment.Feedback.Trim() == "")
+            if (CheckUntils.IsNullOrBlank(comment.Feedback.Trim()))
             {
                 BtnEdit.Visible = true;
             }

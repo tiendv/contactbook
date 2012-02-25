@@ -2,6 +2,14 @@
     CodeBehind="suacauhinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.ConfigurationModifyPage" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div id="divScripts">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // init defaut value for passwords
+                $(".password").val($('#<%=hdfPassword.ClientID%>').val());
+            });
+        </script>
+    </div>
     <asp:Label ID="LblTitle" runat="server" CssClass="Title" Style="clear: both">Thông tin trường</asp:Label>
     <table style="width: 100%; padding: 10px 0px 10px 0px" class="loginBox ui-corner-all">
         <tr>
@@ -24,7 +32,9 @@
             <td rowspan="3" style="width: 150px; height: 27px; padding: 0px 10px 0px 10px;">
                 <asp:Image ID="ImgLogo" runat="server" Width="100px" Height="100px" AlternateText="Logo" />
                 <br />
+                <br />
                 <asp:FileUpload ID="FileUploadLogo" runat="server" Height="27px" />
+                <br />
                 <br />
                 <asp:RegularExpressionValidator ID="FileUpLoadValidator" runat="server" ErrorMessage="Định dạng file không hợp lệ"
                     ForeColor="Red" ValidationExpression="[a-zA-Z0_9].*\b(.jpeg|.JPEG|.jpg|.JPG|.jpe|.JPE|.png|.PNG|.tiff|.TIFF|.gif|.GIF)\b"
@@ -96,7 +106,7 @@
             </td>
             <td style="height: 27px; padding-left: 50px">
                 Mật khẩu email:<span class="required">*</span>
-                <asp:TextBox ID="TxtPassword" runat="server" Width="150px" TextMode="Password"></asp:TextBox>
+                <asp:TextBox ID="TxtPassword" runat="server" Width="150px" TextMode="Password" CssClass="password"></asp:TextBox>
                 <br />
                 <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="TxtPassword"
                     ValidationGroup="ModifySchool" ErrorMessage="Mật khẩu email không được để trống"
@@ -116,4 +126,5 @@
         <asp:ImageButton ID="BtnCancel" runat="server" ImageUrl="~/Styles/buttons/button_cancel.png"
             OnClick="BtnCancel_Click" CssClass="CancelButton" />
     </div>
+    <asp:HiddenField ID="hdfPassword" runat="server"/>
 </asp:Content>

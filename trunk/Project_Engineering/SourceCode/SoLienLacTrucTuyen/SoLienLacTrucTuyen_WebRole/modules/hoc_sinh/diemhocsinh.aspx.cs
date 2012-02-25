@@ -406,8 +406,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if (DdlWeeks.SelectedIndex > 0)
                 {
                     string[] strDates = DdlWeeks.SelectedValue.Split('-');                    
-                    DateTime dtBeginDate = DateTime.Parse(strDates[0]);
-                    DateTime dtEndDate = DateTime.Parse(strDates[1]);
+                    DateTime dtBeginDate = (DateTime)DateUtils.StringToDateVN(strDates[0]);
+                    DateTime dtEndDate = (DateTime)DateUtils.StringToDateVN(strDates[1]);
                     // get student mark information
                     tabularStudentMarks = studyingResultBL.GetTabularStudentMarks(Class, subject, term, dtBeginDate, dtEndDate, markTypes, bApprovedStatus,
                         MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);

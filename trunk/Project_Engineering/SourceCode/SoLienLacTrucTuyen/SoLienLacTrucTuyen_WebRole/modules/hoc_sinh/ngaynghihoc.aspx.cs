@@ -174,8 +174,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
-            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
+            TxtTuNgay.Text = today.AddMonths(-1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
+            TxtDenNgay.Text = today.AddMonths(1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
 
             // dont remove this code
             //DateTime today = DateTime.Now;
@@ -201,10 +201,39 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             term = new Configuration_Term();
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
-            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            DateTime? dtBeginDate = null;
+            if (CheckUntils.IsNullOrBlank(TxtTuNgay.Text))
+            {
+                BeginDateRequired.IsValid = false;
+                return;
+            }
+            else
+            {
+                dtBeginDate = DateUtils.StringToDateVN(TxtTuNgay.Text);
+                if (dtBeginDate == null)
+                {
+                    BeginDateValidator.IsValid = false;
+                    return;
+                }
+            }
 
-            tabularAbsents = absentBL.GetTabularAbsents(student, year, term, dtBeginDate, dtEndDate,
+            DateTime? dtEndDate = null;
+            if (CheckUntils.IsNullOrBlank(TxtDenNgay.Text))
+            {
+                EndDateRequired.IsValid = false;
+                return;
+            }
+            else
+            {
+                dtEndDate = DateUtils.StringToDateVN(TxtDenNgay.Text);
+                if (dtBeginDate == null)
+                {
+                    EndDateValidator.IsValid = false;
+                    return;
+                }
+            } 
+
+            tabularAbsents = absentBL.GetTabularAbsents(student, year, term, (DateTime)dtBeginDate, (DateTime)dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (dTotalRecords != 0 && tabularAbsents.Count == 0)
@@ -347,7 +376,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             bool xinPhep = this.RbtnCo.Checked;
             string lyDo = this.TxtLyDoThem.Text.Trim();
-
+            DateTime? dtDate = null;
             if (strDate == "")
             {
                 NgayRequiredAdd.IsValid = false;
@@ -356,25 +385,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (!Regex.IsMatch(strDate, NgayExpression.ValidationExpression))
-                {
-                    NgayExpression.IsValid = false;
-                    MPEAdd.Show();
-                    return;
-                }
+                //if (!Regex.IsMatch(strDate, NgayExpression.ValidationExpression))
+                //{
+                //    NgayExpression.IsValid = false;
+                //    MPEAdd.Show();
+                //    return;
+                //}
 
-                try
-                {
-                    DateTime.Parse(TxtNgayThem.Text.Trim());
-                }
-                catch (Exception ex)
+                dtDate = DateUtils.StringToDateVN(TxtNgayThem.Text.Trim());
+
+                if(dtDate == null)
                 {
                     DateTimeValidatorAdd.IsValid = false;
                     MPEAdd.Show();
                     return;
                 }
 
-                if (absentBL.AbsentExists(null, student, term, DateTime.Parse(this.TxtNgayThem.Text.Trim()), session))
+                if (absentBL.AbsentExists(null, student, term, (DateTime)dtDate, session))
                 {
                     NgayValidatorAdd.IsValid = false;
                     MPEAdd.Show();
@@ -382,9 +409,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            DateTime ngay = DateTime.Parse(this.TxtNgayThem.Text.Trim());
-
-            absentBL.InsertAbsent(student, term, ngay, session, xinPhep, lyDo);
+            absentBL.InsertAbsent(student, term, (DateTime)dtDate, session, xinPhep, lyDo);
 
             MainDataPager.CurrentIndex = 1;
             BindRptStudentAbsents();
@@ -418,7 +443,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         Student_Absent absent = absentBL.GetAbsent(Int32.Parse(HdfRptMaNgayNghiHoc.Value));
 
                         this.DdlHocKySua.SelectedValue = absent.TermId.ToString();
-                        this.TxtNgaySua.Text = absent.Date.ToShortDateString();
+                        this.TxtNgaySua.Text = absent.Date.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
                         this.DdlBuoiSua.SelectedValue = absent.SessionId.ToString();
                         this.RbtnCoSua.Checked = absent.IsAsked;
                         this.RbtnKhongSua.Checked = !absent.IsAsked;
@@ -439,7 +464,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Student_Absent absent = null;
             Configuration_Term term = null;
             Configuration_Session session = null;
-            DateTime date;            
 
             string strDate = TxtNgaySua.Text.Trim();
             absent = new Student_Absent();
@@ -453,7 +477,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 session = new Configuration_Session();
                 session.SessionId = Int32.Parse(this.DdlBuoiSua.SelectedValue);
             }
-
+            DateTime? dtDate = null;
             if (strDate == "")
             {
                 NgayRequiredEdit.IsValid = false;
@@ -462,25 +486,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (!Regex.IsMatch(strDate, NgayExpressionEdit.ValidationExpression))
-                {
-                    NgayExpressionEdit.IsValid = false;
-                    MPEEdit.Show();
-                    return;
-                }
+                //if (!Regex.IsMatch(strDate, NgayExpressionEdit.ValidationExpression))
+                //{
+                //    NgayExpressionEdit.IsValid = false;
+                //    MPEEdit.Show();
+                //    return;
+                //}
 
-                try
-                {
-                    DateTime.Parse(strDate);
-                }
-                catch (Exception ex)
+                dtDate = DateUtils.StringToDateVN(strDate);
+                if(dtDate == null)
                 {
                     DateTimeValidatorEdit.IsValid = false;
                     MPEEdit.Show();
                     return;
                 }
 
-                if (absentBL.AbsentExists(absent, student, term, DateTime.Parse(this.TxtNgaySua.Text.Trim()), session))
+                if (absentBL.AbsentExists(absent, student, term, (DateTime)dtDate, session))
                 {
                     NgayValidatorEdit.IsValid = false;
                     MPEEdit.Show();
@@ -488,11 +509,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
             }
 
-            date = DateTime.Parse(this.TxtNgaySua.Text);
             bool bIsAsked = this.RbtnCoSua.Checked;
             string strReason = this.TxtLyDoSua.Text;
 
-            absentBL.UpdateAbsent(absent, term, date, session, bIsAsked, strReason);
+            absentBL.UpdateAbsent(absent, term, (DateTime)dtDate, session, bIsAsked, strReason);
 
             MainDataPager.CurrentIndex = 1;
             BindRptStudentAbsents();

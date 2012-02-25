@@ -63,7 +63,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularAbsent = new TabularAbsent();
                 tabularAbsent.AbsentId = absent.AbsentId;
                 tabularAbsent.StudentInClassId = absent.StudentInClass;
-                tabularAbsent.Date = absent.Date.Day + "/" + absent.Date.Month + "/" + absent.Date.Year;
+                tabularAbsent.Date = absent.Date.ToString("dd/MM/yyyy");
                 tabularAbsent.Session = systemConfigBL.GetSessionName(absent.SessionId);
                 tabularAbsent.IsAsked = (absent.IsAsked) ? "Có" : "Không";
                 tabularAbsent.Reason = absent.Reason;

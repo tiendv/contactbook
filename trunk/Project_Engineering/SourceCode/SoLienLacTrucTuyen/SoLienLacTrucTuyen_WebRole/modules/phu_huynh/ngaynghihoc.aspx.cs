@@ -90,8 +90,8 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
-            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
+            TxtTuNgay.Text = today.AddMonths(-1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
+            TxtDenNgay.Text = today.AddMonths(1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
 
             // dont remove this code
             //DateTime today = DateTime.Now;
@@ -114,10 +114,21 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
             term = new Configuration_Term();
             term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
-            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
-            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            DateTime? dtBeginDate = DateUtils.StringToDateVN(TxtTuNgay.Text);
+            DateTime? dtEndDate = DateUtils.StringToDateVN(TxtDenNgay.Text);
+            if (dtBeginDate == null)
+            {
+                BeginDateValidator.IsValid = false;
+                return;
+            }
 
-            tabularAbsents = absentBL.GetTabularAbsents(LoggedInStudent, year, term, dtBeginDate, dtEndDate,
+            if (dtEndDate == null)
+            {
+                EndDateValidator.IsValid = false;
+                return;
+            }
+
+            tabularAbsents = absentBL.GetTabularAbsents(LoggedInStudent, year, term, (DateTime)dtBeginDate, (DateTime)dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (dTotalRecords != 0 && tabularAbsents.Count == 0)

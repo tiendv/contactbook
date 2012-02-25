@@ -13,15 +13,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
     public partial class EditParentsCommentPage {
         
         /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-        
-        /// <summary>
         /// LblTitle control.
         /// </summary>
         /// <remarks>
@@ -31,15 +22,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         protected global::System.Web.UI.WebControls.Label LblTitle;
         
         /// <summary>
-        /// Label2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
-        
-        /// <summary>
         /// TxtContent control.
         /// </summary>
         /// <remarks>
@@ -47,15 +29,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtContent;
-        
-        /// <summary>
-        /// Editor1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.HTMLEditor.Editor Editor1;
         
         /// <summary>
         /// RequiredContent control.

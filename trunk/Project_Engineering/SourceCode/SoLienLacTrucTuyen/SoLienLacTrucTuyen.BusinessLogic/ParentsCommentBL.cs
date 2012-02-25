@@ -106,7 +106,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 {
                     tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
                 }
-                tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
+                tabularParentsComment.Date = parentsComment.Date.ToString("dd/MM/yyyy");
                 tabularParentsComment.Feedback = parentsComment.Feedback;
                 
                 tabularParentsComments.Add(tabularParentsComment);
@@ -144,7 +144,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularParentsComment.Title = parentsComment.Title;
                 tabularParentsComment.Content = parentsComment.CommentContent;
                 tabularParentsComment.CommentStatusName = parentsComment.Configuration_CommentStatus.CommentStatusName;
-                tabularParentsComment.Date = parentsComment.Date.ToShortDateString();
+                tabularParentsComment.Date = parentsComment.Date.ToString("dd/MM/yyyy");
                 tabularParentsComment.Feedback = parentsComment.Feedback;
                 tabularParentsComment.CommentStatusId = parentsComment.CommentStatusId;
                 tabularParentsComments.Add(tabularParentsComment);

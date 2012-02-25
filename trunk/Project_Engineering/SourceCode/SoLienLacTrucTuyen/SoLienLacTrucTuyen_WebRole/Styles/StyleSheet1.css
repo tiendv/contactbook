@@ -470,3 +470,23 @@ table.search
     font-family: arial, Helvetica, sans-serif;
     color: #3333CC;
 }
+
+.required
+{
+    color: #FF0000;
+}
+
+.detailTable table td
+{
+    height: 27px;
+}
+
+.bold
+{
+    font-weight: bold;
+}
+
+.font15
+{
+    font-size: 14px;
+}

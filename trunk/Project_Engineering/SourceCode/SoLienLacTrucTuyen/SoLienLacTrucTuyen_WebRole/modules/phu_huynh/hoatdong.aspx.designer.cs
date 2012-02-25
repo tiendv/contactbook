@@ -58,6 +58,24 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender5;
         
         /// <summary>
+        /// BeginDateRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator BeginDateRequired;
+        
+        /// <summary>
+        /// BeginDateValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator BeginDateValidator;
+        
+        /// <summary>
         /// DdlHocKy control.
         /// </summary>
         /// <remarks>
@@ -101,6 +119,24 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.MaskedEditExtender MaskedEditExtender6;
+        
+        /// <summary>
+        /// EndDateRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator EndDateRequired;
+        
+        /// <summary>
+        /// EndDateValidator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator EndDateValidator;
         
         /// <summary>
         /// BtnSearch control.

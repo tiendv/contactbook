@@ -145,11 +145,17 @@
                                 <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                                     ImageAlign="Middle" />
                                 <ajaxToolkit:CalendarExtender ID="CalendarExtender5" runat="server" TargetControlID="TxtTuNgay"
-                                    PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
+                                    PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right" Format="dd/MM/yyyy">
                                 </ajaxToolkit:CalendarExtender>
                                 <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="TxtTuNgay"
                                     MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
                                 </ajaxToolkit:MaskedEditExtender>
+                                <br />
+                                <asp:RequiredFieldValidator ID="BeginDateRequired" runat="server" ControlToValidate="TxtTuNgay"
+                                    ValidationGroup="AddHoatDong" ErrorMessage="Ngày không được để trống" Display="Dynamic"
+                                    ForeColor="Red"></asp:RequiredFieldValidator>
+                                <asp:CustomValidator ID="BeginDateCustom" runat="server" ErrorMessage="Ngày không hợp lệ"
+                                    ValidationGroup="AddHoatDong" Display="Dynamic" ForeColor="Red" ControlToValidate="TxtTuNgay"></asp:CustomValidator>
                             </td>
                             <td>
                                 Đến ngày:
@@ -159,11 +165,17 @@
                                 <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                                     ImageAlign="Middle" />
                                 <ajaxToolkit:CalendarExtender ID="CalendarExtender6" runat="server" TargetControlID="TxtDenNgay"
-                                    PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
+                                    PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right" Format="dd/MM/yyyy">
                                 </ajaxToolkit:CalendarExtender>
                                 <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="TxtDenNgay"
                                     MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
                                 </ajaxToolkit:MaskedEditExtender>
+                                <br />
+                                <asp:RequiredFieldValidator ID="EndDateRequired" runat="server" ControlToValidate="TxtDenNgay"
+                                    ValidationGroup="AddHoatDong" ErrorMessage="Ngày không được để trống" Display="Dynamic"
+                                    ForeColor="Red"></asp:RequiredFieldValidator>
+                                <asp:CustomValidator ID="EndDateValidator" runat="server" ErrorMessage="Ngày không hợp lệ"
+                                    ValidationGroup="AddHoatDong" Display="Dynamic" ForeColor="Red" ControlToValidate="TxtDenNgay"></asp:CustomValidator>
                             </td>
                         </tr>
                     </table>
@@ -319,16 +331,16 @@
                         <asp:Image ID="ImgCalendarNgayThem" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender7" runat="server" TargetControlID="TxtNgayThem"
-                            PopupButtonID="ImgCalendarNgayThem" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarNgayThem" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <asp:RequiredFieldValidator ID="NgayRequiredAdd" runat="server" ControlToValidate="TxtNgayThem"
                             ValidationGroup="AddHoatDong" ErrorMessage="Ngày không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="NgayExpression" runat="server" ControlToValidate="TxtNgayThem"
+                        <%--<asp:RegularExpressionValidator ID="NgayExpression" runat="server" ControlToValidate="TxtNgayThem"
                             ValidationExpression="^(|([1-9])|(1[0-2]))\/(([1-9])|(1\d)|(2\d)|(3[0-1]))\/((\d{4}))$"
                             ValidationGroup="AddHoatDong" ErrorMessage="Ngày không hợp lệ" Display="Dynamic"
                             ForeColor="Red">
-                        </asp:RegularExpressionValidator>
+                        </asp:RegularExpressionValidator>--%>
                         <asp:CustomValidator ID="DateTimeValidatorAdd" runat="server" ControlToValidate="TxtNgayThem"
                             ValidationGroup="AddHoatDong" ErrorMessage="Ngày không hợp lệ" ClientValidationFunction="validateDateTime"
                             Display="Dynamic" ForeColor="Red"></asp:CustomValidator>
@@ -405,7 +417,7 @@
                         <asp:Image ID="ImgCalendarNgaySua" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender8" runat="server" TargetControlID="TxtNgaySua"
-                            PopupButtonID="ImgCalendarNgaySua" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarNgaySua" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender8" runat="server" TargetControlID="TxtNgaySua"
                             MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
@@ -414,11 +426,11 @@
                         <asp:RequiredFieldValidator ID="NgayRequiredEdit" runat="server" ControlToValidate="TxtNgaysua"
                             ValidationGroup="EditHoatDong" ErrorMessage="Ngày không được để trống" Display="Dynamic"
                             ForeColor="Red"></asp:RequiredFieldValidator>
-                        <asp:RegularExpressionValidator ID="NgayExpressionEdit" runat="server" ControlToValidate="TxtNgaySua"
+                        <%--<asp:RegularExpressionValidator ID="NgayExpressionEdit" runat="server" ControlToValidate="TxtNgaySua"
                             ValidationExpression="^(|([1-9])|(1[0-2]))\/(([1-9])|(1\d)|(2\d)|(3[0-1]))\/((\d{4}))$"
                             ValidationGroup="EditHoatDong" ErrorMessage="Ngày không hợp lệ" Display="Dynamic"
                             ForeColor="Red">
-                        </asp:RegularExpressionValidator>
+                        </asp:RegularExpressionValidator>--%>
                         <asp:CustomValidator ID="DateTimeValidatorEdit" runat="server" ControlToValidate="TxtNgaySua"
                             ValidationGroup="EditHoatDong" ErrorMessage="Ngày không hợp lệ" ClientValidationFunction="validateDateTime"
                             Display="Dynamic" ForeColor="Red"></asp:CustomValidator>

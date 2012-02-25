@@ -120,9 +120,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         importedStudent.PatronName, importedStudent.PatronJob, importedStudent.PatronDateOfBirth);
 
                     // create new user parents
-                    //strGeneratedPassword = Membership.GeneratePassword(Membership.Provider.MinRequiredPasswordLength,
-                    //    Membership.Provider.MinRequiredNonAlphanumericCharacters);
-                    strGeneratedPassword = "1qazxsw@";
+                    strGeneratedPassword = "defaultpassword";
                     strUserName = UserSchool.SchoolId.ToString() + "_PH" + importedStudent.StudentCode;
                     Membership.CreateUser(strUserName, strGeneratedPassword);                    
                     userParents = new aspnet_User();
@@ -265,7 +263,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 else
                 {
                     tabularImportedStudent.DateOfBirth = dtStudentDateOfBirth;
-                    tabularImportedStudent.StringDateOfBirth = dtStudentDateOfBirth.ToShortDateString();
+                    tabularImportedStudent.StringDateOfBirth = dtStudentDateOfBirth.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
                     bIgnoredRow = false;
                 }
 

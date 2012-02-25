@@ -130,11 +130,29 @@ namespace SoLienLacTrucTuyen.BusinessLogic
 
         public string GetDetailedTeachingPeriod(Category_TeachingPeriod teachingPeriod)
         {
-            string chiTietTiet = string.Format("<b>{0}</b>&nbsp;({1}-{2})",
-                    teachingPeriod.TeachingPeriodName,
-                    teachingPeriod.BeginTime.ToShortTimeString(),
-                    teachingPeriod.EndTime.ToShortTimeString());
-            return chiTietTiet;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(teachingPeriod.TeachingPeriodName);
+            stringBuilder.Append(" (");
+            stringBuilder.Append(teachingPeriod.BeginTime.Hour);
+            stringBuilder.Append(" giờ");
+            if (teachingPeriod.BeginTime.Minute != 0)
+            {
+                stringBuilder.Append(" ");
+                stringBuilder.Append(teachingPeriod.BeginTime.Minute);
+                stringBuilder.Append(" phút ");
+            }
+            stringBuilder.Append(" - ");
+
+            stringBuilder.Append(teachingPeriod.EndTime.Hour);
+            stringBuilder.Append(" giờ");
+            if (teachingPeriod.EndTime.Minute != 0)
+            {
+                stringBuilder.Append(" "); 
+                stringBuilder.Append(teachingPeriod.EndTime.Minute);
+                stringBuilder.Append(" phút");
+            }
+            stringBuilder.Append(")");
+            return stringBuilder.ToString();
         }
 
         public bool TeachingPeriodNameExists(string teachingPeriodName)

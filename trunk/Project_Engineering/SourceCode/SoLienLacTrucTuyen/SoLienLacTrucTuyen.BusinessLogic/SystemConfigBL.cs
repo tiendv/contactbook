@@ -67,7 +67,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularYear.FirstTermEndDate = year.EndFirstTermDate;
                 tabularYear.SecondTermBeginDate = year.BeginSecondTermDate;
                 tabularYear.SecondTermEndDate = year.EndSecondTermDate;
-
+                tabularYear.StringFirstTermBeginDate = DateUtils.DateToString(year.EndSecondTermDate, DateUtils.LOCALE.VIETNAMESE);
+                tabularYear.StringFirstTermEndDate = DateUtils.DateToString(year.EndFirstTermDate, DateUtils.LOCALE.VIETNAMESE);
+                tabularYear.StringSecondTermBeginDate = DateUtils.DateToString(year.BeginSecondTermDate, DateUtils.LOCALE.VIETNAMESE);
+                tabularYear.StringSecondTermEndDate = DateUtils.DateToString(year.EndSecondTermDate, DateUtils.LOCALE.VIETNAMESE);
+                
                 tabularYears.Add(tabularYear);
             }
 

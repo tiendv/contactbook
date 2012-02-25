@@ -77,7 +77,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             this.LblMaHocSinhHienThi.Text = student.StudentCode;
             this.LblHoTenHocSinh.Text = student.FullName;
             this.LblGioiTinh.Text = (student.Gender == true) ? "Nam" : "Nữ";
-            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.ToShortDateString();
+            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             if (student.Birthplace != "")
             {
                 this.LblNoiSinh.Text = student.Birthplace;
@@ -95,7 +95,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             {
                 LblDienThoai.Text = "(Chưa xác định)";
             }
-            if (student.FatherName != "")
+            if (CheckUntils.IsNullOrBlank(student.FatherName) == false)
             {
                 this.LblHoTenBo.Text = student.FatherName;
             }
@@ -106,13 +106,13 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
             if (student.FatherBirthday != null)
             {
-                this.LblNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
+                this.LblNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {
                 this.LblNgaySinhBo.Text = "(Chưa xác định)";
             }
-            if(student.FatherJob != "")
+            if(CheckUntils.IsNullOrBlank(student.FatherJob) == false)
             {
                 this.LblNgheNghiepBo.Text = student.FatherJob;
             }
@@ -121,7 +121,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 this.LblNgheNghiepBo.Text = "(Chưa xác định)";
             }
 
-            if (student.MotherName != "")
+            if (CheckUntils.IsNullOrBlank(student.MotherName) == false)
             {
                 this.LblHoTenMe.Text = student.MotherName;
             }
@@ -131,13 +131,13 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             if (student.MotherBirthday != null)
             {
-                this.LblNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
+                this.LblNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {
                 this.LblNgaySinhMe.Text = "(Chưa xác định)";
             }
-            if (student.MotherJob != "")
+            if (CheckUntils.IsNullOrBlank(student.MotherJob) == false)
             {
                 this.LblNgheNghiepMe.Text = student.MotherJob;
             }
@@ -145,7 +145,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             {
                 this.LblNgheNghiepMe.Text = "(Chưa xác định)";
             }
-            if (student.PatronName != "")
+            if (CheckUntils.IsNullOrBlank(student.PatronName) == false)
             {
                 LblHoTenNguoiDoDau.Text = student.PatronName;
             }
@@ -155,13 +155,13 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             if (student.PatronBirthday != null)
             {
-                this.LblNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToShortDateString();
+                this.LblNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {
                 this.LblNgaySinhNguoiDoDau.Text = "(Chưa xác định)";
             }
-            if (student.PatronJob != "")
+            if (CheckUntils.IsNullOrBlank(student.PatronJob) == false)
             {
                 this.LblNgheNghiepNguoiDoDau.Text = student.PatronJob;
             }

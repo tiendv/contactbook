@@ -92,8 +92,8 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
-            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
+            TxtTuNgay.Text = today.AddMonths(-1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
+            TxtDenNgay.Text = today.AddMonths(1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
 
             // dont remove this code
             //DateTime today = DateTime.Now;
@@ -109,8 +109,6 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             Configuration_Year year = null;
             Configuration_Term term = null;
-            DateTime dtBeginDate;
-            DateTime dtEndDate;
             double dTotalRecords;
             List<TabularStudentActivity> tabularStudentActivities;
             
@@ -124,11 +122,22 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
                 term = new Configuration_Term();
                 term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
             }
-            dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
-            dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            DateTime? dtBeginDate = DateUtils.StringToDateVN(TxtTuNgay.Text);
+            DateTime? dtEndDate = DateUtils.StringToDateVN(TxtDenNgay.Text);
+            if (dtBeginDate == null)
+            {
+                BeginDateValidator.IsValid = false;
+                return;
+            }
+
+            if (dtEndDate == null)
+            {
+                EndDateValidator.IsValid = false;
+                return;
+            }
 
             tabularStudentActivities = studentActivityBL.GetTabularStudentActivities(
-                LoggedInStudent, year, term, dtBeginDate, dtEndDate,
+                LoggedInStudent, year, term, (DateTime)dtBeginDate, (DateTime)dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (dTotalRecords != 0 && tabularStudentActivities.Count == 0)

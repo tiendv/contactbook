@@ -217,7 +217,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularMessage.StudentCode = message.Student_StudentInClass.Student_Student.StudentCode;
                 tabularMessage.MessageId = message.MessageId;
                 tabularMessage.Date = message.Date;
-                tabularMessage.StringDate = message.Date.ToShortDateString();
+                tabularMessage.StringDate = message.Date.ToString("dd/MM/yyyy");
                 tabularMessage.StudentName = message.Student_StudentInClass.Student_Student.FullName;
                 tabularMessage.Title = message.Title;
                 if (combineStatus && message.MessageStatusId == 2)

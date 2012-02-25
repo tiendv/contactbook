@@ -64,8 +64,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlNamHoc.SelectedValue);
-            DateTime dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
-            DateTime dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            DateTime? dtBeginDate = DateUtils.StringToDateVN(TxtTuNgay.Text);
+            DateTime? dtEndDate = DateUtils.StringToDateVN(TxtDenNgay.Text);
             string strStudentCode = TxtStudentCode.Text;
             Configuration_MessageStatus messageStatus = null;
             if (DdlXacNhan.SelectedIndex > 0)
@@ -76,7 +76,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             double dTotalRecords;
             List<TabularMessage> tabularMessages = messageBL.GetTabularMessages(LogedInUser, IsFormerTeacher,
-                year, dtBeginDate, dtEndDate, strStudentCode, messageStatus, true, 
+                year, (DateTime)dtBeginDate, (DateTime)dtEndDate, strStudentCode, messageStatus, true, 
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (tabularMessages.Count == 0 && dTotalRecords != 0)
@@ -169,8 +169,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
-            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
+            TxtTuNgay.Text = today.AddMonths(-1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
+            TxtDenNgay.Text = today.AddMonths(1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
 
             // dont remove this code
             //DateTime today = DateTime.Now;

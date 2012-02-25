@@ -41,7 +41,7 @@
                     <asp:TextBox ID="TxtNgaySinh" runat="server"></asp:TextBox>
                     <asp:Image ID="BtnCalendarSua" runat="server" ImageUrl="~/Styles/Images/calendar.png" />
                     <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtNgaySinh"
-                        PopupButtonID="BtnCalendarSua" PopupPosition="Right">
+                        PopupButtonID="BtnCalendarSua" PopupPosition="Right" Format="dd/MM/yyyy">
                     </ajaxToolkit:CalendarExtender>
                     <br />
                     <asp:RequiredFieldValidator ID="NgaySinhRequired" runat="server" ControlToValidate="TxtNgaySinh"

@@ -126,6 +126,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             TxtSchoolName.Text = UserSchool.SchoolName;
             TxtAddress.Text = UserSchool.Address;
             TxtEmail.Text = UserSchool.Email;
+            hdfPassword.Value = UserSchool.Password;
             TxtPhone.Text = UserSchool.Phone;
             DdlDistricts.SelectedValue = UserSchool.DistrictId.ToString();
             DdlProvinces.SelectedValue = UserSchool.Configuration_District.ProvinceId.ToString();
