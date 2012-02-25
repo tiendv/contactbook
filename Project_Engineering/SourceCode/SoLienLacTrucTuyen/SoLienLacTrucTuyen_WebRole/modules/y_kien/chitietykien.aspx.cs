@@ -81,7 +81,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 comment.Student_StudentInClass.Student_Student.StudentCode,
                 comment.Student_StudentInClass.Class_Class.ClassName);
 
-            LblDate.Text = comment.Date.ToShortDateString();
+            LblDate.Text = comment.Date.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
         }
         #endregion
     }

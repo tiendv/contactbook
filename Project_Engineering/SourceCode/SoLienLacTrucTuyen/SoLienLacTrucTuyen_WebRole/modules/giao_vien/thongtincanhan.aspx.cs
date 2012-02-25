@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (LogedInUser.aspnet_Membership.Birthday != null)
             {
-                LblNgaySinh.Text = ((DateTime)LogedInUser.aspnet_Membership.Birthday).ToShortDateString();
+                LblNgaySinh.Text = ((DateTime)LogedInUser.aspnet_Membership.Birthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {

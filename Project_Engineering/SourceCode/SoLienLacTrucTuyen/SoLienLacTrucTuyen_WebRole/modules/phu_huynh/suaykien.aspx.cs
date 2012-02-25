@@ -56,7 +56,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         protected void BtnSave_Click(object sender, ImageClickEventArgs e)
         {
             // string strContent = TxtContent.Text;
-            string strContent = Editor1.Content;
+            string strContent = TxtContent.Text;
 
             ParentComment_Comment comment = new ParentComment_Comment();
 
@@ -83,8 +83,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         {
             ParentComment_Comment comment = parentsCommentBL.GetParentsComments((int)ViewState[AppConstant.VIEWSTATE_PARENTSCOMMENTID]);
             LblTitle.Text = comment.Title;
-            // TxtContent.Text = comment.CommentContent;
-            Editor1.Content = comment.CommentContent;
+            TxtContent.Text = comment.CommentContent;
         }
 
         private void RedirectToPrevPage()

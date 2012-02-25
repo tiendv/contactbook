@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="themnamhoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.CategoryAddYear" %>
+    CodeBehind="themnamhoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.CategoryAddYear" Culture="vi-VN" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
@@ -24,7 +24,7 @@
                 <asp:Image ID="ImgFirstTermBeginDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendaFirstTermBeginDate" runat="server" TargetControlID="TxtFirstTermBeginDate"
-                    PopupButtonID="ImgFirstTermBeginDate" PopupPosition="Right">
+                    PopupButtonID="ImgFirstTermBeginDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
                 <br />
             </td>
@@ -34,7 +34,7 @@
                 <asp:Image ID="ImgFirstTermEndDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendarFirstTermEndDate" runat="server" TargetControlID="TxtFirstTermEndDate"
-                    PopupButtonID="ImgFirstTermEndDate" PopupPosition="Right">
+                    PopupButtonID="ImgFirstTermEndDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
             </td>
         </tr>
@@ -51,8 +51,8 @@
                     ErrorMessage="Thời gian kết thúc HK 1 không được để trống" Display="Dynamic"
                     ValidationGroup="AddYear" ForeColor="Red"></asp:RequiredFieldValidator>
                 <asp:CompareValidator ID="CompareToFirstTermStartDate" runat="server" ControlToValidate="TxtFirstTermEndDate"
-                    ControlToCompare="TxtFirstTermBeginDate" Type="Date" Operator="GreaterThan" Display="Dynamic" ValidationGroup="AddYear"
-                    ForeColor="Red" ErrorMessage="Thời gian phải lớn hơn thời gian bắt đầu HK 1"></asp:CompareValidator>
+                    ControlToCompare="TxtFirstTermBeginDate" Type="Date" Operator="GreaterThan" Display="Dynamic"
+                    ValidationGroup="AddYear" ForeColor="Red" ErrorMessage="Thời gian phải lớn hơn thời gian bắt đầu HK 1"></asp:CompareValidator>
             </td>
         </tr>
         <tr>
@@ -65,7 +65,7 @@
                 <asp:Image ID="ImgSecondTermBeginDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendaSecondTermBeginDate" runat="server" TargetControlID="TxtSecondTermBeginDate"
-                    PopupButtonID="ImgSecondTermBeginDate" PopupPosition="Right">
+                    PopupButtonID="ImgSecondTermBeginDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
             </td>
             <td>
@@ -74,7 +74,7 @@
                 <asp:Image ID="ImgSecondTermEndDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendarSecondTermEndDate" runat="server" TargetControlID="TxtSecondTermEndDate"
-                    PopupButtonID="ImgSecondTermEndDate" PopupPosition="Right">
+                    PopupButtonID="ImgSecondTermEndDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
             </td>
         </tr>
@@ -86,16 +86,16 @@
                     ErrorMessage="Thời gian đầu HK 2 không được để trống" Display="Dynamic" ValidationGroup="AddYear"
                     ForeColor="Red"></asp:RequiredFieldValidator>
                 <asp:CompareValidator ID="CompareToFirstTermEndDate" runat="server" ControlToValidate="TxtSecondTermBeginDate"
-                    ControlToCompare="TxtFirstTermEndDate" Type="Date" Operator="GreaterThan" Display="Dynamic" ValidationGroup="AddYear"
-                    ForeColor="Red" ErrorMessage="Thời gian phải lớn hơn thời gian kết thúc HK 1"></asp:CompareValidator>
+                    ControlToCompare="TxtFirstTermEndDate" Type="Date" Operator="GreaterThan" Display="Dynamic"
+                    ValidationGroup="AddYear" ForeColor="Red" ErrorMessage="Thời gian phải lớn hơn thời gian kết thúc HK 1"></asp:CompareValidator>
             </td>
             <td>
                 <asp:RequiredFieldValidator ID="RequiredSecondTermEndDate" runat="server" ControlToValidate="TxtSecondTermEndDate"
                     ErrorMessage="Thời gian kết thúc HK 2 không được để trống" Display="Dynamic"
                     ValidationGroup="AddYear" ForeColor="Red"></asp:RequiredFieldValidator>
                 <asp:CompareValidator ID="CompareToSecondTermStartDate" runat="server" ControlToValidate="TxtSecondTermEndDate"
-                    ControlToCompare="TxtSecondTermBeginDate" Operator="GreaterThan" Type="Date" Display="Dynamic" ValidationGroup="AddYear"
-                    ForeColor="Red" ErrorMessage="Thời gian phải lớn hơn thời gian bắt đầu HK 2"></asp:CompareValidator>
+                    ControlToCompare="TxtSecondTermBeginDate" Operator="GreaterThan" Type="Date"
+                    Display="Dynamic" ValidationGroup="AddYear" ForeColor="Red" ErrorMessage="Thời gian phải lớn hơn thời gian bắt đầu HK 2"></asp:CompareValidator>
             </td>
         </tr>
     </table>

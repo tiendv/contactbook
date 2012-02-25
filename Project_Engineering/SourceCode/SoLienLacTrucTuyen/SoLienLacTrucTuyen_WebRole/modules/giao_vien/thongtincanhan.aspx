@@ -3,8 +3,8 @@
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">    
-    <div style="width: 90%; padding: 10px; clear: both" class="loginBox ui-corner-all">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
+    <div style="width: 90%; padding: 10px; clear: both; margin: 0px auto 0px auto" class="loginBox ui-corner-all">        
         <table style="width: 400px; float: left">
             <tr>
                 <td style="width: 90px; height: 27px;">
@@ -63,7 +63,9 @@
         </div>
     </div>
     <div class="table_data ui-corner-all" style="width: 90%; margin: 0px auto 0px auto">
-        HOẠT ĐỘNG CHỦ NHIỆM<br />
+        <br />
+        <span class="Title">HOẠT ĐỘNG CHỦ NHIỆM</span>
+        <br />
         <br />
         <div>
             <asp:Label ID="LblSearchResultChuNhiem" runat="server" Text="Không có thông tin chủ nhiệm"
@@ -112,7 +114,8 @@
     </div>
     <br />
     <div class="table_data ui-corner-all" style="width: 90%; margin: 0px auto 0px auto">
-        HOẠT ĐỘNG GIẢNG DẠY<br />
+        <span class="Title">HOẠT ĐỘNG GIẢNG DẠY</span>
+        <br />
         <br />
         <div>
             <asp:Label ID="LblSearchResultGiangDay" runat="server" Text="Không có thông tin giảng dạy"

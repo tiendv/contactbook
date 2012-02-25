@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="suanamhoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.CategoryModifyYear" %>
+    CodeBehind="suanamhoc.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.CategoryModifyYear" Culture="vi-VN"%>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
@@ -24,7 +24,7 @@
                 <asp:Image ID="ImgFirstTermBeginDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendaFirstTermBeginDate" runat="server" TargetControlID="TxtFirstTermBeginDate"
-                    PopupButtonID="ImgFirstTermBeginDate" PopupPosition="Right">
+                    PopupButtonID="ImgFirstTermBeginDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
                 <br />
             </td>
@@ -34,7 +34,7 @@
                 <asp:Image ID="ImgFirstTermEndDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendarFirstTermEndDate" runat="server" TargetControlID="TxtFirstTermEndDate"
-                    PopupButtonID="ImgFirstTermEndDate" PopupPosition="Right">
+                    PopupButtonID="ImgFirstTermEndDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
             </td>
         </tr>
@@ -65,7 +65,7 @@
                 <asp:Image ID="ImgSecondTermBeginDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendaSecondTermBeginDate" runat="server" TargetControlID="TxtSecondTermBeginDate"
-                    PopupButtonID="ImgSecondTermBeginDate" PopupPosition="Right">
+                    PopupButtonID="ImgSecondTermBeginDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
             </td>
             <td>
@@ -74,7 +74,7 @@
                 <asp:Image ID="ImgSecondTermEndDate" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                     ImageAlign="Top" />
                 <ajaxToolkit:CalendarExtender ID="CalendarSecondTermEndDate" runat="server" TargetControlID="TxtSecondTermEndDate"
-                    PopupButtonID="ImgSecondTermEndDate" PopupPosition="Right">
+                    PopupButtonID="ImgSecondTermEndDate" PopupPosition="Right" Format="dd/MM/yyyy">
                 </ajaxToolkit:CalendarExtender>
             </td>
         </tr>

@@ -16,7 +16,7 @@
                             <td style="width: 200px;">
                                 <asp:Label ID="LblYear" runat="server" Width="145px" CssClass="readOnlyTextBox"></asp:Label>
                             </td>
-                            <td style="width: 35px;">
+                            <td style="width: 55px;">
                                 Khối:
                             </td>
                             <td style="width: 200px;">
@@ -35,7 +35,7 @@
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                Lớp:
+                                Lớp mới:
                             </td>
                             <td>
                                 <asp:DropDownList ID="DdlLopHoc" runat="server" Width="150px">
@@ -71,7 +71,7 @@
                             Hạnh kiểm
                         </td>
                         <td class="middle">
-                            Lớp
+                            Lớp cũ
                         </td>
                     </tr>
                 </HeaderTemplate>

@@ -23,11 +23,17 @@
                         <asp:Image ID="ImgCalendarTuNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender5" runat="server" TargetControlID="TxtTuNgay"
-                            PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarTuNgay" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="TxtTuNgay"
                             MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
                         </ajaxToolkit:MaskedEditExtender>
+                        <br />
+                        <asp:RequiredFieldValidator ID="BeginDateRequired" runat="server" ValidationGroup="Search"
+                            Display="Dynamic" ForeColor="Red" ControlToValidate="TxtTuNgay" ErrorMessage="Ngày bắt đầu không được để trống">
+                        </asp:RequiredFieldValidator>
+                        <asp:CustomValidator ID="BeginDateValidator" runat="server" Display="Dynamic" ForeColor="Red"
+                            ControlToValidate="TxtTuNgay" ErrorMessage="Ngày bắt đầu không hợp lệ" ValidationGroup="Search"></asp:CustomValidator>
                     </td>
                 </tr>
                 <tr>
@@ -46,11 +52,17 @@
                         <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender6" runat="server" TargetControlID="TxtDenNgay"
-                            PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="TxtDenNgay"
                             MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">
                         </ajaxToolkit:MaskedEditExtender>
+                         <br />
+                        <asp:RequiredFieldValidator ID="EndDateRequired" runat="server" ValidationGroup="Search"
+                            Display="Dynamic" ForeColor="Red" ControlToValidate="TxtDenNgay" ErrorMessage="Ngày kết thúc không được để trống">
+                        </asp:RequiredFieldValidator>
+                        <asp:CustomValidator ID="EndDateValidator" runat="server" Display="Dynamic" ForeColor="Red"
+                            ControlToValidate="TxtDenNgay" ErrorMessage="Ngày kết thúc không hợp lệ" ValidationGroup="Search"></asp:CustomValidator>
                     </td>
                 </tr>
             </table>

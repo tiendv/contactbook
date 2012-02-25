@@ -102,6 +102,7 @@
     <Content Include="modules\danh_muc\giao_vien\suagiaovien.aspx" />
     <Content Include="modules\danh_muc\suadanhhieu.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
+    <Content Include="modules\giao_vien\thongtincanhan.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\duyetdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx" />
@@ -425,6 +426,13 @@
     </Compile>
     <Compile Include="modules\danh_muc\suadanhhieu.aspx.designer.cs">
       <DependentUpon>suadanhhieu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\giao_vien\thongtincanhan.aspx.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\giao_vien\thongtincanhan.aspx.designer.cs">
+      <DependentUpon>thongtincanhan.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
       <DependentUpon>diemhocsinh.aspx</DependentUpon>
@@ -1115,7 +1123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="modules\giao_vien\" />
     <Folder Include="modules\report\aspx\" />
     <Folder Include="Styles\Images\MouseHover\" />
   </ItemGroup>
@@ -1197,7 +1204,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>6220</DevelopmentServerPort>
+          <DevelopmentServerPort>13756</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -173,8 +173,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            TxtTuNgay.Text = today.AddMonths(-1).ToShortDateString();
-            TxtDenNgay.Text = today.AddMonths(1).ToShortDateString();
+            TxtTuNgay.Text = today.AddMonths(-1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
+            TxtDenNgay.Text = today.AddMonths(1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
 
             // dont remove this code
             //DateTime today = DateTime.Now;
@@ -191,8 +191,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Student_Student student = null;
             Configuration_Year year = null;
             Configuration_Term term = null;
-            DateTime dtBeginDate;
-            DateTime dtEndDate;
+            DateTime? dtBeginDate;
+            DateTime? dtEndDate;
             double dTotalRecords;
             List<TabularStudentActivity> tabularStudentActivities;
 
@@ -208,11 +208,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 term = new Configuration_Term();
                 term.TermId = Int32.Parse(DdlHocKy.SelectedValue);
             }
-            dtBeginDate = DateTime.Parse(TxtTuNgay.Text);
-            dtEndDate = DateTime.Parse(TxtDenNgay.Text);
+            dtBeginDate = DateUtils.StringToDateVN(TxtTuNgay.Text);
+            dtEndDate = DateUtils.StringToDateVN(TxtDenNgay.Text);
+            if (dtBeginDate == null)
+            {
+                BeginDateCustom.IsValid = false;
+                return;
+            }
+
+            if (dtEndDate == null)
+            {
+                EndDateValidator.IsValid = false;
+                return;
+            }
 
             tabularStudentActivities = studentActivityBL.GetTabularStudentActivities(
-                student, year, term, dtBeginDate, dtEndDate,
+                student, year, term, (DateTime)dtBeginDate, (DateTime)dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (dTotalRecords != 0 && tabularStudentActivities.Count == 0)
@@ -277,7 +288,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Student_Student student = null;
             Category_Attitude attitude = null;
             Configuration_Term term = null;
-            DateTime date;
+            DateTime? date;
             Configuration_Year year = null;
 
             student = new Student_Student();
@@ -304,50 +315,38 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 }
                 else
                 {
-                    if (!Regex.IsMatch(strNgay, NgayExpression.ValidationExpression))
+                    date = DateUtils.StringToDateVN(strNgay);
+                    if (date == null)
                     {
-                        NgayExpression.IsValid = false;
+                        DateTimeValidatorAdd.IsValid = false;
                         MPEAdd.Show();
                         return;
                     }
-                    else
-                    {
-                        try
-                        {
-                            DateTime.Parse(strNgay);
-                        }
-                        catch (Exception ex)
-                        {
-                            DateTimeValidatorAdd.IsValid = false;
-                            MPEAdd.Show();
-                            return;
-                        }
 
-                        if (studentActivityBL.StudentActivityNamExists(tieuDe, student, year, term, DateTime.Parse(strNgay)))
-                        {
-                            TieuDeValidatorAdd.IsValid = false;
-                            MPEAdd.Show();
-                            return;
-                        }
+                    if (studentActivityBL.StudentActivityNamExists(tieuDe, student, year, term, (DateTime)date))
+                    {
+                        TieuDeValidatorAdd.IsValid = false;
+                        MPEAdd.Show();
+                        return;
                     }
+
                 }
             }
 
             string strContent = this.TxtDescriptionThem.Text;
-            date = DateTime.Parse(this.TxtNgayThem.Text);
             if (this.DdlThaiDoThamGiaThem.SelectedIndex > 0)
             {
                 attitude = new Category_Attitude();
                 attitude.AttitudeId = Int32.Parse(this.DdlThaiDoThamGiaThem.SelectedValue);
             }
 
-            studentActivityBL.InsertStudentActivity(student, term, date, tieuDe, strContent, attitude);
+            studentActivityBL.InsertStudentActivity(student, term, (DateTime)date, tieuDe, strContent, attitude);
 
             MainDataPager.CurrentIndex = 1;
             BindRptStudentActivities();
 
             this.DdlHocKyThem.SelectedIndex = 0;
-            this.TxtNgayThem.Text = DateTime.Now.ToShortDateString();
+            this.TxtNgayThem.Text = DateTime.Now.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             this.TxtTieuDeThem.Text = "";
             this.TxtDescriptionThem.Text = "";
             this.DdlThaiDoThamGiaThem.SelectedIndex = 0;
@@ -377,7 +376,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         ViewState["TermId"] = hoatDong.TermId;
                         this.HdfTermId.Value = hoatDong.TermId.ToString();
                         this.LblHocKySua.Text = hoatDong.Configuration_Term.TermName;
-                        this.TxtNgaySua.Text = hoatDong.Date.ToShortDateString();
+                        this.TxtNgaySua.Text = hoatDong.Date.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
                         if (hoatDong.AttitudeId == null)
                         {
                             this.DdlThaiDoThamGiaSua.SelectedValue = "0";
@@ -400,7 +399,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             Student_Activity studentActivity = null;
             Category_Attitude attitude = null;
-            
+            DateTime? date = null;
             string strOldTitle = this.HdfSltActivityName.Value;
             int iStudentActivityId = Int32.Parse(this.HdfMaHoatDong.Value);
             string strDate = TxtNgaySua.Text.Trim();
@@ -412,30 +411,18 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                if (!Regex.IsMatch(strDate, NgayExpressionEdit.ValidationExpression))
+                date = DateUtils.StringToDateVN(strDate);
+                if (date == null)
                 {
-                    NgayExpressionEdit.IsValid = false;
+                    DateTimeValidatorEdit.IsValid = false;
                     MPEEdit.Show();
                     return;
-                }
-                else
-                {
-                    try
-                    {
-                        DateTime.Parse(strDate);
-                    }
-                    catch (Exception ex)
-                    {
-                        DateTimeValidatorEdit.IsValid = false;
-                        MPEEdit.Show();
-                        return;
-                    }
+
                 }
             }
 
             studentActivity = new Student_Activity();
             studentActivity.ActivityId = iStudentActivityId;
-            DateTime date = DateTime.Parse(this.TxtNgaySua.Text);
             string strContent = this.TxtDescriptionSua.Text;
             if (this.DdlThaiDoThamGiaSua.SelectedIndex > 0)
             {
@@ -443,7 +430,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 attitude.AttitudeId = Int32.Parse(this.DdlThaiDoThamGiaSua.SelectedValue);
             }
 
-            studentActivityBL.UpdateStudentActivity(studentActivity, date, strContent, attitude);
+            studentActivityBL.UpdateStudentActivity(studentActivity, (DateTime)date, strContent, attitude);
 
             BindRptStudentActivities();
         }
@@ -483,7 +470,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (bInfoInUse)
             {
                 MPEInfoInUse.Show();
-            }            
+            }
         }
 
         protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)

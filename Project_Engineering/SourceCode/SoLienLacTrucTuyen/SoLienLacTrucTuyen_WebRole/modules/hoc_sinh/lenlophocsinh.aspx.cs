@@ -100,7 +100,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tabularStudent.StudentId = Int32.Parse(hdfRptStudentId.Value);
                         tabularStudent.StudentCode = lbtnStudentCode.Text;
                         tabularStudent.FullName = lblFullName.Text;
-                        tabularStudent.ClassName = DdlLopHoc.SelectedItem.Text;
+                        tabularStudent.ClassName = ((Label)item.FindControl("LblClassName")).Text;
                         tabularStudents.Add(tabularStudent);
                     }
                 }

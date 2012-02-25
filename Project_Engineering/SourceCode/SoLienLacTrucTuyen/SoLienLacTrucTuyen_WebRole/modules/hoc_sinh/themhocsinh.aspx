@@ -152,6 +152,9 @@
                 <asp:RequiredFieldValidator ID="NgaySinhHocSinhRequired" runat="server" ValidationGroup="AddHocSinh"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtNgaySinhHocSinh" ErrorMessage="Ngày sinh học sinh không được để trống">
                 </asp:RequiredFieldValidator>
+                <asp:CustomValidator ID="StudentDOBValidator" runat="server" Display="Dynamic" ForeColor="Red"
+                    ControlToValidate="TxtNgaySinhHocSinh" ErrorMessage="Ngày sinh học sinh không hợp lệ"
+                    OnServerValidate="ValidateStudentDateOfBirth" ValidationGroup="AddHocSinh"></asp:CustomValidator>
             </td>
         </tr>
         <tr>
@@ -217,6 +220,9 @@
                 <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtNgaySinhBo"
                     PopupButtonID="ImgCalendarNgaySinhBo" Format="dd/MM/yyyy" PopupPosition="Right">
                 </ajaxToolkit:CalendarExtender>
+                <asp:CustomValidator ID="FatherDOBValidator" runat="server" Display="Dynamic" ForeColor="Red"
+                    ControlToValidate="TxtNgaySinhBo" ErrorMessage="Ngày sinh bố không hợp lệ" OnServerValidate="ValidateFatherDateOfBirth"
+                    ValidationGroup="AddHocSinh"></asp:CustomValidator>
             </td>
         </tr>
         <tr>
@@ -227,9 +233,11 @@
                 <asp:TextBox ID="TxtNgheNghiepBo" runat="server" CssClass="input_textbox"></asp:TextBox>
             </td>
         </tr>
-    </table>
-    <table style="width: 100%; background-color: #EAFCE4; border: 2px solid #9AA8F2;
-        padding: 10px 20px 10px 20px; margin-top: 10px" class="ui-corner-all">
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
         <tr>
             <td style="width: 125px; vertical-align: top; padding-top: 3px;">
                 Họ tên mẹ:
@@ -246,6 +254,9 @@
                 <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" TargetControlID="TxtNgaySinhMe"
                     PopupButtonID="ImgCalendarNgaySinhMe" Format="dd/MM/yyyy" PopupPosition="Right">
                 </ajaxToolkit:CalendarExtender>
+                <asp:CustomValidator ID="MotherDOBValidator" runat="server" Display="Dynamic" ForeColor="Red"
+                    ControlToValidate="TxtNgaySinhMe" ErrorMessage="Ngày sinh mẹ không hợp lệ" OnServerValidate="ValidateMotherDateOfBirth"
+                    ValidationGroup="AddHocSinh"></asp:CustomValidator>
             </td>
         </tr>
         <tr>
@@ -256,9 +267,11 @@
                 <asp:TextBox ID="TxtNgheNghiepMe" runat="server" CssClass="input_textbox"></asp:TextBox>
             </td>
         </tr>
-    </table>
-    <table style="width: 100%; background-color: #EAFCE4; border: 2px solid #9AA8F2;
-        padding: 10px 20px 10px 20px; margin-top: 10px" class="ui-corner-all">
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
         <tr>
             <td style="width: 125px; vertical-align: top; padding-top: 3px;">
                 Họ tên người đỡ đầu:
@@ -278,6 +291,9 @@
                 <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender4" runat="server" TargetControlID="TxtNgaySinhNguoiDoDau"
                     MaskType="Date" Mask="99/99/9999" UserDateFormat="DayMonthYear" ErrorTooltipEnabled="true">
                 </ajaxToolkit:MaskedEditExtender>
+                <asp:CustomValidator ID="PatronDOBValidator" runat="server" Display="Dynamic" ForeColor="Red"
+                    ControlToValidate="TxtNgaySinhNguoiDoDau" ErrorMessage="Ngày sinh người đỡ đầu không hợp lệ"
+                    OnServerValidate="ValidatePatronDateOfBirth" ValidationGroup="AddHocSinh"></asp:CustomValidator>
             </td>
         </tr>
         <tr>

@@ -119,16 +119,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string strFatherJob = this.TxtNgheNghiepBo.Text.Trim();
-            DateTime? dtFatherDateOfBirth = ToDateTime(this.TxtNgaySinhBo.Text.Trim());
+            DateTime? dtFatherDateOfBirth = DateUtils.StringToDateVN(this.TxtNgaySinhBo.Text.Trim());
             string strMotherJob = this.TxtNgheNghiepMe.Text.Trim();
-            DateTime? dtMotherDateOfBirth = ToDateTime(this.TxtNgaySinhMe.Text.Trim());
+            DateTime? dtMotherDateOfBirth = DateUtils.StringToDateVN(this.TxtNgaySinhMe.Text.Trim());
             string strPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
-            DateTime? dtPatronDateOfBirth = ToDateTime(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+            DateTime? dtPatronDateOfBirth = DateUtils.StringToDateVN(this.TxtNgaySinhNguoiDoDau.Text.Trim());
 
             bool bGender = this.RbtnNam.Checked;
-            string[] arrDateOfBirth = strDayOfBirth.Split('/');
-            DateTime dtDateOfBirth = new DateTime(Int32.Parse(arrDateOfBirth[2]),
-                Int32.Parse(arrDateOfBirth[1]), Int32.Parse(arrDateOfBirth[0]));
+            DateTime? dtDateOfBirth = DateUtils.StringToDateVN(strDayOfBirth);
+            if (dtDateOfBirth == null)
+            {
+                StudentDOBValidator.IsValid = false;
+                return;
+            }
             string strBirthPlace = this.TxtNoiSinh.Text.Trim();
             string strPhone = this.TxtDienThoai.Text.Trim();
 
@@ -142,7 +145,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Class.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
             studentBL.InsertStudent(Class, strStudentCode, strStudentName,
-                bGender, dtDateOfBirth, strBirthPlace, strAddress, strPhone, bPhoto,
+                bGender, (DateTime)dtDateOfBirth, strBirthPlace, strAddress, strPhone, bPhoto,
                 strFatherName, strFatherJob, dtFatherDateOfBirth,
                 strMotherName, strMotherJob, dtMotherDateOfBirth,
                 strPatron, strPatronJob, dtPatronDateOfBirth);
@@ -196,6 +199,75 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #endregion
 
         #region Methods
+        protected void ValidateStudentDateOfBirth(object source, ServerValidateEventArgs args)
+        {
+            if (DateUtils.StringToDateVN(args.Value) != null)
+            {
+                args.IsValid = true;
+            }
+            else
+            {
+                args.IsValid = false;
+            }
+        }
+
+        protected void ValidateFatherDateOfBirth(object source, ServerValidateEventArgs args)
+        {
+            if(CheckUntils.IsNullOrBlank(args.Value) == false)
+            {
+                if (DateUtils.StringToDateVN(args.Value) != null)
+                {
+                    args.IsValid = true;
+                }
+                else
+                {
+                    args.IsValid = false;
+                }
+            }
+            else
+            {
+                args.IsValid = true;
+            }           
+        }
+
+        protected void ValidateMotherDateOfBirth(object source, ServerValidateEventArgs args)
+        {
+            if (CheckUntils.IsNullOrBlank(args.Value) == false)
+            {
+                if (DateUtils.StringToDateVN(args.Value) != null)
+                {
+                    args.IsValid = true;
+                }
+                else
+                {
+                    args.IsValid = false;
+                }
+            }
+            else
+            {
+                args.IsValid = true;
+            }
+        }
+
+        protected void ValidatePatronDateOfBirth(object source, ServerValidateEventArgs args)
+        {
+            if (CheckUntils.IsNullOrBlank(args.Value) == false)
+            {
+                if (DateUtils.StringToDateVN(args.Value) != null)
+                {
+                    args.IsValid = true;
+                }
+                else
+                {
+                    args.IsValid = false;
+                }
+            }
+            else
+            {
+                args.IsValid = true;
+            }
+        }
+
         private void BindDropDownLists()
         {
             BindDDLYears();
@@ -293,20 +365,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BtnSave.Enabled = true;
                 BtnSave.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_SAVE;
-            }
-        }
-
-        private DateTime? ToDateTime(string str)
-        {
-            if (str != "")
-            {
-                string[] arrDateTime = str.Split('/');
-                return new DateTime(Int32.Parse(arrDateTime[2]),
-                    Int32.Parse(arrDateTime[1]), Int32.Parse(arrDateTime[0]));
-            }
-            else
-            {
-                return null;
             }
         }
         #endregion

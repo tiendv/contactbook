@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <asp:ImageButton ID="BtnEdit" runat="server" ImageUrl="~/Styles/buttons/button_edit.png"
         OnClick="BtnEdit_Click" Visible="false" />
-    <table style="padding: 5px 7px 10px 7px;" cellspacing="5px">
+    <table style="padding: 5px 7px 10px 7px;" cellspacing="5px" class="detailTable">
         <tr>
             <td>
                 <table style="width: 100%;" class="inputBorder">

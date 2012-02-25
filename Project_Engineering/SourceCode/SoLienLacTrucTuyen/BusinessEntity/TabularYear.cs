@@ -13,5 +13,9 @@ namespace EContactBook.BusinessEntity
         public DateTime FirstTermEndDate { get; set; }
         public DateTime SecondTermBeginDate { get; set; }
         public DateTime SecondTermEndDate { get; set; }
+        public string StringFirstTermBeginDate { get; set; }
+        public string StringFirstTermEndDate { get; set; }
+        public string StringSecondTermBeginDate { get; set; }
+        public string StringSecondTermEndDate { get; set; }
     }
 }

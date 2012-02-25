@@ -42,10 +42,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     RemoveSession(AppConstant.SESSION_SELECTED_YEAR);
 
                     LblYearName.Text = year.YearName;
-                    TxtFirstTermBeginDate.Text = year.BeginFirstTermDate.ToShortDateString();
-                    TxtFirstTermEndDate.Text = year.EndFirstTermDate.ToShortDateString();
-                    TxtSecondTermBeginDate.Text = year.BeginSecondTermDate.ToShortDateString();
-                    TxtSecondTermEndDate.Text = year.EndSecondTermDate.ToShortDateString();
+                    TxtFirstTermBeginDate.Text = year.BeginFirstTermDate.ToString("dd/MM/yyyy");
+                    TxtFirstTermEndDate.Text = year.EndFirstTermDate.ToString("dd/MM/yyyy");
+                    TxtSecondTermBeginDate.Text = year.BeginSecondTermDate.ToString("dd/MM/yyyy");
+                    TxtSecondTermEndDate.Text = year.EndSecondTermDate.ToString("dd/MM/yyyy");
 
                     ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;
                 }
@@ -65,13 +65,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             Configuration_Year year = new Configuration_Year();
             year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
-            
-            DateTime dtFirstTermBeginDate = DateTime.Parse(TxtFirstTermBeginDate.Text);
-            DateTime dtFirstTermEndDate = DateTime.Parse(TxtFirstTermEndDate.Text);
-            DateTime dtSecondTermBeginDate = DateTime.Parse(TxtSecondTermBeginDate.Text);
-            DateTime dtSecondTermEndDate = DateTime.Parse(TxtSecondTermEndDate.Text);
 
-            systemConfigBL.UpdateYear(year, dtFirstTermBeginDate, dtFirstTermEndDate, dtSecondTermBeginDate, dtSecondTermEndDate);
+            DateTime? dtFirstTermBeginDate = DateUtils.StringToDateVN(TxtFirstTermBeginDate.Text);
+            DateTime? dtFirstTermEndDate = DateUtils.StringToDateVN(TxtFirstTermEndDate.Text);
+            DateTime? dtSecondTermBeginDate = DateUtils.StringToDateVN(TxtSecondTermBeginDate.Text);
+            DateTime? dtSecondTermEndDate = DateUtils.StringToDateVN(TxtSecondTermEndDate.Text);
+
+            systemConfigBL.UpdateYear(year, (DateTime)dtFirstTermBeginDate, (DateTime)dtFirstTermEndDate, (DateTime)dtSecondTermBeginDate, (DateTime)dtSecondTermEndDate);
             RedirectToPrevPage();
         }
 
@@ -131,24 +131,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 bValid = false;
             }
 
-            DateTime dtFirstTermBeginDate = DateTime.Parse(TxtFirstTermBeginDate.Text);
-            DateTime dtFirstTermEndDate = DateTime.Parse(TxtFirstTermEndDate.Text);
-            DateTime dtSecondTermBeginDate = DateTime.Parse(TxtSecondTermBeginDate.Text);
-            DateTime dtSecondTermEndDate = DateTime.Parse(TxtSecondTermEndDate.Text);
+            DateTime? dtFirstTermBeginDate = DateUtils.StringToDateVN(TxtFirstTermBeginDate.Text);
+            DateTime? dtFirstTermEndDate = DateUtils.StringToDateVN(TxtFirstTermEndDate.Text);
+            DateTime? dtSecondTermBeginDate = DateUtils.StringToDateVN(TxtSecondTermBeginDate.Text);
+            DateTime? dtSecondTermEndDate = DateUtils.StringToDateVN(TxtSecondTermEndDate.Text);
 
-            if (CheckUntils.CompareDateWithoutHMS(dtFirstTermBeginDate, dtFirstTermEndDate) >= 0)
+            if (DateUtils.CompareDateWithoutHMS((DateTime)dtFirstTermBeginDate, (DateTime)dtFirstTermEndDate) >= 0)
             {
                 CompareToFirstTermStartDate.IsValid = false;
                 bValid = false;
             }
 
-            if (CheckUntils.CompareDateWithoutHMS(dtFirstTermEndDate, dtSecondTermBeginDate) >= 0)
+            if (DateUtils.CompareDateWithoutHMS((DateTime)dtFirstTermEndDate, (DateTime)dtSecondTermBeginDate) >= 0)
             {
                 CompareToFirstTermEndDate.IsValid = false;
                 bValid = false;
             }
 
-            if (CheckUntils.CompareDateWithoutHMS(dtSecondTermBeginDate, dtSecondTermEndDate) >= 0)
+            if (DateUtils.CompareDateWithoutHMS((DateTime)dtSecondTermBeginDate, (DateTime)dtSecondTermEndDate) >= 0)
             {
                 CompareToSecondTermStartDate.IsValid = false;
                 bValid = false;

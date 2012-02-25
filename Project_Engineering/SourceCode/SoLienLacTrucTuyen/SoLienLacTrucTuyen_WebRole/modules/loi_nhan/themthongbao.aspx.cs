@@ -340,8 +340,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Configuration_Year year = systemConfigBL.GetLastedYear();
             if (year != null)
             {
-                if(CheckUntils.CompareDateWithoutHMS(DateTime.Now, year.BeginFirstTermDate) >= 0
-                    && CheckUntils.CompareDateWithoutHMS(DateTime.Now, year.EndSecondTermDate) <= 0)
+                if (DateUtils.CompareDateWithoutHMS(DateTime.Now, year.BeginFirstTermDate) >= 0
+                    && DateUtils.CompareDateWithoutHMS(DateTime.Now, year.EndSecondTermDate) <= 0)
                 {
                     LblYear.Text = year.YearName;
                     ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID] = year.YearId;

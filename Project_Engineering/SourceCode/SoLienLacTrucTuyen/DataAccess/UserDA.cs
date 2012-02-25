@@ -184,6 +184,10 @@ namespace EContactBook.DataAccess
                 membership.Email = email;
                 membership.IsActivated = activated;
                 membership.IsDeletable = deletable;
+                if (activated)
+                {
+                    membership.NotYetActivated = true;
+                }
                 db.SubmitChanges();
             }
         }

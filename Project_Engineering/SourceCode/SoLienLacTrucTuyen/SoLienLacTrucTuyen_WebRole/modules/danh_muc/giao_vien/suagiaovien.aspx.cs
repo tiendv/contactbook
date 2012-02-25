@@ -56,7 +56,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             string strTeacherName = TxtTenGiaoVien.Text.Trim();
             string strDateOfBirth = TxtNgaySinh.Text.Trim();
-            DateTime dtDateOfBirth;
+            DateTime? dtDateOfBirth;
             bool bGender = RbtnNam.Checked;
             string strAddress = TxtDiaChi.Text.Trim();
             string strPhone = TxtDienThoai.Text.Trim();
@@ -79,7 +79,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return;
             }
 
-            if (DateTime.TryParse(strDateOfBirth, out dtDateOfBirth) == false)
+            dtDateOfBirth = DateUtils.StringToDateVN(strDateOfBirth);
+            if (dtDateOfBirth == null)
             {
                 DateOfBirthCustomValidator.IsValid = false;
                 return;
@@ -93,7 +94,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             aspnet_Membership editedTeacher = new aspnet_Membership();
             editedTeacher.UserId = teacherBL.GetTeacher(UserId).UserId;
-            teacherBL.UpdateTeacher(editedTeacher, strTeacherName, bGender, dtDateOfBirth, strAddress, strPhone, bPhoto);
+            teacherBL.UpdateTeacher(editedTeacher, strTeacherName, bGender, (DateTime)dtDateOfBirth, strAddress, strPhone, bPhoto);
 
             BackToPrevPage();
         }
@@ -138,7 +139,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             TxtTenGiaoVien.Text = teacher.aspnet_Membership.FullName;
             if (teacher.aspnet_Membership.Birthday != null)
             {
-                TxtNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToShortDateString();
+                TxtNgaySinh.Text = ((DateTime)teacher.aspnet_Membership.Birthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             if (teacher.aspnet_Membership.Gender != null)
             {

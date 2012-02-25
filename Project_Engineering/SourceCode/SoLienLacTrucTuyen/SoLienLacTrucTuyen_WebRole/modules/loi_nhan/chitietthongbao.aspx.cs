@@ -52,7 +52,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     stringBuilder.Append(message.Student_StudentInClass.Student_Student.StudentCode);
                     LblStudentInformation.Text = stringBuilder.ToString();
                     LblTitle.Text = message.Title;
-                    LblDate.Text = message.Date.ToShortDateString();
+                    LblDate.Text = message.Date.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
                     LblContent.Text = message.MessageContent;
                     if (CheckUntils.IsNullOrBlank(message.Feedback))
                     {

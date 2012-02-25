@@ -48,6 +48,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     ViewState[AppConstant.VIEWSTATE_USER_ISTEACHER] = membership.IsTeacher;
                     ViewState[AppConstant.VIEWSTATE_USER_ISDELETABLE] = membership.IsDeletable;
                     ViewState[AppConstant.VIEWSTATE_USER_ID] = membership.UserId.ToString();
+                    ViewState[AppConstant.VIEWSTATE_USER_NOTYETACTIVATED] = membership.NotYetActivated;
                     LblUserName.Text = user.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1];
                     TxtFullName.Text = membership.FullName;
                     List<aspnet_Role> roles = userBL.GetRoles(user.UserName);
@@ -111,13 +112,24 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 stringBuilder.Append(AppConstant.UNDERSCORE_CHAR);
                 stringBuilder.Append(strUserName);
                 MembershipUser membershipUser = Membership.GetUser(stringBuilder.ToString());
-                string strPassword = membershipUser.ResetPassword();
-                Membership.UpdateUser(membershipUser);
-
+                string strPassword = AppConstant.STRING_BLANK;
+                string strEmailContent = AppConstant.STRING_BLANK;
+                if (ViewState[AppConstant.VIEWSTATE_USER_NOTYETACTIVATED] == null)
+                {
+                    strPassword = membershipUser.ResetPassword();
+                    Membership.UpdateUser(membershipUser);
+                    strEmailContent = string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}",
+                        UserSchool.SchoolName, strUserName, strPassword);
+                }
+                else
+                {
+                    strEmailContent = string.Format("Trường {0} xin thông báo đã kích hoạt lại thành công tài khoản {1}",
+                     UserSchool.SchoolName, strUserName);
+                }
+                
                 MailBL.SendByGmail(UserSchool.Email, membershipUser.Email, 
-                "[eContact.com] Kích hoạt tài khoản thành công", 
-                string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}", 
-                    UserSchool.SchoolName, strUserName, strPassword), UserSchool.Email.Split('@')[0], UserSchool.Password);
+                    "[eContact.com]Kích hoạt tài khoản thành công", strEmailContent, 
+                    UserSchool.Email.Split('@')[0], UserSchool.Password);
             }
 
             BackToPreviousPage();

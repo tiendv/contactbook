@@ -9,6 +9,7 @@ namespace EContactBook.BusinessEntity
     {
         public int StudentId { get; set; }
         public int ClassId { get; set; }
+        public string LastedClassName { get; set; }
         public string StudentCode { get; set; }
         public string FullName { get; set; }
         public string FacultyName { get; set; }
@@ -19,5 +20,7 @@ namespace EContactBook.BusinessEntity
         public string StringDateOfBirth { get; set; }
         public string StringGender { get; set; }
         public int StudentInClassId { get; set; }
+        public string FinalConductName { get; set; }
+        public string FinalLearningAptitudeName { get; set; }
     }
 }

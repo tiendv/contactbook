@@ -130,10 +130,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         year = new Configuration_Year();
                         year.YearId = Int32.Parse(hdfRptYearId.Value);
                         year.YearName = lblYearName.Text;
-                        year.BeginFirstTermDate = DateTime.Parse(lblFirstTermBeginDate.Text);
-                        year.EndFirstTermDate = DateTime.Parse(lblFirstTermEndDate.Text);
-                        year.BeginSecondTermDate = DateTime.Parse(lblSecondTermBeginDate.Text);
-                        year.EndSecondTermDate = DateTime.Parse(lblSecondTermEndDate.Text);
+                        year.BeginFirstTermDate = (DateTime)DateUtils.StringToDateVN(lblFirstTermBeginDate.Text);
+                        year.EndFirstTermDate = (DateTime)DateUtils.StringToDateVN(lblFirstTermEndDate.Text);
+                        year.BeginSecondTermDate = (DateTime)DateUtils.StringToDateVN(lblSecondTermBeginDate.Text);
+                        year.EndSecondTermDate = (DateTime)DateUtils.StringToDateVN(lblSecondTermEndDate.Text);
                         
                         SaveSelectionSessions();
 

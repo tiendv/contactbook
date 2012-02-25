@@ -65,8 +65,19 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
 
             Configuration_Year year = new Configuration_Year();
             year.YearId = Int32.Parse(DdlYears.SelectedValue);
-            DateTime dtBeginDate = DateTime.Parse(TxtBeginDate.Text);
-            DateTime dtEndDate = DateTime.Parse(TxtEndDate.Text);
+            DateTime? dtBeginDate = DateUtils.StringToDateVN(TxtBeginDate.Text);
+            DateTime? dtEndDate = DateUtils.StringToDateVN(TxtEndDate.Text);
+            if (dtBeginDate == null)
+            {
+                BeginDateValidator.IsValid = false;
+                return;
+            }
+
+            if (dtEndDate == null)
+            {
+                EndDateValidator.IsValid = false;
+                return;
+            }
             Configuration_CommentStatus commentStatus = null;
             if (DdlXacNhan.SelectedIndex > 0)
             {
@@ -75,7 +86,7 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
             }
             double dTotalRecords;
 
-            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(LoggedInStudent, year, commentStatus, dtBeginDate, dtEndDate,
+            tabularParentsComments = parentsCommentBL.GetTabularParentsComments(LoggedInStudent, year, commentStatus, (DateTime)dtBeginDate, (DateTime)dtEndDate,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             if (tabularParentsComments.Count == 0 && dTotalRecords != 0)
@@ -162,8 +173,8 @@ namespace SoLienLacTrucTuyen_WebRole.ModuleParents
         private void InitDates()
         {
             DateTime today = DateTime.Now;
-            TxtBeginDate.Text = today.AddMonths(-1).ToShortDateString();
-            TxtEndDate.Text = today.AddMonths(1).ToShortDateString();
+            TxtBeginDate.Text = today.AddMonths(-1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
+            TxtEndDate.Text = today.AddMonths(1).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
 
             // dont remove this code
             //DateTime today = DateTime.Now;

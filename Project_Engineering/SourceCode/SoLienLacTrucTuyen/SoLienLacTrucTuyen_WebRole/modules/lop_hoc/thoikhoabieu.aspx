@@ -140,7 +140,9 @@
                                             <asp:Repeater ID="RptTeachingPeriodSchedule" runat="server">
                                                 <ItemTemplate>
                                                     <td style="width: 100px; padding: 0px 5px 0px 5px">
-                                                        <%#DataBinder.Eval(Container.DataItem, "SubjectName")%>
+                                                        <span class='<%#((string)DataBinder.Eval(Container.DataItem, "SubjectName") != "(Nghỉ)") ? "bold font15" : ""%>'>
+                                                            <%#DataBinder.Eval(Container.DataItem, "SubjectName")%>
+                                                        </span>
                                                     </td>
                                                 </ItemTemplate>
                                             </asp:Repeater>

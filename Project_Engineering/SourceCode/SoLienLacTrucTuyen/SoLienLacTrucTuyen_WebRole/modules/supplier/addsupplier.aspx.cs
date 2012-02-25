@@ -73,8 +73,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 // send confirmation mail to school
                 supplier = schoolBL.GetSupplier();
                 string strEmailContent = string.Format("Nhà cung cấp sổ liên lạc trực tuyến eContact.com xin thông báo đã tạo thông tin trường {0} thành công.\n"
-                    + "Quí vị giáo viên và cán bộ nhà trường có thể đăng nhập vào hệ thống bằng tài khoản quản trị {1} với mật khẩu password: {2}", 
-                    strSchoolName, lastedInsertedSchool.Email, "1qazxsw@");
+                    + "Quí vị giáo viên và cán bộ nhà trường có thể đăng nhập vào hệ thống bằng tài khoản quản trị: {1} với mật khẩu: {2}",
+                    strSchoolName, "admin", ViewState["AdminPassword"]);
                 MailBL.SendByGmail(supplier.Email, // From
                     lastedInsertedSchool.Email, // To
                     "Thông báo tạo thông tin trường thành công", // Title
@@ -356,7 +356,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             userBL.CreateUserMasterAdministrator(userAdmin);
 
             // create school's default user administrator
-            strAdminUserPassword = "1qazxsw@";
+            strAdminUserPassword = GeneratePassword();
+            ViewState["AdminPassword"] = strAdminUserPassword;
             strAdminUserName = school.SchoolId.ToString() + AppConstant.UNDERSCORE + "admin";
             // create user by asp .net method
             Membership.CreateUser(strAdminUserName, strAdminUserPassword, school.Email);

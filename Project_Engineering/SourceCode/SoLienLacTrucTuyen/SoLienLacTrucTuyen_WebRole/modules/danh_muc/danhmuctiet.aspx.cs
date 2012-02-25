@@ -42,7 +42,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BindDropDownLists();
                 isSearch = false;
-                BindRepeater();
+                BindRptTeachingPeriod();
             }
 
             ProcPermissions();
@@ -54,7 +54,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             MainDataPager.CurrentIndex = 1;
             isSearch = true;
-            BindRepeater();
+            BindRptTeachingPeriod();
         }
 
         protected void BtnSaveAdd_Click(object sender, ImageClickEventArgs e)
@@ -76,7 +76,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             teachingPeriodBL.InsertTeachingPeriod(TeachingPeriodNameHoc, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
 
             MainDataPager.CurrentIndex = 1;
-            BindRepeater();
+            BindRptTeachingPeriod();
 
             TxtTeachingPeriodNameHocThem.Text = "";
             TxtThuTuAdd.Text = "";
@@ -143,7 +143,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strThoiGianKetThuc = TxtThoiGianKetThucEdit.Text.Trim();
             teachingPeriod.TeachingPeriodId = TeachingPeriodId;
             teachingPeriodBL.UpdateTiet(teachingPeriod, TeachingPeriodNameMoi, session, thuTu, strThoiGianBatDau, strThoiGianKetThuc);
-            BindRepeater();
+            BindRptTeachingPeriod();
         }
 
         protected void BtnOKDeleteItem_Click(object sender, ImageClickEventArgs e)
@@ -177,7 +177,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             isSearch = false;
-            BindRepeater();
+            BindRptTeachingPeriod();
 
             if (bInfoInUse)
             {
@@ -191,7 +191,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             int currentPageIndex = Convert.ToInt32(e.CommandArgument);
             this.MainDataPager.CurrentIndex = currentPageIndex;
-            BindRepeater();
+            BindRptTeachingPeriod();
         }
         #endregion
 
@@ -205,11 +205,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             PnlPopupConfirmDelete.Visible = accessibilities.Contains(AccessibilityEnum.Delete);
         }
 
-        private void BindRepeater()
+        private void BindRptTeachingPeriod()
         {
             Configuration_Session session = null;
             double dTotalRecords;
-            string TeachingPeriodName = TxtSearchTiet.Text.Trim();
+            string strTeachingPeriodName = TxtSearchTiet.Text.Trim();
 
             if (DdlBuoi.SelectedIndex != 0)
             {
@@ -217,19 +217,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 session.SessionId = Int32.Parse(DdlBuoi.SelectedValue);
             }
 
-            List<TabularTeachingPeriod> listTbTiets = teachingPeriodBL.GetTabularTeachingPeriods(TeachingPeriodName, session,
+            List<TabularTeachingPeriod> tabularTeachingPeriods = teachingPeriodBL.GetTabularTeachingPeriods(strTeachingPeriodName, session,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             // Decrease page current index when delete
-            if (listTbTiets.Count == 0 && dTotalRecords != 0)
+            if (tabularTeachingPeriods.Count == 0 && dTotalRecords != 0)
             {
                 MainDataPager.CurrentIndex--;
-                BindRepeater();
+                BindRptTeachingPeriod();
                 return;
             }
 
             MainDataPager.ItemCount = dTotalRecords;
-            bool bDisplayData = (listTbTiets.Count != 0) ? true : false;
+            bool bDisplayData = (tabularTeachingPeriods.Count != 0) ? true : false;
             RptTietHoc.Visible = bDisplayData;
             LblSearchResult.Visible = !bDisplayData;
 
@@ -250,7 +250,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 MainDataPager.Visible = true;
             }
-            RptTietHoc.DataSource = listTbTiets;
+            RptTietHoc.DataSource = tabularTeachingPeriods;
             RptTietHoc.DataBind();
         }
 
@@ -284,8 +284,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             if (!Page.IsValid)
             {
-                return false;
                 MPEAdd.Show();
+                return false;
             }
 
             string TeachingPeriodNameHoc = this.TxtTeachingPeriodNameHocThem.Text.Trim();

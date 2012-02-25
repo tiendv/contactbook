@@ -307,21 +307,24 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularStudentRating> GetTabularStudentRating(Student_Student student, Configuration_Year year, Configuration_Term term,
             int pageCurrentIndex, int pageSize, out double totalRecords, out int orderNo)
         {
-            List<TabularStudentRating> tabularStudentRatings = null;
-            TabularStudentRating tabularStudentRating = null;
+            List<TabularStudentRating> studentRatings = null;
+            TabularStudentRating studentRating = null;
+
             LearningAptitudeBL learningAptitudeBL = null;
             ConductBL conductBL = null;
             LearningResultBL learningResultBL = null;
+            StudentBL studentBL = new StudentBL(school);
+
             Category_Conduct conduct = null;
             Category_LearningAptitude learningAptitude = null;
             Category_LearningResult learningResult = null;
+
             List<Student_TermLearningResult> termResults = null;
             TabularTermStudentResult tabularFinalStudentResult = null;
-            StudentBL studentBL = new StudentBL(school);
-
+            
             Class_Class Class = studentBL.GetClass(student, year);
 
-            if (term == null)
+            if (term == null) // term is "All"
             {
                 termResults = studyingResultDA.GetStudentTermResults(Class, student, pageCurrentIndex, pageSize, out totalRecords, out orderNo);
             }
@@ -335,105 +338,108 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 learningAptitudeBL = new LearningAptitudeBL(school);
                 conductBL = new ConductBL(school);
                 learningResultBL = new LearningResultBL(school);
-                tabularStudentRatings = new List<TabularStudentRating>(); // init result list
+                studentRatings = new List<TabularStudentRating>(); // init result list
                 if (term != null)
                 {
                     foreach (Student_TermLearningResult termResult in termResults)
                     {
-                        tabularStudentRating = new TabularStudentRating();
-                        tabularStudentRating.StudentCode = termResult.Student_StudentInClass.Student_Student.StudentCode;
-                        tabularStudentRating.StudentFullName = termResult.Student_StudentInClass.Student_Student.FullName;
-                        tabularStudentRating.TermName = termResult.Configuration_Term.TermName;
-                        tabularStudentRating.AverageMark = (int)termResult.TermAverageMark;
-                        tabularStudentRating.StringAverageMark = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
+                        studentRating = new TabularStudentRating();
+                        studentRating.StudentCode = termResult.Student_StudentInClass.Student_Student.StudentCode;
+                        studentRating.StudentFullName = termResult.Student_StudentInClass.Student_Student.FullName;
+                        studentRating.TermName = termResult.Configuration_Term.TermName;
+                        studentRating.AverageMark = (int)termResult.TermAverageMark;
+                        studentRating.StringAverageMark = (termResult.TermAverageMark != -1) ? (termResult.TermAverageMark.ToString()) : "(Chưa xác định)";
+
                         // Thông tin học lực
-                        learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularStudentRating.AverageMark);
+                        learningAptitude = learningAptitudeBL.GetLearningAptitude(studentRating.AverageMark);
                         if (learningAptitude != null)
                         {
-                            tabularStudentRating.LearningAptitudeName = learningAptitude.LearningAptitudeName;
+                            studentRating.LearningAptitudeName = learningAptitude.LearningAptitudeName;
                         }
                         else
                         {
-                            tabularStudentRating.LearningAptitudeName = "(Chưa xác định)";
+                            studentRating.LearningAptitudeName = "(Chưa xác định)";
                         }
+                        
                         // Thông tin hạnh kiểm
                         conduct = conductBL.GetConduct((int)termResult.TermConductId);
                         if (conduct != null)
                         {
-                            tabularStudentRating.ConductName = conduct.ConductName;
+                            studentRating.ConductName = conduct.ConductName;
                         }
                         else
                         {
-                            tabularStudentRating.ConductName = "(Chưa xác định)";
+                            studentRating.ConductName = "(Chưa xác định)";
                         }
+                        
                         // Thông tin danh hiệu
                         if (conduct != null && learningAptitude != null)
                         {
                             learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
                             if (learningResult != null)
                             {
-                                tabularStudentRating.LearningResultName = learningResult.LearningResultName;
+                                studentRating.LearningResultName = learningResult.LearningResultName;
                             }
                             else
                             {
-                                tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                                studentRating.LearningResultName = "(Chưa xác định)";
                             }
                         }
                         else
                         {
-                            tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                            studentRating.LearningResultName = "(Chưa xác định)";
                         }
-                        tabularStudentRatings.Add(tabularStudentRating);
+                        studentRatings.Add(studentRating);
                     }
 
-                    return tabularStudentRatings;
+                    return studentRatings;
                 }
 
                 for (int i = 0; i < termResults.Count - 1; i++)
                 {
-                    tabularStudentRating = new TabularStudentRating();
-                    tabularStudentRating.StudentCode = termResults[i].Student_StudentInClass.Student_Student.StudentCode;
-                    tabularStudentRating.StudentFullName = termResults[i].Student_StudentInClass.Student_Student.FullName;
-                    tabularStudentRating.TermName = "Cả năm";
+                    studentRating = new TabularStudentRating();
+                    studentRating.StudentCode = termResults[i].Student_StudentInClass.Student_Student.StudentCode;
+                    studentRating.StudentFullName = termResults[i].Student_StudentInClass.Student_Student.FullName;
+                    studentRating.TermName = "Cả năm";
 
                     if ((termResults[i].TermAverageMark != -1) && (termResults[i + 1].TermAverageMark != -1))
                     {
-                        tabularStudentRating.AverageMark = Math.Round(
+                        studentRating.AverageMark = Math.Round(
                             ((double)termResults[i].TermAverageMark + 2 * (double)termResults[i + 1].TermAverageMark) / 3, 1
                         );
-                        tabularStudentRating.StringAverageMark = tabularStudentRating.AverageMark.ToString();
+                        studentRating.StringAverageMark = studentRating.AverageMark.ToString();
                     }
                     else
                     {
-                        tabularStudentRating.StringAverageMark = "(Chưa xác định)";
+                        studentRating.StringAverageMark = "(Chưa xác định)";
                     }
                     // Nếu đã xác định được hạnh kiểm cả 2 học kì
                     if (termResults[i].TermConductId != -1 && termResults[i + 1].TermConductId != -1)
                     {
                         // hạnh kiểm cuối năm = hạnh kiểm học kì 2
-                        tabularStudentRating.ConductId = (int)termResults[i + 1].TermConductId;
+                        studentRating.ConductId = (int)termResults[i + 1].TermConductId;
                     }
                     else
                     {
-                        tabularStudentRating.ConductId = -1;
+                        studentRating.ConductId = -1;
                     }
-                    conduct = conductBL.GetConduct((int)tabularStudentRating.ConductId);
+                    conduct = conductBL.GetConduct((int)studentRating.ConductId);
                     if (conduct != null)
                     {
-                        tabularStudentRating.ConductName = conduct.ConductName;
+                        studentRating.ConductName = conduct.ConductName;
                     }
                     else
                     {
-                        tabularStudentRating.ConductName = "(Chưa xác định)";
+                        studentRating.ConductName = "(Chưa xác định)";
                     }
-                    learningAptitude = learningAptitudeBL.GetLearningAptitude(tabularStudentRating.AverageMark);
+                    learningAptitude = learningAptitudeBL.GetLearningAptitude(studentRating.AverageMark);
                     if (learningAptitude != null)
                     {
-                        tabularStudentRating.LearningAptitudeName = learningAptitude.LearningAptitudeName;
+                        studentRating.LearningAptitudeName = learningAptitude.LearningAptitudeName;
                     }
                     else
                     {
-                        tabularStudentRating.LearningAptitudeName = "(Chưa xác định)";
+                        studentRating.LearningAptitudeName = "(Chưa xác định)";
                     }
 
                     if (conduct != null && learningAptitude != null)
@@ -441,28 +447,28 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                         learningResult = learningResultBL.GetLearningResult(conduct, learningAptitude);
                         if (learningResult != null)
                         {
-                            tabularStudentRating.LearningResultName = learningResult.LearningResultName;
+                            studentRating.LearningResultName = learningResult.LearningResultName;
                         }
                         else
                         {
-                            tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                            studentRating.LearningResultName = "(Chưa xác định)";
                         }
                     }
                     else
                     {
-                        tabularStudentRating.LearningResultName = "(Chưa xác định)";
+                        studentRating.LearningResultName = "(Chưa xác định)";
                     }
 
-                    tabularStudentRatings.Add(tabularStudentRating);
+                    studentRatings.Add(studentRating);
                     i++;
 
                 }
 
-                tabularStudentRatings = tabularStudentRatings.OrderByDescending(result => result.AverageMark).ThenBy(result => result.StudentCode).ToList();
-                return tabularStudentRatings;
+                studentRatings = studentRatings.OrderByDescending(result => result.AverageMark).ThenBy(result => result.StudentCode).ToList();
+                return studentRatings;
             }
 
-            return tabularStudentRatings;
+            return studentRatings;
         }
 
         /// <summary>

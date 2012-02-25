@@ -6,48 +6,10 @@
       <Column Name="LoweredApplicationName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
-      <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Memberships" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Membership" />
       <Association Name="aspnet_Application_aspnet_Path" Member="aspnet_Paths" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Path" />
       <Association Name="aspnet_Application_aspnet_Role" Member="aspnet_Roles" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Role" />
       <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Users" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_User" />
-    </Type>
-  </Table>
-  <Table Name="dbo.aspnet_Membership" Member="aspnet_Memberships">
-    <Type Name="aspnet_Membership">
-      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="FullName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="PasswordFormat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PasswordSalt" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
-      <Column Name="MobilePIN" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
-      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
-      <Column Name="LoweredEmail" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
-      <Column Name="PasswordQuestion" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
-      <Column Name="PasswordAnswer" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
-      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsLockedOut" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastLoginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAnswerAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FailedPasswordAnswerAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Gender" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Photo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="IsDeletable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsTeacher" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
-      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
-      <Association Name="School_School_aspnet_Membership" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
+      <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Memberships" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Membership" />
     </Type>
   </Table>
   <Table Name="dbo.aspnet_Paths" Member="aspnet_Paths">
@@ -119,13 +81,13 @@
       <Column Name="MobileAlias" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
       <Column Name="IsAnonymous" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="LastActivityDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_Membership" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Membership" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_PersonalizationPerUser" Member="aspnet_PersonalizationPerUsers" ThisKey="UserId" OtherKey="UserId" Type="aspnet_PersonalizationPerUser" />
       <Association Name="aspnet_User_aspnet_Profile" Member="aspnet_Profile" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Profile" Cardinality="One" />
       <Association Name="aspnet_User_aspnet_UsersInRole" Member="aspnet_UsersInRoles" ThisKey="UserId" OtherKey="UserId" Type="aspnet_UsersInRole" />
       <Association Name="aspnet_User_Class_FormerTeacher" Member="Class_FormerTeachers" ThisKey="UserId" OtherKey="TeacherId" Type="Class_FormerTeacher" />
       <Association Name="aspnet_User_UserManagement_RoleParentsAuthorization" Member="UserManagement_RoleParentsAuthorizations" ThisKey="UserId" OtherKey="UserParentId" Type="UserManagement_RoleParentsAuthorization" />
       <Association Name="aspnet_User_Class_Schedule" Member="Class_Schedules" ThisKey="UserId" OtherKey="TeacherId" Type="Class_Schedule" />
+      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_Membership" ThisKey="UserId" OtherKey="UserId" Type="aspnet_Membership" Cardinality="One" />
       <Association Name="aspnet_Application_aspnet_User" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
     </Type>
   </Table>
@@ -588,7 +550,6 @@
       <Column Name="Address" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
       <Column Name="Phone" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="DistrictId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="School_School_Category_Conduct" Member="Category_Conducts" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Conduct" />
       <Association Name="School_School_Category_Faculty" Member="Category_Faculties" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Faculty" />
       <Association Name="School_School_Category_Grade" Member="Category_Grades" ThisKey="SchoolId" OtherKey="SchoolId" Type="Category_Grade" />
@@ -599,6 +560,7 @@
       <Association Name="School_School_Configuration_Year" Member="Configuration_Years" ThisKey="SchoolId" OtherKey="SchoolId" Type="Configuration_Year" />
       <Association Name="School_School_Student_Student" Member="Student_Students" ThisKey="SchoolId" OtherKey="SchoolId" Type="Student_Student" />
       <Association Name="School_School_UserManagement_RoleDetail" Member="UserManagement_RoleDetails" ThisKey="SchoolId" OtherKey="SchoolId" Type="UserManagement_RoleDetail" />
+      <Association Name="School_School_aspnet_Membership" Member="aspnet_Memberships" ThisKey="SchoolId" OtherKey="SchoolId" Type="aspnet_Membership" />
       <Association Name="Configuration_District_School_School" Member="Configuration_District" ThisKey="DistrictId" OtherKey="DistrictId" Type="Configuration_District" IsForeignKey="true" />
     </Type>
   </Table>
@@ -664,6 +626,45 @@
       <Column Name="CreatedUserId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Student_StudentInClass_ParentComment_Comment" Member="Student_StudentInClass" ThisKey="StudentInClassId" OtherKey="StudentInClassId" Type="Student_StudentInClass" IsForeignKey="true" />
       <Association Name="Configuration_CommentStatus_ParentComment_Comment" Member="Configuration_CommentStatus" ThisKey="CommentStatusId" OtherKey="CommentStatusId" Type="Configuration_CommentStatus" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.aspnet_Membership" Member="aspnet_Memberships">
+    <Type Name="aspnet_Membership">
+      <Column Name="ApplicationId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordFormat" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PasswordSalt" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="MobilePIN" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="LoweredEmail" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordQuestion" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="PasswordAnswer" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="IsApproved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsLockedOut" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLoginDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastPasswordChangedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastLockoutDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FailedPasswordAnswerAttemptWindowStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Gender" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Photo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="IsDeletable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsTeacher" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SchoolId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsActivated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="NotYetActivated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="aspnet_Application_aspnet_Membership" Member="aspnet_Application" ThisKey="ApplicationId" OtherKey="ApplicationId" Type="aspnet_Application" IsForeignKey="true" />
+      <Association Name="aspnet_User_aspnet_Membership" Member="aspnet_User" ThisKey="UserId" OtherKey="UserId" Type="aspnet_User" IsForeignKey="true" />
+      <Association Name="School_School_aspnet_Membership" Member="School_School" ThisKey="SchoolId" OtherKey="SchoolId" Type="School_School" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

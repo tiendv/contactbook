@@ -244,5 +244,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string STRING_MALE = "Nam";
         public const string STRING_FEMALE = "Nữ";
         public const string STRING_UNDEFINED = "(Không xác định)";
+        public const string DATEFORMAT_DDMMYYYY = "dd/MM/yyyy";
+
+        public const string VIEWSTATE_USER_NOTYETACTIVATED = "NotYetActivated";
     }
 }

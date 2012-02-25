@@ -85,15 +85,15 @@
                         </td>
                         <td>
                             Từ ngày
-                            <asp:Label ID="LblFirstTermBeginDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "FirstTermBeginDate")).ToShortDateString()%>'></asp:Label>
+                            <asp:Label ID="LblFirstTermBeginDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "FirstTermBeginDate")).ToString("dd/MM/yyyy")%>'></asp:Label>
                             đến ngày
-                            <asp:Label ID="LblFirstTermEndDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "FirstTermEndDate")).ToShortDateString()%>'></asp:Label>
+                            <asp:Label ID="LblFirstTermEndDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "FirstTermEndDate")).ToString("dd/MM/yyyy")%>'></asp:Label>
                         </td>
                         <td>
                             Từ ngày
-                            <asp:Label ID="LblSecondTermBeginDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "SecondTermBeginDate")).ToShortDateString()%>'></asp:Label>
+                            <asp:Label ID="LblSecondTermBeginDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "SecondTermBeginDate")).ToString("dd/MM/yyyy")%>'></asp:Label>
                             đến ngày
-                            <asp:Label ID="LblSecondTermEndDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "SecondTermEndDate")).ToShortDateString()%>'></asp:Label>
+                            <asp:Label ID="LblSecondTermEndDate" runat="server" Text='<%#((DateTime)DataBinder.Eval(Container.DataItem, "SecondTermEndDate")).ToString("dd/MM/yyyy")%>'></asp:Label>
                         </td>
                         <td id="tdSelect" runat="server" class="icon" style="height: 40px;">
                             <asp:CheckBox ID="CkbxSelect" runat="server" CssClass="select" />

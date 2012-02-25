@@ -128,9 +128,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             this.LblMaHocSinhHienThi.Text = student.StudentCode;
             this.LblHoTenHocSinh.Text = student.FullName;
             this.LblGioiTinh.Text = (student.Gender == true) ? "Nam" : "Nữ";
-            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.Day.ToString()
-                + "/" + student.StudentBirthday.Month.ToString()
-                + "/" + student.StudentBirthday.Year.ToString();
+            this.LblNgaySinhHocSinh.Text = student.StudentBirthday.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             this.LblNoiSinh.Text = student.Birthplace;
             this.LblDiaChi.Text = student.Address;
             StringBuilder stringBuilder = new StringBuilder();
@@ -151,7 +149,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (student.FatherBirthday != null)
             {
-                this.LblNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
+                this.LblNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {
@@ -178,7 +176,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
 
             if (student.MotherBirthday != null)
             {
-                this.LblNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
+                this.LblNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {
@@ -197,8 +195,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (student.PatronBirthday != null)
             {
                 DateTime ngaySinhNguoiDoDau = (DateTime)student.PatronBirthday;
-                this.LblNgaySinhNguoiDoDau.Text = ngaySinhNguoiDoDau.Day.ToString() + "/" + ngaySinhNguoiDoDau.Month.ToString()
-                    + "/" + ngaySinhNguoiDoDau.Year.ToString();
+                this.LblNgaySinhNguoiDoDau.Text = ngaySinhNguoiDoDau.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             else
             {

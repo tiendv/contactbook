@@ -208,7 +208,6 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             SystemConfigBL systemConfigBL = new SystemConfigBL(UserSchool);
             List<Configuration_DayInWeek> dayInWeeks = systemConfigBL.GetDayInWeeks();
 
-
             Class_Class Class = new Class_Class();
             Class.ClassId = Int32.Parse(DdlLopHoc.SelectedValue);
 
@@ -235,10 +234,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         private void ProcessDislayInfo(bool displayData)
         {
             LblErrorResult.Visible = !displayData;
-            RptSchedule.Visible = displayData;
+
             LblTitle.Visible = displayData;
-            tbHeader.Visible = displayData;
+            RptSchedule.Visible = displayData;
             RptTeachingPeriod.Visible = displayData;
+            tbHeader.Visible = displayData;
         }
 
         private void BindDropDownLists()
@@ -380,6 +380,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 BtnPrint.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_EXPORT;
                 BtnPrint.Enabled = true;
+
+                BtnEdit.ImageUrl = AppConstant.IMAGESOURCE_BUTTON_ARRANGE;
+                BtnEdit.Enabled = true;
 
                 if (Session["ThoiKhoaBieu_ClassId"] != null)
                 {
