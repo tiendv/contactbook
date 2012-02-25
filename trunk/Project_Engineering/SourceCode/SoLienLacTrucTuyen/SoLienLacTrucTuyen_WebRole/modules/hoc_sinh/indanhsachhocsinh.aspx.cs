@@ -447,17 +447,49 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tabularDailySchedule = schiduleBL.GetDailySchedules(classes, term);
                         TabularClass tlbClass = classBL.GetTabularClass(classes);
                         DataTable dtSource = new DataTable();
-                        dtSource.Columns.Add("DayInWeekName", Type.GetType("System.String"));
-                        dtSource.Columns.Add("Morning_StringDetailTeachingPeriod", Type.GetType("System.String"));
-                        dtSource.Columns.Add("Morning_SubjectName", Type.GetType("System.String"));
-                        dtSource.Columns.Add("Morning_TeacherName", Type.GetType("System.String"));
-                        dtSource.Columns.Add("Afternoon_StringDetailTeachingPeriod", Type.GetType("System.String"));
-                        dtSource.Columns.Add("Afternoon_SubjectName", Type.GetType("System.String"));
-                        dtSource.Columns.Add("Afternoon_TeacherName", Type.GetType("System.String"));
+
+                        TeachingPeriodBL teachingPeriodBL = new TeachingPeriodBL(UserSchool);
+                        List<TabularTeachingPeriod> listTbTiets = teachingPeriodBL.GetTabularTeachingPeriods("", null,
+                        1, 15, out dTotalRecords);
+                        //dtSource.Columns.Add("DayInWeekName", Type.GetType("System.String"));
+                        //dtSource.Columns.Add("Morning_StringDetailTeachingPeriod", Type.GetType("System.String"));
+                        //dtSource.Columns.Add("Morning_SubjectName", Type.GetType("System.String"));
+                        //dtSource.Columns.Add("Morning_TeacherName", Type.GetType("System.String"));
+                        //dtSource.Columns.Add("Afternoon_StringDetailTeachingPeriod", Type.GetType("System.String"));
+                        //dtSource.Columns.Add("Afternoon_SubjectName", Type.GetType("System.String"));
+                        //dtSource.Columns.Add("Afternoon_TeacherName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("SessionId", Type.GetType("System.Int32"));
+                        dtSource.Columns.Add("SessionName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("TeachingPeriodId", Type.GetType("System.String"));
+                        dtSource.Columns.Add("TeachingPeriodName", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Monday", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Tuesday", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Weday", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Thursday", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Friday", Type.GetType("System.String"));
+                        dtSource.Columns.Add("Saturday", Type.GetType("System.String"));
                         dtSource.Columns.Add("Image", Type.GetType("System.Byte[]"));
+                        for (int i = 0; i < listTbTiets.Count; i++)
+                        {
+                            DataRow dtNewRow = dtSource.NewRow();
+                            dtNewRow["SessionId"] = listTbTiets[i].SessionId;
+                            dtNewRow["SessionName"] = listTbTiets[i].SessionName.ToString();
+                            dtNewRow["TeachingPeriodId"] = listTbTiets[i].TeachingPeriodId;
+                            dtNewRow["TeachingPeriodName"] = listTbTiets[i].TeachingPeriodName.ToString();
+                            dtNewRow["Monday"] = "";
+                            dtNewRow["Tuesday"] = "";
+                            dtNewRow["Weday"] = "";
+                            dtNewRow["Thursday"] = "";
+                            dtNewRow["Friday"] = "";
+                            dtNewRow["Saturday"] = "";
+                            dtNewRow["Image"] = (byte[])UserSchool.Logo.ToArray();
+                            dtSource.Rows.Add(dtNewRow);
+                        }
+
                         int _count;
                         for (int i = 0; i < tabularDailySchedule.Count; i++)
                         {
+
                             if (tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count >
                                 tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count)
                                 _count = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count;
@@ -465,45 +497,99 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                                 _count = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count;
                             if (_count == 0)
                             {
-                                DataRow drSource = dtSource.NewRow();
-                                drSource["DayInWeekName"] = "Thứ " + (tabularDailySchedule[i].DayInWeekId + 1).ToString();
-                                dtSource.Rows.Add(drSource);
+                                //DataRow drSource = dtSource.NewRow();
+                                //drSource["DayInWeekName"] = "Thứ " + (tabularDailySchedule[i].DayInWeekId + 1).ToString();
+                                //dtSource.Rows.Add(drSource);
                             }
                             else
                             {
                                 // Morning
                                 for (int j = 0; j < _count; j++)
                                 {
-                                    DataRow drSource = dtSource.NewRow();
-                                    drSource["DayInWeekName"] = "Thứ " + (tabularDailySchedule[i].DayInWeekId + 1).ToString();
+
+                                    //DataRow drSource = dtSource.NewRow();
+                                    //drSource["DayInWeekName"] = "Thứ " + (tabularDailySchedule[i].DayInWeekId + 1).ToString();
                                     // Morning
+                                    
+
                                     if (j < tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet.Count)
                                     {
-                                        drSource["Morning_StringDetailTeachingPeriod"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].StringDetailTeachingPeriod.Replace("<b>", "").Replace("</b>", "").Replace("<br/>", "");
-                                        drSource["Morning_SubjectName"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
-                                        drSource["Morning_TeacherName"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].TeacherName;
+                                        DataRow[] drSelect = dtSource.Select("TeachingPeriodId = " + tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].TeachingPeriodId.ToString());
+                                        if (drSelect.Length > 0)
+                                        {
+                                            switch (tabularDailySchedule[i].DayInWeekId + 1)
+                                            {
+                                                case 2:
+                                                    drSelect[0]["Monday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 3:
+                                                    drSelect[0]["Tuesday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 4:
+                                                    drSelect[0]["Weday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 5:
+                                                    drSelect[0]["Thursday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 6:
+                                                    drSelect[0]["Friday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 7:
+                                                    drSelect[0]["Saturday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                            }
+                                        }
+
+                                        //drSource["Morning_StringDetailTeachingPeriod"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].StringDetailTeachingPeriod.Replace("<b>", "").Replace("</b>", "").Replace("<br/>", "");
+                                        //drSource["Morning_SubjectName"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                        //drSource["Morning_TeacherName"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].TeacherName;
                                     }
-                                    else
-                                    {
-                                        drSource["Morning_StringDetailTeachingPeriod"] = string.Empty;
-                                        drSource["Morning_SubjectName"] = string.Empty;
-                                        drSource["Morning_TeacherName"] = string.Empty;
-                                    }
+                                    //else
+                                    //{
+                                    //    drSource["Morning_StringDetailTeachingPeriod"] = string.Empty;
+                                    //    drSource["Morning_SubjectName"] = string.Empty;
+                                    //    drSource["Morning_TeacherName"] = string.Empty;
+                                    //}
                                     // Afternoon
                                     if (j < tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet.Count)
                                     {
-                                        drSource["Afternoon_StringDetailTeachingPeriod"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].StringDetailTeachingPeriod.Replace("<b>", "").Replace("</b>", "").Replace("<br/>", "");
-                                        drSource["Afternoon_SubjectName"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
-                                        drSource["Afternoon_TeacherName"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].TeacherName;
+                                        DataRow[] drSelect = dtSource.Select("TeachingPeriodId = " + tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].TeachingPeriodId.ToString());
+                                        if (drSelect.Length > 0)
+                                        {
+                                            switch (tabularDailySchedule[i].DayInWeekId + 1)
+                                            {
+                                                case 2:
+                                                    drSelect[0]["Monday"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 3:
+                                                    drSelect[0]["Tuesday"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 4:
+                                                    drSelect[0]["Weday"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 5:
+                                                    drSelect[0]["Thursday"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 6:
+                                                    drSelect[0]["Friday"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                                case 7:
+                                                    drSelect[0]["Saturday"] = tabularDailySchedule[i].SessionedSchedules[0].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                                    break;
+                                            }
+                                        }
+                                        //drSource["Afternoon_StringDetailTeachingPeriod"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].StringDetailTeachingPeriod.Replace("<b>", "").Replace("</b>", "").Replace("<br/>", "");
+                                        //drSource["Afternoon_SubjectName"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].SubjectName;
+                                        //drSource["Afternoon_TeacherName"] = tabularDailySchedule[i].SessionedSchedules[1].ListThoiKhoaBieuTheoTiet[j].TeacherName;
                                     }
-                                    else
-                                    {
-                                        drSource["Afternoon_StringDetailTeachingPeriod"] = string.Empty;
-                                        drSource["Afternoon_SubjectName"] = string.Empty;
-                                        drSource["Afternoon_TeacherName"] = string.Empty;
-                                    }
-                                    drSource["Image"] = (byte[])UserSchool.Logo.ToArray();
-                                    dtSource.Rows.Add(drSource);
+                                    //else
+                                    //{
+                                    //    drSource["Afternoon_StringDetailTeachingPeriod"] = string.Empty;
+                                    //    drSource["Afternoon_SubjectName"] = string.Empty;
+                                    //    drSource["Afternoon_TeacherName"] = string.Empty;
+                                    //}
+                                    //drSource["Image"] = (byte[])UserSchool.Logo.ToArray();
+                                    //dtSource.Rows.Add(drSource);
                                 }
 
                             }
