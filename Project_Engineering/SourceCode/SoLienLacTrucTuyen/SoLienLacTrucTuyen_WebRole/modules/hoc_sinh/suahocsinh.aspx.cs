@@ -134,7 +134,12 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             string strNewMotherName = this.TxtHoTenMe.Text.Trim();
             string tenNguoiDoDau = this.TxtHoTenNguoiDoDau.Text;
             bool bNewStudentGender = this.RbtnNam.Checked;
-            DateTime dtBirthday = DateTime.Parse(strBirthday);
+            DateTime? dtBirthday = DateUtils.StringToDateVN(strBirthday);
+            if (dtBirthday == null)
+            {
+                StudentDateOfBirthCustomValidator.IsValid = false;
+                return;
+            }
             string strNewBirthPlace = this.TxtNoiSinh.Text.Trim();
             string strNewPhone = this.TxtDienThoai.Text.Trim();
             if (CheckUntils.IsNullOrBlank(strNewStudentCode.Trim()))
@@ -176,23 +181,47 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
 
             string strNewFatherJob = this.TxtNgheNghiepBo.Text.Trim();
-            DateTime dtNewFatherBirthday;
-            DateTime.TryParse(this.TxtNgaySinhBo.Text.Trim(), out dtNewFatherBirthday);
+            DateTime? dtNewFatherBirthday = null;
+            if (CheckUntils.IsNullOrBlank(this.TxtNgaySinhBo.Text.Trim()) == false)
+            {
+                dtNewFatherBirthday = DateUtils.StringToDateVN(this.TxtNgaySinhBo.Text.Trim());
+                if (dtNewFatherBirthday == null)
+                {
+                    FatherDateOfBirthCustomValidator.IsValid = false;
+                    return;
+                }
+            }
 
             string strNewMotherJob = this.TxtNgheNghiepMe.Text.Trim();
-            DateTime dtNewMotherBirthday;
-            DateTime.TryParse(this.TxtNgaySinhMe.Text.Trim(), out dtNewMotherBirthday);
+            DateTime? dtNewMotherBirthday = null;
+            if (CheckUntils.IsNullOrBlank(this.TxtNgaySinhMe.Text.Trim()) == false)
+            {
+                dtNewMotherBirthday = DateUtils.StringToDateVN(this.TxtNgaySinhMe.Text.Trim());
+                if (dtNewMotherBirthday == null)
+                {
+                    MotherDateOfBirthCustomValidator.IsValid = false;
+                    return;
+                }
+            }
 
             string strNewPatronJob = this.TxtNgheNghiepNguoiDoDau.Text.Trim();
-            DateTime dtNewPatronBirthday;
-            DateTime.TryParse(this.TxtNgaySinhNguoiDoDau.Text.Trim(), out dtNewPatronBirthday);
+            DateTime? dtNewPatronBirthday = null;
+            if (CheckUntils.IsNullOrBlank(this.TxtNgaySinhNguoiDoDau.Text.Trim()) == false)
+            {
+                dtNewPatronBirthday = DateUtils.StringToDateVN(this.TxtNgaySinhNguoiDoDau.Text.Trim());
+                if (dtNewPatronBirthday == null)
+                {
+                    PatronDateOfBirthCustomValidator.IsValid = false;
+                    return;
+                }
+            } 
 
             editedStudent = new Student_Student();
             editedStudent.StudentId = Int32.Parse(ViewState[AppConstant.VIEWSTATE_STUDENTID].ToString());
             newClass = new Class_Class();
             newClass.ClassId = Int32.Parse(this.DdlLopHoc.SelectedValue);
 
-            studentBL.UpdateHocSinh(editedStudent, newClass, strNewStudentCode, strNewStudentName, bNewStudentGender, dtBirthday,
+            studentBL.UpdateHocSinh(editedStudent, newClass, strNewStudentCode, strNewStudentName, bNewStudentGender, (DateTime)dtBirthday,
                 strNewBirthPlace, strNewAddress, strNewPhone, bPhoto, strNewFatherName, strNewFatherJob, dtNewFatherBirthday,
                 strNewMotherName, strNewMotherJob, dtNewMotherBirthday, tenNguoiDoDau, strNewPatronJob, dtNewPatronBirthday);
 
@@ -233,7 +262,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             TxtMaHocSinhHienThi.Text = student.StudentCode;
             HdfOldStudentCode.Value = student.StudentCode;
             TxtTenHocSinh.Text = student.FullName;
-            TxtNgaySinhHocSinh.Text = student.StudentBirthday.ToShortDateString();
+            TxtNgaySinhHocSinh.Text = student.StudentBirthday.ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             RbtnNam.Checked = student.Gender;
             RbtnNu.Checked = !student.Gender;
             TxtNoiSinh.Text = student.Birthplace;
@@ -249,19 +278,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             TxtHoTenBo.Text = student.FatherName;
             if (student.FatherBirthday != null)
             {
-                TxtNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToShortDateString();
+                TxtNgaySinhBo.Text = ((DateTime)student.FatherBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             TxtNgheNghiepBo.Text = student.FatherJob;
             TxtHoTenMe.Text = student.MotherName;
             if (student.MotherBirthday != null)
             {
-                TxtNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToShortDateString();
+                TxtNgaySinhMe.Text = ((DateTime)student.MotherBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             TxtNgheNghiepMe.Text = student.MotherJob;
             TxtHoTenNguoiDoDau.Text = student.PatronName;
             if (student.PatronBirthday != null)
             {
-                TxtNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToShortDateString();
+                TxtNgaySinhNguoiDoDau.Text = ((DateTime)student.PatronBirthday).ToString(AppConstant.DATEFORMAT_DDMMYYYY);
             }
             TxtNgheNghiepNguoiDoDau.Text = student.PatronJob;
 
@@ -344,8 +373,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DateTime dtDateOfBirth;
-                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+                if (DateUtils.StringToDateVN(e.Value) != null)
+                {
+                    e.IsValid = true;
+                }
+                else
+                {
+                    e.IsValid = false;
+                }
             }
         }
 
@@ -357,8 +392,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DateTime dtDateOfBirth;
-                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+                if (DateUtils.StringToDateVN(e.Value) != null)
+                {
+                    e.IsValid = true;
+                }
+                else
+                {
+                    e.IsValid = false;
+                }
             }
 
         }
@@ -371,8 +412,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DateTime dtDateOfBirth;
-                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+                if (DateUtils.StringToDateVN(e.Value) != null)
+                {
+                    e.IsValid = true;
+                }
+                else
+                {
+                    e.IsValid = false;
+                }
             }
 
         }
@@ -385,8 +432,14 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             else
             {
-                DateTime dtDateOfBirth;
-                e.IsValid = DateTime.TryParse(e.Value, out dtDateOfBirth);
+                if (DateUtils.StringToDateVN(e.Value) != null)
+                {
+                    e.IsValid = true;
+                }
+                else
+                {
+                    e.IsValid = false;
+                }
             }
 
         }

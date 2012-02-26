@@ -32,6 +32,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
 
+            PnlError.Visible = false;
+            PnlInput.Visible = true;
+
             systemConfigBL = new SystemConfigBL(UserSchool);
             int iPresentYear = DateTime.Now.Year;
             Configuration_Year lastedYear = systemConfigBL.GetLastedYear();
@@ -39,7 +42,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             {
                 if (lastedYear.BeginFirstTermDate.Year >= iPresentYear)
                 {
-
+                    LblExistedYearName.Text = string.Format("{0} - {1}", lastedYear.BeginFirstTermDate.Year, lastedYear.EndSecondTermDate.Year);
+                    PnlError.Visible = true;
+                    PnlInput.Visible = false;
+                    return;
                 }
                 else
                 {

@@ -53,6 +53,11 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             
         }
+
+        protected void BtnBackPrevPage_Click(object sender, ImageClickEventArgs e)
+        {
+            BackToPrevPage();
+        }
         #endregion
 
         #region Methods
@@ -69,11 +74,21 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 LblAddress.Text = school.Address;
                 LblEmail.Text = school.Email;
                 LblPhone.Text = school.Phone;
-                LblDistrict.Text = school.DistrictId.ToString();
-                LblProvince.Text = school.Configuration_District.ProvinceId.ToString();
+                LblDistrict.Text = school.Configuration_District.DistrictName;
+                LblProvince.Text = school.Configuration_District.Configuration_Province.ProvinceName;
                 ViewState[AppConstant.VIEWSTATE_SCHOOLID] = school.SchoolId;
                 ViewState[AppConstant.VIEWSTATE_SCHOOLNAME] = school.SchoolName;
                 ViewState[AppConstant.VIEWSTATE_EMAIL] = school.Email;
+
+                // save search session
+                ViewState[AppConstant.VIEWSTATE_SELECTED_PROVINCEID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_PROVINCE);
+                RemoveSession(AppConstant.SESSION_SELECTED_PROVINCE);
+
+                ViewState[AppConstant.VIEWSTATE_SELECTED_DISTRICTID] = (Int32)GetSession(AppConstant.SESSION_SELECTED_DISTRICT);
+                RemoveSession(AppConstant.SESSION_SELECTED_DISTRICT);
+
+                ViewState[AppConstant.VIEWSTATE_SEARCHED_SCHOOLNAME] = (string)GetSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
+                RemoveSession(AppConstant.SESSION_SELECTED_SCHOOLNAME);
                 
                 return true;
             }

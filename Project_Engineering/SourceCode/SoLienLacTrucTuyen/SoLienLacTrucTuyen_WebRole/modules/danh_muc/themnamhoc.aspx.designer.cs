@@ -13,6 +13,42 @@ namespace SoLienLacTrucTuyen_WebRole.Modules {
     public partial class CategoryAddYear {
         
         /// <summary>
+        /// PnlError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlError;
+        
+        /// <summary>
+        /// LblExistedYearName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LblExistedYearName;
+        
+        /// <summary>
+        /// HlkYears control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HlkYears;
+        
+        /// <summary>
+        /// PnlInput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PnlInput;
+        
+        /// <summary>
         /// LblYearName control.
         /// </summary>
         /// <remarks>

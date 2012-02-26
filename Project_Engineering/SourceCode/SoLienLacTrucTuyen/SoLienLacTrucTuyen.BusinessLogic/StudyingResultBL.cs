@@ -308,7 +308,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
             int pageCurrentIndex, int pageSize, out double totalRecords, out int orderNo)
         {
             List<TabularStudentRating> studentRatings = null;
-            TabularStudentRating studentRating = null;
+            TabularStudentRating studentRating = null; // use for looping
 
             LearningAptitudeBL learningAptitudeBL = null;
             ConductBL conductBL = null;
@@ -1094,6 +1094,16 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public int GetTotalUnapprovedMarks(Class_Class Class)
         {
             return studyingResultDA.GetTotalUnapprovedMarks(Class);
+        }
+
+        public Category_Conduct GetFinalConduct(Student_Student student, Class_Class Class)
+        {
+            return studyingResultDA.GetFinalConduct(student, Class);
+        }
+
+        public Category_Attitude GetFinalAttitude(Student_Student student, Class_Class Class)
+        {
+            return studyingResultDA.GetFinalAttitude(student, Class);
         }
     }
 }

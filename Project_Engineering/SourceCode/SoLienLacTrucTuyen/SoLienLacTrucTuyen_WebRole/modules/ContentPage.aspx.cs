@@ -107,6 +107,22 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 return bIsSubjectTeacher;
             }
         }
+
+        public PermanentSession permanentSession 
+        {
+            get
+            {
+                if (Session[AppConstant.SESSION_PERMANENTSESSION] != null)
+                {
+                    return (PermanentSession)Session[AppConstant.SESSION_PERMANENTSESSION];
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+        }
         #endregion
 
         #region Fields

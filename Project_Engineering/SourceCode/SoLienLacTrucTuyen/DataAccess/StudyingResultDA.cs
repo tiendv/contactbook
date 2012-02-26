@@ -854,9 +854,9 @@ namespace EContactBook.DataAccess
         public List<Student_TermLearningResult> GetStudentTermResults(Class_Class Class, Student_Student student, int pageCurrentIndex, int pageSize, out double totalRecords, out int orderNo)
         {
             List<Student_TermLearningResult> studentTermResults = new List<Student_TermLearningResult>();
-            IQueryable<Student_TermLearningResult> iqStudentTermResult = from termLearningResult in db.Student_TermLearningResults
-                                                                         where termLearningResult.Student_StudentInClass.ClassId == Class.ClassId
-                                                                         select termLearningResult;
+            IQueryable<Student_TermLearningResult> iqStudentTermResult = from result in db.Student_TermLearningResults
+                                                                         where result.Student_StudentInClass.ClassId == Class.ClassId
+                                                                         select result;
 
             orderNo = 0;
             totalRecords = iqStudentTermResult.Count();
@@ -1163,6 +1163,54 @@ namespace EContactBook.DataAccess
                                                                           select detail;
 
             return queryDetailMark.Count();
+        }
+
+        public Category_Conduct GetFinalConduct(Student_Student student, Class_Class Class)
+        {
+            ConductDA conductDA = new ConductDA(school);
+
+            Category_Conduct finalConduct = null;
+
+            IQueryable<Student_TermLearningResult> queryTermLearningResult = from result in db.Student_TermLearningResults
+                                                                             where result.Student_StudentInClass.StudentId == student.StudentId
+                                                                                && result.Student_StudentInClass.ClassId == Class.ClassId
+                                                                             select result;
+            if (queryTermLearningResult.Count() != 0)
+            {
+                List<Student_TermLearningResult> termLearningResults = queryTermLearningResult.OrderBy(result => result.TermId).ToList();
+
+                if (termLearningResults[0].TermConductId != null && termLearningResults[0].TermConductId != -1
+                    && termLearningResults[1].TermConductId != null && termLearningResults[1].TermConductId != -1)
+                {
+                    finalConduct = conductDA.GetConduct((int)termLearningResults[1].TermConductId);
+                }
+            }
+
+            return finalConduct;
+        }
+
+        public Category_Attitude GetFinalAttitude(Student_Student student, Class_Class Class)
+        {
+            AttitudeDA attitudeDA = new AttitudeDA(school);
+
+            Category_Attitude finalAttitude = null;
+
+            IQueryable<Student_TermLearningResult> queryTermLearningResult = from result in db.Student_TermLearningResults
+                                                                             where result.Student_StudentInClass.StudentId == student.StudentId
+                                                                                && result.Student_StudentInClass.ClassId == Class.ClassId
+                                                                             select result;
+            if (queryTermLearningResult.Count() != 0)
+            {
+                List<Student_TermLearningResult> termLearningResults = queryTermLearningResult.OrderBy(result => result.TermId).ToList();
+
+                if (termLearningResults[0].TermLearningAptitudeId != null && termLearningResults[0].TermLearningAptitudeId != -1
+                    && termLearningResults[1].TermLearningAptitudeId != null && termLearningResults[1].TermLearningAptitudeId != -1)
+                {
+                    finalAttitude = attitudeDA.GetAttitude((int)termLearningResults[1].TermLearningAptitudeId);
+                }
+            }
+
+            return finalAttitude;
         }
     }
 }

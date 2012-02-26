@@ -102,8 +102,23 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             // get and save loged in user's roles to session
             List<aspnet_Role> roles = userBL.GetRoles(LoginCtrl.UserName);
             Session[AppConstant.SESSION_LOGEDIN_ROLES] = roles;
-            Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER] = roleBL.HasRoleFormerTeacher(roles);
-            Session[AppConstant.SESSION_LOGEDIN_USER_IS_SUBJECTTEACHER] = roleBL.HasRoleSubjectTeacher(roles);
+            bool bIsRoleFormerTeacher = roleBL.HasRoleFormerTeacher(roles);
+            bool bIsRoleSubjectTeacher = roleBL.HasRoleSubjectTeacher(roles);
+            Session[AppConstant.SESSION_LOGEDIN_USER_IS_FORMERTEACHER] = bIsRoleFormerTeacher;
+            Session[AppConstant.SESSION_LOGEDIN_USER_IS_SUBJECTTEACHER] = bIsRoleSubjectTeacher;
+
+            PermanentSession permanentSession = new PermanentSession();
+            if(Session[AppConstant.SESSION_PERMANENTSESSION] != null)
+            {
+                permanentSession = (PermanentSession)Session[AppConstant.SESSION_PERMANENTSESSION];
+            }
+            permanentSession.IsRoleFormerTeacher = bIsRoleFormerTeacher;
+            permanentSession.IsRoleSubjectTeacher = bIsRoleSubjectTeacher;
+            permanentSession.LogedInRoles = roles;
+            permanentSession.RoleFormerTeacher = (new RoleBL(school)).GetRoleFormerTeacher();
+            permanentSession.RoleSubjectTeacher = (new RoleBL(school)).GetRoleSubjectTeacher();
+            permanentSession.School = school;
+            Session[AppConstant.SESSION_PERMANENTSESSION] = permanentSession;
 
             // redirect to default page
             if (roles.Count != 0)
