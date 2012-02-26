@@ -188,6 +188,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         public const string SESSION_SCHEDULE_EVENT_MODIFY = "ModifySchedule";
 
         public const string SESSION_PREVIOUSPAGE = "PrevPage";
+        public const string SESSION_PERMANENTSESSION = "PermanentSession";
 
         public const string SESSION_SELECTED_LEARNINGRESULT = "LearningResult";
         public const string SESSION_SELECTEDDETAILLEARNINGRESULTS = "SelectedDetailLearningResults";

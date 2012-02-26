@@ -65,10 +65,10 @@
                             <asp:LinkButton ID="LinkButton2" runat="server">Tên học sinh</asp:LinkButton>
                         </td>
                         <td class="middle">
-                            Học lực
+                            Học lực cả năm
                         </td>
                         <td class="middle">
-                            Hạnh kiểm
+                            Hạnh kiểm cả năm
                         </td>
                         <td class="middle">
                             Lớp cũ
@@ -92,8 +92,10 @@
                             <%#DataBinder.Eval(Container.DataItem, "FullName")%>
                         </td>
                         <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "FinalLearningAptitudeName")%>
                         </td>
                         <td style="height: 40px;">
+                            <%#DataBinder.Eval(Container.DataItem, "FinalConductName")%>
                         </td>
                         <td style="height: 40px;">
                             <%#DataBinder.Eval(Container.DataItem, "ClassName")%>
@@ -115,7 +117,7 @@
     <div style="width: 170px; margin: 0px auto 0px auto; padding: 5px 0px 5px 0px">
         <asp:ImageButton ID="BtnSave" runat="server" OnClick="BtnSave_Click" ValidationGroup="SaveChange"
             ImageUrl="~/Styles/buttons/button_save.png" CssClass="SaveButton" />&nbsp;
-        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click"
-            ImageUrl="~/Styles/buttons/button_cancel.png" CssClass="CancelButton" />
+        <asp:ImageButton ID="BtnCancel" runat="server" OnClick="BtnCancel_Click" ImageUrl="~/Styles/buttons/button_cancel.png"
+            CssClass="CancelButton" />
     </div>
 </asp:Content>

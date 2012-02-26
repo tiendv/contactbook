@@ -4,8 +4,8 @@
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
-    <asp:Panel ID="PnlLinkToCategory" runat="server" CssClass="loginBox ui-corner-all" Visible="false"
-        Style="width: 90%; padding: 20px; margin: 0px auto 0px auto">
+    <asp:Panel ID="PnlLinkToCategory" runat="server" CssClass="loginBox ui-corner-all"
+        Visible="false" Style="width: 90%; padding: 20px; margin: 0px auto 0px auto">
         Vui lòng thêm năm học mới ở menu
         <asp:HyperLink ID="HyperLink1" runat="server" Text=" danh mục năm học "></asp:HyperLink>
         trước khi thực hiện chức năng này
@@ -94,10 +94,10 @@
                                 <asp:LinkButton ID="LinkButton2" runat="server">Tên học sinh</asp:LinkButton>
                             </td>
                             <td class="middle">
-                                Học lực
+                                Học lực cả năm
                             </td>
                             <td class="middle">
-                                Hạnh kiểm
+                                Hạnh kiểm cả năm
                             </td>
                             <td>
                                 Lớp cũ
@@ -124,10 +124,10 @@
                                 <asp:Label ID="LblFullName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FullName")%>'></asp:Label>
                             </td>
                             <td style="height: 40px;">
-                                <%#DataBinder.Eval(Container.DataItem, "LearningAptitudeName")%>
+                                <asp:Label ID="LblFinalLearningAptitudeName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FinalLearningAptitudeName")%>'></asp:Label>
                             </td>
                             <td style="height: 40px;">
-                                <%#DataBinder.Eval(Container.DataItem, "ConductName")%>                                
+                                <asp:Label ID="LblFinalConductName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "FinalConductName")%>'></asp:Label>
                             </td>
                             <td style="height: 40px;">
                                 <asp:Label ID="LblClassName" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "ClassName")%>'></asp:Label>

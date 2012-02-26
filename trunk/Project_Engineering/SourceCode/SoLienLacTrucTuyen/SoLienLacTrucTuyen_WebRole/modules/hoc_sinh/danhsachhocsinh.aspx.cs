@@ -612,7 +612,19 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 grade.GradeId = Int32.Parse(DdlKhoiLop.SelectedValue);
             }
 
-            classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
+            AuthorizationBL authorizationBL = new AuthorizationBL(UserSchool);
+            List<aspnet_Role> roles = new List<aspnet_Role>();
+            roles.Add((new RoleBL(UserSchool)).GetRoleSubjectTeacher());
+            bool b = permanentSession.IsRoleFormerTeacher;
+            if (authorizationBL.ValidateAuthorization(roles, Page.Request.Path))
+            {
+                classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, IsSubjectTeacher, year, faculty, grade, null);
+            }
+            else
+            {
+                classes = classBL.GetClasses(LogedInUser, IsFormerTeacher, false, year, faculty, grade, null);
+            }
+
             DdlLopHoc.DataSource = classes;
             DdlLopHoc.DataValueField = "ClassId";
             DdlLopHoc.DataTextField = "ClassName";

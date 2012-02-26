@@ -145,7 +145,7 @@
                 <asp:Image ID="ImgCalendarNgaySinhHocSinh" runat="server" ImageUrl="~/Styles/Images/calendar.png" />
                 <br />
                 <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="TxtNgaySinhHocSinh"
-                    PopupButtonID="ImgCalendarNgaySinhHocSinh" Format="MM/dd/yyyy" PopupPosition="Right">
+                    PopupButtonID="ImgCalendarNgaySinhHocSinh" Format="dd/MM/yyyy" PopupPosition="Right">
                 </ajaxToolkit:CalendarExtender>
                 <asp:RequiredFieldValidator ID="NgaySinhHocSinhRequired" runat="server" ValidationGroup="ModifyStudent"
                     Display="Dynamic" ForeColor="Red" ControlToValidate="TxtNgaySinhHocSinh" ErrorMessage="Ngày sinh học sinh không được để trống">

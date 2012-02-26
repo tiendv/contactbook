@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder_Main" runat="server">
     <div style="padding-left: 50px;">
         <asp:Panel ID="PnlClass" runat="server" Style="padding: 10px;">
-            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/XXX.png" Style="float: left;
+            <asp:Image ID="Image1" runat="server" ImageUrl="~/Styles/Images/Home48.png" Style="float: left;
                 height: 50px; width: 50px" />
             <div style="width: 85%; float: left; padding-left: 10px;">
                 <asp:HyperLink ID="HlkClass" runat="server" Style="font-size: 15px; font-weight: bold;

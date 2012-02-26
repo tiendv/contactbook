@@ -20,7 +20,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         #region Fields
         private StudentBL studentBL;
         private bool isSearch;
-        #endregion        
+        #endregion
 
         #region Page event handlers
         protected override void Page_Load(object sender, EventArgs e)
@@ -29,13 +29,13 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             if (accessDenied)
             {
                 return;
-            }            
+            }
 
             if (sessionExpired)
             {
                 FormsAuthentication.SignOut();
                 Response.Redirect(FormsAuthentication.LoginUrl);
-            }            
+            }
 
             studentBL = new StudentBL(UserSchool);
 
@@ -73,7 +73,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         {
             BindDDLClasses();
         }
-        #endregion        
+        #endregion
 
         #region Button event handlers
         protected void BtnNext_Click(object sender, ImageClickEventArgs e)
@@ -85,7 +85,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             LinkButton lbtnStudentCode = null;
             CheckBox ckbxSelect = null;
             Label lblFullName = null;
-            foreach(RepeaterItem item in RptHocSinh.Items)
+            foreach (RepeaterItem item in RptHocSinh.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
                 {
@@ -101,6 +101,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                         tabularStudent.StudentCode = lbtnStudentCode.Text;
                         tabularStudent.FullName = lblFullName.Text;
                         tabularStudent.ClassName = ((Label)item.FindControl("LblClassName")).Text;
+                        tabularStudent.FinalConductName = ((Label)item.FindControl("LblFinalConductName")).Text;
+                        tabularStudent.FinalLearningAptitudeName = ((Label)item.FindControl("LblFinalLearningAptitudeName")).Text;
                         tabularStudents.Add(tabularStudent);
                     }
                 }
@@ -136,8 +138,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Category_Faculty faculty = null;
             Category_Grade grade = null;
             Class_Class Class = null;
-            string studentName = this.TxtTenHocSinh.Text;
-            string studentCode = this.TxtMaHocSinh.Text;
+            string strStudentName = this.TxtTenHocSinh.Text;
+            string strStudentCode = this.TxtMaHocSinh.Text;
 
             year.YearId = (int)ViewState[AppConstant.VIEWSTATE_SELECTED_YEARID];
 
@@ -177,7 +179,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             }
             catch (Exception) { }
 
-            tabularStudents = studentBL.GetUnChangeGradeStudents(year, faculty, grade, Class, studentCode, studentName,
+            tabularStudents = studentBL.GetUnChangeGradeStudents(year, faculty, grade, Class, strStudentCode, strStudentName,
                 MainDataPager.CurrentIndex, MainDataPager.PageSize, out dTotalRecords);
 
             bool bDisplayData = (tabularStudents.Count != 0) ? true : false;
@@ -338,7 +340,7 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     DdlLopHoc.Items.Insert(0, new ListItem("Tất cả", "0"));
                 }
             }
-        }       
+        }
         #endregion
     }
 }

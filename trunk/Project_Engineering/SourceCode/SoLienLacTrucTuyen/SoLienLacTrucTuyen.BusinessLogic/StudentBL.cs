@@ -350,8 +350,11 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public List<TabularStudent> GetUnChangeGradeStudents(Configuration_Year year, Category_Faculty faculty, Category_Grade grade,
             Class_Class Class, string studentCode, string studentName, int pageCurrentIndex, int pageSize, out double totalRecords)
         {
+            StudyingResultBL studyingResultBL = new StudyingResultBL(school);
             List<TabularStudent> tabularStudents = new List<TabularStudent>();
             List<Student_StudentInClass> studentInClasses = new List<Student_StudentInClass>();
+            Category_Conduct studentFinalConduct = null;
+            Category_Attitude studentFinalAttitude = null;
             TabularStudent tabularStudent = null;
             bool bStudentNameIsAll = (string.Compare(studentName, "tất cả", true) == 0) || (studentName == "");
 
@@ -433,24 +436,43 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 }
             }
 
+
             foreach (Student_StudentInClass studentInClass in studentInClasses)
             {
                 if (GetLastedClass(studentInClass.Student_Student).YearId == year.YearId)
                 {
-
                     tabularStudent = new TabularStudent();
                     tabularStudent.StudentId = studentInClass.StudentId;
                     tabularStudent.StudentCode = studentInClass.Student_Student.StudentCode;
                     tabularStudent.FullName = studentInClass.Student_Student.FullName;
-                    tabularStudent.FacultyName = studentInClass.Class_Class.Category_Faculty.FacultyName;
-                    tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
-                    tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
-                    tabularStudent.ClassId = studentInClass.ClassId;
                     tabularStudent.DateOfBirth = studentInClass.Student_Student.StudentBirthday;
                     tabularStudent.StringDateOfBirth = tabularStudent.DateOfBirth.ToString("dd/MM/yyyy");
                     tabularStudent.Gender = studentInClass.Student_Student.Gender;
                     tabularStudent.StringGender = tabularStudent.Gender == true ? "Nam" : "Nữ";
                     tabularStudent.StudentInClassId = studentInClass.StudentInClassId;
+                    tabularStudent.FacultyName = studentInClass.Class_Class.Category_Faculty.FacultyName;
+                    tabularStudent.GradeName = studentInClass.Class_Class.Category_Grade.GradeName;
+                    tabularStudent.ClassId = studentInClass.ClassId;
+                    tabularStudent.ClassName = studentInClass.Class_Class.ClassName;
+                    studentFinalConduct = studyingResultBL.GetFinalConduct(studentInClass.Student_Student, studentInClass.Class_Class);
+                    if (studentFinalConduct != null)
+                    {
+                        tabularStudent.FinalConductName = studentFinalConduct.ConductName;
+                    }
+                    else
+                    {
+                        tabularStudent.FinalConductName = "(Chưa xác định)";
+                    }
+                    studentFinalAttitude = studyingResultBL.GetFinalAttitude(studentInClass.Student_Student, studentInClass.Class_Class);
+                    if (studentFinalAttitude != null)
+                    {
+                        tabularStudent.FinalLearningAptitudeName = studentFinalAttitude.AttitudeName;
+                    }
+                    else
+                    {
+                        tabularStudent.FinalLearningAptitudeName = "(Chưa xác định)";
+                    }
+
                     tabularStudents.Add(tabularStudent);
                 }
             }

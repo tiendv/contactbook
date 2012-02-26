@@ -216,6 +216,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             Label LblEmail = null;
             List<aspnet_User> users = new List<aspnet_User>();
             aspnet_User user = null;
+            HiddenField HdfNotYetActivated = null;
+            HiddenField HdfActivated = null;
             string strSendMailError;
             foreach (RepeaterItem item in RptUser.Items)
             {
@@ -224,36 +226,51 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                     CheckBox CkbxSelectUser = (CheckBox)item.FindControl("CkbxSelectUser");
                     if (CkbxSelectUser.Checked)
                     {
-                        LblEmail = (Label)item.FindControl("LblEmail");
-                        if (CheckUntils.IsNullOrBlank(LblEmail.Text) == false)
+                        HdfActivated = (HiddenField)item.FindControl("HdfActivated");
+                        if (HdfActivated.Value == "False")
                         {
-                            HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
-                            user = new aspnet_User();
-                            user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
-                            HdfRptActualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
-                            user.UserName = HdfRptActualUserName.Value;
-                            MembershipUser membershipUser = Membership.GetUser(user.UserName);
-                            string strPassword = membershipUser.ResetPassword();
-
-                            strSendMailError = MailBL.SendByGmail(UserSchool.Email, membershipUser.Email,
-                                "[eContact.com] Kích hoạt tài khoản thành công",
-                                string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}",
-                                    UserSchool.SchoolName, user.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], strPassword),
-                                UserSchool.Email.Split('@')[0],
-                                UserSchool.Password);
-                            if (CheckUntils.IsNullOrBlank(strSendMailError) == false)
+                            LblEmail = (Label)item.FindControl("LblEmail");
+                            if (CheckUntils.IsNullOrBlank(LblEmail.Text) == false)
                             {
-                                LblSendMailError.Text = strSendMailError + "<br/>Vui lòng kích hoạt lại người dùng";
-                                MPESendMailReport.Show();
-                                return;
-                            }
+                                HdfRptMaNhomNguoiDung = (HiddenField)item.FindControl("HdfRptMaNhomNguoiDung");
+                                user = new aspnet_User();
+                                user.UserId = new Guid(HdfRptMaNhomNguoiDung.Value);
+                                HdfRptActualUserName = (HiddenField)item.FindControl("HdfRptActualUserName");
+                                HdfNotYetActivated = (HiddenField)item.FindControl("HdfNotYetActivated");
+                                user.UserName = HdfRptActualUserName.Value;
+                                MembershipUser membershipUser = Membership.GetUser(user.UserName);
+                                String strEmailContent = AppConstant.STRING_BLANK;
+                                if (HdfNotYetActivated.Value == "False")
+                                {
+                                    string strPassword = membershipUser.ResetPassword();
+                                    strEmailContent = string.Format("Trường {0} xin thông báo đã kích hoạt thành công tài khoản {1} với mật khẩu truy cập là {2}",
+                                        UserSchool.SchoolName, user.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], strPassword);
+                                }
+                                else
+                                {
+                                    strEmailContent = string.Format("Trường {0} xin thông báo đã kích hoạt lại thành công tài khoản {1}",
+                                        UserSchool.SchoolName, user.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1]);
+                                }
 
-                            userBL.ActivateUsers(user);                               
-                            Membership.UpdateUser(membershipUser);
-                        }
-                        else
-                        {                            
-                            bHasEmptyEmail = true;
+                                strSendMailError = MailBL.SendByGmail(UserSchool.Email, membershipUser.Email,
+                                    "[eContact.com] Kích hoạt tài khoản thành công",
+                                    strEmailContent,
+                                    UserSchool.Email.Split('@')[0],
+                                    UserSchool.Password);
+                                if (CheckUntils.IsNullOrBlank(strSendMailError) == false)
+                                {
+                                    LblSendMailError.Text = strSendMailError + "<br/>Vui lòng kích hoạt lại người dùng";
+                                    MPESendMailReport.Show();
+                                    return;
+                                }
+
+                                userBL.ActivateUsers(user);
+                                Membership.UpdateUser(membershipUser);
+                            }
+                            else
+                            {
+                                bHasEmptyEmail = true;
+                            }
                         }
                     }
                 }

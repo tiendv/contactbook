@@ -185,17 +185,26 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                 tabularUser.ActualUserName = user.UserName;
                 tabularUser.UserName = user.UserName.Split('_')[1];
                 tabularUser.Email = user.aspnet_Membership.Email;
-                if (user.aspnet_Membership.IsActivated == null)
+                tabularUser.Activated = (bool)user.aspnet_Membership.IsActivated;
+                if (user.aspnet_Membership.NotYetActivated != null)
                 {
-                    tabularUser.Actived = false;
-                }
-                else if ((bool)user.aspnet_Membership.IsActivated)
-                {
-                    tabularUser.Actived = true;
+                    tabularUser.NotYetActivated = true;
                 }
                 else
                 {
-                    tabularUser.Actived = false;
+                    tabularUser.NotYetActivated = false;
+                }
+                if (user.aspnet_Membership.IsActivated == null)
+                {
+                    tabularUser.Activated = false;
+                }
+                else if ((bool)user.aspnet_Membership.IsActivated)
+                {
+                    tabularUser.Activated = true;
+                }
+                else
+                {
+                    tabularUser.Activated = false;
                 }
 
                 roles = userDA.GetRoles(user);

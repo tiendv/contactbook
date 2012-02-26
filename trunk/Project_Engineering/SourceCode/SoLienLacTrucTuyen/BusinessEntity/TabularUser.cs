@@ -12,12 +12,12 @@ namespace EContactBook.BusinessEntity
         public string FullName { get; set; }
         public string ActualUserName { get; set; }
         public string Email { get; set; }
-        public bool Actived { get; set; }
+        public bool Activated { get; set; }
         public string StringStatus 
         {
             get
             {
-                if (Actived)
+                if (Activated)
                 {
                     return "Được kích hoạt";
                 }
@@ -28,6 +28,7 @@ namespace EContactBook.BusinessEntity
             }
         }
         public string RoleName { get; set; }
-        public string RoleDisplayedName { get; set; }        
+        public string RoleDisplayedName { get; set; }
+        public bool NotYetActivated { get; set; }
     }
 }
