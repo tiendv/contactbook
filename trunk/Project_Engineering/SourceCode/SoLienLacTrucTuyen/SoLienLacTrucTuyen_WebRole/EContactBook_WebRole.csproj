@@ -224,6 +224,7 @@
     <Content Include="modules\danh_muc\suadanhhieu.aspx" />
     <Content Include="modules\ErrorPage\pagenotfound.aspx" />
     <Content Include="modules\giao_vien\thongtincanhan.aspx" />
+    <Content Include="modules\hoc_sinh\themdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\diemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\duyetdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\danhgiahanhkiemhocsinh.aspx" />
@@ -293,7 +294,6 @@
     <Content Include="modules\danh_muc\giao_vien\danhsachgiaovien.aspx" />
     <Content Include="modules\lop_hoc\themgiaovienchunhiem.aspx" />
     <Content Include="modules\lop_hoc\themtietthoikhoabieu.aspx" />
-    <Content Include="modules\hoc_sinh\themdiemhocsinh.aspx" />
     <Content Include="modules\hoc_sinh\hanhkiemhocsinh.aspx" />
     <Content Include="modules\danh_muc\themdanhhieu.aspx" />
     <Content Include="modules\hoc_sinh\indanhsachhocsinh.aspx" />
@@ -559,6 +559,13 @@
     </Compile>
     <Compile Include="modules\giao_vien\thongtincanhan.aspx.designer.cs">
       <DependentUpon>thongtincanhan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\themdiemhocsinh.aspx.cs">
+      <DependentUpon>themdiemhocsinh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="modules\hoc_sinh\themdiemhocsinh.aspx.designer.cs">
+      <DependentUpon>themdiemhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\diemhocsinh.aspx.cs">
       <DependentUpon>diemhocsinh.aspx</DependentUpon>
@@ -1107,13 +1114,6 @@
     </Compile>
     <Compile Include="modules\lop_hoc\themtietthoikhoabieu.aspx.designer.cs">
       <DependentUpon>themtietthoikhoabieu.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\themdiemhocsinh.aspx.cs">
-      <DependentUpon>themdiemhocsinh.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="modules\hoc_sinh\themdiemhocsinh.aspx.designer.cs">
-      <DependentUpon>themdiemhocsinh.aspx</DependentUpon>
     </Compile>
     <Compile Include="modules\hoc_sinh\hanhkiemhocsinh.aspx.cs">
       <DependentUpon>hanhkiemhocsinh.aspx</DependentUpon>
