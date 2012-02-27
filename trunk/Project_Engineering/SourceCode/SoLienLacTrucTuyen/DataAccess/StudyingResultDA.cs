@@ -522,7 +522,6 @@ namespace EContactBook.DataAccess
             Student_DetailedTermSubjectMark detailedMark = null;
             IQueryable<Student_DetailedTermSubjectMark> iqDetailedMark = from detail in db.Student_DetailedTermSubjectMarks
                                                                          where detail.DetailedTermSubjectMark == detailedMarkId
-                                                                            && detail.Approved == true
                                                                          select detail;
             if (iqDetailedMark.Count() != 0)
             {

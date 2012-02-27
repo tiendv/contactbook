@@ -473,6 +473,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     deletedScheduledSubjectIds.Add(orginalSubjectId);
                 }
             }
+            deletedScheduledSubjectIds = deletedScheduledSubjectIds.Distinct().ToList();
 
             foreach (int subjectId in afterChangedSubjectIds)
             {
@@ -481,6 +482,7 @@ namespace SoLienLacTrucTuyen.BusinessLogic
                     addedScheduledSubjectIds.Add(subjectId);
                 }
             }
+            addedScheduledSubjectIds = addedScheduledSubjectIds.Distinct().ToList();
 
             foreach (int deletedScheduledSubjectId in deletedScheduledSubjectIds)
             {
