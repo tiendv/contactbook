@@ -26,7 +26,8 @@ namespace EContactBook.DataAccess.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=tcp:m45afjam4t.database.windows.net,1433;Database=DbEContactBook;User ID=remoteacc@m45afjam4t;Password=1qazxsw@;Trusted_Connection=False;Encrypt=True;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=tcp:m45afjam4t.database.windows.net,1433;Database=DbEContactBook;User ID=r" +
+            "emoteacc@m45afjam4t;Password=1qazxsw@;Trusted_Connection=False;Encrypt=True;")]
         public string DbEContactBookConnectionString {
             get {
                 return ((string)(this["DbEContactBookConnectionString"]));
@@ -36,7 +37,8 @@ namespace EContactBook.DataAccess.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=tcp:m45afjam4t.database.windows.net,1433;Database=DbEContactBook;User ID=remoteacc@m45afjam4t;Password=1qazxsw@;Trusted_Connection=False;Encrypt=True;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=tcp:m45afjam4t.database.windows.net,1433;Database=DbEContactBook;User ID=r" +
+            "emoteacc@m45afjam4t;Password=1qazxsw@;Trusted_Connection=False;Encrypt=True;")]
         public string DbEContactBookConnectionString1 {
             get {
                 return ((string)(this["DbEContactBookConnectionString1"]));
@@ -51,6 +53,17 @@ namespace EContactBook.DataAccess.Properties {
         public string DbEContactBookConnectionString2 {
             get {
                 return ((string)(this["DbEContactBookConnectionString2"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost\\SQLEXpress;Initial Catalog=DbEContactBook;Integrated Securi" +
+            "ty=True")]
+        public string DbEContactBookConnectionString3 {
+            get {
+                return ((string)(this["DbEContactBookConnectionString3"]));
             }
         }
     }

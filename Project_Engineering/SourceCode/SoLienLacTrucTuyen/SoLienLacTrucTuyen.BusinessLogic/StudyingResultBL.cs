@@ -1084,11 +1084,35 @@ namespace SoLienLacTrucTuyen.BusinessLogic
         public void UnapproveMark(Student_DetailedTermSubjectMark detailedTermSubjectMark, string note)
         {
             studyingResultDA.ChangeApproveStatusMark(detailedTermSubjectMark, false, note);
+
+            detailedTermSubjectMark = studyingResultDA.GetDetailedMark(detailedTermSubjectMark.DetailedTermSubjectMark);
+            if (NeedResetAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term, detailedTermSubjectMark.Student_TermSubjectMark.Category_Subject))
+            {
+                studyingResultDA.ResetAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term, detailedTermSubjectMark.Student_TermSubjectMark.Category_Subject);
+            }
+            else
+            {
+                studyingResultDA.CalculateTermSubjectAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term, detailedTermSubjectMark.Student_TermSubjectMark.Category_Subject);
+            }
+
+            studyingResultDA.CalculateTermAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term);
         }
 
         public void ApproveMark(Student_DetailedTermSubjectMark detailedTermSubjectMark, string note)
         {
             studyingResultDA.ChangeApproveStatusMark(detailedTermSubjectMark, true, note);
+            detailedTermSubjectMark = studyingResultDA.GetDetailedMark(detailedTermSubjectMark.DetailedTermSubjectMark);
+            if (NeedResetAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term, detailedTermSubjectMark.Student_TermSubjectMark.Category_Subject))
+            {
+                studyingResultDA.ResetAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term, detailedTermSubjectMark.Student_TermSubjectMark.Category_Subject);
+            }
+            else
+            {
+                studyingResultDA.CalculateTermSubjectAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term, detailedTermSubjectMark.Student_TermSubjectMark.Category_Subject);
+            }
+
+            studyingResultDA.CalculateTermAvgMark(detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Student_Student, detailedTermSubjectMark.Student_TermSubjectMark.Student_StudentInClass.Class_Class, detailedTermSubjectMark.Student_TermSubjectMark.Configuration_Term);
+
         }
 
         public int GetTotalUnapprovedMarks(Class_Class Class)
