@@ -174,9 +174,15 @@
                         </td>
                     </tr>
                 </ItemTemplate>
+                <FooterTemplate>
+                    <tr>
+                        <td colspan="5" class="footer ui-corner-bl ui-corner-br">
+                        </td>
+                    </tr>
+                </FooterTemplate>
             </asp:Repeater>
         </table>
-        <div style="height: 40px; float: right; margin-top: 0px; padding-right: 30px;">
+        <div style="height: 40px; float: right; margin-top: -45px; padding-right: 30px;">
             <br />
             <cc1:DataPager ID="MainDataPager" runat="server" OnCommand="MainDataPager_Command"
                 ViewStateMode="Enabled" />

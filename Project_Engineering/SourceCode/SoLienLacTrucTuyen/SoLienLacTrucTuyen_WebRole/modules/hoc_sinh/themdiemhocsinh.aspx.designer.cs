@@ -10,7 +10,7 @@
 namespace SoLienLacTrucTuyen_WebRole.Modules {
     
     
-    public partial class AddStudentMarkPage {
+    public partial class AddStudentMarkPageBackup {
         
         /// <summary>
         /// UPDropdownlists control.

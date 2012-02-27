@@ -67,7 +67,7 @@
                         <asp:Image ID="ImgCalendarDenNgay" runat="server" ImageUrl="~/Styles/Images/calendar.png"
                             ImageAlign="Middle" />
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="TxtDenNgay"
-                            PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right">
+                            PopupButtonID="ImgCalendarDenNgay" PopupPosition="Right" Format="dd/MM/yyyy">
                         </ajaxToolkit:CalendarExtender>
                         <ajaxToolkit:MaskedEditExtender ID="MaskedEditExtender2" runat="server" TargetControlID="TxtDenNgay"
                             MaskType="Date" Mask="99/99/9999" ErrorTooltipEnabled="true">

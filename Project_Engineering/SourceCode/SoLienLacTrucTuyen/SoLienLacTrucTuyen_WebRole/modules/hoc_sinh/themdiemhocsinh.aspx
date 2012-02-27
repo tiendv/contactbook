@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/modules/Site.Master" AutoEventWireup="true"
-    CodeBehind="themdiemhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.AddStudentMarkPage" %>
+    CodeBehind="themdiemhocsinh.aspx.cs" Inherits="SoLienLacTrucTuyen_WebRole.Modules.AddStudentMarkPageBackup" %>
 
 <%@ Register Assembly="DataPager" Namespace="SoLienLacTrucTuyen.DataPager" TagPrefix="cc1" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>

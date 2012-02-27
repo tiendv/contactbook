@@ -102,6 +102,7 @@
                             <asp:HiddenField ID="HdfRptMaNhomNguoiDung" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserId")%>' />
                             <asp:HiddenField ID="HdfRptTenNhomNguoiDung" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "UserName")%>' />
                             <asp:HiddenField ID="HdfRptActualUserName" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "ActualUserName")%>' />
+                            <asp:HiddenField ID="HdfNotYetActivated" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "NotYetActivated")%>' />
                         </td>
                         <td style="height: 40px;">
                             <asp:LinkButton ID="LkBtnUserName" runat="server" CommandName="CmdDetailItem" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "UserId")%>'><%#DataBinder.Eval(Container.DataItem, "UserName")%>
@@ -117,6 +118,7 @@
                             <asp:Label ID="LblEmail" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Email")%>'></asp:Label>
                         </td>
                         <td style="height: 40px;">
+                            <asp:HiddenField ID="HdfActivated" runat="server" Value='<%#DataBinder.Eval(Container.DataItem, "Activated")%>' />
                             <%#DataBinder.Eval(Container.DataItem, "StringStatus")%>
                         </td>
                         <td class="icon">
