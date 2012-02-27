@@ -150,7 +150,9 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
         
         protected void BtnUpload_Click(object sender, ImageClickEventArgs e)
         {
-            System.Threading.Thread.Sleep(5000);
+            LblImportSuccess.Visible = false;
+            LblImportError.Visible = false;
+
             filename = Path.GetFileName(FileUpload1.FileName);
             if (filename == string.Empty || (!filename.Contains(".xls") && !filename.Contains(".xlsx")))
             {
@@ -381,10 +383,10 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
                 if(CheckUntils.IsNullOrBlank(tabularImportedStudent.Email) == false)
                 {
                     // Validate email if only it is imported
-                    //if (MailBL.CheckEmailExist(tabularImportedStudent.Email) == false)
-                    //{
-                    //    strBuilder.Append("Email không tồn tại <br/>");
-                    //}
+                    if (MailBL.CheckEmailExist(tabularImportedStudent.Email) == false)
+                    {
+                        strBuilder.Append("Email không tồn tại <br/>");
+                    }
                 }
 
                 if (bIgnoredRow == false)

@@ -359,8 +359,8 @@ namespace SoLienLacTrucTuyen_WebRole.Modules
             RemoveSession(AppConstant.SESSION_SUPPLIEDPARENTSAUTHORIZATIONS);
             RemoveSession(AppConstant.SESSION_SELECTEDPARENTSFUNCTIONS);
 
-            MailBL.SendByGmail(UserSchool.Email, RegisterUserWizard.Email, 
-                "[eContact.com] Tạo tài khoản thành công", 
+            MailBL.SendByGmail(UserSchool.Email, RegisterUserWizard.Email,
+                "[econtact.cloudapp.net] Tạo tài khoản thành công", 
                 string.Format("Trường {0} xin thông báo đã tạo thành công tài khoản {1} với mật khẩu truy cập là {2}", 
                     UserSchool.SchoolName, createdUser.UserName.Split(AppConstant.UNDERSCORE_CHAR)[1], (string)ViewState[AppConstant.VIEWSTATE_GENERATEDPASSWORD]),
                 UserSchool.Email.Split('@')[0], UserSchool.Password);

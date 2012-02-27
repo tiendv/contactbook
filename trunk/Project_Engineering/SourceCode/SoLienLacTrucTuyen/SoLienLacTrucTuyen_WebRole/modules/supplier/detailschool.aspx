@@ -50,4 +50,10 @@
             </td>
         </tr>
     </table>
+    <div style="padding: 5px; vertical-align: middle;">
+        <asp:ImageButton ID="BtnBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back.png"
+            OnClick="BtnBackPrevPage_Click" />
+        <asp:ImageButton ID="BtnTextBackPrevPage" runat="server" ImageUrl="~/Styles/buttons/button_back_text.png"
+            OnClick="BtnBackPrevPage_Click" />
+    </div>
 </asp:Content>

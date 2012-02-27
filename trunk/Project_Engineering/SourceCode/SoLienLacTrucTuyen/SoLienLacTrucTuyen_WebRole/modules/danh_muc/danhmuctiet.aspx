@@ -230,7 +230,7 @@
                             ValidationGroup="AddTietHoc" ErrorMessage="Thời gian bắt đầu không được để trống"
                             Display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                         <asp:CustomValidator ID="BeginTimeCustomValidatorAdd" runat="server" ControlToValidate="TxtThoiGianBatDauAdd"
-                            OnServerValidate="ValidateBeginTimeAdd" ValidationGroup="AddTietHoc" Display="Dynamic" ErrorMessage="validation!!!!"
+                             ValidationGroup="AddTietHoc" Display="Dynamic" ErrorMessage="validation!!!!"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>
@@ -252,7 +252,7 @@
                             ControlToCompare="TxtThoiGianBatDauAdd" Type="String" Operator="GreaterThan"
                             Display="Dynamic" ValidationGroup="AddTietHoc" ForeColor="Red" ErrorMessage="Thời gian kết thúc phải lớn hơn thời gian bắt đầu"></asp:CompareValidator>
                         <asp:CustomValidator ID="EndTimeCustomValidatorAdd" runat="server" ControlToValidate="TxtThoiGianKetThucAdd"
-                            OnServerValidate="ValidateEndTimeAdd" ValidationGroup="AddTietHoc" Display="Dynamic"
+                             ValidationGroup="AddTietHoc" Display="Dynamic"
                             ForeColor="Red"></asp:CustomValidator>
                     </td>
                 </tr>

@@ -11,7 +11,7 @@ using System.Web.Security;
 
 namespace SoLienLacTrucTuyen_WebRole.Modules
 {
-    public partial class AddStudentMarkPage : BaseContentPage
+    public partial class AddStudentMarkPageBackup : BaseContentPage
     {
         #region Fields
         private StudyingResultBL studyingResultBL;
